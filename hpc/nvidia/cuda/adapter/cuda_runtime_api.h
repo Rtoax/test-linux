@@ -290,4 +290,34 @@
 #define cudaMemAdvise_v2(ptr, count, advice, location_or_device) \
 	__cuda(MemAdvise_v2(ptr, count, advice, location_or_device))
 
+/**
+ * cudaError_t cudaMemPoolCreate(cudaMemPool_t *memPool,
+ *                               const struct cudaMemPoolProps *poolProps);
+ */
+#define cudaMemPoolCreate __cuda(MemPoolCreate)
+
+/**
+ * cudaError_t cudaMemPoolDestroy(cudaMemPool_t memPool);
+ */
+#define cudaMemPoolDestroy __cuda(MemPoolDestroy)
+
+/**
+ * CUDA V13.0.48
+ * cudaError_t cudaDeviceGetDefaultMemPool(cudaMemPool_t *memPool, int device);
+ *
+ * HIP 6.4
+ * hipError_t hipDeviceGetDefaultMemPool(hipMemPool_t* mem_pool, int device);
+ */
+#define cudaDeviceGetDefaultMemPool(pool, dev) \
+	__cuda(DeviceGetDefaultMemPool(pool, dev))
+
+/**
+ * CUDA
+ * cudaError_t cudaMemPoolTrimTo(cudaMemPool_t memPool, size_t minBytesToKeep);
+ *
+ * HIP
+ * hipError_t hipMemPoolTrimTo(hipMemPool_t mem_pool, size_t min_bytes_to_hold);
+ */
+#define cudaMemPoolTrimTo(p, b) __cuda(MemPoolTrimTo(p, b))
+
 #endif

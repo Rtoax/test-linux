@@ -97,38 +97,6 @@
 #include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
 
-#define cudaMemPool_t	__cuda(MemPool_t)
-#define cudaMemPoolProps __cuda(MemPoolProps)
-
-/**
- * cudaError_t cudaMemPoolCreate(cudaMemPool_t *memPool,
- *                               const struct cudaMemPoolProps *poolProps);
- */
-#define cudaMemPoolCreate __cuda(MemPoolCreate)
-
-/**
- * cudaError_t cudaMemPoolDestroy(cudaMemPool_t memPool);
- */
-#define cudaMemPoolDestroy __cuda(MemPoolDestroy)
-
-/**
- * CUDA V13.0.48
- * cudaError_t cudaDeviceGetDefaultMemPool(cudaMemPool_t *memPool, int device);
- *
- * HIP 6.4
- * hipError_t hipDeviceGetDefaultMemPool(hipMemPool_t* mem_pool, int device);
- */
-#define cudaDeviceGetDefaultMemPool(pool, dev)	__cuda(DeviceGetDefaultMemPool(pool, dev))
-
-/**
- * CUDA
- * cudaError_t cudaMemPoolTrimTo(cudaMemPool_t memPool, size_t minBytesToKeep);
- *
- * HIP
- * hipError_t hipMemPoolTrimTo(hipMemPool_t mem_pool, size_t min_bytes_to_hold);
- */
-#define cudaMemPoolTrimTo(p, b)	__cuda(MemPoolTrimTo(p, b))
-
 #if defined(__USE_HIP__) || defined(__USE_LUCA__) || defined(__USE_HPCC__)
 #define cudaPointerAttributes	__cuda(PointerAttribute_t) /* for HIP */
 #else

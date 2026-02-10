@@ -202,4 +202,11 @@
 #define cudaMemLocationTypeHostNumaCurrent \
 	__cuda(MemLocationTypeHostNumaCurrent)
 
+/**
+ * CUDA: typedef __device_builtin__ struct CUmemPoolHandle_st *cudaMemPool_t;
+ */
+#define cudaMemPool_t __cuda(MemPool_t)
+
+#define cudaMemPoolProps __cuda(MemPoolProps) /* struct */
+
 #endif
