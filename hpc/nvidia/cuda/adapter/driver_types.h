@@ -216,7 +216,13 @@
 #endif
 
 /**
- * typedef __device_builtin__ struct CUevent_st *cudaEvent_t;
+ * CUDA:
+ * driver_types.h: typedef __device_builtin__ struct CUevent_st *cudaEvent_t;
+ *
+ * ROCm HIP:
+ * hip/hip_runtime_api.h: typedef struct ihipEvent_t* hipEvent_t;
+ * Orochi/nvidia_hip_runtime_api_oro.h: typedef cudaEvent_t hipEvent_t;
+ * Orochi/hipew.h: typedef struct ihipEvent_t * hipEvent_t;
  */
 #define cudaEvent_t __cuda(Event_t)
 

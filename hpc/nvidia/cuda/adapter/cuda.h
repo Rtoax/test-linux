@@ -14,6 +14,20 @@
 #define CUstream __CU(stream)
 
 /**
+ * CUDA:
+ * driver_types.h: typedef struct CUevent_st *cudaEvent_t;
+ * cuda.h: typedef struct CUevent_st *CUevent;
+ *
+ * HPCC: typedef struct HCevent_st *hcEvent_t;
+ * HIP: typedef struct ihipEvent_t* hipEvent_t;
+ */
+#ifdef __USE_HIP__
+#define CUevent_st ihipEvent_t
+#else
+#define CUevent_st __CU(event_st)
+#endif
+
+/**
  * CUDA 13:
  * CUresult cuGetErrorName(CUresult error, const char **pStr);
  *

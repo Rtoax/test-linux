@@ -97,18 +97,6 @@
 #include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
 
-/**
- * CUDA: typedef struct CUevent_st *cudaEvent_t;
- *       typedef struct CUevent_st *CUevent;
- * HPCC: typedef struct HCevent_st *hcEvent_t;
- * HIP: typedef struct ihipEvent_t* hipEvent_t;
- */
-#ifdef __USE_HIP__
-#define CUevent_st	ihipEvent_t
-#else
-#define CUevent_st	__CU(event_st)
-#endif
-
 #define cudaEventCreate(pe)	__cuda(EventCreate(pe))
 #define cudaEventCreateWithFlags(pe, f)	__cuda(EventCreateWithFlags(pe, f))
 #define cudaEventDestroy(ev)	__cuda(EventDestroy(ev))
