@@ -62,6 +62,9 @@ endif
 ifdef HAVE_NCCL
   CXXFLAGS_SO += -DHAVE_NCCL=1
 endif
+ifdef HAVE_NVRTC
+  CXXFLAGS_SO += -DHAVE_NVRTC=1
+endif
 
 ifdef HAVE_HPCC
   $(info HAVE_HPCC)

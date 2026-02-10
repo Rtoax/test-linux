@@ -293,6 +293,7 @@ cudaError_t cudaLaunchHostFunc(cudaStream_t stream, cudaHostFn_t fn, void *userD
 	return cudaSuccess;
 }
 
+#ifdef HAVE_NVRTC
 nvrtcResult nvrtcDestroyProgram(nvrtcProgram *prog)
 {
 	return NVRTC_SUCCESS;
@@ -336,6 +337,7 @@ nvrtcResult nvrtcGetProgramLogSize(nvrtcProgram prog, size_t *logSizeRet)
 	*logSizeRet = 1024;
 	return NVRTC_SUCCESS;
 }
+#endif // HAVE_NVRTC
 
 cudaError_t cudaDeviceGetDefaultMemPool(cudaMemPool_t *memPool, int device)
 {
