@@ -178,6 +178,7 @@ add_make_ver() { add_ver "Make $(${TOPDIR}/gnu/make/version.sh)"; }
 add_numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
 add_openssl_ver() { add_ver "OpenSSL $(${TOPDIR}/security/openssl/version.sh)"; }
 add_os_ver() { add_ver "$(${TOPDIR}/distro/version.sh)"; }
+add_ostree_ver() { add_ver "RPM $(${TOPDIR}/tools/ostree/version.sh)"; }
 add_pahole_ver() { add_ver "Pahole $(${TOPDIR}/pahole/version.sh)"; }
 add_pciutils_ver() { add_ver "PCIUtils $(${TOPDIR}/driver/pcie/pciutils/version.sh)"; }
 add_podman_ver() { add_ver "Podman $(${TOPDIR}/tools/podman/version.sh)"; }
@@ -231,6 +232,10 @@ fi
 
 if [[ "$(have_type rpm)$(have_key rpm dnf)" ]]; then
 	add_rpm_ver
+fi
+
+if [[ "$(have_key ostree)" ]]; then
+	add_ostree_ver
 fi
 
 if [[ "$(have_type cmake)$(have_key cmake CMake)" ]]; then

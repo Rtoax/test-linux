@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- ostree: first commit;
 - shell: add env-passing directory;
 #### Changed
 #### Deprecated
