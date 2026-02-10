@@ -97,15 +97,6 @@
 #include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
 
-/**
- * Pinned memory, on CPU memory, GPU accessable, DMA copy
- *
- * HIPCC 6.4
- * hipError_t hipMallocHost(void** ptr, size_t size);
- * hipError_t hipHostMalloc(void** ptr, size_t size, unsigned int flags);
- */
-#define cudaMallocHost(ptr, sz, flags)	__cuda(MallocHost(ptr, sz, flags))
-#define cudaFreeHost(ptr)	__cuda(FreeHost(ptr))
 #define cudaMemset(ptr, v, size)	__cuda(Memset(ptr, v, size))
 
 /**
