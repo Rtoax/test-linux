@@ -97,23 +97,6 @@
 #include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
 
-#if defined(__USE_HIP__) || defined(__USE_LUCA__) || defined(__USE_HPCC__)
-#define cudaPointerAttributes	__cuda(PointerAttribute_t) /* for HIP */
-#else
-#define cudaPointerAttributes	__cuda(PointerAttributes)
-#endif
-/**
- * CUDA V13.0
- * cudaError_t cudaPointerGetAttributes(struct cudaPointerAttributes *attributes, const void *ptr);
- *
- * HIP 6.4
- * hipError_t hipPointerGetAttributes(hipPointerAttribute_t* attributes, const void* ptr);
- *
- * LUCA 3.1.3
- * hcError_t hcPointerGetAttributes(hcPointerAttribute_t *attributes, const void *ptr);
- */
-#define cudaPointerGetAttributes(a, p)	__cuda(PointerGetAttributes(a, p))
-
 /**
  * CUDA: typedef __attribute__((device_builtin)) struct CUevent_st *cudaEvent_t;
  * HPCC: typedef struct HCevent_st *hcEvent_t;

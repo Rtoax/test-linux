@@ -320,4 +320,16 @@
  */
 #define cudaMemPoolTrimTo(p, b) __cuda(MemPoolTrimTo(p, b))
 
+/**
+ * CUDA V13.0
+ * cudaError_t cudaPointerGetAttributes(struct cudaPointerAttributes *attributes, const void *ptr);
+ *
+ * HIP 6.4
+ * hipError_t hipPointerGetAttributes(hipPointerAttribute_t* attributes, const void* ptr);
+ *
+ * LUCA 3.1.3
+ * hcError_t hcPointerGetAttributes(hcPointerAttribute_t *attributes, const void *ptr);
+ */
+#define cudaPointerGetAttributes(a, p) __cuda(PointerGetAttributes(a, p))
+
 #endif

@@ -209,4 +209,10 @@
 
 #define cudaMemPoolProps __cuda(MemPoolProps) /* struct */
 
+#if defined(__USE_HIP__) || defined(__USE_LUCA__) || defined(__USE_HPCC__)
+#define cudaPointerAttributes __cuda(PointerAttribute_t)
+#else
+#define cudaPointerAttributes __cuda(PointerAttributes)
+#endif
+
 #endif
