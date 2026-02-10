@@ -358,4 +358,121 @@
  */
 #define cudaEventQuery __cuda(EventQuery)
 
+/**
+ * CUDA 13
+ * cudaError_t cudaGraphCreate(cudaGraph_t *pGraph, unsigned int flags);
+ *
+ * LUCA
+ * lcError_t lcGraphCreate(lcGraph_t *pGraph, unsigned int flags);
+ * lcError_t lcGraphDestroy(lcGraph_t graph);
+ */
+#define cudaGraphCreate __cuda(GraphCreate)
+#define cudaGraphDestroy __cuda(GraphDestroy)
+
+/**
+ * CUDA:
+ * #if __CUDART_API_VERSION >= 11010
+ * cudaError_t cudaGraphAddMemcpyNode1D(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
+ *                                      const cudaGraphNode_t *pDependencies, size_t numDependencies,
+ *                                      void* dst, const void* src, size_t count, enum cudaMemcpyKind kind);
+ * #endif
+ *
+ * LUCA
+ * lcError_t lcGraphAddMemcpyNode1D(lcGraphNode_t *pGraphNode, lcGraph_t graph,
+ *                                  const lcGraphNode_t *pDependencies, size_t numDependencies,
+ *                                  void *dst, const void *src, size_t count, lcMemcpyKind kind);
+ */
+#define cudaGraphAddMemcpyNode1D __cuda(GraphAddMemcpyNode1D)
+
+#define cudaGraphAddMemAllocNode __cuda(GraphAddMemAllocNode)
+#define cudaGraphAddMemFreeNode __cuda(GraphAddMemFreeNode)
+
+#define cudaGraphInstantiate __cuda(GraphInstantiate)
+#define cudaGraphExecDestroy __cuda(GraphExecDestroy)
+#define cudaGraphLaunch __cuda(GraphLaunch)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaGraphRetainUserObject(cudaGraph_t graph, cudaUserObject_t object,
+ *                                       unsigned int count __dv(1),
+ *                                       unsigned int flags __dv(0));
+ *
+ * HIP 6.4
+ * hipError_t hipGraphRetainUserObject(hipGraph_t graph, hipUserObject_t object,
+ *                                     unsigned int count, unsigned int flags);
+ */
+#define cudaGraphRetainUserObject __cuda(GraphRetainUserObject)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaGraphAddEventWaitNode(cudaGraphNode_t *pGraphNode,
+ *                                       cudaGraph_t graph,
+ *                                       const cudaGraphNode_t *pDependencies,
+ *                                       size_t numDependencies,
+ *                                       cudaEvent_t event);
+ *
+ * HIP 6.4
+ * hipError_t hipGraphAddEventWaitNode(hipGraphNode_t* pGraphNode,
+ *                                     hipGraph_t graph,
+ *                                     const hipGraphNode_t* pDependencies,
+ *                                     size_t numDependencies,
+ *                                     hipEvent_t event);
+ */
+#define cudaGraphAddEventWaitNode __cuda(GraphAddEventWaitNode)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaGraphAddEventRecordNode(cudaGraphNode_t *pGraphNode,
+ *                                         cudaGraph_t graph,
+ *                                         const cudaGraphNode_t *pDependencies,
+ *                                         size_t numDependencies,
+ *                                         cudaEvent_t event);
+ *
+ * HIP 6.4
+ * hipError_t hipGraphAddEventRecordNode(hipGraphNode_t* pGraphNode,
+ *                                       hipGraph_t graph,
+ *                                       const hipGraphNode_t* pDependencies,
+ *                                       size_t numDependencies,
+ *                                       hipEvent_t event);
+ */
+#define cudaGraphAddEventRecordNode __cuda(GraphAddEventRecordNode)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaGraphAddHostNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
+ *                                  const cudaGraphNode_t *pDependencies,
+ *                                  size_t numDependencies,
+ *                                  const struct cudaHostNodeParams *pNodeParams);
+ *
+ * HIP 6.4
+ * hipError_t hipGraphAddHostNode(hipGraphNode_t* pGraphNode, hipGraph_t graph,
+ *                                const hipGraphNode_t* pDependencies,
+ *                                size_t numDependencies,
+ *                                const hipHostNodeParams* pNodeParams);
+ * hipError_t hipGraphAddHostNode(hipGraphNode_t* pGraphNode, hipGraph_t graph,
+ *                                const hipGraphNode_t* pDependencies,
+ *                                size_t numDependencies,
+ *                                const hipHostNodeParams* pNodeParams);
+ *
+ * HPCC 3.0.0
+ * hcError_t hcGraphAddHostNode(hcGraphNode_t *pGraphNode, hcGraph_t graph,
+ *                              const hcGraphNode_t *pDependencies,
+ *                              size_t numDependencies,
+ *                              const hcHostNodeParams *pNodeParams);
+ */
+#define cudaGraphAddHostNode __cuda(GraphAddHostNode)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaGraphAddKernelNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
+ *                                    const cudaGraphNode_t *pDependencies, size_t numDependencies,
+ *                                    const struct cudaKernelNodeParams *pNodeParams);
+ *
+ * HIP 6.4
+ * hipError_t hipGraphAddKernelNode(hipGraphNode_t* pGraphNode, hipGraph_t graph,
+ *                                  const hipGraphNode_t* pDependencies, size_t numDependencies,
+ *                                  const hipKernelNodeParams* pNodeParams);
+ */
+#define cudaGraphAddKernelNode __cuda(GraphAddKernelNode)
+
 #endif

@@ -226,4 +226,24 @@
  */
 #define cudaEvent_t __cuda(Event_t)
 
+/**
+ * CUDA: typedef __device_builtin__ struct CUgraph_st *cudaGraph_t;
+ */
+#define cudaGraph_t __cuda(Graph_t)
+
+/**
+ * CUDA: typedef __device_builtin__ struct CUgraphNode_st *cudaGraphNode_t;
+ */
+#define cudaGraphNode_t __cuda(GraphNode_t)
+
+/**
+ * CUDA: typedef struct CUgraphExec_st* cudaGraphExec_t;
+ */
+#define cudaGraphExec_t __cuda(GraphExec_t)
+
+/**
+ * CUDA: typedef struct cudaGraphEdgeData_st { ... } cudaGraphEdgeData;
+ */
+#define cudaGraphEdgeData __cuda(GraphEdgeData)
+
 #endif
