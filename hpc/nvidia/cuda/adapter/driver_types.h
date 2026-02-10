@@ -215,4 +215,9 @@
 #define cudaPointerAttributes __cuda(PointerAttributes)
 #endif
 
+/**
+ * typedef __device_builtin__ struct CUevent_st *cudaEvent_t;
+ */
+#define cudaEvent_t __cuda(Event_t)
+
 #endif

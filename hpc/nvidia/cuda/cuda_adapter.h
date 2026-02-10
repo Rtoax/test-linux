@@ -98,7 +98,8 @@
 #include "adapter/driver_types.h"
 
 /**
- * CUDA: typedef __attribute__((device_builtin)) struct CUevent_st *cudaEvent_t;
+ * CUDA: typedef struct CUevent_st *cudaEvent_t;
+ *       typedef struct CUevent_st *CUevent;
  * HPCC: typedef struct HCevent_st *hcEvent_t;
  * HIP: typedef struct ihipEvent_t* hipEvent_t;
  */
@@ -107,7 +108,7 @@
 #else
 #define CUevent_st	__CU(event_st)
 #endif
-#define cudaEvent_t	__cuda(Event_t)
+
 #define cudaEventCreate(pe)	__cuda(EventCreate(pe))
 #define cudaEventCreateWithFlags(pe, f)	__cuda(EventCreateWithFlags(pe, f))
 #define cudaEventDestroy(ev)	__cuda(EventDestroy(ev))
