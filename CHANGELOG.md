@@ -14,6 +14,7 @@ and this project adheres to
 - ostree: first commit;
 - shell: add env-passing directory;
 #### Changed
+- main.mk: multi-suffix prog support 10 and introduce multi-suffix-n;
 #### Deprecated
 #### Removed
 #### Fixed
