@@ -332,4 +332,30 @@
  */
 #define cudaPointerGetAttributes(a, p) __cuda(PointerGetAttributes(a, p))
 
+#define cudaEventCreate(pe) __cuda(EventCreate(pe))
+#define cudaEventCreateWithFlags(pe, f) __cuda(EventCreateWithFlags(pe, f))
+#define cudaEventDestroy(ev) __cuda(EventDestroy(ev))
+
+/**
+ * cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream);
+ */
+#define cudaEventRecord(ev, stream) __cuda(EventRecord(ev, stream))
+#define cudaEventElapsedTime(pt, start, stop) \
+	__cuda(EventElapsedTime(pt, start, stop))
+
+/**
+ * cudaEventSynchronize() will block the CPU until the CPU waits for the GPU
+ * calculation to complete the event 'ev'.
+ */
+#define cudaEventSynchronize(ev) __cuda(EventSynchronize(ev))
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaEventQuery(cudaEvent_t event);
+ *
+ * HIP 6.4
+ * hipError_t hipEventQuery(hipEvent_t event);
+ */
+#define cudaEventQuery __cuda(EventQuery)
+
 #endif
