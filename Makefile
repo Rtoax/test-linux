@@ -6,6 +6,9 @@
 #
 # Change the CHANGELOG.md at the same time, and get the statistic of code with
 # cloc will be better (add cloc output to commit message).
+ifndef _TEST_LINUX_MK
+export _TEST_LINUX_MK = 1
+
 VERSION = 2
 PATCHLEVEL = 3
 SUBLEVEL = 15
@@ -193,3 +196,5 @@ check:
 cleangit:
 	@echo "=== clean git repo"
 	$(call git_clean)
+
+endif # _TEST_LINUX_MK
