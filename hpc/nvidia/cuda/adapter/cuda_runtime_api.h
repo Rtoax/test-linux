@@ -27,4 +27,10 @@
 #define cudaDeviceSetLimit(limit, value) __cuda(DeviceSetLimit(limit, value))
 #define cudaDeviceGetLimit(limit, value) __cuda(DeviceGetLimit(limit, value))
 
+/**
+ * CUDA
+ * cudaError_t cudaDriverGetVersion(int *driverVersion);
+ */
+#define cudaDriverGetVersion __cuda(DriverGetVersion)
+
 #endif
