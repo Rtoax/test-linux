@@ -49,4 +49,46 @@
 #define cudaMallocHost(ptr, sz, flags) __cuda(MallocHost(ptr, sz, flags))
 #define cudaFreeHost(ptr) __cuda(FreeHost(ptr))
 
+#define cudaMemset(ptr, v, size) __cuda(Memset(ptr, v, size))
+
+/**
+ * CUDA 12
+ * cudaError_t cudaMemsetAsync(void *devPtr, int value, size_t count,
+ *                             cudaStream_t stream);
+ *
+ * HIP
+ * hipError_t hipMemsetAsync(void* dst, int value, size_t sizeBytes,
+ *                           hipStream_t stream);
+ */
+#define cudaMemsetAsync(ptr, v, size, stream) \
+	__cuda(MemsetAsync(ptr, v, size, stream))
+
+/**
+ * CUDA 12
+ * cudaError_t cudaMemset2DAsync(void *devPtr, size_t pitch, int value,
+ *                               size_t width, size_t height,
+ *                               cudaStream_t stream __dv(0));
+ *
+ * HIP
+ * hipError_t hipMemset2DAsync(void* dst, size_t pitch, int value,
+ *                             size_t width, size_t height,
+ *                             hipStream_t stream __dparm(0));
+ */
+#define cudaMemset2DAsync(dst, pitch, value, width, height, stream) \
+	__cuda(Memset2DAsync(dst, pitch, value, width, height, stream))
+
+#define cudaMemcpy(dst, src, size, flag) __cuda(Memcpy(dst, src, size, flag))
+
+/**
+ * CUDA 12
+ * cudaError_t cudaMemcpyAsync(void *dst, const void *src, size_t count,
+ *                             enum cudaMemcpyKind kind, cudaStream_t stream);
+ *
+ * HIP
+ * hipError_t hipMemcpyAsync(void* dst, const void* src, size_t sizeBytes,
+ *                           hipMemcpyKind kind,
+ *                           hipStream_t stream __dparm(0));
+ */
+#define cudaMemcpyAsync __cuda(MemcpyAsync)
+
 #endif

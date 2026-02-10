@@ -151,6 +151,13 @@
 #define cudaErrorUnknown __cuda(ErrorUnknown)
 #define cudaErrorApiFailureBase __cuda(ErrorApiFailureBase)
 
+#define cudaMemcpyKind __cuda(MemcpyKind) /* enum */
+#define cudaMemcpyHostToHost __cuda(MemcpyHostToHost) /* 0 */
+#define cudaMemcpyHostToDevice __cuda(MemcpyHostToDevice) /* 1 */
+#define cudaMemcpyDeviceToHost __cuda(MemcpyDeviceToHost) /* 2 */
+#define cudaMemcpyDeviceToDevice __cuda(MemcpyDeviceToDevice) /* 3 */
+#define cudaMemcpyDefault __cuda(MemcpyDefault) /* 4 */
+
 #define cudaLimit __cuda(Limit_t)
 #define cudaLimitStackSize __cuda(LimitStackSize)
 #define cudaLimitPrintfFifoSize __cuda(LimitPrintfFifoSize)
