@@ -179,4 +179,17 @@
  */
 #define cudaArray_const_t __cuda(Array_const_t)
 
+#if defined(__USE_HIP__)
+#define cudaMemoryAdvise __cuda(MemoryAdvise) /* enum */
+#elif defined(__USE_LUCA__) || defined(__USE_HPCC__)
+#define cudaMemoryAdvise __cuda(MemoryAdvise_t) /* enum */
+#endif
+#define cudaMemAdviseSetReadMostly __cuda(MemAdviseSetReadMostly)
+#define cudaMemAdviseUnsetReadMostly __cuda(MemAdviseUnsetReadMostly)
+#define cudaMemAdviseSetPreferredLocation __cuda(MemAdviseSetPreferredLocation)
+#define cudaMemAdviseUnsetPreferredLocation \
+	__cuda(MemAdviseUnsetPreferredLocation)
+#define cudaMemAdviseSetAccessedBy __cuda(MemAdviseSetAccessedBy)
+#define cudaMemAdviseUnsetAccessedBy __cuda(MemAdviseUnsetAccessedBy)
+
 #endif

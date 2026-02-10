@@ -97,17 +97,6 @@
 #include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
 
-#ifdef __USE_HIP__
-#define cudaMemoryAdvise	__cuda(MemoryAdvise)	/* enum */
-#else
-#define cudaMemoryAdvise	__cuda(MemoryAdvise_t)	/* enum */
-#endif
-#define cudaMemAdviseSetReadMostly	__cuda(MemAdviseSetReadMostly)
-#define cudaMemAdviseUnsetReadMostly	__cuda(MemAdviseUnsetReadMostly)
-#define cudaMemAdviseSetPreferredLocation	__cuda(MemAdviseSetPreferredLocation)
-#define cudaMemAdviseUnsetPreferredLocation	__cuda(MemAdviseUnsetPreferredLocation)
-#define cudaMemAdviseSetAccessedBy	__cuda(MemAdviseSetAccessedBy)
-#define cudaMemAdviseUnsetAccessedBy	__cuda(MemAdviseUnsetAccessedBy)
 #define cudaMemLocation	__cuda(MemLocation)	/* struct */
 #define cudaMemLocationType	__cuda(MemLocationType)	/* enum */
 #define cudaMemLocationTypeInvalid	__cuda(MemLocationTypeInvalid)
