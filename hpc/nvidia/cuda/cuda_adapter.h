@@ -842,7 +842,15 @@
  * There are store some special macros from here.
  */
 #if defined(__USE_HPCC__) || defined(__USE_LUCA__)
+/**
+ * CUDA:
+ * cuda.h: typedef enum cudaError_enum { ... } CUresult;
+ */
 # undef CUresult
+/**
+ * CUDA:
+ * cuda.h: typedef CUdevice_v1 CUdevice;
+ */
 # undef CUdevice
 # undef CUmodule
 # undef CUfunction
