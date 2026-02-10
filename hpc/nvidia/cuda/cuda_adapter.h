@@ -97,15 +97,6 @@
 #include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
 
-#define cudaMemLocation	__cuda(MemLocation)	/* struct */
-#define cudaMemLocationType	__cuda(MemLocationType)	/* enum */
-#define cudaMemLocationTypeInvalid	__cuda(MemLocationTypeInvalid)
-#define cudaMemLocationTypeNone	__cuda(MemLocationTypeNone)
-#define cudaMemLocationTypeDevice	__cuda(MemLocationTypeDevice)
-#define cudaMemLocationTypeHost	__cuda(MemLocationTypeHost)
-#define cudaMemLocationTypeHostNuma	__cuda(MemLocationTypeHostNuma)
-#define cudaMemLocationTypeHostNumaCurrent	__cuda(MemLocationTypeHostNumaCurrent)
-
 #define cudaMemPool_t	__cuda(MemPool_t)
 #define cudaMemPoolProps __cuda(MemPoolProps)
 

@@ -192,4 +192,14 @@
 #define cudaMemAdviseSetAccessedBy __cuda(MemAdviseSetAccessedBy)
 #define cudaMemAdviseUnsetAccessedBy __cuda(MemAdviseUnsetAccessedBy)
 
+#define cudaMemLocation __cuda(MemLocation) /* struct */
+#define cudaMemLocationType __cuda(MemLocationType) /* enum */
+#define cudaMemLocationTypeInvalid __cuda(MemLocationTypeInvalid)
+#define cudaMemLocationTypeNone __cuda(MemLocationTypeNone)
+#define cudaMemLocationTypeDevice __cuda(MemLocationTypeDevice)
+#define cudaMemLocationTypeHost __cuda(MemLocationTypeHost)
+#define cudaMemLocationTypeHostNuma __cuda(MemLocationTypeHostNuma)
+#define cudaMemLocationTypeHostNumaCurrent \
+	__cuda(MemLocationTypeHostNumaCurrent)
+
 #endif
