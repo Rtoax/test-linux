@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/adapter: add `device_types.h`;
 - ostree: first commit;
 - shell: add env-passing directory;
 #### Changed

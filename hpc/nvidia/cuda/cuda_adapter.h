@@ -1442,13 +1442,7 @@
 # define CUDA_SUCCESS	hipSuccess
 #endif
 
-/* enum cudaRoundMode */
-#define cudaRoundMode	__cuda(RoundMode)
-#define cudaRoundNearest	__cuda(RoundNearest)
-#define cudaRoundZero	__cuda(RoundZero)
-#define cudaRoundPosInf	__cuda(RoundPosInf)
-#define cudaRoundMinInf	__cuda(RoundMinInf)
-
+#include "adapter/device_types.h"
 #include "adapter/cuda_fp6.h"
 #include "adapter/cuda_fp8.h"
 #include "adapter/cuda_bf16.h"
