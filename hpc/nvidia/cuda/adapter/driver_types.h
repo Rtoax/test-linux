@@ -173,4 +173,10 @@
 #define cudaLimitMaxL2FetchGranularity __cuda(LimitMaxL2FetchGranularity)
 #define cudaLimitPersistingL2CacheSize __cuda(LimitPersistingL2CacheSize)
 
+/**
+ * CUDA: typedef const struct cudaArray *cudaArray_const_t;
+ * HIP: typedef const struct hipArray* hipArray_const_t;
+ */
+#define cudaArray_const_t __cuda(Array_const_t)
+
 #endif
