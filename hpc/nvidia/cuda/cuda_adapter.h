@@ -98,11 +98,6 @@
 #include "adapter/driver_types.h"
 
 /**
- * https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html
- */
-#define cudaMalloc(pp, sz)	__cuda(Malloc(pp, sz))
-#define cudaFree(ptr)	__cuda(Free(ptr))
-/**
  * Pinned memory, on CPU memory, GPU accessable, DMA copy
  *
  * HIPCC 6.4
