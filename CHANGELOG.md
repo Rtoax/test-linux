@@ -11,14 +11,8 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- shell: add env-passing directory;
 #### Changed
-- template: Move bits/compiler-feature.mk to compiler/feature.mk;
-- Move template/targets/libso.sh to scripts/libso-multiver.sh;
-- Move vfs into fs directory;
-- Move alternative directory into insn directory;
-- Move aio directory into glibc;
-- scripts/install-deps.sh: default install nothing;
-- template: add nvidia,amd,metax,cestc directory;
 #### Deprecated
 #### Removed
 #### Fixed

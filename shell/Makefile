@@ -2,6 +2,7 @@
 subdir-y += alias
 subdir-y += array
 subdir-y += commands
+subdir-y += env-passing
 subdir-y += math
 subdir-y += network
 subdir-y += string
