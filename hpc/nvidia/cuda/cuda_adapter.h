@@ -97,17 +97,6 @@
 #include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
 
-#define cudaLimit	__cuda(Limit_t)
-#define cudaLimitStackSize	__cuda(LimitStackSize)
-#define cudaLimitPrintfFifoSize	__cuda(LimitPrintfFifoSize)
-#define cudaLimitMallocHeapSize	__cuda(LimitMallocHeapSize)
-#define cudaLimitDevRuntimeSyncDepth	__cuda(LimitDevRuntimeSyncDepth)
-#define cudaLimitDevRuntimePendingLaunchCount	__cuda(LimitDevRuntimePendingLaunchCount)
-#define cudaLimitMaxL2FetchGranularity	__cuda(LimitMaxL2FetchGranularity)
-#define cudaLimitPersistingL2CacheSize	__cuda(LimitPersistingL2CacheSize)
-#define cudaDeviceSetLimit(limit, value)	__cuda(DeviceSetLimit(limit, value))
-#define cudaDeviceGetLimit(limit, value)	__cuda(DeviceGetLimit(limit, value))
-
 /**
  * CUDA
  * cudaError_t cudaDriverGetVersion(int *driverVersion);

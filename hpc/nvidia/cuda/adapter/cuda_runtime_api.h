@@ -24,4 +24,7 @@
  */
 #define cudaGetErrorName(error) __cuda(GetErrorName(error))
 
+#define cudaDeviceSetLimit(limit, value) __cuda(DeviceSetLimit(limit, value))
+#define cudaDeviceGetLimit(limit, value) __cuda(DeviceGetLimit(limit, value))
+
 #endif

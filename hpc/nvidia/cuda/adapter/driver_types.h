@@ -151,4 +151,14 @@
 #define cudaErrorUnknown __cuda(ErrorUnknown)
 #define cudaErrorApiFailureBase __cuda(ErrorApiFailureBase)
 
+#define cudaLimit __cuda(Limit_t)
+#define cudaLimitStackSize __cuda(LimitStackSize)
+#define cudaLimitPrintfFifoSize __cuda(LimitPrintfFifoSize)
+#define cudaLimitMallocHeapSize __cuda(LimitMallocHeapSize)
+#define cudaLimitDevRuntimeSyncDepth __cuda(LimitDevRuntimeSyncDepth)
+#define cudaLimitDevRuntimePendingLaunchCount \
+	__cuda(LimitDevRuntimePendingLaunchCount)
+#define cudaLimitMaxL2FetchGranularity __cuda(LimitMaxL2FetchGranularity)
+#define cudaLimitPersistingL2CacheSize __cuda(LimitPersistingL2CacheSize)
+
 #endif
