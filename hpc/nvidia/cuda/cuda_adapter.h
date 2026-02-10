@@ -133,38 +133,6 @@
 #define cudaGetSymbolAddress	__cuda(GetSymbolAddress)
 
 /**
- * cudaError_t cudaMallocManaged(void **devPtr, size_t size,
- *                               unsigned int flags = cudaMemAttachGlobal);
- * hcError_t hcMallocManaged(void **dev_ptr, size_t size,
- *                           unsigned int flags __dparm(hcMemAttachGlobal));
- */
-/* flags */
-#define cudaMemAttachGlobal	__cuda(MemAttachGlobal)
-#define cudaMemAttachHost	__cuda(MemAttachHost)
-#define cudaMemAttachSingle	__cuda(MemAttachSingle)
-#define cudaMallocManaged(pp, sz, flags)	__cuda(MallocManaged(pp, sz, flags))
-/**
- * CUDA 12
- * cudaError_t cudaMallocAsync(void **devPtr, size_t size, cudaStream_t hStream);
- *
- * HIP
- * hipError_t hipMallocAsync(void** dev_ptr, size_t size, hipStream_t stream);
- *
- * LUCA
- * lcError_t lcMallocAsync(void **devPtr, size_t size, lcStream_t hStream);
- */
-#define cudaMallocAsync(pp, sz, stream)	__cuda(MallocAsync(pp, sz, stream))
-
-/**
- * CUDA 12:
- * cudaError_t cudaFreeAsync(void *devPtr, cudaStream_t hStream);
- *
- * HIP:
- * hipError_t hipFreeAsync(void* dev_ptr, hipStream_t stream);
- */
-#define cudaFreeAsync(ptr, stream)	__cuda(FreeAsync(ptr, stream))
-
-/**
  * CUDA V13.0.48
  * cudaError_t cudaMemAdvise(const void* devPtr, size_t count,
  *                           cudaMemoryAdvise advice,

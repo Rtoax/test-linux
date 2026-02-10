@@ -158,6 +158,11 @@
 #define cudaMemcpyDeviceToDevice __cuda(MemcpyDeviceToDevice) /* 3 */
 #define cudaMemcpyDefault __cuda(MemcpyDefault) /* 4 */
 
+/* cudaMallocManaged::flags */
+#define cudaMemAttachGlobal __cuda(MemAttachGlobal)
+#define cudaMemAttachHost __cuda(MemAttachHost)
+#define cudaMemAttachSingle __cuda(MemAttachSingle)
+
 #define cudaLimit __cuda(Limit_t)
 #define cudaLimitStackSize __cuda(LimitStackSize)
 #define cudaLimitPrintfFifoSize __cuda(LimitPrintfFifoSize)

@@ -49,6 +49,35 @@
 #define cudaMallocHost(ptr, sz, flags) __cuda(MallocHost(ptr, sz, flags))
 #define cudaFreeHost(ptr) __cuda(FreeHost(ptr))
 
+/**
+ * CUDA 12
+ * cudaError_t cudaMallocAsync(void **devPtr, size_t size, cudaStream_t hStream);
+ *
+ * HIP
+ * hipError_t hipMallocAsync(void** dev_ptr, size_t size, hipStream_t stream);
+ *
+ * LUCA
+ * lcError_t lcMallocAsync(void **devPtr, size_t size, lcStream_t hStream);
+ */
+#define cudaMallocAsync(pp, sz, stream) __cuda(MallocAsync(pp, sz, stream))
+
+/**
+ * CUDA 12:
+ * cudaError_t cudaFreeAsync(void *devPtr, cudaStream_t hStream);
+ *
+ * HIP:
+ * hipError_t hipFreeAsync(void* dev_ptr, hipStream_t stream);
+ */
+#define cudaFreeAsync(ptr, stream) __cuda(FreeAsync(ptr, stream))
+
+/**
+ * cudaError_t cudaMallocManaged(void **devPtr, size_t size,
+ *                               unsigned int flags = cudaMemAttachGlobal);
+ * hcError_t hcMallocManaged(void **dev_ptr, size_t size,
+ *                           unsigned int flags __dparm(hcMemAttachGlobal));
+ */
+#define cudaMallocManaged(pp, sz, flags) __cuda(MallocManaged(pp, sz, flags))
+
 #define cudaMemset(ptr, v, size) __cuda(Memset(ptr, v, size))
 
 /**
