@@ -44,4 +44,18 @@
 #define cuGetErrorName __cu(GetErrorName)
 #endif
 
+/**
+ * CUDA 13
+ * CUresult cuLaunchKernel(CUfunction f, unsigned int gridDimX,
+ *                         unsigned int gridDimY, unsigned int gridDimZ,
+ *                         unsigned int blockDimX, unsigned int blockDimY,
+ *                         unsigned int blockDimZ, unsigned int sharedMemBytes,
+ *                         CUstream hStream, void **kernelParams, void **extra);
+ *
+ * LUCA:
+ * lcError_t lcLaunchKernel(const void *function_address, dim3 numBlocks,
+ *                          dim3 dimBlocks, void **args,
+ */
+#define cuLaunchKernel __cu(LaunchKernel)
+
 #endif

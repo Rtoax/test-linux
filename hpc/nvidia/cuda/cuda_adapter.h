@@ -98,36 +98,6 @@
 #include "adapter/driver_types.h"
 
 /**
- * cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
- *                              void **args, size_t sharedMem, cudaStream_t stream);
- * hcError_t hcLaunchKernel(const void *function_address, dim3 numBlocks, dim3 dimBlocks,
- *                          void **args, size_t sharedMemBytes, hcStream_t stream);
- */
-#define cudaLaunchKernel(func, g, b, args, mem, stream) \
-	__cuda(LaunchKernel(func, g, b, args, mem, stream))
-
-/**
- * cudaError_t cudaLaunchDevice(void *func, void *parameterBuffer,
- *                              dim3 gridDimension, dim3 blockDimension,
- *                              unsigned int sharedMemSize, cudaStream_t stream);
- */
-#define cudaLaunchDevice __cuda(LaunchDevice)
-
-/**
- * CUDA 13
- * CUresult cuLaunchKernel(CUfunction f, unsigned int gridDimX,
- *                         unsigned int gridDimY, unsigned int gridDimZ,
- *                         unsigned int blockDimX, unsigned int blockDimY,
- *                         unsigned int blockDimZ, unsigned int sharedMemBytes,
- *                         CUstream hStream, void **kernelParams, void **extra);
- *
- * LUCA:
- * lcError_t lcLaunchKernel(const void *function_address, dim3 numBlocks,
- *                          dim3 dimBlocks, void **args,
- */
-#define cuLaunchKernel __cu(LaunchKernel)
-
-/**
  * CUDA 12/13:
  * don't have nvModuleLaunchKernel, cudaModuleLaunchKernel, cuModuleLaunchKernel
  * but cuLaunchKernel looks like hipModuleLaunchKernel.
@@ -149,20 +119,6 @@
  *                                void **kernelParams, void **extra);
  */
 #define hipModuleLaunchKernel __cu(ModuleLaunchKernel)
-
-/**
- * HPCC 3.0.0:
- * hcError_t hcLaunchCooperativeKernel(const void *f, dim3 gridDim, dim3 blockDim,
- *                                     void **kernelParams, unsigned int sharedMemBytes,
- *                                     hcStream_t stream);
- *
- * CUDA V13.0.48:
- * cudaError_t cudaLaunchCooperativeKernel(const void *func, dim3 gridDim, dim3 blockDim,
- *                                         void **args, size_t sharedMem,
- *                                         cudaStream_t stream);
- */
-#define cudaLaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream) \
-	__cuda(LaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, stream))
 
 /**
  * CUDA 13.0
