@@ -3,6 +3,8 @@ set -e
 
 readonly export PARENT_ARGS=( "$@" )
 
-. parent-lib.sh
+echo "[parent] PARENT_ARGS=${PARENT_ARGS[@]}"
+
+. lib.sh
 
 run_child
