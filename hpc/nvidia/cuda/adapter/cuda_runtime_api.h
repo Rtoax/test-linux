@@ -187,6 +187,15 @@
 // TODO
 
 /**
+ * CUDA 13:
+ * cudaError_t cudaGetSymbolAddress(void **devPtr, const void *symbol);
+ *
+ * HPCC:
+ * hcError_t hcGetSymbolAddress(void **devPtr, const void *symbol);
+ */
+#define cudaGetSymbolAddress __cuda(GetSymbolAddress)
+
+/**
  * CUDA 13
  * cudaError_t cudaMemcpyFromSymbol(void *dst, const void *symbol,
  *                                  size_t count, size_t offset __dv(0),
@@ -229,5 +238,25 @@
  *                             size_t sizeBytes, lcStream_t stream);
  */
 #define cudaMemcpyPeerAsync __cuda(MemcpyPeerAsync)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaHostRegister(void *ptr, size_t size, unsigned int flags);
+ * cudaError_t cudaHostUnregister(void *ptr);
+ *
+ * HIP 6.4
+ * hipError_t hipHostRegister(void* hostPtr, size_t sizeBytes, unsigned int flags);
+ */
+#define cudaHostRegister __cuda(HostRegister)
+#define cudaHostUnregister __cuda(HostUnregister)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaHostGetDevicePointer(T **pDevice, void *pHost, unsigned int flags);
+ *
+ * HIP 6.4
+ * hipError_t hipHostGetDevicePointer(void** devPtr, void* hstPtr, unsigned int flags);
+ */
+#define cudaHostGetDevicePointer __cuda(HostGetDevicePointer)
 
 #endif

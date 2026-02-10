@@ -98,39 +98,10 @@
 #include "adapter/driver_types.h"
 
 /**
- * CUDA 13.0
- * cudaError_t cudaHostRegister(void *ptr, size_t size, unsigned int flags);
- * cudaError_t cudaHostUnregister(void *ptr);
- *
- * HIP 6.4
- * hipError_t hipHostRegister(void* hostPtr, size_t sizeBytes, unsigned int flags);
- */
-#define cudaHostRegister(p,s,f)	__cuda(HostRegister(p,s,f))
-#define cudaHostUnregister(p)	__cuda(HostUnregister(p))
-
-/**
- * CUDA 13.0
- * cudaError_t cudaHostGetDevicePointer(T **pDevice, void *pHost, unsigned int flags);
- *
- * HIP 6.4
- * hipError_t hipHostGetDevicePointer(void** devPtr, void* hstPtr, unsigned int flags);
- */
-#define cudaHostGetDevicePointer(d,h,f)	__cuda(HostGetDevicePointer(d,h,f))
-
-/**
  * CUDA: typedef const struct cudaArray *cudaArray_const_t;
  * HIP: typedef const struct hipArray* hipArray_const_t;
  */
 #define cudaArray_const_t	__cuda(Array_const_t)
-
-/**
- * CUDA 13:
- * cudaError_t cudaGetSymbolAddress(void **devPtr, const void *symbol);
- *
- * HPCC:
- * hcError_t hcGetSymbolAddress(void **devPtr, const void *symbol);
- */
-#define cudaGetSymbolAddress	__cuda(GetSymbolAddress)
 
 /**
  * CUDA V13.0.48
