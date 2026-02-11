@@ -6,6 +6,7 @@
 /**
  * CUDA: typedef enum cudaError_enum { ... } CUresult;
  * LUCA: typedef enum lcc_status { ... } lcc_status_t;
+ * HIP: enum { HIP_SUCCESS = 0, ... };
  */
 #define CUresult __CU(result)
 
@@ -16,9 +17,9 @@
 #ifndef CUDA_SUCCESS
 #define CUDA_SUCCESS __CUDA_ERROR(SUCCESS);
 #endif
-#define CUDA_ERROR_INVALID_VALUE __CUDA_ERROR(ERROR_INVALID_VALUE)
-#define CUDA_ERROR_OUT_OF_MEMORY __CUDA_ERROR(ERROR_OUT_OF_MEMORY)
-#define CUDA_ERROR_NOT_INITIALIZED __CUDA_ERROR(ERROR_NOT_INITIALIZED)
+#define CUDA_ERROR_INVALID_VALUE __CUDA_ERROR(ERROR_INVALID_VALUE) /* 1 */
+#define CUDA_ERROR_OUT_OF_MEMORY __CUDA_ERROR(ERROR_OUT_OF_MEMORY) /* 2 */
+#define CUDA_ERROR_NOT_INITIALIZED __CUDA_ERROR(ERROR_NOT_INITIALIZED) /* 3 */
 #define CUDA_ERROR_DEINITIALIZED __CUDA_ERROR(ERROR_DEINITIALIZED)
 #define CUDA_ERROR_PROFILER_DISABLED __CUDA_ERROR(ERROR_PROFILER_DISABLED)
 #define CUDA_ERROR_PROFILER_NOT_INITIALIZED \
@@ -246,10 +247,6 @@
  *                         unsigned int blockDimX, unsigned int blockDimY,
  *                         unsigned int blockDimZ, unsigned int sharedMemBytes,
  *                         CUstream hStream, void **kernelParams, void **extra);
- *
- * LUCA:
- * lcError_t lcLaunchKernel(const void *function_address, dim3 numBlocks,
- *                          dim3 dimBlocks, void **args,
  */
 #define cuLaunchKernel __cu(LaunchKernel)
 

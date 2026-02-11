@@ -480,10 +480,19 @@
 #define cudaGraphAddKernelNode __cuda(GraphAddKernelNode)
 
 /**
+ * CUDA:
  * cudaError_t cudaLaunchKernel(const void *func, dim3 gridDim, dim3 blockDim,
  *                              void **args, size_t sharedMem, cudaStream_t stream);
+ *
+ * HPCC:
  * hcError_t hcLaunchKernel(const void *function_address, dim3 numBlocks, dim3 dimBlocks,
  *                          void **args, size_t sharedMemBytes, hcStream_t stream);
+ *
+ * LUCA:
+ * lcError_t lcLaunchKernel(const void *function_address, dim3 numBlocks,
+ *                          dim3 dimBlocks, void **args,
+ *                          size_t sharedMemBytes __dparm(0),
+ *                          lcStream_t stream __dparm(0));
  */
 #define cudaLaunchKernel(func, g, b, args, mem, stream) \
 	__cuda(LaunchKernel(func, g, b, args, mem, stream))
