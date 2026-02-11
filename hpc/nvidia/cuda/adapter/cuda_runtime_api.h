@@ -562,4 +562,165 @@
  */
 #define cudaFuncSetAttribute(f, a, v) __cuda(FuncSetAttribute(f, a, v))
 
+/**
+ * cudaStream_t is a data type in CUDA used to represent a stream. A stream in
+ * CUDA is a sequence of operations (such as kernel launches or memory
+ * transfers) that execute in order on the GPU. Streams enable asynchronous
+ * execution, allowing multiple operations to overlap and improve performance
+ * by utilizing GPU resources more efficiently.
+ */
+#define cudaStreamCreate(pstream) __cuda(StreamCreate(pstream))
+#define cudaStreamCreateWithFlags(s, f) __cuda(StreamCreateWithFlags(s, f))
+#define cudaStreamDestroy(stream) __cuda(StreamDestroy(stream))
+
+#define cudaStreamSynchronize(stream) __cuda(StreamSynchronize(stream))
+
+/**
+ * CUDA V13.0:
+ * cudaError_t CUDARTAPI cudaStreamQuery(cudaStream_t stream);
+ *
+ * HIP 6.4
+ * hipError_t hipStreamQuery(hipStream_t stream);
+ */
+#define cudaStreamQuery(s) __cuda(StreamQuery(s))
+
+/**
+ * cudaError_t cudaStreamBeginCapture(cudaStream_t stream, enum cudaStreamCaptureMode mode);
+ */
+#define cudaStreamBeginCapture __cuda(StreamBeginCapture)
+#define cudaStreamEndCapture __cuda(StreamEndCapture)
+
+/**
+ * CUDA 12
+ * cudaError_t cudaStreamIsCapturing(cudaStream_t stream,
+ *                                   cudaStreamCaptureStatus *pCaptureStatus);
+ *
+ * HIP
+ * hipError_t hipStreamIsCapturing(hipStream_t stream,
+ *                                 hipStreamCaptureStatus* pCaptureStatus);
+ *
+ * HPCC
+ * hcError_t hcStreamIsCapturing(hcStream_t stream,
+ *                               hcStreamCaptureStatus *pCaptureStatus);
+ */
+#define cudaStreamIsCapturing(stream, pCaptureStatus) \
+	__cuda(StreamIsCapturing(stream, pCaptureStatus))
+
+/**
+ * LUCA:
+ * lcError_t lcStreamCopyAttributes(lcStream_t dst, lcStream_t src);
+ */
+#define cudaStreamCopyAttributes __cuda(StreamCopyAttributes)
+
+/**
+ * LUCA:
+ * lcError_t lcStreamGetAttribute(lcStream_t hStream, lcStreamAttrID attr,
+ *                                lcStreamAttrValue *value_out);
+ */
+#define cudaStreamGetAttribute __cuda(StreamGetAttribute)
+
+/**
+ * LUCA:
+ * lcError_t lcStreamSetAttribute(lcStream_t hStream, lcStreamAttrID attr,
+ *                                const lcStreamAttrValue *value);
+ */
+#define cudaStreamSetAttribute __cuda(StreamSetAttribute)
+
+/**
+ * LUCA:
+ * lcError_t lcStreamGetPriority(lcStream_t hStream, int *priority);
+ */
+#define cudaStreamGetPriority __cuda(StreamGetPriority)
+
+/**
+ * LUCA:
+ * lcError_t lcStreamGetFlags(lcStream_t hStream, unsigned int *flags);
+ */
+#define cudaStreamGetFlags __cuda(StreamGetFlags)
+
+/**
+ * CUDA 13
+ * cudaError_t cudaStreamAddCallback(cudaStream_t stream, cudaStreamCallback_t callback,
+ *                                   void *userData, unsigned int flags);
+ */
+#define cudaStreamAddCallback __cuda(StreamAddCallback)
+
+/**
+ * CUDA V13.0
+ * cudaError_t cudaStreamWaitEvent(cudaStream_t stream, cudaEvent_t event, unsigned int flags);
+ *
+ * HIP 6.4
+ * hipError_t hipStreamWaitEvent(hipStream_t stream, hipEvent_t event, unsigned int flags);
+ */
+#define cudaStreamWaitEvent(s, e, f) __cuda(StreamWaitEvent(s, e, f))
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaStreamGetCaptureInfo(cudaStream_t stream,
+ *                                      enum cudaStreamCaptureStatus *captureStatus_out,
+ *                                      unsigned long long *id_out __dv(0),
+ *                                      cudaGraph_t *graph_out __dv(0),
+ *                                      const cudaGraphNode_t **dependencies_out __dv(0),
+ *                                      const cudaGraphEdgeData **edgeData_out __dv(0),
+ *                                      size_t *numDependencies_out __dv(0));
+ * cudaError_t cudaStreamGetCaptureInfo_ptsz(...);
+ *
+ * HIP 6.4
+ * hipError_t hipStreamGetCaptureInfo(hipStream_t stream,
+ *                                    hipStreamCaptureStatus* pCaptureStatus,
+ *                                    unsigned long long* pId);
+ * hipError_t hipStreamGetCaptureInfo_v2(hipStream_t stream,
+ *                                       hipStreamCaptureStatus* captureStatus_out,
+ *                                       unsigned long long* id_out,
+ *                                       hipGraph_t* graph_out,
+ *                                       const hipGraphNode_t** dependencies_out,
+ *                                       size_t* numDependencies_out);
+ * hipError_t hipStreamGetCaptureInfo_spt(hipStream_t stream,
+ *                                        hipStreamCaptureStatus* pCaptureStatus,
+ *                                        unsigned long long* pId);
+ * hipError_t hipStreamGetCaptureInfo_v2_spt(hipStream_t stream,
+ *                                           hipStreamCaptureStatus* captureStatus_out,
+ *                                           unsigned long long* id_out,
+ *                                           hipGraph_t* graph_out,
+ *                                           const hipGraphNode_t** dependencies_out,
+ *                                           size_t* numDependencies_out);
+ *
+ * LUCA 3.1.3
+ * hcError_t hcStreamGetCaptureInfo(hcStream_t stream,
+ *                                  hcStreamCaptureStatus *captureStatus_out,
+ *                                  unsigned long long *id_out __dparm(0),
+ *                                  hcGraph_t *graph_out __dparm(0),
+ *                                  const hcGraphNode_t **dependencies_out __dparm(0),
+ *                                  size_t *numDependencies_out __dparm(0));
+ */
+#define cudaStreamGetCaptureInfo __cuda(StreamGetCaptureInfo)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaStreamUpdateCaptureDependencies(cudaStream_t stream, cudaGraphNode_t *dependencies,
+ *                                                 const cudaGraphEdgeData *dependencyData,
+ *                                                 size_t numDependencies, unsigned int flags __dv(0));
+ *
+ * HIP 6.4
+ * hipError_t hipStreamUpdateCaptureDependencies(hipStream_t stream, hipGraphNode_t* dependencies,
+ *                                               size_t numDependencies,
+ *                                               unsigned int flags __dparm(0));
+ *
+ * HPCC 3.0.0
+ * hcError_t hcStreamUpdateCaptureDependencies(hcStream_t stream, hcGraphNode_t *dependencies,
+ *                                             size_t numDependencies, unsigned int flags __dparm(0));
+ */
+#define cudaStreamUpdateCaptureDependencies \
+	__cuda(StreamUpdateCaptureDependencies)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaThreadExchangeStreamCaptureMode(enum cudaStreamCaptureMode *mode);
+ *
+ * HIP 6.4
+ * hipError_t hipThreadExchangeStreamCaptureMode(hipStreamCaptureMode* mode);
+ */
+#define cudaThreadExchangeStreamCaptureMode(m) \
+	__cuda(ThreadExchangeStreamCaptureMode(m))
+
 #endif

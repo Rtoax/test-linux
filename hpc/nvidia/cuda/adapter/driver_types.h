@@ -273,4 +273,40 @@
 	__cuda(FuncAttributeClusterSchedulingPolicyPreference)
 #define cudaFuncAttributeMax __cuda(FuncAttributeMax)
 
+/**
+ * cudaStreamCreateWithFlags()::flags
+ */
+#define cudaStreamDefault __cuda(StreamDefault) /* 0x00 */
+#define cudaStreamNonBlocking __cuda(StreamNonBlocking) /* 0x01 */
+
+/**
+ * #define cudaStreamAttrID cudaLaunchAttributeID
+ */
+#define cudaStreamAttrID __cuda(StreamAttrID)
+#define cudaStreamAttributeAccessPolicyWindow \
+	__cuda(StreamAttributeAccessPolicyWindow)
+#define cudaStreamAttributeSynchronizationPolicy \
+	__cuda(StreamAttributeSynchronizationPolicy)
+#define cudaStreamAttributeMemSyncDomainMap \
+	__cuda(StreamAttributeMemSyncDomainMap)
+#define cudaStreamAttributeMemSyncDomain __cuda(StreamAttributeMemSyncDomain)
+#define cudaStreamAttributePriority __cuda(StreamAttributePriority)
+
+/**
+ * enum cudaStreamCaptureStatus {...};
+ */
+#define cudaStreamCaptureStatus __cuda(StreamCaptureStatus)
+#define cudaStreamCaptureStatusNone __cuda(StreamCaptureStatusNone)
+#define cudaStreamCaptureStatusActive __cuda(StreamCaptureStatusActive)
+#define cudaStreamCaptureStatusInvalidated \
+	__cuda(StreamCaptureStatusInvalidated)
+
+/**
+ * enum cudaStreamCaptureMode {...};
+ */
+#define cudaStreamCaptureMode __cuda(StreamCaptureMode)
+#define cudaStreamCaptureModeGlobal __cuda(StreamCaptureModeGlobal) /* 0 */
+#define cudaStreamCaptureModeThreadLocal __cuda(StreamCaptureModeThreadLocal)
+#define cudaStreamCaptureModeRelaxed __cuda(StreamCaptureModeRelaxed)
+
 #endif
