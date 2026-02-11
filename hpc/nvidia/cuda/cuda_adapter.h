@@ -112,25 +112,6 @@
 #define cuDeviceComputeCapability(pmajor, pminor, pdev) \
 	__cu(DeviceComputeCapability(pmajor, pminor, pdev))
 
-/**
- * CUDA: struct __device_builtin__ cudaDeviceProp {...};
- */
-#define cudaDeviceProp	__cuda(DeviceProp_t)
-
-/**
- * CUDA V12.2.140 cuda_runtime_api.h
- * #define cudaGetDeviceProperties cudaGetDeviceProperties_v2
- * cudaError_t cudaGetDeviceProperties(struct cudaDeviceProp *prop, int device);
- *
- * HIP
- * hipError_t hipGetDeviceProperties(hipDeviceProp_t* prop, int deviceId);
- */
-#if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__)
-#define cudaGetDeviceProperties(prop, devid)	__cuda(GetDeviceProperties(prop, devid))
-#else
-#define cudaGetDeviceProperties(prop, devid)	__cuda(GetDeviceProperties_v2(prop, devid))
-#endif
-
 #include "adapter/cublas.h"
 
 /**

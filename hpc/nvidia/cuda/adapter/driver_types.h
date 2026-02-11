@@ -151,6 +151,13 @@
 #define cudaErrorUnknown __cuda(ErrorUnknown)
 #define cudaErrorApiFailureBase __cuda(ErrorApiFailureBase)
 
+/**
+ * CUDA: struct __device_builtin__ cudaDeviceProp {...};
+ * HIP: typedef struct hipDeviceProp_t {...} hipDeviceProp_t;
+ * LUCA: typedef struct _lcDeviceProp_t {...} lcDeviceProp_t;
+ */
+#define cudaDeviceProp __cuda(DeviceProp_t)
+
 #define cudaMemcpyKind __cuda(MemcpyKind) /* enum */
 #define cudaMemcpyHostToHost __cuda(MemcpyHostToHost) /* 0 */
 #define cudaMemcpyHostToDevice __cuda(MemcpyHostToDevice) /* 1 */
