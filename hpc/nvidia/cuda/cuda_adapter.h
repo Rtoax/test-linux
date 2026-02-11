@@ -97,62 +97,11 @@
 #include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
 
-/**
- * CUDA V13.0.48
- * CUresult cuDeviceGet(CUdevice *device, int ordinal);
- *
- * HIP
- * hipError_t hipDeviceGet(hipDevice_t*, int ordinal);
- *
- * HPCC 3.0.0
- * hcError_t hcDeviceGet(hcDevice_t *device, int ordinal);
- */
-#define cuDeviceGet(pdevice, dev_id)	__cu(DeviceGet(pdevice, dev_id))
-#define cuDeviceComputeCapability(pmajor, pminor, pdev) \
-	__cu(DeviceComputeCapability(pmajor, pminor, pdev))
-
 #include "adapter/cuComplex.h"
 #include "adapter/cublas.h"
 #include "adapter/curand.h"
 #include "adapter/cufft.h"
 #include "adapter/cusparse.h"
-
-/**
- * CUDA 13
- * CUresult cuModuleGetFunction(CUfunction *hfunc, CUmodule hmod, const char *name);
- *
- * HIP
- * hipError_t hipModuleGetFunction(hipFunction_t* function, hipModule_t module,
- *                                 const char* kname);
- *
- * HPCC
- * hcError_t hcModuleGetFunction(hcFunction_t *function, hcModule_t module,
- *                               const char *kname);
- */
-#define cuModuleGetFunction(pfunc, mod, name)	__cu(ModuleGetFunction(pfunc, mod, name))
-
-/**
- * CUDA 13:
- * CUresult cuModuleLoadData(CUmodule *module, const void *image);
- *
- * HIP
- * hipError_t hipModuleLoadData(hipModule_t* module, const void* image);
- */
-#define cuModuleLoadData	__cu(ModuleLoadData)
-
-/**
- * CUDA 13
- * CUresult cuModuleLoadDataEx(CUmodule *module, const void *image,
- *                             unsigned int numOptions, CUjit_option *options,
- *                             void **optionValues);
- *
- * HIP
- * hipError_t hipModuleLoadDataEx(hipModule_t* module, const void* image,
- *                                unsigned int numOptions,
- *                                hipJitOption* options, void** optionValues);
- */
-#define CUjit_option	__CU(jit_option)
-#define cuModuleLoadDataEx	__cu(ModuleLoadDataEx)
 
 #include "adapter/nvrtc.h"
 
