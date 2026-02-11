@@ -246,4 +246,31 @@
  */
 #define cudaGraphEdgeData __cuda(GraphEdgeData)
 
+/**
+ * CUDA: struct __device_builtin__ cudaFuncAttributes { ... };
+ */
+#define cudaFuncAttributes __cuda(FuncAttributes)
+
+/**
+ * CUDA: enum __device_builtin__ cudaFuncAttribute { ... };
+ */
+#define cudaFuncAttribute __cuda(FuncAttribute)
+#define cudaFuncAttributeMaxDynamicSharedMemorySize \
+	__cuda(FuncAttributeMaxDynamicSharedMemorySize)
+#define cudaFuncAttributePreferredSharedMemoryCarveout \
+	__cuda(FuncAttributePreferredSharedMemoryCarveout)
+#define cudaFuncAttributeClusterDimMustBeSet \
+	__cuda(FuncAttributeClusterDimMustBeSet)
+#define cudaFuncAttributeRequiredClusterWidth \
+	__cuda(FuncAttributeRequiredClusterWidth)
+#define cudaFuncAttributeRequiredClusterHeight \
+	__cuda(FuncAttributeRequiredClusterHeight)
+#define cudaFuncAttributeRequiredClusterDepth \
+	__cuda(FuncAttributeRequiredClusterDepth)
+#define cudaFuncAttributeNonPortableClusterSizeAllowed \
+	__cuda(FuncAttributeNonPortableClusterSizeAllowed)
+#define cudaFuncAttributeClusterSchedulingPolicyPreference \
+	__cuda(FuncAttributeClusterSchedulingPolicyPreference)
+#define cudaFuncAttributeMax __cuda(FuncAttributeMax)
+
 #endif

@@ -98,63 +98,6 @@
 #include "adapter/driver_types.h"
 
 /**
- * CUDA 12/13:
- * don't have nvModuleLaunchKernel, cudaModuleLaunchKernel, cuModuleLaunchKernel
- * but cuLaunchKernel looks like hipModuleLaunchKernel.
- *
- * HIP:
- * hipError_t hipModuleLaunchKernel(hipFunction_t f,
- *                                  unsigned int gridDimX, unsigned int gridDimY,
- *                                  unsigned int gridDimZ, unsigned int blockDimX,
- *                                  unsigned int blockDimY, unsigned int blockDimZ,
- *                                  unsigned int sharedMemBytes, hipStream_t stream,
- *                                  void** kernelParams, void** extra);
- *
- * LUCA:
- * lcError_t lcModuleLaunchKernel(lcFunction_t f,
- *                                unsigned int gridDimX, unsigned int gridDimY,
- *                                unsigned int gridDimZ, unsigned int blockDimX,
- *                                unsigned int blockDimY, unsigned int blockDimZ,
- *                                unsigned int sharedMemBytes, lcStream_t hStream,
- *                                void **kernelParams, void **extra);
- */
-#define hipModuleLaunchKernel __cu(ModuleLaunchKernel)
-
-/**
- * CUDA 13.0
- * cudaError_t cudaLaunchHostFunc(cudaStream_t stream, cudaHostFn_t fn, void *userData);
- *
- * HIP 6.4
- * hipError_t hipLaunchHostFunc(hipStream_t stream, hipHostFn_t fn, void* userData);
- */
-#define cudaLaunchHostFunc	__cuda(LaunchHostFunc)
-
-#define cudaFuncAttributes	__cuda(FuncAttributes)
-#define cudaFuncAttribute	__cuda(FuncAttribute)
-/**
- * CUDA V13.0
- * cudaError_t cudaFuncGetAttributes(struct cudaFuncAttributes *attr, const void *func);
- *
- * HIP 6.4
- * hipError_t hipFuncGetAttributes(struct hipFuncAttributes* attr, const void* func);
- */
-#define cudaFuncGetAttributes(a, f)	__cuda(FuncGetAttributes(a, f))
-
-/**
- * CUDA V13.0
- * cudaError_t cudaFuncSetAttribute(T *func, enum cudaFuncAttribute a, int value);
- *
- * HIP 6.4
- * hipError_t hipFuncSetAttribute(const void* func, hipFuncAttribute attr, int value);
- */
-#define cudaFuncSetAttribute(f, a, v)	__cuda(FuncSetAttribute(f, a, v))
-
-/**
- * cudaError_t cudaGetFuncBySymbol(cudaFunction_t* functionPtr, const void* symbolPtr);
- */
-#define cudaGetFuncBySymbol __cuda(GetFuncBySymbol)
-
-/**
  * cudaStream_t is a data type in CUDA used to represent a stream. A stream in
  * CUDA is a sequence of operations (such as kernel launches or memory
  * transfers) that execute in order on the GPU. Streams enable asynchronous
@@ -373,8 +316,12 @@
 
 /**
  * typedef enum cudaError_enum { ... } CUresult;
+ * HIP: /usr/include/hip/amd_detail/amd_hip_runtime.h
+ * #define CUDA_SUCCESS hipSuccess
  */
+#ifndef CUDA_SUCCESS
 #define CUDA_SUCCESS __CUDA_ERROR(SUCCESS);
+#endif
 #define CUDA_ERROR_INVALID_VALUE __CUDA_ERROR(ERROR_INVALID_VALUE)
 #define CUDA_ERROR_OUT_OF_MEMORY __CUDA_ERROR(ERROR_OUT_OF_MEMORY)
 #define CUDA_ERROR_NOT_INITIALIZED __CUDA_ERROR(ERROR_NOT_INITIALIZED)
