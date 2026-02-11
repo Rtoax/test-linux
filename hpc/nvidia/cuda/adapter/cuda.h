@@ -5,6 +5,11 @@
 
 /**
  * CUDA: typedef enum cudaError_enum { ... } CUresult;
+ * LUCA: typedef enum lcc_status { ... } lcc_status_t;
+ */
+#define CUresult __CU(result)
+
+/**
  * HIP: /usr/include/hip/amd_detail/amd_hip_runtime.h
  *      #define CUDA_SUCCESS hipSuccess
  */
@@ -207,18 +212,13 @@
 /**
  * CUDA 13:
  * CUresult cuGetErrorName(CUresult error, const char **pStr);
- *
- * LUCA:
- * const char *lcGetErrorName(lcError_t lc_error);
  */
 #if defined(__USE_LUCA__) || defined(__USE_HPCC__) || defined(__USE_HIP__)
-#define cuGetErrorName(error, pStr)                  \
-	do {                                         \
-		const char **__pstr = pStr;          \
-		*__pstr = __cu(GetErrorName(error)); \
+#define cuGetErrorName(error, pStr)                                    \
+	do {                                                           \
+		const char **__pstr = pStr;                            \
+		*__pstr = "cuGetErrorName(): Function not implemented" \
 	} while (0)
-#else
-#define cuGetErrorName __cu(GetErrorName)
 #endif
 
 /**
