@@ -112,17 +112,8 @@
 #define cuDeviceComputeCapability(pmajor, pminor, pdev) \
 	__cu(DeviceComputeCapability(pmajor, pminor, pdev))
 
+#include "adapter/cuComplex.h"
 #include "adapter/cublas.h"
-
-/**
- * float - s, S, real single-precision
- * double - d, D, real double-precision
- * cuComplex - c, C, complex single-precision
- * cuDoubleComplex - z, Z, complex double-precision
- */
-#define cuComplex	__cu(Complex)
-#define cuDoubleComplex	__cu(DoubleComplex)
-
 #include "adapter/curand.h"
 #include "adapter/cufft.h"
 #include "adapter/cusparse.h"
