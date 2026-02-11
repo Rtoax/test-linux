@@ -5,4 +5,8 @@
 
 #include "wrapper_defs.h"
 
+#ifdef CUBLAS_XT_H_
+#error "CudaAdapter not allow include origin CUDA cublasXt.h"
+#endif
+
 #endif

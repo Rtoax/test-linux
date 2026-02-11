@@ -15,6 +15,7 @@
 #include "adapter/cuComplex.h"
 #include "adapter/cublas.h"
 #include "adapter/cublasLt.h"
+#include "adapter/cublasXt.h"
 #include "adapter/curand.h"
 #include "adapter/cufft.h"
 #include "adapter/cusparse.h"

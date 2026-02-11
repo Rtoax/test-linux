@@ -5,6 +5,10 @@
 
 #include "wrapper_defs.h"
 
+#ifdef CUBLAS_API_H_
+#error "CudaAdapter not allow include origin CUDA cublas_api.h"
+#endif
+
 #define cublasStatus_t __cu(blasStatus_t) /* enum */
 #define CUBLAS_STATUS_SUCCESS __CU(BLAS_STATUS_SUCCESS)
 #define CUBLAS_STATUS_NOT_INITIALIZED __CU(BLAS_STATUS_NOT_INITIALIZED)

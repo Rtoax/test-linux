@@ -5,6 +5,10 @@
 
 #include "wrapper_defs.h"
 
+#ifdef CU_COMPLEX_H_
+#error "CudaAdapter not allow include origin CUDA cuComplex.h"
+#endif
+
 /**
  * float - s, S, real single-precision
  * double - d, D, real double-precision

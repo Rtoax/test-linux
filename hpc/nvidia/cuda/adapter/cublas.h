@@ -16,7 +16,12 @@
 #ifndef __CUDA_ADAPTER_CUBLAS_H
 #define __CUDA_ADAPTER_CUBLAS_H 1
 
+#ifdef CUBLAS_H_
+#error "CudaAdapter not allow include origin CUDA cublas.h"
+#endif
+
 #include "wrapper_defs.h"
+#include "cublas_api.h"
 
 /* cublasStatus cublasInit(void); */
 #define cublasInit __cu(blasInit)

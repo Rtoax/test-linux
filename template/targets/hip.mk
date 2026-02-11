@@ -32,6 +32,7 @@ cflags-hipcc-so := -Xcompiler -fPIC
 ldflags-hipcc-so := -shared -Xcompiler -fPIC
 
 CFLAGS_HIPCC += -I${TOPDIR}/hpc/nvidia/cuda/
+CFLAGS_HIPCC += -I${TOPDIR}/hpc/nvidia/cuda/adapter/
 CFLAGS_HIPCC += -DHAVE_HIP=1
 CFLAGS_HIPCC += -D__USE_HIP__=1
 ifdef HAVE_HIPSOLVER
