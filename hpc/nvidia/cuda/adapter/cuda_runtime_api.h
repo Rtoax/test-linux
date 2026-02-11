@@ -744,4 +744,11 @@
  */
 #define cudaUserObjectCreate __cuda(UserObjectCreate)
 
+/**
+ * cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
+ *                                       int srcDevice, int dstDevice);
+ */
+#define cudaDeviceGetP2PAttribute(v, attr, src, dst) \
+	__cuda(DeviceGetP2PAttribute(v, attr, src, dst))
+
 #endif

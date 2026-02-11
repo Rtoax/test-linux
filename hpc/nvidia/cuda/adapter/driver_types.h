@@ -339,4 +339,22 @@
 
 #define cudaKernelNodeParams __cuda(KernelNodeParams) /* struct */
 
+#define cudaDeviceP2PAttr __cuda(DeviceP2PAttr) /* enum */
+#define cudaDevP2PAttrPerformanceRank __cuda(DevP2PAttrPerformanceRank)
+#define cudaDevP2PAttrAccessSupported __cuda(DevP2PAttrAccessSupported)
+#define cudaDevP2PAttrNativeAtomicSupported \
+	__cuda(DevP2PAttrNativeAtomicSupported)
+#ifdef __USE_HPCC__
+#define cudaDevP2PAttrCudaArrayAccessSupported \
+	hcDevP2PAttrHcArrayAccessSupported
+#elif defined(__USE_LUCA__)
+#define cudaDevP2PAttrCudaArrayAccessSupported \
+	lcDevP2PAttrLcArrayAccessSupported
+#elif defined(__USE_HIP__)
+#define cudaDevP2PAttrCudaArrayAccessSupported \
+	hipDevP2PAttrHipArrayAccessSupported
+#endif
+#define cudaDevP2PAttrOnlyPartialNativeAtomicSupported \
+	__cuda(DevP2PAttrOnlyPartialNativeAtomicSupported)
+
 #endif
