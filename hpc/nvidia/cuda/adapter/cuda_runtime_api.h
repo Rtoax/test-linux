@@ -804,6 +804,14 @@
 #define cudaDeviceSynchronize() __cuda(DeviceSynchronize())
 
 /**
+ * HIP 5.7.31921-0
+ * hipError_t hipDeviceGetAttribute(int *value, hipDeviceAttribute_t attr,
+ *                                  int dev_id);
+ */
+#define cudaDeviceGetAttribute(pval, attr, dev_id) \
+	__cuda(DeviceGetAttribute(pval, attr, dev_id))
+
+/**
  * CUDA 13.0
  * cudaError_t cudaIpcGetMemHandle(cudaIpcMemHandle_t *handle, void *devPtr);
  *
