@@ -406,55 +406,6 @@
 #define cudaDevAttrMulticastSupported	__cuda(DeviceAttributeMulticastSupported)
 #endif	/* __USE_HPCC__ */
 
-/**
- * CUDA 13.0
- * cudaError_t cudaDeviceGetPCIBusId(char *pciBusId, int len, int device);
- *
- * HIP 6.4
- * hipError_t hipDeviceGetPCIBusId(char* pciBusId, int len, int device);
- */
-#define cudaDeviceGetPCIBusId(p,l,d)	__cuda(DeviceGetPCIBusId(p,l,d))
-
-/**
- * CUDA 13.0
- * cudaError_t cudaDeviceGetByPCIBusId(int *device, const char *pciBusId);
- *
- * HIP 6.4
- * hipError_t hipDeviceGetByPCIBusId(int* device, const char* pciBusId);
- */
-#define cudaDeviceGetByPCIBusId(d,p)	__cuda(DeviceGetByPCIBusId(d,p))
-
-/**
- * cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice);
- */
-#define cudaDeviceCanAccessPeer(can, devfrom, devto) __cuda(DeviceCanAccessPeer(can, devfrom, devto))
-/**
- * CUDA 13.0
- * cudaError_t cudaDeviceEnablePeerAccess(int peerDevice, unsigned int flags);
- *
- * HIP 6.4
- * hipError_t hipDeviceEnablePeerAccess(int peerDeviceId, unsigned int flags);
- */
-#define cudaDeviceEnablePeerAccess(peerdev, flag)	__cuda(DeviceEnablePeerAccess(peerdev, flag))
-
-/**
- * CUDA
- * cudaError_t cudaDeviceDisablePeerAccess(int peerDevice);
- *
- * LUCA
- * lcError_t lcDeviceDisablePeerAccess(int peerDeviceId);
- */
-#define cudaDeviceDisablePeerAccess(dev)	__cuda(DeviceDisablePeerAccess(dev))
-
-/**
- * CUDA 12:
- * cudaError_t cudaDeviceSynchronize(void);
- *
- * HIP:
- * hipError_t hipDeviceSynchronize(void);
- */
-#define cudaDeviceSynchronize()	__cuda(DeviceSynchronize())
-
 #define cudaIpcMemHandle_t	__cuda(IpcMemHandle_t)
 /**
  * CUDA 13.0
