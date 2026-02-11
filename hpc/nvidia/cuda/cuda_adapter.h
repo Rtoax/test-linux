@@ -105,44 +105,6 @@
 
 #include "adapter/nvrtc.h"
 
-/**
- * There are store some special macros from here.
- */
-#if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__)
-/**
- * CUDA:
- * cuda.h: typedef CUdevice_v1 CUdevice;
- */
-# undef CUdevice
-# undef CUmodule
-# undef CUfunction
-# undef CUjit_option
-
-# if defined(__USE_HPCC__)
-#  define CUdevice	hcDevice_t
-#  define CUmodule	hcModule_t
-#  define CUfunction	hcFunction_t
-#  define CUjit_option	hcJitOption
-# elif defined(__USE_LUCA__)
-#  ifdef LUCA_PHASE_II_PROJECT
-#   define CUdevice	lcDevice_t
-#   define CUmodule	lcModule_t
-#   define CUfunction	lcFunction_t
-#   define CUjit_option	lcJitOption
-#  else
-#   define CUdevice	hcDevice_t
-#   define CUmodule	hcModule_t
-#   define CUfunction	hcFunction_t
-#   define CUjit_option	hcJitOption
-#  endif
-# elif defined(__USE_HIP__)
-#  define CUdevice	hipDevice_t
-#  define CUmodule	hipModule_t
-#  define CUfunction	hipFunction_t
-#  define CUjit_option	hipJitOption
-# endif
-#endif
-
 #include "adapter/device_types.h"
 #include "adapter/cuda_fp6.h"
 #include "adapter/cuda_fp8.h"

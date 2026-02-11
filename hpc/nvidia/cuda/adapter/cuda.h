@@ -11,16 +11,46 @@
  * Note: In fact, HIP does not provide a CUresult type that is compatible
  * with CUDA.
  */
+/**
+ * CUDA 13: typedef CUdevice_v1 CUdevice;
+ */
+/**
+ * CUDA: typedef struct CUmod_st *CUmodule;
+ * LUCA: typedef struct LCmod_st *LCmodule;
+ */
+/**
+ * CUDA: typedef struct CUfunc_st *CUfunction;
+ * LUCA: typedef struct LCfunc_st *LCfunction;
+ */
+/**
+ * CUDA: typedef enum CUjit_option_enum {...} CUjit_option;
+ */
 #if defined(__USE_HPCC__)
 # define CUresult hcError_t
+# define CUdevice hcDevice_t
+# define CUmodule hcModule_t
+# define CUfunction hcFunction_t
+# define CUjit_option hcJitOption
 #elif defined(__USE_LUCA__)
 # ifdef LUCA_PHASE_II_PROJECT
 #  define CUresult lcError_t
+#  define CUdevice lcDevice_t
+#  define CUmodule lcModule_t
+#  define CUfunction lcFunction_t
+#  define CUjit_option lcJitOption
 # else
 #  define CUresult hcError_t
+#  define CUdevice hcDevice_t
+#  define CUmodule hcModule_t
+#  define CUfunction hcFunction_t
+#  define CUjit_option hcJitOption
 # endif
 #elif defined(__USE_HIP__)
 # define CUresult hipError_t
+# define CUdevice hipDevice_t
+# define CUmodule hipModule_t
+# define CUfunction hipFunction_t
+# define CUjit_option hipJitOption
 #endif
 
 /**
@@ -173,11 +203,6 @@
 #define CUDA_ERROR_UNKNOWN __CUDA_ERROR(ERROR_UNKNOWN)
 
 /**
- * CUDA 13: typedef CUdevice_v1 CUdevice;
- */
-#define CUdevice __CU(device)
-
-/**
  * CUDA: typedef __device_builtin__ struct CUstream_st *cudaStream_t;
  */
 #define CUstream_st __CU(stream_st)
@@ -186,18 +211,6 @@
  * CUDA: typedef struct CUstream_st *CUstream;
  */
 #define CUstream __CU(stream)
-
-/**
- * CUDA: typedef struct CUmod_st *CUmodule;
- * LUCA: typedef struct LCmod_st *LCmodule;
- */
-#define CUmodule __CU(module)
-
-/**
- * CUDA: typedef struct CUfunc_st *CUfunction;
- * LUCA: typedef struct LCfunc_st *LCfunction;
- */
-#define CUfunction __CU(function)
 
 /**
  * CUDA:
@@ -217,11 +230,6 @@
  * LUCA: typedef struct LCevent_st *LCevent;
  */
 #define CUevent __CU(event)
-
-/**
- * CUDA: typedef enum CUjit_option_enum {...} CUjit_option;
- */
-#define CUjit_option __CU(jit_option)
 
 /**
  * CUDA 13:
