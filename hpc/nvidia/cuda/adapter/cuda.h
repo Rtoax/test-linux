@@ -228,10 +228,10 @@
  * CUresult cuGetErrorName(CUresult error, const char **pStr);
  */
 #if defined(__USE_LUCA__) || defined(__USE_HPCC__) || defined(__USE_HIP__)
-#define cuGetErrorName(error, pStr)                                    \
-	do {                                                           \
-		const char **__pstr = pStr;                            \
-		*__pstr = "cuGetErrorName(): Function not implemented" \
+#define cuGetErrorName(error, pStr)                                     \
+	do {                                                            \
+		const char **__pstr = pStr;                             \
+		*__pstr = "cuGetErrorName(): Function not implemented"; \
 	} while (0)
 #endif
 
