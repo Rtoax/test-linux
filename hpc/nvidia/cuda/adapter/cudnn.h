@@ -6,6 +6,8 @@
 #ifndef __CUDA_ADAPTER_DNN_H
 #define __CUDA_ADAPTER_DNN_H 1
 
+#include "wrapper_defs.h"
+
 // TODO
 
 #endif

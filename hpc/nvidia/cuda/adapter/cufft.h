@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_FFT_H
 #define __CUDA_ADAPTER_FFT_H 1
 
+#include "wrapper_defs.h"
+
 #define cufftResult __cu(fftResult)
 #define CUFFT_SUCCESS __CU(FFT_SUCCESS)
 #define CUFFT_INVALID_PLAN __CU(FFT_INVALID_PLAN)

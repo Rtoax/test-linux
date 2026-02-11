@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_SPARSE_H
 #define __CUDA_ADAPTER_SPARSE_H 1
 
+#include "wrapper_defs.h"
+
 #define cusparseStatus_t __cu(sparseStatus_t)
 /**
  * HIP 5.7.1 has no hipsparseGetProperty()

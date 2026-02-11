@@ -6,6 +6,8 @@
 #ifndef __CUDA_ADAPTER_NCCL_H
 #define __CUDA_ADAPTER_NCCL_H 1
 
+#include "wrapper_defs.h"
+
 /* /usr/include/nccl.h, /opt/luca/include/hccl.h */
 /**
  * HPCC 3.0.0

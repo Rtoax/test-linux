@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_CUDA_RUNTIME_H
 #define __CUDA_ADAPTER_CUDA_RUNTIME_H 1
 
+#include "wrapper_defs.h"
+
 /**
  * CUDA: typedef struct CUstream_st *CUstream;
  * LUCA: typedef struct LCstream_st *lcStream_t;

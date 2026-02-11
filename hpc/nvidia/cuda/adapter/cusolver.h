@@ -6,6 +6,8 @@
 #ifndef __CUDA_ADAPTER_SOLVER_H
 #define __CUDA_ADAPTER_SOLVER_H 1
 
+#include "wrapper_defs.h"
+
 #define cusolverStatus_t __nv(solverStatus_t)
 #define CUSOLVER_STATUS_SUCCESS __CU(SOLVER_STATUS_SUCCESS)
 #define CUSOLVER_STATUS_NOT_INITIALIZED __CU(SOLVER_STATUS_NOT_INITIALIZED)

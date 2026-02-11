@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_FP8_H
 #define __CUDA_ADAPTER_FP8_H 1
 
+#include "wrapper_defs.h"
+
 /**
  * fp8
  *   typedef unsigned char __nv_fp8_storage_t;

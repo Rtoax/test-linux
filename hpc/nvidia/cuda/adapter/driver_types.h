@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_DRIVER_TYPES_H
 #define __CUDA_ADAPTER_DRIVER_TYPES_H 1
 
+#include "wrapper_defs.h"
+
 /**
  * typedef __device_builtin__ enum cudaError cudaError_t
  */

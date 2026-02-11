@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_CUDA_H
 #define __CUDA_ADAPTER_CUDA_H 1
 
+#include "wrapper_defs.h"
+
 /**
  * CUDA: typedef enum cudaError_enum { ... } CUresult;
  * LUCA: typedef enum lcc_status { ... } lcc_status_t;

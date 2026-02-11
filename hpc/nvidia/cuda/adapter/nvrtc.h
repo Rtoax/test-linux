@@ -6,6 +6,8 @@
 #ifndef __CUDA_ADAPTER_NVRTC_H
 #define __CUDA_ADAPTER_NVRTC_H 1
 
+#include "wrapper_defs.h"
+
 #define nvrtcResult __nv(rtcResult)
 #define NVRTC_SUCCESS __NV(RTC_SUCCESS)
 #define NVRTC_ERROR_OUT_OF_MEMORY __NV(RTC_ERROR_OUT_OF_MEMORY)

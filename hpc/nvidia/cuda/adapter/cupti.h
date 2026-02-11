@@ -6,6 +6,8 @@
 #ifndef __CUDA_ADAPTER_PTI_H
 #define __CUDA_ADAPTER_PTI_H 1
 
+#include "wrapper_defs.h"
+
 #define CUPTI_API_VERSION __CU(PTI_API_VERSION)
 /**
  * CUptiResult cuptiGetVersion(uint32_t *version);

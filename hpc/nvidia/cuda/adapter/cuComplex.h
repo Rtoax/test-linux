@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_CUCOMPLEX_H
 #define __CUDA_ADAPTER_CUCOMPLEX_H 1
 
+#include "wrapper_defs.h"
+
 /**
  * float - s, S, real single-precision
  * double - d, D, real double-precision

@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_BF16_H
 #define __CUDA_ADAPTER_BF16_H 1
 
+#include "wrapper_defs.h"
+
 /**
  * bfloat16
  *

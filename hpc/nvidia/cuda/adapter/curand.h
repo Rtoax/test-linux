@@ -7,6 +7,8 @@
 #ifndef __CUDA_ADAPTER_RAND_H
 #define __CUDA_ADAPTER_RAND_H 1
 
+#include "wrapper_defs.h"
+
 #define curandStatus_t __cu(randStatus_t)
 #define CURAND_STATUS_SUCCESS __CU(RAND_STATUS_SUCCESS)
 #define CURAND_STATUS_SUCCESS __CU(RAND_STATUS_SUCCESS)

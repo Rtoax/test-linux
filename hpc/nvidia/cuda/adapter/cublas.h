@@ -16,6 +16,8 @@
 #ifndef __CUDA_ADAPTER_CUBLAS_H
 #define __CUDA_ADAPTER_CUBLAS_H 1
 
+#include "wrapper_defs.h"
+
 /* cublasStatus cublasInit(void); */
 #define cublasInit __cu(blasInit)
 /* cublasStatus cublasShutdown(void); */

@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_FP6_H
 #define __CUDA_ADAPTER_FP6_H 1
 
+#include "wrapper_defs.h"
+
 /**
  * fp6
  *   typedef __nv_fp8_storage_t __nv_fp6_storage_t;

@@ -3,6 +3,8 @@
 #ifndef __CUDA_ADAPTER_DEVICE_TYPES_H
 #define __CUDA_ADAPTER_DEVICE_TYPES_H 1
 
+#include "wrapper_defs.h"
+
 /* enum cudaRoundMode */
 #define cudaRoundMode __cuda(RoundMode)
 #define cudaRoundNearest __cuda(RoundNearest)

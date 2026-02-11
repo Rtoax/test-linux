@@ -6,6 +6,8 @@
 #ifndef __CUDA_ADAPTER_FILE_H
 #define __CUDA_ADAPTER_FILE_H 1
 
+#include "wrapper_defs.h"
+
 #define CUfileHandle_t __CU(fileHandle_t)
 #define CUfileFileHandleType __CU(fileFileHandleType)
 /* Linux based fd */
