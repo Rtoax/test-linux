@@ -221,11 +221,11 @@
 #define CUDA_ERROR_KEY_ROTATION __CUDA_ERROR(ERROR_KEY_ROTATION)
 #define CUDA_ERROR_UNKNOWN __CUDA_ERROR(ERROR_UNKNOWN)
 
-#define cudaGetDeviceCount(pgpus)	__cuda(GetDeviceCount(pgpus))
-#define cudaGetDevice(p_id)	__cuda(GetDevice(p_id))
-#define cudaSetDevice(dev_id)	__cuda(SetDevice(dev_id))
-
+/**
+ * CUDA: struct __device_builtin__ cudaDeviceProp {...};
+ */
 #define cudaDeviceProp	__cuda(DeviceProp_t)
+
 /**
  * CUDA V12.2.140 cuda_runtime_api.h
  * #define cudaGetDeviceProperties cudaGetDeviceProperties_v2

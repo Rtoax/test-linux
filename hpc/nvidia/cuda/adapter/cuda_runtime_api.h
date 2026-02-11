@@ -3,6 +3,10 @@
 #ifndef __CUDA_ADAPTER_CUDA_RUNTIME_API_H
 #define __CUDA_ADAPTER_CUDA_RUNTIME_API_H 1
 
+#define cudaGetDeviceCount(pgpus) __cuda(GetDeviceCount(pgpus))
+#define cudaGetDevice(p_id) __cuda(GetDevice(p_id))
+#define cudaSetDevice(dev_id) __cuda(SetDevice(dev_id))
+
 /**
  * CUDA 13
  * cudaError_t cudaPeekAtLastError(void);
