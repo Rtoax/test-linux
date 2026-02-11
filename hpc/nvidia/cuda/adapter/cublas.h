@@ -479,4 +479,22 @@
 #define CUDA_R_8F_E5M2_FNUZ HIP_R_8F_E5M2_FNUZ
 #endif
 
+#if 0 // TODO: remove cuda_adapter.h
+#ifdef __USE_HPCC__
+# include <hcblas/hcblas.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcblas/lcblas.h>
+# else
+#  include <hcblas/hcblas.h>
+# endif
+#elif defined(__USE_HIP__)
+# ifdef __USE_HIP_V2__
+#  define HIPBLAS_V2
+# endif
+# define HIPBLAS_USE_HIP_HALF
+# include <hipblas/hipblas.h>
+#endif
+#endif
+
 #endif
