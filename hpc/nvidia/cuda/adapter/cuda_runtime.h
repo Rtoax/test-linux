@@ -4,6 +4,7 @@
 #define __CUDA_ADAPTER_CUDA_RUNTIME_H 1
 
 #include "wrapper_defs.h"
+#include "cuda_runtime_api.h"
 
 /**
  * CUDA: typedef struct CUstream_st *CUstream;

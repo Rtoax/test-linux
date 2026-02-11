@@ -18,7 +18,10 @@
 #include <unistd.h>
 
 #define __USE_HIP_V2__
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
+#include <cublas_v2.h>
+#include <cublasLt.h>
+
 #include "cuda_helpers.h"
 
 #define IDX2C(i, j, ld)	(((j) * (ld)) + (i))
@@ -212,7 +215,7 @@ struct test {
 	struct test_operations ops;
 };
 
-const char *version = "v0.0.7 (" CUNAME ")";
+const char *version = "v0.0.7";
 
 const char argp_prog_doc[] =
 	"USAGE: [-g <GPU>] [-v] [=t=<TYPE>]\n"
@@ -250,7 +253,7 @@ static void print_blas_version(void)
 	cublasGetProperty(MINOR_VERSION, &minor);
 	cublasGetProperty(PATCH_LEVEL, &patch);
 #endif
-	printf("%s %d.%d.%d\n", CUNAME, major, minor, patch);
+	printf("blas %d.%d.%d\n", major, minor, patch);
 }
 
 static void print_version(void)

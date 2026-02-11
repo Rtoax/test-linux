@@ -4,6 +4,7 @@
 #define __CUDA_ADAPTER_CUBLASLT_H 1
 
 #include "wrapper_defs.h"
+#include "cublas_api.h"
 
 #define cublasLtHandle_t __cu(blasLtHandle_t)
 
@@ -155,5 +156,21 @@
  __cu(blasLtMatmul(lightHandle, computeDesc, alpha, A, Adesc, B, Bdesc, \
          beta, C, Cdesc, D, Ddesc, algo, workspace, \
          workspaceSizeInBytes, stream))
+
+#ifdef __USE_HPCC__
+# include <hcblas/hcblasLt.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcblas/lcblasLt.h>
+# else
+#  include <hcblas/hcblasLt.h>
+# endif
+#elif defined(__USE_HIP__)
+# ifdef __USE_HIP_V2__
+#  define HIPBLAS_V2
+# endif
+# define HIPBLAS_USE_HIP_HALF
+# include <hipblaslt/hipblaslt.h>
+#endif
 
 #endif

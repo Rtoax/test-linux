@@ -40,8 +40,6 @@
 # include <hcr/hc_runtime.h>
 # include <hcr/hcrtc.h>
 # include <hcc/hcc_internal.h>
-# include <hcblas/hcblas.h>
-# include <hcblas/hcblasLt.h>
 # include <hcsparse/hcsparse.h>
 # include <hcrand/hcrand.h>
 # include <hcfft/hcfft.h>
@@ -77,8 +75,6 @@
 #  include <lcr/lc_runtime.h>
 #  include <lcr/lcrtc.h>
 #  include <lcc/lcc_internal.h>
-#  include <lcblas/lcblas.h>
-#  include <lcblas/lcblasLt.h>
 #  include <lcsparse/lcsparse.h>
 #  include <lcrand/lcrand.h>
 #  include <lcfft/lcfft.h>
@@ -100,8 +96,6 @@
 #  include <hcr/hc_runtime.h>
 #  include <hcr/hcrtc.h>
 #  include <hcc/hcc_internal.h>
-#  include <hcblas/hcblas.h>
-#  include <hcblas/hcblasLt.h>
 #  include <hcsparse/hcsparse.h>
 #  include <hcrand/hcrand.h>
 #  include <hcfft/hcfft.h>
@@ -150,10 +144,6 @@
 # include <hipsolver/hipsolver.h>
 # include <hip/hip_cooperative_groups.h>
 # define HIPBLAS_USE_HIP_HALF
-# include <hipblas/hipblas.h>
-# ifdef HAVE_HIPBLASLT
-#  include <hipblaslt/hipblaslt.h>
-# endif
 # ifdef HAVE_HIP_FP8
 #  include <hip/hip_fp8.h>
 # endif
@@ -181,8 +171,6 @@
 # include <cuda.h>
 # include <cuda_runtime.h>
 # include <cuda_runtime_api.h>
-# include <cublas_v2.h>
-# include <cublasLt.h>
 # include <cufft.h>
 # include <curand.h>
 # include <cusolver_common.h>
