@@ -303,7 +303,7 @@ fi
 if [[ "$(have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
 	name=$(${TOPDIR}/hpc/cestc/lingspeed/gpuname.sh)
 	if [[ ! -z ${name} ]]; then
-		add_env "Lingspeed ${name}"
+		add_env "${name}"
 	fi
 	add_luca_ver
 	add_llvm_ver
