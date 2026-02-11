@@ -7,8 +7,21 @@
  * CUDA: typedef enum cudaError_enum { ... } CUresult;
  * LUCA: typedef enum lcc_status { ... } lcc_status_t;
  * HIP: enum { HIP_SUCCESS = 0, ... };
+ *
+ * Note: In fact, HIP does not provide a CUresult type that is compatible
+ * with CUDA.
  */
-#define CUresult __CU(result)
+#if defined(__USE_HPCC__)
+# define CUresult hcError_t
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  define CUresult lcError_t
+# else
+#  define CUresult hcError_t
+# endif
+#elif defined(__USE_HIP__)
+# define CUresult hipError_t
+#endif
 
 /**
  * HIP: /usr/include/hip/amd_detail/amd_hip_runtime.h

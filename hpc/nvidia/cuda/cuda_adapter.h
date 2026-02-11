@@ -111,11 +111,6 @@
 #if defined(__USE_HPCC__) || defined(__USE_LUCA__)
 /**
  * CUDA:
- * cuda.h: typedef enum cudaError_enum { ... } CUresult;
- */
-# undef CUresult
-/**
- * CUDA:
  * cuda.h: typedef CUdevice_v1 CUdevice;
  */
 # undef CUdevice
@@ -126,20 +121,17 @@
 # undef CUDA_SUCCESS
 
 # if defined(__USE_HPCC__)
-#  define CUresult	hcError_t
 #  define CUdevice	hcDevice_t
 #  define CUmodule	hcModule_t
 #  define CUfunction	hcFunction_t
 #  define CUjit_option	hcJitOption
 # elif defined(__USE_LUCA__)
 #  ifdef LUCA_PHASE_II_PROJECT
-#   define CUresult	lcError_t
 #   define CUdevice	lcDevice_t
 #   define CUmodule	lcModule_t
 #   define CUfunction	lcFunction_t
 #   define CUjit_option	lcJitOption
 #  else
-#   define CUresult	hcError_t
 #   define CUdevice	hcDevice_t
 #   define CUmodule	hcModule_t
 #   define CUfunction	hcFunction_t
@@ -149,7 +141,6 @@
 # define CUDA_ERROR_INVALID_VALUE	cudaErrorInvalidValue
 # define CUDA_SUCCESS	cudaSuccess
 #elif defined(__USE_HIP__)
-# undef CUresult
 # undef CUdevice
 # undef CUmodule
 # undef CUfunction
@@ -157,7 +148,6 @@
 # undef CUDA_ERROR_INVALID_VALUE
 # undef CUDA_SUCCESS
 
-# define CUresult	hipError_t
 # define CUdevice	hipDevice_t
 # define CUmodule	hipModule_t
 # define CUfunction	hipFunction_t
