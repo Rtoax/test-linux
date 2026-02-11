@@ -108,7 +108,7 @@
 /**
  * There are store some special macros from here.
  */
-#if defined(__USE_HPCC__) || defined(__USE_LUCA__)
+#if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__)
 /**
  * CUDA:
  * cuda.h: typedef CUdevice_v1 CUdevice;
@@ -117,8 +117,6 @@
 # undef CUmodule
 # undef CUfunction
 # undef CUjit_option
-# undef CUDA_ERROR_INVALID_VALUE
-# undef CUDA_SUCCESS
 
 # if defined(__USE_HPCC__)
 #  define CUdevice	hcDevice_t
@@ -137,23 +135,12 @@
 #   define CUfunction	hcFunction_t
 #   define CUjit_option	hcJitOption
 #  endif
+# elif defined(__USE_HIP__)
+#  define CUdevice	hipDevice_t
+#  define CUmodule	hipModule_t
+#  define CUfunction	hipFunction_t
+#  define CUjit_option	hipJitOption
 # endif
-# define CUDA_ERROR_INVALID_VALUE	cudaErrorInvalidValue
-# define CUDA_SUCCESS	cudaSuccess
-#elif defined(__USE_HIP__)
-# undef CUdevice
-# undef CUmodule
-# undef CUfunction
-# undef CUjit_option
-# undef CUDA_ERROR_INVALID_VALUE
-# undef CUDA_SUCCESS
-
-# define CUdevice	hipDevice_t
-# define CUmodule	hipModule_t
-# define CUfunction	hipFunction_t
-# define CUjit_option	hipJitOption
-# define CUDA_ERROR_INVALID_VALUE	hipErrorInvalidValue
-# define CUDA_SUCCESS	hipSuccess
 #endif
 
 #include "adapter/device_types.h"
