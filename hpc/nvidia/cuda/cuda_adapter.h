@@ -118,32 +118,6 @@
 #include "adapter/cufft.h"
 #include "adapter/cusparse.h"
 
-/**
- * Module Management
- */
-/**
- * CUDA 13: typedef struct CUmod_st *CUmodule;
- */
-#define CUmodule	__CU(module)
-
-/**
- * CUDA 13
- * CUresult cuModuleLoad(CUmodule* module, const char *fname);
- *
- * HIP
- * hipError_t hipModuleLoad(hipModule_t *module, const char* fname);
- */
-#define cuModuleLoad(pmodule, name)	__cu(ModuleLoad(pmodule, name))
-
-/**
- * CUDA 13
- * CUresult cuModuleUnload(CUmodule hmod);
- *
- * HIP
- * typedef struct ihipModule_t* hipModule_t;
- * hipError_t hipModuleUnload(hipModule_t module);
- */
-#define cuModuleUnload(mod)	__cu(ModuleUnload(mod))
 #define CUfunction	__CU(function)
 /**
  * CUDA 13
