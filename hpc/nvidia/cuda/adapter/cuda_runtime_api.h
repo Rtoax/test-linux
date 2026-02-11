@@ -803,4 +803,31 @@
  */
 #define cudaDeviceSynchronize() __cuda(DeviceSynchronize())
 
+/**
+ * CUDA 13.0
+ * cudaError_t cudaIpcGetMemHandle(cudaIpcMemHandle_t *handle, void *devPtr);
+ *
+ * HIP 6.4
+ * hipError_t hipIpcGetMemHandle(hipIpcMemHandle_t* handle, void* devPtr);
+ */
+#define cudaIpcGetMemHandle __cuda(IpcGetMemHandle)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaIpcOpenMemHandle(void **devPtr, cudaIpcMemHandle_t handle, unsigned int flags);
+ *
+ * HIP 6.4
+ * hipError_t hipIpcOpenMemHandle(void** devPtr, hipIpcMemHandle_t handle, unsigned int flags);
+ */
+#define cudaIpcOpenMemHandle __cuda(IpcOpenMemHandle)
+
+/**
+ * CUDA 13.0
+ * cudaError_t cudaIpcCloseMemHandle(void *devPtr);
+ *
+ * HIP 6.4
+ * hipError_t hipIpcCloseMemHandle(void* devPtr);
+ */
+#define cudaIpcCloseMemHandle(p) __cuda(IpcCloseMemHandle(p))
+
 #endif

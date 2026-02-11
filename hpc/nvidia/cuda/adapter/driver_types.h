@@ -357,4 +357,9 @@
 #define cudaDevP2PAttrOnlyPartialNativeAtomicSupported \
 	__cuda(DevP2PAttrOnlyPartialNativeAtomicSupported)
 
+/**
+ * CUDA: typedef struct cudaIpcMemHandle_st {} cudaIpcEventHandle_t;
+ */
+#define cudaIpcMemHandle_t __cuda(IpcMemHandle_t)
+
 #endif
