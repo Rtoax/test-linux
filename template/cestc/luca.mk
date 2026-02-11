@@ -51,9 +51,9 @@ ifeq ($(wildcard ${LUCA_LLVM}),)
   export LUCA_PHASE_II_PROJECT := y
 endif
 
-HTCC := ${LUCA_LLVM}/bin/htcc
-ifneq ($(wildcard ${HTCC}),)
-  LSCC := ${HTCC}
+LUCA_HTCC := ${LUCA_LLVM}/bin/htcc
+ifneq ($(wildcard ${LUCA_HTCC}),)
+  LSCC := ${LUCA_HTCC}
 else
   LSCC := ${LUCA_LLVM}/bin/lscc
 endif
