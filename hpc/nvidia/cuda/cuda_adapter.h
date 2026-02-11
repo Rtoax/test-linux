@@ -107,7 +107,6 @@
  * HPCC 3.0.0
  * hcError_t hcDeviceGet(hcDevice_t *device, int ordinal);
  */
-#define CUdevice	__CU(device)
 #define cuDeviceGet(pdevice, dev_id)	__cu(DeviceGet(pdevice, dev_id))
 #define cuDeviceComputeCapability(pmajor, pminor, pdev) \
 	__cu(DeviceComputeCapability(pmajor, pminor, pdev))
@@ -118,7 +117,6 @@
 #include "adapter/cufft.h"
 #include "adapter/cusparse.h"
 
-#define CUfunction	__CU(function)
 /**
  * CUDA 13
  * CUresult cuModuleGetFunction(CUfunction *hfunc, CUmodule hmod, const char *name);

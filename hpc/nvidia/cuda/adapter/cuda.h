@@ -154,14 +154,31 @@
 #define CUDA_ERROR_UNKNOWN __CUDA_ERROR(ERROR_UNKNOWN)
 
 /**
+ * CUDA 13: typedef CUdevice_v1 CUdevice;
+ */
+#define CUdevice __CU(device)
+
+/**
  * CUDA: typedef __device_builtin__ struct CUstream_st *cudaStream_t;
  */
 #define CUstream_st __CU(stream_st)
 
 /**
- * typedef struct CUstream_st *CUstream;
+ * CUDA: typedef struct CUstream_st *CUstream;
  */
 #define CUstream __CU(stream)
+
+/**
+ * CUDA: typedef struct CUmod_st *CUmodule;
+ * LUCA: typedef struct LCmod_st *LCmodule;
+ */
+#define CUmodule __CU(module)
+
+/**
+ * CUDA: typedef struct CUfunc_st *CUfunction;
+ * LUCA: typedef struct LCfunc_st *LCfunction;
+ */
+#define CUfunction __CU(function)
 
 /**
  * CUDA:
@@ -176,6 +193,11 @@
 #else
 #define CUevent_st __CU(event_st)
 #endif
+/**
+ * CUDA: typedef struct CUevent_st *CUevent;
+ * LUCA: typedef struct LCevent_st *LCevent;
+ */
+#define CUevent __CU(event)
 
 /**
  * CUDA 13:
@@ -207,12 +229,6 @@
  *                          dim3 dimBlocks, void **args,
  */
 #define cuLaunchKernel __cu(LaunchKernel)
-
-/**
- * CUDA 13: typedef struct CUmod_st *CUmodule;
- * LUCA: typedef struct LCmod_st *LCmodule;
- */
-#define CUmodule __CU(module)
 
 /**
  * CUDA 13
