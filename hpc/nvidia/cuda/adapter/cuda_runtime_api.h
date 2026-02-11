@@ -723,4 +723,21 @@
 #define cudaThreadExchangeStreamCaptureMode(m) \
 	__cuda(ThreadExchangeStreamCaptureMode(m))
 
+/**
+ * CUDA 13.0
+ * cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, T *objectToWrap,
+ *                                  unsigned int initialRefcount, unsigned int flags);
+ * cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, T *objectToWrap,
+ *                                  unsigned int initialRefcount, cudaUserObjectFlags flags);
+ * cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, void *ptr,
+ *                                  cudaHostFn_t destroy,
+ *                                  unsigned int initialRefcount, unsigned int flags);
+ *
+ * HIP 6.4
+ * hipError_t hipUserObjectCreate(hipUserObject_t* object_out, void* ptr,
+ *                                hipHostFn_t destroy,
+ *                                unsigned int initialRefcount, unsigned int flags);
+ */
+#define cudaUserObjectCreate __cuda(UserObjectCreate)
+
 #endif

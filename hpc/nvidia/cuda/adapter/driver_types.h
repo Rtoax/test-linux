@@ -309,4 +309,34 @@
 #define cudaStreamCaptureModeThreadLocal __cuda(StreamCaptureModeThreadLocal)
 #define cudaStreamCaptureModeRelaxed __cuda(StreamCaptureModeRelaxed)
 
+/**
+ * struct cudaMemAllocNodeParams {...};
+ */
+#define cudaMemAllocNodeParams __cuda(MemAllocNodeParams)
+
+/**
+ * struct cudaMemAllocNodeParamsV2 {...};
+ */
+#define cudaMemAllocNodeParamsV2 __cuda(MemAllocNodeParamsV2)
+
+#define cudaMemAllocationType __cuda(MemAllocationType) /* enum */
+#define cudaMemAllocationTypeInvalid __cuda(MemAllocationTypeInvalid) /* 0 */
+#define cudaMemAllocationTypePinned __cuda(MemAllocationTypePinned) /* 1 */
+#define cudaMemAllocationTypeManaged __cuda(MemAllocationTypeManaged) /* 2 */
+#define cudaMemAllocationTypeMax __cuda(MemAllocationTypeMax) /* 0x7FFFFFFF */
+
+/**
+ * typedef __device_builtin__ struct CUuserObject_st *cudaUserObject_t;
+ */
+#define cudaUserObject_t __cuda(UserObject_t)
+#define cudaUserObjectFlags __cuda(UserObjectFlags) /* enum */
+#define cudaUserObjectNoDestructorSync __cuda(UserObjectNoDestructorSync)
+
+/* typedef void (*cudaHostFn_t)(void *userData); */
+#define cudaHostFn_t __cuda(HostFn_t)
+
+#define cudaHostNodeParams __cuda(HostNodeParams) /* struct */
+
+#define cudaKernelNodeParams __cuda(KernelNodeParams) /* struct */
+
 #endif

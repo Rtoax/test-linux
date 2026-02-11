@@ -97,37 +97,6 @@
 #include "adapter/cuda_runtime_api.h"
 #include "adapter/driver_types.h"
 
-#define cudaMemAllocNodeParams	__cuda(MemAllocNodeParams)
-#define cudaMemAllocationTypeInvalid	__cuda(MemAllocationTypeInvalid) /* 0 */
-#define cudaMemAllocationTypePinned	__cuda(MemAllocationTypePinned) /* 1 */
-#define cudaMemAllocationTypeManaged	__cuda(MemAllocationTypeManaged) /* 2 */
-#define cudaMemAllocationTypeMax	__cuda(MemAllocationTypeMax) /* 0x7FFFFFFF */
-
-#define cudaUserObject_t	__cuda(UserObject_t)
-#define cudaUserObjectFlags	__cuda(UserObjectFlags)
-/* typedef void (*cudaHostFn_t)(void *userData); */
-#define cudaHostFn_t	__cuda(HostFn_t)
-/**
- * CUDA 13.0
- * cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, T *objectToWrap,
- *                                  unsigned int initialRefcount, unsigned int flags);
- * cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, T *objectToWrap,
- *                                  unsigned int initialRefcount, cudaUserObjectFlags flags);
- * cudaError_t cudaUserObjectCreate(cudaUserObject_t *object_out, void *ptr,
- *                                  cudaHostFn_t destroy,
- *                                  unsigned int initialRefcount, unsigned int flags);
- *
- * HIP 6.4
- * hipError_t hipUserObjectCreate(hipUserObject_t* object_out, void* ptr,
- *                                hipHostFn_t destroy,
- *                                unsigned int initialRefcount, unsigned int flags);
- */
-#define cudaUserObjectCreate	__cuda(UserObjectCreate)
-
-#define cudaHostNodeParams	__cuda(HostNodeParams)
-
-#define cudaKernelNodeParams __cuda(KernelNodeParams)
-
 /**
  * CUDA V13.0.48
  * CUresult cuDeviceGet(CUdevice *device, int ordinal);
