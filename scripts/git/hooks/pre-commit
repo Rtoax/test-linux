@@ -23,7 +23,9 @@ fatal() {
 	echo >&2 -en "\033[31m"
 	echo >&2 -e "FATAL: "${@}
 	echo >&2 -en "\033[0m"
-	exit 1
+	if [[ -z ${F1} ]]; then
+		exit 1
+	fi
 }
 
 ${MY_DIRECTORY}/scripts/clang-format.sh
@@ -87,8 +89,8 @@ do
 done
 
 # modify,add,delete files, need modify CHANGELOG.md too
-[[ ${#try_modify[@]} -ge ${NR_MOD} ]] && hint_changelog "<Modify too many files>"
-[[ ${#try_del[@]} -ge ${NR_DEL} ]] && hint_changelog "<Delete files>"
-[[ ${#try_add[@]} -ge ${NR_ADD} ]] && hint_changelog "<Add files: ${try_add[@]}>"
+[[ ${#try_modify[@]} -ge ${NR_MOD} ]] && hint_changelog "<Modify too many files, try NR_MOD=100>"
+[[ ${#try_del[@]} -ge ${NR_DEL} ]] && hint_changelog "<Delete files, try NR_DEL=100>"
+[[ ${#try_add[@]} -ge ${NR_ADD} ]] && hint_changelog "<Add files: ${try_add[@]}, try NR_ADD=100>"
 
 exit 0
