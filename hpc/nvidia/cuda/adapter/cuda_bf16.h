@@ -3,6 +3,10 @@
 #ifndef __CUDA_ADAPTER_BF16_H
 #define __CUDA_ADAPTER_BF16_H 1
 
+#ifdef __CUDA_BF16_H__
+#error "CudaAdapter not allow include origin CUDA cuda_bf16.h"
+#endif
+
 #include "wrapper_defs.h"
 
 /**
@@ -30,5 +34,13 @@
 
 #define __nv_cvt_e8m0_to_bf16raw ____nv_(cvt_e8m0_to_bf16raw)
 #define __nv_cvt_e8m0x2_to_bf162raw ____nv_(cvt_e8m0x2_to_bf162raw)
+
+#ifdef __USE_HPCC__
+# include <hpcc_fp8.h>
+#elif defined(__USE_LUCA__)
+# include <luca_fp8.h>
+#elif defined(__USE_HIP__)
+# include <hip/hip_fp8.h>
+#endif
 
 #endif

@@ -3,6 +3,10 @@
 #ifndef __CUDA_ADAPTER_FP8_H
 #define __CUDA_ADAPTER_FP8_H 1
 
+#ifdef __CUDA_FP8_H__
+#error "CudaAdapter not allow include origin CUDA cuda_fp8.h"
+#endif
+
 #include "wrapper_defs.h"
 
 /**
@@ -52,5 +56,13 @@
 
 #define __nv_cvt_fp8_to_halfraw ____nv_(cvt_fp8_to_halfraw)
 #define __nv_cvt_fp8x2_to_halfraw2 ____nv_(cvt_fp8x2_to_halfraw2)
+
+#ifdef __USE_HPCC__
+# include <hpcc_fp8.h>
+#elif defined(__USE_LUCA__)
+# include <luca_fp8.h>
+#elif defined(__USE_HIP__)
+# include <hip/hip_fp8.h>
+#endif
 
 #endif

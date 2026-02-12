@@ -8,8 +8,6 @@
  * - __USE_LUCA__
  * - LUCA_PHASE_II_PROJECT:
  *
- * - __NOT_USE_FP8__: include fp8 header
- *
  * - HAVE_NCCL
  * - HAVE_NVRTC
  * - HAVE_RCCL
@@ -18,7 +16,6 @@
  * - HAVE_LCPTI
  * - HAVE_LSVPU
  * - HAVE_HIP
- * - HAVE_HIP_FP8
  */
 #ifndef __CUDA_COMPAT_H
 #define __CUDA_COMPAT_H	1
@@ -35,9 +32,6 @@
 # include <hcr/hcrtc.h>
 # include <hcc/hcc_internal.h>
 /* TODO: add rtc */
-# ifndef __NOT_USE_FP8__
-#  include <hpcc_fp8.h>
-# endif
 # include <hpcc_fp16.h>
 # ifdef __HPCC__
 #  include <hpcc_cooperative_groups.h>
@@ -74,9 +68,6 @@
 #   include <hcr/hc_vpu_api.h>
 #  endif
 # endif /* LUCA_PHASE_II_PROJECT */
-# ifndef __NOT_USE_FP8__
-#  include <luca_fp8.h>
-# endif
 # include <luca_fp16.h>
 # ifdef __LUCA__
 #  include <luca_cooperative_groups.h>
@@ -97,9 +88,6 @@
 # include <hip/hiprtc.h>
 # include <hip/hip_cooperative_groups.h>
 # define HIPBLAS_USE_HIP_HALF
-# ifdef HAVE_HIP_FP8
-#  include <hip/hip_fp8.h>
-# endif
 # include <hip/hip_fp16.h>
 # ifdef HAVE_RCCL
 #  include <rccl/rccl.h>
@@ -127,9 +115,6 @@
 # include <cusolver_common.h>
 # if CUDA_VERSION > 12040
 #  include <cuda_fp6.h>
-# endif
-# ifndef __NOT_USE_FP8__
-#  include <cuda_fp8.h>
 # endif
 # include <cuda_fp16.h>
 # include <cuda_bf16.h>
