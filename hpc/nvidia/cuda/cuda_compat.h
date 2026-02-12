@@ -62,9 +62,6 @@
 #  include <lcr/lcrtc.h>
 #  include <lcc/lcc_internal.h>
 #  include <lccl.h>
-#  ifdef HAVE_LCPTI
-#   include <lcpti/lcpti.h>
-#  endif
 #  ifdef HAVE_LSVPU
 #   include <lcr/lc_vpu_api.h>
 #  endif
@@ -73,9 +70,6 @@
 #  include <hcr/hcrtc.h>
 #  include <hcc/hcc_internal.h>
 #  include <hccl.h>
-#  ifdef HAVE_LCPTI
-#   include <hcpti/hcpti.h>
-#  endif
 #  ifdef HAVE_LSVPU
 #   include <hcr/hc_vpu_api.h>
 #  endif

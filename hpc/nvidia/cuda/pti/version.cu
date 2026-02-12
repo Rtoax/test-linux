@@ -5,7 +5,7 @@
  */
 #include <stdio.h>
 #include <stdint.h>
-#include "cuda_compat.h"
+#include <cupti.h>
 
 int main(void)
 {

@@ -3,7 +3,8 @@
 /**
  * https://docs.nvidia.com/cupti/api/group__CUPTI__ACTIVITY__API.html
  */
-#include "cuda_compat.h"
+#include <stdio.h>
+#include <cupti.h>
 #include "cuda_helpers.h"
 
 __device__ void foo(void)

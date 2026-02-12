@@ -6,6 +6,10 @@
 #ifndef __CUDA_ADAPTER_PTI_H
 #define __CUDA_ADAPTER_PTI_H 1
 
+#ifdef _CUPTI_H_
+#error "CudaAdapter not allow include origin CUDA cupti.h"
+#endif
+
 #include "wrapper_defs.h"
 
 #define CUPTI_API_VERSION __CU(PTI_API_VERSION)
@@ -277,5 +281,16 @@
 	__CU(pti_Profiler_Host_Deinitialize_Params)
 #define CUpti_Profiler_Initialize_Params __CU(pti_Profiler_Initialize_Params)
 #define CUpti_Device_GetChipName_Params __CU(pti_Device_GetChipName_Params)
+
+#ifdef __USE_HPCC__
+# include <hcpti/hcpti.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcpti/lcpti.h>
+# else
+#  include <hcpti/hcpti.h>
+# endif
+#elif defined(__USE_HIP__)
+#endif
 
 #endif

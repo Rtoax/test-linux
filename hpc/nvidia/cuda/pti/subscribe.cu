@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (C) 2025-2026 Rong Tao */
-#include "cuda_compat.h"
+#include <stdio.h>
+#include <cupti.h>
 #include "cuda_helpers.h"
 
 static void callbackFunc(void *userData, CUpti_CallbackDomain domain,
