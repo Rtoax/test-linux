@@ -12,4 +12,16 @@
  */
 #define cudaStream_t __cuda(Stream_t)
 
+#ifdef __USE_HPCC__
+# include <hcr/hc_runtime.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcr/lc_runtime.h>
+# else
+#  include <hcr/hc_runtime.h>
+# endif
+#elif defined(__USE_HIP__)
+# include <hip/hip_runtime.h>
+#endif
+
 #endif

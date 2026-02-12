@@ -18,10 +18,12 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #include <pthread.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <cufile.h>
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
 #define VERSION "v1.0.3"
