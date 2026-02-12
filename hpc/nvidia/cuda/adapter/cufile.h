@@ -6,6 +6,10 @@
 #ifndef __CUDA_ADAPTER_FILE_H
 #define __CUDA_ADAPTER_FILE_H 1
 
+#ifdef __CUFILE_H_
+#error "CudaAdapter not allow include origin CUDA cufile.h"
+#endif
+
 #include "wrapper_defs.h"
 
 #define CUfileHandle_t __CU(fileHandle_t)
@@ -67,5 +71,16 @@
  *     ....
  */
 #define CUFILEOP_STATUS_ENTRIES __CU(FILEOP_STATUS_ENTRIES)
+
+#ifdef __USE_HPCC__
+# include <hcfile.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcfile.h>
+# else
+#  include <hcfile.h>
+# endif
+#elif defined(__USE_HIP__)
+#endif
 
 #endif

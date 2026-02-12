@@ -11,19 +11,13 @@
  * - __NOT_USE_FP8__: include fp8 header
  *
  * - HAVE_NCCL
- * - HAVE_CUDNN
  * - HAVE_NVRTC
  * - HAVE_RCCL
  * - HAVE_HPCC
- * - HAVE_HCDNN
- * - HAVE_LCDNN
- * - HAVE_CUFILE
- * - HAVE_LCFILE
  * - HAVE_CUPTI
  * - HAVE_LCPTI
  * - HAVE_LSVPU
  * - HAVE_HIP
- * - HAVE_HIPBLASLT
  * - HAVE_HIP_FP8
  */
 #ifndef __CUDA_COMPAT_H
@@ -52,7 +46,6 @@
 #  include <hpcc_cooperative_groups.h>
 # endif
 # include <hccl.h>
-# include <hcfile.h>
 # include <hcc/hcc_internal.h>
 # include "cuda_adapter.h"
 # ifndef HAVE_HPCC
@@ -75,9 +68,6 @@
 #  include <lcrand/lcrand.h>
 #  include <lcsolver/lcsolver_common.h>
 #  include <lccl.h>
-#  ifdef HAVE_LCFILE
-#   include <lcfile.h>
-#  endif
 #  ifdef HAVE_LCPTI
 #   include <lcpti/lcpti.h>
 #  endif
@@ -92,9 +82,6 @@
 #  include <hcrand/hcrand.h>
 #  include <hcsolver/hcsolver_common.h>
 #  include <hccl.h>
-#  ifdef HAVE_LCFILE
-#   include <hcfile.h>
-#  endif
 #  ifdef HAVE_LCPTI
 #   include <hcpti/hcpti.h>
 #  endif
@@ -115,9 +102,6 @@
  * AMD ROCm HIP                                                               *
 \******************************************************************************/
 #elif defined(__USE_HIP__)
-# ifdef __USE_HIP_V2__
-#  define HIPBLAS_V2
-# endif
 /**
  * Must define exactly one of __HIP_PLATFORM_AMD__ or __HIP_PLATFORM_NVIDIA__
  */
@@ -173,9 +157,6 @@
 # include <cooperative_groups.h>
 # ifdef HAVE_NCCL
 #  include <nccl.h>
-# endif
-# ifdef HAVE_CUFILE
-#  include <cufile.h>
 # endif
 # ifdef HAVE_CUPTI
 #  include <cupti.h>

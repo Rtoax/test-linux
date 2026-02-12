@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "cuda_compat.h"
+#include <cufile.h>
 
 int main(int argc, char *argv[])
 {
