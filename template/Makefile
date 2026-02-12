@@ -43,14 +43,17 @@ $(call include_stat,main.mk)
 
 $(foreach mk, ${MK_TGT}, $(eval $(call include_stat,${mk})))
 
+.PHONY: git
 git:
 	$(call git_config)
 	$(call git_archive)
 	$(call git_clean,Y)
 
+.PHONY: log
 log:
-	$(call log_failed,Test log_failed())
+	$(call log_failed,Test log_failed)
 
+.PHONY: logo
 logo:
 	$(call logo_bpf_summit_2021)
 	$(call logo_bpf_summit_2021_nocolor)

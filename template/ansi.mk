@@ -35,6 +35,8 @@ ANSI_REVE := \033[7m
 ANSI_RST := \033[m
 TPUT_RST := $(shell tput sgr0 2>/dev/null)
 
+TPUT_COLORS := $(shell seq 0 1 $(shell tput colors))
+
 ifdef ANSI_NONE
   ANSI_BLACK :=
   ANSI_RED :=
@@ -57,6 +59,7 @@ ifdef ANSI_NONE
   ANSI_REVE :=
   ANSI_RST :=
   TPUT_RST :=
+  TPUT_COLORS :=
 endif
 
 BB := ${ANSI_BLACK}${ANSI_BOLD}
