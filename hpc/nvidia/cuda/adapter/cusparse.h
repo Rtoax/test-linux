@@ -3,6 +3,10 @@
 #ifndef __CUDA_ADAPTER_SPARSE_H
 #define __CUDA_ADAPTER_SPARSE_H 1
 
+#ifdef CUSPARSE_H_
+#error "CudaAdapter not allow include origin CUDA cusparse.h"
+#endif
+
 #include "wrapper_defs.h"
 
 #define cusparseStatus_t __cu(sparseStatus_t)
@@ -24,5 +28,17 @@
 #define CUSPARSE_STATUS_NOT_SUPPORTED __CU(SPARSE_STATUS_NOT_SUPPORTED)
 #define CUSPARSE_STATUS_INSUFFICIENT_RESOURCES \
 	__CU(SPARSE_STATUS_INSUFFICIENT_RESOURCES)
+
+#ifdef __USE_HPCC__
+# include <hcsparse/hcsparse.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcsparse/lcsparse.h>
+# else
+#  include <hcsparse/hcsparse.h>
+# endif
+#elif defined(__USE_HIP__)
+# include <hipsparse/hipsparse.h>
+#endif
 
 #endif

@@ -34,7 +34,6 @@
 # include <hcr/hc_runtime.h>
 # include <hcr/hcrtc.h>
 # include <hcc/hcc_internal.h>
-# include <hcsparse/hcsparse.h>
 /* TODO: add rtc */
 # ifndef __NOT_USE_FP8__
 #  include <hpcc_fp8.h>
@@ -62,7 +61,6 @@
 #  include <lcr/lc_runtime.h>
 #  include <lcr/lcrtc.h>
 #  include <lcc/lcc_internal.h>
-#  include <lcsparse/lcsparse.h>
 #  include <lccl.h>
 #  ifdef HAVE_LCPTI
 #   include <lcpti/lcpti.h>
@@ -74,7 +72,6 @@
 #  include <hcr/hc_runtime.h>
 #  include <hcr/hcrtc.h>
 #  include <hcc/hcc_internal.h>
-#  include <hcsparse/hcsparse.h>
 #  include <hccl.h>
 #  ifdef HAVE_LCPTI
 #   include <hcpti/hcpti.h>
@@ -104,7 +101,6 @@
 # include <hip/hip_runtime.h>
 # include <hip/hip_runtime_api.h>
 # include <hip/hiprtc.h>
-# include <hipsparse/hipsparse.h>
 # include <hip/hip_cooperative_groups.h>
 # define HIPBLAS_USE_HIP_HALF
 # ifdef HAVE_HIP_FP8

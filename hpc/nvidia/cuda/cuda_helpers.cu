@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <cufft.h>
+#include <cusparse.h>
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 
