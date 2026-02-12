@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2025-2026 Rong Tao */
+/**
+ * CUDA >= 13 support cuda_fp6.h
+ */
 #ifndef __CUDA_ADAPTER_FP6_H
 #define __CUDA_ADAPTER_FP6_H 1
 
