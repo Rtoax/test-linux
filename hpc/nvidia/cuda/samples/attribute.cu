@@ -183,6 +183,8 @@ int main(int argc, char *argv[])
 	Attr(cudaDevAttrMemoryPoolSupportedHandleTypes);
 #if !defined(__HIPCC__)
 	Attr(cudaDevAttrMemSyncDomainCount);
+#endif
+#if !defined(__HIPCC__) && (defined(__NVCC__) && CUDA_VERSION > 12020)
 	Attr(cudaDevAttrMpsEnabled);
 #endif
 #if !defined(__NVCC__) && !defined(__HIPCC__)
