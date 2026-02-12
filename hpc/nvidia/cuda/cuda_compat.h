@@ -32,7 +32,6 @@
 # include <hcr/hcrtc.h>
 # include <hcc/hcc_internal.h>
 /* TODO: add rtc */
-# include <hpcc_fp16.h>
 # ifdef __HPCC__
 #  include <hpcc_cooperative_groups.h>
 # endif
@@ -68,7 +67,6 @@
 #   include <hcr/hc_vpu_api.h>
 #  endif
 # endif /* LUCA_PHASE_II_PROJECT */
-# include <luca_fp16.h>
 # ifdef __LUCA__
 #  include <luca_cooperative_groups.h>
 # endif
@@ -87,8 +85,6 @@
 # include <hip/hip_runtime_api.h>
 # include <hip/hiprtc.h>
 # include <hip/hip_cooperative_groups.h>
-# define HIPBLAS_USE_HIP_HALF
-# include <hip/hip_fp16.h>
 # ifdef HAVE_RCCL
 #  include <rccl/rccl.h>
 # endif
@@ -116,7 +112,6 @@
 # if CUDA_VERSION > 12040
 #  include <cuda_fp6.h>
 # endif
-# include <cuda_fp16.h>
 # include <cuda_bf16.h>
 # define DISABLE_CUSPARSE_DEPRECATED	1
 # include <cusparse.h>
