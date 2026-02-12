@@ -6,8 +6,21 @@
 #ifndef __CUDA_ADAPTER_DNN_H
 #define __CUDA_ADAPTER_DNN_H 1
 
+#ifdef CUDNN_H_
+#error "CudaAdapter not allow include origin CUDA cudnn.h"
+#endif
+
 #include "wrapper_defs.h"
 
-// TODO
+#ifdef __USE_HPCC__
+# include <hcdnn/hcdnn.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcdnn/lcdnn.h>
+# else
+#  include <hcdnn/hcdnn.h>
+# endif
+#elif defined(__USE_HIP__)
+#endif
 
 #endif

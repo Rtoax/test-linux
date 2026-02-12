@@ -44,9 +44,6 @@
 # include <hcrand/hcrand.h>
 # include <hcfft/hcfft.h>
 # include <hcsolver/hcsolver_common.h>
-# ifdef HAVE_HCDNN
-#  include <hcdnn/hcdnn.h>
-# endif
 /* TODO: add rtc */
 # ifndef __NOT_USE_FP8__
 #  include <hpcc_fp8.h>
@@ -79,9 +76,6 @@
 #  include <lcrand/lcrand.h>
 #  include <lcfft/lcfft.h>
 #  include <lcsolver/lcsolver_common.h>
-#  ifdef HAVE_LCDNN
-#   include <lcdnn/lcdnn.h>
-#  endif
 #  include <lccl.h>
 #  ifdef HAVE_LCFILE
 #   include <lcfile.h>
@@ -100,9 +94,6 @@
 #  include <hcrand/hcrand.h>
 #  include <hcfft/hcfft.h>
 #  include <hcsolver/hcsolver_common.h>
-#  ifdef HAVE_LCDNN
-#   include <hcdnn/hcdnn.h>
-#  endif
 #  include <hccl.h>
 #  ifdef HAVE_LCFILE
 #   include <hcfile.h>
@@ -187,9 +178,6 @@
 # include <cooperative_groups.h>
 # ifdef HAVE_NCCL
 #  include <nccl.h>
-# endif
-# ifdef HAVE_CUDNN
-#  include <cudnn.h>
 # endif
 # ifdef HAVE_CUFILE
 #  include <cufile.h>
