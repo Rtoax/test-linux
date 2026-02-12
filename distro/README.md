@@ -15,6 +15,7 @@ Linux OS Distributions
 * 6.12.63 (debian13.3)
 * 6.12.57 (debian13)
 * 6.12.0 (centos10)
+* 6.8.0 (ubuntu24.04)
 * 6.6.0 (openEuler24.03)
 * 5.15.131 (cclinux22.09.2)
 * 5.15.0 (ubuntu22.04)
