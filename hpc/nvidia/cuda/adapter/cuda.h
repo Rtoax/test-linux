@@ -3,6 +3,13 @@
 #ifndef __CUDA_ADAPTER_CUDA_H
 #define __CUDA_ADAPTER_CUDA_H 1
 
+/**
+ * TODO: Adapt to multi CUDA versions
+ */
+#ifndef CUDA_VERSION
+#define CUDA_VERSION 13000
+#endif
+
 #include "wrapper_defs.h"
 
 /**
