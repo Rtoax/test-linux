@@ -60,6 +60,8 @@ endif
 DWARVES_MAJOR_VERSION := ${PAHOLE_VERSION_MAJOR}
 DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
 
+# $1: major
+# $2: minor
 define pahole_version_code
 $(shell echo "$$(( (${1}<<16) + (${2}<<8) ))")
 endef

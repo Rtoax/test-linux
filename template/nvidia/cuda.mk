@@ -23,6 +23,11 @@
 # - CUDA_VERSION_MINOR=[0]
 # - CUDA_VERSION_PATCH=[0]
 #
+# Functions:
+# - cuda_version_code()
+# - cuda_version_compare()
+# - cuda_{ge,gt,eq,lt,le}()
+#
 ifndef _NVIDIA_CUDA_MK
 _NVIDIA_CUDA_MK = 1
 
@@ -112,8 +117,39 @@ ifneq (${CUDA_ROOT},)
   endif
 endif
 
-CUDA_VERSION_CODE := $(shell echo "$$(( (${CUDA_VERSION_MAJOR}*1000) + \
-					(${CUDA_VERSION_MINOR}*10) ))" )
+# $1: major
+# $2: minor
+define cuda_version_code
+$(shell echo "$$(( (${1}*1000) + (${2}*10) ))" )
+endef
+
+CUDA_VERSION_CODE := $(call cuda_version_code,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR})
+
+# Arguments:
+# $1: [-gt|-ge|-eq|-lt|-le]
+# $2: major
+# $3: minor
+define cuda_version_compare
+$(shell if [[ ${CUDA_VERSION_CODE} ${1} $(call cuda_version_code,${2},${3}) ]]; then \
+		echo y; \
+	else echo n; \
+	fi)
+endef
+define cuda_gt
+$(call cuda_version_compare,-gt,${1},${2})
+endef
+define cuda_ge
+$(call cuda_version_compare,-ge,${1},${2})
+endef
+define cuda_eq
+$(call cuda_version_compare,-eq,${1},${2})
+endef
+define cuda_lt
+$(call cuda_version_compare,-lt,${1},${2})
+endef
+define cuda_le
+$(call cuda_version_compare,-le,${1},${2})
+endef
 
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
 $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
@@ -141,7 +177,19 @@ ifneq (${SYS_CUDA_VERSION},0)
   endif
 endif
 
-export NVCC CUOBJDUMP NVDISASM CUDA_ROOT
-export CUDA_VERSION_MAJOR CUDA_VERSION_MINOR CUDA_VERSION_PATCH
+ifneq ($(call cuda_eq,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR}),y)
+  $(error "Bad cuda_eq parse CUDA_VERSION_CODE=${CUDA_VERSION_CODE}")
+endif
+ifeq ($(call cuda_ge,14,0),y)
+  $(error "Bad cuda_ge, does CUDA V14 released??????")
+endif
+
+export CUDA_ROOT
+export NVCC
+export CUOBJDUMP
+export NVDISASM
+export CUDA_VERSION_MAJOR
+export CUDA_VERSION_MINOR
+export CUDA_VERSION_PATCH
 
 endif
