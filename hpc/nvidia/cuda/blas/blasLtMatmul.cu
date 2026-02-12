@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (C) 2025-2026 Rong Tao */
 #include <stdio.h>
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
+#include <cublas_v2.h>
+#include <cublasLt.h>
+
 #include "cuda_helpers.h"
 
 #define m	2

@@ -4,6 +4,7 @@
 #define __CUDA_ADAPTER_CUDA_RUNTIME_API_H 1
 
 #include "wrapper_defs.h"
+#include "driver_types.h"
 
 #define cudaGetDeviceCount(pgpus) __cuda(GetDeviceCount(pgpus))
 #define cudaGetDevice(p_id) __cuda(GetDevice(p_id))
