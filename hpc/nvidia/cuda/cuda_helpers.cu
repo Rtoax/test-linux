@@ -2,6 +2,7 @@
 /* Copyright (C) 2025-2026 Rong Tao */
 #include <stdio.h>
 #include <string.h>
+#include <cufft.h>
 #include "cuda_compat.h"
 #include "cuda_helpers.h"
 

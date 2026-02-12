@@ -3,6 +3,10 @@
 #ifndef __CUDA_ADAPTER_FFT_H
 #define __CUDA_ADAPTER_FFT_H 1
 
+#ifdef _CUFFT_H_
+#error "CudaAdapter not allow include origin CUDA cufft.h"
+#endif
+
 #include "wrapper_defs.h"
 
 #define cufftResult __cu(fftResult)
@@ -49,5 +53,17 @@
  * cufftResult CUFFTAPI cufftGetProperty(libraryPropertyType type, int *value);
  */
 #define cufftGetProperty(v, pval) __cu(fftGetProperty(v, pval))
+
+#ifdef __USE_HPCC__
+# include <hcfft/hcfft.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcfft/lcfft.h>
+# else
+#  include <hcfft/hcfft.h>
+# endif
+#elif defined(__USE_HIP__)
+# include <hipfft/hipfft.h>
+#endif
 
 #endif

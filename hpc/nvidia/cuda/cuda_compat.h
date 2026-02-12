@@ -42,7 +42,6 @@
 # include <hcc/hcc_internal.h>
 # include <hcsparse/hcsparse.h>
 # include <hcrand/hcrand.h>
-# include <hcfft/hcfft.h>
 # include <hcsolver/hcsolver_common.h>
 /* TODO: add rtc */
 # ifndef __NOT_USE_FP8__
@@ -74,7 +73,6 @@
 #  include <lcc/lcc_internal.h>
 #  include <lcsparse/lcsparse.h>
 #  include <lcrand/lcrand.h>
-#  include <lcfft/lcfft.h>
 #  include <lcsolver/lcsolver_common.h>
 #  include <lccl.h>
 #  ifdef HAVE_LCFILE
@@ -92,7 +90,6 @@
 #  include <hcc/hcc_internal.h>
 #  include <hcsparse/hcsparse.h>
 #  include <hcrand/hcrand.h>
-#  include <hcfft/hcfft.h>
 #  include <hcsolver/hcsolver_common.h>
 #  include <hccl.h>
 #  ifdef HAVE_LCFILE
@@ -129,7 +126,6 @@
 # include <hip/hip_runtime.h>
 # include <hip/hip_runtime_api.h>
 # include <hip/hiprtc.h>
-# include <hipfft/hipfft.h>
 # include <hipsparse/hipsparse.h>
 # include <hiprand/hiprand.h>
 # include <hipsolver/hipsolver.h>
@@ -162,7 +158,6 @@
 # include <cuda.h>
 # include <cuda_runtime.h>
 # include <cuda_runtime_api.h>
-# include <cufft.h>
 # include <curand.h>
 # include <cusolver_common.h>
 # if CUDA_VERSION > 12040
