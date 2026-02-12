@@ -35,7 +35,6 @@
 # include <hcr/hcrtc.h>
 # include <hcc/hcc_internal.h>
 # include <hcsparse/hcsparse.h>
-# include <hcrand/hcrand.h>
 # include <hcsolver/hcsolver_common.h>
 /* TODO: add rtc */
 # ifndef __NOT_USE_FP8__
@@ -65,7 +64,6 @@
 #  include <lcr/lcrtc.h>
 #  include <lcc/lcc_internal.h>
 #  include <lcsparse/lcsparse.h>
-#  include <lcrand/lcrand.h>
 #  include <lcsolver/lcsolver_common.h>
 #  include <lccl.h>
 #  ifdef HAVE_LCPTI
@@ -79,7 +77,6 @@
 #  include <hcr/hcrtc.h>
 #  include <hcc/hcc_internal.h>
 #  include <hcsparse/hcsparse.h>
-#  include <hcrand/hcrand.h>
 #  include <hcsolver/hcsolver_common.h>
 #  include <hccl.h>
 #  ifdef HAVE_LCPTI
@@ -111,7 +108,6 @@
 # include <hip/hip_runtime_api.h>
 # include <hip/hiprtc.h>
 # include <hipsparse/hipsparse.h>
-# include <hiprand/hiprand.h>
 # include <hipsolver/hipsolver.h>
 # include <hip/hip_cooperative_groups.h>
 # define HIPBLAS_USE_HIP_HALF
@@ -142,7 +138,6 @@
 # include <cuda.h>
 # include <cuda_runtime.h>
 # include <cuda_runtime_api.h>
-# include <curand.h>
 # include <cusolver_common.h>
 # if CUDA_VERSION > 12040
 #  include <cuda_fp6.h>

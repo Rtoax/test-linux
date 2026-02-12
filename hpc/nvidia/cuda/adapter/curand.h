@@ -7,6 +7,10 @@
 #ifndef __CUDA_ADAPTER_RAND_H
 #define __CUDA_ADAPTER_RAND_H 1
 
+#ifdef CURAND_H_
+#error "CudaAdapter not allow include origin CUDA curand.h"
+#endif
+
 #include "wrapper_defs.h"
 
 #define curandStatus_t __cu(randStatus_t)
@@ -29,5 +33,17 @@
 #define CURAND_STATUS_NOT_IMPLEMENTED __CU(RAND_STATUS_NOT_IMPLEMENTED)
 
 #define curandGetVersion(version) __cu(randGetVersion(version))
+
+#ifdef __USE_HPCC__
+# include <hcrand/hcrand.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcrand/lcrand.h>
+# else
+#  include <hcrand/hcrand.h>
+# endif
+#elif defined(__USE_HIP__)
+# include <hiprand/hiprand.h>
+#endif
 
 #endif
