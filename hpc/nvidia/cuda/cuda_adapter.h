@@ -28,7 +28,7 @@
 #include "adapter/cuda_bf16.h"
 
 #include "adapter/cudnn.h"
-#include "adapter/cusolver.h"
+#include "adapter/cusolver_common.h"
 #include "adapter/cufile.h"
 #include "adapter/cupti.h"
 #include "adapter/nccl.h"

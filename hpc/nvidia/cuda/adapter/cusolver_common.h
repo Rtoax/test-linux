@@ -3,8 +3,12 @@
 /******************************************************************************\
  *             Solver: LAPACK-marshalling library                             *
 \******************************************************************************/
-#ifndef __CUDA_ADAPTER_SOLVER_H
-#define __CUDA_ADAPTER_SOLVER_H 1
+#ifndef __CUDA_ADAPTER_SOLVER_COMMON_H
+#define __CUDA_ADAPTER_SOLVER_COMMON_H 1
+
+#ifdef CUSOLVER_COMMON_H_
+#error "CudaAdapter not allow include origin CUDA cusolver_common.h"
+#endif
 
 #include "wrapper_defs.h"
 
@@ -50,5 +54,17 @@
  * cusolverStatus_t cusolverGetVersion(int *version);
  */
 #define cusolverGetVersion(v) __nv(solverGetVersion(v))
+
+#ifdef __USE_HPCC__
+# include <hcsolver/hcsolver_common.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcsolver/lcsolver_common.h>
+# else
+#  include <hcsolver/hcsolver_common.h>
+# endif
+#elif defined(__USE_HIP__)
+# include <hipsolver/hipsolver.h>
+#endif
 
 #endif
