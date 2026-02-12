@@ -1,4 +1,5 @@
 #!/bin/bash
+# Usage: [V=1|VERBOSE=1] ./README.md.check.sh
 set -e
 
 readonly THISPATH=$(dirname $(realpath $0))
@@ -9,7 +10,7 @@ readonly os_short=$(${THISPATH}/version.sh short)
 readonly README=${THISPATH}/README.md
 
 # Show all
-[[ ${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}
+[[ ${V}${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}
 
 if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README})" ]]; then
 	oldline=$(grep -E "^\* ${kver_short} \([^)]+\)$" ${README} || :)
