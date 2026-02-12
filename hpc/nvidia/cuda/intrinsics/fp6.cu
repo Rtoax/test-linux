@@ -4,7 +4,8 @@
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__FP6.html
  */
 #include <stdio.h>
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
+#include <cuda_fp6.h>
 #include "compiler.h"
 #include "print.h"
 #include "types.h"

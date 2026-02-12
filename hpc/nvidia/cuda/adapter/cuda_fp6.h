@@ -3,6 +3,10 @@
 #ifndef __CUDA_ADAPTER_FP6_H
 #define __CUDA_ADAPTER_FP6_H 1
 
+#ifdef __CUDA_FP6_H__
+#error "CudaAdapter not allow include origin CUDA cuda_fp6.h"
+#endif
+
 #include "wrapper_defs.h"
 
 /**
@@ -25,5 +29,13 @@
 #define __nv_fp6_interpretation_t ____nv_(fp6_interpretation_t)
 #define __NV_E2M3 ____NV_(E2M3)
 #define __NV_E3M2 ____NV_(E3M2)
+
+#ifdef __USE_HPCC__
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+# else
+# endif
+#elif defined(__USE_HIP__)
+#endif
 
 #endif
