@@ -2,6 +2,7 @@
 /* Copyright (C) 2025-2026 Rong Tao */
 #include <stdio.h>
 #include <cupti.h>
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
 static void callbackFunc(void *userData, CUpti_CallbackDomain domain,

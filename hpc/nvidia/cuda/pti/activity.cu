@@ -5,6 +5,7 @@
  */
 #include <stdio.h>
 #include <cupti.h>
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
 __device__ void foo(void)
