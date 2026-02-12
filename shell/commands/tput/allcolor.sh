@@ -1,19 +1,24 @@
 #!/bin/bash
 set -e
 
-for i in $(seq 0 1 255)
+colors=$(tput colors)
+
+reset() {
+	# Reset all attribute, or 'tput op'
+	tput sgr0
+}
+
+for i in $(seq 0 1 $((${colors} - 1)))
 do
 	# set front
 	tput setaf $i
 	echo -n "This is front color of number $i."
-	# Reset all attribute
-	tput sgr0
+	reset
 
 	# set background
 	tput setab $i
 	echo -n " This is background color of number $i."
-	# Reset all attribute
-	tput sgr0
+	reset
 
 	echo
 done
