@@ -145,6 +145,15 @@
 #define cudaMalloc_v3020_params __cuda(Malloc_params)
 
 #define CUcontext __CU(context)
+
+/**
+ * CUDA <= 12020:
+ * CUresult cuCtxCreate_v2(CUcontext *pctx, unsigned int flags, CUdevice dev);
+ *
+ * CUDA > 12020:
+ * CUresult cuCtxCreate_v3(CUcontext *pctx, CUexecAffinityParam *paramsArray,
+ *                         int numParams, unsigned int flags, CUdevice dev);
+ */
 #define cuCtxCreate __cu(CtxCreate)
 #define cuCtxDestroy __cu(CtxDestroy)
 
