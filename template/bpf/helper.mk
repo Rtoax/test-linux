@@ -183,6 +183,15 @@ ifeq ($(call kver_ge,6,17,0),y)
   $(call define_helper,bpf_dynptr_from_skb_meta)
 endif
 
+# linux v6.2-5291-g66e3a13e7c2c
+# commit 66e3a13e7c2c ("bpf: Add bpf_dynptr_slice and bpf_dynptr_slice_rdwr")
+# void *bpf_dynptr_slice(const struct bpf_dynptr *p, u32 offset, void *buffer__opt, u32 buffer__szk);
+# void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr *p, u32 offset, void *buffer__opt, u32 buffer__szk);
+ifeq ($(call kver_ge,6,2,0),y)
+  $(call define_helper,bpf_dynptr_slice)
+  $(call define_helper,bpf_dynptr_slice_rdwr)
+endif
+
 export bpf-helper-cflags
 
 ifdef DEBUG
