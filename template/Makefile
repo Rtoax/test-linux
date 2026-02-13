@@ -36,19 +36,24 @@ $(foreach mk, ${MK_TST} ${MK_TST}, $(eval $(call include_stat,${mk})))
 
 subdir-y := targets/test/
 
-target-post-y := git
-target-post-y += log
-target-post-y += logo
+target-prep-y := gitprep
+target-prep-y += log
+target-prep-y += logo
+
+target-post-y := gitpost
 
 # __main__
 $(call include_stat,main.mk)
 
 $(foreach mk, ${MK_TGT}, $(eval $(call include_stat,${mk})))
 
-.PHONY: git
-git:
+.PHONY: gitprep
+gitprep:
 	$(call git_config)
 	$(call git_archive)
+
+.PHONY: gitpost
+gitpost:
 	$(call git_clean,Y)
 
 .PHONY: log
