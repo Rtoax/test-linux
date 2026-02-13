@@ -70,6 +70,9 @@
  * AMD ROCm HIP                                                               *
 \******************************************************************************/
 #elif defined(__USE_HIP__)
+# if !defined(__HIP_PLATFORM_AMD__) && !defined(__HIP_PLATFORM_NVIDIA__)
+#  define __HIP_PLATFORM_AMD__
+# endif
 # define __cu(name)	hip##name
 # define __cuda(name)	hip##name
 # define __CU(name)	HIP##name

@@ -47,6 +47,9 @@ libso-hip += libhiprand.so.1
 libso-hip += libhipblas.so.2 libhipblaslt.so.0
 libso-hip += librccl.so.1
 
+CXXFLAGS_SO_CUDA_SPECIAL :=
+CXXFLAGS_SO_HIP_SPECIAL :=
+
 CXXFLAGS_SO += -I../
 # See commit d3d0fe465313 ("fakeCUDA: cuda_compat.h: add __NOT_USE_FP8__ macro to fix HIP compile errors")
 CXXFLAGS_SO += -D__NOT_USE_FP8__
@@ -97,7 +100,7 @@ endif
 
 ifeq (${HAVE_CUDA},y)
   $(info HAVE_CUDA)
-  CXXFLAGS_SO += -I/usr/local/cuda/include/
+  CXXFLAGS_SO_CUDA_SPECIAL += -I${CUDA_ROOT}/include/
   CXXFLAGS_SO += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
   CXXFLAGS_SO += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
   CXXFLAGS_SO += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
@@ -108,6 +111,7 @@ ifeq (${HAVE_HIP},y)
   $(info HAVE_HIP)
   target-libso-cpp-y += ${libso-hip}
 
+  CXXFLAGS_SO_HIP_SPECIAL += -I../adapter/
   CXXFLAGS_SO += -I.
   CXXFLAGS_SO += -DHAVE_HIP=1
 endif
@@ -135,6 +139,19 @@ LDXXFLAGS_SO_liblcsolver.so := -Wl,--version-script=liblcsolver.map
 LDXXFLAGS_SO_liblccl.so := -Wl,--version-script=liblccl.map
 
 # CUDA
+CXXFLAGS_SO_cuda := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_cuda-module-mgmt := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_blas := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_blasLt := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_fft := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_rand := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_runtime := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_runtime_event := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_runtime_memory := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_runtime_internal := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_solver := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_sparse := ${CXXFLAGS_SO_CUDA_SPECIAL}
+CXXFLAGS_SO_nccl := ${CXXFLAGS_SO_CUDA_SPECIAL}
 LDXXFLAGS_SO_libcuda.so.1 := -Wl,--version-script=libcuda.map
 LDXXFLAGS_SO_libcudart.so.12 := -Wl,--version-script=libcudart.12.map
 LDXXFLAGS_SO_libcudart.so.13 := -Wl,--version-script=libcudart.13.map
@@ -150,6 +167,19 @@ LDXXFLAGS_SO_libcusolver.so.12 := -Wl,--version-script=libcusolver.12.map
 LDXXFLAGS_SO_libnccl.so.2 := -Wl,--version-script=libnccl.map
 
 # ROCm HIP
+CXXFLAGS_SO_cuda-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_cuda-module-mgmt-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_blas-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_blasLt-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_fft-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_rand-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_runtime-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_runtime_event-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_runtime_memory-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_runtime_internal-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_solver-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_sparse-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
+CXXFLAGS_SO_nccl-hip := ${CXXFLAGS_SO_HIP_SPECIAL}
 LDXXFLAGS_SO_libamdhip64.so.5 := -Wl,--version-script=libamdhip64.map
 LDXXFLAGS_SO_libamdhip64.so.6 := -Wl,--version-script=libamdhip64.map
 LDXXFLAGS_SO_librocfft.so.0 := -Wl,--version-script=librocfft.map
@@ -189,9 +219,9 @@ rt-hip-objs += ${OUTPUT}runtime_memory-hip.cpp.so.o
 rt-hip-objs += ${OUTPUT}runtime_internal-hip.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 
 ${rt-objs}: runtime.hpp
-${rt-hpcc-objs}: runtime.hpp ../cuda_compat.h
-${rt-luca-objs}: runtime.hpp ../cuda_compat.h
-${rt-hip-objs}: runtime.hpp ../cuda_compat.h
+${rt-hpcc-objs}: runtime.hpp
+${rt-luca-objs}: runtime.hpp
+${rt-hip-objs}: runtime.hpp
 
 ${OUTPUT}common.cpp.so.o: debug.h
 ${OUTPUT}utils.cpp.so.o: utils.hpp

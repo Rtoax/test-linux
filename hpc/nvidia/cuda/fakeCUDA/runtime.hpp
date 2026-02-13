@@ -6,11 +6,11 @@
  */
 #pragma once
 #include <sys/types.h>
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
+#include <nvrtc.h>
 #include "device.h"
 #include "debug.h"
 #include "types.h"
-
 
 #if defined(__USE_HPCC__)
 #define __cudaGetKernel	__hcGetKernel
@@ -43,7 +43,6 @@
 #define __cudaRegisterVar	__hipRegisterVar
 #define __cudaUnregisterFatBinary	__hipUnregisterFatBinary
 #endif
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -97,6 +96,8 @@ cudaError_t __cudaPopCallConfiguration(dim3 *gridDim, dim3 *blockDim,
 cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 			       void **args, size_t sharedMem,
 			       cudaStream_t stream);
+
+#if !defined(HAVE_CUDA)
 
 cudaError_t cudaMalloc(void **devPtr, size_t size);
 cudaError_t cudaMallocManaged(void **devPtr, size_t size, unsigned int flags);
@@ -217,6 +218,9 @@ cudaError_t cudaEventSynchronize(cudaEvent_t event);
 /**
  * RTC
  */
+#ifdef HAVE_NVRTC
+#include <nvrtc.h>
+
 nvrtcResult nvrtcDestroyProgram(nvrtcProgram *prog);
 nvrtcResult nvrtcCompileProgram(nvrtcProgram prog,
 				int numOptions,
@@ -240,6 +244,7 @@ nvrtcResult nvrtcCreateProgram(nvrtcProgram *prog,
 			       #endif
 			      );
 nvrtcResult nvrtcGetProgramLogSize(nvrtcProgram prog, size_t *logSizeRet);
+#endif
 
 cudaError_t cudaDeviceGetDefaultMemPool(cudaMemPool_t *memPool, int device);
 cudaError_t cudaMemPoolTrimTo(cudaMemPool_t memPool, size_t minBytesToKeep);
@@ -286,6 +291,8 @@ cudaError_t cudaGraphAddHostNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
 cudaError_t cudaGraphAddKernelNode(cudaGraphNode_t *pGraphNode, cudaGraph_t graph,
 				   const cudaGraphNode_t *pDependencies, size_t numDependencies,
 				   const cudaKernelNodeParams *pNodeParams);
+
+#endif /* HAVE_CUDA */
 
 #ifdef __cplusplus
 }

@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (C) 2025-2026 Rong Tao */
 #pragma once
+#include <cuda.h>
 #include "device.h"
-#include "cuda_compat.h"
-
 
 #ifdef __cplusplus
 extern "C" {
