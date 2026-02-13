@@ -9,7 +9,7 @@
 # `if [[]]` syntax. And, you'd better modify /etc/gdm3/Xsession shebang to
 # /bin/bash too.
 
-readonly sys_make=$(which make)
+sys_make=$(which make)
 
 make_tl() {
 	local make_args=()
