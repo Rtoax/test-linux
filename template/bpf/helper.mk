@@ -17,13 +17,21 @@ bpf-helper-cflags :=
 
 # $1 - helper or kfunc name in lowercase
 define ___define_helper
-  export SUPPORT_$(call toupper_shell,$(1)) := y
-  bpf-helper-cflags += -DSUPPORT_$(call toupper_shell,$(1))=1
-  $(info Found ${1}())
+  HELPER_DEF := SUPPORT_$(call toupper_shell,$(1))
+  export $${HELPER_DEF} := y
+  bpf-helper-cflags += -DSUPPORT_$${HELPER_DEF}=1
+  $(info Found ${1}() and define ${HELPER_DEF})
 endef
 define define_helper
   $(eval $(call ___define_helper,${1}))
 endef
+
+# linux v3.18-rc4-943-gd0003ec01c66
+# commit d0003ec01c66 ("bpf: allow eBPF programs to use maps")
+# u64 bpf_map_lookup_elem(struct bpf_map *, void *) = 1;
+$(call define_helper,bpf_map_lookup_elem)
+$(call define_helper,bpf_map_update_elem)
+$(call define_helper,bpf_map_delete_elem)
 
 # linux v5.16-rc4-1160-gc5fb19937455 commit c5fb19937455 ("bpf: Add bpf_strncmp helper")
 ifeq ($(call kver_gt,5,16,0),y)
@@ -158,6 +166,13 @@ export bpf-helper-cflags
 
 ifdef DEBUG
   $(info bpf-helper-cflags = ${bpf-helper-cflags})
+endif
+
+# Do a necessary check.
+ifeq ($(call kver_gt,3,18,0),y)
+  ifndef SUPPORT_BPF_MAP_LOOKUP_ELEM
+    $(error Not found bpf_map_lookup_elem(), some thing wrong!)
+  endif
 endif
 
 endif
