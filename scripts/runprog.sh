@@ -3,7 +3,7 @@
 #
 # Copyright (C) 2025-2026 Rong Tao
 #
-# Usage: runprog.sh [options] -- EXE [ARGS]
+# Usage: runprog.sh [options] -- EXE [EXE ARGS...]
 #
 set -e
 
@@ -12,6 +12,7 @@ LOG_FILE=runprog.log
 declare -a ENVS
 verbose=
 SUDO=
+TMOUT=
 
 error() {
 	echo >&2 "ERROR: $@"
@@ -22,7 +23,10 @@ __usage__()
 {
 	echo -e "
 -e, --env [ENV=V]      set a env (may be listed multiple times)
+-T, --timeout [SEC]    set timeout seconds
 --maybe-sudo           running with superuser if possible
+
+-l, --log [NAME]       set log file name
 
 -v, --verbose          run verbose mode
 -h, --help             show this help information
@@ -32,8 +36,9 @@ __usage__()
 }
 
 GETOPT_ARGS=$(getopt \
-	--options l:e:vh \
+	--options l:e:T:vh \
 	--long log: \
+	--long timeout: \
 	--long env: \
 	--long help \
 	--long verbose \
@@ -49,6 +54,11 @@ while true; do
 	-l | --log)
 		shift
 		LOG_FILE=$1
+		shift
+		;;
+	-T | --timeout)
+		shift
+		TMOUT=$1
 		shift
 		;;
 	-e | --env)
@@ -80,7 +90,7 @@ while true; do
 	esac
 done
 
-${ENVS:+env} ${ENVS[@]} ${SUDO} ${@} | tee ${LOG_FILE}
+${ENVS:+env} ${ENVS[@]} ${SUDO} ${TMOUT:+timeout ${TMOUT}} ${@} | tee ${LOG_FILE}
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 	rm -f ${LOG_FILE}
 	error "${@}: run failed"
