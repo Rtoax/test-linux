@@ -169,6 +169,17 @@ ifeq ($(call kver_ge,5,18,0),y)
   $(call define_helper,bpf_dynptr_write)
 endif
 
+# linux v5.18-rc3-857-gbc34dee65a65
+# commit bc34dee65a65 ("bpf: Dynptr support for ring buffers")
+# long bpf_ringbuf_reserve_dynptr(void *ringbuf, u32 size, u64 flags, struct bpf_dynptr *ptr);
+# void bpf_ringbuf_submit_dynptr(struct bpf_dynptr *ptr, u64 flags);
+# void bpf_ringbuf_discard_dynptr(struct bpf_dynptr *ptr, u64 flags);
+ifeq ($(call kver_ge,5,18,0),y)
+  $(call define_helper,bpf_ringbuf_reserve_dynptr)
+  $(call define_helper,bpf_ringbuf_submit_dynptr)
+  $(call define_helper,bpf_ringbuf_discard_dynptr)
+endif
+
 # linux v6.2-5289-gb5964b968ac6
 # commit b5964b968ac6 ("bpf: Add skb dynptrs")
 # int bpf_dynptr_from_skb(struct __sk_buff *s, u64 flags, struct bpf_dynptr *ptr__uninit);
