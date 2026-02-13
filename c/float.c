@@ -78,43 +78,23 @@
 
 #if defined(__HPCC__) || defined(__LUCA__) || defined(__NVCC__) || defined(__HIPCC__)
 # define IS_CUDA_COMPAT_COMPILER	1
+# include <cuda_fp16.h>
+# include <cuda_bf16.h>
+# include <cuda_runtime.h>
 # if defined(__HPCC__)	/* MetaX */
-#  include <hccl.h>
-#  include <hpcc_fp16.h>
-#  include <hpcc_bfloat16.h>
-#  include <hc_runtime.h>
-#  include "cuda_adapter.h"
 #  ifndef SUPPORT__Float16
 #   define SUPPORT__Float16 /* HPCC always support _Float16 */
 #  endif
 # elif defined(__LUCA__)
-#  ifdef LUCA_PHASE_II_PROJECT
-#   include <lccl.h>
-#   include <lc_runtime.h>
-#  else
-#   include <hccl.h>
-#   include <hc_runtime.h>
-#  endif
-#  include <luca_fp16.h>
-#  include <luca_bfloat16.h>
-#  include "cuda_adapter.h"
 #  ifndef SUPPORT__Float16
 #   define SUPPORT__Float16 /* LUCA always support _Float16 */
 #  endif
 # elif defined(__NVCC__)	/* Nvidia */
-#  include <cuda_fp16.h>
-#  include <cuda_bf16.h>
-#  include <cuda_runtime.h>
 #  ifdef SUPPORT__Float16
 #   undef SUPPORT__Float16
 #   warning Error: Internal Compiler Error (codegen): "unsupported float variant!"
 #  endif
 # elif defined(__HIPCC__)	/* AMD ROCm HIP */
-#  include <hip/hip_runtime.h>
-#  include <hip/hip_bf16.h>
-#  include <hip/hip_fp16.h>
-#  include <hip/hip_version.h>
-#  include "cuda_adapter.h"
 # endif
 # define DIM	<<<1, 1>>>
 # define __mydevice__	__device__
