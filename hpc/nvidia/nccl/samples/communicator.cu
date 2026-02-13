@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <malloc.h>
-#include "cuda_compat.h"
+#include <nccl.h>
+#include <cuda_runtime.h>
 #include "../nccl_helpers.h"
-
 
 int main(int argc, char *argv[])
 {

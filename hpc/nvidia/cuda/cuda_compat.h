@@ -8,8 +8,6 @@
  * - __USE_LUCA__
  * - LUCA_PHASE_II_PROJECT:
  *
- * - HAVE_NCCL
- * - HAVE_RCCL
  * - HAVE_HPCC
  * - HAVE_HIP
  */
@@ -24,7 +22,6 @@
  * HPCC: High Performance Computing Communications                            *
 \******************************************************************************/
 #ifdef __USE_HPCC__
-# include <hccl.h>
 # include "cuda_adapter.h"
 # ifndef HAVE_HPCC
 #  error "Not found HPCC envrioment, but use HPCC"
@@ -39,9 +36,7 @@
  * definition was deleted once development was completed.
  */
 # ifdef LUCA_PHASE_II_PROJECT
-#  include <lccl.h>
 # else /* LUCA_PHASE_II_PROJECT */
-#  include <hccl.h>
 # endif /* LUCA_PHASE_II_PROJECT */
 # include "cuda_adapter.h"
 # define CUNAME	"LUCA"
@@ -54,9 +49,6 @@
  */
 # define __HIP_PLATFORM_AMD__
 # include <hip/hip_version.h>
-# ifdef HAVE_RCCL
-#  include <rccl/rccl.h>
-# endif
 # include "cuda_adapter.h"
 # ifndef HAVE_HIP
 #  error "Not found ROCm HIP envrioment, but use HIP"
@@ -66,16 +58,8 @@
  * CUDA                                                                       *
 \******************************************************************************/
 #else /* fallback to CUDA */
-/**
- * macro:
- * - CUDA_VERSION
- *   12020: V12.2.140
- */
 # include <cuda.h>
 # define DISABLE_CUSPARSE_DEPRECATED	1
-# ifdef HAVE_NCCL
-#  include <nccl.h>
-# endif
 # define CUNAME	"NVIDIA CUDA"
 #endif
 

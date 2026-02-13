@@ -6,6 +6,10 @@
 #ifndef __CUDA_ADAPTER_NCCL_H
 #define __CUDA_ADAPTER_NCCL_H 1
 
+#ifdef NCCL_H_
+#error "CudaAdapter not allow include origin CUDA nccl.h"
+#endif
+
 #include "wrapper_defs.h"
 
 /* /usr/include/nccl.h, /opt/luca/include/hccl.h */
@@ -141,5 +145,17 @@
  *                             ncclComm_t comm, cudaStream_t stream);
  */
 #define ncclAllReduce __nccl(AllReduce)
+
+#ifdef __USE_HPCC__
+# include <hccl.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lccl.h>
+# else
+#  include <hccl.h>
+# endif
+#elif defined(__USE_HIP__)
+# include <rccl/rccl.h>
+#endif
 
 #endif
