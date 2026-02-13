@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (C) 2026 Rong Tao */
 #include <stdio.h>
+#include <string.h>
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
