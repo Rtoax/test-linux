@@ -14,7 +14,7 @@
  *
  * aarch64:
  * - commit f7d73d7d348a ("simd: Phytium S5000C")
- * - simd: Phytium S5000CE
+ * - commit c4770fe262f7 ("simd: Phytium S5000CE [v2]")
  * - commit 745fb7691dba ("simd: HiSilicon HUAWEI Kunpeng 920 V200 7280Z")
  * - commit 04214fc98386 ("simd: NVIDIA GB10 Spark Cortex-X925")
  * - commit 6e4cf729faf9 ("simd: NVIDIA GB10 Spark Cortex-A725")
