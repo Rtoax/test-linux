@@ -4,6 +4,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <time.h>
+#include <cuda.h>
 
 #include "runtime.hpp"
 

@@ -49,6 +49,8 @@ libso-hip += librccl.so.1
 
 CXXFLAGS_SO_CUDA_SPECIAL :=
 CXXFLAGS_SO_HIP_SPECIAL :=
+CXXFLAGS_SO_HPCC_SPECIAL :=
+CXXFLAGS_SO_LUCA_SPECIAL :=
 
 CXXFLAGS_SO += -I../
 # See commit d3d0fe465313 ("fakeCUDA: cuda_compat.h: add __NOT_USE_FP8__ macro to fix HIP compile errors")
@@ -73,11 +75,12 @@ ifdef HAVE_HPCC
   $(info HAVE_HPCC)
   target-libso-cpp-y += ${libso-hpcc}
 
-  CXXFLAGS_SO += -I${HPCC_ROOT}/include/
-  CXXFLAGS_SO += -I${HPCC_ROOT}/include/common/
-  CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcr/
-  CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcsparse/
-  CXXFLAGS_SO += -I${HPCC_ROOT}/include/hcblas/
+  CXXFLAGS_SO_HPCC_SPECIAL += -I../adapter/
+  CXXFLAGS_SO_HPCC_SPECIAL += -I${HPCC_ROOT}/include/
+  CXXFLAGS_SO_HPCC_SPECIAL += -I${HPCC_ROOT}/include/common/
+  CXXFLAGS_SO_HPCC_SPECIAL += -I${HPCC_ROOT}/include/hcr/
+  CXXFLAGS_SO_HPCC_SPECIAL += -I${HPCC_ROOT}/include/hcsparse/
+  CXXFLAGS_SO_HPCC_SPECIAL += -I${HPCC_ROOT}/include/hcblas/
 
   CXXFLAGS_SO += -DHAVE_HPCC=1
 endif
@@ -86,16 +89,17 @@ ifdef HAVE_LUCA
   $(info HAVE_LUCA)
   target-libso-cpp-y += ${libso-luca}
 
-  CXXFLAGS_SO += -I${LUCA_ROOT}/include/
-  CXXFLAGS_SO += -I${LUCA_ROOT}/include/common/
-  CXXFLAGS_SO += -I${LUCA_ROOT}/include/lcr/
-  CXXFLAGS_SO += -I${LUCA_ROOT}/include/lcsparse/
-  CXXFLAGS_SO += -I${LUCA_ROOT}/include/lcblas/
+  CXXFLAGS_SO_LUCA_SPECIAL += -I../adapter/
+  CXXFLAGS_SO_LUCA_SPECIAL += -I${LUCA_ROOT}/include/
+  CXXFLAGS_SO_LUCA_SPECIAL += -I${LUCA_ROOT}/include/common/
+  CXXFLAGS_SO_LUCA_SPECIAL += -I${LUCA_ROOT}/include/lcr/
+  CXXFLAGS_SO_LUCA_SPECIAL += -I${LUCA_ROOT}/include/lcsparse/
+  CXXFLAGS_SO_LUCA_SPECIAL += -I${LUCA_ROOT}/include/lcblas/
+  ifdef LUCA_PHASE_II_PROJECT
+    CXXFLAGS_SO_LUCA_SPECIAL += -DLUCA_PHASE_II_PROJECT=1
+  endif
 
   CXXFLAGS_SO += -DHAVE_LUCA=1
-  ifdef LUCA_PHASE_II_PROJECT
-    CXXFLAGS_SO += -DLUCA_PHASE_II_PROJECT=1
-  endif
 endif
 
 ifeq (${HAVE_CUDA},y)
@@ -117,6 +121,19 @@ ifeq (${HAVE_HIP},y)
 endif
 
 # HPCC
+CXXFLAGS_SO_cuda-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_cuda-module-mgmt-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_blas-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_blasLt-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_fft-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_rand-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_runtime-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_runtime_event-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_runtime_memory-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_runtime_internal-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_solver-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_sparse-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
+CXXFLAGS_SO_nccl-hpcc := ${CXXFLAGS_SO_HPCC_SPECIAL}
 LDXXFLAGS_SO_libhccompiler.so := -Wl,--version-script=libhccompiler.map
 LDXXFLAGS_SO_libhccl.so := -Wl,--version-script=libhccl.map
 LDXXFLAGS_SO_libhcruntime.so := -Wl,--version-script=libhcruntime.map
@@ -128,6 +145,19 @@ LDXXFLAGS_SO_libhcsparse.so := -Wl,--version-script=libhcsparse.map
 LDXXFLAGS_SO_libhcsolver.so := -Wl,--version-script=libhcsolver.map
 
 # LUCA
+CXXFLAGS_SO_cuda-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_cuda-module-mgmt-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_blas-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_blasLt-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_fft-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_rand-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_runtime-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_runtime_event-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_runtime_memory-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_runtime_internal-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_solver-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_sparse-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
+CXXFLAGS_SO_nccl-luca := ${CXXFLAGS_SO_LUCA_SPECIAL}
 LDXXFLAGS_SO_liblccompiler.so := -Wl,--version-script=liblccompiler.map
 LDXXFLAGS_SO_liblcruntime.so := -Wl,--version-script=liblcruntime.map
 LDXXFLAGS_SO_liblcblas.so := -Wl,--version-script=liblcblas.map
