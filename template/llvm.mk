@@ -39,9 +39,11 @@ LLC := $(shell which llc 2>/dev/null)
 LLVM_SRC_ROOT := $(HOME)/Git/llvm/
 CLANG_SRC_ROOT := ${LLVM_SRC_ROOT}/clang/
 
-llvm-cflags := $(shell ${LLVM_CONFIG} --cflags)
-llvm-cxxflags := $(shell ${LLVM_CONFIG} --cxxflags)
-llvm-ldflags := $(shell ${LLVM_CONFIG} --ldflags)
+ifneq (${LLVM_CONFIG},)
+  llvm-cflags := $(shell ${LLVM_CONFIG} --cflags)
+  llvm-cxxflags := $(shell ${LLVM_CONFIG} --cxxflags)
+  llvm-ldflags := $(shell ${LLVM_CONFIG} --ldflags)
+endif
 
 # $1 - target name
 define llvm_support_target
@@ -49,6 +51,7 @@ $(shell if [[ $$(${CLANG} -print-targets | grep -ow $1) == $1 ]]; then echo y; f
 endef
 
 ifdef DEBUG
+  $(info WHEREIS_LLVM = ${WHEREIS_LLVM})
   $(info LLVM_CONFIG = ${LLVM_CONFIG})
   $(info LLVM_AS = ${LLVM_AS})
   $(info LLVM_DIS = ${LLVM_DIS})
@@ -67,6 +70,7 @@ endif # end of DEBUG
 export HAVE_LLVM := y
 export LLVM_CONFIG LLVM_AS LLVM_DIS LLC
 export LLVM_SRC_ROOT CLANG_SRC_ROOT
+export llvm-cflags llvm-cxxflags llvm-ldflags
 
 endif # end of found WHEREIS_LLVM
 
