@@ -29,9 +29,6 @@
 # include <hcr/hcrtc.h>
 # include <hcc/hcc_internal.h>
 /* TODO: add rtc */
-# ifdef __HPCC__
-#  include <hpcc_cooperative_groups.h>
-# endif
 # include <hccl.h>
 # include <hcc/hcc_internal.h>
 # include "cuda_adapter.h"
@@ -58,9 +55,6 @@
 #  include <hcc/hcc_internal.h>
 #  include <hccl.h>
 # endif /* LUCA_PHASE_II_PROJECT */
-# ifdef __LUCA__
-#  include <luca_cooperative_groups.h>
-# endif
 # include "cuda_adapter.h"
 # define CUNAME	"LUCA"
 /******************************************************************************\
@@ -75,7 +69,6 @@
 # include <hip/hip_runtime.h>
 # include <hip/hip_runtime_api.h>
 # include <hip/hiprtc.h>
-# include <hip/hip_cooperative_groups.h>
 # ifdef HAVE_RCCL
 #  include <rccl/rccl.h>
 # endif
@@ -101,7 +94,6 @@
 # include <cuda_runtime_api.h>
 # include <cusolver_common.h>
 # define DISABLE_CUSPARSE_DEPRECATED	1
-# include <cooperative_groups.h>
 # ifdef HAVE_NCCL
 #  include <nccl.h>
 # endif

@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
-
 
 int main(int argc, char *argv[])
 {
