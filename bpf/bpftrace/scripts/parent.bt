@@ -19,4 +19,6 @@ BEGIN
 	printf("1. %-8d %-8d %s\n", pid, tid, comm);
 	printf("2. %-8d %-8d %s\n", $current->pid, $current->tgid, $current->comm);
 	printf("3. %-8d %-8d %s\n", $parent->pid, $parent->tgid, $parent->comm);
+
+	exit();
 }
