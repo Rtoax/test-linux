@@ -138,6 +138,13 @@ ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_fr
   bpf-helper-cflags += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
 endif
 
+# linux v5.18-rc3-856-g263ae152e962
+# commit 263ae152e962 ("bpf: Add bpf_dynptr_from_mem for local dynptrs")
+# u64 bpf_dynptr_from_mem(void *, u32, u64, struct bpf_dynptr_kern *) = 197;
+ifeq ($(call kver_ge,5,18,0),y)
+  $(call define_helper,bpf_dynptr_from_mem)
+endif
+
 export bpf-helper-cflags
 
 ifdef DEBUG
