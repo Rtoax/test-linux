@@ -176,6 +176,13 @@ ifeq ($(call kver_ge,6,2,0),y)
   $(call define_helper,bpf_dynptr_from_skb)
 endif
 
+# linux v6.17-rc1-1-g89d912e494f7
+# commit 89d912e494f7 ("bpf: Add dynptr type for skb metadata")
+# int bpf_dynptr_from_skb_meta(struct __sk_buff *skb_, u64 flags, struct bpf_dynptr *ptr__uninit);
+ifeq ($(call kver_ge,6,17,0),y)
+  $(call define_helper,bpf_dynptr_from_skb_meta)
+endif
+
 export bpf-helper-cflags
 
 ifdef DEBUG
