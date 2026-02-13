@@ -1294,6 +1294,8 @@ zypper_add_packages()
 
 if [[ $(is_os centos) ]]; then
 	dnf_args+=( --enablerepo=crb,powertools )
+elif [[ $(is_os cclinux) ]]; then
+	dnf_args+=( --enablerepo=* )
 fi
 
 if [[ $(is_os opencloudos) ]]; then
