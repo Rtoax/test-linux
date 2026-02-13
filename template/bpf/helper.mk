@@ -145,6 +145,15 @@ ifeq ($(call kver_ge,5,18,0),y)
   $(call define_helper,bpf_dynptr_from_mem)
 endif
 
+# linux v5.18-rc3-858-g13bbbfbea759
+# commit 13bbbfbea759 ("bpf: Add bpf_dynptr_read and bpf_dynptr_write")
+# u64 bpf_dynptr_read(void *, u32, const struct bpf_dynptr_kern *, u32, u64) = 201;
+# u64 bpf_dynptr_write(const struct bpf_dynptr_kern *, u32, void *, u32, u64) = 202;
+ifeq ($(call kver_ge,5,18,0),y)
+  $(call define_helper,bpf_dynptr_read)
+  $(call define_helper,bpf_dynptr_write)
+endif
+
 export bpf-helper-cflags
 
 ifdef DEBUG
