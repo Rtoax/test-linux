@@ -4,9 +4,9 @@
 #include <string.h>
 #include <cufft.h>
 #include <cusparse.h>
-#include "cuda_compat.h"
+#include <cuda.h>
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
-
 
 void gpu_init(int dev_id)
 {
