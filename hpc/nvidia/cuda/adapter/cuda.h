@@ -35,12 +35,14 @@
  * CUDA: typedef enum CUjit_option_enum {...} CUjit_option;
  */
 #if defined(__USE_HPCC__)
+# include "driver_types.h"
 # define CUresult hcError_t
 # define CUdevice hcDevice_t
 # define CUmodule hcModule_t
 # define CUfunction hcFunction_t
 # define CUjit_option hcJitOption
 #elif defined(__USE_LUCA__)
+# include "driver_types.h"
 # ifdef LUCA_PHASE_II_PROJECT
 #  define CUresult lcError_t
 #  define CUdevice lcDevice_t
@@ -55,6 +57,9 @@
 #  define CUjit_option hcJitOption
 # endif
 #elif defined(__USE_HIP__)
+# include "driver_types.h"
+/* Because hip_runtime_api.h: typedef struct ihipModule_t* hipModule_t; */
+# include "cuda_runtime_api.h"
 # define CUresult hipError_t
 # define CUdevice hipDevice_t
 # define CUmodule hipModule_t

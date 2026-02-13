@@ -37,7 +37,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include "cuda_compat.h"
+#include <cuda.h>
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
 void printuuid(const char *pfx, void *uuid, size_t size)

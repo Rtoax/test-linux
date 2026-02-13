@@ -4,7 +4,7 @@
  * https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__PEER.html
  */
 #include <stdio.h>
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
 int nGPUs = 0;

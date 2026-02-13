@@ -7,7 +7,9 @@
  * LUCA: Bitcode
  */
 #include <stdio.h>
-#include "cuda_compat.h"
+#include <cuda.h>
+#include <cuda_runtime.h>
+#include <nvrtc.h>
 #include "cuda_helpers.h"
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))

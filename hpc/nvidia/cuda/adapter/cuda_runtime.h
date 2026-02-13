@@ -14,11 +14,14 @@
 
 #ifdef __USE_HPCC__
 # include <hcr/hc_runtime.h>
+# include <hcc/hcc_internal.h>
 #elif defined(__USE_LUCA__)
 # ifdef LUCA_PHASE_II_PROJECT
 #  include <lcr/lc_runtime.h>
+#  include <lcc/lcc_internal.h>
 # else
 #  include <hcr/hc_runtime.h>
+#  include <hcc/hcc_internal.h>
 # endif
 #elif defined(__USE_HIP__)
 # include <hip/hip_runtime.h>

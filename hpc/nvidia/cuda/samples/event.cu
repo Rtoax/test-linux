@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <time.h>
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
 

@@ -26,11 +26,12 @@
  * - commit 2d59f523b664 ("memory.cu: Memcpy: Lingspeed X710-M:8 OAM on Phytium 5000C")
  * - commit 3c55c18eab02 ("memory.cu: Memcpy: Lingspeed X710-M:8 OAM on Hygon C86-4G (OPN:7470)")
  */
+#include <assert.h>
 #include <argp.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <malloc.h>
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
 #define KiB	1024

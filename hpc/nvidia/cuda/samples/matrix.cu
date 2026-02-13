@@ -19,7 +19,8 @@
 /* Compatiable CUDA software stack */
 #if defined(__NVCC__) || defined(__HIPCC__) || defined(__HPCC__) || defined(__LUCA__)
 # define SUPPORT_CUDA_SYNOPSIS	1
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
+#include <cublas.h>
 #include "cuda_helpers.h"
 #else	/* pure C */
 # define __global__

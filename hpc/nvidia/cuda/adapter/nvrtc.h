@@ -6,6 +6,10 @@
 #ifndef __CUDA_ADAPTER_NVRTC_H
 #define __CUDA_ADAPTER_NVRTC_H 1
 
+#ifdef __NVRTC_H__
+#error "CudaAdapter not allow include origin CUDA nvrtc.h"
+#endif
+
 #include "wrapper_defs.h"
 
 #define nvrtcResult __nv(rtcResult)
@@ -109,5 +113,17 @@
  */
 #define hiprtcGetBitcodeSize __nv(rtcGetBitcodeSize)
 #define hiprtcGetBitcode __nv(rtcGetBitcode)
+
+#ifdef __USE_HPCC__
+# include <hcr/hcrtc.h>
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcr/lcrtc.h>
+# else
+#  include <hcr/hcrtc.h>
+# endif
+#elif defined(__USE_HIP__)
+# include <hip/hiprtc.h>
+#endif
 
 #endif

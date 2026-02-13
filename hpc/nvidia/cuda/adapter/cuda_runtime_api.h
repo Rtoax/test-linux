@@ -866,4 +866,13 @@
  */
 #define cudaIpcCloseMemHandle(p) __cuda(IpcCloseMemHandle(p))
 
+#ifdef __USE_HPCC__
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+# else
+# endif
+#elif defined(__USE_HIP__)
+# include <hip/hip_runtime_api.h>
+#endif
+
 #endif

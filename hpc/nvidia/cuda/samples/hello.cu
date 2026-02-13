@@ -6,7 +6,7 @@
  * elf dump PTX and SASS: commit 306555e1b4e6 ("nvidia: PTX and SASS")
  */
 #include <stdio.h>
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
 #include "cuda_helpers.h"
 #include "cuda_kernel_misc.h"
 

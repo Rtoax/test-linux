@@ -9,7 +9,6 @@
  * - LUCA_PHASE_II_PROJECT:
  *
  * - HAVE_NCCL
- * - HAVE_NVRTC
  * - HAVE_RCCL
  * - HAVE_HPCC
  * - HAVE_HIP
@@ -25,12 +24,7 @@
  * HPCC: High Performance Computing Communications                            *
 \******************************************************************************/
 #ifdef __USE_HPCC__
-# include <hcr/hc_runtime.h>
-# include <hcr/hcrtc.h>
-# include <hcc/hcc_internal.h>
-/* TODO: add rtc */
 # include <hccl.h>
-# include <hcc/hcc_internal.h>
 # include "cuda_adapter.h"
 # ifndef HAVE_HPCC
 #  error "Not found HPCC envrioment, but use HPCC"
@@ -45,14 +39,8 @@
  * definition was deleted once development was completed.
  */
 # ifdef LUCA_PHASE_II_PROJECT
-#  include <lcr/lc_runtime.h>
-#  include <lcr/lcrtc.h>
-#  include <lcc/lcc_internal.h>
 #  include <lccl.h>
 # else /* LUCA_PHASE_II_PROJECT */
-#  include <hcr/hc_runtime.h>
-#  include <hcr/hcrtc.h>
-#  include <hcc/hcc_internal.h>
 #  include <hccl.h>
 # endif /* LUCA_PHASE_II_PROJECT */
 # include "cuda_adapter.h"
@@ -66,9 +54,6 @@
  */
 # define __HIP_PLATFORM_AMD__
 # include <hip/hip_version.h>
-# include <hip/hip_runtime.h>
-# include <hip/hip_runtime_api.h>
-# include <hip/hiprtc.h>
 # ifdef HAVE_RCCL
 #  include <rccl/rccl.h>
 # endif
@@ -86,13 +71,7 @@
  * - CUDA_VERSION
  *   12020: V12.2.140
  */
-# ifdef HAVE_NVRTC
-#  include <nvrtc.h>
-# endif
 # include <cuda.h>
-# include <cuda_runtime.h>
-# include <cuda_runtime_api.h>
-# include <cusolver_common.h>
 # define DISABLE_CUSPARSE_DEPRECATED	1
 # ifdef HAVE_NCCL
 #  include <nccl.h>
