@@ -75,7 +75,7 @@ ifdef HAVE_HPCC
   $(info HAVE_HPCC)
   target-libso-cpp-y += ${libso-hpcc}
 
-  CXXFLAGS_SO_HPCC_SPECIAL += -I../adapter/
+  CXXFLAGS_SO_HPCC_SPECIAL += -I../adapter/include/
   CXXFLAGS_SO_HPCC_SPECIAL += -I${HPCC_ROOT}/include/
   CXXFLAGS_SO_HPCC_SPECIAL += -I${HPCC_ROOT}/include/common/
   CXXFLAGS_SO_HPCC_SPECIAL += -I${HPCC_ROOT}/include/hcr/
@@ -89,7 +89,7 @@ ifdef HAVE_LUCA
   $(info HAVE_LUCA)
   target-libso-cpp-y += ${libso-luca}
 
-  CXXFLAGS_SO_LUCA_SPECIAL += -I../adapter/
+  CXXFLAGS_SO_LUCA_SPECIAL += -I../adapter/include/
   CXXFLAGS_SO_LUCA_SPECIAL += -I${LUCA_ROOT}/include/
   CXXFLAGS_SO_LUCA_SPECIAL += -I${LUCA_ROOT}/include/common/
   CXXFLAGS_SO_LUCA_SPECIAL += -I${LUCA_ROOT}/include/lcr/
@@ -115,7 +115,7 @@ ifeq (${HAVE_HIP},y)
   $(info HAVE_HIP)
   target-libso-cpp-y += ${libso-hip}
 
-  CXXFLAGS_SO_HIP_SPECIAL += -I../adapter/
+  CXXFLAGS_SO_HIP_SPECIAL += -I../adapter/include/
   CXXFLAGS_SO += -I.
   CXXFLAGS_SO += -DHAVE_HIP=1
 endif

@@ -36,7 +36,7 @@ cflags-lscc-so := -Xcompiler -fPIC
 ldflags-lscc-so := -shared -Xcompiler -fPIC
 
 CFLAGS_LSCC += -I${TOPDIR}/hpc/nvidia/cuda/
-CFLAGS_LSCC += -I${TOPDIR}/hpc/nvidia/cuda/adapter/
+CFLAGS_LSCC += -I${TOPDIR}/hpc/nvidia/cuda/adapter/include/
 CFLAGS_LSCC += -DHAVE_LUCA=1
 CFLAGS_LSCC += -D__USE_LUCA__=1
 

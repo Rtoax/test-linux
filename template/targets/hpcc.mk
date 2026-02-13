@@ -36,7 +36,7 @@ ldflags-htcc-so := -shared -Xcompiler -fPIC
 
 
 CFLAGS_HTCC += -I${TOPDIR}/hpc/nvidia/cuda/
-CFLAGS_HTCC += -I${TOPDIR}/hpc/nvidia/cuda/adapter/
+CFLAGS_HTCC += -I${TOPDIR}/hpc/nvidia/cuda/adapter/include/
 CFLAGS_HTCC += -DHAVE_HPCC=1
 CFLAGS_HTCC += -D__USE_HPCC__=1
 
