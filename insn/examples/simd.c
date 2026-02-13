@@ -28,6 +28,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <syscall.h>
 #if defined(CPU_HAVE_ASIMD)
 #include <arm_neon.h>
 #endif
@@ -821,7 +822,11 @@ int main(int argc, char *argv[])
 	}
 
 	cpu = -1;
-	getcpu((unsigned int *)&cpu, NULL);
+#if __GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ > 28)
+	getcpu(&cpu, NULL);
+#else
+	syscall(__NR_getcpu, &cpu, NULL);
+#endif
 	fprintf(stderr, "Test nloop = %ld, running on cpu = %d\n", nloop, cpu);
 #if defined(CPU_HAVE_SVE)
 	uint64_t lanes = svcntb();

@@ -6,7 +6,6 @@ include binutils.mk
 
 OUTPUT := .output/
 
-subdir-y :=
 subdir-${IS_X86_64} += avx
 subdir-${IS_X86_64} += tsc
 subdir-${IS_X86_64} += pku
@@ -14,7 +13,6 @@ subdir-${IS_X86_64} += sse
 subdir-${IS_AARCH64} += neon
 subdir-${IS_AARCH64} += sve
 
-target-y :=
 target-${IS_X86_64} += add-x86
 target-${IS_X86_64} += bts
 target-${IS_X86_64} += fsin

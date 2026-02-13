@@ -12,6 +12,9 @@
 
 #include "sched_helpers.h"
 
+/**
+ * glibc <= 2.28 not have getcpu() wrapper.
+ */
 #define getcpu(c, n) sys_getcpu(c, n)
 
 int main(void)

@@ -143,6 +143,9 @@ const char *sched_policy_string(int policy)
 	}
 }
 
+/**
+ * glibc <= 2.28 not have getcpu() wrapper.
+ */
 long int sys_getcpu(unsigned *cpu, unsigned *node)
 {
 	return syscall(__NR_getcpu, cpu, node);
