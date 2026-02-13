@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
 
-source /etc/profile
-export -f make_tl
+source /etc/profile.d/make_tl.sh
 
 readonly MiB=1024*1024
 
