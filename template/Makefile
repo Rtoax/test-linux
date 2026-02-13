@@ -5,6 +5,8 @@
 __IGNORE_NOTFOUND_ERROR__ = 1
 OUTPUT := .output/
 
+V ?= 1
+
 MK_ALL := $(shell find -name '*.mk')
 
 MK_TGT := $(filter ./targets/%,${MK_ALL})
@@ -26,7 +28,7 @@ define include_stat
   $(eval include $(_mk))
   $(eval _end_$(_mk_id) := $(shell date +%s%6N))
   $(eval _cost_$(_mk_id) := $(shell echo "scale=3; ($(_end_$(_mk_id)) - $(_start_$(_mk_id))) / 1000" | bc))
-  $(info Including $(_mk) -> Done. Took $(_cost_$(_mk_id)) ms)
+  $(if ${V},$(info Include $(_mk) -> Done. Took $(_cost_$(_mk_id)) ms))
 endef
 
 # include each mk for twice to test ifndef-endif pair
