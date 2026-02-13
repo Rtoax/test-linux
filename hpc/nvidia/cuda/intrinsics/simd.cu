@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <string.h>
-#include "cuda_compat.h"
+#include <cuda_runtime.h>
 #include "compiler.h"
 #include "print.h"
 #include "types.h"
