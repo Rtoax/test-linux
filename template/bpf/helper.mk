@@ -1,5 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
 #
+# Helper functions are part of a stable UAPI and generally remain backward
+# compatible.
+#
+# Kfunc (kernel functions) are internal exports of the kernel exposed to BPF,
+# and there is no ABI stability guarantee, meaning they may change between
+# kernel versions.
+#
 # Output definitions:
 # - SUPPORT_$(upcase kfunc name)=[y]
 # - bpf-helper-cflags=
