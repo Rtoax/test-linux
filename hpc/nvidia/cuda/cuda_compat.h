@@ -12,8 +12,6 @@
  * - HAVE_NVRTC
  * - HAVE_RCCL
  * - HAVE_HPCC
- * - HAVE_CUPTI
- * - HAVE_LCPTI
  * - HAVE_HIP
  */
 #ifndef __CUDA_COMPAT_H
@@ -102,25 +100,10 @@
 # include <cuda_runtime.h>
 # include <cuda_runtime_api.h>
 # include <cusolver_common.h>
-# if CUDA_VERSION > 12040
-#  include <cuda_fp6.h>
-# endif
-# include <cuda_bf16.h>
 # define DISABLE_CUSPARSE_DEPRECATED	1
-# include <cusparse.h>
 # include <cooperative_groups.h>
 # ifdef HAVE_NCCL
 #  include <nccl.h>
-# endif
-# ifdef HAVE_CUPTI
-#  include <cupti.h>
-#  include <cupti_profiler_target.h>
-#  include <cupti_target.h>
-#  if CUDA_VERSION > 12040
-#   include <cupti_pmsampling.h>
-#   include <cupti_profiler_host.h>
-#   include <cupti_range_profiler.h>
-#  endif
 # endif
 # define CUNAME	"NVIDIA CUDA"
 #endif
