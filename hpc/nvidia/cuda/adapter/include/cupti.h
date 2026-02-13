@@ -11,12 +11,7 @@
 #endif
 
 #include "wrapper_defs.h"
-
-#define CUPTI_API_VERSION __CU(PTI_API_VERSION)
-/**
- * CUptiResult cuptiGetVersion(uint32_t *version);
- */
-#define cuptiGetVersion __cu(ptiGetVersion)
+#include "cupti_version.h"
 
 #define CUpti_SubscriberHandle __CU(pti_SubscriberHandle)
 #define CUpti_CallbackDomain __CU(pti_CallbackDomain)
