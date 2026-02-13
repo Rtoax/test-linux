@@ -3,6 +3,7 @@ Linux OS Distributions
 
 # @Linux Kernel Reference@
 
+* 6.18.9 (fedora43)
 * 6.18.8 (fedora43)
 * 6.18.7 (fedora43)
 * 6.18.6 (fedora43)
