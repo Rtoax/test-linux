@@ -14,7 +14,6 @@
  * - HAVE_HPCC
  * - HAVE_CUPTI
  * - HAVE_LCPTI
- * - HAVE_LSVPU
  * - HAVE_HIP
  */
 #ifndef __CUDA_COMPAT_H
@@ -55,17 +54,11 @@
 #  include <lcr/lcrtc.h>
 #  include <lcc/lcc_internal.h>
 #  include <lccl.h>
-#  ifdef HAVE_LSVPU
-#   include <lcr/lc_vpu_api.h>
-#  endif
 # else /* LUCA_PHASE_II_PROJECT */
 #  include <hcr/hc_runtime.h>
 #  include <hcr/hcrtc.h>
 #  include <hcc/hcc_internal.h>
 #  include <hccl.h>
-#  ifdef HAVE_LSVPU
-#   include <hcr/hc_vpu_api.h>
-#  endif
 # endif /* LUCA_PHASE_II_PROJECT */
 # ifdef __LUCA__
 #  include <luca_cooperative_groups.h>

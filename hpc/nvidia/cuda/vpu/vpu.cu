@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (C) 2026 Rong Tao */
 #include <stdio.h>
-#include "cuda_compat.h"
+#if defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+#  include <lcr/lc_vpu_api.h>
+# else
+#  include <hcr/hc_vpu_api.h>
+# endif
+#endif
 #include "cuda_helpers.h"
 
 #ifndef __LUCA__
