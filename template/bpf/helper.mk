@@ -169,6 +169,13 @@ ifeq ($(call kver_ge,5,18,0),y)
   $(call define_helper,bpf_dynptr_write)
 endif
 
+# linux v6.2-5289-gb5964b968ac6
+# commit b5964b968ac6 ("bpf: Add skb dynptrs")
+# int bpf_dynptr_from_skb(struct __sk_buff *s, u64 flags, struct bpf_dynptr *ptr__uninit);
+ifeq ($(call kver_ge,6,2,0),y)
+  $(call define_helper,bpf_dynptr_from_skb)
+endif
+
 export bpf-helper-cflags
 
 ifdef DEBUG
