@@ -824,7 +824,7 @@ int main(int argc, char *argv[])
 
 	cpu = -1;
 #if __GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ > 28)
-	getcpu(&cpu, NULL);
+	getcpu((unsigned *)&cpu, NULL);
 #else
 	syscall(__NR_getcpu, &cpu, NULL);
 #endif
