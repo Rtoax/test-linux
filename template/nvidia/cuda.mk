@@ -32,6 +32,7 @@ ifndef _NVIDIA_CUDA_MK
 _NVIDIA_CUDA_MK = 1
 
 include define.mk
+include shell.mk
 
 NVCC := $(shell which nvcc 2>/dev/null)
 CUOBJDUMP := $(shell which cuobjdump 2>/dev/null)
