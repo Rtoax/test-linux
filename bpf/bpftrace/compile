@@ -41,6 +41,7 @@ deb_pkgs() {
 		llvm-dev \
 		liblldb-dev \
 		libclang-dev \
+		python3-looseversion \
 		systemtap-sdt-dev \
 		xxd \
 		zlib1g-dev
