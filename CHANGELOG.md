@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- desktop: first commit;
 - template: add gnome.mk;
 - cuda/adapter: add nvml.h;
 - cuda/adapter: add from `cuda_compat.h` and `cuda_adapter.h`;
