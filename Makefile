@@ -135,7 +135,7 @@ install: uninstall
 	${Q}ln -s ${TOPDIR}/scripts/patchset.sh /usr/bin/patchset
 	${Q}ln -s ${TOPDIR}/scripts/termplot.sh /usr/bin/termplot
 	${Q}ln -s ${TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
-	${Q}ln -s ${TOPDIR}/init/kernel/kinstall.sh /usr/bin/kinstall
+	${Q}ln -s ${TOPDIR}/init/kernel/compile.sh /usr/bin/kcompile
 	${Q}ln -s ${TOPDIR}/tools/heatmap/hmctl.sh /usr/bin/hmctl
 	${Q}ln -s ${TOPDIR}/scripts/profile.d/make_tl.sh /etc/profile.d/make_tl.sh
 
@@ -153,7 +153,7 @@ uninstall:
 		/usr/bin/patchset \
 		/usr/bin/termplot \
 		/usr/bin/kconfig_compare \
-		/usr/bin/kinstall \
+		/usr/bin/kcompile \
 		/usr/bin/hmctl \
 		/etc/profile.d/make_tl.sh
 
