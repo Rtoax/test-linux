@@ -10,6 +10,7 @@ Linux OS Distributions
 * 6.18.5 (fedora43)
 * 6.18.3 (fedora43)
 * 6.17.12 (fedora43)
+* 6.17.9 (fedora42)
 * 6.17.0 (ubuntu25.10)
 * 6.16.3 (fedora42)
 * 6.14.0 (ubuntu24.04)
