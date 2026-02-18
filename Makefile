@@ -46,7 +46,7 @@ endif
 
 ifndef __USE_TEST_LINUX_MAKE__
   ifeq ($(filter $(MAKECMDGOALS),install uninstall gitconfig),)
-    $(error Must use test-linux make_tl.sh, start new bash session if you already make install)
+    $(error Must use test-linux make_tl.sh, startup a login shell with `bash -l`)
   endif
 else
   include logo.mk
