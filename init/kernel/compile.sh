@@ -12,7 +12,7 @@ set -e
 
 . /etc/os-release
 
-readonly prog=kinstall
+readonly prog=kcompile
 ARGS=$@
 
 verbose=
