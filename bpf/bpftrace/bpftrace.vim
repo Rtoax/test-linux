@@ -12,22 +12,7 @@ autocmd BufRead,BufNewFile *.bt setfiletype bpftrace
 syntax clear
 syntax sync minlines=1000
 
-highlight btkeyword
-	\ ctermfg=red
-	\ guifg=#FF0000 guibg=NONE gui=bold
-
-highlight btprobe
-	\ ctermfg=blue cterm=bold
-	\ guifg=#FF0000 guibg=NONE gui=bold
-
-highlight btstring
-	\ ctermfg=yellow
-	\ guifg=#FFFF00
-
-syntax keyword btkeyword comptime macro return break continue
-	\ containedin=ALL
-
-syntax keyword btStatement	break continue
+syntax keyword btStatement	break comptime continue let macro return
 syntax keyword btConditional	if else
 syntax keyword btRepeat		while for
 syntax keyword btTodo		contained TODO
@@ -50,7 +35,8 @@ syntax keyword btFunction	warnf zero avg count
 syntax keyword btFunction	hist lhist max min stats sum tseries
 syntax keyword btPatterns	BEGIN END begin end
 
-syntax keyword btType	bool int8 int16 int32 int64 uint8 uint16 uint32 uint64 string union struct
+syntax keyword btType	bool int int8 int16 int32 int64 uint8 uint16 uint32 uint64 string
+syntax keyword btStructure	union struct
 
 syntax region btString		start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=@Spell extend
 
@@ -61,17 +47,13 @@ syntax match btOperator		"\^\|\^="
 
 syntax match btComment /\/\/.*/ contains=@Spell,btTodo
 
-syntax region btComment
-	\ start=/\/\*/
-	\ end=/\*\//
-	\ fold
-	\ contains=@Spell,btTodo
+syntax region btComment start=/\/\*/ end=/\*\// fold contains=@Spell,btTodo
 
-syntax match btprobe
+syntax match btProbe
 	\ /\v(kprobe|kretprobe|k):.*/
 	\ containedin=ALL
 
-syntax match btprobe
+syntax match btProbe
 	\ /\v(uprobe|uretprobe|kfunc|kretfunc|tracepoint|usdt|fentry|fexit|probe|interval):.*:.*/
 	\ containedin=ALL
 
@@ -85,6 +67,7 @@ hi def link btConditional	Conditional
 hi def link btFunction		Function
 hi def link btRepeat		Repeat
 hi def link btStatement		Statement
+hi def link btStructure		Structure
 hi def link btShebang		Comment
 hi def link btComment		Comment
 hi def link btTodo		Todo

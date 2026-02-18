@@ -14,6 +14,14 @@ struct {
 	int a;
 };
 
+union {
+	int a;
+};
+
+macro name() {
+	"Rong Tao"
+}
+
 BEGIN
 {
 	printf("Tracing xxx, hit ctrl-c to end.\n");
@@ -25,13 +33,16 @@ interval:s:1
 {
 	let $a = (uint64)(1 + 9);
 
+	if comptime 1 {
+	}
+
 	time("%H:%M:%S ");
 	printf("%-8d %-16s\n", pid, comm);
 
 	/**
-	 * TODO:
+	 * This is comment, TODO:
 	 */
-	// TODO
+	// This is comment, TODO:
 	if (1) {
 		while (0) {
 			continue;
