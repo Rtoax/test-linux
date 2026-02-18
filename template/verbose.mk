@@ -15,7 +15,9 @@ _VERBOSE_MK = 1
 
 ifneq ($(V),)
   Q =
-  MAKEFLAGS += V=1
+  MAKEFLAGS += V=${V}
+  MAKEFLAGS += --no-silent
+  MAKEFLAGS += --print-directory
 else
   Q = @
   MAKEFLAGS += --silent
