@@ -6,4 +6,10 @@
 ifndef _GNOME_MK
 _GNOME_MK = 1
 
+XDG_CURRENT_DESKTOP := $(shell echo $$XDG_CURRENT_DESKTOP)
+
+ifdef DEBUG
+  $(info XDG_CURRENT_DESKTOP = ${XDG_CURRENT_DESKTOP})
+endif
+
 endif # end of _GNOME_MK
