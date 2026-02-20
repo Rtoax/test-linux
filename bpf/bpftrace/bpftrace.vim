@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:	bpftrace
 " Maintainer:	Rong Tao <rongtao@cestc.cn>
-" Last Change:	2026 Jan 28
+" Last Change:	2026 Feb 20
 
 " Quit when a syntax file was already loaded
 if exists("b:current_syntax")
@@ -45,6 +45,10 @@ syntax match btOperator		"+\|-\|\*\|/\|%\|="
 syntax match btOperator		"+=\|-=\|\*=\|/=\|%="
 syntax match btOperator		"\^\|\^="
 
+syntax match btNumber		"\<\d\%('\=\d\+\)*\%(u\=l\{0,2}\|ll\=u\|u\=wb\|wbu\=\)\>"
+"hex number
+syntax match btNumber		"\<0x\x\%('\=\x\+\)*\%(u\=l\{0,2}\|ll\=u\|u\=wb\|wbu\=\)\>"
+
 syntax match btComment /\/\/.*/ contains=@Spell,btTodo
 
 syntax region btComment start=/\/\*/ end=/\*\// fold contains=@Spell,btTodo
@@ -85,3 +89,4 @@ hi def link btIncluded		btString
 hi def link btInclude		Include
 hi def link btPreCondit		PreCondit
 hi def link btPreConditMatch	btPreCondit
+hi def link btNumber		Number
