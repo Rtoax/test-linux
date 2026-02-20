@@ -49,9 +49,8 @@ syntax match btNumber		"\<\d\%('\=\d\+\)*\%(u\=l\{0,2}\|ll\=u\|u\=wb\|wbu\=\)\>"
 "hex number
 syntax match btNumber		"\<0x\x\%('\=\x\+\)*\%(u\=l\{0,2}\|ll\=u\|u\=wb\|wbu\=\)\>"
 
-syntax match btComment /\/\/.*/ contains=@Spell,btTodo
-
-syntax region btComment start=/\/\*/ end=/\*\// fold contains=@Spell,btTodo
+syntax match btComment		/\/\/.*/ contains=@Spell,btTodo
+syntax region btComment		start=/\/\*/ end=/\*\// fold contains=@Spell,btTodo
 
 syntax match btProbe
 	\ /\v(kprobe|kretprobe|k|kr):.*/
@@ -66,10 +65,10 @@ syntax region btPreCondit
 	\ skip="\\$" end="$" keepend contains=btComment
 syntax match btPreConditMatch	display "^\s*\zs\%(%:\|#\)\s*\%(else\|endif\)\>"
 
-syntax match btShebang /\%^#![^[].*/
+syntax match btShebang		/\%^#![^[].*/
 syntax region btIncluded	display contained start=+"+ skip=+\\\\\|\\"+ end=+"+
-syntax match btIncluded	display contained "<[^>]*>"
-syntax match btInclude	display "^\s*\zs\%(%:\|#\)\s*include\>\s*["<]" contains=btIncluded
+syntax match btIncluded		display contained "<[^>]*>"
+syntax match btInclude		display "^\s*\zs\%(%:\|#\)\s*include\>\s*["<]" contains=btIncluded
 
 " Define the default highlighting.
 highlight def link btConditional	Conditional
