@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- scripts: add history.sh from ostools;
 - dnf: add repodiff.py,`gen_rootfs_img.sh` from ostools;
 - rpm: add rpmcpy.sh from ostools;
 - desktop: first commit;
