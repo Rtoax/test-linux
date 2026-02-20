@@ -7,7 +7,7 @@ set -e
 
 AUTHOR='Rong Tao'
 declare -a FILES
-year=$(date +%Y)
+YEAR=$(date +%Y)
 
 backlog() {
 	tput el # clean whole line
