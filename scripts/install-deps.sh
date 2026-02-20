@@ -25,9 +25,7 @@ declare -a pkgs_skip
 
 declare -a enable_srvs
 
-verbose=
-dry_run=
-force=
+declare verbose dry_run force
 
 readonly OS=${ID}
 readonly OS_VERSION=${VERSION_ID}
@@ -41,34 +39,11 @@ readonly DISTS_RHEL_LIKE=( fedora centos rhel almalinux openEuler cclinux
 readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
 readonly DISTS_SUSE_LIKE=( suse opensuse opensuse-leap )
 
-have_base=
-have_upgrade=
-have_ai=
-have_cuda=
-have_rocm=
-have_gpu=
-have_fs=
-have_pip=
-have_compiler=
-have_build=
-have_docs=
-have_devel=
-have_container=
-have_virt=
-have_desktop=
-have_math=
-have_media=
-have_bench=
-have_db=
-have_storage=
-have_net=
-have_video=
-have_boot=
-have_rdma=
-have_cxl=
-
-have_services=
-have_3rd_party=
+declare have_base have_upgrade have_ai have_cuda have_rocm have_gpu have_fs \
+	have_pip have_compiler have_build have_docs have_devel have_container \
+	have_virt have_desktop have_math have_media have_bench have_db \
+	have_storage have_net have_video have_boot have_rdma have_cxl \
+	have_services have_3rd_party
 
 has_pkgs() {
 	echo ${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_rdma}${have_cxl}${have_services}${have_rocm}
