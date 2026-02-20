@@ -14,7 +14,7 @@ syntax sync minlines=1000
 
 syntax keyword btStatement	break comptime continue let macro return
 syntax keyword btConditional	if else
-syntax keyword btRepeat		while for
+syntax keyword btRepeat		for unroll while
 syntax keyword btTodo		contained TODO
 syntax keyword btFunction	assert bswap buf cat
 syntax keyword btFunction	cgroup cgroup_path cgroupid
