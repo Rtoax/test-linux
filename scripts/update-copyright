@@ -7,6 +7,7 @@ set -e
 
 AUTHOR='Rong Tao'
 declare -a FILES
+year=$(date +%Y)
 
 backlog() {
 	tput el # clean whole line
@@ -21,7 +22,6 @@ gen_copyright() {
 	local file=$1
 	local old="$2"
 	local years=( $(echo "${old}" | grep -o '[0-9]\{4\}') )
-	local year=$(date +%Y)
 	local startyear endyear to
 
 	if [[ ${#years[@]} -eq 2 ]]; then
@@ -35,15 +35,15 @@ gen_copyright() {
 		exit 1
 	fi
 
-	if [[ ${endyear} -gt ${year} ]]; then
-		echo >&2 "WARNING: Bad year '${endyear}' in ${file}, correct it to ${year}"
-		endyear=${year}
+	if [[ ${endyear} -gt ${YEAR} ]]; then
+		echo >&2 "WARNING: Bad year '${endyear}' in ${file}, correct it to ${YEAR}"
+		endyear=${YEAR}
 	fi
 
-	if [[ ${startyear} -eq ${year} ]]; then
-		to="Copyright (C) ${year} ${AUTHOR}"
+	if [[ ${startyear} -eq ${YEAR} ]]; then
+		to="Copyright (C) ${YEAR} ${AUTHOR}"
 	else
-		to="Copyright (C) ${startyear}-${year} ${AUTHOR}"
+		to="Copyright (C) ${startyear}-${YEAR} ${AUTHOR}"
 	fi
 	echo "${to}"
 }
@@ -69,6 +69,7 @@ __usage__()
 {
 	echo -e "
 -A, --author [AUTHOR]    specify author name
+-Y, --year [New Year]    specify year, default: ${YEAR}
 -h, --help               show this help information
 -v, --verbose            show detail during running
 " | more
@@ -76,8 +77,9 @@ __usage__()
 }
 
 TEMP_ARGS=$(getopt \
-	--options A:vh \
+	--options A:Y:vh \
 	--long author: \
+	--long year: \
 	--long verbose \
 	--long help \
 	-n update-copyright -- "$@")
@@ -91,6 +93,11 @@ while true; do
 	-A|--author)
 		shift
 		AUTHOR="$1"
+		shift
+		;;
+	-Y|--year)
+		shift
+		YEAR="$1"
 		shift
 		;;
 	-h|--help)
