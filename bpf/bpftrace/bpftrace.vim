@@ -35,7 +35,7 @@ syntax keyword btFunction	warnf zero avg count
 syntax keyword btFunction	hist lhist max min stats sum tseries
 syntax keyword btPatterns	BEGIN END begin end
 
-syntax keyword btType	bool int int8 int16 int32 int64 uint8 uint16 uint32 uint64 string
+syntax keyword btType		bool int int8 int16 int32 int64 uint8 uint16 uint32 uint64 string
 syntax keyword btStructure	union struct
 
 syntax region btString		start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=@Spell extend
@@ -54,7 +54,7 @@ syntax match btComment /\/\/.*/ contains=@Spell,btTodo
 syntax region btComment start=/\/\*/ end=/\*\// fold contains=@Spell,btTodo
 
 syntax match btProbe
-	\ /\v(kprobe|kretprobe|k):.*/
+	\ /\v(kprobe|kretprobe|k|kr):.*/
 	\ containedin=ALL
 
 syntax match btProbe
@@ -72,21 +72,21 @@ syntax match btIncluded	display contained "<[^>]*>"
 syntax match btInclude	display "^\s*\zs\%(%:\|#\)\s*include\>\s*["<]" contains=btIncluded
 
 " Define the default highlighting.
-hi def link btConditional	Conditional
-hi def link btFunction		Function
-hi def link btRepeat		Repeat
-hi def link btStatement		Statement
-hi def link btStructure		Structure
-hi def link btShebang		Comment
-hi def link btComment		Comment
-hi def link btTodo		Todo
-hi def link btType		Type
-hi def link btPatterns		Special
-hi def link btProbe		Identifier
-hi def link btString		String
-hi def link btOperator		Special
-hi def link btIncluded		btString
-hi def link btInclude		Include
-hi def link btPreCondit		PreCondit
-hi def link btPreConditMatch	btPreCondit
-hi def link btNumber		Number
+highlight def link btConditional	Conditional
+highlight def link btFunction		Function
+highlight def link btRepeat		Repeat
+highlight def link btStatement		Statement
+highlight def link btStructure		Structure
+highlight def link btShebang		Comment
+highlight def link btComment		Comment
+highlight def link btTodo		Todo
+highlight def link btType		Type
+highlight def link btPatterns		Special
+highlight def link btProbe		Identifier
+highlight def link btString		String
+highlight def link btOperator		Special
+highlight def link btIncluded		btString
+highlight def link btInclude		Include
+highlight def link btPreCondit		PreCondit
+highlight def link btPreConditMatch	btPreCondit
+highlight def link btNumber		Number
