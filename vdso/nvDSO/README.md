@@ -10,7 +10,7 @@ Update the target process's `vdso` code without modifying the target process cod
 $ make test
 ...
 7f1ac9255000-7f1ac9259000 r--p 00000000 00:00 0                          [vvar]
-7f1ac9259000-7f1ac925b000 r-xp 00000000 08:00 2620452837                 /home/sda/git-repos/ostools/nvDSO/vdso.elf
+7f1ac9259000-7f1ac925b000 r-xp 00000000 08:00 2620452837                 /home/sda/git-repos/test-linux/vdso/nvDSO/vdso.elf
 
 $ make test DEBUG=1
 ...
@@ -18,7 +18,7 @@ $ make test DEBUG=1
 7ff521252000-7ff521254000 r-xp 00000000 00:00 0                          [vdso]
 ...
 7ff52124e000-7ff521252000 r--p 00000000 00:00 0                          [vvar]
-7ff521252000-7ff521254000 r-xp 00000000 08:00 2620452836                 /home/sda/git-repos/ostools/nvDSO/vdso.elf
+7ff521252000-7ff521254000 r-xp 00000000 08:00 2620452836                 /home/sda/git-repos/test-linux/vdso/nvDSO/vdso.elf
 ```
 
 If kernel config support `CONFIG_ANON_VMA_NAME`:
@@ -36,11 +36,11 @@ $ make test DEBUG=1
 If kernel config support `CONFIG_ANON_VMA_NAME`, and set envrioment `NVDSO_NAME`:
 
 ```
-$ NVDSO_NAME=vdso.ostools LD_PRELOAD=./libnvdso.so ./main
+$ NVDSO_NAME=vdso.test-linux LD_PRELOAD=./libnvdso.so ./main
 ...
 7fd89107c000-7fd89107e000 r--p 00000000 00:00 0                          [vvar]
-7fd891080000-7fd891082000 r-xp 00000000 00:00 0                          [anon:vdso.ostools]
-                                                                               ^^^^^^^^^^^^
+7fd891080000-7fd891082000 r-xp 00000000 00:00 0                          [anon:vdso.test-linux]
+                                                                               ^^^^^^^^^^^^^^^
 ```
 
 Or just test with:

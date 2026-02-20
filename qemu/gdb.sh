@@ -50,7 +50,7 @@ echo_bzimage_demo()
 	local prefix=$1
 	echo "
 $prefix# Start with bzImage and initramfs.img
-$prefix$ ./ostools.sh qemu-gdb \\
+$prefix$ ./gdb.sh \\
 $prefix     --bzImage /path/to/bzImage \\
 $prefix     --initrd /path/to/initramfs.img
 "
@@ -61,7 +61,7 @@ echo_qcow2_demo()
 	local prefix=$1
 	echo "
 $prefix# Start with qcow2
-$prefix$ ./ostools.sh qemu-gdb \\
+$prefix$ ./gdb.sh \\
 $prefix     --qcow2 /patch/to/image.qcow2
 "
 }

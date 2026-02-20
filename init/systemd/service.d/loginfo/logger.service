@@ -7,9 +7,9 @@ Documentation=man:logger(1)
 
 [Service]
 Type=oneshot
-ExecStartPre=/usr/bin/logger -t "ostools[$$]" -p "debug" -- "Test Logger Pre"
+ExecStartPre=/usr/bin/logger -t "testlinux[$$]" -p "debug" -- "Test Logger Pre"
 ExecStart=/usr/bin/loginfo.sh
-ExecStartPost=/usr/bin/logger -t "ostools[$$]" -p "debug" -- "Test Logger Post"
+ExecStartPost=/usr/bin/logger -t "testlinux[$$]" -p "debug" -- "Test Logger Post"
 ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
