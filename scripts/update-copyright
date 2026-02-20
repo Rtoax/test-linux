@@ -8,6 +8,10 @@ set -e
 AUTHOR='Rong Tao'
 declare -a FILES
 
+backlog() {
+	echo -ne "${@}\r"
+}
+
 # $1: file path
 # $2: format: "Copyright (C) Y-Y AUTHOR"
 gen_copyright() {
@@ -50,6 +54,7 @@ replace_copyright() {
 	local new="$3"
 
 	if [[ "${new}" == "${old}" ]]; then
+		backlog "Skipping ${file}"
 		return 0
 	fi
 
@@ -104,35 +109,39 @@ done
 FILES=( ${@} )
 [[ -z "${FILES}" ]] && FILES=( $(find -type f) )
 
+declare old new
+
 for f in ${FILES[@]}
 do
-	[[ -L $f ]] && continue
+	[[ -L ${f} ]] && continue
 	[[ ${f:0:6} == ./.git ]] && continue
 
 	__replace() {
 		if [[ "${old}" ]]; then
-			new="$(gen_copyright $f "${old}")"
-			replace_copyright "$f" "$old" "$new"
+			new="$(gen_copyright ${f} "${old}")"
+			replace_copyright "${f}" "$old" "$new"
 		fi
 		old=
 		new=
 	}
 
-	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	backlog "Handling ${f}"
+
+	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
 
-	old=$(grep -o 'Copyright (c) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	old=$(grep -o 'Copyright (c) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
 
-	old=$(grep -o 'Copyright (C) [0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	old=$(grep -o 'Copyright (C) [0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
 
-	old=$(grep -o 'Copyright (c) [0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	old=$(grep -o 'Copyright (c) [0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
 
-	old=$(grep -o 'Copyright [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	old=$(grep -o 'Copyright [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
 
-	old=$(grep -o 'Copyright [0-9]\{4\} '"${AUTHOR}"'' $f || :)
+	old=$(grep -o 'Copyright [0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
 done
