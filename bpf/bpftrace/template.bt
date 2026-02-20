@@ -35,9 +35,11 @@ BEGIN
 interval:s:1
 {
 	let $a = (uint64)(1 + 9);
-	let $b = 0x123;
+	let $b = 0x123abcdefABCDEF;
 	let $c = 0123;
 	let $d = 123;
+	let $i1 = 123_124;
+	let $i2 = 123_124_123;
 
 	if comptime 1 {
 	}
