@@ -11,6 +11,19 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+
+
+## [v2.3.16] 2026-02-20
+
+#### Breaking Changes
+#### Added
 - scripts: add history.sh from ostools;
 - dnf: add repodiff.py,`gen_rootfs_img.sh` from ostools;
 - rpm: add rpmcpy.sh from ostools;
