@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- rpm: add rpmcpy.sh from ostools;
 - desktop: first commit;
 - template: add gnome.mk;
 - cuda/adapter: add nvml.h;
