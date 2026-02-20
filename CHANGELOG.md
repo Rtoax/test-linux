@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- dnf: add repodiff.py from ostools;
+- dnf: add repodiff.py,`gen_rootfs_img.sh` from ostools;
 - rpm: add rpmcpy.sh from ostools;
 - desktop: first commit;
 - template: add gnome.mk;
