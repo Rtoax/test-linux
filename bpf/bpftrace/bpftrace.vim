@@ -57,6 +57,11 @@ syntax match btProbe
 	\ /\v(uprobe|uretprobe|kfunc|kretfunc|tracepoint|usdt|fentry|fexit|probe|interval):.*:.*/
 	\ containedin=ALL
 
+syntax region btPreCondit
+	\ start="^\s*\zs\%(%:\|#\)\s*\%(if\|ifdef\|ifndef\|elif\)\>"
+	\ skip="\\$" end="$" keepend contains=btComment
+syntax match btPreConditMatch	display "^\s*\zs\%(%:\|#\)\s*\%(else\|endif\)\>"
+
 syntax match btShebang /\%^#![^[].*/
 syntax region btIncluded	display contained start=+"+ skip=+\\\\\|\\"+ end=+"+
 syntax match btIncluded	display contained "<[^>]*>"
@@ -78,3 +83,5 @@ hi def link btString		String
 hi def link btOperator		Special
 hi def link btIncluded		btString
 hi def link btInclude		Include
+hi def link btPreCondit		PreCondit
+hi def link btPreConditMatch	btPreCondit

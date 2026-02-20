@@ -10,6 +10,9 @@
 #include <linux/sched.h>
 #endif
 
+#ifdef CONFIG_MMU
+#endif
+
 struct {
 	int a;
 };
