@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- device-tree: add abbrev.md;
 #### Changed
 #### Deprecated
 #### Removed
