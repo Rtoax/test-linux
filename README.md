@@ -23,9 +23,9 @@ You could always use [man-pages](https://git.kernel.org/pub/scm/docs/man-pages/m
 - [ ] `loongarch64`
 
 
-# Linux Kernel Development
+# Test Linux Development
 
-Linus Torvalds releases a new kernel and opens a **2-week merge window**.
+Linus Torvalds releases a new kernel and opens a **2-week merge window**, however, test-linux has no development cycle restrictions, submissions, development, and releases can be done at any time.
 
 ## Commit Tags
 
@@ -54,12 +54,12 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 * Each `README.md` is current directory's description.
 * Each `FAQ.md` is current directory's FAQs.
 * Each `abbrev.md` is current directory's relative abbreviation.
-	- scripts: `./abbrev.sh` to check all abbreviations.
+  - scripts: `./abbrev.sh` to check all abbreviations.
 * Each `history.md` is store history of some technology.
 * Each **drawio** contains relate directory diagrams.
 * Never call `include` in `*.mk` file, only call `include` in Makefile.
 * Each `kconfig` contains kernel CONFIG, each CONFIG is placed in the kconfig of the corresponding directory, and the public CONFIG is placed in the kconfig of the top-level directory.
-	- scripts: `./kconfig.sh` to check all kernel config;
+  - scripts: `./kconfig.sh` to check all kernel config;
 * Each `*_helpers*` is helpers program/script of current directory, better `LGPL-2.1 OR BSD-2-Clause` license.
 * Each `requirements.txt` is Python pip --requirement for each directory.
 * Ignore file (check `.gitignore`).
@@ -68,19 +68,12 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**.
 * Each `version.sh` is current directory's component version, for example, running `bpftrace/version.sh` will get bpftrace version.
 
 
-# APIs
+## Standard
 
-## POSIX (Portable Operating System Interface of UNIX)
-
-see [posix/README.md](posix/README.md).
-
-## System V Release
-
-see [svr/README.md](svr/README.md).
-
-## Function Name
-
-If glibc/posix/syscall already have name `a`, The function test-linux implemented is name `tl_a`(the `tl_` prefix).
+- [IEEE](./ieee/README.md)
+- [ISO](./iso/README.md)
+- [POSIX](./posix/README.md)
+- [System V](./svr/README.md).
 
 
 # Miscs
@@ -105,7 +98,7 @@ The copyright line must be `Copyright (C) 2021-2026 Rong Tao`, where `Rong Tao` 
 - [Linux Foundation: Referenced Specifications](https://refspecs.linuxfoundation.org/)
 - [LSB: Linux Standard Base](https://refspecs.linuxfoundation.org/lsb.shtml)
 - [vger.kernel.org](https://subspace.kernel.org/vger.kernel.org.html)
-	- [lore.kernel.org/lkml](https://lore.kernel.org/lkml/)
+  - [lore.kernel.org/lkml](https://lore.kernel.org/lkml/)
 - [elixir.bootlin.com](https://elixir.bootlin.com/linux/latest/source)
 - [www.kernel.org/doc/html/latest](https://www.kernel.org/doc/html/latest/)
 - [Contributors to the Linux Kernel](https://cregit.linuxsources.org/)
@@ -113,12 +106,12 @@ The copyright line must be `Copyright (C) 2021-2026 Rong Tao`, where `Rong Tao` 
 - [linaro LKFT](https://qa-reports.linaro.org/lkft/)
 - [kerneltests](https://kerneltests.org/)
 - [kernel/map](https://makelinux.github.io/kernel/map/)
-	- [github.com/makelinux](https://github.com/makelinux/linux_kernel_map)
+  - [github.com/makelinux](https://github.com/makelinux/linux_kernel_map)
 - linux git
-	- [github torvalds](https://github.com/torvalds/linux)
-	- [git.kernel.org stable](git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git)
-	- [git.kernel.org torvalds](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
-	- [mirrors.kernel.org](https://mirrors.kernel.org/)
+  - [github torvalds](https://github.com/torvalds/linux)
+  - [git.kernel.org stable](git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git)
+  - [git.kernel.org torvalds](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
+  - [mirrors.kernel.org](https://mirrors.kernel.org/)
 
 ## Relative Projects
 
@@ -131,12 +124,8 @@ The copyright line must be `Copyright (C) 2021-2026 Rong Tao`, where `Rong Tao` 
 
 - [asciiflow](https://asciiflow.com/#/)
 - [monosketch](https://app.monosketch.io/)
-	- [github](https://github.com/tuanchauict/MonoSketch)
+  - [github](https://github.com/tuanchauict/MonoSketch)
 - [drawio](https://github.com/jgraph/drawio-desktop)
-	- [releases](https://github.com/jgraph/drawio-desktop/releases)
+  - [releases](https://github.com/jgraph/drawio-desktop/releases)
 - [IDA](https://hex-rays.com/ida-free)
-	- [Download Center](https://my.hex-rays.com/dashboard/download-center/)
-
-## Standard
-
-- [IEEE](https://www.ieee.org/)
+  - [Download Center](https://my.hex-rays.com/dashboard/download-center/)

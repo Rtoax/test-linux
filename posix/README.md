@@ -16,3 +16,5 @@ POSIX (Portable Operating System Interface of UNIX)
 - `POSIX.1-2017 (2017)` - Updates and corrections.
 - `POSIX.1-2024 (2024)` - The latest revision, which includes further updates and corrections.
 
+
+# Links
