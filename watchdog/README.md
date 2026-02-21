@@ -1,7 +1,7 @@
-Watchdog
-=========
+Linux Watchdog
+================
 
-Linux共有三个看门狗，需要被细心照料
+Linux has three watchdog:
 
 1. /dev/watchdog
 2. softlockup 检测机制
