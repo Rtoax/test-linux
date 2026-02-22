@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - device-tree: add abbrev.md;
 #### Changed
+- move coredump into gnu/gdb/;
 - move binfmt, criu, livepatch, `static_key` into tools;
 #### Deprecated
 #### Removed
