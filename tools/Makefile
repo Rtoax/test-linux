@@ -1,4 +1,5 @@
 subdir-y := cmake
+subdir-y += criu
 subdir-y += code-formatter
 subdir-y += fstabd
 subdir-y += libguestfs

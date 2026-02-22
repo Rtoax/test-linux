@@ -13,7 +13,7 @@ and this project adheres to
 #### Added
 - device-tree: add abbrev.md;
 #### Changed
-- move livepatch, `static_key` into tools;
+- move criu, livepatch, `static_key` into tools;
 #### Deprecated
 #### Removed
 #### Fixed
