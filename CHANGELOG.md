@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- python: add blivet subdir;
 - rust: add version.sh;
 - template: add rust.mk;
 - device-tree: add abbrev.md;

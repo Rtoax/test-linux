@@ -1,4 +1,5 @@
-subdir-y := mkdocs
+subdir-y := blivet
+subdir-y += mkdocs
 subdir-y += numpy
 subdir-y += os
 subdir-y += sys
