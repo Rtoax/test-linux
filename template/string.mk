@@ -5,6 +5,7 @@
 # - toupper()
 # - toupper_shell()
 # - tolower()
+# - tolower_shell()
 #
 ifndef _STRING_MK
 _STRING_MK = 1
