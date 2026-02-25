@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- anaconda: add kickstart subdir;
 - anaconda: add product.img/ from ostools;
 - distro: add anaconda subdir;
 - scap: add openscap,oscap subdir;
