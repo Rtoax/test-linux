@@ -210,6 +210,12 @@ ifeq ($(call vmlinux_has_sym_shell,bpf_strcasestr),y)
   $(call bpf_def_helper,bpf_strncasestr)
 endif
 
+# linux v6.19-rc5-205-g1dc669646762
+# commit 1dc669646762 ("bpf: add bpf_strncasecmp kfunc")
+ifeq ($(call kver_ge,6,19,0),y)
+  $(call bpf_def_helper,bpf_strncasecmp)
+endif
+
 # See BPF_NO_KFUNC_PROTOTYPES in test-linux/bpf/libbpf/bpf_misc.h
 ifeq ($(call pahole_lt,1,26),y)
   bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
