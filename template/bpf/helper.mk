@@ -23,14 +23,14 @@ include bpf/btf.mk
 bpf-helper-cflags :=
 
 # $1 - helper or kfunc name in lowercase
+# $2 - helper or kfunc name in uppercase
 define ___bpf_def_helper
-  HELPER_DEF := SUPPORT_$(call toupper_shell,$(1))
-  export $${HELPER_DEF} := y
-  bpf-helper-cflags += -D$${HELPER_DEF}=1
-  $(info Found ${1}() and define ${HELPER_DEF})
+  export SUPPORT_$(2) := y
+  bpf-helper-cflags += -DSUPPORT_$(2)=1
+  $(info Found $(1)() and define SUPPORT_$(2))
 endef
 define bpf_def_helper
-  $(eval $(call ___bpf_def_helper,${1}))
+  $(eval $(call ___bpf_def_helper,${1},$(call toupper_shell,${1})))
 endef
 
 # linux v3.18-rc4-943-gd0003ec01c66
