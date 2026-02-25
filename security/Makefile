@@ -5,6 +5,7 @@ subdir-y += access
 subdir-y += openssl
 subdir-y += openssh
 subdir-y += pam
+subdir-y += scap
 subdir-y += seccomp
 subdir-y += sgx
 

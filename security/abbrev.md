@@ -23,7 +23,6 @@
 - PSCI: Power State Coordination Interface (电源状态协调接口) @ATF
 - RBAC: Role Based Access Control (基于角色的访问控制)
 - REE: Rich Execution Environment () @TEE
-- SCAP: Security Content Automation Protocol ()
 - Secomp: SECure COMPuting (安全计算)
 - SELinux: Security-Enhanced Linux (安全增强Linux)
 - SMC: Secure Monitor Call () @TEE
