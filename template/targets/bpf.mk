@@ -48,19 +48,19 @@ endif
 
 # This is target-bpf-y
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
-	$(call log_obj,BPF,$(<),$(@))
+	$(call log_obj,BPF,$(@))
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 ${OUTPUT}%.bpf.disasm: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	$(call log_obj,BPF DIS,$(<),$(@))
+	$(call log_obj,BPF DIS,$(@))
 	${Q}${LLVM_OBJDUMP} --disassemble --source ${OBJDUMP_ARGS} $(<) > $(@)
 
 ${OUTPUT}%.bpf.s: %.bpf.c | ${OUTPUT}
-	$(call log_obj,BPF S,$(<),$(@))
+	$(call log_obj,BPF S,$(@))
 	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 ${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	$(call log_obj,SKEL,$(<),$(@))
+	$(call log_obj,SKEL,$(@))
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked1.o) $(<)
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked2.o) $(<:.o=.linked1.o)
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked3.o) $(<:.o=.linked2.o)
@@ -74,7 +74,7 @@ ${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	#	$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
 
 ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	$(call log_obj,BTF,$(<),$(@))
+	$(call log_obj,BTF,$(@))
 	${Q}$(PAHOLE) -JV $(<) > $(@)
 
 ${target-btf-y}: | ${OUTPUT}

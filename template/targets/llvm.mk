@@ -27,23 +27,23 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 
 # AST: Abstract Syntax Tree
 %.llvm.ast: %.c
-	$(call log_obj,CLANG AST,$(<),$(@))
+	$(call log_obj,CLANG AST,$(@))
 	${Q}$(CLANG) $(<) ${CLANG_AST_CFLAGS} $(CFLAGS) $(CFLAGS_$(*)) > $(@)
 
 %.llvm.ll: %.c
-	$(call log_obj,CLANG LL,$(<),$(@))
+	$(call log_obj,CLANG LL,$(@))
 	${Q}$(CLANG) -S -emit-llvm $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 %.llvm.bc: %.llvm.ll
-	$(call log_obj,LLVM AS,$(<),$(@))
+	$(call log_obj,LLVM AS,$(@))
 	${Q}$(LLVM_AS) $(<) -o $(@)
 
 %.llvm.bc.dis: %.llvm.bc
-	$(call log_obj,LLVM DIS,$(<),$(@))
+	$(call log_obj,LLVM DIS,$(@))
 	${Q}$(LLVM_DIS) $(<) -o $(@)
 
 %.llvm.ll.s: %.llvm.ll
-	$(call log_obj,LLC,$(<),$(@))
+	$(call log_obj,LLC,$(@))
 	${Q}$(LLC) $(<) -o $(@)
 
 ${target-llvm-ll-y}: %:

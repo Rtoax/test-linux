@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- log.mk: `log_obj()` remove 2nd argument;
 #### Added
 - rust: add version.sh;
 - template: add rust.mk;

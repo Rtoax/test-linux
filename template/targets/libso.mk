@@ -23,11 +23,11 @@ ifdef DEBUG
 endif
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
-	$(call log_obj,CC SO.o,$(<),$(@))
+	$(call log_obj,CC SO.o,$(@))
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
 
 ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
-	$(call log_obj,CXX SO.o,$(<),$(@))
+	$(call log_obj,CXX SO.o,$(@))
 	${Q}$(CXX) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
 
 # All symlinks depends on original dynamic target, thus, if some one need the

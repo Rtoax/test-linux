@@ -12,7 +12,7 @@ ifdef DEBUG
 endif
 
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
-	$(call log_obj,CC A.o,$(<),$(@))
+	$(call log_obj,CC A.o,$(@))
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
 $(target-liba-y): %:
