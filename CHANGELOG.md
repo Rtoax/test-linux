@@ -11,6 +11,8 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- rust: add version.sh;
+- template: add rust.mk;
 - device-tree: add abbrev.md;
 #### Changed
 - rename COMPILE.md to QUICKSTART.md;

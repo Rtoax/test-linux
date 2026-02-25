@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-subdir-y :=
+target-shell-y := version.sh
+
 subdir-y += types
 subdir-y += thread
 
-target-rust-y :=
 target-rust-y += hello
 target-rust-y += if-let
 

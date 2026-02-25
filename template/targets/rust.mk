@@ -1,11 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2025-2026 Rong Tao
+
 ifndef _TARGET_RUST_MK
 _TARGET_RUST_MK = 1
 
-RUSTC := $(shell which rustc 2>/dev/null)
-ifeq ($(RUSTC),)
-  $(error "Not found rustc compiler")
-endif
+include rust.mk
 
 $(target-rust-y): %:
 	$(call log_exe,RUSTC,$(<),$(@))

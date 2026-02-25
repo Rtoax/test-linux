@@ -186,6 +186,7 @@ add_py_ver() { add_ver "Python $(${TOPDIR}/python/version.sh)"; }
 add_qemu_ver() { add_ver "Qemu $(${TOPDIR}/qemu/version.sh)"; }
 add_rocm_ver() { add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"; }
 add_rpm_ver() { add_ver "RPM $(${TOPDIR}/distro/rpm/version.sh)"; }
+add_rust_ver() { add_ver "Rust $(${TOPDIR}/rust/version.sh)"; }
 add_shell_ver() { add_ver "$(${TOPDIR}/shell/version.sh --name) $(${TOPDIR}/shell/version.sh)"; }
 add_systemd_ver() { add_ver "Systemd $(${TOPDIR}/init/systemd/version.sh)"; }
 add_vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
@@ -237,6 +238,10 @@ fi
 
 if [[ "$(have_type rpm)$(have_key rpm dnf)" ]]; then
 	add_rpm_ver
+fi
+
+if [[ "$(have_type rs)$(have_key rust)" ]]; then
+	add_rust_ver
 fi
 
 if [[ "$(have_key ostree)" ]]; then
