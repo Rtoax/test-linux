@@ -18,6 +18,8 @@
 
 /**
  * CUDA: typedef float2 cuFloatComplex;
+ * HIP: typedef float2 hipFloatComplex;
+ * LUCA: typedef float2 lcFloatComplex;
  */
 #define cuFloatComplex __cu(FloatComplex)
 
@@ -41,11 +43,15 @@
 #define cuCimagf __cu(Cimagf)
 
 #ifdef __USE_HPCC__
+# include <hcComplex.h>
 #elif defined(__USE_LUCA__)
 # ifdef LUCA_PHASE_II_PROJECT
+#  include <lcComplex.h>
 # else
+#  include <hcComplex.h>
 # endif
 #elif defined(__USE_HIP__)
+# include <amd_detail/amd_hip_complex.h>
 #endif
 
 #endif
