@@ -3,8 +3,6 @@
 #
 # Functions:
 # - log_obj()
-# - log_start()
-# - log_end()
 # - log_tgt()
 # - log_info()
 # - log_failed()
@@ -31,13 +29,6 @@ define log_obj
 endef
 define log_tgt
 @printf "$(call TS) %-8s $(call bgreen,%s)\n" "${1}" "$(2)"
-endef
-
-define log_start
-@echo -e "$(call TS) [$(1)] $(call bgreen,$(2)) start"
-endef
-define log_end
-@echo -e "$(call TS) [$(1)] $(call byellow,$(2)) done"
 endef
 
 define log_info

@@ -21,6 +21,7 @@ and this project adheres to
 - move binfmt, criu, livepatch, `static_key` into tools;
 #### Deprecated
 #### Removed
+- log.mk: remove `log_start()` and `log_end()`;
 - log.mk: remove `log_exe()` and use `log_tgt()`;
 #### Fixed
 #### Security
