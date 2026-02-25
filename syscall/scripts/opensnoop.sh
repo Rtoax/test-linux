@@ -1,1 +1,1 @@
-../../perf/trace/opensnoop.sh
+../../tools/perf/trace/opensnoop.sh
