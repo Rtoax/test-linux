@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - device-tree: add abbrev.md;
 #### Changed
+- rename COMPILE.md to QUICKSTART.md;
 - move coredump into gnu/gdb/;
 - move binfmt, criu, livepatch, `static_key` into tools;
 #### Deprecated

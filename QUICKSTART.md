@@ -1,23 +1,23 @@
-Test-Linux Compile
-==================
+Test-Linux Quick Start
+======================
 
-The purpose of compilation is to compile the code of this directory and subdirectories directly in each level of directory.
+The purpose of this document is to compile the code of this directory and subdirectories directly in each level of directory.
 
-## GIT Config
+## Git Config
 
-```
+```bash
 $ make gitconfig
 ```
 
 ## Install depends
 
-```
+```bash
 $ sudo make deps
 ```
 
 ## Config
 
-```
+```bash
 $ make config
 ```
 
@@ -43,13 +43,13 @@ $ make build M32=1
 
 Compile with verbose:
 
-```
+```bash
 $ make build V=1
 ```
 
 Stop immediately when an error occurs:
 
-```
+```bash
 $ make build CHECK_ERROR=1
 ```
 
