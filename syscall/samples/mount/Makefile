@@ -29,6 +29,6 @@ ramdisk: ramdisk.o tmpfs_helpers.o
 tmpfs: tmpfs.o tmpfs_helpers.o
 
 fs.ext4:
-	$(call log_exe,FS,,$(@))
+	$(call log_exe,FS,$(@))
 	${Q}./mkfs.sh
 	${Q}mkdir -p tmp-dir

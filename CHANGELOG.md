@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- log.mk: `log_exe()` remove 2nd argument;
 - rust: add version.sh;
 - template: add rust.mk;
 - device-tree: add abbrev.md;

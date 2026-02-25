@@ -47,7 +47,7 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 	${Q}$(LLC) $(<) -o $(@)
 
 ${target-llvm-ll-y}: %:
-	$(call log_exe,LLVM LL,$(<),$(@))
+	$(call log_exe,LLVM LL,$(@))
 	${Q}$(CLANG) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 endif

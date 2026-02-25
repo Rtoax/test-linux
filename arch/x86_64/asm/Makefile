@@ -84,5 +84,5 @@ atomic_forced_read: ${OUTPUT}atomic_forced_read.o
 time: ${OUTPUT}time.o
 
 test0: ${target-y}
-	$(call log_exe,TEST,,$(@))
+	$(call log_exe,TEST,$(@))
 	$(Q)$(RUN_PFX) ./hello

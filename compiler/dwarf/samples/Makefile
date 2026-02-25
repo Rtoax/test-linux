@@ -23,12 +23,12 @@ clean0:
 	$(Q)rm -f hello.no-debug hello.debug hello.orig
 
 %.dwz: %
-	$(call log_exe,DWZ,$(<),$(@))
+	$(call log_exe,DWZ,$(@))
 	${Q}cp $(<) $(<).orig
 	${Q}dwz $(<) -o $(<).dwz
 
 %.strip: %
-	$(call log_exe,STRIP,$(<),$(@))
+	$(call log_exe,STRIP,$(@))
 	${Q}strip --strip-debug $(<) -o $(<).no-debug
 	${Q}eu-strip $(<) -f $(<).debug -o $(<).strip
 	${Q}objcopy --strip-debug $(<) $(<).strip2

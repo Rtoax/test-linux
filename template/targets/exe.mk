@@ -43,16 +43,16 @@ ${OUTPUT}%.S.o: %.S | ${OUTPUT}
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(target-y): %:
-	$(call log_exe,LD,$(<),$(@))
+	$(call log_exe,LD,$(@))
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 ${target-cpp-y}: %:
-	$(call log_exe,LD CXX,$(<),$(@))
+	$(call log_exe,LD CXX,$(@))
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
 # Same as: ld -m elf_i386 a.o -o a
 ${target-asm-y}: %:
-	$(call log_exe,LD ASM,$(<),$(@))
+	$(call log_exe,LD ASM,$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
 
 endif

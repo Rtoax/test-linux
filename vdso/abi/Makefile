@@ -30,16 +30,16 @@ target-prep-y += main-custom main-kernel
 include main.mk
 
 lib${VDSO_NAME}.custom.so:
-	$(call log_exe,VDSO,,$(@))
+	$(call log_exe,VDSO,$(@))
 	$(Q)gcc vdso.c ${VDSO_CFLAGS} -o lib${VDSO_NAME}.custom.so
 	$(Q)ln -s lib${VDSO_NAME}.custom.so ${VDSO_NAME}.custom
 
 ${VDSO_NAME}:
-	$(call log_exe,VDSO,,$(@))
+	$(call log_exe,VDSO,$(@))
 	$(call gen_vdso_elf)
 
 lib${VDSO_NAME}.copy.so: ${KVDSO64}
-	$(call log_exe,VDSO,,$(@))
+	$(call log_exe,VDSO,$(@))
 	$(Q)cp ${KVDSO64} ${VDSO_NAME}.tmp
 	$(Q)cat ${VDSO_NAME}.tmp | sed "s|${VDSO_NAME}|${VDSO_NAME}.copy|g" > lib${VDSO_NAME}.copy.so
 	$(Q)chmod +x lib${VDSO_NAME}.copy.so
@@ -47,11 +47,11 @@ lib${VDSO_NAME}.copy.so: ${KVDSO64}
 	$(Q)ln -s lib${VDSO_NAME}.copy.so ${VDSO_NAME}.copy
 
 main-custom: lib${VDSO_NAME}.custom.so
-	$(call log_exe,LD,,$(@))
+	$(call log_exe,LD,$(@))
 	$(Q)gcc main.c -o $(@) -L. -l${VDSO_NAME}.custom -DCUSTOM_VDSO
 	$(Q)LD_LIBRARY_PATH=. ldd $(@)
 
 main-kernel: lib${VDSO_NAME}.copy.so
-	$(call log_exe,LD,,$(@))
+	$(call log_exe,LD,$(@))
 	$(Q)gcc main.c -o $(@) -L .${VDSO_NAME}.copy -DKERNEL_VDSO64
 	$(Q)LD_LIBRARY_PATH=. ldd $(@)

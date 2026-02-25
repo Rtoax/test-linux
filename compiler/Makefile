@@ -37,7 +37,7 @@ include compiler.mk
 include main.mk
 
 $(CC)-macros.h:
-	$(call log_exe,HDR,,$(@))
+	$(call log_exe,HDR,$(@))
 	$(call gen_compiler_macro_hdr,$(@))
 
 __VERSION__: __VERSION__.o

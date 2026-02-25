@@ -30,7 +30,7 @@ target-prep-y := relocs-gen.h
 include main.mk
 
 relocs-gen.h:
-	$(call log_exe,HDR,,$(@))
+	$(call log_exe,HDR,$(@))
 	${Q}./relocs.h.sh
 
 relocs: relocs.o

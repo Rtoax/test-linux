@@ -16,7 +16,7 @@ ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
 $(target-liba-y): %:
-	$(call log_exe,AR,$(<),$(@))
+	$(call log_exe,AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
 endif

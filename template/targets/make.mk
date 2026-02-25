@@ -9,7 +9,7 @@ include runprog.mk
 # $1 - suffix of file: mk, mak
 define make_obj
 %.${1}.log: %.${1}
-	$$(call log_exe,MAKE,$$(<),$$(@))
+	$$(call log_exe,MAKE,$$(@))
 	$$(Q)$$(RUNPROG) --log $$(@) -- $$(MAKE) -f $$(<) $$(ARGS_$$(<))
 endef
 
@@ -17,7 +17,7 @@ endef
 # $2 - <N> number of targets
 define make_obj_n
 %.${1}.log.${2}: %.${1}
-	$$(call log_exe,MAKE,$$(<),$$(@))
+	$$(call log_exe,MAKE,$$(@))
 	$$(Q)$$(RUNPROG) --log $$(@) -- $$(MAKE) -f $$(<) $$(ARGS_$$(<).${2})
 endef
 
