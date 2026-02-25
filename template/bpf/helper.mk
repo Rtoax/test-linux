@@ -40,16 +40,10 @@ $(call bpf_def_helper,bpf_map_lookup_elem)
 $(call bpf_def_helper,bpf_map_update_elem)
 $(call bpf_def_helper,bpf_map_delete_elem)
 
-# linux v5.16-rc4-1160-gc5fb19937455
-# commit c5fb19937455 ("bpf: Add bpf_strncmp helper")
-ifeq ($(call kver_gt,5,16,0),y)
-  $(call bpf_def_helper,bpf_strncmp)
-endif
-
-# linux v6.0-11954-gc4bcfb38a95e
-# commit c4bcfb38a95e ("bpf: Implement cgroup storage available to non-cgroup-attached bpf progs")
-ifeq ($(call kver_ge,6,0,0),y)
-  $(call bpf_def_helper,bpf_cgrp_storage_get)
+# linux v5.12-rc4-1654-g7b15523a989b
+# commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
+ifeq ($(call kver_gt,5,12,0),y)
+  $(call bpf_def_helper,bpf_snprintf)
 endif
 
 # linux v5.15-12938-ge6f2dd0f8067
@@ -58,109 +52,16 @@ ifeq ($(call kver_ge,5,16,0),y) # failed on 5.15.131
   $(call bpf_def_helper,bpf_loop)
 endif
 
-# linux v6.2-5267-g332ea1f697be
-# commit 332ea1f697be ("bpf: Add bpf_cgroup_from_id() kfunc")
-ifeq ($(call vmlinux_has_sym_shell,bpf_cgroup_from_id),y)
-  $(call bpf_def_helper,bpf_cgroup_from_id)
-endif
-ifeq ($(call vmlinux_has_sym_shell,bpf_cgroup_acquire),y)
-  $(call bpf_def_helper,bpf_cgroup_acquire)
-endif
-
-# linux v6.15-rc4-68-g9e3e66c553f7
-# commit 9e3e66c553f7 ("bpf: Add bpf_rbtree_{root,left,right} kfunc")
-ifeq ($(call kver_ge,6,15,0),y)
-  $(call bpf_def_helper,bpf_rbtree_root)
-  $(call bpf_def_helper,bpf_rbtree_left)
-  $(call bpf_def_helper,bpf_rbtree_right)
-endif
-
-# linux v5.12-rc4-1654-g7b15523a989b
-# commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
-ifeq ($(call kver_gt,5,12,0),y)
-  $(call bpf_def_helper,bpf_snprintf)
-endif
-
-ifeq ($(call vmlinux_has_sym_shell,bpf_strcmp),y)
-  $(call bpf_def_helper,bpf_strcmp)
-endif
-
-ifeq ($(call vmlinux_has_sym_shell,bpf_strcasecmp),y)
-  $(call bpf_def_helper,bpf_strcasecmp)
-endif
-
-# NOTE: I'm working on bpf_strcasestr() and bpf_strncasestr()
-ifeq ($(call vmlinux_has_sym_shell,bpf_strcasestr),y)
-  $(call bpf_def_helper,bpf_strcasestr)
-  $(call bpf_def_helper,bpf_strncasestr)
-endif
-
-ifeq ($(call vmlinux_has_sym_shell,bpf_strnlen),y)
-  $(call bpf_def_helper,bpf_strnlen)
-endif
-
-# linux >= v6.15
-# commit e91370550f1f ("bpf: Add kfuncs for read-only string operations") add string kfunc.
-ifeq ($(call kver_gt,6,16,0),y)
-  ifeq ($(call vmlinux_has_sym_shell,bpf_strnstr),y)
-    $(call bpf_def_helper,bpf_strnstr)
-  endif
-  ifeq ($(call vmlinux_has_sym_shell,bpf_strstr),y)
-    $(call bpf_def_helper,bpf_strstr)
-  endif
-endif
-
-# linux v6.10-12667-gd08e2045ebf0
-# commit d08e2045ebf0 ("bpf: introduce new VFS based BPF kfuncs")
-ifeq ($(call kver_gt,6,10,0),y)
-  ifeq ($(call vmlinux_has_sym_shell,bpf_path_d_path),y)
-    $(call bpf_def_helper,bpf_path_d_path)
-  endif
-  ifeq ($(call vmlinux_has_sym_shell,bpf_get_task_exe_file),y)
-    $(call bpf_def_helper,bpf_get_task_exe_file)
-  endif
-  ifeq ($(call vmlinux_has_sym_shell,bpf_put_file),y)
-    $(call bpf_def_helper,bpf_put_file)
-  endif
-endif
-
-# linux v6.6-rc2-737-g4ac454682158
-# commit 4ac454682158 ("bpf: Introduce task_vma open-coded iterator kfuncs")
-ifeq ($(call kver_ge,6,6,0),y)
-  ifeq ($(call vmlinux_has_sym_shell,bpf_iter_task_vma_new),y)
-    $(call bpf_def_helper,bpf_iter_task_vma_new)
-    $(call bpf_def_helper,bpf_iter_task_vma_next)
-    $(call bpf_def_helper,bpf_iter_task_vma_destroy)
-  endif
+# linux v5.16-rc4-1160-gc5fb19937455
+# commit c5fb19937455 ("bpf: Add bpf_strncmp helper")
+ifeq ($(call kver_gt,5,16,0),y)
+  $(call bpf_def_helper,bpf_strncmp)
 endif
 
 # linux v5.16-11512-g376040e47334
 # commit 376040e47334 ("bpf: Add bpf_copy_from_user_task() helper")
 ifeq ($(call vmlinux_has_sym_shell,btf_bpf_copy_from_user_task),y)
   $(call bpf_def_helper,bpf_copy_from_user_task)
-endif
-
-# linux v6.14-rc1-81-gf0f8a5b58f78
-# commit f0f8a5b58f78 ("bpf: Add bpf_copy_from_user_task_str() kfunc")
-ifeq ($(call vmlinux_has_sym_shell,bpf_copy_from_user_task_str),y)
-  $(call bpf_def_helper,bpf_copy_from_user_task_str)
-endif
-
-ifeq ($(call vmlinux_has_sym_shell,bpf_task_from_pid),y)
-  $(call bpf_def_helper,bpf_task_from_pid)
-endif
-
-# See BPF_NO_KFUNC_PROTOTYPES in test-linux/bpf/libbpf/bpf_misc.h
-ifeq ($(call pahole_lt,1,26),y)
-  bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
-endif
-
-# From here, store developing kfuncs checks
-
-# https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
-# lkml: https://lore.kernel.org/lkml/tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com/
-ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
-  bpf-helper-cflags += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
 endif
 
 # linux v5.18-rc3-856-g263ae152e962
@@ -190,11 +91,32 @@ ifeq ($(call kver_ge,5,18,0),y)
   $(call bpf_def_helper,bpf_ringbuf_discard_dynptr)
 endif
 
+# linux v6.0-11954-gc4bcfb38a95e
+# commit c4bcfb38a95e ("bpf: Implement cgroup storage available to non-cgroup-attached bpf progs")
+ifeq ($(call kver_ge,6,0,0),y)
+  $(call bpf_def_helper,bpf_cgrp_storage_get)
+endif
+
+# linux v6.1-rc4-1163-g3f0e6f2b41d3
+# commit 3f0e6f2b41d3 ("bpf: Add bpf_task_from_pid() kfunc")
+ifeq ($(call kver_ge,6,1,0),y)
+  $(call bpf_def_helper,bpf_task_from_pid)
+endif
+
 # linux v6.2-5289-gb5964b968ac6
 # commit b5964b968ac6 ("bpf: Add skb dynptrs")
 # int bpf_dynptr_from_skb(struct __sk_buff *s, u64 flags, struct bpf_dynptr *ptr__uninit);
 ifeq ($(call kver_ge,6,2,0),y)
   $(call bpf_def_helper,bpf_dynptr_from_skb)
+endif
+
+# linux v6.2-5267-g332ea1f697be
+# commit 332ea1f697be ("bpf: Add bpf_cgroup_from_id() kfunc")
+ifeq ($(call vmlinux_has_sym_shell,bpf_cgroup_from_id),y)
+  $(call bpf_def_helper,bpf_cgroup_from_id)
+endif
+ifeq ($(call vmlinux_has_sym_shell,bpf_cgroup_acquire),y)
+  $(call bpf_def_helper,bpf_cgroup_acquire)
 endif
 
 # linux v6.2-5290-g05421aecd4ed
@@ -204,13 +126,6 @@ ifeq ($(call kver_ge,6,2,0),y)
   $(call bpf_def_helper,bpf_dynptr_from_xdp)
 endif
 
-# linux v6.17-rc1-1-g89d912e494f7
-# commit 89d912e494f7 ("bpf: Add dynptr type for skb metadata")
-# int bpf_dynptr_from_skb_meta(struct __sk_buff *skb_, u64 flags, struct bpf_dynptr *ptr__uninit);
-ifeq ($(call kver_ge,6,17,0),y)
-  $(call bpf_def_helper,bpf_dynptr_from_skb_meta)
-endif
-
 # linux v6.2-5291-g66e3a13e7c2c
 # commit 66e3a13e7c2c ("bpf: Add bpf_dynptr_slice and bpf_dynptr_slice_rdwr")
 # void *bpf_dynptr_slice(const struct bpf_dynptr *p, u32 offset, void *buffer__opt, u32 buffer__szk);
@@ -218,6 +133,94 @@ endif
 ifeq ($(call kver_ge,6,2,0),y)
   $(call bpf_def_helper,bpf_dynptr_slice)
   $(call bpf_def_helper,bpf_dynptr_slice_rdwr)
+endif
+
+# linux v6.6-rc2-737-g4ac454682158
+# commit 4ac454682158 ("bpf: Introduce task_vma open-coded iterator kfuncs")
+ifeq ($(call kver_ge,6,6,0),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_iter_task_vma_new),y)
+    $(call bpf_def_helper,bpf_iter_task_vma_new)
+    $(call bpf_def_helper,bpf_iter_task_vma_next)
+    $(call bpf_def_helper,bpf_iter_task_vma_destroy)
+  endif
+endif
+
+# linux v6.10-12667-gd08e2045ebf0
+# commit d08e2045ebf0 ("bpf: introduce new VFS based BPF kfuncs")
+ifeq ($(call kver_gt,6,10,0),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_path_d_path),y)
+    $(call bpf_def_helper,bpf_path_d_path)
+  endif
+  ifeq ($(call vmlinux_has_sym_shell,bpf_get_task_exe_file),y)
+    $(call bpf_def_helper,bpf_get_task_exe_file)
+  endif
+  ifeq ($(call vmlinux_has_sym_shell,bpf_put_file),y)
+    $(call bpf_def_helper,bpf_put_file)
+  endif
+endif
+
+# linux v6.14-rc1-81-gf0f8a5b58f78
+# commit f0f8a5b58f78 ("bpf: Add bpf_copy_from_user_task_str() kfunc")
+ifeq ($(call vmlinux_has_sym_shell,bpf_copy_from_user_task_str),y)
+  $(call bpf_def_helper,bpf_copy_from_user_task_str)
+endif
+
+# linux v6.15-rc4-68-g9e3e66c553f7
+# commit 9e3e66c553f7 ("bpf: Add bpf_rbtree_{root,left,right} kfunc")
+ifeq ($(call kver_ge,6,15,0),y)
+  $(call bpf_def_helper,bpf_rbtree_root)
+  $(call bpf_def_helper,bpf_rbtree_left)
+  $(call bpf_def_helper,bpf_rbtree_right)
+endif
+
+# linux >= v6.15
+# commit e91370550f1f ("bpf: Add kfuncs for read-only string operations") add string kfunc.
+ifeq ($(call kver_gt,6,16,0),y)
+  ifeq ($(call vmlinux_has_sym_shell,bpf_strcmp),y)
+    $(call bpf_def_helper,bpf_strcmp)
+  endif
+  ifeq ($(call vmlinux_has_sym_shell,bpf_strnlen),y)
+    $(call bpf_def_helper,bpf_strnlen)
+  endif
+  ifeq ($(call vmlinux_has_sym_shell,bpf_strnstr),y)
+    $(call bpf_def_helper,bpf_strnstr)
+  endif
+  ifeq ($(call vmlinux_has_sym_shell,bpf_strstr),y)
+    $(call bpf_def_helper,bpf_strstr)
+  endif
+endif
+
+# linux v6.17-rc1-1-g89d912e494f7
+# commit 89d912e494f7 ("bpf: Add dynptr type for skb metadata")
+# int bpf_dynptr_from_skb_meta(struct __sk_buff *skb_, u64 flags, struct bpf_dynptr *ptr__uninit);
+ifeq ($(call kver_ge,6,17,0),y)
+  $(call bpf_def_helper,bpf_dynptr_from_skb_meta)
+endif
+
+# linux v6.17-rc1-99-g19559e844184
+# commit 19559e844184 ("bpf: add bpf_strcasecmp kfunc")
+ifeq ($(call vmlinux_has_sym_shell,bpf_strcasecmp),y)
+  $(call bpf_def_helper,bpf_strcasecmp)
+endif
+
+# linux v6.17-9944-gb5b693f73589
+# commit b5b693f73589 ("bpf: add bpf_strcasestr,bpf_strncasestr kfuncs")
+ifeq ($(call vmlinux_has_sym_shell,bpf_strcasestr),y)
+  $(call bpf_def_helper,bpf_strcasestr)
+  $(call bpf_def_helper,bpf_strncasestr)
+endif
+
+# See BPF_NO_KFUNC_PROTOTYPES in test-linux/bpf/libbpf/bpf_misc.h
+ifeq ($(call pahole_lt,1,26),y)
+  bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
+endif
+
+# From here, store developing kfuncs checks
+
+# https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
+# lkml: https://lore.kernel.org/lkml/tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com/
+ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
+  bpf-helper-cflags += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
 endif
 
 export bpf-helper-cflags
