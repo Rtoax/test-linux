@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
-- kickstart: add minimal.ks;
+- kickstart: add minimal.ks, efi.ks, bios.ks;
 - anaconda: add kickstart subdir;
 - anaconda: add product.img/ from ostools;
 - distro: add anaconda subdir;
