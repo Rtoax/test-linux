@@ -1,9 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
 #
-# Input definitions:
-# - __IGNORE_NOTFOUND_ERROR__
-#
 # Output definitions:
 # - LSSMI=[/usr/bin/ls-smi]
 # - HAVE_LINGSPEED_GPU=[y|n]
