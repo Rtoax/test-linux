@@ -39,12 +39,12 @@ $(eval $(shell ${LIBSO_SH} symlinks-names ${so}): ${so}	;)	\
 )
 
 $(target-libso-y): %:
-	$(call log_exe,SO,$(@))
+	$(call log_tgt,SO,$(@))
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
 
 $(target-libso-cpp-y): %:
-	$(call log_exe,SO CPP,$(@))
+	$(call log_tgt,SO CPP,$(@))
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS_SO) $(LDXXFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
 

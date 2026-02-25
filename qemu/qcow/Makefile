@@ -13,9 +13,9 @@ qcow2_helpers.o: qcow2_helpers.h qcow2.h
 qcow2: qcow2.o qcow2_helpers.o
 
 %.qcow2:
-	$(call log_exe,QCOW2,$(@))
+	$(call log_tgt,QCOW2,$(@))
 	$(call create_qcow2,$(@),1G)
 
 test-qcow2: ${QCOW2S}
-	$(call log_exe,TEST,$(@))
+	$(call log_tgt,TEST,$(@))
 	${Q}./qcow2 -q a.qcow2 --verbose

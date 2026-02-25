@@ -3,7 +3,6 @@
 #
 # Functions:
 # - log_obj()
-# - log_exe()
 # - log_start()
 # - log_end()
 # - log_tgt()
@@ -30,11 +29,8 @@ endef
 define log_obj
 @printf "$(call TS) %-8s $(call bold,%s) -> $(call bold,%s)\n" "${1}" "$(2)" "$(3)"
 endef
-define log_exe
-@printf "$(call TS) %-8s $(call bgreen,%s)\n" "${1}" "$(2)"
-endef
 define log_tgt
-@printf "$(call TS) %-8s $(call bold,%s)\n" "${1}" "$(2)"
+@printf "$(call TS) %-8s $(call bgreen,%s)\n" "${1}" "$(2)"
 endef
 
 define log_start

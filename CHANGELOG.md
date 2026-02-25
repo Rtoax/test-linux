@@ -11,7 +11,6 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- log.mk: `log_exe()` remove 2nd argument;
 - rust: add version.sh;
 - template: add rust.mk;
 - device-tree: add abbrev.md;
@@ -21,6 +20,7 @@ and this project adheres to
 - move binfmt, criu, livepatch, `static_key` into tools;
 #### Deprecated
 #### Removed
+- log.mk: remove `log_exe()` and use `log_tgt()`;
 #### Fixed
 #### Security
 #### Docs

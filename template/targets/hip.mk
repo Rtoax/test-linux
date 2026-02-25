@@ -122,15 +122,15 @@ ${OUTPUT}%.hipFatBinSegment: % | ${OUTPUT}
 	${Q}$(OBJCOPY) -O binary --only-section=.hipFatBinSegment $(<) $(@)
 
 $(target-hipcc-y): %:
-	$(call log_exe,HIPCC LD,$(@))
+	$(call log_tgt,HIPCC LD,$(@))
 	${Q}$(HIPCC) -o $(@) $(^) $(LDFLAGS_HIPCC) $(LDFLAGS_HIPCC_$(*))
 
 $(target-hipcc-libso-y): %:
-	$(call log_exe,HIPCC SO,$(@))
+	$(call log_tgt,HIPCC SO,$(@))
 	${Q}$(HIPCC) -o $(@) $(^) $(LDFLAGS_HIPCC_SO) $(LDFLAGS_HIPCC_SO$(*))
 
 $(target-hipcc-liba-y): %:
-	$(call log_exe,HIPCC AR,$(@))
+	$(call log_tgt,HIPCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
 endif

@@ -14,5 +14,5 @@ target-shell-y := layout.sh
 include main.mk
 
 ${VDSO_NAME}:
-	$(call log_exe,VDSO,$(@))
+	$(call log_tgt,VDSO,$(@))
 	$(call gen_vdso_elf,${@})

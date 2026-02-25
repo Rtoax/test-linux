@@ -79,7 +79,7 @@ signalfd: signalfd.o
 
 
 test0: ${target-y}
-	$(call log_exe,TEST,$(@))
+	$(call log_tgt,TEST,$(@))
 	./sigpending &
 	sleep 1
 	kill -2 $(shell pidof sigpending) # SIGINT

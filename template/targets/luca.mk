@@ -198,15 +198,15 @@ ${OUTPUT}%.luca.hcFatBinSegment: % | ${OUTPUT}
 	${Q}$(OBJCOPY) -O binary --only-section=.hcFatBinSegment $(<) $(@)
 
 $(target-lscc-y): %:
-	$(call log_exe,LSCC LD,$(@))
+	$(call log_tgt,LSCC LD,$(@))
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC) $(LDFLAGS_LSCC_$(*))
 
 $(target-lscc-libso-y): %:
-	$(call log_exe,LSCC SO,$(@))
+	$(call log_tgt,LSCC SO,$(@))
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC_SO) $(LDFLAGS_LSCC_SO_$(*))
 
 $(target-lscc-liba-y): %:
-	$(call log_exe,LSCC AR,$(@))
+	$(call log_tgt,LSCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
 endif

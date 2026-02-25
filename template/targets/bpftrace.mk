@@ -8,13 +8,13 @@ include bpf/bpftrace.mk
 include runprog.mk
 
 %.bt.log: %.bt
-	$(call log_exe,BPFTRACE,$(@))
+	$(call log_tgt,BPFTRACE,$(@))
 	$(Q)${SUDO} $(RUNPROG) --log $(@) -- $(BPFTRACE) $(<) $(ARGS_$(*))
 
 # $1: 1, 2, 3, ...
 define bt_target
 %.bt.log.${1}: %.bt
-	$$(call log_exe,BPFTRACE,$$(@))
+	$$(call log_tgt,BPFTRACE,$$(@))
 	$$(Q)$${SUDO} $$(RUNPROG) --log $$(@) -- $$(BPFTRACE) $$(<) $$(ARGS_$$(<).${1})
 endef
 

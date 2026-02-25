@@ -45,5 +45,5 @@ define mystrip
 endef
 
 %.strip:
-	$(call log_exe,STRIP,$(@))
+	$(call log_tgt,STRIP,$(@))
 	$(call mystrip,$(^))

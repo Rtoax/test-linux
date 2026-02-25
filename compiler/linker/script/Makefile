@@ -31,5 +31,5 @@ main-c: ${OUTPUT}main-c.o ${OUTPUT}foo.o ${OUTPUT}bar.o
 hello-as: ${OUTPUT}hello-as.asm.o
 
 default.lds:
-	$(call log_exe,LDS,$(@))
+	$(call log_tgt,LDS,$(@))
 	${Q}LD=${LD} ./default.lds.sh ${LDS_PIE}

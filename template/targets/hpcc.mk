@@ -147,15 +147,15 @@ ${OUTPUT}%.hpcc.hcFatBinSegment: % | ${OUTPUT}
 	${Q}$(OBJCOPY) -O binary --only-section=.hcFatBinSegment $(<) $(@)
 
 $(target-htcc-y): %:
-	$(call log_exe,HTCC LD,$(@))
+	$(call log_tgt,HTCC LD,$(@))
 	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC) $(LDFLAGS_HTCC_$(*))
 
 $(target-htcc-libso-y): %:
-	$(call log_exe,HTCC SO,$(@))
+	$(call log_tgt,HTCC SO,$(@))
 	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC_SO) $(LDFLAGS_HTCC_SO$(*))
 
 $(target-htcc-liba-y): %:
-	$(call log_exe,HTCC AR,$(@))
+	$(call log_tgt,HTCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
 endif

@@ -35,7 +35,7 @@ endif
 include main.mk
 
 test1:
-	$(call log_exe,TEST,$(@))
+	$(call log_tgt,TEST,$(@))
 	${Q}LD_LIBRARY_PATH=$(shell pwd) ./byteswap
 	${Q}clear
 	${Q}./gotoxy

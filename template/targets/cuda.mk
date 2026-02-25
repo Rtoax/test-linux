@@ -178,15 +178,15 @@ ${OUTPUT}%.cu.a.o: %.cu | ${OUTPUT}
 	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_A) $(CFLAGS_NVCC_A_$(*))
 
 $(target-nvcc-y): %:
-	$(call log_exe,NVCC LD,$(@))
+	$(call log_tgt,NVCC LD,$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC) $(LDFLAGS_NVCC_$(*))
 
 $(target-nvcc-libso-y): %:
-	$(call log_exe,NVCC SO,$(@))
+	$(call log_tgt,NVCC SO,$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC_SO) $(LDFLAGS_NVCC_SO$(*))
 
 $(target-nvcc-liba-y): %:
-	$(call log_exe,NVCC AR,$(@))
+	$(call log_tgt,NVCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
 endif
