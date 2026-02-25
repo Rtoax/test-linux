@@ -26,7 +26,7 @@ bpf-helper-cflags :=
 define ___bpf_def_helper
   HELPER_DEF := SUPPORT_$(call toupper_shell,$(1))
   export $${HELPER_DEF} := y
-  bpf-helper-cflags += -DSUPPORT_$${HELPER_DEF}=1
+  bpf-helper-cflags += -D$${HELPER_DEF}=1
   $(info Found ${1}() and define ${HELPER_DEF})
 endef
 define bpf_def_helper
