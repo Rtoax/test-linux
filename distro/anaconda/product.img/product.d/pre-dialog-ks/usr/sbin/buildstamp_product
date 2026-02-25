@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DIALOG_LIBS_ROOT=$(dirname `realpath $0`)
+. ${DIALOG_LIBS_ROOT}/anaconda-pre-dialog-libs.sh
+
+buildstamp_product "$@"

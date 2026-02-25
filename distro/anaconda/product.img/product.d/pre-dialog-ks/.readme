@@ -1,0 +1,27 @@
+Dialog base kickstart generator.
+Needed by CeaCube, etc.
+
+# Kernel Command Line
+
+## dialog.type
+
+### none
+
+Enter the interactive dialog, which allows operations such as creating a user
+and selecting a destination disk.
+
+### dialog.type=auto
+
+You only need to enter the password, no additional actions are allowed.
+
+
+# Kickstart
+
+* /run/install/network.ks
+* /run/install/repos.ks
+* /run/install/packages.ks
+* /run/install/partition.ks
+* /run/install/user.ks
+
+- TARGET_DISK: Replace exist /run/install/partition.ks's target disk
+

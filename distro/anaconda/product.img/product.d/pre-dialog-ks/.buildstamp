@@ -1,0 +1,8 @@
+[Main]
+Product=PreDialogKS
+Version=1
+BugURL=
+IsFinal=True
+UUID=202302271840
+[Compose]
+Lorax=34.9.20-1

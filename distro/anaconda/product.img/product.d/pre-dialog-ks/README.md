@@ -1,0 +1,44 @@
+pre-dialog-ks
+=============
+
+
+利用`anaconda`的`/run/install/ks.cfg`入口，在写好`/run/install/ks.cfg`的前提下，在其内部进行`include`一系列子kickstart文件。
+
+
+# Kickstart
+
+## `/run/install/network.ks`
+
+支持自定义，也就是其他产品的`/run/install/network.ks`将会阻止`pre-dialog-ks`生成新的`/run/install/network.ks`。
+
+
+## `/run/install/repos.ks`
+
+支持自定义，也就是其他产品的`/run/install/repos.ks`将会阻止`pre-dialog-ks`生成新的`/run/install/repos.ks`。
+
+
+## `/run/install/packages.ks`
+
+支持自定义，也就是其他产品的`/run/install/packages.ks`将会阻止`pre-dialog-ks`生成新的`/run/install/packages.ks`。
+
+
+## `/run/install/partition.ks`
+
+支持自定义，也就是其他产品的`/run/install/partition.ks`将会阻止`pre-dialog-ks`生成新的`/run/install/partition.ks`。
+但是，自定义的`/run/install/partition.ks`必须使用`TARGET_DISK`决定目的磁盘，pre-dialog-ks负责将`TARGET_DISK`替换，如 vda，下面有个示例:
+
+```
+ignoredisk --only-use=TARGET_DISK
+```
+
+默认情况下，也就是不选择目的磁盘，在pre-dialog-ks的执行后期，会将`TARGET_DISK`替换为最小的磁盘盘符，这可参见`pre-dialog-ks`的内置命令`/usr/sbin/get_smallest_disk`。若最小磁盘盘符为`vda`，那么会将上面内容替换为
+
+```
+ignoredisk --only-use=vda
+```
+
+
+## `/run/install/user.ks`
+
+不支持自定义。
+

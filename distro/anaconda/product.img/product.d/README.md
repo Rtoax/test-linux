@@ -1,0 +1,5 @@
+product.d
+=========
+
+- `/run/install/ks.cfg`中可以包含任何内容，这个kickstart将在anaconda启动时被加载。
+

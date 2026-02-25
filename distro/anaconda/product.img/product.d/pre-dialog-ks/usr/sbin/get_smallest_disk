@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DIALOG_ROOT=$(dirname `realpath $0`)
+. ${DIALOG_ROOT}/anaconda-pre-dialog-libs.sh
+
+get_smallest_disk "$@"

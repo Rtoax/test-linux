@@ -1,0 +1,14 @@
+[Unit]
+Description=Simple interactive dialog window
+After=getty@tty9.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/anaconda-pre-dialog --menu-adduser
+StandardInput=tty
+TTYPath=/dev/tty9
+TTYReset=yes
+TTYVHangup=yes
+
+[Install]
+WantedBy=anaconda.target
