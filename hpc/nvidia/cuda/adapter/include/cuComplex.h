@@ -17,6 +17,11 @@
  */
 
 /**
+ * CUDA: typedef float2 cuFloatComplex;
+ */
+#define cuFloatComplex __cu(FloatComplex)
+
+/**
  * CUDA: typedef cuFloatComplex cuComplex;
  */
 #define cuComplex __cu(Complex)
@@ -24,5 +29,23 @@
  * CUDA: typedef double2 cuDoubleComplex;
  */
 #define cuDoubleComplex __cu(DoubleComplex)
+
+/**
+ * CUDA: float cuCrealf(cuFloatComplex x);
+ */
+#define cuCrealf __cu(Crealf)
+
+/**
+ * CUDA: float cuCimagf(cuFloatComplex x);
+ */
+#define cuCimagf __cu(Cimagf)
+
+#ifdef __USE_HPCC__
+#elif defined(__USE_LUCA__)
+# ifdef LUCA_PHASE_II_PROJECT
+# else
+# endif
+#elif defined(__USE_HIP__)
+#endif
 
 #endif
