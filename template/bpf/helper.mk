@@ -27,7 +27,7 @@ bpf-helper-cflags :=
 define ___bpf_def_helper
   export SUPPORT_$(2) := y
   bpf-helper-cflags += -DSUPPORT_$(2)=1
-  $(info Found $(1)() and define SUPPORT_$(2))
+  $(if $(DEBUG),$(info Found $(1)() and define SUPPORT_$(2)))
 endef
 define bpf_def_helper
   $(eval $(call ___bpf_def_helper,${1},$(call toupper_shell,${1})))
