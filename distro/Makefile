@@ -1,4 +1,5 @@
-subdir-y := rpm
+subdir-y := anaconda
+subdir-y += rpm
 
 target-shell-y := version.sh version.sh.1
 target-shell-y += README.md.check.sh
