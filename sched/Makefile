@@ -5,9 +5,9 @@ OUTPUT := .output/
 
 include kconfig.mk
 
-subdir-y := scripts
+subdir-y += reparent
+subdir-y += scripts
 
-target-y :=
 target-y += current
 target-y += uninterruptible
 target-y += hung

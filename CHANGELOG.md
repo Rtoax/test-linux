@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- sched: add reparent subdir;
 - strace: add version.sh;
 - prctl(2): test `PR_SET_PDEATHSIG`;
 - procps-ng: add version.sh;
