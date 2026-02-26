@@ -85,9 +85,11 @@ It seems that I have also added some **GPU** and **AI** related content, which i
 
 If the source code file has a copyright information at the beginning, the copyright of the source code is the description content, otherwise, it is the copyright of the test-linux repository.
 
-If the code does not specify, then it follows GPLv3. Of course, BPF programs always follow GPLv2.
+If the code does not specify, then it follows **GPLv3**.
 
-The copyright line must be `Copyright (C) 2021-2026 Rong Tao`, where `Rong Tao` is the auther.
+BPF programs always follow **GPLv2**.
+
+The copyright line format must be `Copyright (C) Year-Year Author`.
 
 
 # Links
