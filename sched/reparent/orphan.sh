@@ -18,6 +18,9 @@ ppid=( $(ps -p ${pid} -o ppid | grep -v PPID) )
 
 if [[ ${ppid} -ne 1 ]]; then
 	echo 2>&1 "ERROR: cmd '${cmd}'(pid=${pid}) ppid is ${ppid}, should be 1, something wrong!!"
+
+	# Note: kill the child, otherwise will stuck 2s
+	kill -9 ${pid}
 	exit 1
 else
 	echo "Success!"
