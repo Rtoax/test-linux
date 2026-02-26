@@ -104,6 +104,9 @@
 #define PBOOL(v)	PPFX();printf("%s : %s\n", #v, v ? "true" : "false");
 #define PCHAR(v)	PPFX();printf("%s : %u (%c)\n", #v, v, v);
 
+#define PCOMPLEX(v)	PPFX();printf("%s : {%f, %f}\n", #v, v.x, v.y);
+#define PCOMPLEXD(v)	PPFX();printf("%s : {%lf, %lf}\n", #v, v.x, v.y);
+
 #define PBITS(mem, nbits) do {	\
 		PPFX();		\
 		printf("%s[1~%ld] : ", #mem, (size_t)nbits);	\

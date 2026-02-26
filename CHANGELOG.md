@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- cuda/{adapter,intrinsics}: support and test all cuComplex.h;
 - macro: add splice.c;
 - kickstart: add minimal.ks, efi.ks, bios.ks;
 - anaconda: add kickstart subdir;

@@ -24,20 +24,6 @@
 #define cuFloatComplex cuX(FloatComplex)
 
 /**
- * cuFloatComplex make_cuFloatComplex(float r, float i);
- */
-#define make_cuFloatComplex XcuX(make_, FloatComplex)
-
-/**
- * CUDA: typedef cuFloatComplex cuComplex;
- */
-#define cuComplex cuX(Complex)
-/**
- * CUDA: typedef double2 cuDoubleComplex;
- */
-#define cuDoubleComplex cuX(DoubleComplex)
-
-/**
  * CUDA: float cuCrealf(cuFloatComplex x);
  */
 #define cuCrealf cuX(Crealf)
@@ -46,6 +32,59 @@
  * CUDA: float cuCimagf(cuFloatComplex x);
  */
 #define cuCimagf cuX(Cimagf)
+
+/**
+ * cuFloatComplex make_cuFloatComplex(float r, float i);
+ */
+#define make_cuFloatComplex XcuX(make_, FloatComplex)
+
+#define cuConjf cuX(Conjf)
+#define cuCaddf cuX(Caddf)
+#define cuCsubf cuX(Csubf)
+#define cuCmulf cuX(Cmulf)
+#define cuCdivf cuX(Cdivf)
+#define cuCabsf cuX(Cabsf)
+
+/**
+ * CUDA: typedef double2 cuDoubleComplex;
+ */
+#define cuDoubleComplex cuX(DoubleComplex)
+
+#define cuCreal cuX(Creal)
+/* double cuCimag(cuDoubleComplex x) */
+#define cuCimag cuX(Cimag)
+
+#define make_cuDoubleComplex XcuX(make_, DoubleComplex)
+
+#define cuConj cuX(Conj)
+#define cuCadd cuX(Cadd)
+#define cuCsub cuX(Csub)
+#define cuCmul cuX(Cmul)
+#define cuCdiv cuX(Cdiv)
+/**
+ * float cuCabsf(cuFloatComplex x)
+ */
+#define cuCabs cuX(Cabs)
+
+/**
+ * CUDA: typedef cuFloatComplex cuComplex;
+ */
+#define cuComplex cuX(Complex)
+
+#define make_cuComplex XcuX(make_, Complex)
+
+#define cuComplexFloatToDouble cuX(ComplexFloatToDouble)
+#define cuComplexDoubleToFloat cuX(ComplexDoubleToFloat)
+
+/**
+ * cuComplex cuCfmaf(cuComplex x, cuComplex y, cuComplex d);
+ */
+#define cuCfmaf cuX(Cfmaf)
+
+/**
+ * cuDoubleComplex cuCfma(cuDoubleComplex x, cuDoubleComplex y, cuDoubleComplex d);
+ */
+#define cuCfma cuX(Cfma)
 
 #ifdef __USE_HPCC__
 # include <hcComplex.h>
