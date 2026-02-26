@@ -24,20 +24,20 @@
 #include "cublas_api.h"
 
 /* cublasStatus cublasInit(void); */
-#define cublasInit __cu(blasInit)
+#define cublasInit cuX(blasInit)
 /* cublasStatus cublasShutdown(void); */
-#define cublasShutdown __cu(blasShutdown)
+#define cublasShutdown cuX(blasShutdown)
 /* cublasStatus cublasGetError(void); */
-#define cublasGetError __cu(blasGetError)
+#define cublasGetError cuX(blasGetError)
 
 /* cublasStatus cublasGetVersion(int* version); */
-#define cublasGetVersion __cu(blasGetVersion)
+#define cublasGetVersion cuX(blasGetVersion)
 
 /* cublasStatus cublasAlloc(int n, int elemSize, void** devicePtr); */
-#define cublasAlloc __cu(blasAlloc)
+#define cublasAlloc cuX(blasAlloc)
 
 /* cublasStatus cublasFree(void* devicePtr); */
-#define cublasFree __cu(blasFree)
+#define cublasFree cuX(blasFree)
 
 /*
  *
@@ -50,31 +50,31 @@
 #ifdef __USE_HIP__
 #define cublasGetStatusString(status) hipblasStatusToString(status)
 #else
-#define cublasGetStatusString(status) __cu(blasGetStatusString(status))
+#define cublasGetStatusString(status) cuX(blasGetStatusString(status))
 #endif
 
-#define cublasCreate(handle) __cu(blasCreate(handle))
-#define cublasDestroy(handle) __cu(blasDestroy(handle))
+#define cublasCreate(handle) cuX(blasCreate(handle))
+#define cublasDestroy(handle) cuX(blasDestroy(handle))
 
-#define cublasGetProperty(type, pvalue) __cu(blasGetProperty(type, pvalue))
+#define cublasGetProperty(type, pvalue) cuX(blasGetProperty(type, pvalue))
 
 #define cublasSetMatrix(rows, cols, elemsize, A, ola, B, ldb) \
- __cu(blasSetMatrix(rows, cols, elemsize, A, ola, B, ldb))
+ cuX(blasSetMatrix(rows, cols, elemsize, A, ola, B, ldb))
 /**
  * cublasStatus_t cublasGetMatrix(int rows, int cols, int elemSize,
  *                                const void *devicePtr, int ldDevice,
  *                                void *hostPtr, int ldHost);
  */
 #define cublasGetMatrix(rows, cols, elemsize, A, ola, B, ldb) \
- __cu(blasGetMatrix(rows, cols, elemsize, A, ola, B, ldb))
+ cuX(blasGetMatrix(rows, cols, elemsize, A, ola, B, ldb))
 
 #define cublasSetVector(n, elemSize, x, incx, y, incy) \
- __cu(blasSetVector(n, elemSize, x, incx, y, incy))
+ cuX(blasSetVector(n, elemSize, x, incx, y, incy))
 #define cublasGetVector(n, elemSize, x, incx, y, incy) \
- __cu(blasGetVector(n, elemSize, x, incx, y, incy))
+ cuX(blasGetVector(n, elemSize, x, incx, y, incy))
 
-#define cublasGetPointerMode(handle, mode) __cu(blasGetPointerMode(handle, mode))
-#define cublasSetPointerMode(handle, mode) __cu(blasSetPointerMode(handle, mode))
+#define cublasGetPointerMode(handle, mode) cuX(blasGetPointerMode(handle, mode))
+#define cublasSetPointerMode(handle, mode) cuX(blasSetPointerMode(handle, mode))
 
 /**
  * x[j] = alpha * x[j]
@@ -83,39 +83,39 @@
  *
  * S-float, D-double, C-Complex, Cs-Complex/float, Z-DoubleComplex, Zd-DoubleComplex/double
  */
-#define cublasSscal(handle, n, alpha, x, incx) __cu(blasSscal(handle, n, alpha, x, incx))
-#define cublasDscal(handle, n, alpha, x, incx) __cu(blasDscal(handle, n, alpha, x, incx))
-#define cublasCscal(handle, n, alpha, x, incx) __cu(blasCscal(handle, n, alpha, x, incx))
-#define cublasCsscal(handle, n, alpha, x, incx) __cu(blasCsscal(handle, n, alpha, x, incx))
-#define cublasZscal(handle, n, alpha, x, incx) __cu(blasZscal(handle, n, alpha, x, incx))
-#define cublasZdscal(handle, n, alpha, x, incx) __cu(blasZdscal(handle, n, alpha, x, incx))
+#define cublasSscal(handle, n, alpha, x, incx) cuX(blasSscal(handle, n, alpha, x, incx))
+#define cublasDscal(handle, n, alpha, x, incx) cuX(blasDscal(handle, n, alpha, x, incx))
+#define cublasCscal(handle, n, alpha, x, incx) cuX(blasCscal(handle, n, alpha, x, incx))
+#define cublasCsscal(handle, n, alpha, x, incx) cuX(blasCsscal(handle, n, alpha, x, incx))
+#define cublasZscal(handle, n, alpha, x, incx) cuX(blasZscal(handle, n, alpha, x, incx))
+#define cublasZdscal(handle, n, alpha, x, incx) cuX(blasZdscal(handle, n, alpha, x, incx))
 
 /**
  * This function finds the (smallest) index of the element of the maximum
  * magnitude.
  */
-#define cublasIsamax(handle, n, x, incx, presult) __cu(blasIsamax(handle, n, x, incx, presult))
-#define cublasIdamax(handle, n, x, incx, presult) __cu(blasIdamax(handle, n, x, incx, presult))
-#define cublasIcamax(handle, n, x, incx, presult) __cu(blasIcamax(handle, n, x, incx, presult))
-#define cublasIzamax(handle, n, x, incx, presult) __cu(blasIzamax(handle, n, x, incx, presult))
+#define cublasIsamax(handle, n, x, incx, presult) cuX(blasIsamax(handle, n, x, incx, presult))
+#define cublasIdamax(handle, n, x, incx, presult) cuX(blasIdamax(handle, n, x, incx, presult))
+#define cublasIcamax(handle, n, x, incx, presult) cuX(blasIcamax(handle, n, x, incx, presult))
+#define cublasIzamax(handle, n, x, incx, presult) cuX(blasIzamax(handle, n, x, incx, presult))
 
 /**
  * This function finds the (smallest) index of the element of the minimum
  * magnitude.
  */
-#define cublasIsamin(handle, n, x, incx, presult) __cu(blasIsamin(handle, n, x, incx, presult))
-#define cublasIdamin(handle, n, x, incx, presult) __cu(blasIdamin(handle, n, x, incx, presult))
-#define cublasIcamin(handle, n, x, incx, presult) __cu(blasIcamin(handle, n, x, incx, presult))
-#define cublasIzamin(handle, n, x, incx, presult) __cu(blasIzamin(handle, n, x, incx, presult))
+#define cublasIsamin(handle, n, x, incx, presult) cuX(blasIsamin(handle, n, x, incx, presult))
+#define cublasIdamin(handle, n, x, incx, presult) cuX(blasIdamin(handle, n, x, incx, presult))
+#define cublasIcamin(handle, n, x, incx, presult) cuX(blasIcamin(handle, n, x, incx, presult))
+#define cublasIzamin(handle, n, x, incx, presult) cuX(blasIzamin(handle, n, x, incx, presult))
 
 /**
  * This function computes the sum of the absolute values of the elements of
  * vector x.
  */
-#define cublasSasum(handle, n, x, incx, presult) __cu(blasSasum(handle, n, x, incx, presult))
-#define cublasDasum(handle, n, x, incx, presult) __cu(blasDasum(handle, n, x, incx, presult))
-#define cublasScasum(handle, n, x, incx, presult) __cu(blasScasum(handle, n, x, incx, presult))
-#define cublasDzasum(handle, n, x, incx, presult) __cu(blasDzasum(handle, n, x, incx, presult))
+#define cublasSasum(handle, n, x, incx, presult) cuX(blasSasum(handle, n, x, incx, presult))
+#define cublasDasum(handle, n, x, incx, presult) cuX(blasDasum(handle, n, x, incx, presult))
+#define cublasScasum(handle, n, x, incx, presult) cuX(blasScasum(handle, n, x, incx, presult))
+#define cublasDzasum(handle, n, x, incx, presult) cuX(blasDzasum(handle, n, x, incx, presult))
 
 /**
  * This function multiplies the vector x by the scalar alpha and adds it to
@@ -126,10 +126,10 @@
  * k = 1 + (i − 1) * incx
  * j = 1 + (i − 1) * incy
  */
-#define cublasSaxpy(handle, n, alpha, x, incx, y, incy) __cu(blasSaxpy(handle, n, alpha, x, incx, y, incy))
-#define cublasDaxpy(handle, n, alpha, x, incx, y, incy) __cu(blasDaxpy(handle, n, alpha, x, incx, y, incy))
-#define cublasCaxpy(handle, n, alpha, x, incx, y, incy) __cu(blasCaxpy(handle, n, alpha, x, incx, y, incy))
-#define cublasZaxpy(handle, n, alpha, x, incx, y, incy) __cu(blasZaxpy(handle, n, alpha, x, incx, y, incy))
+#define cublasSaxpy(handle, n, alpha, x, incx, y, incy) cuX(blasSaxpy(handle, n, alpha, x, incx, y, incy))
+#define cublasDaxpy(handle, n, alpha, x, incx, y, incy) cuX(blasDaxpy(handle, n, alpha, x, incx, y, incy))
+#define cublasCaxpy(handle, n, alpha, x, incx, y, incy) cuX(blasCaxpy(handle, n, alpha, x, incx, y, incy))
+#define cublasZaxpy(handle, n, alpha, x, incx, y, incy) cuX(blasZaxpy(handle, n, alpha, x, incx, y, incy))
 
 /**
  * This function copies the vector x into the vector y.
@@ -139,49 +139,49 @@
  * k = 1 + (i − 1) * incx
  * j = 1 + (i − 1) * incy
  */
-#define cublasScopy(handle, n, x, incx, y, incy) __cu(blasScopy(handle, n, x, incx, y, incy))
-#define cublasDcopy(handle, n, x, incx, y, incy) __cu(blasDcopy(handle, n, x, incx, y, incy))
-#define cublasCcopy(handle, n, x, incx, y, incy) __cu(blasCcopy(handle, n, x, incx, y, incy))
-#define cublasZcopy(handle, n, x, incx, y, incy) __cu(blasZcopy(handle, n, x, incx, y, incy))
+#define cublasScopy(handle, n, x, incx, y, incy) cuX(blasScopy(handle, n, x, incx, y, incy))
+#define cublasDcopy(handle, n, x, incx, y, incy) cuX(blasDcopy(handle, n, x, incx, y, incy))
+#define cublasCcopy(handle, n, x, incx, y, incy) cuX(blasCcopy(handle, n, x, incx, y, incy))
+#define cublasZcopy(handle, n, x, incx, y, incy) cuX(blasZcopy(handle, n, x, incx, y, incy))
 
 /**
  * This function computes the dot product of vectors x and y.
  */
-#define cublasSdot(handle, n, x, incx, y, incy, presult) __cu(blasSdot(handle, n, x, incx, y, incy, presult))
-#define cublasDdot(handle, n, x, incx, y, incy, presult) __cu(blasDdot(handle, n, x, incx, y, incy, presult))
-#define cublasCdotu(handle, n, x, incx, y, incy, presult) __cu(blasCdotu(handle, n, x, incx, y, incy, presult))
-#define cublasCdotc(handle, n, x, incx, y, incy, presult) __cu(blasCdotc(handle, n, x, incx, y, incy, presult))
-#define cublasZdotu(handle, n, x, incx, y, incy, presult) __cu(blasZdotu(handle, n, x, incx, y, incy, presult))
-#define cublasZdotc(handle, n, x, incx, y, incy, presult) __cu(blasZdotc(handle, n, x, incx, y, incy, presult))
+#define cublasSdot(handle, n, x, incx, y, incy, presult) cuX(blasSdot(handle, n, x, incx, y, incy, presult))
+#define cublasDdot(handle, n, x, incx, y, incy, presult) cuX(blasDdot(handle, n, x, incx, y, incy, presult))
+#define cublasCdotu(handle, n, x, incx, y, incy, presult) cuX(blasCdotu(handle, n, x, incx, y, incy, presult))
+#define cublasCdotc(handle, n, x, incx, y, incy, presult) cuX(blasCdotc(handle, n, x, incx, y, incy, presult))
+#define cublasZdotu(handle, n, x, incx, y, incy, presult) cuX(blasZdotu(handle, n, x, incx, y, incy, presult))
+#define cublasZdotc(handle, n, x, incx, y, incy, presult) cuX(blasZdotc(handle, n, x, incx, y, incy, presult))
 
 /**
  * This function computes the Euclidean norm of the vector x.
  */
-#define cublasSnrm2(handle, n, x, incx, presult) __cu(blasSnrm2(handle, n, x, incx, presult))
-#define cublasDnrm2(handle, n, x, incx, presult) __cu(blasDnrm2(handle, n, x, incx, presult))
-#define cublasScnrm2(handle, n, x, incx, presult) __cu(blasScnrm2(handle, n, x, incx, presult))
-#define cublasDznrm2(handle, n, x, incx, presult) __cu(blasDznrm2(handle, n, x, incx, presult))
+#define cublasSnrm2(handle, n, x, incx, presult) cuX(blasSnrm2(handle, n, x, incx, presult))
+#define cublasDnrm2(handle, n, x, incx, presult) cuX(blasDnrm2(handle, n, x, incx, presult))
+#define cublasScnrm2(handle, n, x, incx, presult) cuX(blasScnrm2(handle, n, x, incx, presult))
+#define cublasDznrm2(handle, n, x, incx, presult) cuX(blasDznrm2(handle, n, x, incx, presult))
 
 /**
  * This function applies Givens rotation matrix.
  */
-#define cublasSrot(handle, n, x, incx, y, incy, c, s) __cu(blasSrot(handle, n, x, incx, y, incy, c, s))
-#define cublasDrot(handle, n, x, incx, y, incy, c, s) __cu(blasDrot(handle, n, x, incx, y, incy, c, s))
-#define cublasCrot(handle, n, x, incx, y, incy, c, s) __cu(blasCrot(handle, n, x, incx, y, incy, c, s))
-#define cublasCsrot(handle, n, x, incx, y, incy, c, s) __cu(blasCsrot(handle, n, x, incx, y, incy, c, s))
-#define cublasZrot(handle, n, x, incx, y, incy, c, s) __cu(blasZrot(handle, n, x, incx, y, incy, c, s))
-#define cublasZdrot(handle, n, x, incx, y, incy, c, s) __cu(blasZdrot(handle, n, x, incx, y, incy, c, s))
+#define cublasSrot(handle, n, x, incx, y, incy, c, s) cuX(blasSrot(handle, n, x, incx, y, incy, c, s))
+#define cublasDrot(handle, n, x, incx, y, incy, c, s) cuX(blasDrot(handle, n, x, incx, y, incy, c, s))
+#define cublasCrot(handle, n, x, incx, y, incy, c, s) cuX(blasCrot(handle, n, x, incx, y, incy, c, s))
+#define cublasCsrot(handle, n, x, incx, y, incy, c, s) cuX(blasCsrot(handle, n, x, incx, y, incy, c, s))
+#define cublasZrot(handle, n, x, incx, y, incy, c, s) cuX(blasZrot(handle, n, x, incx, y, incy, c, s))
+#define cublasZdrot(handle, n, x, incx, y, incy, c, s) cuX(blasZdrot(handle, n, x, incx, y, incy, c, s))
 
 /**
  * This function constructs the Givens rotation matrix.
  */
-#define cublasSrotg(handle, a, b, c, s) __cu(blasSrotg(handle, a, b, c, s))
-#define cublasDrotg(handle, a, b, c, s) __cu(blasDrotg(handle, a, b, c, s))
-#define cublasCrotg(handle, a, b, c, s) __cu(blasCrotg(handle, a, b, c, s))
-#define cublasZrotg(handle, a, b, c, s) __cu(blasZrotg(handle, a, b, c, s))
+#define cublasSrotg(handle, a, b, c, s) cuX(blasSrotg(handle, a, b, c, s))
+#define cublasDrotg(handle, a, b, c, s) cuX(blasDrotg(handle, a, b, c, s))
+#define cublasCrotg(handle, a, b, c, s) cuX(blasCrotg(handle, a, b, c, s))
+#define cublasZrotg(handle, a, b, c, s) cuX(blasZrotg(handle, a, b, c, s))
 
-#define cublasSrotm(handle, n, x, incx, y, incy, param) __cu(blasSrotm(handle, n, x, incx, y, incy, param))
-#define cublasDrotm(handle, n, x, incx, y, incy, param) __cu(blasDrotm(handle, n, x, incx, y, incy, param))
+#define cublasSrotm(handle, n, x, incx, y, incy, param) cuX(blasSrotm(handle, n, x, incx, y, incy, param))
+#define cublasDrotm(handle, n, x, incx, y, incy, param) cuX(blasDrotm(handle, n, x, incx, y, incy, param))
 
 /**
  * This function performs the matrix-matrix multiplication.
@@ -215,13 +215,13 @@
  *                              int                ldc);
  */
 #define cublasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
- __cu(blasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+ cuX(blasSgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 #define cublasDgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
- __cu(blasDgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+ cuX(blasDgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 #define cublasCgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
- __cu(blasCgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+ cuX(blasCgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 #define cublasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
- __cu(blasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+ cuX(blasZgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 /**
  * CUDA:
  * cublasStatus_t cublasHgemm(cublasHandle_t handle,
@@ -256,10 +256,10 @@
  *                              int                ldc);
  */
 #define cublasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc) \
- __cu(blasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
+ cuX(blasHgemm(handle, transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc))
 
 #define cublasDgemv(handle, transa, m, n, alpha, a, lda, x, incx, beta, y, incy) \
- __cu(blasDgemv(handle, transa, m, n, alpha, a, lda, x, incx, beta, y, incy))
+ cuX(blasDgemv(handle, transa, m, n, alpha, a, lda, x, incx, beta, y, incy))
 
 /**
  * CUDA:
@@ -306,7 +306,7 @@
  */
 #define cublasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
        B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo) \
- __cu(blasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
+ cuX(blasGemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
        B, Btype, ldb, beta, C, Ctype, ldc, computeType, algo))
 /**
  * HIP:
@@ -330,7 +330,7 @@
  *                                  hipblasComputeType_t computeType,
  *                                  hipblasGemmAlgo_t    algo);
  */
-#define cublasGemmEx_v2 __cu(blasGemmEx_v2)
+#define cublasGemmEx_v2 cuX(blasGemmEx_v2)
 
 /**
  * cublasStatus_t cublasSgemmEx(cublasHandle_t handle,
@@ -353,7 +353,7 @@
  */
 #define cublasSgemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
         B, Btype, ldb, beta, C, Ctype, ldc) \
- __cu(blasSgemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
+ cuX(blasSgemmEx(handle, transa, transb, m, n, k, alpha, A, Atype, lda, \
         B, Btype, ldb, beta, C, Ctype, ldc))
 
 #if defined(__USE_HPCC__)
@@ -449,7 +449,7 @@
 # ifndef cudaDataType_t
 #  define cudaDataType_t cudaDataType
 # endif
-#define cudaDataType __cuda(DataType)
+#define cudaDataType cudaX(DataType)
 #define CUDA_R_32F HIP_R_32F
 #define CUDA_R_64F HIP_R_64F
 #define CUDA_R_16F HIP_R_16F

@@ -10,7 +10,7 @@
  * CUDA: typedef struct CUstream_st *CUstream;
  * LUCA: typedef struct LCstream_st *lcStream_t;
  */
-#define cudaStream_t __cuda(Stream_t)
+#define cudaStream_t cudaX(Stream_t)
 
 #ifdef __USE_HPCC__
 # include <hcr/hc_runtime.h>

@@ -6,9 +6,9 @@
 #include "wrapper_defs.h"
 #include "driver_types.h"
 
-#define cudaGetDeviceCount(pgpus) __cuda(GetDeviceCount(pgpus))
-#define cudaGetDevice(p_id) __cuda(GetDevice(p_id))
-#define cudaSetDevice(dev_id) __cuda(SetDevice(dev_id))
+#define cudaGetDeviceCount(pgpus) cudaX(GetDeviceCount(pgpus))
+#define cudaGetDevice(p_id) cudaX(GetDevice(p_id))
+#define cudaSetDevice(dev_id) cudaX(SetDevice(dev_id))
 
 /**
  * CUDA 13
@@ -17,10 +17,10 @@
  * HIP 6.3.42133-0
  * hipError_t hipPeekAtLastError(void);
  */
-#define cudaPeekAtLastError() __cuda(PeekAtLastError())
+#define cudaPeekAtLastError() cudaX(PeekAtLastError())
 
-#define cudaGetLastError() __cuda(GetLastError())
-#define cudaGetErrorString(err) __cuda(GetErrorString(err))
+#define cudaGetLastError() cudaX(GetLastError())
+#define cudaGetErrorString(err) cudaX(GetErrorString(err))
 
 /**
  * CUDA 13:
@@ -29,22 +29,22 @@
  * HIP 6.3.42133-0
  * const char* hipGetErrorName(hipError_t hip_error);
  */
-#define cudaGetErrorName(error) __cuda(GetErrorName(error))
+#define cudaGetErrorName(error) cudaX(GetErrorName(error))
 
-#define cudaDeviceSetLimit(limit, value) __cuda(DeviceSetLimit(limit, value))
-#define cudaDeviceGetLimit(limit, value) __cuda(DeviceGetLimit(limit, value))
+#define cudaDeviceSetLimit(limit, value) cudaX(DeviceSetLimit(limit, value))
+#define cudaDeviceGetLimit(limit, value) cudaX(DeviceGetLimit(limit, value))
 
 /**
  * CUDA
  * cudaError_t cudaDriverGetVersion(int *driverVersion);
  */
-#define cudaDriverGetVersion __cuda(DriverGetVersion)
+#define cudaDriverGetVersion cudaX(DriverGetVersion)
 
 /**
  * https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html
  */
-#define cudaMalloc(pp, sz) __cuda(Malloc(pp, sz))
-#define cudaFree(ptr) __cuda(Free(ptr))
+#define cudaMalloc(pp, sz) cudaX(Malloc(pp, sz))
+#define cudaFree(ptr) cudaX(Free(ptr))
 
 /**
  * Pinned memory, on CPU memory, GPU accessable, DMA copy
@@ -53,8 +53,8 @@
  * hipError_t hipMallocHost(void** ptr, size_t size);
  * hipError_t hipHostMalloc(void** ptr, size_t size, unsigned int flags);
  */
-#define cudaMallocHost(ptr, sz, flags) __cuda(MallocHost(ptr, sz, flags))
-#define cudaFreeHost(ptr) __cuda(FreeHost(ptr))
+#define cudaMallocHost(ptr, sz, flags) cudaX(MallocHost(ptr, sz, flags))
+#define cudaFreeHost(ptr) cudaX(FreeHost(ptr))
 
 /**
  * CUDA 12
@@ -66,7 +66,7 @@
  * LUCA
  * lcError_t lcMallocAsync(void **devPtr, size_t size, lcStream_t hStream);
  */
-#define cudaMallocAsync(pp, sz, stream) __cuda(MallocAsync(pp, sz, stream))
+#define cudaMallocAsync(pp, sz, stream) cudaX(MallocAsync(pp, sz, stream))
 
 /**
  * CUDA 12:
@@ -75,7 +75,7 @@
  * HIP:
  * hipError_t hipFreeAsync(void* dev_ptr, hipStream_t stream);
  */
-#define cudaFreeAsync(ptr, stream) __cuda(FreeAsync(ptr, stream))
+#define cudaFreeAsync(ptr, stream) cudaX(FreeAsync(ptr, stream))
 
 /**
  * cudaError_t cudaMallocManaged(void **devPtr, size_t size,
@@ -83,9 +83,9 @@
  * hcError_t hcMallocManaged(void **dev_ptr, size_t size,
  *                           unsigned int flags __dparm(hcMemAttachGlobal));
  */
-#define cudaMallocManaged(pp, sz, flags) __cuda(MallocManaged(pp, sz, flags))
+#define cudaMallocManaged(pp, sz, flags) cudaX(MallocManaged(pp, sz, flags))
 
-#define cudaMemset(ptr, v, size) __cuda(Memset(ptr, v, size))
+#define cudaMemset(ptr, v, size) cudaX(Memset(ptr, v, size))
 
 /**
  * CUDA 12
@@ -97,7 +97,7 @@
  *                           hipStream_t stream);
  */
 #define cudaMemsetAsync(ptr, v, size, stream) \
-	__cuda(MemsetAsync(ptr, v, size, stream))
+	cudaX(MemsetAsync(ptr, v, size, stream))
 
 /**
  * CUDA 12
@@ -111,9 +111,9 @@
  *                             hipStream_t stream __dparm(0));
  */
 #define cudaMemset2DAsync(dst, pitch, value, width, height, stream) \
-	__cuda(Memset2DAsync(dst, pitch, value, width, height, stream))
+	cudaX(Memset2DAsync(dst, pitch, value, width, height, stream))
 
-#define cudaMemcpy(dst, src, size, flag) __cuda(Memcpy(dst, src, size, flag))
+#define cudaMemcpy(dst, src, size, flag) cudaX(Memcpy(dst, src, size, flag))
 
 /**
  * CUDA 12
@@ -125,7 +125,7 @@
  *                           hipMemcpyKind kind,
  *                           hipStream_t stream __dparm(0));
  */
-#define cudaMemcpyAsync __cuda(MemcpyAsync)
+#define cudaMemcpyAsync cudaX(MemcpyAsync)
 
 /**
  * CUDA
@@ -169,7 +169,7 @@
  * hipError_t hipDrvMemcpy3D(const HIP_MEMCPY3D* pCopy);
  * hipError_t hipDrvMemcpy3DAsync(const HIP_MEMCPY3D* pCopy, hipStream_t stream);
  */
-#define cudaMemcpy2D __cuda(Memcpy2D)
+#define cudaMemcpy2D cudaX(Memcpy2D)
 
 /**
  * CUDA 12
@@ -182,7 +182,7 @@
  *                             size_t spitch, size_t width, size_t height,
  *                             hipMemcpyKind kind, hipStream_t stream __dparm(0));
  */
-#define cudaMemcpy2DAsync __cuda(Memcpy2DAsync)
+#define cudaMemcpy2DAsync cudaX(Memcpy2DAsync)
 
 /**
  * CUDA 12 don't have cudaMemcpyWithStream()
@@ -200,7 +200,7 @@
  * HPCC:
  * hcError_t hcGetSymbolAddress(void **devPtr, const void *symbol);
  */
-#define cudaGetSymbolAddress __cuda(GetSymbolAddress)
+#define cudaGetSymbolAddress cudaX(GetSymbolAddress)
 
 /**
  * CUDA 13
@@ -213,8 +213,8 @@
  *                                size_t sizeBytes, size_t offset __dparm(0),
  *                                hipMemcpyKind kind __dparm(hipMemcpyDeviceToHost));
  */
-#define cudaMemcpyFromSymbol __cuda(MemcpyFromSymbol)
-#define cudaMemcpyToSymbol __cuda(MemcpyToSymbol)
+#define cudaMemcpyFromSymbol cudaX(MemcpyFromSymbol)
+#define cudaMemcpyToSymbol cudaX(MemcpyToSymbol)
 
 /**
  * CUDA 13
@@ -229,7 +229,7 @@
  * lcError_t lcMemcpyPeer(void *dst, int dstDevice, const void *src, int srcDevice,
  *                        size_t sizeBytes);
  */
-#define cudaMemcpyPeer __cuda(MemcpyPeer)
+#define cudaMemcpyPeer cudaX(MemcpyPeer)
 
 /**
  * CUDA 13
@@ -244,7 +244,7 @@
  * lcError_t lcMemcpyPeerAsync(void *dst, int dstDevice, const void *src, int srcDevice,
  *                             size_t sizeBytes, lcStream_t stream);
  */
-#define cudaMemcpyPeerAsync __cuda(MemcpyPeerAsync)
+#define cudaMemcpyPeerAsync cudaX(MemcpyPeerAsync)
 
 /**
  * CUDA 13.0
@@ -254,8 +254,8 @@
  * HIP 6.4
  * hipError_t hipHostRegister(void* hostPtr, size_t sizeBytes, unsigned int flags);
  */
-#define cudaHostRegister __cuda(HostRegister)
-#define cudaHostUnregister __cuda(HostUnregister)
+#define cudaHostRegister cudaX(HostRegister)
+#define cudaHostUnregister cudaX(HostUnregister)
 
 /**
  * CUDA 13.0
@@ -264,7 +264,7 @@
  * HIP 6.4
  * hipError_t hipHostGetDevicePointer(void** devPtr, void* hstPtr, unsigned int flags);
  */
-#define cudaHostGetDevicePointer __cuda(HostGetDevicePointer)
+#define cudaHostGetDevicePointer cudaX(HostGetDevicePointer)
 
 /**
  * CUDA V13.0.48
@@ -293,20 +293,20 @@
  *                         int device);
  */
 #define cudaMemAdvise(ptr, count, advice, location_or_device) \
-	__cuda(MemAdvise(ptr, count, advice, location_or_device))
+	cudaX(MemAdvise(ptr, count, advice, location_or_device))
 #define cudaMemAdvise_v2(ptr, count, advice, location_or_device) \
-	__cuda(MemAdvise_v2(ptr, count, advice, location_or_device))
+	cudaX(MemAdvise_v2(ptr, count, advice, location_or_device))
 
 /**
  * cudaError_t cudaMemPoolCreate(cudaMemPool_t *memPool,
  *                               const struct cudaMemPoolProps *poolProps);
  */
-#define cudaMemPoolCreate __cuda(MemPoolCreate)
+#define cudaMemPoolCreate cudaX(MemPoolCreate)
 
 /**
  * cudaError_t cudaMemPoolDestroy(cudaMemPool_t memPool);
  */
-#define cudaMemPoolDestroy __cuda(MemPoolDestroy)
+#define cudaMemPoolDestroy cudaX(MemPoolDestroy)
 
 /**
  * CUDA V13.0.48
@@ -316,7 +316,7 @@
  * hipError_t hipDeviceGetDefaultMemPool(hipMemPool_t* mem_pool, int device);
  */
 #define cudaDeviceGetDefaultMemPool(pool, dev) \
-	__cuda(DeviceGetDefaultMemPool(pool, dev))
+	cudaX(DeviceGetDefaultMemPool(pool, dev))
 
 /**
  * CUDA
@@ -325,7 +325,7 @@
  * HIP
  * hipError_t hipMemPoolTrimTo(hipMemPool_t mem_pool, size_t min_bytes_to_hold);
  */
-#define cudaMemPoolTrimTo(p, b) __cuda(MemPoolTrimTo(p, b))
+#define cudaMemPoolTrimTo(p, b) cudaX(MemPoolTrimTo(p, b))
 
 /**
  * CUDA V13.0
@@ -337,24 +337,24 @@
  * LUCA 3.1.3
  * hcError_t hcPointerGetAttributes(hcPointerAttribute_t *attributes, const void *ptr);
  */
-#define cudaPointerGetAttributes(a, p) __cuda(PointerGetAttributes(a, p))
+#define cudaPointerGetAttributes(a, p) cudaX(PointerGetAttributes(a, p))
 
-#define cudaEventCreate(pe) __cuda(EventCreate(pe))
-#define cudaEventCreateWithFlags(pe, f) __cuda(EventCreateWithFlags(pe, f))
-#define cudaEventDestroy(ev) __cuda(EventDestroy(ev))
+#define cudaEventCreate(pe) cudaX(EventCreate(pe))
+#define cudaEventCreateWithFlags(pe, f) cudaX(EventCreateWithFlags(pe, f))
+#define cudaEventDestroy(ev) cudaX(EventDestroy(ev))
 
 /**
  * cudaError_t cudaEventRecord(cudaEvent_t event, cudaStream_t stream);
  */
-#define cudaEventRecord(ev, stream) __cuda(EventRecord(ev, stream))
+#define cudaEventRecord(ev, stream) cudaX(EventRecord(ev, stream))
 #define cudaEventElapsedTime(pt, start, stop) \
-	__cuda(EventElapsedTime(pt, start, stop))
+	cudaX(EventElapsedTime(pt, start, stop))
 
 /**
  * cudaEventSynchronize() will block the CPU until the CPU waits for the GPU
  * calculation to complete the event 'ev'.
  */
-#define cudaEventSynchronize(ev) __cuda(EventSynchronize(ev))
+#define cudaEventSynchronize(ev) cudaX(EventSynchronize(ev))
 
 /**
  * CUDA 13.0
@@ -363,7 +363,7 @@
  * HIP 6.4
  * hipError_t hipEventQuery(hipEvent_t event);
  */
-#define cudaEventQuery __cuda(EventQuery)
+#define cudaEventQuery cudaX(EventQuery)
 
 /**
  * CUDA 13
@@ -373,8 +373,8 @@
  * lcError_t lcGraphCreate(lcGraph_t *pGraph, unsigned int flags);
  * lcError_t lcGraphDestroy(lcGraph_t graph);
  */
-#define cudaGraphCreate __cuda(GraphCreate)
-#define cudaGraphDestroy __cuda(GraphDestroy)
+#define cudaGraphCreate cudaX(GraphCreate)
+#define cudaGraphDestroy cudaX(GraphDestroy)
 
 /**
  * CUDA:
@@ -389,14 +389,14 @@
  *                                  const lcGraphNode_t *pDependencies, size_t numDependencies,
  *                                  void *dst, const void *src, size_t count, lcMemcpyKind kind);
  */
-#define cudaGraphAddMemcpyNode1D __cuda(GraphAddMemcpyNode1D)
+#define cudaGraphAddMemcpyNode1D cudaX(GraphAddMemcpyNode1D)
 
-#define cudaGraphAddMemAllocNode __cuda(GraphAddMemAllocNode)
-#define cudaGraphAddMemFreeNode __cuda(GraphAddMemFreeNode)
+#define cudaGraphAddMemAllocNode cudaX(GraphAddMemAllocNode)
+#define cudaGraphAddMemFreeNode cudaX(GraphAddMemFreeNode)
 
-#define cudaGraphInstantiate __cuda(GraphInstantiate)
-#define cudaGraphExecDestroy __cuda(GraphExecDestroy)
-#define cudaGraphLaunch __cuda(GraphLaunch)
+#define cudaGraphInstantiate cudaX(GraphInstantiate)
+#define cudaGraphExecDestroy cudaX(GraphExecDestroy)
+#define cudaGraphLaunch cudaX(GraphLaunch)
 
 /**
  * CUDA 13.0
@@ -408,7 +408,7 @@
  * hipError_t hipGraphRetainUserObject(hipGraph_t graph, hipUserObject_t object,
  *                                     unsigned int count, unsigned int flags);
  */
-#define cudaGraphRetainUserObject __cuda(GraphRetainUserObject)
+#define cudaGraphRetainUserObject cudaX(GraphRetainUserObject)
 
 /**
  * CUDA 13.0
@@ -425,7 +425,7 @@
  *                                     size_t numDependencies,
  *                                     hipEvent_t event);
  */
-#define cudaGraphAddEventWaitNode __cuda(GraphAddEventWaitNode)
+#define cudaGraphAddEventWaitNode cudaX(GraphAddEventWaitNode)
 
 /**
  * CUDA 13.0
@@ -442,7 +442,7 @@
  *                                       size_t numDependencies,
  *                                       hipEvent_t event);
  */
-#define cudaGraphAddEventRecordNode __cuda(GraphAddEventRecordNode)
+#define cudaGraphAddEventRecordNode cudaX(GraphAddEventRecordNode)
 
 /**
  * CUDA 13.0
@@ -467,7 +467,7 @@
  *                              size_t numDependencies,
  *                              const hcHostNodeParams *pNodeParams);
  */
-#define cudaGraphAddHostNode __cuda(GraphAddHostNode)
+#define cudaGraphAddHostNode cudaX(GraphAddHostNode)
 
 /**
  * CUDA 13.0
@@ -480,7 +480,7 @@
  *                                  const hipGraphNode_t* pDependencies, size_t numDependencies,
  *                                  const hipKernelNodeParams* pNodeParams);
  */
-#define cudaGraphAddKernelNode __cuda(GraphAddKernelNode)
+#define cudaGraphAddKernelNode cudaX(GraphAddKernelNode)
 
 /**
  * CUDA:
@@ -498,14 +498,14 @@
  *                          lcStream_t stream __dparm(0));
  */
 #define cudaLaunchKernel(func, g, b, args, mem, stream) \
-	__cuda(LaunchKernel(func, g, b, args, mem, stream))
+	cudaX(LaunchKernel(func, g, b, args, mem, stream))
 
 /**
  * cudaError_t cudaLaunchDevice(void *func, void *parameterBuffer,
  *                              dim3 gridDimension, dim3 blockDimension,
  *                              unsigned int sharedMemSize, cudaStream_t stream);
  */
-#define cudaLaunchDevice __cuda(LaunchDevice)
+#define cudaLaunchDevice cudaX(LaunchDevice)
 
 /**
  * CUDA V13.0.48:
@@ -520,7 +520,7 @@
  */
 #define cudaLaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes,    \
 				    stream)                                 \
-	__cuda(LaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, \
+	cudaX(LaunchCooperativeKernel(kernel, blocks, blksz, kargs, bytes, \
 				       stream))
 
 /**
@@ -544,7 +544,7 @@
  *                                unsigned int sharedMemBytes, lcStream_t hStream,
  *                                void **kernelParams, void **extra);
  */
-#define hipModuleLaunchKernel __cu(ModuleLaunchKernel)
+#define hipModuleLaunchKernel cuX(ModuleLaunchKernel)
 
 /**
  * CUDA 13.0
@@ -553,12 +553,12 @@
  * HIP 6.4
  * hipError_t hipLaunchHostFunc(hipStream_t stream, hipHostFn_t fn, void* userData);
  */
-#define cudaLaunchHostFunc __cuda(LaunchHostFunc)
+#define cudaLaunchHostFunc cudaX(LaunchHostFunc)
 
 /**
  * cudaError_t cudaGetFuncBySymbol(cudaFunction_t* functionPtr, const void* symbolPtr);
  */
-#define cudaGetFuncBySymbol __cuda(GetFuncBySymbol)
+#define cudaGetFuncBySymbol cudaX(GetFuncBySymbol)
 
 /**
  * CUDA V13.0
@@ -567,7 +567,7 @@
  * HIP 6.4
  * hipError_t hipFuncGetAttributes(struct hipFuncAttributes* attr, const void* func);
  */
-#define cudaFuncGetAttributes(a, f) __cuda(FuncGetAttributes(a, f))
+#define cudaFuncGetAttributes(a, f) cudaX(FuncGetAttributes(a, f))
 
 /**
  * CUDA V13.0
@@ -576,7 +576,7 @@
  * HIP 6.4
  * hipError_t hipFuncSetAttribute(const void* func, hipFuncAttribute attr, int value);
  */
-#define cudaFuncSetAttribute(f, a, v) __cuda(FuncSetAttribute(f, a, v))
+#define cudaFuncSetAttribute(f, a, v) cudaX(FuncSetAttribute(f, a, v))
 
 /**
  * cudaStream_t is a data type in CUDA used to represent a stream. A stream in
@@ -585,11 +585,11 @@
  * execution, allowing multiple operations to overlap and improve performance
  * by utilizing GPU resources more efficiently.
  */
-#define cudaStreamCreate(pstream) __cuda(StreamCreate(pstream))
-#define cudaStreamCreateWithFlags(s, f) __cuda(StreamCreateWithFlags(s, f))
-#define cudaStreamDestroy(stream) __cuda(StreamDestroy(stream))
+#define cudaStreamCreate(pstream) cudaX(StreamCreate(pstream))
+#define cudaStreamCreateWithFlags(s, f) cudaX(StreamCreateWithFlags(s, f))
+#define cudaStreamDestroy(stream) cudaX(StreamDestroy(stream))
 
-#define cudaStreamSynchronize(stream) __cuda(StreamSynchronize(stream))
+#define cudaStreamSynchronize(stream) cudaX(StreamSynchronize(stream))
 
 /**
  * CUDA V13.0:
@@ -598,13 +598,13 @@
  * HIP 6.4
  * hipError_t hipStreamQuery(hipStream_t stream);
  */
-#define cudaStreamQuery(s) __cuda(StreamQuery(s))
+#define cudaStreamQuery(s) cudaX(StreamQuery(s))
 
 /**
  * cudaError_t cudaStreamBeginCapture(cudaStream_t stream, enum cudaStreamCaptureMode mode);
  */
-#define cudaStreamBeginCapture __cuda(StreamBeginCapture)
-#define cudaStreamEndCapture __cuda(StreamEndCapture)
+#define cudaStreamBeginCapture cudaX(StreamBeginCapture)
+#define cudaStreamEndCapture cudaX(StreamEndCapture)
 
 /**
  * CUDA 12
@@ -620,46 +620,46 @@
  *                               hcStreamCaptureStatus *pCaptureStatus);
  */
 #define cudaStreamIsCapturing(stream, pCaptureStatus) \
-	__cuda(StreamIsCapturing(stream, pCaptureStatus))
+	cudaX(StreamIsCapturing(stream, pCaptureStatus))
 
 /**
  * LUCA:
  * lcError_t lcStreamCopyAttributes(lcStream_t dst, lcStream_t src);
  */
-#define cudaStreamCopyAttributes __cuda(StreamCopyAttributes)
+#define cudaStreamCopyAttributes cudaX(StreamCopyAttributes)
 
 /**
  * LUCA:
  * lcError_t lcStreamGetAttribute(lcStream_t hStream, lcStreamAttrID attr,
  *                                lcStreamAttrValue *value_out);
  */
-#define cudaStreamGetAttribute __cuda(StreamGetAttribute)
+#define cudaStreamGetAttribute cudaX(StreamGetAttribute)
 
 /**
  * LUCA:
  * lcError_t lcStreamSetAttribute(lcStream_t hStream, lcStreamAttrID attr,
  *                                const lcStreamAttrValue *value);
  */
-#define cudaStreamSetAttribute __cuda(StreamSetAttribute)
+#define cudaStreamSetAttribute cudaX(StreamSetAttribute)
 
 /**
  * LUCA:
  * lcError_t lcStreamGetPriority(lcStream_t hStream, int *priority);
  */
-#define cudaStreamGetPriority __cuda(StreamGetPriority)
+#define cudaStreamGetPriority cudaX(StreamGetPriority)
 
 /**
  * LUCA:
  * lcError_t lcStreamGetFlags(lcStream_t hStream, unsigned int *flags);
  */
-#define cudaStreamGetFlags __cuda(StreamGetFlags)
+#define cudaStreamGetFlags cudaX(StreamGetFlags)
 
 /**
  * CUDA 13
  * cudaError_t cudaStreamAddCallback(cudaStream_t stream, cudaStreamCallback_t callback,
  *                                   void *userData, unsigned int flags);
  */
-#define cudaStreamAddCallback __cuda(StreamAddCallback)
+#define cudaStreamAddCallback cudaX(StreamAddCallback)
 
 /**
  * CUDA V13.0
@@ -668,7 +668,7 @@
  * HIP 6.4
  * hipError_t hipStreamWaitEvent(hipStream_t stream, hipEvent_t event, unsigned int flags);
  */
-#define cudaStreamWaitEvent(s, e, f) __cuda(StreamWaitEvent(s, e, f))
+#define cudaStreamWaitEvent(s, e, f) cudaX(StreamWaitEvent(s, e, f))
 
 /**
  * CUDA 13.0
@@ -709,7 +709,7 @@
  *                                  const hcGraphNode_t **dependencies_out __dparm(0),
  *                                  size_t *numDependencies_out __dparm(0));
  */
-#define cudaStreamGetCaptureInfo __cuda(StreamGetCaptureInfo)
+#define cudaStreamGetCaptureInfo cudaX(StreamGetCaptureInfo)
 
 /**
  * CUDA 13.0
@@ -727,7 +727,7 @@
  *                                             size_t numDependencies, unsigned int flags __dparm(0));
  */
 #define cudaStreamUpdateCaptureDependencies \
-	__cuda(StreamUpdateCaptureDependencies)
+	cudaX(StreamUpdateCaptureDependencies)
 
 /**
  * CUDA 13.0
@@ -737,7 +737,7 @@
  * hipError_t hipThreadExchangeStreamCaptureMode(hipStreamCaptureMode* mode);
  */
 #define cudaThreadExchangeStreamCaptureMode(m) \
-	__cuda(ThreadExchangeStreamCaptureMode(m))
+	cudaX(ThreadExchangeStreamCaptureMode(m))
 
 /**
  * CUDA 13.0
@@ -754,14 +754,14 @@
  *                                hipHostFn_t destroy,
  *                                unsigned int initialRefcount, unsigned int flags);
  */
-#define cudaUserObjectCreate __cuda(UserObjectCreate)
+#define cudaUserObjectCreate cudaX(UserObjectCreate)
 
 /**
  * cudaError_t cudaDeviceGetP2PAttribute(int *value, enum cudaDeviceP2PAttr attr,
  *                                       int srcDevice, int dstDevice);
  */
 #define cudaDeviceGetP2PAttribute(v, attr, src, dst) \
-	__cuda(DeviceGetP2PAttribute(v, attr, src, dst))
+	cudaX(DeviceGetP2PAttribute(v, attr, src, dst))
 
 /**
  * CUDA V12.2.140 cuda_runtime_api.h
@@ -773,10 +773,10 @@
  */
 #if defined(__USE_HPCC__) || defined(__USE_LUCA__) || defined(__USE_HIP__)
 #define cudaGetDeviceProperties(prop, devid) \
-	__cuda(GetDeviceProperties(prop, devid))
+	cudaX(GetDeviceProperties(prop, devid))
 #else
 #define cudaGetDeviceProperties(prop, devid) \
-	__cuda(GetDeviceProperties_v2(prop, devid))
+	cudaX(GetDeviceProperties_v2(prop, devid))
 #endif
 
 /**
@@ -786,7 +786,7 @@
  * HIP 6.4
  * hipError_t hipDeviceGetPCIBusId(char* pciBusId, int len, int device);
  */
-#define cudaDeviceGetPCIBusId(p, l, d) __cuda(DeviceGetPCIBusId(p, l, d))
+#define cudaDeviceGetPCIBusId(p, l, d) cudaX(DeviceGetPCIBusId(p, l, d))
 
 /**
  * CUDA 13.0
@@ -795,13 +795,13 @@
  * HIP 6.4
  * hipError_t hipDeviceGetByPCIBusId(int* device, const char* pciBusId);
  */
-#define cudaDeviceGetByPCIBusId(d, p) __cuda(DeviceGetByPCIBusId(d, p))
+#define cudaDeviceGetByPCIBusId(d, p) cudaX(DeviceGetByPCIBusId(d, p))
 
 /**
  * cudaError_t cudaDeviceCanAccessPeer(int *canAccessPeer, int device, int peerDevice);
  */
 #define cudaDeviceCanAccessPeer(can, devfrom, devto) \
-	__cuda(DeviceCanAccessPeer(can, devfrom, devto))
+	cudaX(DeviceCanAccessPeer(can, devfrom, devto))
 
 /**
  * CUDA 13.0
@@ -811,7 +811,7 @@
  * hipError_t hipDeviceEnablePeerAccess(int peerDeviceId, unsigned int flags);
  */
 #define cudaDeviceEnablePeerAccess(peerdev, flag) \
-	__cuda(DeviceEnablePeerAccess(peerdev, flag))
+	cudaX(DeviceEnablePeerAccess(peerdev, flag))
 
 /**
  * CUDA
@@ -820,7 +820,7 @@
  * LUCA
  * lcError_t lcDeviceDisablePeerAccess(int peerDeviceId);
  */
-#define cudaDeviceDisablePeerAccess(dev) __cuda(DeviceDisablePeerAccess(dev))
+#define cudaDeviceDisablePeerAccess(dev) cudaX(DeviceDisablePeerAccess(dev))
 
 /**
  * CUDA 12:
@@ -829,7 +829,7 @@
  * HIP:
  * hipError_t hipDeviceSynchronize(void);
  */
-#define cudaDeviceSynchronize() __cuda(DeviceSynchronize())
+#define cudaDeviceSynchronize() cudaX(DeviceSynchronize())
 
 /**
  * HIP 5.7.31921-0
@@ -837,7 +837,7 @@
  *                                  int dev_id);
  */
 #define cudaDeviceGetAttribute(pval, attr, dev_id) \
-	__cuda(DeviceGetAttribute(pval, attr, dev_id))
+	cudaX(DeviceGetAttribute(pval, attr, dev_id))
 
 /**
  * CUDA 13.0
@@ -846,7 +846,7 @@
  * HIP 6.4
  * hipError_t hipIpcGetMemHandle(hipIpcMemHandle_t* handle, void* devPtr);
  */
-#define cudaIpcGetMemHandle __cuda(IpcGetMemHandle)
+#define cudaIpcGetMemHandle cudaX(IpcGetMemHandle)
 
 /**
  * CUDA 13.0
@@ -855,7 +855,7 @@
  * HIP 6.4
  * hipError_t hipIpcOpenMemHandle(void** devPtr, hipIpcMemHandle_t handle, unsigned int flags);
  */
-#define cudaIpcOpenMemHandle __cuda(IpcOpenMemHandle)
+#define cudaIpcOpenMemHandle cudaX(IpcOpenMemHandle)
 
 /**
  * CUDA 13.0
@@ -864,7 +864,7 @@
  * HIP 6.4
  * hipError_t hipIpcCloseMemHandle(void* devPtr);
  */
-#define cudaIpcCloseMemHandle(p) __cuda(IpcCloseMemHandle(p))
+#define cudaIpcCloseMemHandle(p) cudaX(IpcCloseMemHandle(p))
 
 #ifdef __USE_HPCC__
 #elif defined(__USE_LUCA__)

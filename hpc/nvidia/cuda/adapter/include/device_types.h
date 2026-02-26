@@ -6,10 +6,10 @@
 #include "wrapper_defs.h"
 
 /* enum cudaRoundMode */
-#define cudaRoundMode __cuda(RoundMode)
-#define cudaRoundNearest __cuda(RoundNearest)
-#define cudaRoundZero __cuda(RoundZero)
-#define cudaRoundPosInf __cuda(RoundPosInf)
-#define cudaRoundMinInf __cuda(RoundMinInf)
+#define cudaRoundMode cudaX(RoundMode)
+#define cudaRoundNearest cudaX(RoundNearest)
+#define cudaRoundZero cudaX(RoundZero)
+#define cudaRoundPosInf cudaX(RoundPosInf)
+#define cudaRoundMinInf cudaX(RoundMinInf)
 
 #endif

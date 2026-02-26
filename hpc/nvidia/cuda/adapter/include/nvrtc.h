@@ -12,30 +12,30 @@
 
 #include "wrapper_defs.h"
 
-#define nvrtcResult __nv(rtcResult)
-#define NVRTC_SUCCESS __NV(RTC_SUCCESS)
-#define NVRTC_ERROR_OUT_OF_MEMORY __NV(RTC_ERROR_OUT_OF_MEMORY)
+#define nvrtcResult nvX(rtcResult)
+#define NVRTC_SUCCESS NVX(RTC_SUCCESS)
+#define NVRTC_ERROR_OUT_OF_MEMORY NVX(RTC_ERROR_OUT_OF_MEMORY)
 #define NVRTC_ERROR_PROGRAM_CREATION_FAILURE \
-	__NV(RTC_ERROR_PROGRAM_CREATION_FAILURE)
-#define NVRTC_ERROR_INVALID_INPUT __NV(RTC_ERROR_INVALID_INPUT)
-#define NVRTC_ERROR_INVALID_PROGRAM __NV(RTC_ERROR_INVALID_PROGRAM)
-#define NVRTC_ERROR_INVALID_OPTION __NV(RTC_ERROR_INVALID_OPTION)
-#define NVRTC_ERROR_COMPILATION __NV(RTC_ERROR_COMPILATION)
+	NVX(RTC_ERROR_PROGRAM_CREATION_FAILURE)
+#define NVRTC_ERROR_INVALID_INPUT NVX(RTC_ERROR_INVALID_INPUT)
+#define NVRTC_ERROR_INVALID_PROGRAM NVX(RTC_ERROR_INVALID_PROGRAM)
+#define NVRTC_ERROR_INVALID_OPTION NVX(RTC_ERROR_INVALID_OPTION)
+#define NVRTC_ERROR_COMPILATION NVX(RTC_ERROR_COMPILATION)
 #define NVRTC_ERROR_BUILTIN_OPERATION_FAILURE \
-	__NV(RTC_ERROR_BUILTIN_OPERATION_FAILURE)
+	NVX(RTC_ERROR_BUILTIN_OPERATION_FAILURE)
 #define NVRTC_ERROR_NO_NAME_EXPRESSIONS_AFTER_COMPILATION \
-	__NV(RTC_ERROR_NO_NAME_EXPRESSIONS_AFTER_COMPILATION)
+	NVX(RTC_ERROR_NO_NAME_EXPRESSIONS_AFTER_COMPILATION)
 #define NVRTC_ERROR_NO_LOWERED_NAMES_BEFORE_COMPILATION \
-	__NV(RTC_ERROR_NO_LOWERED_NAMES_BEFORE_COMPILATION)
+	NVX(RTC_ERROR_NO_LOWERED_NAMES_BEFORE_COMPILATION)
 #define NVRTC_ERROR_NAME_EXPRESSION_NOT_VALID \
-	__NV(RTC_ERROR_NAME_EXPRESSION_NOT_VALID)
-#define NVRTC_ERROR_INTERNAL_ERROR __NV(RTC_ERROR_INTERNAL_ERROR)
+	NVX(RTC_ERROR_NAME_EXPRESSION_NOT_VALID)
+#define NVRTC_ERROR_INTERNAL_ERROR NVX(RTC_ERROR_INTERNAL_ERROR)
 #define NVRTC_ERROR_TIME_FILE_WRITE_FAILED \
-	__NV(RTC_ERROR_TIME_FILE_WRITE_FAILED)
+	NVX(RTC_ERROR_TIME_FILE_WRITE_FAILED)
 
-#define nvrtcGetErrorString __nv(rtcGetErrorString)
+#define nvrtcGetErrorString nvX(rtcGetErrorString)
 
-#define nvrtcProgram __nv(rtcProgram)
+#define nvrtcProgram nvX(rtcProgram)
 
 /**
  * CUDA 13
@@ -54,7 +54,7 @@
  *                                  const char** headers,
  *                                  const char** includeNames);
  */
-#define nvrtcCreateProgram __nv(rtcCreateProgram)
+#define nvrtcCreateProgram nvX(rtcCreateProgram)
 
 /**
  * CUDA 12:
@@ -63,7 +63,7 @@
  * HIP:
  * hiprtcResult hiprtcDestroyProgram(hiprtcProgram* prog);
  */
-#define nvrtcDestroyProgram(prog) __nv(rtcDestroyProgram(prog))
+#define nvrtcDestroyProgram(prog) nvX(rtcDestroyProgram(prog))
 
 /**
  * CUDA 12 and 13 don't have it?
@@ -84,7 +84,7 @@
  *                                   const char** options);
  */
 #define nvrtcCompileProgram(prog, numOptions, options) \
-	__nv(rtcCompileProgram(prog, numOptions, options))
+	nvX(rtcCompileProgram(prog, numOptions, options))
 
 /**
  * CUDA 12:
@@ -93,7 +93,7 @@
  * HIP:
  * hiprtcResult hiprtcGetProgramLog(hiprtcProgram prog, char* log);
  */
-#define nvrtcGetProgramLog(prog, log) __nv(rtcGetProgramLog(prog, log))
+#define nvrtcGetProgramLog(prog, log) nvX(rtcGetProgramLog(prog, log))
 
 /**
  * CUDA 13
@@ -102,17 +102,17 @@
  * HIP
  * hiprtcResult hiprtcGetProgramLogSize(hiprtcProgram prog, size_t* logSizeRet);
  */
-#define nvrtcGetProgramLogSize __nv(rtcGetProgramLogSize)
+#define nvrtcGetProgramLogSize nvX(rtcGetProgramLogSize)
 
-#define nvrtcGetPTXSize __nv(rtcGetPTXSize)
-#define nvrtcGetPTX __nv(rtcGetPTX)
+#define nvrtcGetPTXSize nvX(rtcGetPTXSize)
+#define nvrtcGetPTX nvX(rtcGetPTX)
 
 /**
  * WARNING: cuda don't has Bitcode functions, this use to normalize development.
  * LUCA/HPCC like ROCm HIP, thus, just define HIP here.
  */
-#define hiprtcGetBitcodeSize __nv(rtcGetBitcodeSize)
-#define hiprtcGetBitcode __nv(rtcGetBitcode)
+#define hiprtcGetBitcodeSize nvX(rtcGetBitcodeSize)
+#define hiprtcGetBitcode nvX(rtcGetBitcode)
 
 #ifdef __USE_HPCC__
 # include <hcr/hcrtc.h>

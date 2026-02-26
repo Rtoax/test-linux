@@ -21,26 +21,26 @@
  * HIP: typedef float2 hipFloatComplex;
  * LUCA: typedef float2 lcFloatComplex;
  */
-#define cuFloatComplex __cu(FloatComplex)
+#define cuFloatComplex cuX(FloatComplex)
 
 /**
  * CUDA: typedef cuFloatComplex cuComplex;
  */
-#define cuComplex __cu(Complex)
+#define cuComplex cuX(Complex)
 /**
  * CUDA: typedef double2 cuDoubleComplex;
  */
-#define cuDoubleComplex __cu(DoubleComplex)
+#define cuDoubleComplex cuX(DoubleComplex)
 
 /**
  * CUDA: float cuCrealf(cuFloatComplex x);
  */
-#define cuCrealf __cu(Crealf)
+#define cuCrealf cuX(Crealf)
 
 /**
  * CUDA: float cuCimagf(cuFloatComplex x);
  */
-#define cuCimagf __cu(Cimagf)
+#define cuCimagf cuX(Cimagf)
 
 #ifdef __USE_HPCC__
 # include <hcComplex.h>

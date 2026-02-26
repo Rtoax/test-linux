@@ -12,11 +12,11 @@
 
 #include "wrapper_defs.h"
 
-#define CUPTI_API_VERSION __CU(PTI_API_VERSION)
+#define CUPTI_API_VERSION CUX(PTI_API_VERSION)
 /**
  * CUptiResult cuptiGetVersion(uint32_t *version);
  */
-#define cuptiGetVersion __cu(ptiGetVersion)
+#define cuptiGetVersion cuX(ptiGetVersion)
 
 #ifdef __USE_HPCC__
 #elif defined(__USE_LUCA__)

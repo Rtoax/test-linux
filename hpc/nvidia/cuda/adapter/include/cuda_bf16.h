@@ -21,19 +21,19 @@
  *     unsigned short y;
  *   } __nv_bfloat162_raw;
  */
-#define __nv_bfloat16 ____nv_(bfloat16)
-#define __nv_bfloat16_raw ____nv_(bfloat16_raw)
-#define __nv_bfloat162 ____nv_(bfloat162)
-#define __nv_bfloat162_raw ____nv_(bfloat162_raw)
+#define __nv_bfloat16 __nv_X(bfloat16)
+#define __nv_bfloat16_raw __nv_X(bfloat16_raw)
+#define __nv_bfloat162 __nv_X(bfloat162)
+#define __nv_bfloat162_raw __nv_X(bfloat162_raw)
 
-#define __nv_cvt_bfloat16raw_to_e8m0 ____nv_(cvt_bfloat16raw_to_e8m0)
-#define __nv_cvt_bfloat16raw_to_fp8 ____nv_(cvt_bfloat16raw_to_fp8)
+#define __nv_cvt_bfloat16raw_to_e8m0 __nv_X(cvt_bfloat16raw_to_e8m0)
+#define __nv_cvt_bfloat16raw_to_fp8 __nv_X(cvt_bfloat16raw_to_fp8)
 
-#define __nv_cvt_bfloat162raw_to_e8m0x2 ____nv_(cvt_bfloat162raw_to_e8m0x2)
-#define __nv_cvt_bfloat16raw2_to_fp8x2 ____nv_(cvt_bfloat16raw2_to_fp8x2)
+#define __nv_cvt_bfloat162raw_to_e8m0x2 __nv_X(cvt_bfloat162raw_to_e8m0x2)
+#define __nv_cvt_bfloat16raw2_to_fp8x2 __nv_X(cvt_bfloat16raw2_to_fp8x2)
 
-#define __nv_cvt_e8m0_to_bf16raw ____nv_(cvt_e8m0_to_bf16raw)
-#define __nv_cvt_e8m0x2_to_bf162raw ____nv_(cvt_e8m0x2_to_bf162raw)
+#define __nv_cvt_e8m0_to_bf16raw __nv_X(cvt_e8m0_to_bf16raw)
+#define __nv_cvt_e8m0x2_to_bf162raw __nv_X(cvt_e8m0x2_to_bf162raw)
 
 #ifdef __USE_HPCC__
 # include <hpcc_fp8.h>

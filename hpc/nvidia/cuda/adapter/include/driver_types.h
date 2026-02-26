@@ -8,220 +8,220 @@
 /**
  * typedef __device_builtin__ enum cudaError cudaError_t
  */
-#define cudaError_t __cuda(Error_t)
-#define cudaSuccess __cuda(Success)
-#define cudaErrorInvalidValue __cuda(ErrorInvalidValue)
-#define cudaErrorMemoryAllocation __cuda(ErrorMemoryAllocation)
-#define cudaErrorInitializationError __cuda(ErrorInitializationError)
-#define cudaErrorCudartUnloading __cuda(ErrorCudartUnloading)
-#define cudaErrorProfilerDisabled __cuda(ErrorProfilerDisabled)
-#define cudaErrorProfilerNotInitialized __cuda(ErrorProfilerNotInitialized)
-#define cudaErrorProfilerAlreadyStarted __cuda(ErrorProfilerAlreadyStarted)
-#define cudaErrorProfilerAlreadyStopped __cuda(ErrorProfilerAlreadyStopped)
-#define cudaErrorInvalidConfiguration __cuda(ErrorInvalidConfiguration)
-#define cudaErrorInvalidPitchValue __cuda(ErrorInvalidPitchValue)
-#define cudaErrorInvalidSymbol __cuda(ErrorInvalidSymbol)
-#define cudaErrorInvalidHostPointer __cuda(ErrorInvalidHostPointer)
-#define cudaErrorInvalidDevicePointer __cuda(ErrorInvalidDevicePointer)
-#define cudaErrorInvalidTexture __cuda(ErrorInvalidTexture)
-#define cudaErrorInvalidTextureBinding __cuda(ErrorInvalidTextureBinding)
-#define cudaErrorInvalidChannelDescriptor __cuda(ErrorInvalidChannelDescriptor)
-#define cudaErrorInvalidMemcpyDirection __cuda(ErrorInvalidMemcpyDirection)
-#define cudaErrorAddressOfConstant __cuda(ErrorAddressOfConstant)
-#define cudaErrorTextureFetchFailed __cuda(ErrorTextureFetchFailed)
-#define cudaErrorTextureNotBound __cuda(ErrorTextureNotBound)
-#define cudaErrorSynchronizationError __cuda(ErrorSynchronizationError)
-#define cudaErrorInvalidFilterSetting __cuda(ErrorInvalidFilterSetting)
-#define cudaErrorInvalidNormSetting __cuda(ErrorInvalidNormSetting)
-#define cudaErrorMixedDeviceExecution __cuda(ErrorMixedDeviceExecution)
-#define cudaErrorNotYetImplemented __cuda(ErrorNotYetImplemented)
-#define cudaErrorMemoryValueTooLarge __cuda(ErrorMemoryValueTooLarge)
-#define cudaErrorStubLibrary __cuda(ErrorStubLibrary)
-#define cudaErrorInsufficientDriver __cuda(ErrorInsufficientDriver)
-#define cudaErrorCallRequiresNewerDriver __cuda(ErrorCallRequiresNewerDriver)
-#define cudaErrorInvalidSurface __cuda(ErrorInvalidSurface)
-#define cudaErrorDuplicateVariableName __cuda(ErrorDuplicateVariableName)
-#define cudaErrorDuplicateTextureName __cuda(ErrorDuplicateTextureName)
-#define cudaErrorDuplicateSurfaceName __cuda(ErrorDuplicateSurfaceName)
-#define cudaErrorDevicesUnavailable __cuda(ErrorDevicesUnavailable)
+#define cudaError_t cudaX(Error_t)
+#define cudaSuccess cudaX(Success)
+#define cudaErrorInvalidValue cudaX(ErrorInvalidValue)
+#define cudaErrorMemoryAllocation cudaX(ErrorMemoryAllocation)
+#define cudaErrorInitializationError cudaX(ErrorInitializationError)
+#define cudaErrorCudartUnloading cudaX(ErrorCudartUnloading)
+#define cudaErrorProfilerDisabled cudaX(ErrorProfilerDisabled)
+#define cudaErrorProfilerNotInitialized cudaX(ErrorProfilerNotInitialized)
+#define cudaErrorProfilerAlreadyStarted cudaX(ErrorProfilerAlreadyStarted)
+#define cudaErrorProfilerAlreadyStopped cudaX(ErrorProfilerAlreadyStopped)
+#define cudaErrorInvalidConfiguration cudaX(ErrorInvalidConfiguration)
+#define cudaErrorInvalidPitchValue cudaX(ErrorInvalidPitchValue)
+#define cudaErrorInvalidSymbol cudaX(ErrorInvalidSymbol)
+#define cudaErrorInvalidHostPointer cudaX(ErrorInvalidHostPointer)
+#define cudaErrorInvalidDevicePointer cudaX(ErrorInvalidDevicePointer)
+#define cudaErrorInvalidTexture cudaX(ErrorInvalidTexture)
+#define cudaErrorInvalidTextureBinding cudaX(ErrorInvalidTextureBinding)
+#define cudaErrorInvalidChannelDescriptor cudaX(ErrorInvalidChannelDescriptor)
+#define cudaErrorInvalidMemcpyDirection cudaX(ErrorInvalidMemcpyDirection)
+#define cudaErrorAddressOfConstant cudaX(ErrorAddressOfConstant)
+#define cudaErrorTextureFetchFailed cudaX(ErrorTextureFetchFailed)
+#define cudaErrorTextureNotBound cudaX(ErrorTextureNotBound)
+#define cudaErrorSynchronizationError cudaX(ErrorSynchronizationError)
+#define cudaErrorInvalidFilterSetting cudaX(ErrorInvalidFilterSetting)
+#define cudaErrorInvalidNormSetting cudaX(ErrorInvalidNormSetting)
+#define cudaErrorMixedDeviceExecution cudaX(ErrorMixedDeviceExecution)
+#define cudaErrorNotYetImplemented cudaX(ErrorNotYetImplemented)
+#define cudaErrorMemoryValueTooLarge cudaX(ErrorMemoryValueTooLarge)
+#define cudaErrorStubLibrary cudaX(ErrorStubLibrary)
+#define cudaErrorInsufficientDriver cudaX(ErrorInsufficientDriver)
+#define cudaErrorCallRequiresNewerDriver cudaX(ErrorCallRequiresNewerDriver)
+#define cudaErrorInvalidSurface cudaX(ErrorInvalidSurface)
+#define cudaErrorDuplicateVariableName cudaX(ErrorDuplicateVariableName)
+#define cudaErrorDuplicateTextureName cudaX(ErrorDuplicateTextureName)
+#define cudaErrorDuplicateSurfaceName cudaX(ErrorDuplicateSurfaceName)
+#define cudaErrorDevicesUnavailable cudaX(ErrorDevicesUnavailable)
 #define cudaErrorIncompatibleDriverContext \
-	__cuda(ErrorIncompatibleDriverContext)
-#define cudaErrorMissingConfiguration __cuda(ErrorMissingConfiguration)
-#define cudaErrorPriorLaunchFailure __cuda(ErrorPriorLaunchFailure)
-#define cudaErrorLaunchMaxDepthExceeded __cuda(ErrorLaunchMaxDepthExceeded)
-#define cudaErrorLaunchFileScopedTex __cuda(ErrorLaunchFileScopedTex)
-#define cudaErrorLaunchFileScopedSurf __cuda(ErrorLaunchFileScopedSurf)
-#define cudaErrorSyncDepthExceeded __cuda(ErrorSyncDepthExceeded)
+	cudaX(ErrorIncompatibleDriverContext)
+#define cudaErrorMissingConfiguration cudaX(ErrorMissingConfiguration)
+#define cudaErrorPriorLaunchFailure cudaX(ErrorPriorLaunchFailure)
+#define cudaErrorLaunchMaxDepthExceeded cudaX(ErrorLaunchMaxDepthExceeded)
+#define cudaErrorLaunchFileScopedTex cudaX(ErrorLaunchFileScopedTex)
+#define cudaErrorLaunchFileScopedSurf cudaX(ErrorLaunchFileScopedSurf)
+#define cudaErrorSyncDepthExceeded cudaX(ErrorSyncDepthExceeded)
 #define cudaErrorLaunchPendingCountExceeded \
-	__cuda(ErrorLaunchPendingCountExceeded)
-#define cudaErrorInvalidDeviceFunction __cuda(ErrorInvalidDeviceFunction)
-#define cudaErrorNoDevice __cuda(ErrorNoDevice)
-#define cudaErrorInvalidDevice __cuda(ErrorInvalidDevice)
-#define cudaErrorDeviceNotLicensed __cuda(ErrorDeviceNotLicensed)
+	cudaX(ErrorLaunchPendingCountExceeded)
+#define cudaErrorInvalidDeviceFunction cudaX(ErrorInvalidDeviceFunction)
+#define cudaErrorNoDevice cudaX(ErrorNoDevice)
+#define cudaErrorInvalidDevice cudaX(ErrorInvalidDevice)
+#define cudaErrorDeviceNotLicensed cudaX(ErrorDeviceNotLicensed)
 #define cudaErrorSoftwareValidityNotEstablished \
-	__cuda(ErrorSoftwareValidityNotEstablished)
-#define cudaErrorStartupFailure __cuda(ErrorStartupFailure)
-#define cudaErrorInvalidKernelImage __cuda(ErrorInvalidKernelImage)
-#define cudaErrorDeviceUninitialized __cuda(ErrorDeviceUninitialized)
-#define cudaErrorMapBufferObjectFailed __cuda(ErrorMapBufferObjectFailed)
-#define cudaErrorUnmapBufferObjectFailed __cuda(ErrorUnmapBufferObjectFailed)
-#define cudaErrorArrayIsMapped __cuda(ErrorArrayIsMapped)
-#define cudaErrorAlreadyMapped __cuda(ErrorAlreadyMapped)
-#define cudaErrorNoKernelImageForDevice __cuda(ErrorNoKernelImageForDevice)
-#define cudaErrorAlreadyAcquired __cuda(ErrorAlreadyAcquired)
-#define cudaErrorNotMapped __cuda(ErrorNotMapped)
-#define cudaErrorNotMappedAsArray __cuda(ErrorNotMappedAsArray)
-#define cudaErrorNotMappedAsPointer __cuda(ErrorNotMappedAsPointer)
-#define cudaErrorECCUncorrectable __cuda(ErrorECCUncorrectable)
-#define cudaErrorUnsupportedLimit __cuda(ErrorUnsupportedLimit)
-#define cudaErrorDeviceAlreadyInUse __cuda(ErrorDeviceAlreadyInUse)
-#define cudaErrorPeerAccessUnsupported __cuda(ErrorPeerAccessUnsupported)
-#define cudaErrorInvalidPtx __cuda(ErrorInvalidPtx)
-#define cudaErrorInvalidGraphicsContext __cuda(ErrorInvalidGraphicsContext)
-#define cudaErrorNvlinkUncorrectable __cuda(ErrorNvlinkUncorrectable)
-#define cudaErrorJitCompilerNotFound __cuda(ErrorJitCompilerNotFound)
-#define cudaErrorUnsupportedPtxVersion __cuda(ErrorUnsupportedPtxVersion)
-#define cudaErrorJitCompilationDisabled __cuda(ErrorJitCompilationDisabled)
-#define cudaErrorUnsupportedExecAffinity __cuda(ErrorUnsupportedExecAffinity)
-#define cudaErrorUnsupportedDevSideSync __cuda(ErrorUnsupportedDevSideSync)
-#define cudaErrorContained __cuda(ErrorContained)
-#define cudaErrorInvalidSource __cuda(ErrorInvalidSource)
-#define cudaErrorFileNotFound __cuda(ErrorFileNotFound)
+	cudaX(ErrorSoftwareValidityNotEstablished)
+#define cudaErrorStartupFailure cudaX(ErrorStartupFailure)
+#define cudaErrorInvalidKernelImage cudaX(ErrorInvalidKernelImage)
+#define cudaErrorDeviceUninitialized cudaX(ErrorDeviceUninitialized)
+#define cudaErrorMapBufferObjectFailed cudaX(ErrorMapBufferObjectFailed)
+#define cudaErrorUnmapBufferObjectFailed cudaX(ErrorUnmapBufferObjectFailed)
+#define cudaErrorArrayIsMapped cudaX(ErrorArrayIsMapped)
+#define cudaErrorAlreadyMapped cudaX(ErrorAlreadyMapped)
+#define cudaErrorNoKernelImageForDevice cudaX(ErrorNoKernelImageForDevice)
+#define cudaErrorAlreadyAcquired cudaX(ErrorAlreadyAcquired)
+#define cudaErrorNotMapped cudaX(ErrorNotMapped)
+#define cudaErrorNotMappedAsArray cudaX(ErrorNotMappedAsArray)
+#define cudaErrorNotMappedAsPointer cudaX(ErrorNotMappedAsPointer)
+#define cudaErrorECCUncorrectable cudaX(ErrorECCUncorrectable)
+#define cudaErrorUnsupportedLimit cudaX(ErrorUnsupportedLimit)
+#define cudaErrorDeviceAlreadyInUse cudaX(ErrorDeviceAlreadyInUse)
+#define cudaErrorPeerAccessUnsupported cudaX(ErrorPeerAccessUnsupported)
+#define cudaErrorInvalidPtx cudaX(ErrorInvalidPtx)
+#define cudaErrorInvalidGraphicsContext cudaX(ErrorInvalidGraphicsContext)
+#define cudaErrorNvlinkUncorrectable cudaX(ErrorNvlinkUncorrectable)
+#define cudaErrorJitCompilerNotFound cudaX(ErrorJitCompilerNotFound)
+#define cudaErrorUnsupportedPtxVersion cudaX(ErrorUnsupportedPtxVersion)
+#define cudaErrorJitCompilationDisabled cudaX(ErrorJitCompilationDisabled)
+#define cudaErrorUnsupportedExecAffinity cudaX(ErrorUnsupportedExecAffinity)
+#define cudaErrorUnsupportedDevSideSync cudaX(ErrorUnsupportedDevSideSync)
+#define cudaErrorContained cudaX(ErrorContained)
+#define cudaErrorInvalidSource cudaX(ErrorInvalidSource)
+#define cudaErrorFileNotFound cudaX(ErrorFileNotFound)
 #define cudaErrorSharedObjectSymbolNotFound \
-	__cuda(ErrorSharedObjectSymbolNotFound)
-#define cudaErrorSharedObjectInitFailed __cuda(ErrorSharedObjectInitFailed)
-#define cudaErrorOperatingSystem __cuda(ErrorOperatingSystem)
-#define cudaErrorInvalidResourceHandle __cuda(ErrorInvalidResourceHandle)
-#define cudaErrorIllegalState __cuda(ErrorIllegalState)
-#define cudaErrorLossyQuery __cuda(ErrorLossyQuery)
-#define cudaErrorSymbolNotFound __cuda(ErrorSymbolNotFound)
-#define cudaErrorNotReady __cuda(ErrorNotReady)
-#define cudaErrorIllegalAddress __cuda(ErrorIllegalAddress)
-#define cudaErrorLaunchOutOfResources __cuda(ErrorLaunchOutOfResources)
-#define cudaErrorLaunchTimeout __cuda(ErrorLaunchTimeout)
+	cudaX(ErrorSharedObjectSymbolNotFound)
+#define cudaErrorSharedObjectInitFailed cudaX(ErrorSharedObjectInitFailed)
+#define cudaErrorOperatingSystem cudaX(ErrorOperatingSystem)
+#define cudaErrorInvalidResourceHandle cudaX(ErrorInvalidResourceHandle)
+#define cudaErrorIllegalState cudaX(ErrorIllegalState)
+#define cudaErrorLossyQuery cudaX(ErrorLossyQuery)
+#define cudaErrorSymbolNotFound cudaX(ErrorSymbolNotFound)
+#define cudaErrorNotReady cudaX(ErrorNotReady)
+#define cudaErrorIllegalAddress cudaX(ErrorIllegalAddress)
+#define cudaErrorLaunchOutOfResources cudaX(ErrorLaunchOutOfResources)
+#define cudaErrorLaunchTimeout cudaX(ErrorLaunchTimeout)
 #define cudaErrorLaunchIncompatibleTexturing \
-	__cuda(ErrorLaunchIncompatibleTexturing)
-#define cudaErrorPeerAccessAlreadyEnabled __cuda(ErrorPeerAccessAlreadyEnabled)
-#define cudaErrorPeerAccessNotEnabled __cuda(ErrorPeerAccessNotEnabled)
-#define cudaErrorSetOnActiveProcess __cuda(ErrorSetOnActiveProcess)
-#define cudaErrorContextIsDestroyed __cuda(ErrorContextIsDestroyed)
-#define cudaErrorAssert __cuda(ErrorAssert)
-#define cudaErrorTooManyPeers __cuda(ErrorTooManyPeers)
+	cudaX(ErrorLaunchIncompatibleTexturing)
+#define cudaErrorPeerAccessAlreadyEnabled cudaX(ErrorPeerAccessAlreadyEnabled)
+#define cudaErrorPeerAccessNotEnabled cudaX(ErrorPeerAccessNotEnabled)
+#define cudaErrorSetOnActiveProcess cudaX(ErrorSetOnActiveProcess)
+#define cudaErrorContextIsDestroyed cudaX(ErrorContextIsDestroyed)
+#define cudaErrorAssert cudaX(ErrorAssert)
+#define cudaErrorTooManyPeers cudaX(ErrorTooManyPeers)
 #define cudaErrorHostMemoryAlreadyRegistered \
-	__cuda(ErrorHostMemoryAlreadyRegistered)
-#define cudaErrorHostMemoryNotRegistered __cuda(ErrorHostMemoryNotRegistered)
-#define cudaErrorHardwareStackError __cuda(ErrorHardwareStackError)
-#define cudaErrorIllegalInstruction __cuda(ErrorIllegalInstruction)
-#define cudaErrorMisalignedAddress __cuda(ErrorMisalignedAddress)
-#define cudaErrorInvalidAddressSpace __cuda(ErrorInvalidAddressSpace)
-#define cudaErrorInvalidPc __cuda(ErrorInvalidPc)
-#define cudaErrorLaunchFailure __cuda(ErrorLaunchFailure)
+	cudaX(ErrorHostMemoryAlreadyRegistered)
+#define cudaErrorHostMemoryNotRegistered cudaX(ErrorHostMemoryNotRegistered)
+#define cudaErrorHardwareStackError cudaX(ErrorHardwareStackError)
+#define cudaErrorIllegalInstruction cudaX(ErrorIllegalInstruction)
+#define cudaErrorMisalignedAddress cudaX(ErrorMisalignedAddress)
+#define cudaErrorInvalidAddressSpace cudaX(ErrorInvalidAddressSpace)
+#define cudaErrorInvalidPc cudaX(ErrorInvalidPc)
+#define cudaErrorLaunchFailure cudaX(ErrorLaunchFailure)
 #define cudaErrorCooperativeLaunchTooLarge \
-	__cuda(ErrorCooperativeLaunchTooLarge)
-#define cudaErrorTensorMemoryLeak __cuda(ErrorTensorMemoryLeak)
-#define cudaErrorNotPermitted __cuda(ErrorNotPermitted)
-#define cudaErrorNotSupported __cuda(ErrorNotSupported)
-#define cudaErrorSystemNotReady __cuda(ErrorSystemNotReady)
-#define cudaErrorSystemDriverMismatch __cuda(ErrorSystemDriverMismatch)
+	cudaX(ErrorCooperativeLaunchTooLarge)
+#define cudaErrorTensorMemoryLeak cudaX(ErrorTensorMemoryLeak)
+#define cudaErrorNotPermitted cudaX(ErrorNotPermitted)
+#define cudaErrorNotSupported cudaX(ErrorNotSupported)
+#define cudaErrorSystemNotReady cudaX(ErrorSystemNotReady)
+#define cudaErrorSystemDriverMismatch cudaX(ErrorSystemDriverMismatch)
 #define cudaErrorCompatNotSupportedOnDevice \
-	__cuda(ErrorCompatNotSupportedOnDevice)
-#define cudaErrorMpsConnectionFailed __cuda(ErrorMpsConnectionFailed)
-#define cudaErrorMpsRpcFailure __cuda(ErrorMpsRpcFailure)
-#define cudaErrorMpsServerNotReady __cuda(ErrorMpsServerNotReady)
-#define cudaErrorMpsMaxClientsReached __cuda(ErrorMpsMaxClientsReached)
-#define cudaErrorMpsMaxConnectionsReached __cuda(ErrorMpsMaxConnectionsReached)
-#define cudaErrorMpsClientTerminated __cuda(ErrorMpsClientTerminated)
-#define cudaErrorCdpNotSupported __cuda(ErrorCdpNotSupported)
-#define cudaErrorCdpVersionMismatch __cuda(ErrorCdpVersionMismatch)
-#define cudaErrorStreamCaptureUnsupported __cuda(ErrorStreamCaptureUnsupported)
-#define cudaErrorStreamCaptureInvalidated __cuda(ErrorStreamCaptureInvalidated)
-#define cudaErrorStreamCaptureMerge __cuda(ErrorStreamCaptureMerge)
-#define cudaErrorStreamCaptureUnmatched __cuda(ErrorStreamCaptureUnmatched)
-#define cudaErrorStreamCaptureUnjoined __cuda(ErrorStreamCaptureUnjoined)
-#define cudaErrorStreamCaptureIsolation __cuda(ErrorStreamCaptureIsolation)
-#define cudaErrorStreamCaptureImplicit __cuda(ErrorStreamCaptureImplicit)
-#define cudaErrorCapturedEvent __cuda(ErrorCapturedEvent)
-#define cudaErrorStreamCaptureWrongThread __cuda(ErrorStreamCaptureWrongThread)
-#define cudaErrorTimeout __cuda(ErrorTimeout)
-#define cudaErrorGraphExecUpdateFailure __cuda(ErrorGraphExecUpdateFailure)
-#define cudaErrorExternalDevice __cuda(ErrorExternalDevice)
-#define cudaErrorInvalidClusterSize __cuda(ErrorInvalidClusterSize)
-#define cudaErrorFunctionNotLoaded __cuda(ErrorFunctionNotLoaded)
-#define cudaErrorInvalidResourceType __cuda(ErrorInvalidResourceType)
+	cudaX(ErrorCompatNotSupportedOnDevice)
+#define cudaErrorMpsConnectionFailed cudaX(ErrorMpsConnectionFailed)
+#define cudaErrorMpsRpcFailure cudaX(ErrorMpsRpcFailure)
+#define cudaErrorMpsServerNotReady cudaX(ErrorMpsServerNotReady)
+#define cudaErrorMpsMaxClientsReached cudaX(ErrorMpsMaxClientsReached)
+#define cudaErrorMpsMaxConnectionsReached cudaX(ErrorMpsMaxConnectionsReached)
+#define cudaErrorMpsClientTerminated cudaX(ErrorMpsClientTerminated)
+#define cudaErrorCdpNotSupported cudaX(ErrorCdpNotSupported)
+#define cudaErrorCdpVersionMismatch cudaX(ErrorCdpVersionMismatch)
+#define cudaErrorStreamCaptureUnsupported cudaX(ErrorStreamCaptureUnsupported)
+#define cudaErrorStreamCaptureInvalidated cudaX(ErrorStreamCaptureInvalidated)
+#define cudaErrorStreamCaptureMerge cudaX(ErrorStreamCaptureMerge)
+#define cudaErrorStreamCaptureUnmatched cudaX(ErrorStreamCaptureUnmatched)
+#define cudaErrorStreamCaptureUnjoined cudaX(ErrorStreamCaptureUnjoined)
+#define cudaErrorStreamCaptureIsolation cudaX(ErrorStreamCaptureIsolation)
+#define cudaErrorStreamCaptureImplicit cudaX(ErrorStreamCaptureImplicit)
+#define cudaErrorCapturedEvent cudaX(ErrorCapturedEvent)
+#define cudaErrorStreamCaptureWrongThread cudaX(ErrorStreamCaptureWrongThread)
+#define cudaErrorTimeout cudaX(ErrorTimeout)
+#define cudaErrorGraphExecUpdateFailure cudaX(ErrorGraphExecUpdateFailure)
+#define cudaErrorExternalDevice cudaX(ErrorExternalDevice)
+#define cudaErrorInvalidClusterSize cudaX(ErrorInvalidClusterSize)
+#define cudaErrorFunctionNotLoaded cudaX(ErrorFunctionNotLoaded)
+#define cudaErrorInvalidResourceType cudaX(ErrorInvalidResourceType)
 #define cudaErrorInvalidResourceConfiguration \
-	__cuda(ErrorInvalidResourceConfiguration)
-#define cudaErrorUnknown __cuda(ErrorUnknown)
-#define cudaErrorApiFailureBase __cuda(ErrorApiFailureBase)
+	cudaX(ErrorInvalidResourceConfiguration)
+#define cudaErrorUnknown cudaX(ErrorUnknown)
+#define cudaErrorApiFailureBase cudaX(ErrorApiFailureBase)
 
 /**
  * CUDA: struct __device_builtin__ cudaDeviceProp {...};
  * HIP: typedef struct hipDeviceProp_t {...} hipDeviceProp_t;
  * LUCA: typedef struct _lcDeviceProp_t {...} lcDeviceProp_t;
  */
-#define cudaDeviceProp __cuda(DeviceProp_t)
+#define cudaDeviceProp cudaX(DeviceProp_t)
 
-#define cudaMemcpyKind __cuda(MemcpyKind) /* enum */
-#define cudaMemcpyHostToHost __cuda(MemcpyHostToHost) /* 0 */
-#define cudaMemcpyHostToDevice __cuda(MemcpyHostToDevice) /* 1 */
-#define cudaMemcpyDeviceToHost __cuda(MemcpyDeviceToHost) /* 2 */
-#define cudaMemcpyDeviceToDevice __cuda(MemcpyDeviceToDevice) /* 3 */
-#define cudaMemcpyDefault __cuda(MemcpyDefault) /* 4 */
+#define cudaMemcpyKind cudaX(MemcpyKind) /* enum */
+#define cudaMemcpyHostToHost cudaX(MemcpyHostToHost) /* 0 */
+#define cudaMemcpyHostToDevice cudaX(MemcpyHostToDevice) /* 1 */
+#define cudaMemcpyDeviceToHost cudaX(MemcpyDeviceToHost) /* 2 */
+#define cudaMemcpyDeviceToDevice cudaX(MemcpyDeviceToDevice) /* 3 */
+#define cudaMemcpyDefault cudaX(MemcpyDefault) /* 4 */
 
 /* cudaMallocManaged::flags */
-#define cudaMemAttachGlobal __cuda(MemAttachGlobal)
-#define cudaMemAttachHost __cuda(MemAttachHost)
-#define cudaMemAttachSingle __cuda(MemAttachSingle)
+#define cudaMemAttachGlobal cudaX(MemAttachGlobal)
+#define cudaMemAttachHost cudaX(MemAttachHost)
+#define cudaMemAttachSingle cudaX(MemAttachSingle)
 
-#define cudaLimit __cuda(Limit_t)
-#define cudaLimitStackSize __cuda(LimitStackSize)
-#define cudaLimitPrintfFifoSize __cuda(LimitPrintfFifoSize)
-#define cudaLimitMallocHeapSize __cuda(LimitMallocHeapSize)
-#define cudaLimitDevRuntimeSyncDepth __cuda(LimitDevRuntimeSyncDepth)
+#define cudaLimit cudaX(Limit_t)
+#define cudaLimitStackSize cudaX(LimitStackSize)
+#define cudaLimitPrintfFifoSize cudaX(LimitPrintfFifoSize)
+#define cudaLimitMallocHeapSize cudaX(LimitMallocHeapSize)
+#define cudaLimitDevRuntimeSyncDepth cudaX(LimitDevRuntimeSyncDepth)
 #define cudaLimitDevRuntimePendingLaunchCount \
-	__cuda(LimitDevRuntimePendingLaunchCount)
-#define cudaLimitMaxL2FetchGranularity __cuda(LimitMaxL2FetchGranularity)
-#define cudaLimitPersistingL2CacheSize __cuda(LimitPersistingL2CacheSize)
+	cudaX(LimitDevRuntimePendingLaunchCount)
+#define cudaLimitMaxL2FetchGranularity cudaX(LimitMaxL2FetchGranularity)
+#define cudaLimitPersistingL2CacheSize cudaX(LimitPersistingL2CacheSize)
 
 /**
  * CUDA: typedef const struct cudaArray *cudaArray_const_t;
  * HIP: typedef const struct hipArray* hipArray_const_t;
  */
-#define cudaArray_const_t __cuda(Array_const_t)
+#define cudaArray_const_t cudaX(Array_const_t)
 
 #if defined(__USE_HIP__)
-#define cudaMemoryAdvise __cuda(MemoryAdvise) /* enum */
+#define cudaMemoryAdvise cudaX(MemoryAdvise) /* enum */
 #elif defined(__USE_LUCA__) || defined(__USE_HPCC__)
-#define cudaMemoryAdvise __cuda(MemoryAdvise_t) /* enum */
+#define cudaMemoryAdvise cudaX(MemoryAdvise_t) /* enum */
 #endif
-#define cudaMemAdviseSetReadMostly __cuda(MemAdviseSetReadMostly)
-#define cudaMemAdviseUnsetReadMostly __cuda(MemAdviseUnsetReadMostly)
-#define cudaMemAdviseSetPreferredLocation __cuda(MemAdviseSetPreferredLocation)
+#define cudaMemAdviseSetReadMostly cudaX(MemAdviseSetReadMostly)
+#define cudaMemAdviseUnsetReadMostly cudaX(MemAdviseUnsetReadMostly)
+#define cudaMemAdviseSetPreferredLocation cudaX(MemAdviseSetPreferredLocation)
 #define cudaMemAdviseUnsetPreferredLocation \
-	__cuda(MemAdviseUnsetPreferredLocation)
-#define cudaMemAdviseSetAccessedBy __cuda(MemAdviseSetAccessedBy)
-#define cudaMemAdviseUnsetAccessedBy __cuda(MemAdviseUnsetAccessedBy)
+	cudaX(MemAdviseUnsetPreferredLocation)
+#define cudaMemAdviseSetAccessedBy cudaX(MemAdviseSetAccessedBy)
+#define cudaMemAdviseUnsetAccessedBy cudaX(MemAdviseUnsetAccessedBy)
 
-#define cudaMemLocation __cuda(MemLocation) /* struct */
-#define cudaMemLocationType __cuda(MemLocationType) /* enum */
-#define cudaMemLocationTypeInvalid __cuda(MemLocationTypeInvalid)
-#define cudaMemLocationTypeNone __cuda(MemLocationTypeNone)
-#define cudaMemLocationTypeDevice __cuda(MemLocationTypeDevice)
-#define cudaMemLocationTypeHost __cuda(MemLocationTypeHost)
-#define cudaMemLocationTypeHostNuma __cuda(MemLocationTypeHostNuma)
+#define cudaMemLocation cudaX(MemLocation) /* struct */
+#define cudaMemLocationType cudaX(MemLocationType) /* enum */
+#define cudaMemLocationTypeInvalid cudaX(MemLocationTypeInvalid)
+#define cudaMemLocationTypeNone cudaX(MemLocationTypeNone)
+#define cudaMemLocationTypeDevice cudaX(MemLocationTypeDevice)
+#define cudaMemLocationTypeHost cudaX(MemLocationTypeHost)
+#define cudaMemLocationTypeHostNuma cudaX(MemLocationTypeHostNuma)
 #define cudaMemLocationTypeHostNumaCurrent \
-	__cuda(MemLocationTypeHostNumaCurrent)
+	cudaX(MemLocationTypeHostNumaCurrent)
 
 /**
  * CUDA: typedef __device_builtin__ struct CUmemPoolHandle_st *cudaMemPool_t;
  */
-#define cudaMemPool_t __cuda(MemPool_t)
+#define cudaMemPool_t cudaX(MemPool_t)
 
-#define cudaMemPoolProps __cuda(MemPoolProps) /* struct */
+#define cudaMemPoolProps cudaX(MemPoolProps) /* struct */
 
 #if defined(__USE_HIP__) || defined(__USE_LUCA__) || defined(__USE_HPCC__)
-#define cudaPointerAttributes __cuda(PointerAttribute_t)
+#define cudaPointerAttributes cudaX(PointerAttribute_t)
 #else
-#define cudaPointerAttributes __cuda(PointerAttributes)
+#define cudaPointerAttributes cudaX(PointerAttributes)
 #endif
 
 /**
@@ -233,126 +233,126 @@
  * Orochi/nvidia_hip_runtime_api_oro.h: typedef cudaEvent_t hipEvent_t;
  * Orochi/hipew.h: typedef struct ihipEvent_t * hipEvent_t;
  */
-#define cudaEvent_t __cuda(Event_t)
+#define cudaEvent_t cudaX(Event_t)
 
 /**
  * CUDA: typedef __device_builtin__ struct CUgraph_st *cudaGraph_t;
  */
-#define cudaGraph_t __cuda(Graph_t)
+#define cudaGraph_t cudaX(Graph_t)
 
 /**
  * CUDA: typedef __device_builtin__ struct CUgraphNode_st *cudaGraphNode_t;
  */
-#define cudaGraphNode_t __cuda(GraphNode_t)
+#define cudaGraphNode_t cudaX(GraphNode_t)
 
 /**
  * CUDA: typedef struct CUgraphExec_st* cudaGraphExec_t;
  */
-#define cudaGraphExec_t __cuda(GraphExec_t)
+#define cudaGraphExec_t cudaX(GraphExec_t)
 
 /**
  * CUDA: typedef struct cudaGraphEdgeData_st { ... } cudaGraphEdgeData;
  */
-#define cudaGraphEdgeData __cuda(GraphEdgeData)
+#define cudaGraphEdgeData cudaX(GraphEdgeData)
 
 /**
  * CUDA: struct __device_builtin__ cudaFuncAttributes { ... };
  */
-#define cudaFuncAttributes __cuda(FuncAttributes)
+#define cudaFuncAttributes cudaX(FuncAttributes)
 
 /**
  * CUDA: enum __device_builtin__ cudaFuncAttribute { ... };
  */
-#define cudaFuncAttribute __cuda(FuncAttribute)
+#define cudaFuncAttribute cudaX(FuncAttribute)
 #define cudaFuncAttributeMaxDynamicSharedMemorySize \
-	__cuda(FuncAttributeMaxDynamicSharedMemorySize)
+	cudaX(FuncAttributeMaxDynamicSharedMemorySize)
 #define cudaFuncAttributePreferredSharedMemoryCarveout \
-	__cuda(FuncAttributePreferredSharedMemoryCarveout)
+	cudaX(FuncAttributePreferredSharedMemoryCarveout)
 #define cudaFuncAttributeClusterDimMustBeSet \
-	__cuda(FuncAttributeClusterDimMustBeSet)
+	cudaX(FuncAttributeClusterDimMustBeSet)
 #define cudaFuncAttributeRequiredClusterWidth \
-	__cuda(FuncAttributeRequiredClusterWidth)
+	cudaX(FuncAttributeRequiredClusterWidth)
 #define cudaFuncAttributeRequiredClusterHeight \
-	__cuda(FuncAttributeRequiredClusterHeight)
+	cudaX(FuncAttributeRequiredClusterHeight)
 #define cudaFuncAttributeRequiredClusterDepth \
-	__cuda(FuncAttributeRequiredClusterDepth)
+	cudaX(FuncAttributeRequiredClusterDepth)
 #define cudaFuncAttributeNonPortableClusterSizeAllowed \
-	__cuda(FuncAttributeNonPortableClusterSizeAllowed)
+	cudaX(FuncAttributeNonPortableClusterSizeAllowed)
 #define cudaFuncAttributeClusterSchedulingPolicyPreference \
-	__cuda(FuncAttributeClusterSchedulingPolicyPreference)
-#define cudaFuncAttributeMax __cuda(FuncAttributeMax)
+	cudaX(FuncAttributeClusterSchedulingPolicyPreference)
+#define cudaFuncAttributeMax cudaX(FuncAttributeMax)
 
 /**
  * cudaStreamCreateWithFlags()::flags
  */
-#define cudaStreamDefault __cuda(StreamDefault) /* 0x00 */
-#define cudaStreamNonBlocking __cuda(StreamNonBlocking) /* 0x01 */
+#define cudaStreamDefault cudaX(StreamDefault) /* 0x00 */
+#define cudaStreamNonBlocking cudaX(StreamNonBlocking) /* 0x01 */
 
 /**
  * #define cudaStreamAttrID cudaLaunchAttributeID
  */
-#define cudaStreamAttrID __cuda(StreamAttrID)
+#define cudaStreamAttrID cudaX(StreamAttrID)
 #define cudaStreamAttributeAccessPolicyWindow \
-	__cuda(StreamAttributeAccessPolicyWindow)
+	cudaX(StreamAttributeAccessPolicyWindow)
 #define cudaStreamAttributeSynchronizationPolicy \
-	__cuda(StreamAttributeSynchronizationPolicy)
+	cudaX(StreamAttributeSynchronizationPolicy)
 #define cudaStreamAttributeMemSyncDomainMap \
-	__cuda(StreamAttributeMemSyncDomainMap)
-#define cudaStreamAttributeMemSyncDomain __cuda(StreamAttributeMemSyncDomain)
-#define cudaStreamAttributePriority __cuda(StreamAttributePriority)
+	cudaX(StreamAttributeMemSyncDomainMap)
+#define cudaStreamAttributeMemSyncDomain cudaX(StreamAttributeMemSyncDomain)
+#define cudaStreamAttributePriority cudaX(StreamAttributePriority)
 
 /**
  * enum cudaStreamCaptureStatus {...};
  */
-#define cudaStreamCaptureStatus __cuda(StreamCaptureStatus)
-#define cudaStreamCaptureStatusNone __cuda(StreamCaptureStatusNone)
-#define cudaStreamCaptureStatusActive __cuda(StreamCaptureStatusActive)
+#define cudaStreamCaptureStatus cudaX(StreamCaptureStatus)
+#define cudaStreamCaptureStatusNone cudaX(StreamCaptureStatusNone)
+#define cudaStreamCaptureStatusActive cudaX(StreamCaptureStatusActive)
 #define cudaStreamCaptureStatusInvalidated \
-	__cuda(StreamCaptureStatusInvalidated)
+	cudaX(StreamCaptureStatusInvalidated)
 
 /**
  * enum cudaStreamCaptureMode {...};
  */
-#define cudaStreamCaptureMode __cuda(StreamCaptureMode)
-#define cudaStreamCaptureModeGlobal __cuda(StreamCaptureModeGlobal) /* 0 */
-#define cudaStreamCaptureModeThreadLocal __cuda(StreamCaptureModeThreadLocal)
-#define cudaStreamCaptureModeRelaxed __cuda(StreamCaptureModeRelaxed)
+#define cudaStreamCaptureMode cudaX(StreamCaptureMode)
+#define cudaStreamCaptureModeGlobal cudaX(StreamCaptureModeGlobal) /* 0 */
+#define cudaStreamCaptureModeThreadLocal cudaX(StreamCaptureModeThreadLocal)
+#define cudaStreamCaptureModeRelaxed cudaX(StreamCaptureModeRelaxed)
 
 /**
  * struct cudaMemAllocNodeParams {...};
  */
-#define cudaMemAllocNodeParams __cuda(MemAllocNodeParams)
+#define cudaMemAllocNodeParams cudaX(MemAllocNodeParams)
 
 /**
  * struct cudaMemAllocNodeParamsV2 {...};
  */
-#define cudaMemAllocNodeParamsV2 __cuda(MemAllocNodeParamsV2)
+#define cudaMemAllocNodeParamsV2 cudaX(MemAllocNodeParamsV2)
 
-#define cudaMemAllocationType __cuda(MemAllocationType) /* enum */
-#define cudaMemAllocationTypeInvalid __cuda(MemAllocationTypeInvalid) /* 0 */
-#define cudaMemAllocationTypePinned __cuda(MemAllocationTypePinned) /* 1 */
-#define cudaMemAllocationTypeManaged __cuda(MemAllocationTypeManaged) /* 2 */
-#define cudaMemAllocationTypeMax __cuda(MemAllocationTypeMax) /* 0x7FFFFFFF */
+#define cudaMemAllocationType cudaX(MemAllocationType) /* enum */
+#define cudaMemAllocationTypeInvalid cudaX(MemAllocationTypeInvalid) /* 0 */
+#define cudaMemAllocationTypePinned cudaX(MemAllocationTypePinned) /* 1 */
+#define cudaMemAllocationTypeManaged cudaX(MemAllocationTypeManaged) /* 2 */
+#define cudaMemAllocationTypeMax cudaX(MemAllocationTypeMax) /* 0x7FFFFFFF */
 
 /**
  * typedef __device_builtin__ struct CUuserObject_st *cudaUserObject_t;
  */
-#define cudaUserObject_t __cuda(UserObject_t)
-#define cudaUserObjectFlags __cuda(UserObjectFlags) /* enum */
-#define cudaUserObjectNoDestructorSync __cuda(UserObjectNoDestructorSync)
+#define cudaUserObject_t cudaX(UserObject_t)
+#define cudaUserObjectFlags cudaX(UserObjectFlags) /* enum */
+#define cudaUserObjectNoDestructorSync cudaX(UserObjectNoDestructorSync)
 
 /* typedef void (*cudaHostFn_t)(void *userData); */
-#define cudaHostFn_t __cuda(HostFn_t)
+#define cudaHostFn_t cudaX(HostFn_t)
 
-#define cudaHostNodeParams __cuda(HostNodeParams) /* struct */
+#define cudaHostNodeParams cudaX(HostNodeParams) /* struct */
 
-#define cudaKernelNodeParams __cuda(KernelNodeParams) /* struct */
+#define cudaKernelNodeParams cudaX(KernelNodeParams) /* struct */
 
-#define cudaDeviceP2PAttr __cuda(DeviceP2PAttr) /* enum */
-#define cudaDevP2PAttrPerformanceRank __cuda(DevP2PAttrPerformanceRank)
-#define cudaDevP2PAttrAccessSupported __cuda(DevP2PAttrAccessSupported)
+#define cudaDeviceP2PAttr cudaX(DeviceP2PAttr) /* enum */
+#define cudaDevP2PAttrPerformanceRank cudaX(DevP2PAttrPerformanceRank)
+#define cudaDevP2PAttrAccessSupported cudaX(DevP2PAttrAccessSupported)
 #define cudaDevP2PAttrNativeAtomicSupported \
-	__cuda(DevP2PAttrNativeAtomicSupported)
+	cudaX(DevP2PAttrNativeAtomicSupported)
 #ifdef __USE_HPCC__
 #define cudaDevP2PAttrCudaArrayAccessSupported \
 	hcDevP2PAttrHcArrayAccessSupported
@@ -364,244 +364,244 @@
 	hipDevP2PAttrHipArrayAccessSupported
 #endif
 #define cudaDevP2PAttrOnlyPartialNativeAtomicSupported \
-	__cuda(DevP2PAttrOnlyPartialNativeAtomicSupported)
+	cudaX(DevP2PAttrOnlyPartialNativeAtomicSupported)
 
 /**
  * CUDA: typedef struct cudaIpcMemHandle_st {} cudaIpcEventHandle_t;
  */
-#define cudaIpcMemHandle_t __cuda(IpcMemHandle_t)
+#define cudaIpcMemHandle_t cudaX(IpcMemHandle_t)
 
 /**
  * CUDA 13.0.0: enum __device_builtin__ cudaDeviceAttr {};
  * HIP: typedef enum hipDeviceAttribute_t {} hipDeviceAttribute_t;
  * LUCA: enum lcDeviceAttribute_t {};
  */
-#define cudaDeviceAttr __cuda(DeviceAttribute_t)
-#define cudaDevAttrMaxThreadsPerBlock __cuda(DeviceAttributeMaxThreadsPerBlock)
-#define cudaDevAttrMaxBlockDimX __cuda(DeviceAttributeMaxBlockDimX)
-#define cudaDevAttrMaxBlockDimY __cuda(DeviceAttributeMaxBlockDimY)
-#define cudaDevAttrMaxBlockDimZ __cuda(DeviceAttributeMaxBlockDimZ)
-#define cudaDevAttrMaxGridDimX __cuda(DeviceAttributeMaxGridDimX)
-#define cudaDevAttrMaxGridDimY __cuda(DeviceAttributeMaxGridDimY)
-#define cudaDevAttrMaxGridDimZ __cuda(DeviceAttributeMaxGridDimZ)
+#define cudaDeviceAttr cudaX(DeviceAttribute_t)
+#define cudaDevAttrMaxThreadsPerBlock cudaX(DeviceAttributeMaxThreadsPerBlock)
+#define cudaDevAttrMaxBlockDimX cudaX(DeviceAttributeMaxBlockDimX)
+#define cudaDevAttrMaxBlockDimY cudaX(DeviceAttributeMaxBlockDimY)
+#define cudaDevAttrMaxBlockDimZ cudaX(DeviceAttributeMaxBlockDimZ)
+#define cudaDevAttrMaxGridDimX cudaX(DeviceAttributeMaxGridDimX)
+#define cudaDevAttrMaxGridDimY cudaX(DeviceAttributeMaxGridDimY)
+#define cudaDevAttrMaxGridDimZ cudaX(DeviceAttributeMaxGridDimZ)
 #define cudaDevAttrMaxSharedMemoryPerBlock \
-	__cuda(DeviceAttributeMaxSharedMemoryPerBlock)
+	cudaX(DeviceAttributeMaxSharedMemoryPerBlock)
 #define cudaDevAttrTotalConstantMemory \
-	__cuda(DeviceAttributeTotalConstantMemory)
-#define cudaDevAttrWarpSize __cuda(DeviceAttributeWarpSize)
-#define cudaDevAttrMaxPitch __cuda(DeviceAttributeMaxPitch)
+	cudaX(DeviceAttributeTotalConstantMemory)
+#define cudaDevAttrWarpSize cudaX(DeviceAttributeWarpSize)
+#define cudaDevAttrMaxPitch cudaX(DeviceAttributeMaxPitch)
 #define cudaDevAttrMaxRegistersPerBlock \
-	__cuda(DeviceAttributeMaxRegistersPerBlock)
-#define cudaDevAttrClockRate __cuda(DeviceAttributeClockRate)
-#define cudaDevAttrTextureAlignment __cuda(DeviceAttributeTextureAlignment)
-#define cudaDevAttrGpuOverlap __cuda(DeviceAttributeGpuOverlap)
+	cudaX(DeviceAttributeMaxRegistersPerBlock)
+#define cudaDevAttrClockRate cudaX(DeviceAttributeClockRate)
+#define cudaDevAttrTextureAlignment cudaX(DeviceAttributeTextureAlignment)
+#define cudaDevAttrGpuOverlap cudaX(DeviceAttributeGpuOverlap)
 #define cudaDevAttrMultiProcessorCount \
-	__cuda(DeviceAttributeMultiProcessorCount)
-#define cudaDevAttrKernelExecTimeout __cuda(DeviceAttributeKernelExecTimeout)
-#define cudaDevAttrIntegrated __cuda(DeviceAttributeIntegrated)
-#define cudaDevAttrCanMapHostMemory __cuda(DeviceAttributeCanMapHostMemory)
-#define cudaDevAttrComputeMode __cuda(DeviceAttributeComputeMode)
-#define cudaDevAttrMaxTexture1DWidth __cuda(DeviceAttributeMaxTexture1DWidth)
-#define cudaDevAttrMaxTexture2DWidth __cuda(DeviceAttributeMaxTexture2DWidth)
-#define cudaDevAttrMaxTexture2DHeight __cuda(DeviceAttributeMaxTexture2DHeight)
-#define cudaDevAttrMaxTexture3DWidth __cuda(DeviceAttributeMaxTexture3DWidth)
-#define cudaDevAttrMaxTexture3DHeight __cuda(DeviceAttributeMaxTexture3DHeight)
-#define cudaDevAttrMaxTexture3DDepth __cuda(DeviceAttributeMaxTexture3DDepth)
+	cudaX(DeviceAttributeMultiProcessorCount)
+#define cudaDevAttrKernelExecTimeout cudaX(DeviceAttributeKernelExecTimeout)
+#define cudaDevAttrIntegrated cudaX(DeviceAttributeIntegrated)
+#define cudaDevAttrCanMapHostMemory cudaX(DeviceAttributeCanMapHostMemory)
+#define cudaDevAttrComputeMode cudaX(DeviceAttributeComputeMode)
+#define cudaDevAttrMaxTexture1DWidth cudaX(DeviceAttributeMaxTexture1DWidth)
+#define cudaDevAttrMaxTexture2DWidth cudaX(DeviceAttributeMaxTexture2DWidth)
+#define cudaDevAttrMaxTexture2DHeight cudaX(DeviceAttributeMaxTexture2DHeight)
+#define cudaDevAttrMaxTexture3DWidth cudaX(DeviceAttributeMaxTexture3DWidth)
+#define cudaDevAttrMaxTexture3DHeight cudaX(DeviceAttributeMaxTexture3DHeight)
+#define cudaDevAttrMaxTexture3DDepth cudaX(DeviceAttributeMaxTexture3DDepth)
 #define cudaDevAttrMaxTexture2DLayeredWidth \
-	__cuda(DeviceAttributeMaxTexture2DLayeredWidth)
+	cudaX(DeviceAttributeMaxTexture2DLayeredWidth)
 #define cudaDevAttrMaxTexture2DLayeredHeight \
-	__cuda(DeviceAttributeMaxTexture2DLayeredHeight)
+	cudaX(DeviceAttributeMaxTexture2DLayeredHeight)
 #define cudaDevAttrMaxTexture2DLayeredLayers \
-	__cuda(DeviceAttributeMaxTexture2DLayeredLayers)
-#define cudaDevAttrSurfaceAligement __cuda(DeviceAttributeSurfaceAligement)
-#define cudaDevAttrConcurrentKernels __cuda(DeviceAttributeConcurrentKernels)
-#define cudaDevAttrEccEnabled __cuda(DeviceAttributeEccEnabled)
-#define cudaDevAttrPciBusId __cuda(DeviceAttributePciBusId)
-#define cudaDevAttrPciDeviceId __cuda(DeviceAttributePciDeviceId)
-#define cudaDevAttrTccDriver __cuda(DeviceAttributeTccDriver)
-#define cudaDevAttrMemoryClockRate __cuda(DeviceAttributeMemoryClockRate)
-#define cudaDevAttrMemoryBusWidth __cuda(DeviceAttributeMemoryBusWidth)
-#define cudaDevAttrL2CacheSize __cuda(DeviceAttributeL2CacheSize)
+	cudaX(DeviceAttributeMaxTexture2DLayeredLayers)
+#define cudaDevAttrSurfaceAligement cudaX(DeviceAttributeSurfaceAligement)
+#define cudaDevAttrConcurrentKernels cudaX(DeviceAttributeConcurrentKernels)
+#define cudaDevAttrEccEnabled cudaX(DeviceAttributeEccEnabled)
+#define cudaDevAttrPciBusId cudaX(DeviceAttributePciBusId)
+#define cudaDevAttrPciDeviceId cudaX(DeviceAttributePciDeviceId)
+#define cudaDevAttrTccDriver cudaX(DeviceAttributeTccDriver)
+#define cudaDevAttrMemoryClockRate cudaX(DeviceAttributeMemoryClockRate)
+#define cudaDevAttrMemoryBusWidth cudaX(DeviceAttributeMemoryBusWidth)
+#define cudaDevAttrL2CacheSize cudaX(DeviceAttributeL2CacheSize)
 #define cudaDevAttrMaxThreadsPerMultiProcessor \
-	__cuda(DeviceAttributeMaxThreadsPerMultiProcessor)
-#define cudaDevAttrAsyncEngineCount __cuda(DeviceAttributeAsyncEngineCount)
-#define cudaDevAttrUnifiedAddressing __cuda(DeviceAttributeUnifiedAddressing)
+	cudaX(DeviceAttributeMaxThreadsPerMultiProcessor)
+#define cudaDevAttrAsyncEngineCount cudaX(DeviceAttributeAsyncEngineCount)
+#define cudaDevAttrUnifiedAddressing cudaX(DeviceAttributeUnifiedAddressing)
 #define cudaDevAttrMaxTexture1DLayeredWidth \
-	__cuda(DeviceAttributeMaxTexture1DLayeredWidth)
+	cudaX(DeviceAttributeMaxTexture1DLayeredWidth)
 #define cudaDevAttrMaxTexture1DLayeredLayers \
-	__cuda(DeviceAttributeMaxTexture1DLayeredLayers)
-#define cudaDevAttrResvered44 __cuda(DeviceAttributeResvered44)
+	cudaX(DeviceAttributeMaxTexture1DLayeredLayers)
+#define cudaDevAttrResvered44 cudaX(DeviceAttributeResvered44)
 #define cudaDevAttrMaxTexture2DGatherWidth \
-	__cuda(DeviceAttributeMaxTexture2DGatherWidth)
+	cudaX(DeviceAttributeMaxTexture2DGatherWidth)
 #define cudaDevAttrMaxTexture2DGatherHeight \
-	__cuda(DeviceAttributeMaxTexture2DGatherHeight)
+	cudaX(DeviceAttributeMaxTexture2DGatherHeight)
 #define cudaDevAttrMaxTexture3DWidthAlt \
-	__cuda(DeviceAttributeMaxTexture3DWidthAlt)
+	cudaX(DeviceAttributeMaxTexture3DWidthAlt)
 #define cudaDevAttrMaxTexture3DHeightAlt \
-	__cuda(DeviceAttributeMaxTexture3DHeightAlt)
+	cudaX(DeviceAttributeMaxTexture3DHeightAlt)
 #define cudaDevAttrMaxTexture3DDepthAlt \
-	__cuda(DeviceAttributeMaxTexture3DDepthAlt)
-#define cudaDevAttrPciDomainId __cuda(DeviceAttributePciDomainId)
+	cudaX(DeviceAttributeMaxTexture3DDepthAlt)
+#define cudaDevAttrPciDomainId cudaX(DeviceAttributePciDomainId)
 #define cudaDevAttrTexturePitchAlignment \
-	__cuda(DeviceAttributeTexturePitchAlignment)
+	cudaX(DeviceAttributeTexturePitchAlignment)
 #define cudaDevAttrMaxTextureCubemapWidth \
-	__cuda(DeviceAttributeMaxTextureCubemapWidth)
+	cudaX(DeviceAttributeMaxTextureCubemapWidth)
 #define cudaDevAttrMaxTextureCubemapLayeredWidth \
-	__cuda(DeviceAttributeMaxTextureCubemapLayeredWidth)
+	cudaX(DeviceAttributeMaxTextureCubemapLayeredWidth)
 #define cudaDevAttrMaxTextureCubemapLayeredLayers \
-	__cuda(DeviceAttributeMaxTextureCubemapLayeredLayers)
-#define cudaDevAttrMaxSurface1DWidth __cuda(DeviceAttributeMaxSurface1DWidth)
-#define cudaDevAttrMaxSurface2DWidth __cuda(DeviceAttributeMaxSurface2DWidth)
-#define cudaDevAttrMaxSurface2DHeight __cuda(DeviceAttributeMaxSurface2DHeight)
-#define cudaDevAttrMaxSurface3DWidth __cuda(DeviceAttributeMaxSurface3DWidth)
-#define cudaDevAttrMaxSurface3DHeight __cuda(DeviceAttributeMaxSurface3DHeight)
-#define cudaDevAttrMaxSurface3DDepth __cuda(DeviceAttributeMaxSurface3DDepth)
+	cudaX(DeviceAttributeMaxTextureCubemapLayeredLayers)
+#define cudaDevAttrMaxSurface1DWidth cudaX(DeviceAttributeMaxSurface1DWidth)
+#define cudaDevAttrMaxSurface2DWidth cudaX(DeviceAttributeMaxSurface2DWidth)
+#define cudaDevAttrMaxSurface2DHeight cudaX(DeviceAttributeMaxSurface2DHeight)
+#define cudaDevAttrMaxSurface3DWidth cudaX(DeviceAttributeMaxSurface3DWidth)
+#define cudaDevAttrMaxSurface3DHeight cudaX(DeviceAttributeMaxSurface3DHeight)
+#define cudaDevAttrMaxSurface3DDepth cudaX(DeviceAttributeMaxSurface3DDepth)
 #define cudaDevAttrMaxSurface1DLayeredWidth \
-	__cuda(DeviceAttributeMaxSurface1DLayeredWidth)
+	cudaX(DeviceAttributeMaxSurface1DLayeredWidth)
 #define cudaDevAttrMaxSurface1DLayeredLayers \
-	__cuda(DeviceAttributeMaxSurface1DLayeredLayers)
+	cudaX(DeviceAttributeMaxSurface1DLayeredLayers)
 #define cudaDevAttrMaxSurface2DLayeredWidth \
-	__cuda(DeviceAttributeMaxSurface2DLayeredWidth)
+	cudaX(DeviceAttributeMaxSurface2DLayeredWidth)
 #define cudaDevAttrMaxSurface2DLayeredHeight \
-	__cuda(DeviceAttributeMaxSurface2DLayeredHeight)
+	cudaX(DeviceAttributeMaxSurface2DLayeredHeight)
 #define cudaDevAttrMaxSurface2DLayeredLayers \
-	__cuda(DeviceAttributeMaxSurface2DLayeredLayers)
+	cudaX(DeviceAttributeMaxSurface2DLayeredLayers)
 #define cudaDevAttrMaxSurfaceCubemapWidth \
-	__cuda(DeviceAttributeMaxSurfaceCubemapWidth)
+	cudaX(DeviceAttributeMaxSurfaceCubemapWidth)
 #define cudaDevAttrMaxSurfaceCubemapLayeredWidth \
-	__cuda(DeviceAttributeMaxSurfaceCubemapLayeredWidth)
+	cudaX(DeviceAttributeMaxSurfaceCubemapLayeredWidth)
 #define cudaDevAttrMaxSurfaceCubemapLayeredLayers \
-	__cuda(DeviceAttributeMaxSurfaceCubemapLayeredLayers)
+	cudaX(DeviceAttributeMaxSurfaceCubemapLayeredLayers)
 #define cudaDevAttrTexture1DLinearWidth \
-	__cuda(DeviceAttributeTexture1DLinearWidth)
+	cudaX(DeviceAttributeTexture1DLinearWidth)
 #define cudaDevAttrTexture2DLinearWidth \
-	__cuda(DeviceAttributeTexture2DLinearWidth)
+	cudaX(DeviceAttributeTexture2DLinearWidth)
 #define cudaDevAttrTexture2DLinearHeight \
-	__cuda(DeviceAttributeTexture2DLinearHeight)
+	cudaX(DeviceAttributeTexture2DLinearHeight)
 #define cudaDevAttrTexture2DLinearPitch \
-	__cuda(DeviceAttributeTexture2DLinearPitch)
+	cudaX(DeviceAttributeTexture2DLinearPitch)
 #define cudaDevAttrMaxTexture2DMipmappedWidth \
-	__cuda(DeviceAttributeMaxTexture2DMipmappedWidth)
+	cudaX(DeviceAttributeMaxTexture2DMipmappedWidth)
 #define cudaDevAttrMaxTexture2DMipmappedHeight \
-	__cuda(DeviceAttributeMaxTexture2DMipmappedHeight)
+	cudaX(DeviceAttributeMaxTexture2DMipmappedHeight)
 #define cudaDevAttrComputeCapabilityMajor \
-	__cuda(DeviceAttributeComputeCapabilityMajor)
+	cudaX(DeviceAttributeComputeCapabilityMajor)
 #define cudaDevAttrComputeCapabilityMinor \
-	__cuda(DeviceAttributeComputeCapabilityMinor)
+	cudaX(DeviceAttributeComputeCapabilityMinor)
 #define cudaDevAttrStreamPrioritiesSupported \
-	__cuda(DeviceAttributeStreamPrioritiesSupported)
+	cudaX(DeviceAttributeStreamPrioritiesSupported)
 #define cudaDevAttrGlobalL1CacheSupported \
-	__cuda(DeviceAttributeGlobalL1CacheSupported)
+	cudaX(DeviceAttributeGlobalL1CacheSupported)
 #define cudaDevAttrLocalL1CacheSupported \
-	__cuda(DeviceAttributeLocalL1CacheSupported)
+	cudaX(DeviceAttributeLocalL1CacheSupported)
 #define cudaDevAttrMaxSharedMemoryPerMultiprocessor \
-	__cuda(DeviceAttributeMaxSharedMemoryPerMultiprocessor)
+	cudaX(DeviceAttributeMaxSharedMemoryPerMultiprocessor)
 #define cudaDevAttrMaxRegistersPerMultiprocessor \
-	__cuda(DeviceAttributeMaxRegistersPerMultiprocessor)
-#define cudaDevAttrManagedMemory __cuda(DeviceAttributeManagedMemory)
-#define cudaDevAttrIsMultiGpuBoard __cuda(DeviceAttributeIsMultiGpuBoard)
+	cudaX(DeviceAttributeMaxRegistersPerMultiprocessor)
+#define cudaDevAttrManagedMemory cudaX(DeviceAttributeManagedMemory)
+#define cudaDevAttrIsMultiGpuBoard cudaX(DeviceAttributeIsMultiGpuBoard)
 #define cudaDevAttrMultiGpuBoardGroupID \
-	__cuda(DeviceAttributeMultiGpuBoardGroupID)
+	cudaX(DeviceAttributeMultiGpuBoardGroupID)
 #define cudaDevAttrHostNativeAtomicSupported \
-	__cuda(DeviceAttributeHostNativeAtomicSupported)
+	cudaX(DeviceAttributeHostNativeAtomicSupported)
 #define cudaDevAttrSingleToDoublePrecisionPerfRatio \
-	__cuda(DeviceAttributeSingleToDoublePrecisionPerfRatio)
+	cudaX(DeviceAttributeSingleToDoublePrecisionPerfRatio)
 #define cudaDevAttrPageableMemoryAccess \
-	__cuda(DeviceAttributePageableMemoryAccess)
+	cudaX(DeviceAttributePageableMemoryAccess)
 #define cudaDevAttrConcurrentManagedAccess \
-	__cuda(DeviceAttributeConcurrentManagedAccess)
+	cudaX(DeviceAttributeConcurrentManagedAccess)
 #define cudaDevAttrComputePreemptionSupported \
-	__cuda(DeviceAttributeComputePreemptionSupported)
+	cudaX(DeviceAttributeComputePreemptionSupported)
 #define cudaDevAttrCanUseHostPointerForRegisteredMem \
-	__cuda(DeviceAttributeCanUseHostPointerForRegisteredMem)
-#define cudaDevAttrReserved92 __cuda(DeviceAttributeReserved92)
-#define cudaDevAttrReserved93 __cuda(DeviceAttributeReserved93)
-#define cudaDevAttrReserved94 __cuda(DeviceAttributeReserved94)
-#define cudaDevAttrCooperativeLaunch __cuda(DeviceAttributeCooperativeLaunch)
+	cudaX(DeviceAttributeCanUseHostPointerForRegisteredMem)
+#define cudaDevAttrReserved92 cudaX(DeviceAttributeReserved92)
+#define cudaDevAttrReserved93 cudaX(DeviceAttributeReserved93)
+#define cudaDevAttrReserved94 cudaX(DeviceAttributeReserved94)
+#define cudaDevAttrCooperativeLaunch cudaX(DeviceAttributeCooperativeLaunch)
 #define cudaDevAttrCooperativeMultiDeviceLaunch \
-	__cuda(DeviceAttributeCooperativeMultiDeviceLaunch)
+	cudaX(DeviceAttributeCooperativeMultiDeviceLaunch)
 #define cudaDevAttrMaxSharedMemoryPerBlockOptin \
-	__cuda(DeviceAttributeMaxSharedMemoryPerBlockOptin)
+	cudaX(DeviceAttributeMaxSharedMemoryPerBlockOptin)
 #define cudaDevAttrCanFlushRemoteWrites \
-	__cuda(DeviceAttributeCanFlushRemoteWrites)
+	cudaX(DeviceAttributeCanFlushRemoteWrites)
 #define cudaDevAttrHostRegisterSupported \
-	__cuda(DeviceAttributeHostRegisterSupported)
+	cudaX(DeviceAttributeHostRegisterSupported)
 #define cudaDevAttrPageableMemoryAccessUsesHostPageTables \
-	__cuda(DeviceAttributePageableMemoryAccessUsesHostPageTables)
+	cudaX(DeviceAttributePageableMemoryAccessUsesHostPageTables)
 #define cudaDevAttrDirectManagedMemAccessFromHost \
-	__cuda(DeviceAttributeDirectManagedMemAccessFromHost)
-#define cudaDevAttrReserved102 __cuda(DeviceAttributeReserved102)
-#define cudaDevAttrReserved103 __cuda(DeviceAttributeReserved103)
-#define cudaDevAttrReserved104 __cuda(DeviceAttributeReserved104)
-#define cudaDevAttrReserved105 __cuda(DeviceAttributeReserved105)
-#define cudaDevAttrReserved107 __cuda(DeviceAttributeReserved107)
+	cudaX(DeviceAttributeDirectManagedMemAccessFromHost)
+#define cudaDevAttrReserved102 cudaX(DeviceAttributeReserved102)
+#define cudaDevAttrReserved103 cudaX(DeviceAttributeReserved103)
+#define cudaDevAttrReserved104 cudaX(DeviceAttributeReserved104)
+#define cudaDevAttrReserved105 cudaX(DeviceAttributeReserved105)
+#define cudaDevAttrReserved107 cudaX(DeviceAttributeReserved107)
 #define cudaDevAttrMaxPersistingL2CacheSize \
-	__cuda(DeviceAttributeMaxPersistingL2CacheSize)
+	cudaX(DeviceAttributeMaxPersistingL2CacheSize)
 #define cudaDevAttrMaxAccessPolicyWindowSize \
-	__cuda(DeviceAttributeMaxAccessPolicyWindowSize)
-#define cudaDevAttrReserved110 __cuda(DeviceAttributeReserved110)
+	cudaX(DeviceAttributeMaxAccessPolicyWindowSize)
+#define cudaDevAttrReserved110 cudaX(DeviceAttributeReserved110)
 #define cudaDevAttrReservedSharedMemoryPerBlock \
-	__cuda(DeviceAttributeReservedSharedMemoryPerBlock)
+	cudaX(DeviceAttributeReservedSharedMemoryPerBlock)
 #define cudaDevAttrSparseCudaArraySupported \
-	__cuda_Cuda(DeviceAttributeSparse, ArraySupported)
+	cudaXCudaX(DeviceAttributeSparse, ArraySupported)
 #define cudaDevAttrHostRegisterReadOnlySupported \
-	__cuda(DeviceAttributeHostRegisterReadOnlySupported)
+	cudaX(DeviceAttributeHostRegisterReadOnlySupported)
 #define cudaDevAttrTimelineSemaphoreInteropSupported \
-	__cuda(DeviceAttributeTimelineSemaphoreInteropSupported)
+	cudaX(DeviceAttributeTimelineSemaphoreInteropSupported)
 #define cudaDevAttrMemoryPoolsSupported \
-	__cuda(DeviceAttributeMemoryPoolsSupported)
+	cudaX(DeviceAttributeMemoryPoolsSupported)
 #define cudaDevAttrGPUDirectRDMASupported \
-	__cuda(DeviceAttributeGPUDirectRDMASupported)
+	cudaX(DeviceAttributeGPUDirectRDMASupported)
 #define cudaDevAttrGPUDirectRDMAFlushWritesOptions \
-	__cuda(DeviceAttributeGPUDirectRDMAFlushWritesOptions)
+	cudaX(DeviceAttributeGPUDirectRDMAFlushWritesOptions)
 #define cudaDevAttrGPUDirectRDMAWritesOrdering \
-	__cuda(DeviceAttributeGPUDirectRDMAWritesOrdering)
+	cudaX(DeviceAttributeGPUDirectRDMAWritesOrdering)
 #define cudaDevAttrMemoryPoolSupportedHandleTypes \
-	__cuda(DeviceAttributeMemoryPoolSupportedHandleTypes)
-#define cudaDevAttrClusterLaunch __cuda(DeviceAttributeClusterLaunch)
+	cudaX(DeviceAttributeMemoryPoolSupportedHandleTypes)
+#define cudaDevAttrClusterLaunch cudaX(DeviceAttributeClusterLaunch)
 #define cudaDevAttrDeferredMappingCudaArraySupported \
-	__cuda_Cuda(DeviceAttributeDeferredMapping, ArraySupported)
-#define cudaDevAttrReserved122 __cuda(DeviceAttributeReserved122)
-#define cudaDevAttrReserved123 __cuda(DeviceAttributeReserved123)
-#define cudaDevAttrReserved124 __cuda(DeviceAttributeReserved124)
-#define cudaDevAttrIpcEventSupport __cuda(DeviceAttributeIpcEventSupport)
-#define cudaDevAttrMemSyncDomainCount __cuda(DeviceAttributeMemSyncDomainCount)
-#define cudaDevAttrReserved127 __cuda(DeviceAttributeReserved127)
-#define cudaDevAttrReserved128 __cuda(DeviceAttributeReserved128)
-#define cudaDevAttrReserved129 __cuda(DeviceAttributeReserved129)
-#define cudaDevAttrNumaConfig __cuda(DeviceAttributeNumaConfig)
-#define cudaDevAttrNumaId __cuda(DeviceAttributeNumaId)
-#define cudaDevAttrReserved132 __cuda(DeviceAttributeReserved132)
-#define cudaDevAttrMpsEnabled __cuda(DeviceAttributeMpsEnabled)
-#define cudaDevAttrHostNumaId __cuda(DeviceAttributeHostNumaId)
-#define cudaDevAttrWaveSize __cuda(DeviceAttributeWaveSize)
-#define cudaDevAttrHdpMemFlushCntl __cuda(DeviceAttributeHdpMemFlushCntl)
-#define cudaDevAttrHdpRegFlushCntl __cuda(DeviceAttributeHdpRegFlushCntl)
+	cudaXCudaX(DeviceAttributeDeferredMapping, ArraySupported)
+#define cudaDevAttrReserved122 cudaX(DeviceAttributeReserved122)
+#define cudaDevAttrReserved123 cudaX(DeviceAttributeReserved123)
+#define cudaDevAttrReserved124 cudaX(DeviceAttributeReserved124)
+#define cudaDevAttrIpcEventSupport cudaX(DeviceAttributeIpcEventSupport)
+#define cudaDevAttrMemSyncDomainCount cudaX(DeviceAttributeMemSyncDomainCount)
+#define cudaDevAttrReserved127 cudaX(DeviceAttributeReserved127)
+#define cudaDevAttrReserved128 cudaX(DeviceAttributeReserved128)
+#define cudaDevAttrReserved129 cudaX(DeviceAttributeReserved129)
+#define cudaDevAttrNumaConfig cudaX(DeviceAttributeNumaConfig)
+#define cudaDevAttrNumaId cudaX(DeviceAttributeNumaId)
+#define cudaDevAttrReserved132 cudaX(DeviceAttributeReserved132)
+#define cudaDevAttrMpsEnabled cudaX(DeviceAttributeMpsEnabled)
+#define cudaDevAttrHostNumaId cudaX(DeviceAttributeHostNumaId)
+#define cudaDevAttrWaveSize cudaX(DeviceAttributeWaveSize)
+#define cudaDevAttrHdpMemFlushCntl cudaX(DeviceAttributeHdpMemFlushCntl)
+#define cudaDevAttrHdpRegFlushCntl cudaX(DeviceAttributeHdpRegFlushCntl)
 #define cudaDevAttrCooperativeMultiDeviceUnmatchedFunc \
-	__cuda(DeviceAttributeCooperativeMultiDeviceUnmatchedFunc)
+	cudaX(DeviceAttributeCooperativeMultiDeviceUnmatchedFunc)
 #define cudaDevAttrCooperativeMultiDeviceUnmatchedGridDim \
-	__cuda(DeviceAttributeCooperativeMultiDeviceUnmatchedGridDim)
+	cudaX(DeviceAttributeCooperativeMultiDeviceUnmatchedGridDim)
 #define cudaDevAttrCooperativeMultiDeviceUnmatchedBlockDim \
-	__cuda(DeviceAttributeCooperativeMultiDeviceUnmatchedBlockDim)
+	cudaX(DeviceAttributeCooperativeMultiDeviceUnmatchedBlockDim)
 #define cudaDevAttrCooperativeMultiDeviceUnmatchedSharedMem \
-	__cuda(DeviceAttributeCooperativeMultiDeviceUnmatchedSharedMem)
-#define cudaDevAttrAsicRevision __cuda(DeviceAttributeAsicRevision)
+	cudaX(DeviceAttributeCooperativeMultiDeviceUnmatchedSharedMem)
+#define cudaDevAttrAsicRevision cudaX(DeviceAttributeAsicRevision)
 #define cudaDevAttrVirtualMemoryManagementSupported \
-	__cuda(DeviceAttributeVirtualMemoryManagementSupported)
+	cudaX(DeviceAttributeVirtualMemoryManagementSupported)
 #define cudaDevAttrHandleTypePosixFileDescriptorSupported \
-	__cuda(DeviceAttributeHandleTypePosixFileDescriptorSupported)
+	cudaX(DeviceAttributeHandleTypePosixFileDescriptorSupported)
 #define cudaDevAttrHandleTypeWin32HandleSupported \
-	__cuda(DeviceAttributeHandleTypeWin32HandleSupported)
+	cudaX(DeviceAttributeHandleTypeWin32HandleSupported)
 #define cudaDevAttrGenericCompressionSupported \
-	__cuda(DeviceAttributeGenericCompressionSupported)
+	cudaX(DeviceAttributeGenericCompressionSupported)
 #define cudaDevAttrCanUseStreamWaitValue \
-	__cuda(DeviceAttributeCanUseStreamWaitValue)
-#define cudaDevAttrCanUseStreamMemOps __cuda(DeviceAttributeCanUseStreamMemOps)
+	cudaX(DeviceAttributeCanUseStreamWaitValue)
+#define cudaDevAttrCanUseStreamMemOps cudaX(DeviceAttributeCanUseStreamMemOps)
 #define cudaDevAttrCanUseStreamWaitWaitValueNor \
-	__cuda(DeviceAttributeCanUseStreamWaitWaitValueNor)
-#define cudaDevAttrLocalSocketId __cuda(DeviceAttributeLocalSocketId)
-#define cudaDevAttrSocketId __cuda(DeviceAttributeSocketId)
-#define cudaDevAttrPeerSocketId __cuda(DeviceAttributePeerSocketId)
-#define cudaDevAttrMulticastSupported __cuda(DeviceAttributeMulticastSupported)
+	cudaX(DeviceAttributeCanUseStreamWaitWaitValueNor)
+#define cudaDevAttrLocalSocketId cudaX(DeviceAttributeLocalSocketId)
+#define cudaDevAttrSocketId cudaX(DeviceAttributeSocketId)
+#define cudaDevAttrPeerSocketId cudaX(DeviceAttributePeerSocketId)
+#define cudaDevAttrMulticastSupported cudaX(DeviceAttributeMulticastSupported)
 
 #endif

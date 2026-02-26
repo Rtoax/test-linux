@@ -46,105 +46,105 @@
  *     int nvlsCTAs;
  *   } ncclConfig_t;
  */
-#define ncclConfig_t __nccl(Config_t)
+#define ncclConfig_t ncclX(Config_t)
 /**
  * ROCm rccl already define this in /usr/include/rccl/rccl.h
  */
 #ifndef NCCL_CONFIG_INITIALIZER
-#define NCCL_CONFIG_INITIALIZER __NCCL(_CONFIG_INITIALIZER)
+#define NCCL_CONFIG_INITIALIZER NCCLX(_CONFIG_INITIALIZER)
 #endif
-#define ncclResult_t __nccl(Result_t)
-#define ncclSuccess __nccl(Success) /* 0 */
+#define ncclResult_t ncclX(Result_t)
+#define ncclSuccess ncclX(Success) /* 0 */
 #ifdef __USE_HPCC__
-#define ncclUnhandledCudaError __nccl(UnhandledHpccError) /* 1 */
+#define ncclUnhandledCudaError ncclX(UnhandledHpccError) /* 1 */
 #elif defined(__USE_LUCA__)
-#define ncclUnhandledCudaError __nccl(UnhandledLucaError) /* 1 */
+#define ncclUnhandledCudaError ncclX(UnhandledLucaError) /* 1 */
 #else /* for HIP and CUDA */
-#define ncclUnhandledCudaError __nccl(UnhandledCudaError) /* 1 */
+#define ncclUnhandledCudaError ncclX(UnhandledCudaError) /* 1 */
 #endif
-#define ncclSystemError __nccl(SystemError) /* 2 */
-#define ncclInternalError __nccl(InternalError)
-#define ncclInvalidArgument __nccl(InvalidArgument)
-#define ncclInvalidUsage __nccl(InvalidUsage)
-#define ncclRemoteError __nccl(RemoteError)
-#define ncclInProgress __nccl(InProgress)
-#define ncclNumResults __nccl(NumResults) /* 8 */
+#define ncclSystemError ncclX(SystemError) /* 2 */
+#define ncclInternalError ncclX(InternalError)
+#define ncclInvalidArgument ncclX(InvalidArgument)
+#define ncclInvalidUsage ncclX(InvalidUsage)
+#define ncclRemoteError ncclX(RemoteError)
+#define ncclInProgress ncclX(InProgress)
+#define ncclNumResults ncclX(NumResults) /* 8 */
 
 /* const char*  ncclGetErrorString(ncclResult_t result); */
-#define ncclGetErrorString(result) __nccl(GetErrorString(result))
+#define ncclGetErrorString(result) ncclX(GetErrorString(result))
 
-#define ncclGetVersion(version) __nccl(GetVersion(version))
-#define pncclGetVersion(version) __pnccl(GetVersion(version))
+#define ncclGetVersion(version) ncclX(GetVersion(version))
+#define pncclGetVersion(version) pncclX(GetVersion(version))
 
 /**
  * typedef struct {
  *   char internal[128];
  * } ncclUniqueId;
  */
-#define ncclUniqueId __nccl(UniqueId)
+#define ncclUniqueId ncclX(UniqueId)
 /**
  * ncclResult_t ncclGetUniqueId(ncclUniqueId* uniqueId);
  */
-#define ncclGetUniqueId(id) __nccl(GetUniqueId(id))
+#define ncclGetUniqueId(id) ncclX(GetUniqueId(id))
 
 /* Communicator */
-#define ncclComm_t __nccl(Comm_t)
+#define ncclComm_t ncclX(Comm_t)
 
 /**
  * ncclResult_t ncclCommInitRank(ncclComm_t* comm, int nranks, ncclUniqueId commId, int rank);
  */
-#define ncclCommInitRank __nccl(CommInitRank)
+#define ncclCommInitRank ncclX(CommInitRank)
 
 /**
  * ncclResult_t ncclCommInitRankConfig(ncclComm_t* comm, int nranks,
  *                                     ncclUniqueId commId, int rank,
  *                                     ncclConfig_t* config);
  */
-#define ncclCommInitRankConfig __nccl(CommInitRankConfig)
+#define ncclCommInitRankConfig ncclX(CommInitRankConfig)
 
 /**
  * ncclResult_t ncclCommInitAll(ncclComm_t* comms, int ndev, const int* devlist);
  */
 #define ncclCommInitAll(comm, ndev, devlist) \
-	__nccl(CommInitAll(comm, ndev, devlist))
-#define ncclCommDestroy __nccl(CommDestroy)
+	ncclX(CommInitAll(comm, ndev, devlist))
+#define ncclCommDestroy ncclX(CommDestroy)
 
-#define ncclGroupStart __nccl(GroupStart)
-#define ncclGroupEnd __nccl(GroupEnd)
+#define ncclGroupStart ncclX(GroupStart)
+#define ncclGroupEnd ncclX(GroupEnd)
 
-#define ncclRedOp_t __nccl(RedOp_t)
-#define ncclSum __nccl(Sum)
-#define ncclProd __nccl(Prod)
-#define ncclMax __nccl(Max)
-#define ncclMin __nccl(Min)
-#define ncclAvg __nccl(Avg)
-#define ncclNumOps __nccl(NumOps)
-#define ncclMaxRedOp __nccl(MaxRedOp)
+#define ncclRedOp_t ncclX(RedOp_t)
+#define ncclSum ncclX(Sum)
+#define ncclProd ncclX(Prod)
+#define ncclMax ncclX(Max)
+#define ncclMin ncclX(Min)
+#define ncclAvg ncclX(Avg)
+#define ncclNumOps ncclX(NumOps)
+#define ncclMaxRedOp ncclX(MaxRedOp)
 
-#define ncclDataType_t __nccl(DataType_t)
-#define ncclInt8 __nccl(Int8)
-#define ncclChar __nccl(Char)
-#define ncclUint8 __nccl(Uint8)
-#define ncclInt32 __nccl(Int32)
-#define ncclInt __nccl(Int)
-#define ncclUint32 __nccl(Uint32)
-#define ncclInt64 __nccl(Int64)
-#define ncclUint64 __nccl(Uint64)
-#define ncclFloat16 __nccl(Float16)
-#define ncclHalf __nccl(Half)
-#define ncclFloat32 __nccl(Float32)
-#define ncclFloat __nccl(Float)
-#define ncclFloat64 __nccl(Float64)
-#define ncclDouble __nccl(Double)
-#define ncclBfloat16 __nccl(Bfloat16)
-#define ncclNumTypes __nccl(NumTypes)
+#define ncclDataType_t ncclX(DataType_t)
+#define ncclInt8 ncclX(Int8)
+#define ncclChar ncclX(Char)
+#define ncclUint8 ncclX(Uint8)
+#define ncclInt32 ncclX(Int32)
+#define ncclInt ncclX(Int)
+#define ncclUint32 ncclX(Uint32)
+#define ncclInt64 ncclX(Int64)
+#define ncclUint64 ncclX(Uint64)
+#define ncclFloat16 ncclX(Float16)
+#define ncclHalf ncclX(Half)
+#define ncclFloat32 ncclX(Float32)
+#define ncclFloat ncclX(Float)
+#define ncclFloat64 ncclX(Float64)
+#define ncclDouble ncclX(Double)
+#define ncclBfloat16 ncclX(Bfloat16)
+#define ncclNumTypes ncclX(NumTypes)
 
 /**
  * ncclResult_t  ncclAllReduce(const void* sendbuff, void* recvbuff, size_t count,
  *                             ncclDataType_t datatype, ncclRedOp_t op,
  *                             ncclComm_t comm, cudaStream_t stream);
  */
-#define ncclAllReduce __nccl(AllReduce)
+#define ncclAllReduce ncclX(AllReduce)
 
 #ifdef __USE_HPCC__
 # include <hccl.h>
