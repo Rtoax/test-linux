@@ -3,6 +3,13 @@
 #include <unistd.h>
 #include <sched.h>
 #include <linux/sched.h>
+#ifdef __has_include
+# if __has_include("linux/sched/types.h")
+#  define sched_param __mask_sched_param
+#   include <linux/sched/types.h>
+#  undef sched_param
+# endif
+#endif
 
 void print_cpuset(cpu_set_t * cpuset);
 int str2cpuset(const char *cpulist, cpu_set_t *cpuset);

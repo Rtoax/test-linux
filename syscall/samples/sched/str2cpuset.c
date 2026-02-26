@@ -7,6 +7,8 @@
 
 #include "sched_helpers.h"
 
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+
 int main(int argc, char *argv[])
 {
 	int i;
