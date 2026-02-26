@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- cuda/adapter: add empty `Openacc/cupti_openacc.h` and `Openmp/cupti_openmp.h`;
 - cuda/{adapter,intrinsics}: support and test all cuComplex.h;
 - macro: add splice.c;
 - kickstart: add minimal.ks, efi.ks, bios.ks;
