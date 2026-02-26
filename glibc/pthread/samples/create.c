@@ -81,7 +81,9 @@ void parse_args(int argc, char *argv[])
 		} else if (!strncmp(argv[i], "t=", 2)) {
 			us = atoi(argv[i] + 2);
 			if (us <= 1000) {
-				fprintf(stderr, "ERROR: bad us %s\n", argv[i]);
+				fprintf(stderr,
+					"ERROR: bad us %s, must bigger than 1000\n",
+					argv[i]);
 				exit(1);
 			}
 		} else if (!strcmp(argv[i], "verbose")) {
@@ -99,7 +101,8 @@ int main(int argc, char *argv[])
 	pthread_t *threads;
 	struct test_routine *routine = &default_print;
 
-	fprintf(stderr, "%s [nr=<Nthreads>] [t=<us>] [verbose]\n", argv[0]);
+	fprintf(stderr, "%s [nr=<Nthreads>] [t=<Rate(us)>] [verbose]\n",
+		argv[0]);
 
 	signal(SIGINT, sig_handler);
 
