@@ -8,15 +8,30 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <assert.h>
-#include <sched.h>
 #include <ctype.h>
 #include <errno.h>
 #include <string.h>
 #include <stdbool.h>
-#include <linux/sched.h>
+#include <syscall.h>
+#include <sys/syscall.h>
 
 #include "sched_helpers.h"
 
+/* XXX use the proper syscall numbers */
+#ifdef __x86_64__
+#define __NR_sched_setattr 314
+#define __NR_sched_getattr 315
+#endif
+
+#ifdef __i386__
+#define __NR_sched_setattr 351
+#define __NR_sched_getattr 352
+#endif
+
+#ifdef __arm__
+#define __NR_sched_setattr 380
+#define __NR_sched_getattr 381
+#endif
 
 int sys_gettid(void)
 {
