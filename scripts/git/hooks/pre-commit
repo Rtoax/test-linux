@@ -2,17 +2,17 @@
 # Copyright (C) 2024-2026 Rong Tao
 #
 # Usage:
-# $ F1=1 NR_MOD=n NR_ADD=n NR_DEL=n git commit ...
+# $ [F1=1] [NMOD=n] [NADD=n] [NDEL=n] git commit ...
 #
 set -e
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly MY_DIRECTORY=$(realpath $(dirname $(realpath $0))/../../../)
 
-# Usage: $ NR_MOD=6 git commit -s
-[[ -z ${NR_MOD} ]] && NR_MOD=4
-[[ -z ${NR_ADD} ]] && NR_ADD=1
-[[ -z ${NR_DEL} ]] && NR_DEL=1
+# Usage: $ NMOD=6 git commit -s
+[[ -z ${NMOD} ]] && NMOD=4
+[[ -z ${NADD} ]] && NADD=1
+[[ -z ${NDEL} ]] && NDEL=1
 [[ -z ${F1} ]] && F1=
 
 if [[ ${V} ]] || [[ ${V1} ]]; then
@@ -89,8 +89,8 @@ do
 done
 
 # modify,add,delete files, need modify CHANGELOG.md too
-[[ ${#try_modify[@]} -ge ${NR_MOD} ]] && hint_changelog "<Modify too many files, try NR_MOD=100>"
-[[ ${#try_del[@]} -ge ${NR_DEL} ]] && hint_changelog "<Delete files, try NR_DEL=100>"
-[[ ${#try_add[@]} -ge ${NR_ADD} ]] && hint_changelog "<Add files: ${try_add[@]}, try NR_ADD=100>"
+[[ ${#try_modify[@]} -ge ${NMOD} ]] && hint_changelog "<Modify too many files, try NMOD=100>"
+[[ ${#try_del[@]} -ge ${NDEL} ]] && hint_changelog "<Delete files, try NDEL=100>"
+[[ ${#try_add[@]} -ge ${NADD} ]] && hint_changelog "<Add files: ${try_add[@]}, try NADD=100>"
 
 exit 0

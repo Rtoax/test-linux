@@ -2,7 +2,7 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Usage:
-# ALL=1 V2=1 F2=1 git commit ...
+# [ALL=1] [V2=1] [F2=1] git commit ...
 #
 [[ ${V2} ]] && set -x
 
