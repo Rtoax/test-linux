@@ -3,6 +3,7 @@
 /**
  * https://docs.nvidia.com/cuda/cuda-math-api/cuda_math_api/group__CUDA__MATH__INTRINSIC__FP6.html
  */
+#include <cuda.h>
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && CUDA_VERSION > 12040
 # define __have_fp6
 #else

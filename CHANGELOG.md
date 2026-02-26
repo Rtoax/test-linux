@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- cuda/{adapter,intrinsics}: support and test fp4;
 - cuda/adapter: add empty `Openacc/cupti_openacc.h` and `Openmp/cupti_openmp.h`;
 - cuda/{adapter,intrinsics}: support and test all cuComplex.h;
 - macro: add splice.c;

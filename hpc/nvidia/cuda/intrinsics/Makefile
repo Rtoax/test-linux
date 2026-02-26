@@ -9,7 +9,8 @@ include cestc/luca.mk
 include metax/hpcc.mk
 include compiler.mk
 
-common-objs-y := fp6
+common-objs-y := fp4
+common-objs-y += fp6
 common-objs-y += fp8
 common-objs-y += half
 common-objs-y += bfloat16
@@ -56,6 +57,7 @@ HDRS := print.h compiler.h types.h
 # $1 - cu, hip, hpcc, luca
 # $2 - nv, hip, hpcc, luca
 define cuda_intrinsics_objs
+$${OUTPUT}fp4.${1}.o: $${HDRS}
 $${OUTPUT}fp6.${1}.o: $${HDRS}
 $${OUTPUT}fp8.${1}.o: $${HDRS}
 $${OUTPUT}half.${1}.o: $${HDRS}
@@ -66,6 +68,7 @@ $${OUTPUT}fp128.${1}.o: $${HDRS}
 $${OUTPUT}int.${1}.o: $${HDRS}
 $${OUTPUT}simd.${1}.o: $${HDRS}
 
+fp4-${2}: $${OUTPUT}fp4.${1}.o
 fp6-${2}: $${OUTPUT}fp6.${1}.o
 fp8-${2}: $${OUTPUT}fp8.${1}.o
 half-${2}: $${OUTPUT}half.${1}.o
