@@ -23,9 +23,17 @@
 
 __global__ void k_fp8_functions(void)
 {
-	const __nv_bfloat16_raw __unused bf16_one_raw = { .x = USHORT_ONE_BF16, };
-	const __nv_bfloat162_raw __unused bf162_1_raw = { .x = 1, .y = 1, };
-	const __nv_bfloat162_raw __unused bf162_one_raw = { .x = USHORT_ONE_BF16, .y = USHORT_ONE_BF16, };
+	const __nv_bfloat16_raw bf16_one_raw = {
+		.x = USHORT_ONE_BF16,
+	};
+	const __nv_bfloat162_raw bf162_1_raw = {
+		.x = 1,
+		.y = 1,
+	};
+	const __nv_bfloat162_raw bf162_one_raw = {
+		.x = USHORT_ONE_BF16,
+		.y = USHORT_ONE_BF16,
+	};
 	const double2 d2_pi = make_double2(PI_DOUBLE, PI_DOUBLE);
 	const float2 f2_pi = make_float2(PI_FLOAT, PI_FLOAT);
 
