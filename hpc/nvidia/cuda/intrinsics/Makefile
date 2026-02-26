@@ -13,13 +13,12 @@ common-objs-y := fp6
 common-objs-y += fp8
 common-objs-y += half
 common-objs-y += bfloat16
+common-objs-y += complex
 common-objs-y += float
 common-objs-y += double
 common-objs-${CC__Float128} += fp128
 common-objs-y += int
 common-objs-y += simd
-
-target-post-y :=
 
 # WARNING: must have -nv suffix.
 target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs-y))
@@ -72,6 +71,7 @@ fp8-${2}: $${OUTPUT}fp8.${1}.o
 half-${2}: $${OUTPUT}half.${1}.o
 bfloat16-${2}: $${OUTPUT}bfloat16.${1}.o
 float-${2}: $${OUTPUT}float.${1}.o
+complex-${2}: $${OUTPUT}complex.${1}.o
 double-${2}: $${OUTPUT}double.${1}.o
 fp128-${2}: $${OUTPUT}fp128.${1}.o
 int-${2}: $${OUTPUT}int.${1}.o

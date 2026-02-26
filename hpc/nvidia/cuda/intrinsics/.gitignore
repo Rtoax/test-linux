@@ -18,6 +18,10 @@
 /float-hip
 /float-hpcc
 /float-luca
+/complex-nv
+/complex-hip
+/complex-hpcc
+/complex-luca
 /double-nv
 /double-hip
 /double-hpcc

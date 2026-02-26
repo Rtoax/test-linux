@@ -24,6 +24,11 @@
 #define cuFloatComplex cuX(FloatComplex)
 
 /**
+ * cuFloatComplex make_cuFloatComplex(float r, float i);
+ */
+#define make_cuFloatComplex XcuX(make_, FloatComplex)
+
+/**
  * CUDA: typedef cuFloatComplex cuComplex;
  */
 #define cuComplex cuX(Complex)

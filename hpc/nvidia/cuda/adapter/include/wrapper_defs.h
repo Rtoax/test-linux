@@ -22,6 +22,7 @@
 # define cudaXCudaX(n1, n2) hc##n1##Hpcc##n2
 # define CUDAX(name) HC_##name
 # define CUDA_ERROR_X(name) HCC_STATUS_##name
+# define XcuX(a, b) a##hc##b
 # define nvX(name) hc##name
 # define __nv_X(name) __hpcc_##name
 # define __NV_X(name) __HPCC_##name
@@ -45,6 +46,7 @@
 #  define cudaXCudaX(n1, n2) lc##n1##Luca##n2
 #  define CUDAX(name) LC_##name
 #  define CUDA_ERROR_X(name) LCC_STATUS_##name
+#  define XcuX(a, b) a##lc##b
 #  define nvX(name) lc##name
 #  define NVX(name) LC##name
 #  define ncclX(name) lccl##name
@@ -58,6 +60,7 @@
 #  define cudaXCudaX(n1, n2) hc##n1##Hpcc##n2
 #  define CUDAX(name) HC_##name
 #  define CUDA_ERROR_X(name) HCC_STATUS_##name
+#  define XcuX(a, b) a##hip##b
 #  define nvX(name) hc##name
 #  define NVX(name) HC##name
 #  define ncclX(name) hccl##name
