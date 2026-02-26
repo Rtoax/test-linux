@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- prctl(2): test `PR_SET_PDEATHSIG`;
 - procps-ng: add version.sh;
 - procfs: add procps-ng subdir;
 - cuda/{adapter,intrinsics}: support and test fp4;
