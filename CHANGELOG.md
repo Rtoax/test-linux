@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- macro: add splice.c;
 - kickstart: add minimal.ks, efi.ks, bios.ks;
 - anaconda: add kickstart subdir;
 - anaconda: add product.img/ from ostools;

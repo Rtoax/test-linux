@@ -27,4 +27,3 @@ int main(void)
 	printf("NUM = %s\n", __stringify(NUM));
 	return 0;
 }
-
