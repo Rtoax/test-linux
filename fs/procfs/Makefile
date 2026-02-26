@@ -2,11 +2,11 @@
 OUTPUT = .output/
 
 subdir-y := process
+subdir-y += procps-ng
 subdir-y += kallsyms
 subdir-y += sys
 subdir-y += sysrq-trigger
 
-target-y :=
 target-y += proc_examples
 target-y += self thread-self
 target-y += stat
