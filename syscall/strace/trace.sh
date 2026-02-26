@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Trace read(2),close(2) only
 sudo strace -e trace=open,read,close ls
@@ -17,12 +18,3 @@ sudo strace -q -e trace=network ls
 
 # Trace signal
 sudo strace -q -e trace=signal ls
-
-# Count each syscall
-sudo strace -c ls
-
-# Show called time
-sudo strace -t ls
-
-# Show spent time
-sudo strace -T ls
