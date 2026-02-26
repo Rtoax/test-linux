@@ -13,6 +13,22 @@
 #define PPFX()	printf("L%-4d" SEP " ", __LINE__);
 #define PEXPR(expr)	PPFX();printf("%s\n", #expr); expr;
 
+#define PFP4E2M1(v)                                                         \
+	do {                                                                \
+		__half_raw ___hraw = __nv_cvt_fp4_to_halfraw(v, __NV_E2M1); \
+		PPFX();                                                     \
+		printf("E2M1: %s : %f\n", #v, __half2float(___hraw));       \
+	} while (0)
+
+#define PFP4x2E2M1(v)                                                         \
+	do {                                                                  \
+		__half2_raw ___h2raw =                                        \
+			__nv_cvt_fp4x2_to_halfraw2(v, __NV_E2M1);             \
+		PPFX();                                                       \
+		printf("E2M1: %s : {%f, %f}\n", #v, __half2float(___h2raw.x), \
+		       __half2float(___h2raw.y));                             \
+	} while (0)
+
 #define PFP8E8M0(v) do {	\
 		__nv_bfloat16_raw ___bf16raw = __nv_cvt_e8m0_to_bf16raw(v);	\
 		PPFX();	\
