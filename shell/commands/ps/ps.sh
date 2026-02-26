@@ -1,9 +1,5 @@
 #!/bin/bash
-# see ps(1)
-#
-# Copyright (C) Rong Tao 2023-2025.
-#
-# 2023-05-06	Rong Tao	Create this.
+# Copyright (C) 2023-2026 Rong Tao.
 
 ps_info()
 {

@@ -8,6 +8,7 @@ subdir-y += find
 subdir-y += grep
 subdir-y += lstopo
 subdir-y += makeself
+subdir-y += ps
 subdir-y += sar
 subdir-y += sed
 subdir-y += split
