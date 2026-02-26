@@ -1,7 +1,5 @@
 #!/bin/bash
-
 set -e
-
 
 ps_ns_info()
 {
@@ -38,14 +36,8 @@ detail)
 	process_detail
 	;;
 *)
-	echo -e "
-$0 [command]
-
-command:
-
-	ps
-	detail
-	"
+	echo -e "Usage: $0 [ps|detail]"
+	exit 1
 	;;
 esac
 
