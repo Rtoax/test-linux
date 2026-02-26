@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- procps-ng: add version.sh;
 - procfs: add procps-ng subdir;
 - cuda/{adapter,intrinsics}: support and test fp4;
 - cuda/adapter: add empty `Openacc/cupti_openacc.h` and `Openmp/cupti_openmp.h`;
