@@ -44,29 +44,36 @@ __global__ void k_fp4_convert(void)
 		.x = USHORT_ONE_BF16,
 	};
 	__nv_bfloat162_raw bf162_one_raw = {
-		.x = USHORT_ONE_BF16,
-		.y = USHORT_ONE_BF16,
+		.x = 1,
+		.y = 1,
 	};
 
 	PDOUBLE2(d2_pi);
 	PFLOAT2(f2_pi);
+	PHALF2RAW(h2raw_one);
+	PBF16RAW(bf16_one_raw);
+	PBF162RAW(bf162_one_raw);
 
 	PFP4E2M1(
 		__nv_cvt_double_to_fp4(PI_DOUBLE, __NV_E2M1, cudaRoundNearest));
+	/* TODO: wrong! */
 	PFP4x2E2M1(
 		__nv_cvt_double2_to_fp4x2(d2_pi, __NV_E2M1, cudaRoundNearest));
 
 	PFP4E2M1(__nv_cvt_float_to_fp4(PI_FLOAT, __NV_E2M1, cudaRoundNearest));
+	/* TODO: wrong! */
 	PFP4x2E2M1(
 		__nv_cvt_float2_to_fp4x2(f2_pi, __NV_E2M1, cudaRoundNearest));
 
 	PFP4E2M1(
 		__nv_cvt_halfraw_to_fp4(hraw_one, __NV_E2M1, cudaRoundNearest));
+	/* TODO: wrong! */
 	PFP4x2E2M1(__nv_cvt_halfraw2_to_fp4x2(h2raw_one, __NV_E2M1,
 					      cudaRoundNearest));
 
 	PFP4E2M1(__nv_cvt_bfloat16raw_to_fp4(bf16_one_raw, __NV_E2M1,
 					     cudaRoundNearest));
+	/* TODO: wrong! */
 	PFP4x2E2M1(__nv_cvt_bfloat16raw2_to_fp4x2(bf162_one_raw, __NV_E2M1,
 						  cudaRoundNearest));
 }
