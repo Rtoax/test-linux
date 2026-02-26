@@ -1,3 +1,3 @@
-target-shell-y += 1.sh
+target-shell-y += orphan.sh
 
 include main.mk
