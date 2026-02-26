@@ -12,12 +12,15 @@ else
 	exit 1
 fi
 
+# TODO: it's not pid=1 somewhere
+expect_ppid=1
+
 # Get parent PID and check
 pid=$(pgrep -n -f "${cmd}")
 ppid=( $(ps -p ${pid} -o ppid | grep -v PPID) )
 
-if [[ ${ppid} -ne 1 ]]; then
-	echo 2>&1 "ERROR: cmd '${cmd}'(pid=${pid}) ppid is ${ppid}, should be 1, something wrong!!"
+if [[ ${ppid} -ne ${expect_ppid} ]]; then
+	echo 2>&1 "ERROR: cmd '${cmd}'(pid=${pid}) ppid is ${ppid}, should be ${expect_ppid}, something wrong!!"
 
 	# Note: kill the child, otherwise will stuck 2s
 	kill -9 ${pid}
