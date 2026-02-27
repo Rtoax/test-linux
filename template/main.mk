@@ -117,13 +117,16 @@ multi-suffix-n := 1 2 3 4 5 6 7 8 9 10
 # will cause the original files to be deleted during clean. Therefore,
 # we need to filter out the original files here.
 targets-from-src += $(patsubst %.sh,%.sh.log,$(target-shell-y))
+remove-suffix += %.sh
 $(foreach sfx, ${multi-suffix-n}, \
   $(eval remove-suffix += %.sh.${sfx}) \
   $(eval targets-from-src += $(patsubst %.sh.${sfx},%.sh.log.${sfx},$(target-shell-y))) \
 )
 
 targets-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
+remove-suffix += %.mk
 targets-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
+remove-suffix += %.mak
 $(foreach sfx, ${multi-suffix-n}, \
   $(eval remove-suffix += %.mk.${sfx}) \
   $(eval remove-suffix += %.mak.${sfx}) \
@@ -132,18 +135,20 @@ $(foreach sfx, ${multi-suffix-n}, \
 )
 
 targets-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
+remove-suffix += %.py
 $(foreach sfx, ${multi-suffix-n}, \
   $(eval remove-suffix += %.py.${sfx}) \
   $(eval targets-from-src += $(patsubst %.py.${sfx},%.py.log.${sfx},$(target-python-y))) \
 )
 
 targets-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
+remove-suffix += %.bt
 $(foreach sfx, ${multi-suffix-n}, \
   $(eval remove-suffix += %.bt.${sfx}) \
   $(eval targets-from-src += $(patsubst %.bt.${sfx},%.bt.log.${sfx},$(target-bt-y))) \
 )
 
-build-targets += $(filter-out ${remove-suffix} %.sh %.py %.mk %.mak %.bt, $(targets-from-src))
+build-targets += $(filter-out ${remove-suffix}, $(targets-from-src))
 
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
