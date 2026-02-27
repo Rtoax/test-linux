@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- cpu: add cpuname.sh;
 - sched/reparent: add parent-crash.c;
 - sched: add reparent subdir;
 - strace: add version.sh;

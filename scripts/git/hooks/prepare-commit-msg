@@ -146,20 +146,6 @@ have_type() {
 	return 0
 }
 
-cpu_info() {
-	readonly CPU_MODEL=$(lscpu | grep -e "^Model name" -e "^型号名称" | \
-			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
-	readonly CPU_VENDOR=$(lscpu | grep -e "^Vendor ID" -e "^厂商 ID" | \
-			awk '{ for(i=3; i<=NF; i++) printf "%s", $i (i==NF ? "\n" : " ") }')
-	if [[ ${CPU_MODEL} ]]; then
-		echo ${CPU_MODEL}
-	elif [[ ${CPU_VENDOR} ]]; then
-		echo ${CPU_VENDOR}
-	else
-		fatal "Can't get cpu info from lscpu"
-	fi
-}
-
 add_bcc_ver() { add_ver "BCC $(${TOPDIR}/bpf/bcc/version.sh)"; }
 add_bpftool_ver() { add_ver "bpftool $(${TOPDIR}/bpf/bpftool/version.sh)"; }
 add_bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/bpf/bpftrace/version.sh)"; }
@@ -193,7 +179,7 @@ add_strace_ver() { add_ver "Strace $(${TOPDIR}/syscall/strace/version.sh)"; }
 add_systemd_ver() { add_ver "Systemd $(${TOPDIR}/init/systemd/version.sh)"; }
 add_vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
 
-add_cpu_env() { add_env "$(cpu_info)"; add_env "$(uname -m)"; }
+add_cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
 add_virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
