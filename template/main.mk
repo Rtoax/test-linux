@@ -111,44 +111,44 @@ build-targets += $(target-java-y)
 remove-suffix :=
 multi-suffix-n := 1 2 3 4 5 6 7 8 9 10
 
-# Here we need to perform filter-out. For example, both mk and mak are
-# target-mk-y added in the original Makefile. This means that origin
-# targets targets-from-src may contain targets for .mk and .mak, which
-# will cause the original files to be deleted during clean. Therefore,
-# we need to filter out the original files here.
-targets-from-src += $(patsubst %.sh,%.sh.log,$(target-shell-y))
+tgts-from-src += $(patsubst %.sh,%.sh.log,$(target-shell-y))
 remove-suffix += %.sh
 $(foreach sfx, ${multi-suffix-n}, \
   $(eval remove-suffix += %.sh.${sfx}) \
-  $(eval targets-from-src += $(patsubst %.sh.${sfx},%.sh.log.${sfx},$(target-shell-y))) \
+  $(eval tgts-from-src += $(patsubst %.sh.${sfx},%.sh.log.${sfx},$(target-shell-y))) \
 )
 
-targets-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
+tgts-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
 remove-suffix += %.mk
-targets-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
+tgts-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
 remove-suffix += %.mak
 $(foreach sfx, ${multi-suffix-n}, \
   $(eval remove-suffix += %.mk.${sfx}) \
   $(eval remove-suffix += %.mak.${sfx}) \
-  $(eval targets-from-src += $(patsubst %.mk.${sfx},%.mk.log.${sfx},$(target-mk-y))) \
-  $(eval targets-from-src += $(patsubst %.mak.${sfx},%.mak.log.${sfx},$(target-mak-y))) \
+  $(eval tgts-from-src += $(patsubst %.mk.${sfx},%.mk.log.${sfx},$(target-mk-y))) \
+  $(eval tgts-from-src += $(patsubst %.mak.${sfx},%.mak.log.${sfx},$(target-mak-y))) \
 )
 
-targets-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
+tgts-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
 remove-suffix += %.py
 $(foreach sfx, ${multi-suffix-n}, \
   $(eval remove-suffix += %.py.${sfx}) \
-  $(eval targets-from-src += $(patsubst %.py.${sfx},%.py.log.${sfx},$(target-python-y))) \
+  $(eval tgts-from-src += $(patsubst %.py.${sfx},%.py.log.${sfx},$(target-python-y))) \
 )
 
-targets-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
+tgts-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
 remove-suffix += %.bt
 $(foreach sfx, ${multi-suffix-n}, \
   $(eval remove-suffix += %.bt.${sfx}) \
-  $(eval targets-from-src += $(patsubst %.bt.${sfx},%.bt.log.${sfx},$(target-bt-y))) \
+  $(eval tgts-from-src += $(patsubst %.bt.${sfx},%.bt.log.${sfx},$(target-bt-y))) \
 )
 
-build-targets += $(filter-out ${remove-suffix}, $(targets-from-src))
+# Here we need to perform filter-out. For example, both mk and mak are
+# target-mk-y added in the original Makefile. This means that origin
+# targets tgts-from-src may contain targets for .mk and .mak, which
+# will cause the original files to be deleted during clean. Therefore,
+# we need to filter out the original files here.
+build-targets += $(filter-out ${remove-suffix}, $(tgts-from-src))
 
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
