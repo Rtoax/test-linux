@@ -625,6 +625,7 @@ pkgs_base+=( nvme-cli )             # nvme
 pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
 pkgs_base+=( powertop ) # power consumption and power management diagnosis tool
+pkgs_base+=( psmisc )
 pkgs_base+=( python3-pip )          # pip wheel
 pkgs_base+=( python3-psutil )
 pkgs_base+=( python3-pyroute2 )     # pyroute2

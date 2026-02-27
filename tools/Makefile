@@ -7,5 +7,6 @@ subdir-y += libosinfo
 subdir-y += ostree
 subdir-y += perf
 subdir-y += podman
+subdir-y += psmisc
 subdir-y += vim
 include main.mk
