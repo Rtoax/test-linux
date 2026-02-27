@@ -193,6 +193,9 @@ add_strace_ver() { add_ver "Strace $(${TOPDIR}/syscall/strace/version.sh)"; }
 add_systemd_ver() { add_ver "Systemd $(${TOPDIR}/init/systemd/version.sh)"; }
 add_vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
 
+add_cpu_env() { add_env "$(cpu_info)"; add_env "$(uname -m)"; }
+add_virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
+
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
 	fatal "must signed with -s/--signoff"
 fi
@@ -203,9 +206,10 @@ if [[ -z ${signed_off_by_line} ]]; then
 fi
 
 # __main__
-add_env "CPU $(cpu_info)"
-add_env "Arch $(uname -m)"
-add_env "$(${TOPDIR}/virt/virttype.sh)"
+if [[ "$(have_type asm S)$(have_key asm arch insn cpu)" ]]; then
+	add_cpu_env
+	add_virt_env
+fi
 
 add_os_ver
 add_ver "Linux $(uname -r)"
@@ -235,6 +239,7 @@ if [[ "$(have_key strace)" ]]; then
 fi
 
 if [[ "$(have_key qcow qcow2 qcow3 qemu)" ]]; then
+	add_virt_env
 	add_qemu_ver
 fi
 
