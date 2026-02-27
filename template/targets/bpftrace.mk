@@ -18,6 +18,6 @@ define bt_target
 	$$(Q)$${SUDO} $$(RUNPROG) --log $$(@) -- $$(BPFTRACE) $$(<) $$(ARGS_$$(<).${1})
 endef
 
-$(foreach sfx, ${multi-suffix-n}, $(eval $(call bt_target,${sfx})))
+$(foreach sfx, ${src-sfx-list}, $(eval $(call bt_target,${sfx})))
 
 endif

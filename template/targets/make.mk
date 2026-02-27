@@ -23,7 +23,7 @@ endef
 
 $(eval $(call make_obj,mk))
 $(eval $(call make_obj,mak))
-$(foreach sfx, ${multi-suffix-n}, $(eval $(call make_obj_n,mk,${sfx})))
-$(foreach sfx, ${multi-suffix-n}, $(eval $(call make_obj_n,mak,${sfx})))
+$(foreach sfx, ${src-sfx-list}, $(eval $(call make_obj_n,mk,${sfx})))
+$(foreach sfx, ${src-sfx-list}, $(eval $(call make_obj_n,mak,${sfx})))
 
 endif

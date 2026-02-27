@@ -23,6 +23,6 @@ define sh_target
 	$$(Q)$$(RUNPROG) --log $$(@) $$(SHELL_ENVS_$$(<).${1}) -- $${SHELL} $$(<) $$(SHELL_ARGS_$$(<).${1})
 endef
 
-$(foreach sfx, ${multi-suffix-n}, $(eval $(call sh_target,${sfx})))
+$(foreach sfx, ${src-sfx-list}, $(eval $(call sh_target,${sfx})))
 
 endif

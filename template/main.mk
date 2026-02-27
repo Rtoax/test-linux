@@ -109,11 +109,11 @@ build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 
 remove-suffix :=
-multi-suffix-n := 1 2 3 4 5 6 7 8 9 10
+src-sfx-list := 1 2 3 4 5 6 7 8 9 10
 
 tgts-from-src += $(patsubst %.sh,%.sh.log,$(target-shell-y))
 remove-suffix += %.sh
-$(foreach sfx, ${multi-suffix-n}, \
+$(foreach sfx, ${src-sfx-list}, \
   $(eval remove-suffix += %.sh.${sfx}) \
   $(eval tgts-from-src += $(patsubst %.sh.${sfx},%.sh.log.${sfx},$(target-shell-y))) \
 )
@@ -122,7 +122,7 @@ tgts-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
 remove-suffix += %.mk
 tgts-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
 remove-suffix += %.mak
-$(foreach sfx, ${multi-suffix-n}, \
+$(foreach sfx, ${src-sfx-list}, \
   $(eval remove-suffix += %.mk.${sfx}) \
   $(eval remove-suffix += %.mak.${sfx}) \
   $(eval tgts-from-src += $(patsubst %.mk.${sfx},%.mk.log.${sfx},$(target-mk-y))) \
@@ -131,14 +131,14 @@ $(foreach sfx, ${multi-suffix-n}, \
 
 tgts-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
 remove-suffix += %.py
-$(foreach sfx, ${multi-suffix-n}, \
+$(foreach sfx, ${src-sfx-list}, \
   $(eval remove-suffix += %.py.${sfx}) \
   $(eval tgts-from-src += $(patsubst %.py.${sfx},%.py.log.${sfx},$(target-python-y))) \
 )
 
 tgts-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
 remove-suffix += %.bt
-$(foreach sfx, ${multi-suffix-n}, \
+$(foreach sfx, ${src-sfx-list}, \
   $(eval remove-suffix += %.bt.${sfx}) \
   $(eval tgts-from-src += $(patsubst %.bt.${sfx},%.bt.log.${sfx},$(target-bt-y))) \
 )
