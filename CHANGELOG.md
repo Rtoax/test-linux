@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- psmisc: add fuser subdir;
 - psmisc: first commit;
 - gdb: add version.sh;
 - gdb/samples: test detach-on-fork and follow-fork-mode;

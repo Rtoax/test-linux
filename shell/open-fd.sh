@@ -18,6 +18,7 @@ redirect_std() {
 	exec 100<&1 101<&2
 	exec 1>tmp.log 2>&1
 }
+
 stop_redirect_std() {
 	exec 1<&100 2<&101
 	exec 100>&- 101>&-
