@@ -160,6 +160,7 @@ add_gnome_ver() { add_ver "GNOME $(${TOPDIR}/gnome/version.sh)"; }
 add_hpcc_ver() { add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"; }
 add_libbpf_ver() { add_ver "LibBpf $(${TOPDIR}/bpf/libbpf/version.sh)"; }
 add_llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
+add_lsof_ver() { add_ver "lsof $(${TOPDIR}/tools/lsof/version.sh)"; }
 add_luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"; }
 add_make_ver() { add_ver "Make $(${TOPDIR}/gnu/make/version.sh)"; }
 add_numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
@@ -329,6 +330,8 @@ if [[ "$(have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
 	add_luca_ver
 	add_llvm_ver
 fi
+
+[[ "$(have_key lsof)" ]] && add_lsof_ver
 
 if [[ "$(have_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
 	add_hpcc_ver

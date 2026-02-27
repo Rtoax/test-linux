@@ -608,9 +608,10 @@ pkgs_base+=( indent )
 pkgs_base+=( inotify-tools )        # inotifywatch, ...
 pkgs_base+=( ipmitool )
 pkgs_base+=( jq )
-pkgs_base+=( lshw )                 # lshw
+pkgs_base+=( lshw )
+pkgs_base+=( lsof )
 pkgs_base+=( make cmake )
-pkgs_base+=( nasm )                 # nasm
+pkgs_base+=( nasm )
 if [[ $(is_os fedora:40 fedora:41 fedora:42 ubuntu:25.10) ]]; then
 	pkgs_base+=( fastfetch )
 	if [[ $(is_os fedora:42) ]]; then
