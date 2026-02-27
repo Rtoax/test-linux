@@ -4,4 +4,4 @@ set -e
 # fuser use stdin,stderr at the same time
 exec 2>&1
 
-fuser -av $(which $SHELL) /sbin/init
+fuser -av $(which $SHELL) /sbin/init $PWD/exe.sh
