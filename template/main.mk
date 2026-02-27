@@ -108,38 +108,38 @@ build-targets += $(target-lscc-liba-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 
-remove-suffix :=
+tgts-src :=
 src-sfx-list := 1 2 3 4 5 6 7 8 9 10
 
 tgts-from-src += $(patsubst %.sh,%.sh.log,$(target-shell-y))
-remove-suffix += %.sh
+tgts-src += %.sh
 $(foreach sfx, ${src-sfx-list}, \
-  $(eval remove-suffix += %.sh.${sfx}) \
+  $(eval tgts-src += %.sh.${sfx}) \
   $(eval tgts-from-src += $(patsubst %.sh.${sfx},%.sh.log.${sfx},$(target-shell-y))) \
 )
 
 tgts-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
-remove-suffix += %.mk
+tgts-src += %.mk
 tgts-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
-remove-suffix += %.mak
+tgts-src += %.mak
 $(foreach sfx, ${src-sfx-list}, \
-  $(eval remove-suffix += %.mk.${sfx}) \
-  $(eval remove-suffix += %.mak.${sfx}) \
+  $(eval tgts-src += %.mk.${sfx}) \
+  $(eval tgts-src += %.mak.${sfx}) \
   $(eval tgts-from-src += $(patsubst %.mk.${sfx},%.mk.log.${sfx},$(target-mk-y))) \
   $(eval tgts-from-src += $(patsubst %.mak.${sfx},%.mak.log.${sfx},$(target-mak-y))) \
 )
 
 tgts-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
-remove-suffix += %.py
+tgts-src += %.py
 $(foreach sfx, ${src-sfx-list}, \
-  $(eval remove-suffix += %.py.${sfx}) \
+  $(eval tgts-src += %.py.${sfx}) \
   $(eval tgts-from-src += $(patsubst %.py.${sfx},%.py.log.${sfx},$(target-python-y))) \
 )
 
 tgts-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
-remove-suffix += %.bt
+tgts-src += %.bt
 $(foreach sfx, ${src-sfx-list}, \
-  $(eval remove-suffix += %.bt.${sfx}) \
+  $(eval tgts-src += %.bt.${sfx}) \
   $(eval tgts-from-src += $(patsubst %.bt.${sfx},%.bt.log.${sfx},$(target-bt-y))) \
 )
 
@@ -148,7 +148,7 @@ $(foreach sfx, ${src-sfx-list}, \
 # targets tgts-from-src may contain targets for .mk and .mak, which
 # will cause the original files to be deleted during clean. Therefore,
 # we need to filter out the original files here.
-build-targets += $(filter-out ${remove-suffix}, $(tgts-from-src))
+build-targets += $(filter-out ${tgts-src}, $(tgts-from-src))
 
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
