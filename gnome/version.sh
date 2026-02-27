@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script only display gnome-shell version, do not display other anything,
-# and don't excute failed, because the git/hooks will use it.
+# and don't execute failed, because the git/hooks will use it.
 set -e
 GNOME=$(which gnome-shell 2>/dev/null || :)
 if [[ -z ${GNOME} ]]; then

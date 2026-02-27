@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script only display ostree version, do not display other anything,
-# and don't excute failed, because the git/hooks will use it.
+# and don't execute failed, because the git/hooks will use it.
 set -e
 OSTREE=$(which ostree 2>/dev/null || :)
 if [[ -z ${OSTREE} ]]; then

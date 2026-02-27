@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script only display lingspeed gpus, do not display other anything,
-# and don't excute failed, because the git/hooks will use it.
+# and don't execute failed, because the git/hooks will use it.
 set -e
 
 readonly NR_LINGSPEED_GPU_X710E=$(lspci -d 20e1:7101 | wc -l)
