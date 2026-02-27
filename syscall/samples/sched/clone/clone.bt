@@ -58,6 +58,8 @@ tracepoint:syscalls:sys_exit_clone3
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-8d %-12d %-8s 0x%lx(",
 		pid, @comm[tid], $us, $pid, $role, @flags[tid]);
+	printf("%s", @flags[tid] & 0x000000000000ff ? "CSIGNAL|" : "");
+	printf("%s", @flags[tid] & 0x00000000000080 ? "NEWTIME|" : "");
 	printf("%s", @flags[tid] & 0x00000000000100 ? "VM|" : "");
 	printf("%s", @flags[tid] & 0x00000000000200 ? "FS|" : "");
 	printf("%s", @flags[tid] & 0x00000000000400 ? "FILES|" : "");
@@ -82,6 +84,8 @@ tracepoint:syscalls:sys_exit_clone3
 	printf("%s", @flags[tid] & 0x00000020000000 ? "NEWPID|" : "");
 	printf("%s", @flags[tid] & 0x00000040000000 ? "NEWNET|" : "");
 	printf("%s", @flags[tid] & 0x00000080000000 ? "IO|" : "");
+	printf("%s", @flags[tid] & 0x00000100000000 ? "CLEAR_SIGHAND|" : "");
+	printf("%s", @flags[tid] & 0x00000200000000 ? "INTO_CGROUP|" : "");
 	printf(")\n");
 
 	delete(@start[tid]);
