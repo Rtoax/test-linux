@@ -108,7 +108,7 @@ add_env() {
 
 # input some key words.
 # echo "YES" if any key matched.
-have_key() {
+has_key() {
 	local key
 
 	[[ ${ALL} ]] && echo "YES" && return 0
@@ -130,7 +130,7 @@ have_key() {
 
 # input some key words, such as c, cpp, sh, cu
 # echo "YES" if any file type matched.
-have_type() {
+has_type() {
 	local ext
 
 	[[ ${ALL} ]] && echo "YES" && return 0
@@ -195,7 +195,7 @@ if [[ -z ${signed_off_by_line} ]]; then
 fi
 
 # __main__
-if [[ "$(have_type asm S)$(have_key asm arch insn cpu)" ]]; then
+if [[ "$(has_type asm S)$(has_key asm arch insn cpu)" ]]; then
 	add_cpu_env
 	add_virt_env
 fi
@@ -203,112 +203,112 @@ fi
 add_os_ver
 add_ver "Linux $(uname -r)"
 
-if [[ "$(have_type c cpp c++ h hpp)$(have_key cpp gcc compiler)" ]]; then
+if [[ "$(has_type c cpp c++ h hpp)$(has_key cpp gcc compiler)" ]]; then
 	add_gcc_ver
 fi
 
-if [[ "$(have_type gdb)$(have_key gdb)" ]]; then
+if [[ "$(has_type gdb)$(has_key gdb)" ]]; then
 	add_gdb_ver
 fi
 
-if [[ "$(have_key find)" ]]; then
+if [[ "$(has_key find)" ]]; then
 	add_findutils_ver
 fi
 
-if [[ "$(have_type c cpp c++ h hpp)$(have_key glibc ipc socket)" ]]; then
+if [[ "$(has_type c cpp c++ h hpp)$(has_key glibc ipc socket)" ]]; then
 	add_glibc_ver
 fi
 
-if [[ "$(have_type sh bash)$(have_key bash shell)" ]]; then
+if [[ "$(has_type sh bash)$(has_key bash shell)" ]]; then
 	add_shell_ver
 fi
 
-if [[ "$(have_type service)$(have_key systemd)" ]]; then
+if [[ "$(has_type service)$(has_key systemd)" ]]; then
 	add_systemd_ver
 fi
 
-if [[ "$(have_key strace)" ]]; then
+if [[ "$(has_key strace)" ]]; then
 	add_strace_ver
 fi
 
-if [[ "$(have_key qcow qcow2 qcow3 qemu)" ]]; then
+if [[ "$(has_key qcow qcow2 qcow3 qemu)" ]]; then
 	add_virt_env
 	add_qemu_ver
 fi
 
-if [[ "$(have_type mk make)$(have_key make Makefile)" ]]; then
+if [[ "$(has_type mk make)$(has_key make Makefile)" ]]; then
 	add_make_ver
 fi
 
-if [[ "$(have_type rpm)$(have_key rpm dnf)" ]]; then
+if [[ "$(has_type rpm)$(has_key rpm dnf)" ]]; then
 	add_rpm_ver
 fi
 
-if [[ "$(have_type rs)$(have_key rust)" ]]; then
+if [[ "$(has_type rs)$(has_key rust)" ]]; then
 	add_rust_ver
 fi
 
-if [[ "$(have_key ostree)" ]]; then
+if [[ "$(has_key ostree)" ]]; then
 	add_ostree_ver
 fi
 
-if [[ "$(have_type cmake)$(have_key cmake CMake)" ]]; then
+if [[ "$(has_type cmake)$(has_key cmake CMake)" ]]; then
 	add_cmake_ver
 fi
 
-if [[ "$(have_key podman Dockerfile)" ]]; then
+if [[ "$(has_key podman Dockerfile)" ]]; then
 	add_podman_ver
 fi
 
-if [[ "$(have_key procps ps pgrep)" ]]; then
+if [[ "$(has_key procps ps pgrep)" ]]; then
 	add_procps_ver
 fi
 
-if [[ "$(have_key psmisc killall prtstat pstree fuser)" ]]; then
+if [[ "$(has_key psmisc killall prtstat pstree fuser)" ]]; then
 	add_psmisc_ver
 fi
 
-if [[ "$(have_key gnome)" ]]; then
+if [[ "$(has_key gnome)" ]]; then
 	add_gnome_ver
 fi
 
-if [[ "$(have_type vim)$(have_key vim)" ]]; then
+if [[ "$(has_type vim)$(has_key vim)" ]]; then
 	add_vim_ver
 fi
 
-if [[ "$(have_key libbpf pahole)" ]]; then
+if [[ "$(has_key libbpf pahole)" ]]; then
 	add_pahole_ver
 fi
 
-if [[ "$(have_key pci pcie)" ]]; then
+if [[ "$(has_key pci pcie)" ]]; then
 	add_pciutils_ver
 fi
 
-if [[ "$(have_key git)" ]]; then
+if [[ "$(has_key git)" ]]; then
 	add_git_ver
 fi
 
-if [[ "$(have_key numa numactl)" ]]; then
+if [[ "$(has_key numa numactl)" ]]; then
 	add_numactl_ver
 fi
 
-if [[ "$(have_type bt)$(have_key bpftrace)" ]]; then
+if [[ "$(has_type bt)$(has_key bpftrace)" ]]; then
 	add_bpftrace_ver
 fi
 
-if [[ "$(have_type pem)$(have_key ssl openssl)" ]]; then
+if [[ "$(has_type pem)$(has_key ssl openssl)" ]]; then
 	add_openssl_ver
 fi
 
-if [[ "$(have_key bpftool)" ]]; then
+if [[ "$(has_key bpftool)" ]]; then
 	add_bpftool_ver
 fi
 
-if [[ "$(have_key llvm bt nvidia)" ]]; then
+if [[ "$(has_key llvm bt nvidia)" ]]; then
 	add_llvm_ver
 fi
 
-if [[ "$(have_key cuda nvidia)" ]]; then
+if [[ "$(has_key cuda nvidia)" ]]; then
 	name=$(${TOPDIR}/hpc/nvidia/gpuname.sh)
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
@@ -317,12 +317,12 @@ if [[ "$(have_key cuda nvidia)" ]]; then
 	add_llvm_ver
 fi
 
-if [[ "$(have_key cuda nvidia rocm amd ROCm AMD)" ]]; then
+if [[ "$(has_key cuda nvidia rocm amd ROCm AMD)" ]]; then
 	add_rocm_ver
 	add_llvm_ver
 fi
 
-if [[ "$(have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
+if [[ "$(has_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
 	name=$(${TOPDIR}/hpc/cestc/lingspeed/gpuname.sh)
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
@@ -331,19 +331,19 @@ if [[ "$(have_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
 	add_llvm_ver
 fi
 
-[[ "$(have_key lsof)" ]] && add_lsof_ver
+[[ "$(has_key lsof)" ]] && add_lsof_ver
 
-if [[ "$(have_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
+if [[ "$(has_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
 	add_hpcc_ver
 	add_llvm_ver
 fi
 
-if [[ "$(have_key libbpf bcc bpf)" ]]; then
+if [[ "$(has_key libbpf bcc bpf)" ]]; then
 	add_bcc_ver
 	add_libbpf_ver
 fi
 
-if [[ "$(have_key ai pytorch python py)" ]]; then
+if [[ "$(has_key ai pytorch python py)" ]]; then
 	add_py_ver
 fi
 
