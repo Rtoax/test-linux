@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+OUTPUT := .output/
+
 subdir-y += alias
 subdir-y += array
 subdir-y += commands

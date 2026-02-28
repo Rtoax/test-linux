@@ -111,11 +111,11 @@ build-targets += $(target-java-y)
 tgts-src :=
 src-sfx-list := 1 2 3 4 5 6 7 8 9 10
 
-tgts-from-src += $(patsubst %.sh,%.sh.log,$(target-shell-y))
+tgts-from-src += $(patsubst %.sh,${OUTPUT}%.sh.log,$(target-shell-y))
 tgts-src += %.sh
 $(foreach sfx, ${src-sfx-list}, \
   $(eval tgts-src += %.sh.${sfx}) \
-  $(eval tgts-from-src += $(patsubst %.sh.${sfx},%.sh.log.${sfx},$(target-shell-y))) \
+  $(eval tgts-from-src += $(patsubst %.sh.${sfx},${OUTPUT}%.sh.log.${sfx},$(target-shell-y))) \
 )
 
 tgts-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))

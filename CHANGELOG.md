@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- template: shell.mk: support OUTPUT;
 - nvidia: add nvidia-smi subdir;
 - lsof: first commit;
 - psmisc: add fuser subdir;
