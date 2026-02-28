@@ -21,4 +21,6 @@ add_subdirectory(blas)
 add_subdirectory(dnn)
 add_subdirectory(fft)
 add_subdirectory(file)
+# FIXME: error: no suitable user-defined conversion from "__nv_bfloat162" to "__half2" exists
+#add_subdirectory(intrinsics)
 add_subdirectory(samples)
