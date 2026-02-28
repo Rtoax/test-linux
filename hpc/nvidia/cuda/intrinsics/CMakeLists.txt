@@ -1,4 +1,4 @@
-message(STATUS "Samples")
+message(STATUS "CUDA intrinsics")
 link_libraries(cuda_helpers)
 
 set(EXECUTIONS bfloat16 complex double fp128 fp4 fp6 fp8 half int simd)
