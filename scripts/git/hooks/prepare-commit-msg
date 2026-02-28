@@ -146,6 +146,23 @@ has_type() {
 	return 0
 }
 
+# has content in patch
+has_content() {
+	local str
+
+	[[ ${ALL} ]] && echo "YES" && return 0
+
+	for str in ${@}
+	do
+		# search the 'str' in patch
+		if [[ "$(git status --verbose | grep -o ${str})" ]]; then
+			echo "YES"
+			return 0
+		fi
+	done
+	return 0
+}
+
 add_bcc_ver() { add_ver "BCC $(${TOPDIR}/bpf/bcc/version.sh)"; }
 add_bpftool_ver() { add_ver "bpftool $(${TOPDIR}/bpf/bpftool/version.sh)"; }
 add_bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/bpf/bpftrace/version.sh)"; }
@@ -223,7 +240,7 @@ if [[ "$(has_type sh bash)$(has_key bash shell)" ]]; then
 	add_shell_ver
 fi
 
-if [[ "$(has_type service)$(has_key systemd)" ]]; then
+if [[ "$(has_type service)$(has_key systemd)$(has_content systemd journal)" ]]; then
 	add_systemd_ver
 fi
 
@@ -349,8 +366,12 @@ fi
 
 # Add lines
 if [[ ${Versions} ]]; then
-	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE}
+	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE} || {
+		fatal "Failed handle Vers: ${Versions}"
+	}
 fi
 if [[ ${Environments} ]]; then
-	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE}
+	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE} || {
+		fatal "Failed handle Envs: ${Environments}"
+	}
 fi
