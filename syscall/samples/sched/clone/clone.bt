@@ -13,15 +13,23 @@
 BEGIN
 {
 	printf("Tracing clone, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-12s %-8s\n",
-		"TIME", "PID", "COMM", "LAT(us)", "CHILD_PID", "ROLE");
+	printf("%-8s %-8s %-16s %-8s %-12s %-16s %-8s\n",
+		"TIME", "PID", "COMM", "LAT(us)", "CHILD_PID", "FLAGS", "ROLE");
 }
 
-tracepoint:syscalls:sys_enter_clone,
+tracepoint:syscalls:sys_enter_clone
+{
+	@start[tid] = nsecs;
+	@comm[tid] = comm;
+	@flags[tid] = args->clone_flags;
+}
+
 tracepoint:syscalls:sys_enter_clone3
 {
 	@start[tid] = nsecs;
 	@comm[tid] = comm;
+	$clone_args = (struct clone_args *)args->uargs;
+	@flags[tid] = $clone_args->flags;
 }
 
 tracepoint:syscalls:sys_exit_clone,
@@ -47,15 +55,18 @@ tracepoint:syscalls:sys_exit_clone3
 	}
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d %-12d %-8s\n", pid, @comm[tid], $us, $pid, $role);
+	printf("%-8d %-16s %-8d %-12d %-16lx %-8s\n",
+		pid, @comm[tid], $us, $pid, @flags[tid], $role);
 
 	delete(@start[tid]);
 	delete(@comm[tid]);
+	delete(@flags[tid]);
 }
 
 END
 {
 	clear(@start);
 	clear(@comm);
+	clear(@flags);
 	printf("Bye.\n");
 }
