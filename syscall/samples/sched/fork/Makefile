@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-target-y :=
 target-y += fork vfork fork-share
 target-y += fork-ENOMEM fork-ENOMEM-2
 target-y += fork_twice

@@ -10,6 +10,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <syscall.h>
+#include <sys/syscall.h>
 
 #include "fork_helpers.h"
 
@@ -67,4 +69,14 @@ int load_pid(const char *filename)
 	fscanf(fp, "%d", &pid);
 	fclose(fp);
 	return pid;
+}
+
+int sys_fork(void)
+{
+	return syscall(__NR_fork);
+}
+
+int sys_vfork(void)
+{
+	return syscall(__NR_vfork);
 }

@@ -7,3 +7,6 @@ void try_popen(char *cmd_buf);
 
 void save_pid(const char *filename, pid_t pid);
 int load_pid(const char *filename);
+
+int sys_fork(void);
+int sys_vfork(void);
