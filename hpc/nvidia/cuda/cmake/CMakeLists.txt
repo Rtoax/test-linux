@@ -14,6 +14,9 @@ include(FindCUDA/select_compute_arch)
 
 message(STATUS CUDA_NVCC_EXECUTABLE=${CUDA_NVCC_EXECUTABLE})
 
+add_library(cuda_helpers STATIC ${SRCDIR}/cuda_helpers.cu)
+
 include_directories(${SRCDIR})
-add_executable(hello ${SRCDIR}/samples/hello.cu ${SRCDIR}/cuda_helpers.cu)
-target_link_libraries(hello cusparse cufft curand)
+link_libraries(cusparse cufft curand cuda_helpers)
+
+add_executable(hello ${SRCDIR}/samples/hello.cu)

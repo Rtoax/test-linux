@@ -6,5 +6,6 @@ PROJECT(CMakeSamples)
 message(STATUS CMAKE_CURRENT_LIST_DIR=${CMAKE_CURRENT_LIST_DIR})
 
 include(string/replace.cmake)
+add_library(lib1 STATIC lib1.c)
 
 include_directories(".")
