@@ -163,46 +163,46 @@ has_content() {
 	return 0
 }
 
-add_bcc_ver() { add_ver "BCC $(${TOPDIR}/bpf/bcc/version.sh)"; }
-add_bpftool_ver() { add_ver "bpftool $(${TOPDIR}/bpf/bpftool/version.sh)"; }
-add_bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/bpf/bpftrace/version.sh)"; }
-add_cmake_ver() { add_ver "CMake $(${TOPDIR}/tools/cmake/version.sh)"; }
-add_cuda_ver() { add_ver "CUDA $(${TOPDIR}/hpc/nvidia/cuda/version.sh)"; }
-add_findutils_ver() { add_ver "Findutils $(${TOPDIR}/gnu/findutils/version.sh)"; }
-add_gcc_ver() { add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"; }
-add_gdb_ver() { add_ver "GDB $(${TOPDIR}/gnu/gdb/version.sh)"; }
-add_git_ver() { add_ver "Git $(${TOPDIR}/scripts/git/version.sh)"; }
-add_glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
-add_gnome_ver() { add_ver "GNOME $(${TOPDIR}/gnome/version.sh)"; }
-add_hpcc_ver() { add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"; }
-add_libbpf_ver() { add_ver "LibBpf $(${TOPDIR}/bpf/libbpf/version.sh)"; }
-add_linux_ver() { add_ver "Linux $(uname -r)"; }
-add_llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
-add_lsof_ver() { add_ver "lsof $(${TOPDIR}/tools/lsof/version.sh)"; }
-add_luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"; }
-add_make_ver() { add_ver "Make $(${TOPDIR}/gnu/make/version.sh)"; }
-add_numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
-add_openssl_ver() { add_ver "OpenSSL $(${TOPDIR}/security/openssl/version.sh)"; }
-add_os_ver() { add_ver "$(${TOPDIR}/distro/version.sh)"; }
-add_ostree_ver() { add_ver "RPM $(${TOPDIR}/tools/ostree/version.sh)"; }
-add_pahole_ver() { add_ver "Pahole $(${TOPDIR}/pahole/version.sh)"; }
-add_pciutils_ver() { add_ver "PCIUtils $(${TOPDIR}/driver/pcie/pciutils/version.sh)"; }
-add_podman_ver() { add_ver "Podman $(${TOPDIR}/tools/podman/version.sh)"; }
-add_procps_ver() { add_ver "Procps-ng $(${TOPDIR}/fs/procfs/procps-ng/version.sh)"; }
-add_psmisc_ver() { add_ver "Psmisc $(${TOPDIR}/tools/psmisc/version.sh)"; }
-add_py_ver() { add_ver "Python $(${TOPDIR}/python/version.sh)"; }
-add_qemu_ver() { add_ver "Qemu $(${TOPDIR}/qemu/version.sh)"; }
-add_rocm_ver() { add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"; }
-add_rpm_ver() { add_ver "RPM $(${TOPDIR}/distro/rpm/version.sh)"; }
-add_rust_ver() { add_ver "Rust $(${TOPDIR}/rust/version.sh)"; }
-add_shell_ver() { add_ver "$(${TOPDIR}/shell/version.sh --name) $(${TOPDIR}/shell/version.sh)"; }
-add_strace_ver() { add_ver "Strace $(${TOPDIR}/syscall/strace/version.sh)"; }
-add_systemd_ver() { add_ver "Systemd $(${TOPDIR}/init/systemd/version.sh)"; }
-add_vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
+bcc_ver() { add_ver "BCC $(${TOPDIR}/bpf/bcc/version.sh)"; }
+bpftool_ver() { add_ver "bpftool $(${TOPDIR}/bpf/bpftool/version.sh)"; }
+bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/bpf/bpftrace/version.sh)"; }
+cmake_ver() { add_ver "CMake $(${TOPDIR}/tools/cmake/version.sh)"; }
+cuda_ver() { add_ver "CUDA $(${TOPDIR}/hpc/nvidia/cuda/version.sh)"; }
+findutils_ver() { add_ver "Findutils $(${TOPDIR}/gnu/findutils/version.sh)"; }
+gcc_ver() { add_ver "GCC $(${TOPDIR}/gnu/gcc/version.sh)"; }
+gdb_ver() { add_ver "GDB $(${TOPDIR}/gnu/gdb/version.sh)"; }
+git_ver() { add_ver "Git $(${TOPDIR}/scripts/git/version.sh)"; }
+glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
+gnome_ver() { add_ver "GNOME $(${TOPDIR}/gnome/version.sh)"; }
+hpcc_ver() { add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"; }
+libbpf_ver() { add_ver "LibBpf $(${TOPDIR}/bpf/libbpf/version.sh)"; }
+linux_ver() { add_ver "Linux $(uname -r)"; }
+llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
+lsof_ver() { add_ver "lsof $(${TOPDIR}/tools/lsof/version.sh)"; }
+luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"; }
+make_ver() { add_ver "Make $(${TOPDIR}/gnu/make/version.sh)"; }
+numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
+openssl_ver() { add_ver "OpenSSL $(${TOPDIR}/security/openssl/version.sh)"; }
+os_ver() { add_ver "$(${TOPDIR}/distro/version.sh)"; }
+ostree_ver() { add_ver "RPM $(${TOPDIR}/tools/ostree/version.sh)"; }
+pahole_ver() { add_ver "Pahole $(${TOPDIR}/pahole/version.sh)"; }
+pciutils_ver() { add_ver "PCIUtils $(${TOPDIR}/driver/pcie/pciutils/version.sh)"; }
+podman_ver() { add_ver "Podman $(${TOPDIR}/tools/podman/version.sh)"; }
+procps_ver() { add_ver "Procps-ng $(${TOPDIR}/fs/procfs/procps-ng/version.sh)"; }
+psmisc_ver() { add_ver "Psmisc $(${TOPDIR}/tools/psmisc/version.sh)"; }
+py_ver() { add_ver "Python $(${TOPDIR}/python/version.sh)"; }
+qemu_ver() { add_ver "Qemu $(${TOPDIR}/qemu/version.sh)"; }
+rocm_ver() { add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"; }
+rpm_ver() { add_ver "RPM $(${TOPDIR}/distro/rpm/version.sh)"; }
+rust_ver() { add_ver "Rust $(${TOPDIR}/rust/version.sh)"; }
+shell_ver() { add_ver "$(${TOPDIR}/shell/version.sh --name) $(${TOPDIR}/shell/version.sh)"; }
+strace_ver() { add_ver "Strace $(${TOPDIR}/syscall/strace/version.sh)"; }
+systemd_ver() { add_ver "Systemd $(${TOPDIR}/init/systemd/version.sh)"; }
+vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
 
-add_cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
-add_pid1_env() { add_env "pid1=$(cat /proc/1/comm)"; }
-add_virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
+cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
+pid1_env() { add_env "pid1=$(cat /proc/1/comm)"; }
+virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
 	fatal "must signed with -s/--signoff"
@@ -215,116 +215,116 @@ fi
 
 # __main__
 if [[ "$(has_type asm S)$(has_key asm arch insn cpu)" ]]; then
-	add_cpu_env
-	add_virt_env
+	cpu_env
+	virt_env
 fi
 
-add_os_ver
-add_linux_ver
+os_ver
+linux_ver
 
 if [[ "$(has_type c cpp c++ h hpp)$(has_key cpp gcc compiler)" ]]; then
-	add_gcc_ver
+	gcc_ver
 fi
 
 if [[ "$(has_type gdb)$(has_key gdb)" ]]; then
-	add_gdb_ver
+	gdb_ver
 fi
 
 if [[ "$(has_key find)" ]]; then
-	add_findutils_ver
+	findutils_ver
 fi
 
 if [[ "$(has_type c cpp c++ h hpp)$(has_key glibc ipc socket)" ]]; then
-	add_glibc_ver
+	glibc_ver
 fi
 
 if [[ "$(has_type sh bash)$(has_key bash shell)" ]]; then
-	add_shell_ver
+	shell_ver
 fi
 
 if [[ "$(has_type service)$(has_key systemd)$(has_content systemd journal)" ]]; then
-	add_systemd_ver
+	systemd_ver
 fi
 
 if [[ "$(has_key strace)" ]]; then
-	add_strace_ver
+	strace_ver
 fi
 
 if [[ "$(has_key qcow qcow2 qcow3 qemu)" ]]; then
-	add_virt_env
-	add_qemu_ver
+	virt_env
+	qemu_ver
 fi
 
 if [[ "$(has_type mk make)$(has_key make Makefile)" ]]; then
-	add_make_ver
+	make_ver
 fi
 
 if [[ "$(has_type rpm)$(has_key rpm dnf)" ]]; then
-	add_rpm_ver
+	rpm_ver
 fi
 
 if [[ "$(has_type rs)$(has_key rust)" ]]; then
-	add_rust_ver
+	rust_ver
 fi
 
 if [[ "$(has_key ostree)" ]]; then
-	add_ostree_ver
+	ostree_ver
 fi
 
 if [[ "$(has_type cmake)$(has_key cmake CMake)" ]]; then
-	add_cmake_ver
+	cmake_ver
 fi
 
 if [[ "$(has_key podman Dockerfile)" ]]; then
-	add_podman_ver
+	podman_ver
 fi
 
 if [[ "$(has_key procps ps pgrep)" ]]; then
-	add_procps_ver
+	procps_ver
 fi
 
 if [[ "$(has_key psmisc killall prtstat pstree fuser)" ]]; then
-	add_psmisc_ver
+	psmisc_ver
 fi
 
 if [[ "$(has_key gnome)" ]]; then
-	add_gnome_ver
+	gnome_ver
 fi
 
 if [[ "$(has_type vim)$(has_key vim)" ]]; then
-	add_vim_ver
+	vim_ver
 fi
 
 if [[ "$(has_key libbpf pahole)" ]]; then
-	add_pahole_ver
+	pahole_ver
 fi
 
 if [[ "$(has_key pci pcie)" ]]; then
-	add_pciutils_ver
+	pciutils_ver
 fi
 
 if [[ "$(has_key git)" ]]; then
-	add_git_ver
+	git_ver
 fi
 
 if [[ "$(has_key numa numactl)" ]]; then
-	add_numactl_ver
+	numactl_ver
 fi
 
 if [[ "$(has_type bt)$(has_key bpftrace)" ]]; then
-	add_bpftrace_ver
+	bpftrace_ver
 fi
 
 if [[ "$(has_type pem)$(has_key ssl openssl)" ]]; then
-	add_openssl_ver
+	openssl_ver
 fi
 
 if [[ "$(has_key bpftool)" ]]; then
-	add_bpftool_ver
+	bpftool_ver
 fi
 
 if [[ "$(has_key llvm bt nvidia)" ]]; then
-	add_llvm_ver
+	llvm_ver
 fi
 
 if [[ "$(has_key cuda nvidia)" ]]; then
@@ -332,13 +332,13 @@ if [[ "$(has_key cuda nvidia)" ]]; then
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
 	fi
-	add_cuda_ver
-	add_llvm_ver
+	cuda_ver
+	llvm_ver
 fi
 
 if [[ "$(has_key cuda nvidia rocm amd ROCm AMD)" ]]; then
-	add_rocm_ver
-	add_llvm_ver
+	rocm_ver
+	llvm_ver
 fi
 
 if [[ "$(has_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
@@ -346,24 +346,24 @@ if [[ "$(has_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
 	fi
-	add_luca_ver
-	add_llvm_ver
+	luca_ver
+	llvm_ver
 fi
 
-[[ "$(has_key lsof)" ]] && add_lsof_ver
+[[ "$(has_key lsof)" ]] && lsof_ver
 
 if [[ "$(has_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
-	add_hpcc_ver
-	add_llvm_ver
+	hpcc_ver
+	llvm_ver
 fi
 
 if [[ "$(has_key libbpf bcc bpf)" ]]; then
-	add_bcc_ver
-	add_libbpf_ver
+	bcc_ver
+	libbpf_ver
 fi
 
 if [[ "$(has_key ai pytorch python py)" ]]; then
-	add_py_ver
+	py_ver
 fi
 
 # Add lines
