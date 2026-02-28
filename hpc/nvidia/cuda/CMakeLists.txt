@@ -13,7 +13,7 @@ include(FindCUDA/select_compute_arch)
 message(STATUS CUDA_NVCC_EXECUTABLE=${CUDA_NVCC_EXECUTABLE})
 
 add_library(cuda_helpers STATIC cuda_helpers.cu)
-target_link_libraries(cuda_helpers PRIVATE cusparse cufft curand)
+target_link_libraries(cuda_helpers PRIVATE cuda cusparse cufft curand nvrtc)
 
 include_directories(".")
 

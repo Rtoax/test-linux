@@ -1,5 +1,12 @@
 message(STATUS "Samples")
 link_libraries(cuda_helpers)
 
-add_executable(hello hello.cu)
-add_executable(dim3 dim3.cu)
+set(EXECUTIONS attribute cooperative device dim3 event float graph hello malloc
+		mallocHost mallocManaged matrix memory mempool module p2p
+		parallel properties rtc stream version __STDC__ __GNUC__)
+
+foreach(tgt ${EXECUTIONS})
+  add_executable(${tgt} ${tgt}.cu)
+endforeach()
+
+target_compile_definitions(matrix PRIVATE TEST_FP32)
