@@ -6,3 +6,5 @@ PROJECT(CMakeSamples)
 message(STATUS CMAKE_CURRENT_LIST_DIR=${CMAKE_CURRENT_LIST_DIR})
 
 include(string/replace.cmake)
+
+include_directories(".")
