@@ -24,4 +24,7 @@ add_subdirectory(file)
 # FIXME: error: no suitable user-defined conversion from "__nv_bfloat162" to "__half2" exists
 #add_subdirectory(intrinsics)
 add_subdirectory(pti)
+add_subdirectory(rand)
 add_subdirectory(samples)
+add_subdirectory(solver)
+add_subdirectory(sparse)
