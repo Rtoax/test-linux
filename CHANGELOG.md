@@ -12,6 +12,8 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- gdb: add version.sh;
+- gdb/samples: test detach-on-fork and follow-fork-mode;
 - cpu: add cpuname.sh;
 - sched/reparent: add parent-crash.c;
 - sched: add reparent subdir;
