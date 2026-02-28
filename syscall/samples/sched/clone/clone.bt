@@ -13,8 +13,9 @@
 BEGIN
 {
 	printf("Tracing clone, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-12s %-16s %-8s\n",
-		"TIME", "PID", "COMM", "LAT(us)", "CHILD_PID", "FLAGS", "ROLE");
+	printf("%-8s %-8s %-16s %-8s %-12s %-8s %-16s\n",
+		"TIME", "PID", "COMM", "LAT(us)", "CHILD_PID", "ROLE",
+		"CLONE_FLAGS");
 }
 
 tracepoint:syscalls:sys_enter_clone
@@ -55,8 +56,30 @@ tracepoint:syscalls:sys_exit_clone3
 	}
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d %-12d %-16lx %-8s\n",
-		pid, @comm[tid], $us, $pid, @flags[tid], $role);
+	printf("%-8d %-16s %-8d %-12d %-8s 0x%lx(",
+		pid, @comm[tid], $us, $pid, $role, @flags[tid]);
+	printf("%s", @flags[tid] & 0x00000000000100 ? "VM|" : "");
+	printf("%s", @flags[tid] & 0x00000000000200 ? "FS|" : "");
+	printf("%s", @flags[tid] & 0x00000000000400 ? "FILES|" : "");
+	printf("%s", @flags[tid] & 0x00000000000800 ? "SIGHAND|" : "");
+	printf("%s", @flags[tid] & 0x00000000001000 ? "PIDFD|" : "");
+	printf("%s", @flags[tid] & 0x00000000002000 ? "PTRACE|" : "");
+	printf("%s", @flags[tid] & 0x00000000004000 ? "VFORK|" : "");
+	printf("%s", @flags[tid] & 0x00000000008000 ? "PARENT|" : "");
+	printf("%s", @flags[tid] & 0x00000000010000 ? "THREAD|" : "");
+	printf("%s", @flags[tid] & 0x00000000020000 ? "NEWNS|" : "");
+	printf("%s", @flags[tid] & 0x00000000040000 ? "SYSVSEM|" : "");
+	printf("%s", @flags[tid] & 0x00000000080000 ? "SETTLS|" : "");
+	printf("%s", @flags[tid] & 0x00000000400000 ? "DETACHED|" : "");
+	printf("%s", @flags[tid] & 0x00000000800000 ? "UNTRACED|" : "");
+	printf("%s", @flags[tid] & 0x00000002000000 ? "NEWCGROUP|" : "");
+	printf("%s", @flags[tid] & 0x00000004000000 ? "NEWUTS|" : "");
+	printf("%s", @flags[tid] & 0x00000008000000 ? "NEWIPC|" : "");
+	printf("%s", @flags[tid] & 0x00000010000000 ? "NEWUSER|" : "");
+	printf("%s", @flags[tid] & 0x00000020000000 ? "NEWPID|" : "");
+	printf("%s", @flags[tid] & 0x00000040000000 ? "NEWNET|" : "");
+	printf("%s", @flags[tid] & 0x00000080000000 ? "IO|" : "");
+	printf(")\n");
 
 	delete(@start[tid]);
 	delete(@comm[tid]);
