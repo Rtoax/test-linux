@@ -176,6 +176,7 @@ add_glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 add_gnome_ver() { add_ver "GNOME $(${TOPDIR}/gnome/version.sh)"; }
 add_hpcc_ver() { add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"; }
 add_libbpf_ver() { add_ver "LibBpf $(${TOPDIR}/bpf/libbpf/version.sh)"; }
+add_linux_ver() { add_ver "Linux $(uname -r)"; }
 add_llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
 add_lsof_ver() { add_ver "lsof $(${TOPDIR}/tools/lsof/version.sh)"; }
 add_luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"; }
@@ -219,7 +220,7 @@ if [[ "$(has_type asm S)$(has_key asm arch insn cpu)" ]]; then
 fi
 
 add_os_ver
-add_ver "Linux $(uname -r)"
+add_linux_ver
 
 if [[ "$(has_type c cpp c++ h hpp)$(has_key cpp gcc compiler)" ]]; then
 	add_gcc_ver
