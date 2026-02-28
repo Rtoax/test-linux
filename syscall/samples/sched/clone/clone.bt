@@ -70,8 +70,11 @@ tracepoint:syscalls:sys_exit_clone3
 	printf("%s", @flags[tid] & 0x00000000020000 ? "NEWNS|" : "");
 	printf("%s", @flags[tid] & 0x00000000040000 ? "SYSVSEM|" : "");
 	printf("%s", @flags[tid] & 0x00000000080000 ? "SETTLS|" : "");
+	printf("%s", @flags[tid] & 0x00000000100000 ? "PARENT_SETTID|" : "");
+	printf("%s", @flags[tid] & 0x00000000200000 ? "CHILD_CLEARTID|" : "");
 	printf("%s", @flags[tid] & 0x00000000400000 ? "DETACHED|" : "");
 	printf("%s", @flags[tid] & 0x00000000800000 ? "UNTRACED|" : "");
+	printf("%s", @flags[tid] & 0x00000001000000 ? "CHILD_SETTID|" : "");
 	printf("%s", @flags[tid] & 0x00000002000000 ? "NEWCGROUP|" : "");
 	printf("%s", @flags[tid] & 0x00000004000000 ? "NEWUTS|" : "");
 	printf("%s", @flags[tid] & 0x00000008000000 ? "NEWIPC|" : "");
