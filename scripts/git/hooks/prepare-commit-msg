@@ -200,6 +200,7 @@ add_systemd_ver() { add_ver "Systemd $(${TOPDIR}/init/systemd/version.sh)"; }
 add_vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
 
 add_cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
+add_pid1_env() { add_env "pid1=$(cat /proc/1/comm)"; }
 add_virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
