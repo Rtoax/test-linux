@@ -6,4 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CUDA_STANDARD 17)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
+# see /usr/share/cmake/Modules/FindCUDA/
+include(FindCUDA)
+include(FindCUDA/select_compute_arch)
+
+message(STATUS CUDA_NVCC_EXECUTABLE=${CUDA_NVCC_EXECUTABLE})
+
 add_executable(hello hello.cu)
