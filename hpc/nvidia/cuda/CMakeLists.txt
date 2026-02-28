@@ -17,4 +17,5 @@ target_link_libraries(cuda_helpers PRIVATE cuda cusparse cufft curand nvrtc)
 
 include_directories(".")
 
+add_subdirectory(blas)
 add_subdirectory(samples)
