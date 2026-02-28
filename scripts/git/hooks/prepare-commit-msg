@@ -271,7 +271,7 @@ if [[ "$(has_key ostree)" ]]; then
 	ostree_ver
 fi
 
-if [[ "$(has_type cmake)$(has_key cmake CMake)" ]]; then
+if [[ "$(has_type cmake)$(has_key cmake CMake)$(has_content cmake)" ]]; then
 	cmake_ver
 fi
 
