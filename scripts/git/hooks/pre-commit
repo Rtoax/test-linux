@@ -2,8 +2,8 @@
 # Copyright (C) 2024-2026 Rong Tao
 #
 # Usage:
-# $ [F1=1] [NMOD=n] [NADD=n] [NDEL=n] git commit ...
-#
+# $ [FC=1] [NMOD=n] [NADD=n] [NDEL=n] git commit ...
+# - FC: Force Commit
 set -e
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
@@ -13,17 +13,16 @@ readonly MY_DIRECTORY=$(realpath $(dirname $(realpath $0))/../../../)
 [[ -z ${NMOD} ]] && NMOD=4
 [[ -z ${NADD} ]] && NADD=1
 [[ -z ${NDEL} ]] && NDEL=1
-[[ -z ${F1} ]] && F1=
+[[ -z ${FC} ]] && FC=
 
 if [[ ${V} ]] || [[ ${V1} ]]; then
 	set -x
 fi
 
 fatal() {
-	echo >&2 -en "\033[31m"
-	echo >&2 -e "FATAL: "${@}
-	echo >&2 -en "\033[0m"
-	if [[ -z ${F1} ]]; then
+	echo >&2 -e "\033[1;31mFATAL: ${@}\033[0m"
+	if [[ -z ${FC} ]]; then
+		echo >&2 -e "FATAL: Try FC=1"
 		exit 1
 	fi
 }
@@ -43,20 +42,20 @@ hint_changelog() {
 	  ! [[ -L ${GIT_TOPDIR}/CHANGELOG.md ]]; then
 		if ! [[ " ${try_modify[@]} " =~ " CHANGELOG.md " ]]; then
 			git status --short
-			fatal "${@}" "you forgot modify CHANGELOG!!! Try F1=1???"
+			fatal "${@}" "you forgot modify CHANGELOG!!!"
 		fi
 	fi
 	if [[ -f ${GIT_TOPDIR}/docs/CHANGELOG.md ]]; then
 		if ! [[ " ${try_modify[@]} " =~ " docs/CHANGELOG.md " ]]; then
 			git status --short
-			fatal "${@}" "you forgot modify docs/CHANGELOG!!! Try F1=1???"
+			fatal "${@}" "you forgot modify docs/CHANGELOG!!!"
 		fi
 	fi
 	if [[ -f ${GIT_TOPDIR}/docs/en/CHANGELOG.md ]]; then
 		if [[ ! " ${try_modify[@]} " =~ " docs/en/CHANGELOG.md " ]] ||
 		   [[ ! " ${try_modify[@]} " =~ " docs/zh/CHANGELOG.md " ]]; then
 			git status --short
-			fatal "${@}" "you forgot modify docs/{en,zh}/CHANGELOG.md!!! Try F1=1???"
+			fatal "${@}" "you forgot modify docs/{en,zh}/CHANGELOG.md!!!"
 		fi
 	fi
 }
@@ -83,8 +82,8 @@ do
 	if [[ $(basename $f) == vmlinux.h ]]; then
 		fatal "vmlinux.h is too big, generate it with bpftool command!!!"
 	fi
-	if [[ $(file $f | awk '{print $NF}') == data ]] && [[ -z ${F1} ]]; then
-		fatal "$f is considered a data file!!! try F1"
+	if [[ $(file $f | awk '{print $NF}') == data ]] && [[ -z ${FC} ]]; then
+		fatal "$f is considered a data file!!!"
 	fi
 done
 
