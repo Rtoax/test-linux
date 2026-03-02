@@ -12,6 +12,7 @@
 
 #include "wrapper_defs.h"
 #include "cupti_version.h"
+#include "cupti_runtime_cbid.h"
 
 #define CUpti_SubscriberHandle CUX(pti_SubscriberHandle)
 #define CUpti_CallbackDomain CUX(pti_CallbackDomain)
@@ -92,13 +93,8 @@
 
 #define CUPTI_API_ENTER CUX(PTI_API_ENTER)
 
-#define CUPTI_RUNTIME_TRACE_CBID_cudaMemcpy_v3020 \
-	CUXcudaX(PTI_RUNTIME_TRACE_CBID_, Memcpy)
 #define cudaMemcpy_v3020_params cudaX(Memcpy_params)
-#define CUPTI_RUNTIME_TRACE_CBID_cudaMalloc_v3020 \
-	CUXcudaX(PTI_RUNTIME_TRACE_CBID_, Malloc)
-#define CUPTI_RUNTIME_TRACE_CBID_cudaLaunchKernel_v7000 \
-	CUXcudaX(PTI_RUNTIME_TRACE_CBID_, LaunchKernel)
+
 /**
  * CUDA 13.0
  * typedef struct cudaLaunchKernel_v7000_params_st {
