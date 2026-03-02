@@ -196,7 +196,7 @@ qemu_ver() { add_ver "Qemu $(${TOPDIR}/qemu/version.sh)"; }
 rocm_ver() { add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"; }
 rpm_ver() { add_ver "RPM $(${TOPDIR}/distro/rpm/version.sh)"; }
 rust_ver() { add_ver "Rust $(${TOPDIR}/rust/version.sh)"; }
-shell_ver() { add_ver "$(${TOPDIR}/shell/version.sh --name) $(${TOPDIR}/shell/version.sh)"; }
+shell_ver() { add_ver "$(${TOPDIR}/shell/version.sh --pretty-name) $(${TOPDIR}/shell/version.sh)"; }
 strace_ver() { add_ver "Strace $(${TOPDIR}/syscall/strace/version.sh)"; }
 systemd_ver() { add_ver "Systemd $(${TOPDIR}/init/systemd/version.sh)"; }
 vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
