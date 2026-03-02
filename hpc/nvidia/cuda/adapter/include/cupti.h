@@ -13,6 +13,7 @@
 #include "wrapper_defs.h"
 #include "cupti_version.h"
 #include "cupti_runtime_cbid.h"
+#include "generated_cuda_runtime_api_meta.h"
 
 #define CUpti_SubscriberHandle CUX(pti_SubscriberHandle)
 #define CUpti_CallbackDomain CUX(pti_CallbackDomain)
@@ -92,48 +93,6 @@
 #define CUPTI_CB_DOMAIN_FORCE_INT CUX(PTI_CB_DOMAIN_FORCE_INT)
 
 #define CUPTI_API_ENTER CUX(PTI_API_ENTER)
-
-#define cudaMemcpy_v3020_params cudaX(Memcpy_params)
-
-/**
- * CUDA 13.0
- * typedef struct cudaLaunchKernel_v7000_params_st {
- *   const void *func;
- *   dim3 gridDim;
- *   dim3 blockDim;
- *   void **args;
- *   size_t sharedMem;
- *   cudaStream_t stream;
- * } cudaLaunchKernel_v7000_params;
- *
- * LUCA 3.2.1
- * typedef struct lcLaunchKernel_params_st {
- *   const void* function_address;
- *   dim3 numBlocks;
- *   dim3 dimBlocks;
- *   void** args;
- *   void* args__val;
- *   size_t sharedMemBytes;
- *   lcStream_t stream;
- * } lcLaunchKernel_params;
- */
-#define cudaLaunchKernel_v7000_params cudaX(LaunchKernel_params)
-
-/**
- * CUDA 13:
- * typedef struct cudaMalloc_v3020_params_st {
- *   void **devPtr;
- *   size_t size;
- * } cudaMalloc_v3020_params;
- *
- * LUCA:
- * typedef struct lcMalloc_params_st {
- *   void** ptr;
- *   void* ptr__val;
- *   size_t bytesize;
- * } lcMalloc_params;
- */
-#define cudaMalloc_v3020_params cudaX(Malloc_params)
 
 #define CUcontext CUX(context)
 
