@@ -117,8 +117,8 @@ endif
 ifneq ($(call kver_uapi_eq,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}),y)
   $(error "call kver_uapi_eq failed")
 endif
-# newest kernel is v6.19 right now
-ifneq ($(call kver_lt,7,0,0),y)
+# newest kernel is v7.0 right now
+ifneq ($(call kver_lt,7,1,0),y)
   $(error "call kver_lt failed")
 endif
 ifneq ($(call kver_uapi_lt,7,0,0),y)
