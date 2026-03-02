@@ -2,7 +2,8 @@
 # Copyright (C) 2024-2026 Rong Tao
 #
 # Usage:
-# $ [FC=1] [NMOD=n] [NADD=n] [NDEL=n] git commit ...
+# $ [VC=1] [FC=1] [NMOD=n] [NADD=n] [NDEL=n] git commit ...
+# - VC: Verbose mode of Commit
 # - FC: Force Commit
 set -e
 
@@ -15,7 +16,7 @@ readonly MY_DIRECTORY=$(realpath $(dirname $(realpath $0))/../../../)
 [[ -z ${NDEL} ]] && NDEL=1
 [[ -z ${FC} ]] && FC=
 
-if [[ ${V} ]] || [[ ${V1} ]]; then
+if [[ ${VC} ]]; then
 	set -x
 fi
 
