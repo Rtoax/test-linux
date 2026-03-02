@@ -2,7 +2,7 @@
 # Check code format with clang-format.
 #
 # Usage: [FCF=1] clang-format.sh
-# - FCF: Force clang-format
+# - FCF: Force mode of Clang-Format
 set -e
 
 fatal() {
