@@ -22,6 +22,12 @@ EMOJI_BOY := 🧑
 EMOJI_ROBOT := 🤖
 EMOJI_AIRPLANE := ✈️
 
+# Unicode
+# ♥ U+2665
+# ❤ U+2764
+# ❥ U+2765
+# ❦ U+2766
+# ❧ U+2767
 EMOJI_HEART := ❤
 
 EMOJI_FIRE := 🔥
