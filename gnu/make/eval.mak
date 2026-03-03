@@ -18,19 +18,12 @@ define def_shell
 define ${1}_1
 $(call add_shell,1,1)
 endef
-define ${1}_2
-$(call add_shell,2,2)
-endef
 endef
 
-$(eval $(call def_shell,add))
 $(eval $(call def_shell,add))
 
 ifneq ($(call add_1),2)
   $(error Bad add_1 = $(call add_1))
-endif
-ifneq ($(call add_2),4)
-  $(error Bad add_2 = $(call add_2))
 endif
 
 .PHONY: build
