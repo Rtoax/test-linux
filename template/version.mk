@@ -31,6 +31,10 @@ $(shell if [[ ${1} ${2} $(call version3_code1688,${3},${4},${5}) ]]; then \
 	fi)
 endef
 
+ifneq ($(call version3_code1688_cmp,66051,-eq,1,2,3),y)
+  $(error version3_code1688_cmp failed)
+endif
+
 # Generate version code from major,minor
 # Example: CUDA
 # $1: major, multiple 1000
@@ -50,5 +54,9 @@ $(shell if [[ ${1} ${2} $(call version2_code100010,${3},${4}) ]]; then \
 	else echo n; \
 	fi)
 endef
+
+ifneq ($(call version2_code100010_cmp,1020,-eq,1,2),y)
+  $(error version2_code100010_cmp failed)
+endif
 
 endif
