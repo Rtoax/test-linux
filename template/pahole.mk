@@ -13,7 +13,6 @@
 # - PAHOLE_VERSION_MINOR=DWARVES_MINOR_VERSION=
 #
 # Funtions:
-# - pahole_version_compare()=[y|n]
 # - pahole_gt()=[y|n]
 # - pahole_ge()=[y|n]
 # - pahole_eq()=[y|n]
@@ -62,31 +61,20 @@ DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
 
 PAHOLE_VERSION_CODE := $(call version3_code1688,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR},0)
 
-# Arguments:
-# $1: [-gt|-ge|-eq|-lt|-le]
-# $2: major
-# $3: minor
-define pahole_version_compare
-$(shell if [[ ${PAHOLE_VERSION_CODE} ${1} $(call version3_code1688,${2},${3},0) ]]; then \
-		echo y; \
-	else echo n; \
-	fi)
-endef
-
 define pahole_gt
-$(call pahole_version_compare,-gt,${1},${2})
+$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-gt,${1},${2},0)
 endef
 define pahole_ge
-$(call pahole_version_compare,-ge,${1},${2})
+$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-ge,${1},${2},0)
 endef
 define pahole_eq
-$(call pahole_version_compare,-eq,${1},${2})
+$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-eq,${1},${2},0)
 endef
 define pahole_lt
-$(call pahole_version_compare,-lt,${1},${2})
+$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-lt,${1},${2},0)
 endef
 define pahole_le
-$(call pahole_version_compare,-le,${1},${2})
+$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-le,${1},${2},0)
 endef
 
 ifdef DEBUG

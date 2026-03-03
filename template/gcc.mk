@@ -14,7 +14,6 @@
 # - GCC_VERSION_CODE=
 #
 # Functions:
-# - gcc_version_compare()=[y|n]
 # - gcc_gt()=[y|n]
 # - gcc_ge()=[y|n]
 # - gcc_eq()=[y|n]
@@ -39,34 +38,22 @@ GCC_PATCHLEVEL := $(shell echo ${GCC_FULLVERSION} | awk -F '.' '{print $$3}')
 include compiler.mk
 include version.mk
 
-GCC_VERSION_CODE := $(shell echo "$$(( (${GCC_MAJOR}<<16) + (${GCC_MINOR}<<8) + (${GCC_PATCHLEVEL}>255?255:${GCC_PATCHLEVEL}) ))" )
-
-# Arguments:
-# $1: [-gt|-ge|-eq|-lt|-le]
-# $2: major
-# $3: minor
-# $4: patchlevel
-define gcc_version_compare
-$(shell if [[ ${GCC_VERSION_CODE} ${1} $(call version3_code1688,${2},${3},${4}) ]]; then \
-		echo y; \
-	else echo n; \
-	fi)
-endef
+GCC_VERSION_CODE := $(call version3_code1688,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL})
 
 define gcc_gt
-$(call gcc_version_compare,-gt,${1},${2},${3})
+$(call version3_code1688_cmp,${GCC_VERSION_CODE},-gt,${1},${2},${3})
 endef
 define gcc_ge
-$(call gcc_version_compare,-ge,${1},${2},${3})
+$(call version3_code1688_cmp,${GCC_VERSION_CODE},-ge,${1},${2},${3})
 endef
 define gcc_eq
-$(call gcc_version_compare,-eq,${1},${2},${3})
+$(call version3_code1688_cmp,${GCC_VERSION_CODE},-eq,${1},${2},${3})
 endef
 define gcc_lt
-$(call gcc_version_compare,-lt,${1},${2},${3})
+$(call version3_code1688_cmp,${GCC_VERSION_CODE},-lt,${1},${2},${3})
 endef
 define gcc_le
-$(call gcc_version_compare,-le,${1},${2},${3})
+$(call version3_code1688_cmp,${GCC_VERSION_CODE},-le,${1},${2},${3})
 endef
 
 ifdef DEBUG
