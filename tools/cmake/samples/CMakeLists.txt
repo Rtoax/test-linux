@@ -5,6 +5,7 @@ PROJECT(CMakeSamples)
 
 message(STATUS CMAKE_CURRENT_LIST_DIR=${CMAKE_CURRENT_LIST_DIR})
 
+add_subdirectory(function)
 add_subdirectory(string)
 
 add_library(lib1 STATIC lib1.c)

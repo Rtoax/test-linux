@@ -8,13 +8,14 @@ endif()
 
 message(STATUS "cuPTI: ${EXECUTIONS}")
 
-foreach(tgt ${EXECUTIONS})
-  add_executable(${tgt} ${tgt}.cu)
-endforeach()
-add_executable(pti_version version.cu)
+function(compile_tgt class name)
+  add_executable(${class}_${name} ${name}.cu)
+  set_target_properties(${class}_${name} PROPERTIES
+    OUTPUT_NAME ${name}
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${class}/
+  )
+endfunction()
 
-# Conflict with samples/version.cu
-set_target_properties(pti_version PROPERTIES
-    OUTPUT_NAME "version"
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/pti/
-)
+foreach(tgt ${EXECUTIONS})
+  compile_tgt(pti ${tgt})
+endforeach()
