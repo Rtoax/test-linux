@@ -10,6 +10,8 @@
 ifndef _VERSION_MK
 _VERSION_MK = 1
 
+###### Version3 1688
+
 # Generate version code from major,minor,patchlevel
 # $1: major, 16bits
 # $2: minor, 8bits
@@ -34,6 +36,8 @@ endef
 ifneq ($(call version3_code1688_cmp,66051,-eq,1,2,3),y)
   $(error version3_code1688_cmp failed)
 endif
+
+###### Version2 100010
 
 # Generate version code from major,minor
 # Example: CUDA
