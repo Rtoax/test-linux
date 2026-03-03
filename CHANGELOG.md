@@ -55,7 +55,7 @@ and this project adheres to
 #### Tools
 #### Template
 - unicode: add mahjong.mk;
-- add version.mk with function `version3_code1688()`, `version3_code1688_cmp()`, `version2_code100010()`;
+- add version.mk with function `version3_code1688()`, `version3_code1688_cmp()`, `version2_code100010()`, `version2_code100010_cmp()`;
 
 
 ## [v2.3.16] 2026-02-20

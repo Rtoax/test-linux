@@ -24,7 +24,6 @@
 # - CUDA_VERSION_PATCH=[0]
 #
 # Functions:
-# - cuda_version_compare()
 # - cuda_{ge,gt,eq,lt,le}()
 #
 ifndef _NVIDIA_CUDA_MK
@@ -120,30 +119,20 @@ endif
 
 CUDA_VERSION_CODE := $(call version2_code100010,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR})
 
-# Arguments:
-# $1: [-gt|-ge|-eq|-lt|-le]
-# $2: major
-# $3: minor
-define cuda_version_compare
-$(shell if [[ ${CUDA_VERSION_CODE} ${1} $(call version2_code100010,${2},${3}) ]]; then \
-		echo y; \
-	else echo n; \
-	fi)
-endef
 define cuda_gt
-$(call cuda_version_compare,-gt,${1},${2})
+$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-gt,${1},${2})
 endef
 define cuda_ge
-$(call cuda_version_compare,-ge,${1},${2})
+$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-ge,${1},${2})
 endef
 define cuda_eq
-$(call cuda_version_compare,-eq,${1},${2})
+$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-eq,${1},${2})
 endef
 define cuda_lt
-$(call cuda_version_compare,-lt,${1},${2})
+$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-lt,${1},${2})
 endef
 define cuda_le
-$(call cuda_version_compare,-le,${1},${2})
+$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-le,${1},${2})
 endef
 
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
