@@ -6,10 +6,24 @@ answer=N
 
 readonly git_root=$(git rev-parse --show-toplevel 2>/dev/null || true)
 
-declare -a no_add_files no_commit_files ignore_files
+declare -a no_add_files no_add_valid_files no_commit_files ignore_files
 
 get_no_add_files() {
+	local f
+
 	no_add_files=( $(git status --porcelain | grep '^??' | cut -c4- | tr -d ' ') )
+
+	# Filter no-add files
+	for f in ${no_add_files}
+	do
+		read -r -N 8 bin < $f
+		case $bin in
+		$'\x7f'ELF* | $'!<arch>\n')
+			;;
+		*)
+			no_add_valid_files+=( $f )
+		esac
+	done
 }
 
 get_no_commit_files() {
@@ -25,29 +39,17 @@ print_list() {
 	local i
 	for ((i = 0; i < ${#list[@]}; i++))
 	do
-		printf "\t%s\n" ${list[$i]}
+		printf " %s\n" ${list[$i]}
 	done | nl
 }
 
-pre_check() {
-	local -a no_add_valid_files
-
+get_files() {
 	get_no_add_files
 	get_no_commit_files
 	get_ignore_files
+}
 
-	# Filter no-add files
-	for f in ${no_add_files}
-	do
-		read -r -N 8 bin < $f
-		case $bin in
-		$'\x7f'ELF* | $'!<arch>\n')
-			;;
-		*)
-			no_add_valid_files+=( $f )
-		esac
-	done
-
+pre_check() {
 	if [[ "${no_add_valid_files[@]}" ]]; then
 		echo "ERROR: There are no-add new files in git repo!!"
 		echo "       Handle them manually!!"
@@ -76,6 +78,8 @@ if [[ -z ${git_root} ]]; then
 	exit 1
 fi
 
+get_files
+
 case $answer in
 [Yy]|[Yy][Ee]|[Yy][Ee][Ss])
 	;;
@@ -100,6 +104,11 @@ case $answer in
 	fi
 ;;
 esac
+
+if [[ ! -z ${no_add_files} ]]; then
+	echo "Could not clean, found no add files: ${no_add_files[@]}"
+	exit 1
+fi
 
 git clean -dfx
 echo "Clean git"
