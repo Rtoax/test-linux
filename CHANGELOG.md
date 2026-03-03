@@ -53,6 +53,8 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+#### Template
+- unicode: add mahjong.mk;
 
 
 ## [v2.3.16] 2026-02-20
