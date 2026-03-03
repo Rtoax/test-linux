@@ -95,6 +95,15 @@ define pahole_le
 $(call pahole_version_compare,-le,${1},${2})
 endef
 
+ifdef DEBUG
+  $(info PAHOLE = ${PAHOLE})
+  $(info HAVE_PAHOLE = ${HAVE_PAHOLE})
+  $(info PAHOLE_VERSION_MAJOR = ${PAHOLE_VERSION_MAJOR})
+  $(info PAHOLE_VERSION_MINOR = ${PAHOLE_VERSION_MINOR})
+  $(info DWARVES_MAJOR_VERSION = ${DWARVES_MAJOR_VERSION})
+  $(info DWARVES_MINOR_VERSION = ${DWARVES_MINOR_VERSION})
+endif
+
 # Make sure function works fine.
 ifneq ($(call pahole_eq,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR}),y)
   $(error "Call pahole_eq failed")
