@@ -14,7 +14,6 @@
 # - GCC_VERSION_CODE=
 #
 # Functions:
-# - gcc_version_code()
 # - gcc_version_compare()=[y|n]
 # - gcc_gt()=[y|n]
 # - gcc_ge()=[y|n]
@@ -38,12 +37,9 @@ GCC_MINOR := $(shell echo ${GCC_FULLVERSION} | awk -F '.' '{print $$2}')
 GCC_PATCHLEVEL := $(shell echo ${GCC_FULLVERSION} | awk -F '.' '{print $$3}')
 
 include compiler.mk
+include version.mk
 
 GCC_VERSION_CODE := $(shell echo "$$(( (${GCC_MAJOR}<<16) + (${GCC_MINOR}<<8) + (${GCC_PATCHLEVEL}>255?255:${GCC_PATCHLEVEL}) ))" )
-
-define gcc_version_code
-$(shell echo "$$(( (${1}<<16) + (${2}<<8) + (${3}>255?255:${3}) ))" )
-endef
 
 # Arguments:
 # $1: [-gt|-ge|-eq|-lt|-le]
@@ -51,7 +47,7 @@ endef
 # $3: minor
 # $4: patchlevel
 define gcc_version_compare
-$(shell if [[ ${GCC_VERSION_CODE} ${1} $(call gcc_version_code,${2},${3},${4}) ]]; then \
+$(shell if [[ ${GCC_VERSION_CODE} ${1} $(call version3_code,${2},${3},${4}) ]]; then \
 		echo y; \
 	else echo n; \
 	fi)
@@ -86,8 +82,8 @@ ifneq (${GCC_FULLVERSION},${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
   $(error Failed to parse GCC version, ${GCC_FULLVERSION} != ${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
 endif
 
-ifneq ($(call gcc_version_code,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL}),${GCC_VERSION_CODE})
-  $(error call gcc_version_code() failed)
+ifneq ($(call version3_code,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL}),${GCC_VERSION_CODE})
+  $(error call version3_code() failed)
 endif
 
 # newest gcc major is 16
