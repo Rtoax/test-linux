@@ -13,7 +13,6 @@
 # - PAHOLE_VERSION_MINOR=DWARVES_MINOR_VERSION=
 #
 # Funtions:
-# - pahole_version_code()=PAHOLE_VERSION_CODE
 # - pahole_version_compare()=[y|n]
 # - pahole_gt()=[y|n]
 # - pahole_ge()=[y|n]
@@ -25,6 +24,7 @@ ifndef _PAHOLE_MK
 _PAHOLE_MK = 1
 
 include shell.mk
+include version.mk
 
 PAHOLE := $(shell which pahole 2>/dev/null)
 ifeq ($(PAHOLE),)
@@ -60,20 +60,14 @@ endif
 DWARVES_MAJOR_VERSION := ${PAHOLE_VERSION_MAJOR}
 DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
 
-# $1: major
-# $2: minor
-define pahole_version_code
-$(shell echo "$$(( (${1}<<16) + (${2}<<8) ))")
-endef
-
-PAHOLE_VERSION_CODE := $(call pahole_version_code,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR})
+PAHOLE_VERSION_CODE := $(call version3_code1688,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR},0)
 
 # Arguments:
 # $1: [-gt|-ge|-eq|-lt|-le]
 # $2: major
 # $3: minor
 define pahole_version_compare
-$(shell if [[ ${PAHOLE_VERSION_CODE} ${1} $(call pahole_version_code,${2},${3}) ]]; then \
+$(shell if [[ ${PAHOLE_VERSION_CODE} ${1} $(call version3_code1688,${2},${3},0) ]]; then \
 		echo y; \
 	else echo n; \
 	fi)
