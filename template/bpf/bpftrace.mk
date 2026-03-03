@@ -3,7 +3,7 @@
 #
 # Output definitions:
 # - HAVE_BPFTRACE=[y|n]
-# - BPFTRACE=
+# - BPFTRACE=[/usr/bin/bpftrace]
 # - BPFTRACE_VERSION_MAJOR=
 # - BPFTRACE_VERSION_MINOR=
 #
@@ -19,16 +19,18 @@ ifeq ($(BPFTRACE),)
   endif
   export HAVE_BPFTRACE := n
 else
-  BPFTRACE_VERSION := $(shell ${BPFTRACE} --version | grep -o v[0-9].[0-9]\. | sed -n '1p')
-  BPFTRACE_VERSION_MAJOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$1}')
-  BPFTRACE_VERSION_MINOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$2}')
 
-  ifdef DEBUG
-    $(info ${BPFTRACE} version ${BPFTRACE_VERSION_MAJOR}.${BPFTRACE_VERSION_MINOR})
-  endif
+BPFTRACE_VERSION := $(shell ${BPFTRACE} --version | grep -o v[0-9].[0-9]\. | sed -n '1p')
+BPFTRACE_VERSION_MAJOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$1}')
+BPFTRACE_VERSION_MINOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$2}')
 
-  export HAVE_BPFTRACE := y
-  export BPFTRACE BPFTRACE_VERSION_MAJOR BPFTRACE_VERSION_MINOR
+ifdef DEBUG
+  $(info ${BPFTRACE} version ${BPFTRACE_VERSION_MAJOR}.${BPFTRACE_VERSION_MINOR})
 endif
+
+export HAVE_BPFTRACE := y
+export BPFTRACE BPFTRACE_VERSION_MAJOR BPFTRACE_VERSION_MINOR
+
+endif # End of Found bpftrace
 
 endif
