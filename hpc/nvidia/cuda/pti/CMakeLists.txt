@@ -8,14 +8,6 @@ endif()
 
 message(STATUS "cuPTI: ${EXECUTIONS}")
 
-function(compile_tgt class name)
-  add_executable(${class}_${name} ${name}.cu)
-  set_target_properties(${class}_${name} PROPERTIES
-    OUTPUT_NAME ${name}
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${class}/
-  )
-endfunction()
-
 foreach(tgt ${EXECUTIONS})
-  compile_tgt(pti ${tgt})
+  add_cuda_sample(pti ${tgt})
 endforeach()

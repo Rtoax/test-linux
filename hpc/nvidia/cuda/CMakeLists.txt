@@ -17,6 +17,14 @@ target_link_libraries(cuda_helpers PRIVATE cuda cusparse cufft curand nvrtc)
 
 include_directories(".")
 
+function(add_cuda_sample class name)
+  add_executable(${class}_${name} ${name}.cu)
+  set_target_properties(${class}_${name} PROPERTIES
+    OUTPUT_NAME ${name}
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${class}/
+  )
+endfunction()
+
 add_subdirectory(blas)
 add_subdirectory(dnn)
 add_subdirectory(fft)

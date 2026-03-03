@@ -1,4 +1,4 @@
-message(STATUS "Samples")
+message(STATUS "cudaSamples")
 link_libraries(cuda_helpers)
 
 set(EXECUTIONS attribute cooperative device dim3 event float graph hello malloc
