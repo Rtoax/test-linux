@@ -3,6 +3,7 @@
 #
 # Functions:
 # - version3_code1688()
+# - version2_code100010()
 #
 ifndef _VERSION_MK
 _VERSION_MK = 1
@@ -13,6 +14,14 @@ _VERSION_MK = 1
 # $3: patchlevel, 8bits
 define version3_code1688
 $(shell echo "$$(( (${1}<<16) + (${2}<<8) + (${3}>255?255:${3}) ))" )
+endef
+
+# Generate version code from major,minor
+# Example: CUDA
+# $1: major, multiple 1000
+# $2: minor, multiple 10
+define version2_code100010
+$(shell echo "$$(( (${1}*1000) + (${2}*10) ))" )
 endef
 
 endif

@@ -24,7 +24,6 @@
 # - CUDA_VERSION_PATCH=[0]
 #
 # Functions:
-# - cuda_version_code()
 # - cuda_version_compare()
 # - cuda_{ge,gt,eq,lt,le}()
 #
@@ -33,6 +32,7 @@ _NVIDIA_CUDA_MK = 1
 
 include define.mk
 include shell.mk
+include version.mk
 
 NVCC := $(shell which nvcc 2>/dev/null)
 CUOBJDUMP := $(shell which cuobjdump 2>/dev/null)
@@ -118,20 +118,14 @@ ifneq (${CUDA_ROOT},)
   endif
 endif
 
-# $1: major
-# $2: minor
-define cuda_version_code
-$(shell echo "$$(( (${1}*1000) + (${2}*10) ))" )
-endef
-
-CUDA_VERSION_CODE := $(call cuda_version_code,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR})
+CUDA_VERSION_CODE := $(call version2_code100010,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR})
 
 # Arguments:
 # $1: [-gt|-ge|-eq|-lt|-le]
 # $2: major
 # $3: minor
 define cuda_version_compare
-$(shell if [[ ${CUDA_VERSION_CODE} ${1} $(call cuda_version_code,${2},${3}) ]]; then \
+$(shell if [[ ${CUDA_VERSION_CODE} ${1} $(call version2_code100010,${2},${3}) ]]; then \
 		echo y; \
 	else echo n; \
 	fi)
