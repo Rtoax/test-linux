@@ -47,7 +47,7 @@ GCC_VERSION_CODE := $(shell echo "$$(( (${GCC_MAJOR}<<16) + (${GCC_MINOR}<<8) + 
 # $3: minor
 # $4: patchlevel
 define gcc_version_compare
-$(shell if [[ ${GCC_VERSION_CODE} ${1} $(call version3_code,${2},${3},${4}) ]]; then \
+$(shell if [[ ${GCC_VERSION_CODE} ${1} $(call version3_code1688,${2},${3},${4}) ]]; then \
 		echo y; \
 	else echo n; \
 	fi)
@@ -82,8 +82,8 @@ ifneq (${GCC_FULLVERSION},${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
   $(error Failed to parse GCC version, ${GCC_FULLVERSION} != ${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
 endif
 
-ifneq ($(call version3_code,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL}),${GCC_VERSION_CODE})
-  $(error call version3_code() failed)
+ifneq ($(call version3_code1688,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL}),${GCC_VERSION_CODE})
+  $(error call version3_code1688() failed)
 endif
 
 # newest gcc major is 16
