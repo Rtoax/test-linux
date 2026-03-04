@@ -22,6 +22,7 @@
 ifndef _PAHOLE_MK
 _PAHOLE_MK = 1
 
+include dir.mk
 include shell.mk
 include version.mk
 
@@ -37,9 +38,9 @@ PAHOLE_VERSION_MINOR := 0
 DWARVES_MAJOR_VERSION := 0
 DWARVES_MINOR_VERSION := 0
 
-PAHOLE_VERSION := $(shell ${PAHOLE} --version | grep -o -E '[0-9].[0-9]*?')
-PAHOLE_VERSION_MAJOR := $(shell echo ${PAHOLE_VERSION} | awk -F '.' '{print $$1}')
-PAHOLE_VERSION_MINOR := $(shell echo ${PAHOLE_VERSION} | awk -F '.' '{print $$2}')
+PAHOLE_VERSION := $(shell ${TOPDIR}/pahole/version.sh)
+PAHOLE_VERSION_MAJOR := $(shell ${TOPDIR}/pahole/version.sh --major)
+PAHOLE_VERSION_MINOR := $(shell ${TOPDIR}/pahole/version.sh --minor)
 
 ifdef DEBUG
   $(info ${PAHOLE} version ${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
