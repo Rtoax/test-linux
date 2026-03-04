@@ -10,6 +10,8 @@
 ifndef _VERSION_MK
 _VERSION_MK = 1
 
+include shell.mk
+
 ###### Version3 1688
 
 # Generate version code from major,minor,patchlevel
