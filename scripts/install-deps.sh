@@ -706,8 +706,9 @@ pkgs_virt+=( virt-manager )
 #pkgs_virt+=( wine )
 
 # Benchmark
-pkgs_bench+=( iperf )
 pkgs_bench+=( fio )
+pkgs_bench+=( iperf )
+pkgs_bench+=( redis )
 
 pkgs_ostree+=( ostree )
 pkgs_ostree+=( rpm-ostree )
