@@ -1,6 +1,9 @@
 #!/bin/bash
 # This script only display cmake version, do not display other anything,
 # because the git/hooks will use it.
+#
+# Usage: version.sh [--major|--minor|--patchlevel]
+#
 set -e
 cmake=$(which cmake 2>/dev/null || :)
 if [[ -z ${cmake} ]]; then
@@ -9,4 +12,22 @@ if [[ -z ${cmake} ]]; then
 fi
 
 version=$( ${cmake} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true )
-echo ${version}
+
+case $1 in
+--major)
+	echo ${version%%.*}
+	;;
+--minor)
+	major_minor=${version%.*}
+	echo ${major_minor##*.}
+	;;
+--patchlevel)
+	echo ${version##*.}
+	;;
+"")
+	echo ${version}
+	;;
+*)
+	exit 1
+	;;
+esac
