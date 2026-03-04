@@ -16,7 +16,7 @@ pure_diff=
 no_cover_letter=
 
 dry_run=
-output_dir=tmp.patch
+output_dir=patchset.patch
 
 declare -a patch_files
 declare -a abbrev_commits
@@ -35,7 +35,7 @@ readonly REVERSE="\033[7m"
 
 readonly RST="\033[m"
 
-readonly VERSION="v1.1.1"
+readonly VERSION="v1.1.2"
 
 __patchset_usage__()
 {
