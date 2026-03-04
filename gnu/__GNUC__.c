@@ -78,7 +78,10 @@ int main(void)
 	printf("%s: __CUDA__ = %d\n", pfx, __CUDA__);
 #endif
 #ifdef __CUDACC__
-	printf("%s: __CUDACC__ = %d\n", pfx, __CUDACC__);
+/* When use cu-bridge, __CUDACC__ is defined but empty */
+#define STRINGIFY2(x) #x
+#define STRINGIFY(x) STRINGIFY2(x)
+	printf("%s: __CUDACC__ = %s\n", pfx, STRINGIFY(__CUDACC__));
 #endif
 #ifdef __CUDA_ARCH__
 	printf("%s: __CUDA_ARCH__ = %d\n", pfx, __CUDA_ARCH__);
