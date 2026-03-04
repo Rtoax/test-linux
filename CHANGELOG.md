@@ -55,6 +55,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- redis: add version.sh;
 - add redis subdir;
 #### Template
 - unicode: add mahjong.mk;

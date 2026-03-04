@@ -193,6 +193,7 @@ procps_ver() { add_ver "Procps-ng $(${TOPDIR}/fs/procfs/procps-ng/version.sh)"; 
 psmisc_ver() { add_ver "Psmisc $(${TOPDIR}/tools/psmisc/version.sh)"; }
 py_ver() { add_ver "Python $(${TOPDIR}/python/version.sh)"; }
 qemu_ver() { add_ver "Qemu $(${TOPDIR}/qemu/version.sh)"; }
+redis_ver() { add_ver "Redis $(${TOPDIR}/tools/redis/version.sh)"; }
 rocm_ver() { add_ver_weak "ROCm $(${TOPDIR}/hpc/amd/rocm/version.sh)"; }
 rpm_ver() { add_ver "RPM $(${TOPDIR}/distro/rpm/version.sh)"; }
 rust_ver() { add_ver "Rust $(${TOPDIR}/rust/version.sh)"; }
@@ -258,6 +259,10 @@ fi
 
 if [[ "$(has_type mk mak make)$(has_key make Makefile)" ]]; then
 	make_ver
+fi
+
+if [[ "$(has_key redis)" ]]; then
+	redis_ver
 fi
 
 if [[ "$(has_type rpm)$(has_key rpm dnf)" ]]; then
