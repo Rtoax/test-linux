@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- distro: add kylinsec/ subdir;
 - glibc/ctype: test isspace;
 - benchmark: added;
 - make: add eval.mk;
