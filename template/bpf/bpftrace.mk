@@ -20,10 +20,12 @@ ifeq ($(BPFTRACE),)
   export HAVE_BPFTRACE := n
 else
 
-BPFTRACE_VERSION := $(shell ${BPFTRACE} --version | grep -Eo 'v[0-9]+\.[0-9]+\.[0-9]+' | sed -n '1p')
-BPFTRACE_VERSION_MAJOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$1}' | tr -d 'v')
-BPFTRACE_VERSION_MINOR := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$2}')
-BPFTRACE_VERSION_PATCHLEVEL := $(shell echo ${BPFTRACE_VERSION} | awk -F '.' '{print $$3}')
+include dir.mk
+
+BPFTRACE_VERSION := $(shell ${TOPDIR}/bpf/bpftrace/version.sh)
+BPFTRACE_VERSION_MAJOR := $(shell ${TOPDIR}/bpf/bpftrace/version.sh --major)
+BPFTRACE_VERSION_MINOR := $(shell ${TOPDIR}/bpf/bpftrace/version.sh --minor)
+BPFTRACE_VERSION_PATCHLEVEL := $(shell ${TOPDIR}/bpf/bpftrace/version.sh --patchlevel)
 
 ifdef DEBUG
   $(info BPFTRACE = ${BPFTRACE})
