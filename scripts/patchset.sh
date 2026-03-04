@@ -210,17 +210,18 @@ file2commits() {
 
 # Submit multi-patches at one time
 # ref: https://kernelnewbies.org/FirstKernelPatch
-patchset()
+generate_patchset()
 {
+	local args
+
 	if [[ -z ${downer_commit} ]] || [[ -z ${upper_commit} ]]; then
 		__patchset_usage__ | cat
-		error "Must specify --from and --to"
+		error "Must specify --from and --to at the same time"
 	fi
+
 	if [[ -e ${output_dir} ]] && [[ ! -d ${output_dir} ]]; then
 		error "${output_dir} is already exist and is not directory"
 	fi
-
-	local args
 
 	args+=( --numbered )
 	args+=( --thread=shallow )
@@ -265,6 +266,8 @@ if [[ " ${@} " =~ " -- " ]]; then
 	fi
 	# NOTE: linux kernel 'Fixes:' don't need 'commit' prefix.
 	my_eval ${git_cmd} --abbrev=12 --pretty=format:\''commit %h ("%s")'\' ${abbrev_commits[@]}
-else
-	patchset
+fi
+
+if [[ ${downer_commit} ]] || [[ ${upper_commit} ]]; then
+	generate_patchset
 fi
