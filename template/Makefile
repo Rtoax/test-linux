@@ -21,6 +21,8 @@ $(info MK_TST = ${MK_TST})
 
 # Sometimes including an mk file takes too long, and this function can be
 # used to effectively measure the time required to include the mk.
+# Arguments:
+# $1: file to include
 define include_stat
   $(eval _mk := $(1))
   $(eval _mk_id := $(subst /,_,$(subst .,_,$(1))))
