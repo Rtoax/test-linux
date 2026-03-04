@@ -18,6 +18,7 @@ no_cover_letter=
 dry_run=
 output_dir=tmp.patch
 
+declare -a patch_files
 declare -a abbrev_commits
 
 readonly RED="\033[31m"
@@ -34,7 +35,7 @@ readonly REVERSE="\033[7m"
 
 readonly RST="\033[m"
 
-readonly VERSION="v1.0.2"
+readonly VERSION="v1.1.0"
 
 __patchset_usage__()
 {
@@ -56,6 +57,9 @@ ${BOLD}ARGUMENT${RST}
 	--no-cover-letter        no cover letter
 	--pure-diff              Output pure 'diff' format.
 	-o, --output [DIR]       specify output directory, default: ${output_dir}
+
+	${BOLD}Patch operate arguments:${RST}
+	-p, --patch [FILE]       specify a patch file
 
 	${BOLD}Common arguments:${RST}
 	-n, --dry-run            dump command instead execute
@@ -114,13 +118,14 @@ warning() {
 __patchset_getopt__()
 {
 	local TEMP=$(getopt \
-		--options o:nvhV \
+		--options o:p:nvhV \
 		--long subject-prefix: \
 		--long from: \
 		--long to: \
 		--long no-cover-letter \
 		--long pure-diff \
 		--long output: \
+		--long patch: \
 		--long dry-run \
 		--long verbose \
 		--long version \
@@ -165,6 +170,14 @@ __patchset_getopt__()
 		-o|--output)
 			shift
 			output_dir=$1
+			shift
+			;;
+		-p|--patch)
+			shift
+			if [[ ! -f $1 ]]; then
+				error "File $1 is not exist."
+			fi
+			patch_files+=( $1 )
 			shift
 			;;
 		-n|--dry-run)
@@ -248,6 +261,18 @@ generate_patchset()
 		-o ${output_dir}
 }
 
+patch_operate()
+{
+	local patch subject
+	for patch in ${patch_files[@]}; do
+		subject="$(grep -A1 ^Subject: ${patch} | \
+			   tr -d '\n' | \
+			   sed 's/^Subject: //g' | \
+			   sed 's#\[PATCH [0-9]\+/[0-9]\+\] ##')"
+		echo "${subject}"
+	done
+}
+
 __patchset_getopt__ "$@"
 
 # If the -- parameter is specified, a summary of the
@@ -270,4 +295,8 @@ fi
 
 if [[ ${downer_commit} ]] || [[ ${upper_commit} ]]; then
 	generate_patchset
+fi
+
+if [[ ${patch_files} ]]; then
+	patch_operate
 fi
