@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
 #
+# Functions:
+# - cmake_{gt,ge,eq,lt,le}()=[y|n]
+#
 ifndef _CMAKE_MK
 _CMAKE_MK = 1
 
@@ -11,6 +14,24 @@ CMAKE_VERSION := $(shell ${TOPDIR}/tools/cmake/version.sh)
 CMAKE_MAJOR := $(shell ${TOPDIR}/tools/cmake/version.sh --major)
 CMAKE_MINOR := $(shell ${TOPDIR}/tools/cmake/version.sh --minor)
 CMAKE_PATCHLEVEL := $(shell ${TOPDIR}/tools/cmake/version.sh --patchlevel)
+
+CMAKE_VERSION_CODE := $(call version3_code1688,${CMAKE_MAJOR},${CMAKE_MINOR},${CMAKE_PATCHLEVEL})
+
+define cmake_gt
+$(call version3_code1688_cmp,${CMAKE_VERSION_CODE},-gt,${1},${2},${3})
+endef
+define cmake_ge
+$(call version3_code1688_cmp,${CMAKE_VERSION_CODE},-ge,${1},${2},${3})
+endef
+define cmake_eq
+$(call version3_code1688_cmp,${CMAKE_VERSION_CODE},-eq,${1},${2},${3})
+endef
+define cmake_lt
+$(call version3_code1688_cmp,${CMAKE_VERSION_CODE},-lt,${1},${2},${3})
+endef
+define cmake_le
+$(call version3_code1688_cmp,${CMAKE_VERSION_CODE},-le,${1},${2},${3})
+endef
 
 ifdef DEBUG
   $(info CMAKE_VERSION = ${CMAKE_VERSION})
