@@ -8,6 +8,9 @@
 # - BPFTRACE_MINOR=
 # - BPFTRACE_PATCHLEVEL=
 #
+# Functions:
+# - bpftrace_{gt,ge,eq,lt,le}()=[y|n]
+#
 ifndef _BPFTRACE_MK
 _BPFTRACE_MK = 1
 
@@ -18,11 +21,30 @@ ifeq ($(BPFTRACE),)
 else
 
 include dir.mk
+include version.mk
 
 BPFTRACE_VERSION := $(shell ${TOPDIR}/bpf/bpftrace/version.sh)
 BPFTRACE_MAJOR := $(shell ${TOPDIR}/bpf/bpftrace/version.sh --major)
 BPFTRACE_MINOR := $(shell ${TOPDIR}/bpf/bpftrace/version.sh --minor)
 BPFTRACE_PATCHLEVEL := $(shell ${TOPDIR}/bpf/bpftrace/version.sh --patchlevel)
+
+BPFTRACE_VERSION_CODE := $(call version3_code1688,${BPFTRACE_MAJOR},${BPFTRACE_MINOR},${BPFTRACE_PATCHLEVEL})
+
+define bpftrace_gt
+$(call version3_code1688_cmp,${BPFTRACE_VERSION_CODE},-gt,${1},${2},${3})
+endef
+define bpftrace_ge
+$(call version3_code1688_cmp,${BPFTRACE_VERSION_CODE},-ge,${1},${2},${3})
+endef
+define bpftrace_eq
+$(call version3_code1688_cmp,${BPFTRACE_VERSION_CODE},-eq,${1},${2},${3})
+endef
+define bpftrace_lt
+$(call version3_code1688_cmp,${BPFTRACE_VERSION_CODE},-lt,${1},${2},${3})
+endef
+define bpftrace_le
+$(call version3_code1688_cmp,${BPFTRACE_VERSION_CODE},-le,${1},${2},${3})
+endef
 
 ifdef DEBUG
   $(info BPFTRACE = ${BPFTRACE})
