@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- cpp/std: add cout subdir;
 - cpp: add std subdir;
 - binutils: add version.sh and apply to binutils.mk;
 - distro: add kylinsec/ subdir;
