@@ -13,11 +13,7 @@ _BPFTRACE_MK = 1
 
 BPFTRACE := $(shell which bpftrace 2>/dev/null)
 ifeq ($(BPFTRACE),)
-  ifndef __IGNORE_NOTFOUND_ERROR__
-    $(error "Not found bpftrace, install first")
-  else
-    $(warning "Not found bpftrace, skipping")
-  endif
+  $(warning "Not found bpftrace, please install bpftrace")
   export HAVE_BPFTRACE := n
 else
 
