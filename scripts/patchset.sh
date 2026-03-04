@@ -35,7 +35,7 @@ readonly REVERSE="\033[7m"
 
 readonly RST="\033[m"
 
-readonly VERSION="v1.1.0"
+readonly VERSION="v1.1.1"
 
 __patchset_usage__()
 {
@@ -142,7 +142,7 @@ __patchset_getopt__()
 			shift
 			subject_prefix="$1"
 			if ! [[ " ${subject_prefix} " =~ " PATCH " ]]; then
-				error "Not found 'PATCH' in subject prefix"
+				error "Not found 'PATCH' in subject prefix, example: 'PATCH bpf-next'"
 			fi
 			shift
 			;;
