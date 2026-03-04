@@ -22,16 +22,18 @@
 ifndef _GCC_MK
 _GCC_MK = 1
 
+include dir.mk
+
 GCC := gcc
 GXX := g++
 
 CC ?= ${GCC}
 CXX ?= ${GXX}
 
-GCC_VERSION := $(shell $(GCC) -dumpfullversion)
-GCC_MAJOR := $(shell echo ${GCC_VERSION} | awk -F '.' '{print $$1}')
-GCC_MINOR := $(shell echo ${GCC_VERSION} | awk -F '.' '{print $$2}')
-GCC_PATCHLEVEL := $(shell echo ${GCC_VERSION} | awk -F '.' '{print $$3}')
+GCC_VERSION := $(shell ${TOPDIR}/compiler/gcc/version.sh)
+GCC_MAJOR := $(shell ${TOPDIR}/compiler/gcc/version.sh --major)
+GCC_MINOR := $(shell ${TOPDIR}/compiler/gcc/version.sh --minor)
+GCC_PATCHLEVEL := $(shell ${TOPDIR}/compiler/gcc/version.sh --patchlevel)
 
 include compiler.mk
 include version.mk
