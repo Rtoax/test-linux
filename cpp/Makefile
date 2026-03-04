@@ -5,7 +5,6 @@ OUTPUT := .output/
 
 subdir-y := demangle
 
-target-cpp-y :=
 target-cpp-y += hello
 target-cpp-y += alignas
 target-cpp-y += extern_C
@@ -54,6 +53,7 @@ CXXFLAGS___STDC__c++14 := -std=c++14
 CXXFLAGS___STDC__c++17 := -std=c++17
 CXXFLAGS___STDC__c++20 := -std=c++20
 CXXFLAGS___STDC__c++23 := -std=c++23
+CXXFLAGS_string := -std=c++23
 LDXXFLAGS_fmt := -lfmt
 
 target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${target-cpp-y}))
