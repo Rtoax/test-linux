@@ -1,8 +1,8 @@
 link_libraries(cuda_helpers cupti)
 
 set(EXECUTIONS activity subscribe)
-# FIXME: LUCA not support yet, use -DUSE_LUCA=ON
-if(NOT USE_LUCA)
+# FIXME: LUCA not support yet
+if(NOT USE_CU_BRIDGE)
   list(APPEND EXECUTIONS range sampling)
 endif()
 

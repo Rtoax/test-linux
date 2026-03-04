@@ -11,6 +11,11 @@ include(FindCUDA)
 include(FindCUDA/select_compute_arch)
 
 message(STATUS CUDA_NVCC_EXECUTABLE=${CUDA_NVCC_EXECUTABLE})
+string(FIND "${CUDA_NVCC_EXECUTABLE}" "cu-bridge" CU_BRIDGE_POSITION)
+if(CU_BRIDGE_POSITION GREATER_EQUAL 0)
+  set(USE_CU_BRIDGE ON CACHE BOOL "Enable cu-bridge feature" FORCE)
+  message(STATUS "Use 'cu-bridge' instead of origin CUDA nvcc")
+endif()
 
 add_library(cuda_helpers STATIC cuda_helpers.cu)
 target_link_libraries(cuda_helpers PRIVATE cuda cusparse cufft curand nvrtc)
