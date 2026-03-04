@@ -62,6 +62,7 @@ and this project adheres to
 - redis: add version.sh;
 - add redis subdir;
 #### Template
+- gcc.mk: remove `GCC_FULLVERSION` and `GCC_VERSION` is fullversion;
 - add make.mk, cmake.mk;
 - dir.mk: rename `remove_topdir()` to `strip_topdir_prefix()`;
 - unicode: add mahjong.mk;
