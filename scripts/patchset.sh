@@ -49,15 +49,15 @@ ${BOLD}DESCRIPTION${RST}
 	Generate patchset to send email.
 
 ${BOLD}ARGUMENT${RST}
+	${BOLD}Generate patchset arguments:${RST}
 	--subject-prefix [STR]   specify Subject prefix
 	--from [COMMIT]          specify downer/older commit, see git log --oneline
-	--to   [COMMIT]          specify upper/newer commit, see git log --oneline
-
+	--to [COMMIT]            specify upper/newer commit, see git log --oneline
 	--no-cover-letter        no cover letter
-
 	--pure-diff              Output pure 'diff' format.
-
 	-o, --output [DIR]       specify output directory, default: ${output_dir}
+
+	${BOLD}Common arguments:${RST}
 	-n, --dry-run            dump command instead execute
 	-h, --help               show this help information
 	-v, --verbose            show detail during running
