@@ -166,11 +166,11 @@ export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS MAKEFLAGS
 
 .PHONY: build
 build: $(build-targets)
-	$(call log_obj,BUILD DONE,$(call remove_topdir,$(shell realpath .)))
+	$(call log_obj,BUILD DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: test
 test: $(build-targets) $(subdir-y-test) $(target-test-y)
-	$(call log_obj,TEST DONE,$(call remove_topdir,$(shell realpath .)))
+	$(call log_obj,TEST DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: clean
 clean: $(subdir-y-clean) $(target-clean-y)
@@ -179,7 +179,7 @@ clean: $(subdir-y-clean) $(target-clean-y)
 	${Q}rm -f *.o *.log *.out *.class
 	${Q}rm -f *.so *.so.* *.a
 	${Q}rm -f *.dat *.bin
-	$(call log_obj,CLEAN DONE,$(call remove_topdir,$(shell realpath .)))
+	$(call log_obj,CLEAN DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: reset
 reset:

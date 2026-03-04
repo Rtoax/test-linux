@@ -60,6 +60,7 @@ and this project adheres to
 - redis: add version.sh;
 - add redis subdir;
 #### Template
+- dir.mk: rename `remove_topdir()` to `strip_topdir_prefix()`;
 - unicode: add mahjong.mk;
 - add version.mk with function `version3_code1688()`, `version3_code1688_cmp()`, `version2_code100010()`, `version2_code100010_cmp()`;
 

@@ -6,7 +6,7 @@
 # - CURDIR=
 #
 # Functions:
-# - remove_topdir()
+# - strip_topdir_prefix()
 #
 ifndef _DIR_MK
 _DIR_MK = 1
@@ -23,7 +23,7 @@ ifeq (${CURDIR},)
 endif
 
 # remove test-linux root directory from $1
-define remove_topdir
+define strip_topdir_prefix
 $(patsubst ${TOPDIR}%,%,$(1))
 endef
 
