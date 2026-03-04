@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 #if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrCanUseStreamWaitWaitValueNor);
 #endif
-#if !defined(__HIPCC__)
+#if !defined(__HIPCC__) && !defined(USE_CU_BRIDGE)
 	Attr(cudaDevAttrClusterLaunch);
 #endif
 	Attr(cudaDevAttrComputeCapabilityMajor);
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 #endif
 	Attr(cudaDevAttrHostRegisterSupported);
 	Attr(cudaDevAttrIntegrated);
-#if !defined(__HIPCC__)
+#if !defined(__HIPCC__) && !defined(USE_CU_BRIDGE)
 	Attr(cudaDevAttrIpcEventSupport);
 #endif
 	Attr(cudaDevAttrIsMultiGpuBoard);
@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 	Attr(cudaDevAttrMemoryClockRate);
 	Attr(cudaDevAttrMemoryPoolsSupported);
 	Attr(cudaDevAttrMemoryPoolSupportedHandleTypes);
-#if !defined(__HIPCC__)
+#if !defined(__HIPCC__) && !defined(USE_CU_BRIDGE)
 	Attr(cudaDevAttrMemSyncDomainCount);
 #endif
 #if !defined(__HIPCC__) && (defined(__NVCC__) && CUDA_VERSION > 12020)
@@ -193,8 +193,10 @@ int main(int argc, char *argv[])
 	Attr(cudaDevAttrMultiGpuBoardGroupID);
 #if !defined(__HIPCC__)
 	Attr(cudaDevAttrMultiProcessorCount);
+#if !defined(USE_CU_BRIDGE)
 	Attr(cudaDevAttrNumaConfig);
 	Attr(cudaDevAttrNumaId);
+#endif
 #endif
 	Attr(cudaDevAttrPageableMemoryAccess);
 	Attr(cudaDevAttrPageableMemoryAccessUsesHostPageTables);

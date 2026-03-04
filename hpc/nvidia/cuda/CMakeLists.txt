@@ -10,11 +10,13 @@ set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 include(FindCUDA)
 include(FindCUDA/select_compute_arch)
 
+# If use cu-bridge, USE_CU_BRIDGE be defined and added to cflags
 message(STATUS CUDA_NVCC_EXECUTABLE=${CUDA_NVCC_EXECUTABLE})
 string(FIND "${CUDA_NVCC_EXECUTABLE}" "cu-bridge" CU_BRIDGE_POSITION)
 if(CU_BRIDGE_POSITION GREATER_EQUAL 0)
   set(USE_CU_BRIDGE ON CACHE BOOL "Enable cu-bridge feature" FORCE)
   message(STATUS "Use 'cu-bridge' instead of origin CUDA nvcc")
+  add_definitions("-DUSE_CU_BRIDGE=1")
 endif()
 
 add_library(cuda_helpers STATIC cuda_helpers.cu)

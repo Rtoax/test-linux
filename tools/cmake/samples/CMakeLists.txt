@@ -5,6 +5,8 @@ PROJECT(CMakeSamples)
 
 message(STATUS CMAKE_CURRENT_LIST_DIR=${CMAKE_CURRENT_LIST_DIR})
 
+add_definitions("-DCMAKE_SAMPLES=1")
+
 add_subdirectory(function)
 add_subdirectory(string)
 
