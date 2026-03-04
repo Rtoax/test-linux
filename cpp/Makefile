@@ -4,6 +4,7 @@ include compiler.mk
 OUTPUT := .output/
 
 subdir-y := demangle
+subdir-y += std
 
 target-cpp-y += hello
 target-cpp-y += alignas
