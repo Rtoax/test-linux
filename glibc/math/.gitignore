@@ -15,3 +15,6 @@
 /nextafter
 /__Float32x4_t
 /__Float64x2_t
+/__SVFloat32_t
+/__SVFloat64_t
+/__SVBool_t

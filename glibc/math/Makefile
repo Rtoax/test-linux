@@ -15,6 +15,9 @@ target-y += signbit
 target-y += nextafter
 target-${IS_AARCH64} += __Float32x4_t
 target-${IS_AARCH64} += __Float64x2_t
+target-${IS_AARCH64} += __SVFloat32_t
+target-${IS_AARCH64} += __SVFloat64_t
+target-${IS_AARCH64} += __SVBool_t
 
 LDFLAGS := -lm
 
@@ -42,6 +45,9 @@ signbit: signbit.o
 nextafter: nextafter.o
 __Float32x4_t: __Float32x4_t.o
 __Float64x2_t: __Float64x2_t.o
+__SVFloat32_t: __SVFloat32_t.o
+__SVFloat64_t: __SVFloat64_t.o
+__SVBool_t: __SVBool_t.o
 
 clean-tmp:
 	${Q}rm -rf tmpd-* tmp-*
