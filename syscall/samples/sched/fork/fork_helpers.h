@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #pragma once
-#include <unistd.h>
 
 void try_fork(int is_vfork, char *argv[]);
 void try_popen(char *cmd_buf);
