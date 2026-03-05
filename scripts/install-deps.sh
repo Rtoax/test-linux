@@ -592,6 +592,9 @@ pkgs_base+=( cargo )                # The Rust package manager
 pkgs_base+=( codespell )
 pkgs_base+=( cowsay )
 pkgs_base+=( cpuid )
+if [[ $(is_os fedora:43) ]]; then
+	pkgs_skip+=( cpuid )
+fi
 pkgs_base+=( cscope )
 pkgs_base+=( dialog kdialog )
 pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal tool
@@ -613,13 +616,16 @@ pkgs_base+=( lshw )
 pkgs_base+=( lsof )
 pkgs_base+=( make cmake )
 pkgs_base+=( nasm )
-if [[ $(is_os fedora:40 fedora:41 fedora:42 ubuntu:25.10) ]]; then
+if [[ $(is_os fedora:40 fedora:41 fedora:42 fedora:43 ubuntu:24.04 ubuntu:25.10) ]]; then
 	pkgs_base+=( fastfetch )
-	if [[ $(is_os fedora:42) ]]; then
-		pkgs_skip+=( neofetch )
-	fi
 	pkgs_base+=( procs )
 	pkgs_base+=( procinfo procinfo-ng )
+	if [[ $(is_os fedora:42 fedora:43) ]]; then
+		pkgs_skip+=( neofetch )
+	fi
+	if [[ $(is_os fedora:43) ]]; then
+		pkgs_skip+=( procinfo-ng )
+	fi
 fi
 pkgs_base+=( neofetch )
 pkgs_base+=( numactl )              # numastat
