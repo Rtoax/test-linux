@@ -2,21 +2,30 @@
 # This script only display uefi version, do not display other anything,
 # and don't execute failed, because the git/hooks will use it.
 #
-# Usage: version.sh [--major|--minor]
+# Usage: version.sh [--specmajor|--specminor|--vendor]
 #
 set -e
-BPFTRACE=$(which uefi 2>/dev/null || :)
-version=$(sudo dmesg | grep -i "EFI v" | grep -Eo 'v[0-9]+\.[0-9]+')
+
+# UEFI Specification Version
+spec_version=$(sudo dmesg | grep -i "EFI v" | grep -Eo 'v[0-9]+\.[0-9]+')
+
+# Motherboard vendor
+bios_vendor=$(cat /sys/class/dmi/id/bios_vendor)
+bios_release=$(cat /sys/class/dmi/id/bios_release)
+bios_version=$(cat /sys/class/dmi/id/bios_version)
 
 case $1 in
---major)
-	echo ${version%%.*} | tr -d v
+--specmajor)
+	echo ${spec_version%%.*} | tr -d v
 	;;
---minor)
-	echo ${version##*.}
+--specminor)
+	echo ${spec_version##*.}
+	;;
+--vendor)
+	echo "${bios_vendor} ${bios_release}(${bios_version})"
 	;;
 "")
-	echo ${version}
+	echo ${spec_version}
 	;;
 *)
 	exit 1
