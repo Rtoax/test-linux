@@ -5,6 +5,9 @@ PROJECT(CMakeSamples)
 
 message(STATUS CMAKE_CURRENT_LIST_DIR=${CMAKE_CURRENT_LIST_DIR})
 
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../Modules")
+
+include(os)
 add_definitions("-DCMAKE_SAMPLES=1")
 
 add_subdirectory(execute)
