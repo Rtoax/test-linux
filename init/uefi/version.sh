@@ -6,6 +6,10 @@
 #
 set -e
 
+if [[ ! -d /sys/firmware/efi/ ]]; then
+	exit 1
+fi
+
 # UEFI Specification Version
 spec_version=$(sudo dmesg | grep -i "EFI v" | grep -Eo 'v[0-9]+\.[0-9]+')
 
