@@ -36,6 +36,7 @@
 /map_percpu_hash
 /map_array
 /map_percpu_array
+/map_prog_array
 /map_lru_hash
 /map_lru_percpu_hash
 /rbtree

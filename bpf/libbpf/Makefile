@@ -90,7 +90,7 @@ ifeq ($(call kver_gt,6,12,0),y)
   target-y += iter_kmem_cache
 endif
 target-y += $(kobjs-y)
-target-y += map_array map_percpu_array
+target-y += map_array map_prog_array map_percpu_array
 target-y += xdp_xskmap
 
 CFLAGS_BPF += ${bpf-helper-cflags}
@@ -249,6 +249,8 @@ CFLAGS_map_array := -DSOCKET_FILTER=1 -DRING_BUFFER=1 -DMAP_ARRAY=1
 CFLAGS_BPF_map_array := ${CFLAGS_map_array}
 CFLAGS_map_percpu_array := -DSOCKET_FILTER=1 -DRING_BUFFER=1 -DMAP_PERCPU_ARRAY=1
 CFLAGS_BPF_map_percpu_array := ${CFLAGS_map_percpu_array}
+CFLAGS_map_prog_array := -DSOCKET_FILTER=1 -DRING_BUFFER=1 -DMAP_PROG_ARRAY=1
+CFLAGS_BPF_map_prog_array := ${CFLAGS_map_prog_array}
 CFLAGS_BPF_map_ringbuf := -DRING_BUFFER=1 -DMAP_ARRAY=1
 CFLAGS_BPF_map_devmap := ${CFLAGS_BPF_xdp_devmap}
 
@@ -396,3 +398,5 @@ ${OUTPUT}map_array.o: ${OUTPUT}map_array.skel.h
 map_array: ${OUTPUT}map_array.o ${HELPERS}
 map_percpu_array: ${OUTPUT}map_percpu_array.o ${HELPERS}
 ${OUTPUT}map_percpu_array.o: ${OUTPUT}map_percpu_array.skel.h
+map_prog_array: ${OUTPUT}map_prog_array.o ${HELPERS}
+${OUTPUT}map_prog_array.o: ${OUTPUT}map_prog_array.skel.h

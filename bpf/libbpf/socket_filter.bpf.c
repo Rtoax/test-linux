@@ -61,6 +61,8 @@ struct {
 struct {
 #if defined(MAP_PERCPU_ARRAY)
 	__uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
+#elif defined(MAP_PROG_ARRAY)
+	__uint(type, BPF_MAP_TYPE_PROG_ARRAY);
 #elif defined(MAP_ARRAY)
 	/**
 	 * BPF_MAP_TYPE_ARRAY

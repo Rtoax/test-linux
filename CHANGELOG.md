@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- bpf: test `BPF_MAP_TYPE_PROG_ARRAY`;
 - cpp/std: add cout subdir;
 - cpp: add std subdir;
 - binutils: add version.sh and apply to binutils.mk;
