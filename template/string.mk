@@ -6,6 +6,7 @@
 # - toupper_shell()
 # - tolower()
 # - tolower_shell()
+# - uniq_repeat()
 #
 ifndef _STRING_MK
 _STRING_MK = 1
@@ -24,11 +25,36 @@ define tolower_shell
 $(shell $(call tolower,${1}))
 endef
 
+# This is a good choice if a Makefile target has multiple conditional
+# statements, for example:
+# target-$(call uniq_repeat,${IS_AARCH64}$(call gcc_ge,15.2.1)) := x
+#
+# $1: string to uniq
+# result: uniq string, for example: xxxyyy -> xy
+define uniq_repeat
+$(shell printf '%s' '$(subst ','\'',$(1))' | sed 's/\(.\)\1*/\1/g')
+endef
+
 ifneq ($(call toupper_shell,abcDEF),ABCDEF)
   $(error "ERROR: toupper failed, $(call toupper_shell,abcDEF)")
 endif
 ifneq ($(call tolower_shell,abcDEF),abcdef)
   $(error "ERROR: toupper failed, $(call tolower_shell,abcDEF)")
+endif
+ifneq ($(call uniq_repeat,xxxyyy),xy)
+  $(error "ERROR: uniq_repeat(xxxyyy) failed")
+endif
+ifneq ($(call uniq_repeat,xxxyyyxxx),xyx)
+  $(error "ERROR: uniq_repeat(xxxyyyxxx) failed")
+endif
+ifneq ($(call uniq_repeat,xyzzzzzzz),xyz)
+  $(error "ERROR: uniq_repeat(xyzzzzzzz) failed")
+endif
+ifneq ($(call uniq_repeat,'''zzzzzzz),'z)
+  $(error "ERROR: uniq_repeat('''zzzzzzz) failed")
+endif
+ifneq ($(call uniq_repeat,"""zzzzzzz),"z)
+  $(error "ERROR: uniq_repeat("""zzzzzzz) failed")
 endif
 
 endif

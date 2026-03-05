@@ -24,7 +24,7 @@ Linux OS Distributions
 * 6.12.0 (centos10)
 * 6.8.0 (ubuntu24.04)
 * 6.6.0 (openEuler24.03)
-* 5.15.131 (cclinux22.09.2)
+* 5.15.131 (cclinux21.08.5,cclinux22.09.2)
 * 5.15.0 (ubuntu22.04)
 * 5.14.0 (almalinux9.7,centos9)
 * 5.10.13 ()
