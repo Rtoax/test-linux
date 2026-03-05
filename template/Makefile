@@ -2,12 +2,16 @@
 # Copyright (C) 2025-2026 Rong Tao
 # Test all template mk
 #
+# Usage: $ make MK_ALL=[os.mk] DEBUG=1
+#
 __IGNORE_NOTFOUND_ERROR__ = 1
 OUTPUT := .output/
 
 V ?= 1
 
-MK_ALL := $(shell find -name '*.mk')
+ifndef MK_ALL
+  MK_ALL := $(shell find -name '*.mk')
+endif
 
 MK_TGT := $(filter ./targets/%,${MK_ALL})
 MK_TGT := $(filter-out ./targets/test/%,${MK_TGT})
