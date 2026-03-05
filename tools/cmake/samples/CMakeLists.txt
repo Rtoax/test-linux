@@ -15,6 +15,6 @@ add_subdirectory(execute)
 add_subdirectory(function)
 add_subdirectory(string)
 
-add_library(lib1 STATIC lib1.c)
+add_library(checkmacro STATIC checkmacro.c)
 
 include_directories(".")

@@ -66,6 +66,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- LinuxDistro.cmake: add `__os_major__` and `__os_minor__` to cflags;
 - cmake/Modules: add LinuxDistro.cmake;
 - cmake: add Modules subdir;
 - cmake: add cmake/samples/execute subdir;
