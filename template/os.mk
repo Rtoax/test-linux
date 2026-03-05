@@ -33,8 +33,15 @@ get_distr_info = $(patsubst "%",%,$(shell grep $(1) /etc/os-release 2>/dev/null 
 
 OS_ID := $(call get_distr_info, '^ID=')
 OS_VERSION_ID := $(call get_distr_info, '^VERSION_ID=')
+DEBIAN_VERSION_FULL := $(call get_distr_info, '^DEBIAN_VERSION_FULL=')
+
 __os_major__ := $(shell echo ${OS_VERSION_ID} | awk -F '.' '{print $$1}')
 __os_minor__ := $(shell echo ${OS_VERSION_ID} | awk -F '.' '{print $$2}')
+ifeq (${__os_minor__},)
+  ifneq (${DEBIAN_VERSION_FULL},)
+    __os_minor__ := $(shell echo ${DEBIAN_VERSION_FULL} | awk -F '.' '{print $$2}')
+  endif
+endif
 ifeq (${__os_minor__},)
   __os_minor__ := 0
 endif
