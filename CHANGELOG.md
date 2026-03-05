@@ -66,6 +66,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- cmake: add Modules/CDataType/`__float128.cmake`;
 - LinuxDistro.cmake: add `__os_major__` and `__os_minor__` to cflags;
 - cmake/Modules: add LinuxDistro.cmake;
 - cmake: add Modules subdir;
