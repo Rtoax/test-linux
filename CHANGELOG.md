@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- os.mk: add `OS_VERSION_ID_MAJOR`, `OS_VERSION_ID_MINOR`, `OS_FEDORA`, `OS_UBUNTU`;
 - macro: split `__stringify.h` from `__stringify.c`;
 - macro: add os.c for testing template/os.mk;
 - uefi: add version.sh;
