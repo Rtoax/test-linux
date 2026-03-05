@@ -2,20 +2,22 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
-# - OS_ID=[fedora|ubuntu|debian]
+# - OS_ID=[fedora|ubuntu|debian|cclinux]
 # - __fedora__=1
 # - __ubuntu__=1
 # - __debian__=1
+# - __cclinux__=1
 #
 # - OS_VERSION_ID=[43|24.04]
 # - __os_major__=[43|24]
 # - __os_minor__=[0|04]
 #
-# - OS_CFLAGS+=-DOS_ID=[fedora|ubuntu|debian]
+# - OS_CFLAGS+=-DOS_ID=${OS_ID}
 #   OS_CFLAGS+=-D__fedora__=1
 #   OS_CFLAGS+=-D__ubuntu__=1
 #   OS_CFLAGS+=-D__debian__=1
-#   OS_CFLAGS+=-DOS_VERSION_ID=[43|24.03]
+#   OS_CFLAGS+=-D__cclinux__=1
+#   OS_CFLAGS+=-DOS_VERSION_ID=${OS_VERSION_ID}
 #   OS_CFLAGS+=-D__os_major__=[43|24]
 #   OS_CFLAGS+=-D__os_minor__=[|04]
 #      C source code should use OS_ID like:
@@ -60,6 +62,9 @@ else ifeq (${OS_ID},ubuntu)
 else ifeq (${OS_ID},debian)
   OS_CFLAGS := -D__debian__=1
   export __debian__ = 1
+else ifeq (${OS_ID},cclinux)
+  OS_CFLAGS := -D__cclinux__=1
+  export __cclinux__ = 1
 else
   $(error "Not support ${OS_ID}, please add it to template/os.mk")
 endif
