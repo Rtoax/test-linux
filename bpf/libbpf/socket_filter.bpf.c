@@ -80,6 +80,30 @@ struct {
 	__uint(max_entries, 256);
 } proto_cnt SEC(".maps");
 
+#if defined(MAP_PROG_ARRAY)
+struct str {
+	char v[64];
+};
+/**
+ * FIXME: could not use '.rel.map'
+ * libbpf: elf: skipping unrecognized data section(5) .map
+ * libbpf: elf: skipping relo section(10) .rel.map for section(5) .map
+ */
+struct str ip = { .v = "IP" };
+struct str icmp = { .v = "ICMP" };
+struct {
+	__uint(type, BPF_MAP_TYPE_PROG_ARRAY);
+	__uint(max_entries, 100);
+	__uint(key_size, sizeof(int));
+	__array(values, struct str);
+} proto_name SEC(".map") = {
+	.values = {
+		[IPPROTO_IP] = &ip,
+		[IPPROTO_ICMP] = &icmp,
+	},
+};
+#endif
+
 /**
  * SEC("socketxxxx") will be parse as BPF_PROG_TYPE_SOCKET_FILTER
  * Or set bpf prog type with bpf_program__set_type()
