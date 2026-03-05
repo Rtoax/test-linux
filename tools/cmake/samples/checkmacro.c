@@ -10,3 +10,7 @@
 #if !defined(__os_major__) || !defined(__os_minor__)
 #error Must define __os_major__ and __os_minor__
 #endif
+
+#ifdef SUPPORT___float128
+#pragma message Defined SUPPORT___float128
+#endif
