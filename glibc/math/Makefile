@@ -1,3 +1,5 @@
+include arch.mk
+
 target-y += ceil
 target-y += copysign
 target-y += exp
@@ -11,8 +13,8 @@ target-y += log log-stress
 target-y += sin
 target-y += signbit
 target-y += nextafter
-target-y += __Float32x4_t
-target-y += __Float64x2_t
+target-${IS_AARCH64} += __Float32x4_t
+target-${IS_AARCH64} += __Float64x2_t
 
 LDFLAGS := -lm
 
