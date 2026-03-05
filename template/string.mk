@@ -32,7 +32,7 @@ endef
 # $1: string to uniq
 # result: uniq string, for example: xxxyyy -> xy
 define uniq_repeat
-$(shell printf '%s' $(1) | sed 's/\(.\)\1*/\1/g')
+$(shell printf '%s' '$(subst ','\'',$(1))' | sed 's/\(.\)\1*/\1/g')
 endef
 
 ifneq ($(call toupper_shell,abcDEF),ABCDEF)
@@ -49,6 +49,12 @@ ifneq ($(call uniq_repeat,xxxyyyxxx),xyx)
 endif
 ifneq ($(call uniq_repeat,xyzzzzzzz),xyz)
   $(error "ERROR: uniq_repeat(xyzzzzzzz) failed")
+endif
+ifneq ($(call uniq_repeat,'''zzzzzzz),'z)
+  $(error "ERROR: uniq_repeat('''zzzzzzz) failed")
+endif
+ifneq ($(call uniq_repeat,"""zzzzzzz),"z)
+  $(error "ERROR: uniq_repeat("""zzzzzzz) failed")
 endif
 
 endif
