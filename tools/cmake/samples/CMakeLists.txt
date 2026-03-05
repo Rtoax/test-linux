@@ -9,7 +9,7 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../Modules")
 include(LinuxDistro)
 
 add_definitions("-DCMAKE_SAMPLES=1")
-add_definitions("-D__${LINUX_DISTRO}__=1")
+add_definitions(${LINUX_DISTRO_CFLAGS})
 
 add_subdirectory(execute)
 add_subdirectory(function)
