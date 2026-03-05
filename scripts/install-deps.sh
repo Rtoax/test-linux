@@ -48,11 +48,12 @@ declare have_base have_upgrade have_ai have_cuda have_rocm have_gpu have_fs \
 declare have_services have_3rd_party
 
 has_pkgs() {
-	echo ${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_rdma}${have_cxl}${have_services}${have_rocm}${have_ostree}
+	echo ${have_base}${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_rdma}${have_cxl}${have_services}${have_rocm}${have_ostree}
 }
 
 enable_all()
 {
+	have_base=YES
 	have_compiler=YES
 	have_build=YES
 	have_docs=YES
@@ -299,6 +300,7 @@ DESCRIPTION
 ARGUMENT
 	--all              all but no 3rd
 
+	--base             install basic pkgs
 	--compilers        install compilers, such as rust java
 	--build            install package builders, such as meson ninja
 	--docs             install document packages, such as python3-sphinx
@@ -328,7 +330,6 @@ ARGUMENT
 
 	--3rd              get third party software packages above
 
-	--nobase           skip basic packages
 	--noup,--noupgrade skip upgrade
 
 	--pip, --nopip     install python pip wheel packages or skip even --all
@@ -355,7 +356,7 @@ SEE ALSO
 
 TEMP_ARGS=$(getopt --options uvhfk: \
 	--long all \
-	--long nobase \
+	--long base \
 	--long noup --long noupgrade \
 	--long fs \
 	--long compilers \
@@ -408,9 +409,9 @@ while true; do
 		shift
 		have_upgrade=""
 		;;
-	--nobase)
+	--base)
 		shift
-		have_base=""
+		have_base=YES
 		;;
 	--fs)
 		shift
