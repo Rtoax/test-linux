@@ -21,7 +21,7 @@ ifeq ($(OS_VERSION_ID),)
   $(error Not found VERSION_ID in /etc/os-release)
 endif
 
-OS_CFLAGS += -DOS_ID="${OS_ID}"
+OS_CFLAGS += -DOS_ID="\"${OS_ID}\""
 OS_CFLAGS += -DOS_VERSION_ID=${OS_VERSION_ID}
 
 ifdef DEBUG

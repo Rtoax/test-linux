@@ -5,8 +5,8 @@ include arch.mk
 include kernel.mk
 include cross-compile.mk
 include compiler.mk
+include os.mk
 
-target-y :=
 target-y += align
 target-y += alias
 target-y += arch
@@ -38,6 +38,7 @@ target-y += LINUX_VERSION_CODE
 target-y += __GLIBC__ __GLIBC_MINOR__ __GLIBC_PREREQ
 target-y += __GLIBC_USE
 target-y += splice
+target-y += os
 
 target-${IS_X86_64} += __x86_64__
 target-${CC_M32} += __i386__
@@ -63,6 +64,7 @@ LDFLAGS___WORDSIZE-32 := -m32
 CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 CFLAGS___user := -Wno-error=attributes
 CFLAGS___cplusplus-std98 := -std=c++98
+CFLAGS_os += ${OS_CFLAGS}
 
 target-prep-y := compiler-macros.h
 target-shell-y := likely.sh
@@ -112,6 +114,7 @@ __GLIBC_MINOR__: $(OUTPUT)__GLIBC_MINOR__.o
 __GLIBC_PREREQ: $(OUTPUT)__GLIBC_PREREQ.o
 __GLIBC_USE: $(OUTPUT)__GLIBC_USE.o
 splice: $(OUTPUT)splice.o
+os: $(OUTPUT)os.o
 
 compiler-macros.h:
 	$(call log_tgt,HDR,$(@))
