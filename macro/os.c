@@ -9,6 +9,8 @@ int main(void)
 	printf("OS is Fedora\n");
 #elif defined(__ubuntu__)
 	printf("OS is Ubuntu\n");
+#elif defined(__debian__)
+	printf("OS is Debian\n");
 #else
 #error Must define OS_$distro
 #endif
