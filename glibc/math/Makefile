@@ -1,4 +1,3 @@
-target-y :=
 target-y += ceil
 target-y += copysign
 target-y += exp
@@ -12,13 +11,10 @@ target-y += log log-stress
 target-y += sin
 target-y += signbit
 target-y += nextafter
+target-y += __Float32x4_t
+target-y += __Float64x2_t
 
-CC := gcc
-
-CFLAGS :=
-CFLAGS += -lm
-
-LDFLAGS := ${CFLAGS}
+LDFLAGS := -lm
 
 CFLAGS_sqrt-stress := -DSTRESS=1
 CFLAGS_log-stress := -DSTRESS=1
@@ -42,6 +38,8 @@ log-stress: log-stress.o
 sin: sin.o
 signbit: signbit.o
 nextafter: nextafter.o
+__Float32x4_t: __Float32x4_t.o
+__Float64x2_t: __Float64x2_t.o
 
 clean-tmp:
 	${Q}rm -rf tmpd-* tmp-*

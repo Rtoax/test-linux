@@ -13,3 +13,5 @@
 /sin
 /signbit
 /nextafter
+/__Float32x4_t
+/__Float64x2_t

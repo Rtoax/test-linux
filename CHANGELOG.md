@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- glibc/math: add `__Float32x4_t.c` and `__Float64x2_t.c`;
 - bpf: test `BPF_MAP_TYPE_PROG_ARRAY`;
 - cpp/std: add cout subdir;
 - cpp: add std subdir;
