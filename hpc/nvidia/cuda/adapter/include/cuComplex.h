@@ -95,7 +95,7 @@
 #  include <hcComplex.h>
 # endif
 #elif defined(__USE_HIP__)
-# include <amd_detail/amd_hip_complex.h>
+# include <hip/amd_detail/amd_hip_complex.h>
 #endif
 
 #endif
