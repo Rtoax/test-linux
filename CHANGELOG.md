@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- macro: split `__stringify.h` from `__stringify.c`;
 - macro: add os.c for testing template/os.mk;
 - uefi: add version.sh;
 - glibc/math: test `__Float32x4_t`, `__Float64x2_t`, `__SVFloat32_t`, `__SVFloat64_t`, `__SVBool_t` on aarch64;

@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-
-#define __stringify_1(x...)	#x
-#define __stringify(x...)	__stringify_1(x)
+#include "__stringify.h"
 
 /* #include "stdint.h" */
 #include __stringify(stdint.h)

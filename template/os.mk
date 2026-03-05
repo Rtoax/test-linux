@@ -4,7 +4,11 @@
 # Output definitions:
 # - OS_ID=[fedora]
 # - OS_VERSION_ID=[43]
-# - OS_CFLAGS=-DOS_ID=["fedora"] -DOS_VERSION_ID=[43]
+# - OS_CFLAGS=-DOS_ID=[fedora] -DOS_VERSION_ID=[43]
+#      C source code should use OS_ID like:
+#      #if OS_ID == fedora
+#      #pragma message fedora
+#      #endif
 #
 ifndef _OS_MK
 _OS_MK = 1
@@ -21,7 +25,7 @@ ifeq ($(OS_VERSION_ID),)
   $(error Not found VERSION_ID in /etc/os-release)
 endif
 
-OS_CFLAGS += -DOS_ID="\"${OS_ID}\""
+OS_CFLAGS += -DOS_ID=${OS_ID}
 OS_CFLAGS += -DOS_VERSION_ID=${OS_VERSION_ID}
 
 ifdef DEBUG

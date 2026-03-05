@@ -38,17 +38,16 @@ target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs-y))
 # warning: brace elision for designated initializer is a C99 extension [-Wc99-designator]
 CFLAGS_HIPCC_half := -Wno-c99-designator -Wno-c++20-designator
 
+common-cflags := ${cflags-support-types-y} -I..
 # FIXME and TODO: I just install cuda13.0 on fedora 43, but cuda13.0 not support
-# fedora43 yet. If cuda support fedora43, then remove FEDORA43_CFLAGS.
+# fedora43 yet. If cuda support fedora43, then could remove OS_CFLAGS.
 # see commit c10a95f14208 ("cuda13.0: skip compile error on fedora 43")
-ifeq (${OS_ID}:${OS_VERSION_ID},fedora:43)
-  FEDORA43_CFLAGS := -DOS_IS_FEDORA43=1
-endif
+common-cflags += ${OS_CFLAGS}
 
-CFLAGS_HIPCC := ${cflags-support-types-y} -I.. ${FEDORA43_CFLAGS}
-CFLAGS_HTCC := ${cflags-support-types-y} -I.. ${FEDORA43_CFLAGS}
-CFLAGS_LSCC := ${cflags-support-types-y} -I.. ${FEDORA43_CFLAGS}
-CFLAGS_NVCC := ${cflags-support-types-y} -I.. ${FEDORA43_CFLAGS}
+CFLAGS_HIPCC := ${common-cflags}
+CFLAGS_HTCC := ${common-cflags}
+CFLAGS_LSCC := ${common-cflags}
+CFLAGS_NVCC := ${common-cflags}
 
 include main.mk
 

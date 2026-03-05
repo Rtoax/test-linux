@@ -143,7 +143,8 @@ __global__ void k_double_precision_mathematical(void)
 /**
  * see commit c10a95f14208 ("cuda13.0: skip compile error on fedora 43")
  */
-#if defined(OS_IS_FEDORA43) && (CUDA_VERSION >= 13000 && CUDA_VERSION < 14000)
+#if defined(OS_ID) && OS_ID == fedora && OS_VERSION_ID == 43 && \
+	(CUDA_VERSION >= 13000 && CUDA_VERSION < 14000)
 # warning "fedora 43 not support cuda13.0 rsqrt() yet"
 #else
 	PDOUBLE(rsqrt(pi));
