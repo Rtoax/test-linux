@@ -110,7 +110,7 @@ __global__ void k_float_precision_mathematical(void)
 /**
  * see commit c10a95f14208 ("cuda13.0: skip compile error on fedora 43")
  */
-#if defined(OS_FEDORA) && OS_VERSION_ID_MAJOR == 43 && \
+#if defined(__fedora__) && OS_VERSION_ID_MAJOR == 43 && \
 	(CUDA_VERSION >= 13000 && CUDA_VERSION < 14000)
 # warning "fedora 43 not support cuda13.0 rsqrtf() yet"
 #else

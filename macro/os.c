@@ -5,9 +5,9 @@ int main(void)
 {
 	/* see os.mk */
 	printf("ID=%s\n", __stringify(OS_ID));
-#ifdef OS_FEDORA
+#ifdef __fedora__
 	printf("OS is Fedora\n");
-#elif defined(OS_UBUNTU)
+#elif defined(__ubuntu__)
 	printf("OS is Ubuntu\n");
 #else
 #error Must define OS_$distro

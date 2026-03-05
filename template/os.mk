@@ -7,13 +7,13 @@
 # - OS_VERSION_ID=[43|24.04]
 #
 # - OS_CFLAGS+=-DOS_ID=[fedora|ubuntu]
-#   OS_CFLAGS+=-DOS_FEDORA=1
-#   OS_CFLAGS+=-DOS_UBUNTU=1
+#   OS_CFLAGS+=-D__fedora__=1
+#   OS_CFLAGS+=-D__ubuntu__=1
 #   OS_CFLAGS+=-DOS_VERSION_ID=[43|24.03]
 #   OS_CFLAGS+=-DOS_VERSION_ID_MAJOR=[43|24]
 #   OS_CFLAGS+=-DOS_VERSION_ID_MINOR=[|04]
 #      C source code should use OS_ID like:
-#      #if OS_ID == fedora
+#      #ifdef __fedora__
 #      #pragma message fedora
 #      #endif
 #
@@ -36,9 +36,9 @@ endif
 
 OS_CFLAGS += -DOS_ID=${OS_ID}
 ifeq (${OS_ID},fedora)
-  OS_CFLAGS := -DOS_FEDORA=1
+  OS_CFLAGS := -D__fedora__=1
 else ifeq (${OS_ID},ubuntu)
-  OS_CFLAGS := -DOS_UBUNTU=1
+  OS_CFLAGS := -D__ubuntu__=1
 else
   $(error "Not support ${OS_ID}, please add it to template/os.mk")
 endif
