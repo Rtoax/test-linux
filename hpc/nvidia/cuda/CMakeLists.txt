@@ -6,9 +6,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CUDA_STANDARD 17)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
-# see /usr/share/cmake/Modules/FindCUDA/
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../../../tools/cmake/Modules/")
+
+# test-linux cmake modules
+include(LinuxDistro)
+# system cmake modules, see /usr/share/cmake/Modules/FindCUDA/
 include(FindCUDA)
 include(FindCUDA/select_compute_arch)
+
+add_definitions("${LINUX_DISTRO_CFLAGS}")
 
 # If use cu-bridge, USE_CU_BRIDGE be defined and added to cflags
 message(STATUS CUDA_NVCC_EXECUTABLE=${CUDA_NVCC_EXECUTABLE})
