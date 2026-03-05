@@ -66,6 +66,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- cmake: add cmake/samples/execute subdir;
 - cmake: add policy/CMP0146.sh;
 - redis: add version.sh;
 - add redis subdir;
