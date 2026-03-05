@@ -6,9 +6,10 @@ PROJECT(CMakeSamples)
 message(STATUS CMAKE_CURRENT_LIST_DIR=${CMAKE_CURRENT_LIST_DIR})
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../Modules")
+include(LinuxDistro)
 
-include(os)
 add_definitions("-DCMAKE_SAMPLES=1")
+add_definitions("-D__${LINUX_DISTRO}__=1")
 
 add_subdirectory(execute)
 add_subdirectory(function)

@@ -66,7 +66,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
-- cmake/Modules: add os.cmake;
+- cmake/Modules: add LinuxDistro.cmake;
 - cmake: add Modules subdir;
 - cmake: add cmake/samples/execute subdir;
 - cmake: add policy/CMP0146.sh;

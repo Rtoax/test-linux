@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "__stringify.h"
 
-int main(void)
+void display(void)
 {
 	/* see os.mk */
 	printf("ID=%s\n", __stringify(OS_ID));
@@ -17,5 +17,10 @@ int main(void)
 #error Must define OS_$distro
 #endif
 	printf("VERSION_ID=%s\n", __stringify(OS_VERSION_ID));
+}
+
+int main(void)
+{
+	display();
 	return 0;
 }
