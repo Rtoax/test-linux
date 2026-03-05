@@ -200,6 +200,7 @@ rust_ver() { add_ver "Rust $(${TOPDIR}/rust/version.sh)"; }
 shell_ver() { add_ver "$(${TOPDIR}/shell/version.sh --pretty-name) $(${TOPDIR}/shell/version.sh)"; }
 strace_ver() { add_ver "Strace $(${TOPDIR}/syscall/strace/version.sh)"; }
 systemd_ver() { add_ver "Systemd $(${TOPDIR}/init/systemd/version.sh)"; }
+uefi_ver() { add_ver "UEFI $(${TOPDIR}/init/uefi/version.sh)"; }
 vim_ver() { add_ver "Vim $(${TOPDIR}/tools/vim/version.sh)"; }
 
 cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
@@ -299,6 +300,10 @@ fi
 
 if [[ "$(has_type vim)$(has_key vim)" ]]; then
 	vim_ver
+fi
+
+if [[ "$(has_type efi)$(has_key uefi UEFI efi EFI)" ]]; then
+	uefi_ver
 fi
 
 if [[ "$(has_key libbpf pahole)" ]]; then
