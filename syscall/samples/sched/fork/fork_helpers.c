@@ -70,6 +70,7 @@ int load_pid(const char *filename)
 	return pid;
 }
 
+#if !defined(__aarch64__)
 int sys_fork(void)
 {
 	return syscall(__NR_fork);
@@ -79,3 +80,4 @@ int sys_vfork(void)
 {
 	return syscall(__NR_vfork);
 }
+#endif
