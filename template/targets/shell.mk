@@ -24,6 +24,6 @@ ${OUTPUT}%.sh.log.${1}: %.sh
 	$$(Q)$$(RUNPROG) --log $$(@) $$(SHELL_ENVS_$$(<).${1}) -- $${SHELL} $$(<) $$(SHELL_ARGS_$$(<).${1})
 endef
 
-$(foreach sfx, ${src-sfx-list}, $(eval $(call sh_target,${sfx})))
+$(foreach sfx, ${SRC_SFX_LIST}, $(eval $(call sh_target,${sfx})))
 
 endif

@@ -108,20 +108,20 @@ build-targets += $(target-lscc-liba-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 
-src-sfx-list := 1 2 3 4 5 6 7 8 9 10
+SRC_SFX_LIST := 1 2 3 4 5 6 7 8 9 10
 # %.1 %.2 ...
-tgt-sfx-list := $(patsubst %,\%.%,${src-sfx-list})
+MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 
 # $1: target name, like shell in target-shell-y
 # $2: target extension, like .sh for shell, could be a list
 # $3: log extension, like .log, .prog.log
 define add_target_program
 # without .N suffix
-target-${1}-y-orig := $$(filter-out $${tgt-sfx-list},$$(target-${1}-y))
+target-${1}-y-orig := $$(filter-out $${MK_TGT_SFX_LIST},$$(target-${1}-y))
 # log with .N suffix
 $$(foreach ext, ${2}, \
   $$(eval target-${1}-y-sfx := $$(filter-out $${target-${1}-y-orig},$$(target-${1}-y))) \
-  $$(foreach sfx, $${src-sfx-list}, \
+  $$(foreach sfx, $${SRC_SFX_LIST}, \
     $$(eval target-${1}-y-sfx := $$(patsubst %${ext}.$${sfx},$${OUTPUT}%${ext}${3}.$${sfx},$$(target-${1}-y-sfx))) \
   ) \
 )

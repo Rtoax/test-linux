@@ -21,6 +21,6 @@ ${OUTPUT}%.prog.log.${1}: %
 	$$(Q)$$(RUNPROG) --log $$(@) $$(PROG_ENVS_$$(<).${1}) -- $$(<) $$(PROG_ARGS_$$(<).${1})
 endef
 
-$(foreach sfx, ${src-sfx-list}, $(eval $(call prog_target,${sfx})))
+$(foreach sfx, ${SRC_SFX_LIST}, $(eval $(call prog_target,${sfx})))
 
 endif
