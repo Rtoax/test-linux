@@ -3,7 +3,7 @@
 #
 # Copyright (C) 2025-2026 Rong Tao
 #
-# Usage: runprog.sh [options] -- EXE [EXE ARGS...]
+# Usage: runprog.sh [options] -- EXEC [EXEC ARGS...]
 #
 set -e
 
@@ -90,7 +90,14 @@ while true; do
 	esac
 done
 
-${ENVS:+env} ${ENVS[@]} ${SUDO} ${TMOUT:+timeout ${TMOUT}} ${@} | tee ${LOG_FILE}
+LEFT_ARGS=( "${@}" )
+EXEC=${LEFT_ARGS[0]}
+if [[ -f ${EXEC} ]] && [[ "${EXEC:0:1}" != "/" ]] && \
+   [[ "${EXEC:0:2}" != "./" ]] && [[ "${EXEC:0:3}" != "../" ]]; then
+	LEFT_ARGS[0]="./${EXEC}"
+fi
+
+${ENVS:+env} ${ENVS[@]} ${SUDO} ${TMOUT:+timeout ${TMOUT}} ${LEFT_ARGS[@]} | tee ${LOG_FILE}
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 	rm -f ${LOG_FILE}
 	error "${@}: run failed"

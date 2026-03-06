@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
+- runprog.sh: add `./` prefix if need;
 - cuda/samples: add assert.cu;
 - os.mk: add `__os_major__`, `__os_minor__`, `__fedora__`, `__ubuntu__`;
 - macro: split `__stringify.h` from `__stringify.c`;
