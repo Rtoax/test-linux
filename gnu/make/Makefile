@@ -2,6 +2,9 @@
 include dir.mk
 
 target-mk-y := $(shell ls *.mak)
+target-mk-y += eval.mak.1
+
+ARGS_eval.mk.1 := Rong Tao
 
 target-shell-y := version.sh version.sh.1 version.sh.2
 

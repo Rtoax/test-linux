@@ -114,16 +114,17 @@ tgt-sfx-list :=
 $(foreach sfx, ${src-sfx-list}, $(eval tgt-sfx-list += %.${sfx}))
 
 # $1: target name, like shell in target-shell-y
-# $2: target extension, like .sh for shell
+# $2: target extension, like .sh for shell, could be a list
 # $3: log extension, like .log, .prog.log
 define add_target_program
 # without .N suffix
 target-${1}-y-orig := $$(filter-out $${tgt-sfx-list},$$(target-${1}-y))
-# with .N suffix
-target-${1}-y-sfx := $$(filter-out $${target-${1}-y-orig},$$(target-${1}-y))
 # log with .N suffix
-$$(foreach sfx, $${src-sfx-list}, \
-  $$(eval target-${1}-y-sfx := $$(patsubst %${2}.$${sfx},$${OUTPUT}%${2}${3}.$${sfx},$$(target-${1}-y-sfx))) \
+$$(foreach ext, ${2}, \
+  $$(eval target-${1}-y-sfx := $$(filter-out $${target-${1}-y-orig},$$(target-${1}-y))) \
+  $$(foreach sfx, $${src-sfx-list}, \
+    $$(eval target-${1}-y-sfx := $$(patsubst %${ext}.$${sfx},$${OUTPUT}%${ext}${3}.$${sfx},$$(target-${1}-y-sfx))) \
+  ) \
 )
 # all logs
 build-targets += $$(patsubst %,$${OUTPUT}%${3},$$(target-${1}-y-orig)) $${target-${1}-y-sfx}
@@ -131,8 +132,7 @@ endef
 
 $(eval $(call add_target_program,prog,,.prog.log))
 $(eval $(call add_target_program,shell,.sh,.log))
-$(eval $(call add_target_program,mk,.mk,.log))
-$(eval $(call add_target_program,mk,.mak,.log))
+$(eval $(call add_target_program,mk,.mk .mak,.log))
 $(eval $(call add_target_program,python,.py,.log))
 $(eval $(call add_target_program,bt,.bt,.log))
 

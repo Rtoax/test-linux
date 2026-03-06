@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
 
-if [[ "${@}" != "RRRRRRRRRRRRR" ]]; then
+if [[ "${@}" != "RRRRRRRRRRRRR TTTTTTTTTTT" ]]; then
 	exit 1
 fi
