@@ -139,7 +139,6 @@ $(eval $(call add_target_program,bt,.bt,.log))
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
 
-$(error build-targets = ${build-targets})
 
 ifdef DEBUG
   $(info CFLAGS = ${CFLAGS})
