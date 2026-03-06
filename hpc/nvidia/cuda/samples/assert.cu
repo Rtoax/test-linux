@@ -4,14 +4,14 @@
 #include <stdio.h>
 #include <cuda_runtime.h>
 
-extern "C" __global__ void assert_kernel(void)
+extern "C" __global__ void assert_kernel(bool v)
 {
-	assert(1 > 2);
+	assert(v > 2);
 }
 
 int main(void)
 {
-	assert_kernel<<<1, 1, 0>>>();
+	assert_kernel<<<1, 1, 0>>>(1);
 	/* flush printf */
 	cudaDeviceSynchronize();
 	return 0;
