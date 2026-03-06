@@ -98,6 +98,7 @@
 
 /**
  * CUDA <= 12020:
+ * CUresult cuCtxCreate(CUcontext *pctx, unsigned int flags, CUdevice dev);
  * CUresult cuCtxCreate_v2(CUcontext *pctx, unsigned int flags, CUdevice dev);
  *
  * CUDA > 12020:
