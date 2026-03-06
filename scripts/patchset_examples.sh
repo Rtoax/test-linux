@@ -19,7 +19,7 @@ set -e
 # get patch info
 {
 	./patchset.sh --from=1f28d343262b --to=1f28d343262b --no-cover-letter
-	if [[ "$(./patchset.sh --patch tmp.patch/0001-patchset.sh-update-help-info.patch)" != "patchset.sh: update help info" ]]; then
+	if [[ "$(./patchset.sh --patch patchset.patch/0001-patchset.sh-update-help-info.patch)" != "patchset.sh: update help info" ]]; then
 		echo >&2 "ERROR: --patch run failed."
 		exit 1
 	fi
