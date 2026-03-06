@@ -141,17 +141,8 @@ build-targets += $$(patsubst %,$${OUTPUT}%.log,$$(target-${1}-y-orig)) $${target
 endef
 
 $(eval $(call add_target_program,shell,sh))
-
-tgts-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
-tgts-src += %.mk
-tgts-from-src += $(patsubst %.mak,%.mak.log,$(target-mk-y))
-tgts-src += %.mak
-$(foreach sfx, ${src-sfx-list}, \
-  $(eval tgts-src += %.mk.${sfx}) \
-  $(eval tgts-src += %.mak.${sfx}) \
-  $(eval tgts-from-src += $(patsubst %.mk.${sfx},%.mk.log.${sfx},$(target-mk-y))) \
-  $(eval tgts-from-src += $(patsubst %.mak.${sfx},%.mak.log.${sfx},$(target-mak-y))) \
-)
+$(eval $(call add_target_program,mk,mk))
+$(eval $(call add_target_program,mk,mak))
 
 tgts-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
 tgts-src += %.py
