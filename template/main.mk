@@ -125,16 +125,22 @@ $(foreach sfx, ${src-sfx-list}, \
 # all prog logs
 build-targets += $(patsubst %,${OUTPUT}%.prog.log,$(target-prog-y-orig)) ${target-prog-y-sfx}
 
-# shell without .N suffix
-target-shell-y-orig := $(filter-out ${tgt-sfx-list},$(target-shell-y))
-# shell with .N suffix
-target-shell-y-sfx := $(filter-out ${target-shell-y-orig},$(target-shell-y))
-# shell log with .N suffix
-$(foreach sfx, ${src-sfx-list}, \
-  $(eval target-shell-y-sfx := $(patsubst %.sh.${sfx},${OUTPUT}%.sh.log.${sfx},$(target-shell-y-sfx))) \
+# $1: target name, like shell in target-shell-y
+# $2: target short name, like sh for shell
+define add_target_program
+# without .N suffix
+target-${1}-y-orig := $$(filter-out $${tgt-sfx-list},$$(target-${1}-y))
+# with .N suffix
+target-${1}-y-sfx := $$(filter-out $${target-${1}-y-orig},$$(target-${1}-y))
+# log with .N suffix
+$$(foreach sfx, $${src-sfx-list}, \
+  $$(eval target-${1}-y-sfx := $$(patsubst %.${2}.$${sfx},$${OUTPUT}%.${2}.log.$${sfx},$$(target-${1}-y-sfx))) \
 )
-# all shell logs
-build-targets += $(patsubst %,${OUTPUT}%.log,$(target-shell-y-orig)) ${target-shell-y-sfx}
+# all logs
+build-targets += $$(patsubst %,$${OUTPUT}%.log,$$(target-${1}-y-orig)) $${target-${1}-y-sfx}
+endef
+
+$(eval $(call add_target_program,shell,sh))
 
 tgts-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
 tgts-src += %.mk
