@@ -133,6 +133,7 @@ install: uninstall
 	${Q}ln -s ${TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
 	${Q}ln -s ${TOPDIR}/scripts/git/rm-permanent.sh /usr/bin/git-rm-permanent
 	${Q}ln -s ${TOPDIR}/scripts/patchset.sh /usr/bin/patchset
+	${Q}ln -s ${TOPDIR}/scripts/findelf.sh /usr/bin/findelf
 	${Q}ln -s ${TOPDIR}/scripts/termplot.sh /usr/bin/termplot
 	${Q}ln -s ${TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
 	${Q}ln -s ${TOPDIR}/init/kernel/compile.sh /usr/bin/kcompile
@@ -151,6 +152,7 @@ uninstall:
 		/usr/bin/git-push-remote-all-tags \
 		/usr/bin/git-rm-permanent \
 		/usr/bin/patchset \
+		/usr/bin/findelf \
 		/usr/bin/termplot \
 		/usr/bin/kconfig_compare \
 		/usr/bin/kcompile \

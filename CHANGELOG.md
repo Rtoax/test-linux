@@ -55,6 +55,7 @@ and this project adheres to
 - template: add rust.mk;
 - device-tree: add abbrev.md;
 #### Changed
+- move shell/`find_elf.sh` to scripts/findelf.sh;
 - rename COMPILE.md to QUICKSTART.md;
 - move coredump into gnu/gdb/;
 - move binfmt, criu, livepatch, `static_key` into tools;
