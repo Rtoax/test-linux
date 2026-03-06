@@ -110,8 +110,7 @@ build-targets += $(target-java-y)
 
 src-sfx-list := 1 2 3 4 5 6 7 8 9 10
 # %.1 %.2 ...
-tgt-sfx-list :=
-$(foreach sfx, ${src-sfx-list}, $(eval tgt-sfx-list += %.${sfx}))
+tgt-sfx-list := $(patsubst %,\%.%,${src-sfx-list})
 
 # $1: target name, like shell in target-shell-y
 # $2: target extension, like .sh for shell, could be a list
