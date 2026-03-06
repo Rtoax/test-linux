@@ -14,7 +14,8 @@ __USE_HIP_HELPERS__ = ${HAVE_HIP}
 __USE_LUCA_HELPERS__ = ${HAVE_LUCA}
 __USE_HPCC_HELPERS__ = ${HAVE_HPCC}
 
-common-objs := attribute
+common-objs += assert
+common-objs += attribute
 common-objs += cooperative
 common-objs += device
 common-objs += dim3
