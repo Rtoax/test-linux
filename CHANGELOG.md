@@ -10,6 +10,20 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+#### Template
+
+
+## [v2.3.17] 2026-03-06
+
+#### Breaking Changes
 - log.mk: `log_obj()` remove 2nd argument;
 #### Added
 - runprog.sh: add `./` prefix if need;
