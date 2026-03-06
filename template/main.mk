@@ -111,6 +111,13 @@ build-targets += $(target-java-y)
 tgts-src :=
 src-sfx-list := 1 2 3 4 5 6 7 8 9 10
 
+tgts-from-src += $(patsubst %,${OUTPUT}%.prog.log,$(target-prog-y))
+tgts-src += $(target-prog-y)
+$(foreach sfx, ${src-sfx-list}, \
+  $(eval tgts-src += %.${sfx}) \
+  $(eval tgts-from-src += $(patsubst %.${sfx},${OUTPUT}%.prog.log.${sfx},$(target-prog-y))) \
+)
+
 tgts-from-src += $(patsubst %.sh,${OUTPUT}%.sh.log,$(target-shell-y))
 tgts-src += %.sh
 $(foreach sfx, ${src-sfx-list}, \
@@ -227,6 +234,9 @@ ifneq ($(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y),)
 endif
 ifneq ($(target-shell-y),)
   include targets/shell.mk
+endif
+ifneq ($(target-prog-y),)
+  include targets/prog.mk
 endif
 ifneq ($(target-mk-y),)
   include targets/make.mk

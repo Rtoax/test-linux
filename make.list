@@ -39,6 +39,7 @@ user-list-y += namespace
 user-list-y += network
 user-list-y += numa
 user-list-y += pahole
+user-list-y += perl
 user-list-y += python
 user-list-y += qemu
 user-list-y += rust
