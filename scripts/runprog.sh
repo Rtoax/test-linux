@@ -93,7 +93,8 @@ done
 LEFT_ARGS=( "${@}" )
 EXEC=${LEFT_ARGS[0]}
 if [[ -f ${EXEC} ]] && [[ "${EXEC:0:1}" != "/" ]] && \
-   [[ "${EXEC:0:2}" != "./" ]] && [[ "${EXEC:0:3}" != "../" ]]; then
+   [[ "${EXEC:0:2}" != "./" ]] && [[ "${EXEC:0:3}" != "../" ]] && \
+   [[ ! $(which ${EXEC} 2>/dev/null) ]]; then
 	LEFT_ARGS[0]="./${EXEC}"
 fi
 
