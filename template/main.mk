@@ -108,7 +108,6 @@ build-targets += $(target-lscc-liba-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 
-tgts-src :=
 src-sfx-list := 1 2 3 4 5 6 7 8 9 10
 # %.1 %.2 ...
 tgt-sfx-list :=
@@ -143,27 +142,8 @@ endef
 $(eval $(call add_target_program,shell,sh))
 $(eval $(call add_target_program,mk,mk))
 $(eval $(call add_target_program,mk,mak))
-
-tgts-from-src += $(patsubst %.py,%.py.log,$(target-python-y))
-tgts-src += %.py
-$(foreach sfx, ${src-sfx-list}, \
-  $(eval tgts-src += %.py.${sfx}) \
-  $(eval tgts-from-src += $(patsubst %.py.${sfx},%.py.log.${sfx},$(target-python-y))) \
-)
-
-tgts-from-src += $(patsubst %.bt,%.bt.log,$(target-bt-y))
-tgts-src += %.bt
-$(foreach sfx, ${src-sfx-list}, \
-  $(eval tgts-src += %.bt.${sfx}) \
-  $(eval tgts-from-src += $(patsubst %.bt.${sfx},%.bt.log.${sfx},$(target-bt-y))) \
-)
-
-# Here we need to perform filter-out. For example, both mk and mak are
-# target-mk-y added in the original Makefile. This means that origin
-# targets tgts-from-src may contain targets for .mk and .mak, which
-# will cause the original files to be deleted during clean. Therefore,
-# we need to filter out the original files here.
-build-targets += $(filter-out ${tgts-src}, $(tgts-from-src))
+$(eval $(call add_target_program,python,py))
+$(eval $(call add_target_program,bt,bt))
 
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
