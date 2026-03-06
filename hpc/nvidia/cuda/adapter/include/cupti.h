@@ -104,6 +104,10 @@
  * CUDA > 12020:
  * CUresult cuCtxCreate_v3(CUcontext *pctx, CUexecAffinityParam *paramsArray,
  *                         int numParams, unsigned int flags, CUdevice dev);
+ *
+ * CUDA >= 13
+ * CUresult cuCtxCreate_v4(CUcontext *pctx, CUctxCreateParams *ctxCreateParams,
+ *                         unsigned int flags, CUdevice dev);
  */
 #define cuCtxCreate cuX(CtxCreate)
 #define cuCtxDestroy cuX(CtxDestroy)
