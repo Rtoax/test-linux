@@ -113,17 +113,6 @@ src-sfx-list := 1 2 3 4 5 6 7 8 9 10
 tgt-sfx-list :=
 $(foreach sfx, ${src-sfx-list}, $(eval tgt-sfx-list += %.${sfx}))
 
-# prog without .N suffix
-target-prog-y-orig := $(filter-out ${tgt-sfx-list},$(target-prog-y))
-# prog with .N suffix
-target-prog-y-sfx := $(filter-out ${target-prog-y-orig},$(target-prog-y))
-# prog log with .N suffix
-$(foreach sfx, ${src-sfx-list}, \
-  $(eval target-prog-y-sfx := $(patsubst %.${sfx},${OUTPUT}%.prog.log.${sfx},$(target-prog-y-sfx))) \
-)
-# all prog logs
-build-targets += $(patsubst %,${OUTPUT}%.prog.log,$(target-prog-y-orig)) ${target-prog-y-sfx}
-
 # $1: target name, like shell in target-shell-y
 # $2: target extension, like .sh for shell
 # $3: log extension, like .log, .prog.log
@@ -140,6 +129,7 @@ $$(foreach sfx, $${src-sfx-list}, \
 build-targets += $$(patsubst %,$${OUTPUT}%${3},$$(target-${1}-y-orig)) $${target-${1}-y-sfx}
 endef
 
+$(eval $(call add_target_program,prog,,.prog.log))
 $(eval $(call add_target_program,shell,.sh,.log))
 $(eval $(call add_target_program,mk,.mk,.log))
 $(eval $(call add_target_program,mk,.mak,.log))
@@ -149,6 +139,7 @@ $(eval $(call add_target_program,bt,.bt,.log))
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
 
+$(error build-targets = ${build-targets})
 
 ifdef DEBUG
   $(info CFLAGS = ${CFLAGS})

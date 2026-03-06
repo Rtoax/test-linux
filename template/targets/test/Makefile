@@ -23,4 +23,8 @@ ARGS_test.mk.1 := TEST_MK_DEF_1=1
 ARGS_test.mk.9 := TEST_MK_DEF_1=9
 ARGS_test.mk.10 := TEST_MK_DEF_1=10
 
+target-prog-y := test-args.sh
+
+PROG_ARGS_test-args.sh := RRRRRRRRRRRRR
+
 include main.mk
