@@ -115,23 +115,26 @@ tgt-sfx-list :=
 $(foreach sfx, ${src-sfx-list}, $(eval tgt-sfx-list += %.${sfx}))
 
 # prog without .N suffix
-target-prog-y-orig += $(filter-out ${tgt-sfx-list},$(target-prog-y))
+target-prog-y-orig := $(filter-out ${tgt-sfx-list},$(target-prog-y))
 # prog with .N suffix
-target-prog-y-sfx += $(filter-out ${target-prog-y-orig},$(target-prog-y))
+target-prog-y-sfx := $(filter-out ${target-prog-y-orig},$(target-prog-y))
 # prog log with .N suffix
 $(foreach sfx, ${src-sfx-list}, \
   $(eval target-prog-y-sfx := $(patsubst %.${sfx},${OUTPUT}%.prog.log.${sfx},$(target-prog-y-sfx))) \
 )
 # all prog logs
-target-prog-y := $(patsubst %,${OUTPUT}%.prog.log,$(target-prog-y-orig)) ${target-prog-y-sfx}
-build-targets += ${target-prog-y}
+build-targets += $(patsubst %,${OUTPUT}%.prog.log,$(target-prog-y-orig)) ${target-prog-y-sfx}
 
-tgts-from-src += $(patsubst %.sh,${OUTPUT}%.sh.log,$(target-shell-y))
-tgts-src += %.sh
+# shell without .N suffix
+target-shell-y-orig := $(filter-out ${tgt-sfx-list},$(target-shell-y))
+# shell with .N suffix
+target-shell-y-sfx := $(filter-out ${target-shell-y-orig},$(target-shell-y))
+# shell log with .N suffix
 $(foreach sfx, ${src-sfx-list}, \
-  $(eval tgts-src += %.sh.${sfx}) \
-  $(eval tgts-from-src += $(patsubst %.sh.${sfx},${OUTPUT}%.sh.log.${sfx},$(target-shell-y))) \
+  $(eval target-shell-y-sfx := $(patsubst %.sh.${sfx},${OUTPUT}%.sh.log.${sfx},$(target-shell-y-sfx))) \
 )
+# all shell logs
+build-targets += $(patsubst %,${OUTPUT}%.log,$(target-shell-y-orig)) ${target-shell-y-sfx}
 
 tgts-from-src += $(patsubst %.mk,%.mk.log,$(target-mk-y))
 tgts-src += %.mk
