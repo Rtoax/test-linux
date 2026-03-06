@@ -110,13 +110,21 @@ build-targets += $(target-java-y)
 
 tgts-src :=
 src-sfx-list := 1 2 3 4 5 6 7 8 9 10
+# %.1 %.2 ...
+tgt-sfx-list :=
+$(foreach sfx, ${src-sfx-list}, $(eval tgt-sfx-list += %.${sfx}))
 
-tgts-from-src += $(patsubst %,${OUTPUT}%.prog.log,$(target-prog-y))
-tgts-src += $(target-prog-y)
+# prog without .N suffix
+target-prog-y-orig += $(filter-out ${tgt-sfx-list},$(target-prog-y))
+# prog with .N suffix
+target-prog-y-sfx += $(filter-out ${target-prog-y-orig},$(target-prog-y))
+# prog log with .N suffix
 $(foreach sfx, ${src-sfx-list}, \
-  $(eval tgts-src += %.${sfx}) \
-  $(eval tgts-from-src += $(patsubst %.${sfx},${OUTPUT}%.prog.log.${sfx},$(target-prog-y))) \
+  $(eval target-prog-y-sfx := $(patsubst %.${sfx},${OUTPUT}%.prog.log.${sfx},$(target-prog-y-sfx))) \
 )
+# all prog logs
+target-prog-y := $(patsubst %,${OUTPUT}%.prog.log,$(target-prog-y-orig)) ${target-prog-y-sfx}
+build-targets += ${target-prog-y}
 
 tgts-from-src += $(patsubst %.sh,${OUTPUT}%.sh.log,$(target-shell-y))
 tgts-src += %.sh
