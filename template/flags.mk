@@ -17,6 +17,9 @@ endif
 ifdef ERROR
   SUBMKFLAGS += ERROR=${ERROR}
 endif
+ifdef KMOD
+  SUBMKFLAGS += KMOD=${KMOD}
+endif
 
 export SUBMKFLAGS
 
