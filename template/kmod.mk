@@ -5,7 +5,7 @@
 # - KDIR=
 #
 ifndef _KMOD_MK
-_KMOD_MK = 1
+export _KMOD_MK = 1
 
 KDIR := /lib/modules/$(shell uname -r)/build/
 

@@ -23,7 +23,7 @@
 # - LDFLAGS_HIPCC_SO=
 #
 ifndef _TARGET_HIP_MK
-_TARGET_HIP_MK = 1
+export _TARGET_HIP_MK = 1
 
 include amd/rocm.mk
 include dir.mk

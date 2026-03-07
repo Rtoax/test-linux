@@ -5,7 +5,7 @@
 # - OPENSSL_VERSION_{MAJOR,MINOR,PATCH}=
 #
 ifndef _OPENSSL_MK
-_OPENSSL_MK = 1
+export _OPENSSL_MK = 1
 
 OPENSSL := openssl
 

@@ -4,7 +4,7 @@
 # - NOSUBDIR: use for skip all sub-directory
 #
 ifndef _TARGET_SUBDIR_HEADER_MK
-_TARGET_SUBDIR_HEADER_MK = 1
+export _TARGET_SUBDIR_HEADER_MK = 1
 
 subdir-y ?=
 

@@ -6,7 +6,7 @@
 # - CPU_HAVE_${FEATURE}=y
 #
 ifndef _BITS_CPU_FEATURE_MK
-_BITS_CPU_FEATURE_MK = 1
+export _BITS_CPU_FEATURE_MK = 1
 
 include arch.mk
 include string.mk

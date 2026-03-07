@@ -2,7 +2,7 @@
 # Copyright (C) 2024-2026 Rong Tao
 
 ifndef _SUCCESS_MK
-_SUCCESS_MK = 1
+export _SUCCESS_MK = 1
 
 define success
 @echo -e "${1}                      dBWWS-"

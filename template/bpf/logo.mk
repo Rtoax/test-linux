@@ -6,7 +6,7 @@
 # - logo_bpf_summit_2021_nocolor()
 #
 ifndef _BPF_LOGO_MK
-_BPF_LOGO_MK = 1
+export _BPF_LOGO_MK = 1
 
 include ansi.mk
 

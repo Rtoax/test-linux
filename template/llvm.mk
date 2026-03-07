@@ -17,7 +17,7 @@
 # - llvm_support_target()
 #
 ifndef _LLVM_MK
-_LLVM_MK = 1
+export _LLVM_MK = 1
 
 include shell.mk
 include clang.mk

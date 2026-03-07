@@ -7,7 +7,7 @@
 # - libcgroup-ldflags=
 #
 ifndef _LIBCGROUP_MK
-_LIBCGROUP_MK = 1
+export _LIBCGROUP_MK = 1
 
 LIBCGROUP_H := /usr/include/libcgroup.h
 libcgroup-cflags :=

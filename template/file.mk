@@ -5,7 +5,7 @@
 # - reset_file($file)
 #
 ifndef _FILE_MK
-_FILE_MK = 1
+export _FILE_MK = 1
 
 include shell.mk
 

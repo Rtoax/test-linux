@@ -2,7 +2,7 @@
 # Copyright (C) 2024-2026 Rong Tao
 #
 ifndef _BFD_MK
-_BFD_MK = 1
+export _BFD_MK = 1
 
 pound := \#
 

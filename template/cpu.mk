@@ -6,7 +6,7 @@
 # - cpu-cflags=
 #
 ifndef _CPU_MK
-_CPU_MK = 1
+export _CPU_MK = 1
 
 include bits/cpu-cache.mk
 include bits/cpu-feature.mk

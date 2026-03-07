@@ -6,7 +6,7 @@
 # - SHELL_ARGS_*=
 #
 ifndef _TARGET_SHELL_MK
-_TARGET_SHELL_MK = 1
+export _TARGET_SHELL_MK = 1
 
 include shell.mk
 include dir.mk

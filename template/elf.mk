@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _ELF_MK
-_ELF_MK = 1
+export _ELF_MK = 1
 
 # return 'y' if is pie
 define elf_is_pie

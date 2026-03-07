@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _VDSO_MK
-_VDSO_MK = 1
+export _VDSO_MK = 1
 
 VDSO_ROOT := $(shell realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST))))/../vdso/)
 

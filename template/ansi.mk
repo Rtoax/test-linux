@@ -7,7 +7,7 @@
 # Exports:
 #
 ifndef _ANSI_MK
-_ANSI_MK = 1
+export _ANSI_MK = 1
 
 ANSI_BLACK := \033[30m
 ANSI_RED := \033[31m

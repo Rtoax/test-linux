@@ -17,7 +17,7 @@
 # - ldflags-support-headers-y=
 #
 ifndef _COMPILER_MK
-_COMPILER_MK = 1
+export _COMPILER_MK = 1
 
 include shell.mk
 include compiler/feature.mk

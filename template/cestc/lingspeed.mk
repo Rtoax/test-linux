@@ -9,7 +9,7 @@
 # - HAVE_LINGSPEED_X710P=[y|n]
 #
 ifndef _CESTC_LINGSPEED_MK
-_CESTC_LINGSPEED_MK = 1
+export _CESTC_LINGSPEED_MK = 1
 
 # CECloud Computing Technology Co., Ltd.
 # https://admin.pci-ids.ucw.cz/read/PC/20e1

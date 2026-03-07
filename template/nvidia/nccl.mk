@@ -8,7 +8,7 @@
 # - HAVE_NCCL=[y]
 #
 ifndef _NVIDIA_NCCL_MK
-_NVIDIA_NCCL_MK = 1
+export _NVIDIA_NCCL_MK = 1
 
 include define.mk
 include nvidia/cuda.mk

@@ -20,7 +20,7 @@
 # - gcc_lt()=[y|n]
 #
 ifndef _GCC_MK
-_GCC_MK = 1
+export _GCC_MK = 1
 
 include dir.mk
 

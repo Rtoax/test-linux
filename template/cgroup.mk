@@ -7,7 +7,7 @@
 # - CGROUP_V2=[y|n]
 #
 ifndef _CGROUP_MK
-_CGROUP_MK = 1
+export _CGROUP_MK = 1
 
 CGROUPFS_ROOT := /sys/fs/cgroup
 

@@ -8,7 +8,7 @@
 # - bcc-ldflags=
 #
 ifndef _BPF_BCC_MK
-_BPF_BCC_MK = 1
+export _BPF_BCC_MK = 1
 
 LIBBCC_PATH := $(shell ldconfig -p | grep libbcc.so 2>/dev/null | awk '{print $$NF}' | head -1)
 

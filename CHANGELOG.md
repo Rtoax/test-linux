@@ -19,6 +19,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- export all make template header macros;
 
 
 ## [v2.3.17] 2026-03-06

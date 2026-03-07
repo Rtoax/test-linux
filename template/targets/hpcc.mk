@@ -24,7 +24,7 @@
 # - NODEFAULTRPATH
 #
 ifndef _TARGET_HPCC_MK
-_TARGET_HPCC_MK = 1
+export _TARGET_HPCC_MK = 1
 
 include metax/hpcc.mk
 include dir.mk

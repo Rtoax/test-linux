@@ -11,7 +11,7 @@
 # - MAKEFLAGS+=
 #
 ifndef _VERBOSE_MK
-_VERBOSE_MK = 1
+export _VERBOSE_MK = 1
 
 ifneq ($(V),)
   Q =

@@ -6,7 +6,7 @@
 # - GIT_CONFIG_CORE_HOOKSPATH=
 #
 ifndef _GIT_MK
-_GIT_MK = 1
+export _GIT_MK = 1
 
 # Note: top Makefile use git.mk, before install, we could not include template
 # mk in here.

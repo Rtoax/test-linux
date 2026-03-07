@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _GNU_MK
-_GNU_MK = 1
+export _GNU_MK = 1
 
 include ansi.mk
 

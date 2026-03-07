@@ -5,7 +5,7 @@
 # - CC=[cc]
 #
 ifndef _COMPILER_CHECK_MK
-_COMPILER_CHECK_MK = 1
+export _COMPILER_CHECK_MK = 1
 
 # Check compiler support option or not
 # $(1) - compiler, for example: gcc, clang, etc.

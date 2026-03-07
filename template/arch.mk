@@ -13,7 +13,7 @@
 # - IS_SW_64=[y]
 #
 ifndef _ARCH_MK
-_ARCH_MK = 1
+export _ARCH_MK = 1
 
 CPU_ARCH := $(shell uname -m)
 cflags-arch :=

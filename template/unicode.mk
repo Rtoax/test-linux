@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
 ifndef _UNICODE_MK
-_UNICODE_MK = 1
+export _UNICODE_MK = 1
 
 U2665 = ♥
 U2764 = ❤

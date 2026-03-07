@@ -27,7 +27,7 @@
 # - kver_uapi_lt()=[y|n]
 #
 ifndef _KERNEL_MK
-_KERNEL_MK = 1
+export _KERNEL_MK = 1
 
 include shell.mk
 

@@ -5,7 +5,7 @@
 # - make_{gt,ge,eq,lt,le}()=[y|n]
 #
 ifndef _MAKE_MK
-_MAKE_MK = 1
+export _MAKE_MK = 1
 
 include dir.mk
 include version.mk

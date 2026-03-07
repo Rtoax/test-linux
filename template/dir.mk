@@ -9,7 +9,7 @@
 # - strip_topdir_prefix()
 #
 ifndef _DIR_MK
-_DIR_MK = 1
+export _DIR_MK = 1
 
 TOPDIR := $(dir $(shell realpath $(abspath $(lastword $(MAKEFILE_LIST))/../)))
 CURDIR := $(shell realpath .)

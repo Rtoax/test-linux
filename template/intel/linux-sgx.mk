@@ -9,7 +9,7 @@
 # - SGX_EDGER8R=[/usr/bin/sgx_edger8r]
 #
 ifndef _INTEL_LINUX_SGX_MK
-_INTEL_LINUX_SGX_MK = 1
+export _INTEL_LINUX_SGX_MK = 1
 
 SGX_SIGN := $(shell which sgx_sign 2>/dev/null)
 SGX_EDGER8R := $(shell which sgx_edger8r 2>/dev/null)

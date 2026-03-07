@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
 ifndef _ASCII_MK
-_ASCII_MK = 1
+export _ASCII_MK = 1
 
 ASCII191 := ┐
 ASCII192 := └

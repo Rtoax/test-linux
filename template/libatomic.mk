@@ -5,7 +5,7 @@
 # - HAVE_LIBATOMIC=y
 
 ifndef _LIBATOMIC_MK
-_LIBATOMIC_MK = 1
+export _LIBATOMIC_MK = 1
 
 LIBATOMIC := $(shell ldconfig -p | grep -w libatomic.so 2>/dev/null | awk '{print $$4}')
 

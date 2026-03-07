@@ -5,7 +5,7 @@
 # - PYTHON=[/usr/bin/python]
 #
 ifndef _PYTHON_MK
-_PYTHON_MK = 1
+export _PYTHON_MK = 1
 
 PYTHON := $(shell which python 2>/dev/null || true)
 ifeq (${PYTHON},)

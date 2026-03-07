@@ -6,7 +6,7 @@
 # - RUSTC=[/usr/bin/rustc]
 #
 ifndef _RUSTC_MK
-_RUSTC_MK = 1
+export _RUSTC_MK = 1
 
 include shell.mk
 

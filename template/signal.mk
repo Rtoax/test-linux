@@ -4,7 +4,7 @@
 # - sig-cflags=
 #
 ifndef _SIGNAL_MK
-_SIGNAL_MK = 1
+export _SIGNAL_MK = 1
 
 include bits/signum-generic.mk
 

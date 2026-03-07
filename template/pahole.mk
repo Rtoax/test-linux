@@ -20,7 +20,7 @@
 # - pahole_le()=[y|n]
 #
 ifndef _PAHOLE_MK
-_PAHOLE_MK = 1
+export _PAHOLE_MK = 1
 
 include dir.mk
 include shell.mk

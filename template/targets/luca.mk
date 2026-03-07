@@ -23,7 +23,7 @@
 # - LSCORE1002=1
 #
 ifndef _TARGET_LUCA_MK
-_TARGET_LUCA_MK = 1
+export _TARGET_LUCA_MK = 1
 
 include cestc/luca.mk
 include dir.mk

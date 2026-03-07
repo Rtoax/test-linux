@@ -20,7 +20,7 @@
 # - __USE_HPCC_HELPERS__=y
 #
 ifndef _TARGET_HELPERS_MK
-_TARGET_HELPERS_MK = 1
+export _TARGET_HELPERS_MK = 1
 
 include helpers.mk
 include flags.mk

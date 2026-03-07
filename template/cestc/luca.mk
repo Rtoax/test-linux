@@ -20,7 +20,7 @@
 # - LUCA_VERSION_PATCH=
 #
 ifndef _CESTC_LUCA_MK
-_CESTC_LUCA_MK = 1
+export _CESTC_LUCA_MK = 1
 
 include define.mk
 

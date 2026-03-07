@@ -5,6 +5,6 @@
 # - HAVE_PYTORCH=[y|n]
 #
 ifndef _PYTORCH_MK
-_PYTORCH_MK = 1
+export _PYTORCH_MK = 1
 
 endif

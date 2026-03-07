@@ -14,7 +14,7 @@
 # - vmlinux_has_sym_shell()
 #
 ifndef _BPF_BTF_MK
-_BPF_BTF_MK = 1
+export _BPF_BTF_MK = 1
 
 include shell.mk
 include bpf/bpftool.mk

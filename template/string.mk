@@ -9,7 +9,7 @@
 # - uniq_repeat()
 #
 ifndef _STRING_MK
-_STRING_MK = 1
+export _STRING_MK = 1
 
 define toupper
 echo $(1) | tr '[:lower:]' '[:upper:]'

@@ -5,7 +5,7 @@
 # - RUNPROG=..../scripts/runprog.sh
 #
 ifndef _RUNPROG_MK
-_RUNPROG_MK = 1
+export _RUNPROG_MK = 1
 
 include dir.mk
 

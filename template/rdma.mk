@@ -6,7 +6,7 @@
 # Output definitions:
 #
 ifndef _RDMA_MK
-_RDMA_MK = 1
+export _RDMA_MK = 1
 
 include define.mk
 

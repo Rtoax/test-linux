@@ -2,7 +2,7 @@
 # Copyright (C) 2026 Rong Tao
 #
 ifndef _COMPILER_TYPES_MK
-_COMPILER_TYPES_MK = 1
+export _COMPILER_TYPES_MK = 1
 
 include compiler/check.mk
 

@@ -8,7 +8,7 @@
 # - BPFTOOL_VERSION_MINOR=
 #
 ifndef _BPF_BPFTOOL_MK
-_BPF_BPFTOOL_MK = 1
+export _BPF_BPFTOOL_MK = 1
 
 include dir.mk
 

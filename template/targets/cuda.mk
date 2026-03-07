@@ -29,7 +29,7 @@
 # - HAVE_NVIDIA_GPU
 #
 ifndef _TARGET_NVIDIA_MK
-_TARGET_NVIDIA_MK = 1
+export _TARGET_NVIDIA_MK = 1
 
 include dir.mk
 include nvidia/cuda.mk
