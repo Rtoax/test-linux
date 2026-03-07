@@ -8,19 +8,21 @@ _FLAGS_MK = 1
 
 SUBMKFLAGS ?=
 
-ifdef V
-  SUBMKFLAGS += V=${V}
+define add_submkflags
+ifdef ${1}
+  SUBMKFLAGS += ${1}=$${${1}}
 endif
+endef
+
+$(eval $(call add_submkflags,V))
+$(eval $(call add_submkflags,DEBUG))
+$(eval $(call add_submkflags,ERROR))
+$(eval $(call add_submkflags,KMOD))
+
 ifdef DEBUG
-  SUBMKFLAGS += DEBUG=${DEBUG}
-endif
-ifdef ERROR
-  SUBMKFLAGS += ERROR=${ERROR}
-endif
-ifdef KMOD
-  SUBMKFLAGS += KMOD=${KMOD}
+  $(info SUBMKFLAGS = ${SUBMKFLAGS})
 endif
 
 export SUBMKFLAGS
 
-endif
+endif # _FLAGS_MK
