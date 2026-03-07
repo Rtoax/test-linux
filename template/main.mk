@@ -119,10 +119,16 @@ define add_target_program
 # without .N suffix
 target-${1}-y-orig := $$(filter-out $${MK_TGT_SFX_LIST},$$(target-${1}-y))
 # log with .N suffix
-$$(foreach ext, ${2}, \
+$$(if ${ext}, \
+  $$(foreach ext, ${2}, \
+    $$(eval target-${1}-y-sfx := $$(filter-out $${target-${1}-y-orig},$$(target-${1}-y))) \
+    $$(foreach sfx, $${SRC_SFX_LIST}, \
+      $$(eval target-${1}-y-sfx := $$(patsubst %${ext}.$${sfx},$${OUTPUT}%${ext}${3}.$${sfx},$$(target-${1}-y-sfx))) \
+    ) \
+  ), \
   $$(eval target-${1}-y-sfx := $$(filter-out $${target-${1}-y-orig},$$(target-${1}-y))) \
   $$(foreach sfx, $${SRC_SFX_LIST}, \
-    $$(eval target-${1}-y-sfx := $$(patsubst %${ext}.$${sfx},$${OUTPUT}%${ext}${3}.$${sfx},$$(target-${1}-y-sfx))) \
+    $$(eval target-${1}-y-sfx := $$(patsubst %.$${sfx},$${OUTPUT}%${3}.$${sfx},$$(target-${1}-y-sfx))) \
   ) \
 )
 # all logs
