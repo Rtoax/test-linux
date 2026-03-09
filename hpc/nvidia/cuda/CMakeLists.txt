@@ -14,7 +14,7 @@ include(LinuxDistro)
 include(FindCUDA)
 include(FindCUDA/select_compute_arch)
 
-add_definitions("${LINUX_DISTRO_CFLAGS}")
+add_definitions(${LINUX_DISTRO_CFLAGS})
 
 # If use cu-bridge, USE_CU_BRIDGE be defined and added to cflags
 message(STATUS CUDA_NVCC_EXECUTABLE=${CUDA_NVCC_EXECUTABLE})
