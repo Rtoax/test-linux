@@ -8,5 +8,3 @@ include main.mk
 
 initrd.img:
 	${Q}./build-initrd.sh
-
-fakeinit: fakeinit.o

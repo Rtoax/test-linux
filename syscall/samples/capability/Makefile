@@ -6,6 +6,3 @@ ifeq ($(wildcard /usr/include/sys/capability.h),)
 endif
 
 include main.mk
-
-capget: capget.o
-version: version.o

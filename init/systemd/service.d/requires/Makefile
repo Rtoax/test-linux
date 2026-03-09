@@ -18,4 +18,3 @@ uninstall:
 		/usr/lib/systemd/system/b.service \
 		/usr/lib/systemd/system/c.service
 	sudo systemctl daemon-reload
-

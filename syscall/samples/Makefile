@@ -117,6 +117,8 @@ ifeq ($(shell uname -m),riscv64)
   target-y := $(filter-out getdents, $(target-y))
 endif
 
+link-objs := syscall_helpers.o
+
 CFLAGS += -I../../
 CFLAGS += -pthread
 
@@ -129,8 +131,6 @@ include main.mk
 
 nr.h: nr.sh
 	$(shell bash nr.sh)
-
-link: syscall_helpers.o
 
 clean0:
 	${Q}rm -rf nr.h *.txt testfile tmp-*

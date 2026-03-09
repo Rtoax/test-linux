@@ -16,6 +16,7 @@ target-liba-y := libmmap_helpers.a
 
 libmmap_helpers.a-objs := ${OUTPUT}mmap_helpers.a.o
 libmmap_helpers.so-objs := ${OUTPUT}mmap_helpers.so.o
+get_unmapped_page-objs := libmmap_helpers.a
 
 CFLAGS := -pthread
 CFLAGS += -lrt
@@ -37,16 +38,3 @@ endif
 LDFLAGS += -Wl,-rpath,$(shell pwd)
 
 include main.mk
-
-mmap_helpers.so.o: mmap_helpers.h
-mmap_helpers.a.o: mmap_helpers.h
-
-msync: ${OUTPUT}msync.o
-fexecve: ${OUTPUT}fexecve.o
-mmap-anon: ${OUTPUT}mmap-anon.o
-mmap-file: ${OUTPUT}mmap-file.o
-mremap-file: ${OUTPUT}mremap-file.o
-remap_file_pages: ${OUTPUT}remap_file_pages.o
-get_unmapped_page: ${OUTPUT}get_unmapped_page.o libmmap_helpers.a
-mmap-multi-thread-copy: ${OUTPUT}mmap-multi-thread-copy.o
-mmap-exec: ${OUTPUT}mmap-exec.o

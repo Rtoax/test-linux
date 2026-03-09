@@ -1,16 +1,14 @@
-target-y :=
 target-y += memfd_create
 target-y += memfd_create-dup2
 target-y += MFD_ALLOW_SEALING
 target-y += memfd_secret
 
-CFLAGS :=
+memfd_create-objs := memfd_helpers.o
+memfd_create-dup2-objs := memfd_helpers.o
+MFD_ALLOW_SEALING-objs := memfd_helpers.o
+memfd_secret-objs := memfd_helpers.o
+
 CFLAGS += -pthread
 CFLAGS += -DTEST_MEMFD=1
 
 include main.mk
-
-memfd_create: memfd_create.o memfd_helpers.o
-memfd_create-dup2: memfd_create-dup2.o memfd_helpers.o
-MFD_ALLOW_SEALING: MFD_ALLOW_SEALING.o memfd_helpers.o
-memfd_secret: memfd_secret.o memfd_helpers.o
