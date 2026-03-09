@@ -13,7 +13,7 @@
 # - MAKEFLAGS+=
 #
 ifndef _PIE_MK
-export _PIE_MK = 1
+_PIE_MK = 1
 
 CFLAGS_PIE :=
 LDFLAGS_PIE :=

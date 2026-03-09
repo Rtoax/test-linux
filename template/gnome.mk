@@ -4,7 +4,7 @@
 # Output definitions:
 #
 ifndef _GNOME_MK
-export _GNOME_MK = 1
+_GNOME_MK = 1
 
 XDG_CURRENT_DESKTOP := $(shell echo $$XDG_CURRENT_DESKTOP)
 

@@ -7,7 +7,7 @@
 # - logo_tux()
 #
 ifndef _LOGO_MK
-export _LOGO_MK = 1
+_LOGO_MK = 1
 
 include ansi.mk
 

@@ -5,7 +5,7 @@
 # - TRACEFS=[/sys/kernel/tracing/,/sys/kernel/debug/tracing/]
 #
 ifndef _FS_TRACEFS_MK
-export _FS_TRACEFS_MK = 1
+_FS_TRACEFS_MK = 1
 
 PATH_TRACEFS := /sys/kernel/tracing/
 

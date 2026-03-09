@@ -9,7 +9,7 @@
 # Functions:
 #
 ifndef _CLANG_MK
-export _CLANG_MK = 1
+_CLANG_MK = 1
 
 include shell.mk
 

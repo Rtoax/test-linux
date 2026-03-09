@@ -2,7 +2,7 @@
 # Copyright (C) 2024-2026 Rong Tao
 #
 ifndef _BINUTILS_MK
-export _BINUTILS_MK = 1
+_BINUTILS_MK = 1
 
 include dir.mk
 

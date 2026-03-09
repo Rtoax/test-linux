@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_GOLANG_MK
-export _TARGET_GOLANG_MK = 1
+_TARGET_GOLANG_MK = 1
 
 GO ?= $(shell which go 2>/dev/null)
 ifneq ($(target-go-y),)

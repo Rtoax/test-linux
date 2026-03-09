@@ -11,7 +11,7 @@
 # - HPCC_VERSION_PATCH=
 #
 ifndef _METAX_HPCC_MK
-export _METAX_HPCC_MK = 1
+_METAX_HPCC_MK = 1
 
 include define.mk
 

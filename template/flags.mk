@@ -4,7 +4,7 @@
 # - SUBMKFLAGS
 #
 ifndef _FLAGS_MK
-export _FLAGS_MK = 1
+_FLAGS_MK = 1
 
 SUBMKFLAGS ?=
 

@@ -8,7 +8,7 @@
 # - CFLAGS
 #
 ifndef _USER_MK
-export _USER_MK = 1
+_USER_MK = 1
 
 CONFIG_UID := $(shell id -u)
 

@@ -36,7 +36,7 @@
 # - LDFLAGS
 #
 ifndef _HELPERS_MK
-export _HELPERS_MK = 1
+_HELPERS_MK = 1
 
 include dir.mk
 

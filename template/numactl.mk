@@ -8,7 +8,7 @@
 # - NUMACTL_VERSION_PATCH=
 #
 ifndef _NUMACTL_MK
-export _NUMACTL_MK = 1
+_NUMACTL_MK = 1
 
 include dir.mk
 include shell.mk

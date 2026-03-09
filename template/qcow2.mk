@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _QCOW2_MK
-export _QCOW2_MK = 1
+_QCOW2_MK = 1
 
 QEMU_IMG := qemu-img
 

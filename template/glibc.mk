@@ -10,7 +10,7 @@
 # - libc_sym_addr()
 #
 ifndef _GLIBC_MK
-export _GLIBC_MK = 1
+_GLIBC_MK = 1
 
 GLIBC_VERSION := $(shell getconf GNU_LIBC_VERSION)
 

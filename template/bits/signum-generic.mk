@@ -5,7 +5,7 @@
 #
 
 ifndef	_BITS_SIGNUM_GENERIC_MK
-export _BITS_SIGNUM_GENERIC_MK = 1
+_BITS_SIGNUM_GENERIC_MK = 1
 
 
 # ISO C99 signals.

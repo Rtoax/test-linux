@@ -12,8 +12,8 @@
 # - bpf-helper-cflags=
 #
 ifndef _BPF_HELPER_MK
-export _BPF_HELPER_MK = 1
-export _BPF_KFUNC_MK = 1
+_BPF_HELPER_MK = 1
+_BPF_KFUNC_MK = 1
 
 include kernel.mk
 include pahole.mk

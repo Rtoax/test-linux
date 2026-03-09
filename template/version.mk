@@ -8,7 +8,7 @@
 # - version2_code100010_cmp()
 #
 ifndef _VERSION_MK
-export _VERSION_MK = 1
+_VERSION_MK = 1
 
 include shell.mk
 

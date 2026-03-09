@@ -5,7 +5,7 @@
 # - HAVE_LIBXDP=[y]
 #
 ifndef _BPF_LIBXDP_MK
-export _BPF_LIBXDP_MK = 1
+_BPF_LIBXDP_MK = 1
 
 include define.mk
 

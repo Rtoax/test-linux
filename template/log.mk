@@ -11,7 +11,7 @@
 # - log_display_failed()
 #
 ifndef _LOG_MK
-export _LOG_MK = 1
+_LOG_MK = 1
 
 include dir.mk
 include ansi.mk

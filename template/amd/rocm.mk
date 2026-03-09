@@ -22,7 +22,7 @@
 # - gen_hipcc_macro_hdr()
 #
 ifndef _AMD_ROCM_MK
-export _AMD_ROCM_MK = 1
+_AMD_ROCM_MK = 1
 
 include define.mk
 

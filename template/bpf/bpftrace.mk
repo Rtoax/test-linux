@@ -12,7 +12,7 @@
 # - bpftrace_{gt,ge,eq,lt,le}()=[y|n]
 #
 ifndef _BPFTRACE_MK
-export _BPFTRACE_MK = 1
+_BPFTRACE_MK = 1
 
 BPFTRACE := $(shell which bpftrace 2>/dev/null)
 ifeq ($(BPFTRACE),)

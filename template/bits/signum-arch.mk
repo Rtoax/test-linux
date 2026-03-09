@@ -5,7 +5,7 @@
 #
 
 ifndef _BITS_SIGNUM_ARCH_MK
-export _BITS_SIGNUM_ARCH_MK = 1
+_BITS_SIGNUM_ARCH_MK = 1
 
 SIGSTKFLT	= 16	# Stack fault (obsolete).
 SIGPWR		= 30	# Power failure imminent.

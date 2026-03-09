@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_OUTPUT_MK
-export _TARGET_OUTPUT_MK = 1
+_TARGET_OUTPUT_MK = 1
 
 MKDIR ?= mkdir
 

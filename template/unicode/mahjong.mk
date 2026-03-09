@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
 ifndef _UNICODE_MAHJOING_MK
-export _UNICODE_MAHJOING_MK = 1
+_UNICODE_MAHJOING_MK = 1
 
 U1F000 := 🀀
 U1F001 := 🀁

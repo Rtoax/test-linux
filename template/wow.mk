@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
 ifndef _WOW_MK
-export _WOW_MK = 1
+_WOW_MK = 1
 
 # $1 - prefix
 define wow

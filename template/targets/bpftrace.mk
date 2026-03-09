@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_BPFTRACE_MK
-export _TARGET_BPFTRACE_MK = 1
+_TARGET_BPFTRACE_MK = 1
 
 include dir.mk
 include sudo.mk

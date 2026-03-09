@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_LIBA_MK
-export _TARGET_LIBA_MK = 1
+_TARGET_LIBA_MK = 1
 
 CC ?= gcc
 Q ?= @

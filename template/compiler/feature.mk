@@ -5,7 +5,7 @@
 # - CC=[cc]
 #
 ifndef _COMPILER_FEATURE_MK
-export _COMPILER_FEATURE_MK = 1
+_COMPILER_FEATURE_MK = 1
 
 include compiler/check.mk
 

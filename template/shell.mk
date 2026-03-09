@@ -6,7 +6,7 @@
 # - .SHELLFLAGS=
 #
 ifndef _SHELL_MK
-export _SHELL_MK = 1
+_SHELL_MK = 1
 
 SHELL := bash
 ifneq ($(CHECK_ERROR),)

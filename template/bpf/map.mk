@@ -4,6 +4,6 @@
 # Output definitions:
 #
 ifndef _BPF_MAP_MK
-export _BPF_MAP_MK = 1
+_BPF_MAP_MK = 1
 
 endif

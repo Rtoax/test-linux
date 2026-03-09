@@ -4,7 +4,7 @@
 # - LDCONFIG=
 #
 ifndef _LDCONFIG_MK
-export _LDCONFIG_MK = 1
+_LDCONFIG_MK = 1
 
 LDCONFIG := $(shell which ldconfig 2>/dev/null || true)
 ifeq ($(LDCONFIG),)

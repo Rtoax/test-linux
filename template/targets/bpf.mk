@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_BPF_MK
-export _TARGET_BPF_MK = 1
+_TARGET_BPF_MK = 1
 
 include llvm.mk
 include pahole.mk

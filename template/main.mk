@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2022-2026 Rong Tao
 ifndef _MAIN_MK
-export _MAIN_MK = 1
+_MAIN_MK = 1
 
 CC ?= gcc
 CXX ?= g++

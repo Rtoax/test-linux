@@ -12,7 +12,7 @@
 # Input definitions:
 #
 ifndef _TARGET_LLVM_MK
-export _TARGET_LLVM_MK = 1
+_TARGET_LLVM_MK = 1
 
 include llvm.mk
 

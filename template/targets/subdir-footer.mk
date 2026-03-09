@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_SUBDIR_FOOTER_MK
-export _TARGET_SUBDIR_FOOTER_MK = 1
+_TARGET_SUBDIR_FOOTER_MK = 1
 
 include verbose.mk
 include emoji.mk

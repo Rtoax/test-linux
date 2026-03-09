@@ -27,7 +27,7 @@
 # - cuda_{ge,gt,eq,lt,le}()
 #
 ifndef _NVIDIA_CUDA_MK
-export _NVIDIA_CUDA_MK = 1
+_NVIDIA_CUDA_MK = 1
 
 include define.mk
 include shell.mk

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_PYTHON_MK
-export _TARGET_PYTHON_MK = 1
+_TARGET_PYTHON_MK = 1
 
 include python.mk
 include dir.mk

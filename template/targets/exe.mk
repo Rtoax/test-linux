@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_EXE_MK
-export _TARGET_EXE_MK = 1
+_TARGET_EXE_MK = 1
 
 CC ?= gcc
 CXX ?= g++

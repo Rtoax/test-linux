@@ -5,7 +5,7 @@
 # - HAVE_NVIDIA_GPU=[y|n]
 #
 ifndef _NVIDIA_DEVICE_MK
-export _NVIDIA_DEVICE_MK = 1
+_NVIDIA_DEVICE_MK = 1
 
 # https://admin.pci-ids.ucw.cz/read/PC/10DE
 NVIDIA_PCI_VENDOR_ID := 10DE

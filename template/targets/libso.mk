@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_LIBSO_MK
-export _TARGET_LIBSO_MK = 1
+_TARGET_LIBSO_MK = 1
 
 cflags-so := -fPIC
 ldflags-so := -shared -fPIC

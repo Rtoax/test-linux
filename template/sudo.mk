@@ -6,7 +6,7 @@
 # - SUDO_NON_INTERACTIVE=[y]
 #
 ifndef _SUDO_MK
-export _SUDO_MK = 1
+_SUDO_MK = 1
 
 # If command require superuser privileges to be executed. Otherwise, EPERM
 # will occur. Here, it is detected whether ordinary users are exempt from

@@ -7,7 +7,7 @@
 # - LIBBPF_MINOR_VERSION=
 #
 ifndef _BPF_LIBBPF_MK
-export _BPF_LIBBPF_MK = 1
+_BPF_LIBBPF_MK = 1
 
 include ldconfig.mk
 

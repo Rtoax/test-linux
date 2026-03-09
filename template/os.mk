@@ -26,7 +26,7 @@
 #      #endif
 #
 ifndef _OS_MK
-export _OS_MK = 1
+_OS_MK = 1
 
 OS_CFLAGS :=
 

@@ -3,7 +3,7 @@
 # Input definitions:
 #
 ifndef _TARGET_PROG_MK
-export _TARGET_PROG_MK = 1
+_TARGET_PROG_MK = 1
 
 include shell.mk
 include dir.mk

@@ -5,7 +5,7 @@
 # - cmake_{gt,ge,eq,lt,le}()=[y|n]
 #
 ifndef _CMAKE_MK
-export _CMAKE_MK = 1
+_CMAKE_MK = 1
 
 include dir.mk
 include version.mk

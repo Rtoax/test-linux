@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 ifndef _TARGET_MAKE_MK
-export _TARGET_MAKE_MK = 1
+_TARGET_MAKE_MK = 1
 
 MAKE := make
 

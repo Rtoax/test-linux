@@ -7,7 +7,7 @@
 # - AUTOCONFIG_H=
 #
 ifndef _KCONFIG_MK
-export _KCONFIG_MK = 1
+_KCONFIG_MK = 1
 
 include dir.mk
 

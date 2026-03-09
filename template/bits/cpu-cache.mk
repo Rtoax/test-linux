@@ -8,7 +8,7 @@
 # - cpu-cflags+=-DCPU_L3LINESIZE=[64]
 #
 ifndef _BITS_CPU_CACHE_MK
-export _BITS_CPU_CACHE_MK = 1
+_BITS_CPU_CACHE_MK = 1
 
 CPU_L3LINESIZE :=
 

@@ -2,7 +2,7 @@
 # Copyright (C) 2025-2026 Rong Tao
 
 ifndef _TARGET_RUST_MK
-export _TARGET_RUST_MK = 1
+_TARGET_RUST_MK = 1
 
 include rust.mk
 

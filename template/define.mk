@@ -5,7 +5,7 @@
 # - check_file_and_def()
 #
 ifndef _DEFINE_MK
-export _DEFINE_MK = 1
+_DEFINE_MK = 1
 
 # $1 - file path, like: /usr/include/stdio.h
 # $2 - definition name, like HAVE_STDIO_H=y

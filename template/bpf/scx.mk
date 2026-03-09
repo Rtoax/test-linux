@@ -4,6 +4,6 @@
 # Output definitions:
 #
 ifndef _BPF_SCHED_EXT_MK
-export _BPF_SCHED_EXT_MK = 1
+_BPF_SCHED_EXT_MK = 1
 
 endif

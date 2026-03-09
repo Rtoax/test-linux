@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
 ifndef _EMOJI_MK
-export _EMOJI_MK = 1
+_EMOJI_MK = 1
 
 EMOJI_MOONS := 🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘 🌑
 EMOJI_LOCK := 🔒
