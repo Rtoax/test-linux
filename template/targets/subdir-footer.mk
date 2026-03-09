@@ -4,7 +4,7 @@ _TARGET_SUBDIR_FOOTER_MK = 1
 
 include verbose.mk
 include emoji.mk
-include flags.mk
+include mkflags.mk
 
 ifneq ($(CHECK_ERROR),)
   CHECK_ERROR_EXIT = exit 1;

@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Append flags:
-# - SUBMKFLAGS
+# - SUBMKFLAGS=
 #
-ifndef _FLAGS_MK
-_FLAGS_MK = 1
+ifndef _MKFLAGS_MK
+export _MKFLAGS_MK = 1
 
 SUBMKFLAGS ?=
 
@@ -25,4 +25,4 @@ endif
 
 export SUBMKFLAGS
 
-endif # _FLAGS_MK
+endif # _MKFLAGS_MK

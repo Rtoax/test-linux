@@ -23,7 +23,7 @@ ifndef _TARGET_HELPERS_MK
 _TARGET_HELPERS_MK = 1
 
 include helpers.mk
-include flags.mk
+include mkflags.mk
 
 # $1 - helper library absolute path
 # $2 - turn on with 'y', otherwise turn off
