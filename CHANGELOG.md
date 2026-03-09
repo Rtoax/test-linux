@@ -26,6 +26,7 @@ and this project adheres to
 - cmake/samples: add cflags/ subdir;
 #### Template
 - rename flags.mk to mkflags.mk and export `_MKFLAGS_MK`;
+- add cflags.mk;
 
 
 ## [v2.3.17] 2026-03-06
