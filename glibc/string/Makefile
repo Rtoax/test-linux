@@ -97,9 +97,9 @@ LDFLAGS += ${PROC_HELPERS}
 
 target-prep-y := sig.h
 
+strstr-cpp-objs := ${OUTPUT}strstr.cpp.o
+
 include main.mk
 
 sig.h:
 	$(shell bash signo.sh)
-
-strstr-cpp: ${OUTPUT}strstr-cpp.cpp.o

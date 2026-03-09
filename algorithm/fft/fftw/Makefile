@@ -1,6 +1,5 @@
 FFTW_HDR = /usr/include/fftw3.h
 
-target-y :=
 ifneq ($(wildcard ${FFTW_HDR}),)
   target-y += fftw_plan_dft_1d
   target-y += fftw_plan_dft_1d-1
@@ -14,7 +13,3 @@ endif
 LDFLAGS += -lm
 
 include main.mk
-
-fftw_plan_dft_1d: fftw_plan_dft_1d.o
-fftw_plan_dft_1d-1: fftw_plan_dft_1d-1.o
-fftw_plan_dft_r2c_1d: fftw_plan_dft_r2c_1d.o

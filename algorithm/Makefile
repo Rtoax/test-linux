@@ -13,12 +13,8 @@ subdir-y += string
 subdir-y += sort
 subdir-y += search
 
-target-y :=
 target-y += pi
 
-CFLAGS :=
 CFLAGS += -I../macro/
 
 include main.mk
-
-pi: pi.o

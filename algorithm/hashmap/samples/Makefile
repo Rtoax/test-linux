@@ -1,5 +1,4 @@
 target-y := main
+main-objs := hashmap.o
 
 include main.mk
-
-main: main.o hashmap.o

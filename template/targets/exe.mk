@@ -57,8 +57,19 @@ ${target-asm-y}: %:
 	$(call log_tgt,LD ASM,$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
 
-$(foreach t, ${target-y}, $(eval ${t}: ${OUTPUT}${t}.o))
-$(foreach t, ${target-cpp-y}, $(eval ${t}: ${OUTPUT}${t}.cpp.o))
+$(foreach t, ${target-y}, \
+  $(if $(shell test -f ${t}.c && echo yes), \
+    $(eval ${t}: ${OUTPUT}${t}.o $${${t}-objs}), \
+    $(eval ${t}: $${${t}-objs}) \
+  ) \
+)
+
+$(foreach t, ${target-cpp-y}, \
+  $(if $(shell test -f ${t}.cpp && echo yes), \
+    $(eval ${t}: ${OUTPUT}${t}.cpp.o $${${t}-objs}), \
+    $(eval ${t}: $${${t}-objs}) \
+  ) \
+)
 
 $(foreach t, ${target-y}, \
   $(if $(shell test -f ${OUTPUT}${t}.o.d && echo yes), \
