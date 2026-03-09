@@ -11,7 +11,9 @@ include(CDataType/__float128)
 
 add_definitions("-DCMAKE_SAMPLES=1")
 add_definitions(${LINUX_DISTRO_CFLAGS})
+add_compile_definitions(OS_MAJOR=${OS_MAJOR} OS_MINOR=${OS_MINOR})
 
+add_subdirectory(cflags)
 add_subdirectory(execute)
 add_subdirectory(function)
 add_subdirectory(string)

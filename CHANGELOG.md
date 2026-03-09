@@ -22,6 +22,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- cmake/samples: add cflags/ subdir;
 #### Template
 - rename flags.mk to mkflags.mk and export `_MKFLAGS_MK`;
 

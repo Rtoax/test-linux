@@ -11,6 +11,10 @@
 #error Must define __os_major__ and __os_minor__
 #endif
 
+#if !defined(OS_MAJOR) || !defined(OS_MINOR)
+#error Must define OS_MAJOR and OS_MINOR
+#endif
+
 #ifdef SUPPORT___float128
 #pragma message Defined SUPPORT___float128
 #endif
