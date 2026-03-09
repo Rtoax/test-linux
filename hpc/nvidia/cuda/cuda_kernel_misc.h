@@ -9,6 +9,7 @@ __device__ __forceinline__ unsigned int __laneid(void)
 #if defined(__HPCC__) || defined(__LUCA__) || defined(__HIPCC__)
 	laneid = __lane_id();
 #else
+	/* inline PTX */
 	asm("mov.u32 %0, %%laneid;" : "=r"(laneid));
 #endif
 	return laneid;
