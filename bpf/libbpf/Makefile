@@ -286,6 +286,8 @@ target-prep-y += libbpf_version
 target-prep-y += test-libbpf_version
 target-prep-y += ${HELPERS}
 
+libtrace_helpers.so-objs := ${OUTPUT}trace_helpers.so.o
+
 include main.mk
 
 HELPERS += ${SOCKET_HELPERS}
@@ -296,7 +298,6 @@ test-libbpf_version: libbpf_version
 	${Q}./libbpf_version env >/dev/null
 	${Q}./libbpf_version >/dev/null
 
-libtrace_helpers.so: ${OUTPUT}trace_helpers.so.o
 ${OUTPUT}trace_helpers.so.o: trace_helpers.h
 ${OUTPUT}task_helpers.o: task_helpers.h
 ${OUTPUT}stack_helpers.o: stack_helpers.h

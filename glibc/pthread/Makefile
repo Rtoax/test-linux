@@ -10,10 +10,10 @@ target-libso-y := libpthread_helpers.so
 target-liba-y := libpthread_helpers.a
 
 libpthread_helpers.a-objs := pthread_helpers.a.o
+libpthread_helpers.so-objs := pthread_helpers.so.o
 
 include main.mk
 
 pthread_helpers.so.o: pthread_helpers.h
-libpthread_helpers.so: pthread_helpers.so.o
 
 pthread_helpers.a.o: pthread_helpers.h

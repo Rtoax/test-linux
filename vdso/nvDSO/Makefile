@@ -1,10 +1,9 @@
 include kconfig.mk
 
-CFLAGS :=
-LDFLAGS :=
-
 target-y := main
 target-libso-y := libnvdso.so
+
+libnvdso.so-objs := nvdso.so.o
 
 NVDSO_ENV :=
 
@@ -32,7 +31,6 @@ target-clean-y := clean-nvdso
 include main.mk
 
 main: main.o
-libnvdso.so: nvdso.so.o
 
 virt2phy:
 	$(Q)make -C ../../mm/ virt2phy

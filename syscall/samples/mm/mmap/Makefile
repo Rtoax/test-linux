@@ -15,6 +15,7 @@ target-libso-y := libmmap_helpers.so
 target-liba-y := libmmap_helpers.a
 
 libmmap_helpers.a-objs := ${OUTPUT}mmap_helpers.a.o
+libmmap_helpers.so-objs := ${OUTPUT}mmap_helpers.so.o
 
 CFLAGS := -pthread
 CFLAGS += -lrt
@@ -38,8 +39,6 @@ LDFLAGS += -Wl,-rpath,$(shell pwd)
 include main.mk
 
 mmap_helpers.so.o: mmap_helpers.h
-libmmap_helpers.so: ${OUTPUT}mmap_helpers.so.o
-
 mmap_helpers.a.o: mmap_helpers.h
 
 msync: ${OUTPUT}msync.o

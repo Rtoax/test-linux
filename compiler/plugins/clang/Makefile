@@ -24,6 +24,11 @@ target-libso-cpp-y += pid.so
 
 target-post-y := test-plugins
 
+PrintFunctionNames.so-objs := ${OUTPUT}PrintFunctionNames.cpp.so.o
+AnnotateFunctions.so-objs := ${OUTPUT}AnnotateFunctions.cpp.so.o
+Attribute.so-objs := ${OUTPUT}Attribute.cpp.so.o
+pid.so-objs := ${OUTPUT}pid.cpp.so.o
+
 
 include main.mk
 
@@ -32,16 +37,9 @@ ${SRCS}:
 	${Q}cp ${clang-codes} $(shell pwd)
 
 ${OUTPUT}PrintFunctionNames.cpp.so.o: PrintFunctionNames.cpp
-PrintFunctionNames.so: ${OUTPUT}PrintFunctionNames.cpp.so.o
-
 ${OUTPUT}AnnotateFunctions.cpp.so.o: AnnotateFunctions.cpp
-AnnotateFunctions.so: ${OUTPUT}AnnotateFunctions.cpp.so.o
-
 ${OUTPUT}Attribute.cpp.so.o: Attribute.cpp
-Attribute.so: ${OUTPUT}Attribute.cpp.so.o
-
 ${OUTPUT}pid.cpp.so.o: pid.cpp
-pid.so: ${OUTPUT}pid.cpp.so.o
 
 test-plugins:
 	${Q}${SHELL} test-plugins.sh

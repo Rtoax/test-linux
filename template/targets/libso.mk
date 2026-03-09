@@ -23,6 +23,8 @@ ifdef DEBUG
   $(info target-libso-cpp-y = ${target-libso-cpp-y})
 endif
 
+$(foreach lib, ${target-libso-y} ${target-libso-cpp-y}, $(eval ${lib}: $${${lib}-objs}))
+
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_obj,CC SO.o,$(@))
 	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))

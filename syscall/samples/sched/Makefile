@@ -1,12 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_C_HELPERS__ = y
 
-subdir-y :=
 subdir-y += clone
 subdir-y += fork
 subdir-y += namespace
 
-target-y :=
 target-y += cpuset CPU_SETSIZE CPU_ALLOC str2cpuset
 target-y += getcpu sched_getcpu
 target-y += nice nice-latency
@@ -24,6 +22,7 @@ target-libso-y := libsched_helpers.so
 target-liba-y := libsched_helpers.a
 
 libsched_helpers.a-objs := sched_helpers.a.o
+libsched_helpers.so-objs := sched_helpers.so.o
 
 target-test-y := test0
 
@@ -34,8 +33,6 @@ CFLAGS += -pthread
 include main.mk
 
 sched_helpers.so.o: sched_helpers.h
-libsched_helpers.so: sched_helpers.so.o
-
 sched_helpers.a.o: sched_helpers.h
 
 cpuset: cpuset.o

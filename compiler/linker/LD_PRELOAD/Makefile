@@ -9,6 +9,9 @@ target-libso-y += libconstructor-obj.so
 
 target-test-y := test0
 
+libmcount-nop.so-objs := mcount-nop.so.o
+libconstructor-obj.so-objs := constructor-obj.so.o
+
 # Compile to dynamic library.
 CFLAGS_PIC := -fPIC
 
@@ -21,8 +24,6 @@ include main.mk
 
 main: main.o
 fentry: fentry.o
-libmcount-nop.so: mcount-nop.so.o
-libconstructor-obj.so: constructor-obj.so.o
 
 test0:
 	$(Q)LD_PRELOAD=./libmcount-nop.so ./main

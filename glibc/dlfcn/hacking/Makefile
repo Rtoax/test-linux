@@ -3,20 +3,15 @@ target-y := dev
 target-libso-y := libdev.so.1
 target-libso-y += libdev_hack.so
 
-CC := gcc
+target-test-y := run0
 
-CFLAGS :=
-
-LDFLAGS :=
+libdev.so.1-objs := libdev.so.o
 
 CFLAGS_dev := -ldev
 LDFLAGS_dev := libdev.so
 
-target-test-y := run0
-
 include main.mk
 
-libdev.so.1: libdev.so.o
 dev: dev.o libdev.so.1
 
 run0:

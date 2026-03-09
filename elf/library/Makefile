@@ -24,6 +24,12 @@ libthread.a-objs := thread.a.o
 libadd.a-objs := add.a.o
 libcall0.a-objs := call0.a.o
 
+libfoo.so.1.10-objs := foo.so.o ctors.so.o
+libadd.so-objs := add.so.o
+libadd_cpp.so.0.1-objs := add.cpp.so.o
+libthread.so-objs := thread.so.o
+libcall0.so-objs := call0.so.o
+
 ifdef VERBOSE
   CFLAGS += -Q
   LDFLAGS += -Q
@@ -66,9 +72,3 @@ latency-got: latency-got.o libcall0.so
 latency-got-llc: latency-got-llc.o libcall0.so
 latency-a: latency-a.o libcall0.a
 latency-a-llc: latency-a-llc.o libcall0.a
-
-libfoo.so.1.10: foo.so.o ctors.so.o
-libadd.so: add.so.o
-libadd_cpp.so.0.1: add.cpp.so.o
-libthread.so: thread.so.o
-libcall0.so: call0.so.o

@@ -12,6 +12,11 @@ test-exe := hello
 
 target-y := ${test-exe}
 
+plugin-objs := ${OUTPUT}attribute-global.cpp.so.o
+plugin-objs += ${OUTPUT}attribute-device.cpp.so.o
+plugin-objs += ${OUTPUT}lexerExtension.cpp.so.o
+fakecuda_plugin.so-objs := ${plugin-objs}
+
 CFLAGS += -fplugin=./fakecuda_plugin.so
 CXXFLAGS_SO += ${llvm-cflags}
 
@@ -22,11 +27,5 @@ ${OUTPUT}hello.o: ${target-libso-cpp-y}
 ${OUTPUT}lexerExtension.cpp.so.o: syntax.hpp
 ${OUTPUT}attribute-global.cpp.so.o: configs.hpp
 ${OUTPUT}attribute-device.cpp.so.o: configs.hpp
-
-plugin-objs := ${OUTPUT}attribute-global.cpp.so.o
-plugin-objs += ${OUTPUT}attribute-device.cpp.so.o
-plugin-objs += ${OUTPUT}lexerExtension.cpp.so.o
-
-fakecuda_plugin.so: ${plugin-objs}
 
 hello: ${OUTPUT}hello.o

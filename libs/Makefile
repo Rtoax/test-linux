@@ -28,6 +28,7 @@ objs-dynamic += ${OUTPUT}str.so.o
 objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
 
 libtest-linux-c.a-objs := ${objs-static}
+libtest-linux-c.so.0.1-objs := ${objs-dynamic}
 
 CFLAGS += -DTEST_MAIN=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)
@@ -72,5 +73,3 @@ progress.o: progress.h
 str: ${OUTPUT}str.o
 ipaddr: ${OUTPUT}ipaddr.o
 ipaddr.o: ipaddr.h
-
-libtest-linux-c.so.0.1: ${objs-dynamic}

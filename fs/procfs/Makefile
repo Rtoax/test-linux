@@ -23,6 +23,7 @@ target-shell-y += diskstats.sh
 target-shell-y += version.sh
 
 libproc_helpers.a-objs := ${OUTPUT}proc_helpers.a.o
+${libproc-helpers}-objs := ${OUTPUT}proc_helpers.so.o
 
 LDFLAGS := -Wl,-rpath,$(shell pwd)
 LDFLAGS_SO_${libproc-helpers} := -Wl,--version-script=proc_helpers.map
@@ -37,4 +38,3 @@ stat: ${OUTPUT}stat.o
 uptime: ${OUTPUT}uptime.o
 
 ${OUTPUT}proc_helpers.so.o: proc_helpers.h proc_helpers.c proc_helpers.map
-${libproc-helpers}: ${OUTPUT}proc_helpers.so.o
