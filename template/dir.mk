@@ -4,6 +4,7 @@
 # Output definitions:
 # - TOPDIR=
 # - CURDIR=
+# - HOME=[/home/rongtao/]
 #
 # Functions:
 # - strip_topdir_prefix()
@@ -13,6 +14,7 @@ _DIR_MK = 1
 
 TOPDIR := $(dir $(shell realpath $(abspath $(lastword $(MAKEFILE_LIST))/../)))
 CURDIR := $(shell realpath .)
+HOME := $(shell echo $$HOME)
 
 ifeq (${TOPDIR},)
   $(error Could not found top directory in anywhere)
@@ -30,8 +32,9 @@ endef
 ifdef DEBUG
   $(info TOPDIR = ${TOPDIR})
   $(info CURDIR = ${CURDIR})
+  $(info HOME = ${HOME})
 endif
 
-export TOPDIR CURDIR
+export TOPDIR CURDIR HOME
 
 endif
