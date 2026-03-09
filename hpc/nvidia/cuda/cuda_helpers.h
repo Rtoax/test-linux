@@ -55,6 +55,19 @@
 }
 #define CUBLAS_CHECK_EXIT(CALL) CUBLAS_CHECK(CALL, exit(-1))
 
+#define CUSOLVER_CHECK(CALL, ERROR_DO)                                         \
+	{                                                                      \
+		cusolverStatus_t __status = CALL;                              \
+		if (unlikely(__status != CUSOLVER_STATUS_SUCCESS)) {           \
+			fprintf(stderr, "\033[31m");                           \
+			fprintf(stderr, "ERROR: %s:%d Solver %s failed, %d\n", \
+				__func__, __LINE__, #CALL, __status);          \
+			fprintf(stderr, "\033[m");                             \
+			ERROR_DO;                                              \
+		}                                                              \
+	}
+#define CUSOLVER_CHECK_EXIT(CALL) CUSOLVER_CHECK(CALL, exit(-1))
+
 #define CURAND_CHECK(CALL, ERROR_DO)	{				\
 	curandStatus_t __status = CALL;					\
 	if (unlikely(__status != CURAND_STATUS_SUCCESS)) {		\

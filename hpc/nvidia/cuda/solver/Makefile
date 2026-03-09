@@ -15,6 +15,7 @@ __USE_LUCA_HELPERS__ = ${HAVE_LUCA}
 __USE_HPCC_HELPERS__ = ${HAVE_HPCC}
 
 common-objs := solver
+common-objs += solverSp
 
 target-nvcc-${HAVE_CUDA} := ${common-objs}
 target-hipcc-${HAVE_HIPSOLVER} := $(patsubst %,%-hip,$(common-objs))

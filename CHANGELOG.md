@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/solver: add solverSp.cu;
 - cuda/adapter: add cusolverSp.h;
 - ptx: add globaltimer.cu, laneid.cu;
 - crypto: add fips subdir;
