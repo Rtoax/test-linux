@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/ptx: add laneid.cu;
 - crypto: add fips subdir;
 #### Changed
 #### Deprecated
