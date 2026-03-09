@@ -1,3 +1,4 @@
+OUTPUT = .output/
 include arch.mk
 
 target-y := tst
@@ -37,11 +38,3 @@ CXXFLAGS += -Wno-error=nonnull
 CFLAGS_tst := -g -ggdb -O0
 
 include main.mk
-
-tst: tst.o
-unw_regname: unw_regname.o
-unw_create_addr_space: unw_create_addr_space.o
-backtrace: backtrace.o
-backtrace-pid: backtrace-pid.cpp.o
-do_backtrace: do_backtrace.o
-unwind-backtrace: unwind-backtrace.o

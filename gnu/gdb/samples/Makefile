@@ -25,16 +25,6 @@ CFLAGS_hello := -Wno-error=unused-function
 
 include main.mk
 
-fork: ${OUTPUT}fork.o
-set-value: ${OUTPUT}set-value.o
-set-value-func: ${OUTPUT}set-value-func.o
-set-value-volatile: ${OUTPUT}set-value-volatile.o
-pthread-gdb: ${OUTPUT}pthread-gdb.o
-hello: ${OUTPUT}hello.o
-linklist: ${OUTPUT}linklist.o
-daxpy: ${OUTPUT}daxpy.o
-global-var: ${OUTPUT}global-var.cpp.o
-
 # Strip
 hello.strip: hello
 
