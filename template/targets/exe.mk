@@ -10,7 +10,7 @@ NASM ?= nasm
 
 ${OUTPUT}%.o: %.c | ${OUTPUT}
 	$(call log_obj,CC,$(@))
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(CC) -MD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.E.c: %.c | ${OUTPUT}
 	$(call log_obj,CC E,$(@))
@@ -22,7 +22,7 @@ ${OUTPUT}%.c.s: %.c | ${OUTPUT}
 
 ${OUTPUT}%.cpp.o: %.cpp | ${OUTPUT}
 	$(call log_obj,CXX,$(@))
-	${Q}$(CXX) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
+	${Q}$(CXX) -MD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
 ${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
 	$(call log_obj,CXX S,$(@))
