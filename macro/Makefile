@@ -43,13 +43,12 @@ target-y += os
 target-${IS_X86_64} += __x86_64__
 target-${CC_M32} += __i386__
 target-${IS_AARCH64} += __aarch64__
+target-${IS_LOONGARCH64} += __loongarch64
 
 target-cpp-y := __cplusplus __cplusplus-std98
 
-
-ifeq ($(shell uname -m),loongarch64)
-  target-y += __loongarch64
-endif
+target-prep-y := compiler-macros.h
+target-shell-y := likely.sh
 
 CFLAGS += ${KFLAGS}
 
@@ -66,19 +65,14 @@ CFLAGS___user := -Wno-error=attributes
 CFLAGS___cplusplus-std98 := -std=c++98
 CFLAGS_os += ${OS_CFLAGS}
 
-target-prep-y := compiler-macros.h
-target-shell-y := likely.sh
-
 include main.mk
 
 arch: $(OUTPUT)arch.o
 align: $(OUTPUT)align.o
 alias: $(OUTPUT)alias.o
-alias.o: $(OUTPUT)alias.h
 bit: $(OUTPUT)bit.o
 likely: $(OUTPUT)likely.o
 offsetof: $(OUTPUT)offsetof.o
-offsetof.o: $(OUTPUT)offsetof.h
 container_of: $(OUTPUT)container_of.o
 __clang__: $(OUTPUT)__clang__.o
 __i386__: $(OUTPUT)__i386__.o
