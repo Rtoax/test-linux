@@ -16,6 +16,7 @@ and this project adheres to
 - ptx: add globaltimer.cu, laneid.cu;
 - crypto: add fips subdir;
 #### Changed
+- cuda: cmake: add ptx subdir;
 #### Deprecated
 #### Removed
 #### Fixed

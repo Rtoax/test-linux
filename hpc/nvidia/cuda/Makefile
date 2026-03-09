@@ -14,6 +14,7 @@ subdir-y += dnn
 subdir-y += fft
 subdir-y += file
 subdir-y += pti
+subdir-y += ptx
 subdir-y += rand
 subdir-y += sparse
 subdir-y += solver
