@@ -15,7 +15,7 @@ endif
 
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	$(call log_obj,CC A.o,$(@))
-	${Q}$(CC) ${dep_cflags} -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
+	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
 $(target-liba-y): %:
 	$(call log_tgt,AR,$(@))

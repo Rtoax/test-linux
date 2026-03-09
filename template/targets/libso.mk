@@ -25,11 +25,11 @@ endif
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_obj,CC SO.o,$(@))
-	${Q}$(CC) ${dep_cflags} -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
+	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
 
 ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
 	$(call log_obj,CXX SO.o,$(@))
-	${Q}$(CXX) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
+	${Q}$(CXX) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
 
 # All symlinks depends on original dynamic target, thus, if some one need the
 # symlinks, the dynamic library will be compiled.
