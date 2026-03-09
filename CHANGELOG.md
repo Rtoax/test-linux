@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- crypto: add fips subdir;
 #### Changed
 #### Deprecated
 #### Removed

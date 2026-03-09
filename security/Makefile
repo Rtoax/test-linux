@@ -2,6 +2,7 @@
 include cpu.mk
 
 subdir-y += access
+subdir-y += crypto
 subdir-y += openssl
 subdir-y += openssh
 subdir-y += pam
