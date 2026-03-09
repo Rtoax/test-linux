@@ -2,6 +2,8 @@
 ifndef _TARGET_LIBA_MK
 _TARGET_LIBA_MK = 1
 
+include cflags.mk
+
 CC ?= gcc
 Q ?= @
 
@@ -13,7 +15,7 @@ endif
 
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	$(call log_obj,CC A.o,$(@))
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
+	${Q}$(CC) ${dep_cflags} -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
 $(target-liba-y): %:
 	$(call log_tgt,AR,$(@))

@@ -26,6 +26,7 @@ ifndef _TARGET_HIP_MK
 _TARGET_HIP_MK = 1
 
 include amd/rocm.mk
+include cflags.mk
 include dir.mk
 
 cflags-hipcc-so := -Xcompiler -fPIC
@@ -92,19 +93,19 @@ endif
 define hip_obj
 $${OUTPUT}%.hip.o: %.${1} | $${OUTPUT}
 	$(call log_obj,HIPCC,$$(@))
-	$${Q}$$(HIPCC) -o $$(@) -c $$(<) $$(CFLAGS_HIPCC) $$(CFLAGS_HIPCC_$$(*))
+	$${Q}$$(HIPCC) $${dep_cflags} -o $$(@) -c $$(<) $$(CFLAGS_HIPCC) $$(CFLAGS_HIPCC_$$(*))
 endef
 # $1 - suffix of file: hip, cu
 define hip_obj_so
 $${OUTPUT}%.hip.so.o: %.${1} | $${OUTPUT}
 	$(call log_obj,HIPCC SO,$$(@))
-	$${Q}$$(HIPCC) -o $$(@) -c $$(<) $$(CFLAGS_HIPCC_SO) $$(CFLAGS_HIPCC_SO_$$(*))
+	$${Q}$$(HIPCC) $${dep_cflags} -o $$(@) -c $$(<) $$(CFLAGS_HIPCC_SO) $$(CFLAGS_HIPCC_SO_$$(*))
 endef
 # $1 - suffix of file: hip, cu
 define hip_obj_a
 $${OUTPUT}%.hip.a.o: %.${1} | $${OUTPUT}
 	$(call log_obj,HIPCC A,$$(@))
-	$${Q}$$(HIPCC) -o $$(@) -c $$(<) $$(CFLAGS_HIPCC_A) $$(CFLAGS_HIPCC_A_$$(*))
+	$${Q}$$(HIPCC) $${dep_cflags} -o $$(@) -c $$(<) $$(CFLAGS_HIPCC_A) $$(CFLAGS_HIPCC_A_$$(*))
 endef
 $(eval $(call hip_obj,cu))
 $(eval $(call hip_obj,hip))

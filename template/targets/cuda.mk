@@ -31,6 +31,7 @@
 ifndef _TARGET_NVIDIA_MK
 _TARGET_NVIDIA_MK = 1
 
+include cflags.mk
 include dir.mk
 include nvidia/cuda.mk
 include nvidia/device.mk
@@ -129,7 +130,7 @@ endif
 # don't use CFLAGS and LDFLAGS.
 ${OUTPUT}%.cu.o: %.cu | ${OUTPUT}
 	$(call log_obj,NVCC,$(@))
-	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
+	${Q}$(NVCC) ${dep_cflags} -o $(@) -c $(<) $(CFLAGS_NVCC) $(CFLAGS_NVCC_$(*))
 
 ${OUTPUT}%.cu.ptx: %.cu | ${OUTPUT}
 	$(call log_obj,NVCC PTX,$(@))
@@ -171,11 +172,11 @@ ${OUTPUT}%.E.cu: %.cu | ${OUTPUT}
 
 ${OUTPUT}%.cu.so.o: %.cu | ${OUTPUT}
 	$(call log_obj,NVCC SO.o,$(@))
-	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_SO) $(CFLAGS_NVCC_SO_$(*))
+	${Q}$(NVCC) ${dep_cflags} -o $(@) -c $(<) $(CFLAGS_NVCC_SO) $(CFLAGS_NVCC_SO_$(*))
 
 ${OUTPUT}%.cu.a.o: %.cu | ${OUTPUT}
 	$(call log_obj,NVCC A.o,$(@))
-	${Q}$(NVCC) -o $(@) -c $(<) $(CFLAGS_NVCC_A) $(CFLAGS_NVCC_A_$(*))
+	${Q}$(NVCC) ${dep_cflags} -o $(@) -c $(<) $(CFLAGS_NVCC_A) $(CFLAGS_NVCC_A_$(*))
 
 $(target-nvcc-y): %:
 	$(call log_tgt,NVCC LD,$(@))

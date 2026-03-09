@@ -10,6 +10,7 @@ CXXFLAGS_SO += ${cflags-so}
 LDFLAGS_SO += ${ldflags-so}
 LDXXFLAGS_SO += ${ldflags-so}
 
+include cflags.mk
 include dir.mk
 
 LIBSO_SH := ${TOPDIR}/scripts/libso-multiver.sh
@@ -24,7 +25,7 @@ endif
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_obj,CC SO.o,$(@))
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
+	${Q}$(CC) ${dep_cflags} -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
 
 ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
 	$(call log_obj,CXX SO.o,$(@))

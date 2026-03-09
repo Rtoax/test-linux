@@ -8,6 +8,7 @@ include bpf/bpf.mk
 include bpf/btf.mk
 include bpf/bpftool.mk
 include bpf/helper.mk
+include cflags.mk
 
 ifeq ($(CLANG),)
   ifdef __IGNORE_NOTFOUND_ERROR__
@@ -49,7 +50,7 @@ endif
 # This is target-bpf-y
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
 	$(call log_obj,BPF,$(@))
-	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
+	${Q}$(CLANG) $(dep_cflags) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 ${OUTPUT}%.bpf.disasm: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	$(call log_obj,BPF DIS,$(@))
