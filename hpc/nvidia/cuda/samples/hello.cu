@@ -31,15 +31,14 @@ __device__ __forceinline__ unsigned long long __globaltimer(void)
 /* call by kernel/device, run by device */
 __device__ void dev_foo(void)
 {
-	printf("Hello from GPU, laneid=%d, globaltimer=%lld.\n", __laneid(),
-	       __globaltimer());
+	/* warpSize is a constant in kernel */
+	printf("Hello from GPU, laneid=%d, globaltimer=%lld, warpSize = %d.\n",
+		__laneid(), __globaltimer(), warpSize);
 }
 
 /* call by host, run by device */
 __global__ void kern_func(void)
 {
-	printf("Hello from GPU, laneid=%d, globaltimer=%lld.\n", __laneid(),
-	       __globaltimer());
 	dev_foo();
 
 	__syncthreads();

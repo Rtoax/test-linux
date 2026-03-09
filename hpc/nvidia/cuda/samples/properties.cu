@@ -34,6 +34,7 @@
  * Links
  * - https://docs.nvidia.com/cuda/cuda-runtime-api/structcudaDeviceProp.html
  */
+#include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -49,6 +50,11 @@ void printuuid(const char *pfx, void *uuid, size_t size)
 		uint8_t c = u8[i];
 		printf("%02x%c", c, i == (size - 1) ? '\n' : ' ');
 	}
+}
+
+__global__ void kern_warpsize(int size)
+{
+	assert(size == warpSize);
 }
 
 int main(int argc, char *argv[])
@@ -295,9 +301,10 @@ int main(int argc, char *argv[])
 	 * GCN and variable on Intel cards.
 	 * https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-1/
 	 *
-	 * MetaX wave/warp size is 64.
+	 * LingSpeed wave/warp size is 64.
 	 */
 	PRINT_d(warpSize);
+	kern_warpsize<<<1, 1>>>(prop.warpSize);
 #if !defined(__CUDACC__) && !defined(__HIPCC__)
 	PRINT_d(waveSize);
 #endif
