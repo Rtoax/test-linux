@@ -67,49 +67,6 @@ CFLAGS_os += ${OS_CFLAGS}
 
 include main.mk
 
-arch: $(OUTPUT)arch.o
-align: $(OUTPUT)align.o
-alias: $(OUTPUT)alias.o
-bit: $(OUTPUT)bit.o
-likely: $(OUTPUT)likely.o
-offsetof: $(OUTPUT)offsetof.o
-container_of: $(OUTPUT)container_of.o
-__clang__: $(OUTPUT)__clang__.o
-__i386__: $(OUTPUT)__i386__.o
-__x86_64__: $(OUTPUT)__x86_64__.o
-__aarch64__: $(OUTPUT)__aarch64__.o
-__loongarch64: $(OUTPUT)__loongarch64.o
-__nonnull: $(OUTPUT)__nonnull.o
-__cplusplus: $(OUTPUT)__cplusplus.cpp.o
-__cplusplus-std98: $(OUTPUT)__cplusplus-std98.cpp.o
-__restrict__: $(OUTPUT)__restrict__.o
-__func__: $(OUTPUT)__func__.o
-__linux__: $(OUTPUT)__linux__.o
-__WORDSIZE: $(OUTPUT)__WORDSIZE.o
-__WORDSIZE-32: $(OUTPUT)__WORDSIZE-32.o
-__TIME__: $(OUTPUT)__TIME__.o
-__VERSION__: $(OUTPUT)__VERSION__.o
-__FILE__: $(OUTPUT)__FILE__.o
-machine: $(OUTPUT)machine.o
-__ASSEMBLER__: $(OUTPUT)__ASSEMBLER__.o
-ident: $(OUTPUT)ident.o
-__GNUC__: $(OUTPUT)__GNUC__.o
-__GNUC_PREREQ: $(OUTPUT)__GNUC_PREREQ.o
-__has_include: $(OUTPUT)__has_include.o
-__user: $(OUTPUT)__user.o
-__stringify: $(OUTPUT)__stringify.o
-__STDC__: $(OUTPUT)__STDC__.o
-_XOPEN_SOURCE: $(OUTPUT)_XOPEN_SOURCE.o
-_POSIX_SOURCE: $(OUTPUT)_POSIX_SOURCE.o
-_POSIX_C_SOURCE: $(OUTPUT)_POSIX_C_SOURCE.o
-LINUX_VERSION_CODE: $(OUTPUT)LINUX_VERSION_CODE.o
-__GLIBC__: $(OUTPUT)__GLIBC__.o
-__GLIBC_MINOR__: $(OUTPUT)__GLIBC_MINOR__.o
-__GLIBC_PREREQ: $(OUTPUT)__GLIBC_PREREQ.o
-__GLIBC_USE: $(OUTPUT)__GLIBC_USE.o
-splice: $(OUTPUT)splice.o
-os: $(OUTPUT)os.o
-
 compiler-macros.h:
 	$(call log_tgt,HDR,$(@))
 	$(call gen_compiler_macro_hdr,$(@))

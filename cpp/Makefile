@@ -60,25 +60,3 @@ LDXXFLAGS_fmt := -lfmt
 target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${target-cpp-y}))
 
 include main.mk
-
-hello: ${OUTPUT}hello.cpp.o
-alignas: ${OUTPUT}alignas.cpp.o
-extern_C: ${OUTPUT}extern_C.cpp.o
-pass-arg: ${OUTPUT}pass-arg.cpp.o
-return: ${OUTPUT}return.cpp.o
-this: ${OUTPUT}this.cpp.o
-string: ${OUTPUT}string.cpp.o
-__cplusplus: ${OUTPUT}__cplusplus.cpp.o
-__STDC__: ${OUTPUT}__STDC__.cpp.o
-__STDC__c++98: ${OUTPUT}__STDC__c++98.cpp.o
-__STDC__gnu++98: ${OUTPUT}__STDC__gnu++98.cpp.o
-__STDC__c++03: ${OUTPUT}__STDC__c++03.cpp.o
-__STDC__c++11: ${OUTPUT}__STDC__c++11.cpp.o
-__STDC__c++14: ${OUTPUT}__STDC__c++14.cpp.o
-__STDC__c++17: ${OUTPUT}__STDC__c++17.cpp.o
-__STDC__c++20: ${OUTPUT}__STDC__c++20.cpp.o
-__STDC__c++23: ${OUTPUT}__STDC__c++23.cpp.o
-format: ${OUTPUT}format.cpp.o
-fmt: ${OUTPUT}fmt.cpp.o
-expired: ${OUTPUT}expired.cpp.o
-unordered_map: ${OUTPUT}unordered_map.cpp.o

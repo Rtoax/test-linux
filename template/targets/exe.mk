@@ -57,6 +57,9 @@ ${target-asm-y}: %:
 	$(call log_tgt,LD ASM,$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
 
+$(foreach t, ${target-y}, $(eval ${t}: ${OUTPUT}${t}.o))
+$(foreach t, ${target-cpp-y}, $(eval ${t}: ${OUTPUT}${t}.cpp.o))
+
 $(foreach t, ${target-y}, \
   $(if $(shell test -f ${OUTPUT}${t}.o.d && echo yes), \
     $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.o.d)) \
