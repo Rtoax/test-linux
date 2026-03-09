@@ -1,25 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <cuda.h>
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
-int main(int argc, char *argv[])
+void runtime_attr(int dev)
 {
-	int i, value, dev;
-
-	dev = 0;
-
-	fprintf(stderr, "Usage: %s [dev=<N>]\n", argv[0]);
-
-	for (i = 1; i < argc; i++) {
-#define arg_eq(v) if (!strncmp(#v"=", argv[i], strlen(#v) + 1)) \
-			v = atoi(argv[i] + strlen(#v) + 1);
-		arg_eq(dev);
-#undef arg_eq
-	}
-
-	gpu_init(dev);
-
+	int value;
 #define Attr(attr) do {	\
 		cudaDeviceGetAttribute(&value, attr, dev);	\
 		printf("%-64s %d(0x%x)\n", #attr, value, value);	\
@@ -243,6 +230,42 @@ int main(int argc, char *argv[])
 #if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrWaveSize);
 #endif
+}
+
+void dev_attr(int dev)
+{
+	int value;
+	/**
+	 * TODO: LUCA not defined CU_DEVICE_ATTRIBUTE_GENERIC_COMPRESSION_SUPPORTED,
+	 * but cu-bridge does.
+	 */
+#if defined(__NVCC__)
+	cuDeviceGetAttribute(
+		&value, CU_DEVICE_ATTRIBUTE_GENERIC_COMPRESSION_SUPPORTED, dev);
+	printf("CU_DEVICE_ATTRIBUTE_GENERIC_COMPRESSION_SUPPORTED %d\n", value);
+#endif
+}
+
+int main(int argc, char *argv[])
+{
+	int i, dev;
+
+	dev = 0;
+
+	fprintf(stderr, "Usage: %s [dev=<N>]\n", argv[0]);
+
+	for (i = 1; i < argc; i++) {
+#define arg_eq(v)                                      \
+	if (!strncmp(#v "=", argv[i], strlen(#v) + 1)) \
+		v = atoi(argv[i] + strlen(#v) + 1);
+		arg_eq(dev);
+#undef arg_eq
+	}
+
+	gpu_init(dev);
+
+	runtime_attr(dev);
+	dev_attr(dev);
 
 	return 0;
 }
