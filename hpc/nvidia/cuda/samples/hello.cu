@@ -13,27 +13,12 @@
 __device__ int dev_a = 0;
 __constant__ __device__ int dev_const_a = 0;
 
-/**
- * Function to read the GPU nanosecond timer in a kernel
- * see cuda-samples/Samples/6_Performance/cudaGraphsPerfScaling
- */
-__device__ __forceinline__ unsigned long long __globaltimer(void)
-{
-	unsigned long long globaltimer;
-#if defined(__HPCC__) || defined(__LUCA__) || defined(__HIPCC__)
-	globaltimer = 0;
-#else
-	asm volatile("mov.u64 %0, %globaltimer;" : "=l"(globaltimer));
-#endif
-	return globaltimer;
-}
-
 /* call by kernel/device, run by device */
 __device__ void dev_foo(void)
 {
 	/* warpSize is a constant in kernel */
-	printf("Hello from GPU, laneid=%d, globaltimer=%lld, warpSize = %d.\n",
-		__laneid(), __globaltimer(), warpSize);
+	printf("Hello from GPU, laneid=%d, warpSize = %d.\n", __laneid(),
+	       warpSize);
 }
 
 /* call by host, run by device */
