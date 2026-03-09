@@ -26,6 +26,7 @@ ifndef _TARGET_LUCA_MK
 _TARGET_LUCA_MK = 1
 
 include cestc/luca.mk
+include cflags.mk
 include dir.mk
 
 cflags-lscc-bitcode := -device-bc
@@ -148,7 +149,7 @@ $${OUTPUT}%.E.luca: %.${1} | $${OUTPUT}
 
 $${OUTPUT}%.luca.o: %.${1} | $${OUTPUT}
 	$(call log_obj,LSCC,$$(@))
-	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
+	$${Q}$$(LSCC) $${dep_cflags} -o $$(@) -c $$(<) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.bitcode: %.${1} | $${OUTPUT}
 	$(call log_obj,LSCC BC,$$(@))
@@ -170,13 +171,13 @@ endef
 define luca_obj_so
 $${OUTPUT}%.luca.so.o: %.${1} | $${OUTPUT}
 	$(call log_obj,LSCC CC SO,$$(@))
-	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(CFLAGS_LSCC_SO) $$(CFLAGS_LSCC_SO_$$(*))
+	$${Q}$$(LSCC) $${dep_cflags} -o $$(@) -c $$(<) $$(CFLAGS_LSCC_SO) $$(CFLAGS_LSCC_SO_$$(*))
 endef
 # $1 - suffix of file: cu, luca
 define luca_obj_a
 $${OUTPUT}%.luca.a.o: %.${1} | $${OUTPUT}
 	$(call log_obj,LSCC CC A,$$(@))
-	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(CFLAGS_LSCC_A) $$(CFLAGS_LSCC_A_$$(*))
+	$${Q}$$(LSCC) ${dep_cflags} -o $$(@) -c $$(<) $$(CFLAGS_LSCC_A) $$(CFLAGS_LSCC_A_$$(*))
 endef
 $(eval $(call luca_obj,cu))
 $(eval $(call luca_obj,luca))
