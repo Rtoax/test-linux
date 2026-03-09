@@ -16,6 +16,8 @@ ifneq ($(wildcard /sys/kernel/btf/kvm),)
   target-btf-y := kvm.h
 endif
 
+libbtf_helpers.a-objs := ${OUTPUT}btf_helpers.a.o
+
 LDFLAGS := -lbpf
 CFLAGS_btf_kfunc := -DTEST_BTF_KIND_FUNC=1
 CFLAGS_btf_struct := -DTEST_BTF_KIND_STRUCT=1
@@ -26,7 +28,6 @@ include main.mk
 ${OUTPUT}btf_helpers.a.o: btf_helpers.h
 ${OUTPUT}btf_helpers.so.o: btf_helpers.h
 
-libbtf_helpers.a: ${OUTPUT}btf_helpers.a.o
 libbtf_helpers.so: ${OUTPUT}btf_helpers.so.o
 
 btf_ksym: ${OUTPUT}btf_ksym.o ${BTF_HELPERS}

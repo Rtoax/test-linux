@@ -13,6 +13,8 @@ ifdef DEBUG
   $(info CFLAGS_A = ${CFLAGS_A})
 endif
 
+$(foreach lib, ${target-liba-y}, $(eval ${lib}: $${${lib}-objs}))
+
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	$(call log_obj,CC A.o,$(@))
 	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))

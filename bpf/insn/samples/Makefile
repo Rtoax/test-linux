@@ -28,7 +28,8 @@ $(info helpers-y = ${helpers-y})
 static-objs := $(patsubst %,${OUTPUT}%.a.o,${helpers-y})
 dynamic-objs := $(patsubst %,${OUTPUT}%.so.o,${helpers-y})
 
+libbpf_insn_samples.a-objs := ${static-objs} ${OUTPUT}bpf_insn_samples.a.o
+
 include main.mk
 
-libbpf_insn_samples.a: ${static-objs} ${OUTPUT}bpf_insn_samples.a.o
 libbpf_insn_samples.so: ${dynamic-objs} ${OUTPUT}bpf_insn_samples.so.o

@@ -8,6 +8,8 @@ target-y += memory
 target-liba-y := numa.a
 target-prep-y := numa_mem.h
 
+numa.a-objs := numa_mem.h numa_mem.a.o
+
 CFLAGS += -g
 LDFLAGS += -lnuma
 
@@ -20,4 +22,3 @@ numa_mem.h:
 
 numa_mem: numa_mem.o
 memory: memory.o
-numa.a: numa_mem.h numa_mem.a.o

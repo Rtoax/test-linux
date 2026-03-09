@@ -14,10 +14,15 @@ target-libso-y += libthread.so
 
 target-libso-cpp-y := libadd_cpp.so.0.1
 
-target-liba-y := libfoo.a
+target-liba-y += libfoo.a
 target-liba-y += libthread.a
 target-liba-y += libadd.a
 target-liba-y += libcall0.a
+
+libfoo.a-objs := foo.a.o ctors.a.o
+libthread.a-objs := thread.a.o
+libadd.a-objs := add.a.o
+libcall0.a-objs := call0.a.o
 
 ifdef VERBOSE
   CFLAGS += -Q
@@ -63,11 +68,7 @@ latency-a: latency-a.o libcall0.a
 latency-a-llc: latency-a-llc.o libcall0.a
 
 libfoo.so.1.10: foo.so.o ctors.so.o
-libfoo.a: foo.a.o ctors.a.o
 libadd.so: add.so.o
 libadd_cpp.so.0.1: add.cpp.so.o
-libadd.a: add.a.o
 libthread.so: thread.so.o
-libthread.a: thread.a.o
 libcall0.so: call0.so.o
-libcall0.a: call0.a.o

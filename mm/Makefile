@@ -19,6 +19,8 @@ subdir-y += pmem
 target-y := virt2phy
 target-liba-y := libtest-linux-mm.a
 
+libtest-linux-mm.a-objs := virt2phy.a.o
+
 CFLAGS_virt2phy := -DHAVE_MAIN=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_C=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_NUMA=1
@@ -45,7 +47,6 @@ endif
 include main.mk
 
 virt2phy: virt2phy.o ${PROC_HELPERS} numa.a.1 ${MMAP_HELPERS}
-libtest-linux-mm.a: virt2phy.a.o
 numa.a.1:
 	$(Q)make -C ../numa numa.a
 	$(Q)cp ../numa/numa.a numa.a.1

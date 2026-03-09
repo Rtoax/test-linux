@@ -2,7 +2,6 @@ include kconfig.mk
 
 OUTPUT := .output/
 
-target-y :=
 target-y += msync
 target-y += fexecve
 target-y += mmap-anon
@@ -14,6 +13,8 @@ target-y += mmap-exec
 
 target-libso-y := libmmap_helpers.so
 target-liba-y := libmmap_helpers.a
+
+libmmap_helpers.a-objs := ${OUTPUT}mmap_helpers.a.o
 
 CFLAGS := -pthread
 CFLAGS += -lrt
@@ -40,7 +41,6 @@ mmap_helpers.so.o: mmap_helpers.h
 libmmap_helpers.so: ${OUTPUT}mmap_helpers.so.o
 
 mmap_helpers.a.o: mmap_helpers.h
-libmmap_helpers.a: ${OUTPUT}mmap_helpers.a.o
 
 msync: ${OUTPUT}msync.o
 fexecve: ${OUTPUT}fexecve.o

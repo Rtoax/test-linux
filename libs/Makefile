@@ -21,6 +21,14 @@ target-liba-y += libtest-linux-c.a
 
 target-test-y += test1
 
+objs-dynamic := ${OUTPUT}ipaddr.so.o
+objs-dynamic += ${OUTPUT}readline.so.o
+objs-dynamic += ${OUTPUT}memshow.so.o
+objs-dynamic += ${OUTPUT}str.so.o
+objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
+
+libtest-linux-c.a-objs := ${objs-static}
+
 CFLAGS += -DTEST_MAIN=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)
   $(info INFO: Support CONFIG_ANON_VMA_NAME)
@@ -65,11 +73,4 @@ str: ${OUTPUT}str.o
 ipaddr: ${OUTPUT}ipaddr.o
 ipaddr.o: ipaddr.h
 
-objs-dynamic := ${OUTPUT}ipaddr.so.o
-objs-dynamic += ${OUTPUT}readline.so.o
-objs-dynamic += ${OUTPUT}memshow.so.o
-objs-dynamic += ${OUTPUT}str.so.o
-objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
-
 libtest-linux-c.so.0.1: ${objs-dynamic}
-libtest-linux-c.a: ${objs-static}

@@ -23,11 +23,13 @@ target-y += daemon
 target-libso-y := libsched_helpers.so
 target-liba-y := libsched_helpers.a
 
+libsched_helpers.a-objs := sched_helpers.a.o
+
+target-test-y := test0
+
 CFLAGS := -D__USE_GNU
 CFLAGS += -I../../../
 CFLAGS += -pthread
-
-target-test-y := test0
 
 include main.mk
 
@@ -35,7 +37,6 @@ sched_helpers.so.o: sched_helpers.h
 libsched_helpers.so: sched_helpers.so.o
 
 sched_helpers.a.o: sched_helpers.h
-libsched_helpers.a: sched_helpers.a.o
 
 cpuset: cpuset.o
 CPU_SETSIZE: CPU_SETSIZE.o
