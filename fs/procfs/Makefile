@@ -25,16 +25,11 @@ target-shell-y += version.sh
 libproc_helpers.a-objs := ${OUTPUT}proc_helpers.a.o
 ${libproc-helpers}-objs := ${OUTPUT}proc_helpers.so.o
 
+proc_examples-objs := ${libproc-helpers}
+self-objs := ${libproc-helpers}
+thread-self-objs := ${libproc-helpers}
+
 LDFLAGS := -Wl,-rpath,$(shell pwd)
 LDFLAGS_SO_${libproc-helpers} := -Wl,--version-script=proc_helpers.map
 
 include main.mk
-
-proc_examples.o: proc_helpers.h
-proc_examples: ${OUTPUT}proc_examples.o ${libproc-helpers}
-self: ${OUTPUT}self.o ${libproc-helpers}
-thread-self: ${OUTPUT}thread-self.o ${libproc-helpers}
-stat: ${OUTPUT}stat.o
-uptime: ${OUTPUT}uptime.o
-
-${OUTPUT}proc_helpers.so.o: proc_helpers.h proc_helpers.c proc_helpers.map

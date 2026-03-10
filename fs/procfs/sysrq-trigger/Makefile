@@ -3,5 +3,3 @@ subdir-y := tcp-sysrq-trigger
 target-y := sysrq-trigger
 
 include main.mk
-
-sysrq-trigger: sysrq-trigger.o
