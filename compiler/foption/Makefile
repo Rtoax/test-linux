@@ -50,25 +50,6 @@ target-clean-y := clean0
 
 include main.mk
 
-fcf-protection: fcf-protection.o
-fpatchable-function-entry: fpatchable-function-entry.o
-fwpa: fwpa.o
-fwhole-program: fwhole-program.o
-fltrans: fltrans.o
-fstack-protector: fstack-protector.o
-fstack-protector-all: fstack-protector-all.o
-fstack-protector-explicit: fstack-protector-explicit.o
-fstack-protector-strong: fstack-protector-strong.o
-fdump-tree-gimple: fdump-tree-gimple.o
-fdump-tree-all-raw: fdump-tree-all-raw.o
-fdump-tree-all: fdump-tree-all.o
-finput-charset: finput-charset.o
-fno-zero-initialized-in-bss: fno-zero-initialized-in-bss.o
-fzero-initialized-in-bss: fzero-initialized-in-bss.o
-fplt: fplt.o
-fno-plt: fno-plt.o
-fuse-ld: fuse-ld.o
-
 clean0:
 	${Q}rm -rf fdump-tree-gimple.c.* \
 		fdump-tree-all-raw.c.* fdump-tree-all.c.*

@@ -63,33 +63,3 @@ CFLAGS_no_instrument_function := -pg -DTEST_MAIN=1
 CFLAGS_no_instrument_function += -Wno-error=frame-address
 
 include main.mk
-
-alias: ${OUTPUT}alias.o
-always_inline: ${OUTPUT}always_inline.o
-noinline: ${OUTPUT}noinline.o
-cleanup: ${OUTPUT}cleanup.o
-const: ${OUTPUT}const.o
-constructor: ${OUTPUT}constructor.o ${OUTPUT}constructor-obj.o
-deprecated: ${OUTPUT}deprecated.o
-error: ${OUTPUT}error.o
-format: ${OUTPUT}format.o
-__gnu_inline__: ${OUTPUT}__gnu_inline__.o
-__naked__: ${OUTPUT}__naked__.o
-nocf_check: ${OUTPUT}nocf_check.o
-nonnull: ${OUTPUT}nonnull.o
-noreturn: ${OUTPUT}noreturn.o
-optimize: ${OUTPUT}optimize.o
-optimize_omit-frame-pointer: ${OUTPUT}optimize_omit-frame-pointer.o
-__pure__: ${OUTPUT}__pure__.o
-randomize_layout: ${OUTPUT}randomize_layout.o
-section-initcall: ${OUTPUT}section-initcall.o
-section-readmostly: ${OUTPUT}section-readmostly.o
-vector_size: ${OUTPUT}vector_size.o
-weak: ${OUTPUT}weak.o
-noplt: ${OUTPUT}noplt.o
-noplt-plt: ${OUTPUT}noplt-plt.o
-kernel_helper: ${OUTPUT}kernel_helper.o
-__has_attribute: ${OUTPUT}__has_attribute.o
-__mode__: ${OUTPUT}__mode__.o
-no_instrument_function: ${OUTPUT}no_instrument_function.o
-visibility: ${OUTPUT}visibility.o

@@ -11,8 +11,3 @@ CFLAGS_main-pie := -fpie
 LDFLAGS_main-pie := -pie
 
 include main.mk
-
-main.o: init.h log.h
-main: main.o
-main-pie.o: init.h log.h
-main-pie: main-pie.o

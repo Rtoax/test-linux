@@ -2,7 +2,6 @@ CC := gcc
 
 include compiler.mk
 
-target-y :=
 target-y += fdump-ipa-all fdump-ipa-clones
 
 ifneq ($(CC),clang)
@@ -13,9 +12,6 @@ endif
 target-clean-y := clean0
 
 include main.mk
-
-fdump-ipa-all: fdump-ipa-all.o
-fdump-ipa-clones: fdump-ipa-clones.o
 
 clean0:
 	${Q}rm -rf fdump-ipa-all.c.* fdump-ipa-clones.c.*

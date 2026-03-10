@@ -1,5 +1,3 @@
-CC := gcc
-
 target-y := hello
 target-post-y := hello.dwz hello.strip
 
@@ -16,8 +14,6 @@ endif
 CFLAGS_hello += -Wno-error=unused-variable
 
 include main.mk
-
-hello: hello.o
 
 clean0:
 	$(Q)rm -f hello.no-debug hello.debug hello.orig

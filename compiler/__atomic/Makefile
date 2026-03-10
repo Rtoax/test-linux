@@ -27,18 +27,3 @@ LDFLAGS_always_lock_free := -latomic
 LDFLAGS_is_lock_free := -latomic
 
 include main.mk
-
-test1: test1.o
-load-store: load-store.o
-load-store-atomic-relaxed: load-store-atomic-relaxed.o
-load-store-atomic-strict: load-store-atomic-strict.o
-exchange: exchange.o
-compare_exchange: compare_exchange.o
-fetch: fetch.o
-__ATOMIC_: __ATOMIC_.o
-test_and_set: test_and_set.o
-clear: clear.o
-thread_fence: thread_fence.o
-signal_fence: signal_fence.o
-always_lock_free: always_lock_free.o
-is_lock_free: is_lock_free.o

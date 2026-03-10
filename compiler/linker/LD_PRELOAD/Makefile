@@ -22,9 +22,6 @@ CFLAGS_constructor-obj := ${CFLAGS_PIC}
 
 include main.mk
 
-main: main.o
-fentry: fentry.o
-
 test0:
 	$(Q)LD_PRELOAD=./libmcount-nop.so ./main
 	$(Q)LD_PRELOAD=./libmcount-nop.so ./fentry

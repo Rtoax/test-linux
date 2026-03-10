@@ -37,10 +37,3 @@ LDFLAGS_pushsection := -nostdlib
 LDFLAGS_attribute := -nostdlib
 
 include main.mk
-
-pushsection: pushsection.o
-attribute: attribute.o
-bfd: bfd.o
-gold: gold.o
-lld: lld.o
-mold: mold.o

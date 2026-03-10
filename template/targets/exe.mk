@@ -53,6 +53,7 @@ ${target-cpp-y}: %:
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
 # Same as: ld -m elf_i386 a.o -o a
+# TODO: auto deps
 ${target-asm-y}: %:
 	$(call log_tgt,LD ASM,$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))

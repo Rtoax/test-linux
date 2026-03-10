@@ -57,6 +57,8 @@ target-y += return
 target-y += overflow
 target-y += typeof
 
+ptr-dim-objs := ${OUTPUT}c_helpers.o
+
 define arch_strip
   ${Q}${STRIP} $(1) -o $(1).strip
 endef
@@ -98,5 +100,3 @@ LDFLAGS_float := -lm
 target-prep-y := $(patsubst %,${OUTPUT}%.E.c,$(target-y))
 
 include main.mk
-
-ptr-dim: ${OUTPUT}c_helpers.o

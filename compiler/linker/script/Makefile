@@ -20,14 +20,11 @@ ifdef PIE
   LDS_PIE := PIE
 endif
 
+libhello.so-objs := ${OUTPUT}foo.so.o ${OUTPUT}bar.so.o
+main-c-objs := ${OUTPUT}foo.o ${OUTPUT}bar.o
+
 include main.mk
 
-${OUTPUT}foo.o: foo.h bar.h
-${OUTPUT}bar.o: foo.h bar.h
-${OUTPUT}main-c.o: foo.h bar.h
-
-libhello.so: ${OUTPUT}foo.so.o ${OUTPUT}bar.so.o
-main-c: ${OUTPUT}main-c.o ${OUTPUT}foo.o ${OUTPUT}bar.o
 hello-as: ${OUTPUT}hello-as.asm.o
 
 default.lds:

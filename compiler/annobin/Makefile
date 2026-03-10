@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 
-target-y :=
 ANNOBIN := $(shell pwd)/annobin-cc1
 ANNOCHECK := annocheck
 
@@ -23,8 +22,6 @@ target-post-y := $(patsubst %,%.annocheck.log,$(target-y))
 CFLAGS += -specs=$(ANNOBIN)
 
 include main.mk
-
-hello: hello.o
 
 %.annocheck.log: %
 	${Q}${ANNOCHECK} ${^} | tee ${@}
