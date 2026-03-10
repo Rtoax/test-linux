@@ -36,7 +36,7 @@ define uniq_repeat
 $(shell printf '%s' '$(subst ','\'',$(1))' | sed 's/\(.\)\1*/\1/g')
 endef
 
-# Strip a string in the end of string, like strip '-hip' from 'helloc-hip'
+# Strip a string in the end of string, like strip '-hip' from 'hello-hip'
 # $1: string to strip
 # $2: tail string
 define strip_tail
@@ -65,7 +65,10 @@ ifneq ($(call uniq_repeat,"""zzzzzzz),"z)
   $(error "ERROR: uniq_repeat("""zzzzzzz) failed")
 endif
 ifneq ($(call strip_tail,hello-hip,-hip),hello)
-  $(error "ERROR: strip_tail(a-hip, -hip) failed")
+  $(error "ERROR: strip_tail(hello-hip, -hip) failed")
+endif
+ifneq ($(call strip_tail,hello-hip-x,-hip),hello-hip-x)
+  $(error "ERROR: strip_tail(hello-hip-x, -hip) failed")
 endif
 
 endif
