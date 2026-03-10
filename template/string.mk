@@ -7,6 +7,7 @@
 # - tolower()
 # - tolower_shell()
 # - uniq_repeat()
+# - strip_tail()
 #
 ifndef _STRING_MK
 _STRING_MK = 1
@@ -35,6 +36,13 @@ define uniq_repeat
 $(shell printf '%s' '$(subst ','\'',$(1))' | sed 's/\(.\)\1*/\1/g')
 endef
 
+# Strip a string in the end of string, like strip '-hip' from 'helloc-hip'
+# $1: string to strip
+# $2: tail string
+define strip_tail
+$(shell echo ${1} | sed "s|${2}$$||g")
+endef
+
 ifneq ($(call toupper_shell,abcDEF),ABCDEF)
   $(error "ERROR: toupper failed, $(call toupper_shell,abcDEF)")
 endif
@@ -55,6 +63,9 @@ ifneq ($(call uniq_repeat,'''zzzzzzz),'z)
 endif
 ifneq ($(call uniq_repeat,"""zzzzzzz),"z)
   $(error "ERROR: uniq_repeat("""zzzzzzz) failed")
+endif
+ifneq ($(call strip_tail,hello-hip,-hip),hello)
+  $(error "ERROR: strip_tail(a-hip, -hip) failed")
 endif
 
 endif
