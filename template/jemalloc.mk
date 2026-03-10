@@ -9,7 +9,7 @@
 ifndef _JEMALLOC_MK
 _JEMALLOC_MK = 1
 
-JEMALLOC_H := /usr/include/jemalloc.h
+JEMALLOC_H := /usr/include/jemalloc/jemalloc.h
 libjemalloc-cflags :=
 libjemalloc-ldflags :=
 
