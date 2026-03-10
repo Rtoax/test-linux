@@ -28,6 +28,7 @@ _TARGET_LUCA_MK = 1
 include cestc/luca.mk
 include cflags.mk
 include dir.mk
+include string.mk
 
 cflags-lscc-bitcode := -device-bc
 cflags-lscc-devbin := -device-bin
@@ -209,5 +210,35 @@ $(target-lscc-libso-y): %:
 $(target-lscc-liba-y): %:
 	$(call log_tgt,LSCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
+
+# Depends, like:
+# hello: hello.luca.o
+# hello-luca: hello.luca.o
+$(foreach t, ${target-lscc-y}, \
+  $(if $(shell test -f ${t}.cu && echo yes), \
+    $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${t}.luca.o $${${t}-objs} ${LUCA_HELPERS})) \
+    $(eval ${t}: ${OUTPUT}${t}.luca.o $${${t}-objs} ${LUCA_HELPERS}), \
+    $(eval tname := $(call strip_tail,${t},-luca)) \
+    $(if $(shell test -f ${tname}.cu && echo yes), \
+      $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${tname}.luca.o $${${t}-objs} ${LUCA_HELPERS})) \
+      $(eval ${t}: ${OUTPUT}${tname}.luca.o $${${t}-objs} ${LUCA_HELPERS}), \
+      $(if ${DEBUG}, $(info Dep(${tname}) ${t}: $${${t}-objs} ${LUCA_HELPERS})) \
+      $(eval ${t}: $${${t}-objs} ${LUCA_HELPERS}) \
+    ) \
+  ) \
+)
+
+$(foreach t, ${target-lscc-y}, \
+  $(if $(shell test -f ${OUTPUT}${t}.luca.o.d && echo yes), \
+    $(if ${DEBUG}, $(info Include ${OUTPUT}${t}.luca.o.d)) \
+    $(eval include ${OUTPUT}${t}.luca.o.d), \
+    $(eval depname := ${OUTPUT}$(call strip_tail,${t},-luca).luca.o.d) \
+    $(if $(shell test -f ${depname} && echo yes), \
+      $(if ${DEBUG}, $(info Include ${depname})) \
+      $(eval include ${depname}), \
+      $(if ${DEBUG}, $(info Not found ${depname})) \
+    ) \
+  ) \
+)
 
 endif

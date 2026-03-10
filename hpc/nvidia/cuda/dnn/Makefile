@@ -21,10 +21,3 @@ target-htcc-${HAVE_HCDNN} := $(patsubst %,%-hpcc,$(common-objs))
 target-lscc-${HAVE_LCDNN} := $(patsubst %,%-luca,$(common-objs))
 
 include main.mk
-
-define dnn_obj
-${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
-${1}-luca: ${OUTPUT}${1}.luca.o ${LUCA_HELPERS}
-endef
-
-$(foreach obj, ${common-objs}, $(eval $(call dnn_obj,${obj})))

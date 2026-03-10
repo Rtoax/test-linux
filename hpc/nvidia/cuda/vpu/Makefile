@@ -11,9 +11,3 @@ common-objs := vpu
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 include main.mk
-
-define vpu_obj
-${1}-luca: ${OUTPUT}${1}.luca.o
-endef
-
-$(foreach obj, ${common-objs}, $(eval $(call vpu_obj,${obj})))

@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "cuda_helpers.h"
 
-
 int main(int argc, char *argv[])
 {
 	int major, minor, patch;

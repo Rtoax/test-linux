@@ -49,22 +49,3 @@ CFLAGS_LSCC := ${common-cflags}
 CFLAGS_NVCC := ${common-cflags}
 
 include main.mk
-
-# $1 - hpcc, luca
-# $2 - hpcc, luca
-define cuda_intrinsics_objs
-fp4-${2}: $${OUTPUT}fp4.${1}.o
-fp6-${2}: $${OUTPUT}fp6.${1}.o
-fp8-${2}: $${OUTPUT}fp8.${1}.o
-half-${2}: $${OUTPUT}half.${1}.o
-bfloat16-${2}: $${OUTPUT}bfloat16.${1}.o
-float-${2}: $${OUTPUT}float.${1}.o
-complex-${2}: $${OUTPUT}complex.${1}.o
-double-${2}: $${OUTPUT}double.${1}.o
-fp128-${2}: $${OUTPUT}fp128.${1}.o
-int-${2}: $${OUTPUT}int.${1}.o
-simd-${2}: $${OUTPUT}simd.${1}.o
-endef
-
-$(eval $(call cuda_intrinsics_objs,hpcc,hpcc))
-$(eval $(call cuda_intrinsics_objs,luca,luca))

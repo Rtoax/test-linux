@@ -29,6 +29,7 @@ _TARGET_HPCC_MK = 1
 include metax/hpcc.mk
 include cflags.mk
 include dir.mk
+include string.mk
 
 cflags-htcc-devbin := -device-bin
 cflags-htcc-fatbin := -fatbin
@@ -158,5 +159,35 @@ $(target-htcc-libso-y): %:
 $(target-htcc-liba-y): %:
 	$(call log_tgt,HTCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
+
+# Depends, like:
+# hello: hello.hpcc.o
+# hello-hpcc: hello.hpcc.o
+$(foreach t, ${target-htcc-y}, \
+  $(if $(shell test -f ${t}.cu && echo yes), \
+    $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${t}.hpcc.o $${${t}-objs} ${HPCC_HELPERS})) \
+    $(eval ${t}: ${OUTPUT}${t}.hpcc.o $${${t}-objs} ${HPCC_HELPERS}), \
+    $(eval tname := $(call strip_tail,${t},-hpcc)) \
+    $(if $(shell test -f ${tname}.cu && echo yes), \
+      $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${tname}.hpcc.o $${${t}-objs} ${HPCC_HELPERS})) \
+      $(eval ${t}: ${OUTPUT}${tname}.hpcc.o $${${t}-objs} ${HPCC_HELPERS}), \
+      $(if ${DEBUG}, $(info Dep(${tname}) ${t}: $${${t}-objs} ${HPCC_HELPERS})) \
+      $(eval ${t}: $${${t}-objs} ${HPCC_HELPERS}) \
+    ) \
+  ) \
+)
+
+$(foreach t, ${target-htcc-y}, \
+  $(if $(shell test -f ${OUTPUT}${t}.hpcc.o.d && echo yes), \
+    $(if ${DEBUG}, $(info Include ${OUTPUT}${t}.hpcc.o.d)) \
+    $(eval include ${OUTPUT}${t}.hpcc.o.d), \
+    $(eval depname := ${OUTPUT}$(call strip_tail,${t},-hpcc).hpcc.o.d) \
+    $(if $(shell test -f ${depname} && echo yes), \
+      $(if ${DEBUG}, $(info Include ${depname})) \
+      $(eval include ${depname}), \
+      $(if ${DEBUG}, $(info Not found ${depname})) \
+    ) \
+  ) \
+)
 
 endif

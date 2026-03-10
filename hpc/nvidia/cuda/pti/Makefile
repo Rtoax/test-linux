@@ -18,10 +18,3 @@ target-nvcc-${HAVE_CUPTI} += ${cuda-objs}
 target-lscc-${HAVE_LCPTI} := $(patsubst %,%-luca,$(common-objs))
 
 include main.mk
-
-# $1: obj name
-define pti_obj
-${1}-luca: ${OUTPUT}${1}.luca.o
-endef
-
-$(foreach obj, ${common-objs}, $(eval $(call pti_obj,${obj})))

@@ -121,10 +121,3 @@ CFLAGS_LSCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_LSCC_matrix-int8 := -DTEST_INT8=1
 
 include main.mk
-
-define cuda_obj
-${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
-${1}-luca: ${OUTPUT}${1}.luca.o ${LUCA_HELPERS}
-endef
-
-$(foreach name,${common-objs},$(eval $(call cuda_obj,$(name))))

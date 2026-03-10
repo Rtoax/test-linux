@@ -22,10 +22,3 @@ target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
 include main.mk
-
-define rand_obj
-${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
-${1}-luca: ${OUTPUT}${1}.luca.o ${LUCA_HELPERS}
-endef
-
-$(foreach obj, ${common-objs}, $(eval $(call rand_obj,${obj})))
