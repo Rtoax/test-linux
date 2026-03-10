@@ -35,10 +35,10 @@ ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
 
 # All symlinks depends on original dynamic target, thus, if some one need the
 # symlinks, the dynamic library will be compiled.
-$(foreach so,${target-libso-y} ${target-libso-cpp-y},	\
-$(if $(shell ${LIBSO_SH} symlinks-names ${so}),	\
-$(eval $(shell ${LIBSO_SH} symlinks-names ${so}): ${so}	;)	\
-)	\
+$(foreach so, ${target-libso-y} ${target-libso-cpp-y}, \
+  $(if $(shell ${LIBSO_SH} symlinks-names ${so}), \
+    $(eval $(shell ${LIBSO_SH} symlinks-names ${so}): ${so} ;)\
+  ) \
 )
 
 $(target-libso-y): %:
