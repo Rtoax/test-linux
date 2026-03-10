@@ -53,8 +53,11 @@ $(target-libso-cpp-y): %:
 
 $(foreach so, ${target-libso-y} ${target-libso-cpp-y}, \
   $(foreach obj, ${${so}-objs}, \
-    $(if ${DEBUG}, $(info Include ${obj}.d)) \
-    $(eval include ${obj}.d) \
+    $(if $(shell test -f ${obj}.d && echo yes), \
+      $(if ${DEBUG}, $(info Include ${obj}.d)) \
+      $(eval include ${obj}.d), \
+      $(if ${DEBUG}, $(info Not found ${obj}.d)) \
+    ) \
   ) \
 )
 

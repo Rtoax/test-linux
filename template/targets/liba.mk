@@ -25,8 +25,11 @@ $(target-liba-y): %:
 
 $(foreach a, ${target-liba-y}, \
   $(foreach obj, ${${a}-objs}, \
-    $(if ${DEBUG}, $(info Include ${obj}.d)) \
-    $(eval include ${obj}.d) \
+    $(if $(shell test -f ${obj}.d && echo yes), \
+      $(if ${DEBUG}, $(info Include ${obj}.d)) \
+      $(eval include ${obj}.d), \
+      $(if ${DEBUG}, $(info Not found ${obj}.d)) \
+    ) \
   ) \
 )
 
