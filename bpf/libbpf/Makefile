@@ -52,18 +52,14 @@ target-y += tc
 target-y += xdp xdp_simple xdp_dos
 # kernel v4.12-11037-g546ac1ffb70d
 # commit 546ac1ffb70d ("bpf: add devmap, a map for storing net device references")
-ifeq ($(call kver_gt,4,12,0),y)
-  target-y += xdp_devmap
-endif
+target-$(call kver_gt,4,12,0) += xdp_devmap
 # kernel v5.8-rc4-1449-g9216477449f3
 # commit 9216477449f3 ("bpf: cpumap: Add the possibility to attach an eBPF program to cpumap")
 # struct bpf_cpumap_val support bpf_prog field
 # kernel v5.8-rc4-1448-g644bfe51fa49
 # commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
 # introduce struct bpf_cpumap_val
-ifeq ($(call kver_gt,5,8,0),y)
-  target-y += xdp_cpumap
-endif
+target-$(call kver_gt,5,8,0) += xdp_cpumap
 
 target-y += sockops
 target-y += sk_skb
@@ -71,24 +67,18 @@ target-y += sk_msg
 target-y += cgroup_device
 target-y += cgroup_sysctl
 target-y += fmod_ret
-ifeq ($(call kver_gt,5,7,0),y)
-  # linux v5.7-rc2-1180-geaaacd23910f
-  # commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
-  target-y += iter_task iter_task_file
-  # linux v5.7-rc2-1178-g6086d29def80
-  # commit 6086d29def80 ("bpf: Add bpf_map iterator")
-  target-y += iter_bpf_map
-endif
-ifeq ($(call kver_gt,5,11,0),y)
-  # linux v5.11-rc4-606-g3a7b35b899de
-  # commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
-  target-y += iter_task_vma
-endif
-ifeq ($(call kver_gt,6,12,0),y)
-  # linux v6.12-rc1-177-g4971266e1595
-  # commit 4971266e1595 ("bpf: Add kmem_cache iterator")
-  target-y += iter_kmem_cache
-endif
+# linux v5.7-rc2-1180-geaaacd23910f
+# commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
+target-$(call kver_gt,5,7,0) += iter_task iter_task_file
+# linux v5.7-rc2-1178-g6086d29def80
+# commit 6086d29def80 ("bpf: Add bpf_map iterator")
+target-$(call kver_gt,5,7,0) += iter_bpf_map
+# linux v5.11-rc4-606-g3a7b35b899de
+# commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
+target-$(call kver_gt,5,11,0) += iter_task_vma
+# linux v6.12-rc1-177-g4971266e1595
+# commit 4971266e1595 ("bpf: Add kmem_cache iterator")
+target-$(call kver_gt,6,12,0) += iter_kmem_cache
 target-y += $(kobjs-y)
 target-y += map_array map_prog_array map_percpu_array
 target-y += xdp_xskmap
@@ -110,9 +100,7 @@ endif
 
 # linux commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
 # v5.0-rc4-620-gd83525ca62cf
-ifeq ($(call kver_gt,5,0,0),y)
-  target-y += spin_lock
-endif
+target-$(call kver_gt,5,0,0) += spin_lock
 
 # _if_ there are no user mode code, append to bpf target only
 obj-bpf.o := ${target-y:=.bpf.o}
