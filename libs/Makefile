@@ -50,26 +50,3 @@ test1:
 	${Q}./gotoxy
 	${Q}clear
 	${Q}./file.sh test
-
-%.so.o: %.h
-
-byteswap: ${OUTPUT}byteswap.o
-byteswap.o: byteswap.h
-endian: ${OUTPUT}endian.o
-endian.o: endian.h
-gotoxy: ${OUTPUT}gotoxy.o
-goprint: ${OUTPUT}goprint.o
-file: ${OUTPUT}file.o
-file.o: file.h
-fd: ${OUTPUT}fd.o
-fd.o: fd.h
-log: ${OUTPUT}log.o
-log.o: log.h
-memshow: ${OUTPUT}memshow.o
-mac: ${OUTPUT}mac.o
-mac.o: mac.h
-progress: ${OUTPUT}progress.o
-progress.o: progress.h
-str: ${OUTPUT}str.o
-ipaddr: ${OUTPUT}ipaddr.o
-ipaddr.o: ipaddr.h

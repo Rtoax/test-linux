@@ -1,8 +1,6 @@
 # Just support x86_64 right now
-ifeq ($(shell uname -m),x86_64)
-  target-y := ioctl_values
-endif
+include arch.mk
+
+target-${IS_X86_64} := ioctl_values
 
 include main.mk
-
-ioctl_values: ioctl_values.o

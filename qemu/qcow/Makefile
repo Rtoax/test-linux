@@ -7,10 +7,9 @@ QCOW2S := a.qcow2
 target-prep-y := ${QCOW2S}
 target-test-y := test-qcow2
 
-include main.mk
+qcow2-objs := qcow2_helpers.o
 
-qcow2_helpers.o: qcow2_helpers.h qcow2.h
-qcow2: qcow2.o qcow2_helpers.o
+include main.mk
 
 %.qcow2:
 	$(call log_tgt,QCOW2,$(@))

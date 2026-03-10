@@ -4,6 +4,7 @@ __USE_PROC_HELPERS__ = y
 __USE_MMAP_HELPERS__ = y
 
 include kconfig.mk
+include helpers.mk
 
 subdir-y := aslr
 subdir-y += rss
@@ -18,6 +19,8 @@ subdir-y += pmem
 
 target-y := virt2phy
 target-liba-y := libtest-linux-mm.a
+
+virt2phy-objs := ${PROC_HELPERS} numa.a.1 ${MMAP_HELPERS}
 
 libtest-linux-mm.a-objs := virt2phy.a.o
 
@@ -36,7 +39,7 @@ endif
 # disallows to access RAM area via /dev/mem or only allows first 1MB size
 # of RAM.
 ifeq ($(CONFIG_STRICT_DEVMEM),y)
-  $(warning CONFIG_STRICT_DEVMEM=y, you don't allow r/w from/to /dev/mem)
+  $(warning CONFIG_STRICT_DEVMEM=y, you don not allow r/w from/to /dev/mem)
   CFLAGS_virt2phy += -DCONFIG_STRICT_DEVMEM=1
 endif
 ifeq ($(CONFIG_MEMFD_CREATE),y)
@@ -46,7 +49,6 @@ endif
 
 include main.mk
 
-virt2phy: virt2phy.o ${PROC_HELPERS} numa.a.1 ${MMAP_HELPERS}
 numa.a.1:
 	$(Q)make -C ../numa numa.a
 	$(Q)cp ../numa/numa.a numa.a.1

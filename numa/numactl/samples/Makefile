@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include numactl.mk
 
-target-y :=
 target-y += numa_alloc
 target-y += numa_available
 target-y += numa_max_node
@@ -23,13 +22,3 @@ CFLAGS_numa_node_size := -Wno-incompatible-pointer-types
 CFLAGS_numa_node_size64 := -Wno-incompatible-pointer-types
 
 include main.mk
-
-numa_alloc: numa_alloc.o
-numa_available: numa_available.o
-numa_max_node: numa_max_node.o
-numa_max_possible_node: numa_max_possible_node.o
-numa_node_size64: numa_node_size64.o
-numa_node_size: numa_node_size.o
-numa_pagesize: numa_pagesize.o
-numa_preferred: numa_preferred.o
-migrate_pages: migrate_pages.o

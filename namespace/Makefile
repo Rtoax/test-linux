@@ -20,5 +20,3 @@ SHELL_ARGS_info.sh.1 := detail
 target-y := unshare
 
 include main.mk
-
-unshare: unshare.o

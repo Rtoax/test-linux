@@ -3,5 +3,3 @@ target-y := rss
 target-shell-y := info.sh
 
 include main.mk
-
-rss: rss.o

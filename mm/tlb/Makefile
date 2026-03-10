@@ -1,6 +1,3 @@
-target-y :=
 target-y += native_flush_tlb_one_user
 
 include main.mk
-
-native_flush_tlb_one_user: native_flush_tlb_one_user.o

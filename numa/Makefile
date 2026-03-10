@@ -19,6 +19,3 @@ include main.mk
 
 numa_mem.h:
 	${Q}./info.sh c
-
-numa_mem: numa_mem.o
-memory: memory.o
