@@ -22,11 +22,6 @@ target-hipcc-${HAVE_HIPSOLVER} := $(patsubst %,%-hip,$(common-objs))
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
-define solver_dep
-${1}-hip-objs := ${OUTPUT}${1}.hip.o
-endef
-$(foreach obj, ${common-objs}, $(eval $(call solver_dep,${obj})))
-
 include main.mk
 
 define solver_obj
