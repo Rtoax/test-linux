@@ -134,4 +134,19 @@ $(target-hipcc-liba-y): %:
 	$(call log_tgt,HIPCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+$(foreach t, ${target-hipcc-y}, \
+  $(if $(shell test -f ${t}.cu && echo yes), \
+    $(eval ${t}: ${OUTPUT}${t}.hip.o $${${t}-objs} ${HIP_HELPERS}), \
+    $(eval ${t}: $${${t}-objs} ${HIP_HELPERS}) \
+  ) \
+)
+
+$(foreach t, ${target-hipcc-y}, \
+  $(if $(shell test -f ${OUTPUT}${t}.hip.o.d && echo yes), \
+    $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.hip.o.d)) \
+    $(eval include ${OUTPUT}${t}.hip.o.d), \
+    $(if ${DEBUG}, $(info Not found ${OUTPUT}${t}.hip.o.d)) \
+  ) \
+)
+
 endif

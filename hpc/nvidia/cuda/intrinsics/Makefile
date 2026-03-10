@@ -21,12 +21,11 @@ common-objs-${CC__Float128} += fp128
 common-objs-y += int
 common-objs-y += simd
 
-# WARNING: must have -nv suffix.
-target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs-y))
+target-nvcc-${HAVE_CUDA} := $(common-objs-y)
 
-target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.E.cu,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.cu.ptx,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %-nv,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx,$(target-nvcc-y))
+target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
 
 target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs-y))
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs-y))
@@ -53,20 +52,9 @@ include main.mk
 
 HDRS := print.h compiler.h types.h
 
-# $1 - cu, hip, hpcc, luca
-# $2 - nv, hip, hpcc, luca
+# $1 - hip, hpcc, luca
+# $2 - hip, hpcc, luca
 define cuda_intrinsics_objs
-$${OUTPUT}fp4.${1}.o: $${HDRS}
-$${OUTPUT}fp6.${1}.o: $${HDRS}
-$${OUTPUT}fp8.${1}.o: $${HDRS}
-$${OUTPUT}half.${1}.o: $${HDRS}
-$${OUTPUT}bfloat16.${1}.o: $${HDRS}
-$${OUTPUT}float.${1}.o: $${HDRS}
-$${OUTPUT}double.${1}.o: $${HDRS}
-$${OUTPUT}fp128.${1}.o: $${HDRS}
-$${OUTPUT}int.${1}.o: $${HDRS}
-$${OUTPUT}simd.${1}.o: $${HDRS}
-
 fp4-${2}: $${OUTPUT}fp4.${1}.o
 fp6-${2}: $${OUTPUT}fp6.${1}.o
 fp8-${2}: $${OUTPUT}fp8.${1}.o
@@ -80,7 +68,7 @@ int-${2}: $${OUTPUT}int.${1}.o
 simd-${2}: $${OUTPUT}simd.${1}.o
 endef
 
-$(eval $(call cuda_intrinsics_objs,cu,nv))
+# FIXME&TODO: include .output/fp4-hip.hip.o.d should be .output/fp4.hip.o.d
 $(eval $(call cuda_intrinsics_objs,hip,hip))
 $(eval $(call cuda_intrinsics_objs,hpcc,hpcc))
 $(eval $(call cuda_intrinsics_objs,luca,luca))

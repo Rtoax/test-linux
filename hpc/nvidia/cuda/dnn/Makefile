@@ -20,11 +20,15 @@ target-hipcc-${HAVE_HIPDNN} := $(patsubst %,%-hip,$(common-objs))
 target-htcc-${HAVE_HCDNN} := $(patsubst %,%-hpcc,$(common-objs))
 target-lscc-${HAVE_LCDNN} := $(patsubst %,%-luca,$(common-objs))
 
+define dnn_dep
+${1}-hip-objs := ${OUTPUT}${1}.hip.o
+endef
+
+$(foreach obj, ${common-objs}, $(eval $(call dnn_dep,${obj})))
+
 include main.mk
 
 define dnn_obj
-${1}: ${OUTPUT}${1}.cu.o ${CUDA_HELPERS}
-${1}-hip: ${OUTPUT}${1}.hip.o ${HIP_HELPERS}
 ${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
 ${1}-luca: ${OUTPUT}${1}.luca.o ${LUCA_HELPERS}
 endef

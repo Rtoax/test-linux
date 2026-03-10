@@ -3,6 +3,7 @@ OUTPUT := .output/
 
 __IGNORE_NOTFOUND_ERROR__ := 1
 
+include helpers.mk
 include nvidia/cuda.mk
 include amd/rocm.mk
 include cestc/luca.mk
@@ -20,11 +21,15 @@ target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs))
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
+define fft_dep
+${1}-hip-objs := ${OUTPUT}${1}.hip.o
+endef
+
+$(foreach obj, ${common-objs}, $(eval $(call fft_dep,${obj})))
+
 include main.mk
 
 define fft_obj
-${1}: ${OUTPUT}${1}.cu.o ${CUDA_HELPERS}
-${1}-hip: ${OUTPUT}${1}.hip.o ${HIP_HELPERS}
 ${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
 ${1}-luca: ${OUTPUT}${1}.luca.o ${LUCA_HELPERS}
 endef

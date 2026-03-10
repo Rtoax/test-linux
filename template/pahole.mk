@@ -3,9 +3,6 @@
 #
 # https://git.kernel.org/pub/scm/devel/pahole/pahole.git
 #
-# Input definitions:
-# - __IGNORE_NOTFOUND_ERROR__
-#
 # Output definitions:
 # - HAVE_PAHOLE=[y|n]
 # - PAHOLE=

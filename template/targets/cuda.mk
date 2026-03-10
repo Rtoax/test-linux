@@ -190,4 +190,21 @@ $(target-nvcc-liba-y): %:
 	$(call log_tgt,NVCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+$(foreach t, ${target-nvcc-y}, \
+  $(if $(shell test -f ${t}.cu && echo yes), \
+    $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${t}.cu.o $${${t}-objs} ${CUDA_HELPERS})) \
+    $(eval ${t}: ${OUTPUT}${t}.cu.o $${${t}-objs} ${CUDA_HELPERS}), \
+    $(if ${DEBUG}, $(info Dep ${t}: $${${t}-objs} ${CUDA_HELPERS})) \
+    $(eval ${t}: $${${t}-objs} ${CUDA_HELPERS}) \
+  ) \
+)
+
+$(foreach t, ${target-nvcc-y}, \
+  $(if $(shell test -f ${OUTPUT}${t}.cu.o.d && echo yes), \
+    $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.cu.o.d)) \
+    $(eval include ${OUTPUT}${t}.cu.o.d), \
+    $(if ${DEBUG}, $(info Not found ${OUTPUT}${t}.cu.o.d)) \
+  ) \
+)
+
 endif

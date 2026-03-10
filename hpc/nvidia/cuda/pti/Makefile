@@ -20,11 +20,8 @@ target-lscc-${HAVE_LCPTI} := $(patsubst %,%-luca,$(common-objs))
 include main.mk
 
 # $1: obj name
-# $2: deps
 define pti_obj
-${1}: ${OUTPUT}${1}.cu.o ${2}
-${1}-luca: ${OUTPUT}${1}.luca.o ${2}
+${1}-luca: ${OUTPUT}${1}.luca.o
 endef
 
 $(foreach obj, ${common-objs}, $(eval $(call pti_obj,${obj})))
-$(foreach obj, ${cuda-objs}, $(eval $(call pti_obj,${obj})))

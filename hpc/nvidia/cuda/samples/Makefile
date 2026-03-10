@@ -39,13 +39,13 @@ common-objs += rtc
 common-objs += version
 
 # NVIDIA CUDA
-target-nvcc-${HAVE_CUDA} := $(patsubst %,%-nv,$(common-objs))
+target-nvcc-${HAVE_CUDA} := $(common-objs)
 nvidia-cubin-${HAVE_CUDA} := hello.cu.cubin
 nvidia-cubin-${HAVE_CUDA} += parallel.cu.cubin
 nvidia-fatbin-${HAVE_CUDA} := hello.cu.fatbin
 nvidia-fatbin-${HAVE_CUDA} += parallel.cu.fatbin
-nvidia-fatbin-${HAVE_CUDA} += parallel-nv.nv_fatbin
-nvidia-fatbin-${HAVE_CUDA} += parallel-nv.nvFatBinSegment
+nvidia-fatbin-${HAVE_CUDA} += parallel.nv_fatbin
+nvidia-fatbin-${HAVE_CUDA} += parallel.nvFatBinSegment
 target-post-${HAVE_CUDA} := $(patsubst %,${OUTPUT}%.E.cu,$(common-objs))
 target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(common-objs))
 target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(common-objs))
@@ -77,6 +77,10 @@ target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbc,$(common-objs))
 # Pure C
 target-y := matrix-c-fp32 matrix-c-fp64
 target-y += float-c
+
+float-c-objs := ${OUTPUT}float-c.o
+matrix-c-fp32-objs := ${OUTPUT}matrix-fp32.o
+matrix-c-fp64-objs := ${OUTPUT}matrix-fp64.o
 
 CFLAGS += -I..
 CFLAGS_matrix-fp64 := -DTEST_FP64=1
@@ -116,21 +120,15 @@ CFLAGS_LSCC_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_LSCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_LSCC_matrix-int8 := -DTEST_INT8=1
 
+define cuda_dep
+${1}-hip-objs := ${OUTPUT}${1}.hip.o
+endef
+
+$(foreach name,${common-objs},$(eval $(call cuda_dep,$(name))))
+
 include main.mk
 
-float-c: ${OUTPUT}float-c.o
-matrix-c-fp32: ${OUTPUT}matrix-fp32.o
-matrix-c-fp64: ${OUTPUT}matrix-fp64.o
-
-HDRS :=
-
 define cuda_obj
-${OUTPUT}${1}.cu.o: ${HDRS}
-${OUTPUT}${1}.hip.o: ${HDRS}
-${OUTPUT}${1}.hpcc.o: ${HDRS}
-${OUTPUT}${1}.luca.o: ${HDRS}
-${1}-nv: ${OUTPUT}${1}.cu.o ${CUDA_HELPERS}
-${1}-hip: ${OUTPUT}${1}.hip.o ${HIP_HELPERS}
 ${1}-hpcc: ${OUTPUT}${1}.hpcc.o ${HPCC_HELPERS}
 ${1}-luca: ${OUTPUT}${1}.luca.o ${LUCA_HELPERS}
 endef

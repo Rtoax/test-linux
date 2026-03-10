@@ -19,11 +19,7 @@ LIBNUMA_HDR := /usr/include/numa.h
 LIBNUMAIF_HDR := /usr/include/numaif.h
 
 ifeq (${NUMACTL},)
-  ifndef __IGNORE_NOTFOUND_ERROR__
-    $(error Not found numactl, please install first)
-  else
-    $(warning Not found numactl, please install first)
-  endif
+  $(warning Not found numactl, please install first)
   export HAVE_LIBNUMA := n
 else
 # Get numactl version
