@@ -8,5 +8,3 @@ subdir-y += thread
 target-rust-y += hello
 
 include main.mk
-
-hello: hello.rs
