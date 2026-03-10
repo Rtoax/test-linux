@@ -193,4 +193,14 @@ $(foreach t, ${target-htcc-y}, \
   ) \
 )
 
+$(foreach so, ${target-htcc-libso-y} ${target-htcc-liba-y}, \
+  $(foreach obj, ${${so}-objs}, \
+    $(if $(shell test -f ${obj}.d && echo yes), \
+      $(if ${DEBUG}, $(info Include ${obj}.d)) \
+      $(eval include ${obj}.d), \
+      $(if ${DEBUG}, $(info Not found ${obj}.d)) \
+    ) \
+  ) \
+)
+
 endif

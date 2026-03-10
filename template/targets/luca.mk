@@ -244,4 +244,14 @@ $(foreach t, ${target-lscc-y}, \
   ) \
 )
 
+$(foreach so, ${target-lscc-libso-y} ${target-lscc-liba-y}, \
+  $(foreach obj, ${${so}-objs}, \
+    $(if $(shell test -f ${obj}.d && echo yes), \
+      $(if ${DEBUG}, $(info Include ${obj}.d)) \
+      $(eval include ${obj}.d), \
+      $(if ${DEBUG}, $(info Not found ${obj}.d)) \
+    ) \
+  ) \
+)
+
 endif
