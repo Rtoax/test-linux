@@ -10,6 +10,3 @@ SHELL_ARGS_orphan.sh := setsid
 SHELL_ARGS_orphan.sh.1 := bash
 
 include main.mk
-
-parent-crash: ${OUTPUT}parent-crash.o
-thread: ${OUTPUT}thread.o

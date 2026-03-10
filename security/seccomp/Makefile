@@ -1,4 +1,6 @@
+include libseccomp.mk
+
 subdir-y := samples
-subdir-y += libseccomp
+subdir-${HAVE_LIBSECCOMP} += libseccomp
 
 include main.mk

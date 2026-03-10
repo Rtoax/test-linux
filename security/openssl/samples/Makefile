@@ -1,8 +1,6 @@
-target-y :=
 target-y += bignum
 target-y += md5 md5_evp
 
-CFLAGS :=
 CFLAGS += -I../macro/
 
 LDFLAGS +=$(shell pkg-config --libs --cflags openssl)
@@ -11,7 +9,3 @@ LDFLAGS +=$(shell pkg-config --libs --cflags openssl)
 CFLAGS_md5 :=  -Wno-error=deprecated-declarations
 
 include main.mk
-
-bignum: bignum.o
-md5: md5.o
-md5_evp: md5_evp.o

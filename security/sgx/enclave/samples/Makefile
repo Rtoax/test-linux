@@ -6,6 +6,8 @@ target-y := app
 target-prep-y := enclave_u.c enclave_u.h
 target-prep-y += enclave_t.c enclave_t.h
 
+app-objs := enclave_u.o enclave_t.o
+
 CFLAGS := -I/home/rongtao/Git/intel/linux-sgx/common/inc/
 CFLAGS += -I/usr/x86_64-intel-sgx/include/tlibc/
 
@@ -14,8 +16,6 @@ LDFLAGS += -lsgx_enclave_common
 LDFLAGS += /usr/x86_64-intel-sgx/lib64/libsgx_tstdc.a
 
 include main.mk
-
-app: app.o enclave_u.o enclave_t.o
 
 enclave_u.c: enclave_u.h
 enclave_t.c: enclave_t.h

@@ -1,11 +1,7 @@
-target-y :=
-ifeq ($(shell uname -m),x86_64)
-  target-y += main
-endif
+include arch.mk
 
-CFLAGS :=
+target-${IS_X86_64} += main
+
 CFLAGS += -pthread
 
 include main.mk
-
-main: main.o

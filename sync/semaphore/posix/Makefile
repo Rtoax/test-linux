@@ -5,7 +5,3 @@ target-y += pthread-semaphore
 CFLAGS += -lpthread
 
 include main.mk
-
-semaphore: semaphore.o
-latency: latency.o
-pthread-semaphore: pthread-semaphore.o
