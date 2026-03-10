@@ -23,4 +23,11 @@ $(target-liba-y): %:
 	$(call log_tgt,AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+$(foreach a, ${target-liba-y}, \
+  $(foreach obj, ${${a}-objs}, \
+    $(if ${DEBUG}, $(info Include ${obj}.d)) \
+    $(eval include ${obj}.d) \
+  ) \
+)
+
 endif

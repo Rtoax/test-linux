@@ -51,4 +51,11 @@ $(target-libso-cpp-y): %:
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS_SO) $(LDXXFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
 
+$(foreach so, ${target-libso-y} ${target-libso-cpp-y}, \
+  $(foreach obj, ${${so}-objs}, \
+    $(if ${DEBUG}, $(info Include ${obj}.d)) \
+    $(eval include ${obj}.d) \
+  ) \
+)
+
 endif
