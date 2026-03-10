@@ -5,7 +5,6 @@ LLVM_AS = $(shell which llvm-as 2>/dev/null)
 LLVM_DIS = $(shell which llvm-dis 2>/dev/null)
 LLC = $(shell which llc 2>/dev/null)
 
-target-y :=
 target-y += sum
 target-y += sum-avx
 target-y += sum-avx2
@@ -55,7 +54,7 @@ sum: ${OUTPUT}sum.o
 sum-avx: ${OUTPUT}sum-avx.o
 sum-avx2: ${OUTPUT}sum-avx2.o
 cpu-features: ${OUTPUT}cpu-features.o
-test-asm: ${OUTPUT}test-asm.S.o test-asm.o
+test-asm: ${OUTPUT}test-asm.S.o ${OUTPUT}test-asm.o
 avx512_aux: ${OUTPUT}avx512_aux.o
 mul-avx256: ${OUTPUT}mul-avx256.o
 mul-avx512: ${OUTPUT}mul-avx512.o
