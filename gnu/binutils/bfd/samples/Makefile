@@ -4,8 +4,9 @@ __USE_PROC_HELPERS__ = y
 OUTPUT = .output/
 
 include bfd.mk
+include helpers.mk
+include binutils.mk
 
-target-y :=
 target-y += bfd_init
 target-y += build_id
 target-y += bfd_symbol_info
@@ -20,7 +21,13 @@ target-y += reloc
 target-y += reloc-name
 target-y += bfd_print_symbol_vandf
 
-CFLAGS :=
+bfd_init-objs := ${OUTPUT}bfd_helpers.o
+build_id-objs := ${OUTPUT}bfd_helpers.o
+bfd_symbol_info-objs := ${OUTPUT}bfd_helpers.o ${PROC_HELPERS}
+symbol-objs := ${OUTPUT}bfd_helpers.o ${PROC_HELPERS}
+symbol-value-objs := ${OUTPUT}bfd_helpers.o ${PROC_HELPERS}
+bfd_print_symbol_vandf-objs := ${OUTPUT}bfd_helpers.o ${PROC_HELPERS}
+
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
 
@@ -100,8 +107,6 @@ ifeq ($(has-bfd_get_symbol_version_string),1)
   CFLAGS += -DBFD_HAS_BFD_GET_SYMBOL_VERSION_STRING=1
 endif
 
-include binutils.mk
-
 CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
 CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
 
@@ -109,23 +114,3 @@ CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
 CFLAGS_symbol-value := -DTEST_SYMBOL_VALUE=1
 
 include main.mk
-
-BFD_HELPER_O := ${OUTPUT}bfd_helpers.o
-
-${BFD_HELPER_O}: bfd_helpers.h
-
-bfd_init: ${OUTPUT}bfd_init.o ${BFD_HELPER_O}
-build_id: ${OUTPUT}build_id.o ${BFD_HELPER_O}
-bfd_symbol_info: ${OUTPUT}bfd_symbol_info.o ${BFD_HELPER_O} ${PROC_HELPERS}
-bfd_get_start_address: ${OUTPUT}bfd_get_start_address.o
-bfd_get_flavour: ${OUTPUT}bfd_get_flavour.o
-bfd_elf_bfd_from_remote_memory: ${OUTPUT}bfd_elf_bfd_from_remote_memory.o
-phdr: ${OUTPUT}phdr.o
-sections: ${OUTPUT}sections.o
-symbol: ${OUTPUT}symbol.o ${BFD_HELPER_O} ${PROC_HELPERS}
-symbol-value: ${OUTPUT}symbol-value.o ${BFD_HELPER_O} ${PROC_HELPERS}
-breakpoint_tst: ${OUTPUT}breakpoint_tst.o
-breakpoint_bfd: ${OUTPUT}breakpoint_bfd.o
-reloc: ${OUTPUT}reloc.o
-reloc-name: ${OUTPUT}reloc-name.o
-bfd_print_symbol_vandf: ${OUTPUT}bfd_print_symbol_vandf.o ${BFD_HELPER_O} ${PROC_HELPERS}

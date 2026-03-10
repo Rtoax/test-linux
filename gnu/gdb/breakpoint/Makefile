@@ -1,13 +1,8 @@
+include arch.mk
+
 subdir-y := breakfast
 
-target-y :=
-ifeq ($(shell uname -m),x86_64)
-  target-y += int3
-else ifeq ($(shell uname -m),aarch64)
-  target-y += brk
-endif
+target-${IS_X86_64} += int3
+target-${IS_AARCH64} += brk
 
 include main.mk
-
-int3: int3.o
-brk: brk.o

@@ -1,10 +1,9 @@
-target-y :=
-ifeq ($(shell uname -m),x86_64)
-  target-y += tst
-endif
+include arch.mk
+
+target-${IS_X86_64} += tst
+
+tst-objs := breakfast.o
 
 CFLAGS := -O0
 
 include main.mk
-
-tst: tst.o breakfast.o

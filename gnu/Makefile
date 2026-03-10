@@ -10,5 +10,3 @@ subdir-y += make
 target-y := __GNUC__
 
 include main.mk
-
-__GNUC__: __GNUC__.o

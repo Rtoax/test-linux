@@ -5,5 +5,3 @@ target-shell-y += list.sh
 target-shell-y += info.sh
 
 include main.mk
-
-coredump: coredump.o
