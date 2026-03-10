@@ -160,6 +160,9 @@ $(target-htcc-liba-y): %:
 	$(call log_tgt,HTCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+$(foreach lib, ${target-htcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
+$(foreach lib, ${target-htcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
+
 # Depends, like:
 # hello: hello.hpcc.o
 # hello-hpcc: hello.hpcc.o

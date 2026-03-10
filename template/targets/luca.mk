@@ -211,6 +211,9 @@ $(target-lscc-liba-y): %:
 	$(call log_tgt,LSCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+$(foreach lib, ${target-lscc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
+$(foreach lib, ${target-lscc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
+
 # Depends, like:
 # hello: hello.luca.o
 # hello-luca: hello.luca.o
