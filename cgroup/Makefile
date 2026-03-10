@@ -9,16 +9,8 @@ subdir-${CGROUP_V2} += v2
 
 target-y := cgroup_examples
 
-target-post-y := info
-target-clean-y := info_clean
+cgroup_examples-objs := cgroup_helpers.o
+
+target-prog-y := info.sh
 
 include main.mk
-
-cgroup_helpers.o: cgroup_helpers.h
-cgroup_examples.o: cgroup_helpers.h
-cgroup_examples: cgroup_examples.o cgroup_helpers.o
-
-info:
-	$(Q)./info.sh > info.sh.log
-info_clean:
-	${Q}rm -f info.sh.log
