@@ -1,4 +1,3 @@
-target-y :=
 target-y += opendir
 target-y += readdir
 target-y += telldir
@@ -9,10 +8,6 @@ target-y += fdopendir
 # Demos
 target-y += listdir
 target-y += remove_dir
-
-CC := gcc
-
-CFLAGS :=
 
 target-post-y := generate-dir
 target-clean-y := remove-dir
@@ -25,13 +20,3 @@ generate-dir:
 
 remove-dir:
 	@rm -rf a.dir/
-
-opendir: opendir.o
-readdir: readdir.o
-telldir: telldir.o
-seekdir: seekdir.o
-rewinddir: rewinddir.o
-scandir: scandir.o
-fdopendir: fdopendir.o
-listdir: listdir.o
-remove_dir: remove_dir.o

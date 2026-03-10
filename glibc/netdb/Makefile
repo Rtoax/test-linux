@@ -14,27 +14,15 @@ target-y += getipnodebyname
 target-y += herror
 target-y += getnameinfo
 
+gethostbyaddr-objs := netdb_helpers.o
+gethostbyname-objs := netdb_helpers.o
+gethostbyname_r-objs := netdb_helpers.o
+getservbyport-objs := netdb_helpers.o
+getservbyname-objs := netdb_helpers.o
+setnetent-objs := netdb_helpers.o
+getprotoent-objs := netdb_helpers.o
+getprotobynumber-objs := netdb_helpers.o
+getprotobyname-objs := netdb_helpers.o
+getnetbyname-objs := netdb_helpers.o
+
 include main.mk
-
-netdb_helpers.o: netdb_helpers.h
-
-gai_strerror: gai_strerror.o
-getaddrinfo: getaddrinfo.o
-gethostbyaddr: gethostbyaddr.o netdb_helpers.o
-gethostbyname: gethostbyname.o netdb_helpers.o
-gethostbyname_r: gethostbyname_r.o netdb_helpers.o
-gethostbyname-2: gethostbyname-2.o
-getservbyport: getservbyport.o netdb_helpers.o
-getservbyname: getservbyname.o netdb_helpers.o
-hstrerror: hstrerror.o
-setservent: setservent.o
-setnetent: setnetent.o netdb_helpers.o
-sethostent: sethostent.o
-innetgr: innetgr.o
-getprotoent: getprotoent.o netdb_helpers.o
-getprotobynumber: getprotobynumber.o netdb_helpers.o
-getprotobyname: getprotobyname.o netdb_helpers.o
-getnetbyname: getnetbyname.o netdb_helpers.o
-getipnodebyname: getipnodebyname.o
-herror: herror.o
-getnameinfo: getnameinfo.o

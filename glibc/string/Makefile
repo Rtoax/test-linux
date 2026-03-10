@@ -48,7 +48,7 @@ target-y += strspn
 target-cpp-y := strstr-cpp
 
 CFLAGS += -I../../../
-CFLAGS += -lm
+LDFLAGS += -lm
 
 ifdef RAND
   CFLAGS += -DRAND_MEM_POS=1

@@ -1,10 +1,4 @@
-target-y :=
 target-y += adjtime
 target-y += TIMEVAL_TO_TIMESPEC
 
-CFLAGS :=
-
 include main.mk
-
-adjtime: adjtime.o
-TIMEVAL_TO_TIMESPEC: TIMEVAL_TO_TIMESPEC.o

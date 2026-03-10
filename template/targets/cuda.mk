@@ -193,6 +193,7 @@ $(target-nvcc-liba-y): %:
 $(foreach lib, ${target-nvcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
 $(foreach lib, ${target-nvcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 
+# TODO: need include ${t}-objs .d file
 $(foreach t, ${target-nvcc-y}, \
   $(if $(shell test -f ${t}.cu && echo yes), \
     $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${t}.cu.o $${${t}-objs} ${CUDA_HELPERS})) \

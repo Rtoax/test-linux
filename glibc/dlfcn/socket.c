@@ -3,7 +3,6 @@
 
 #include "libc.h"
 
-
 int main(void)
 {
 	int fd;

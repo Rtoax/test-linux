@@ -3,19 +3,19 @@
 #
 # Output definitions:
 # - HAVE_JEMALLOC=[y|n]
-# - libjemalloc-cflags=
-# - libjemalloc-ldflags=
+# - jemalloc-cflags=
+# - jemalloc-ldflags=
 #
 ifndef _JEMALLOC_MK
 _JEMALLOC_MK = 1
 
 JEMALLOC_H := /usr/include/jemalloc/jemalloc.h
-libjemalloc-cflags :=
-libjemalloc-ldflags :=
+jemalloc-cflags :=
+jemalloc-ldflags :=
 
 ifneq ($(wildcard $(JEMALLOC_H)),)
-  libjemalloc-cflags += -DHAVE_JEMALLOC=1
-  libjemalloc-ldflags += -ljemalloc
+  jemalloc-cflags += -DHAVE_JEMALLOC=1
+  jemalloc-ldflags += -ljemalloc
   export HAVE_JEMALLOC := y
 else
   $(warning "WARNING: You need to install jemalloc")

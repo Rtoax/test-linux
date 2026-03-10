@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 
-target-y :=
 target-y += malloc overflow use-after-free double-free
 target-y += mallinfo
 target-y += mallopt
@@ -17,9 +16,11 @@ target-y += malloc_usable_size
 target-y += memalign
 target-y += pvalloc
 
-CC := gcc
+target-post-y := ld-list-tunables
 
-CFLAGS :=
+mallinfo-objs := malloc_helpers.o
+malloc_trim-objs := malloc_helpers.o
+corrupted-size-vs.prev_size-objs := malloc_helpers.o
 
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations
 CFLAGS_malloc_helpers := -Wno-error=deprecated-declarations
@@ -37,30 +38,7 @@ ifeq (${CC_-use-after-free},y)
   CFLAGS_double-free += -Wno-error=use-after-free
 endif
 
-target-post-y := ld-list-tunables
-
 include main.mk
 
 ld-list-tunables:
 	${Q}ld.so --list-tunables 2>/dev/null | grep -i malloc || true
-
-malloc_helpers.o: malloc_helpers.h
-
-malloc: malloc.o
-overflow: overflow.o
-use-after-free: use-after-free.o
-double-free: double-free.o
-mallinfo: mallinfo.o malloc_helpers.o
-mallopt: mallopt.o
-malloc_get_state: malloc_get_state.o
-malloc_info: malloc_info.o
-malloc_stats: malloc_stats.o
-posix_memalign: posix_memalign.o
-aligned_alloc: aligned_alloc.o
-valloc: valloc.o
-realloc: realloc.o
-malloc_trim: malloc_trim.o malloc_helpers.o
-corrupted-size-vs.prev_size: corrupted-size-vs.prev_size.o malloc_helpers.o
-malloc_usable_size: malloc_usable_size.o
-memalign: memalign.o
-pvalloc: pvalloc.o

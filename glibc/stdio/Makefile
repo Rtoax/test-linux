@@ -3,7 +3,6 @@ OUTPUT := .output/
 
 include glibc.mk
 
-target-y :=
 target-y += ansi_ascii
 target-y += ctermid
 target-y += asprintf vasprintf
@@ -40,36 +39,3 @@ include main.mk
 
 os-release:
 	${Q}cp /etc/os-release os-release
-
-ansi_ascii: ${OUTPUT}ansi_ascii.o
-ctermid: ${OUTPUT}ctermid.o
-asprintf: ${OUTPUT}asprintf.o
-vasprintf: ${OUTPUT}vasprintf.o
-vfprintf: ${OUTPUT}vfprintf.o
-vsprintf: ${OUTPUT}vsprintf.o
-printf: ${OUTPUT}printf.o
-vprintf: ${OUTPUT}vprintf.o
-__freadable: ${OUTPUT}__freadable.o
-open_memstream: ${OUTPUT}open_memstream.o
-remove: ${OUTPUT}remove.o
-popen: ${OUTPUT}popen.o
-fwrite: ${OUTPUT}fwrite.o
-getchar: ${OUTPUT}getchar.o
-getline: ${OUTPUT}getline.o
-getdelim: ${OUTPUT}getdelim.o
-puts: ${OUTPUT}puts.o
-scanf: ${OUTPUT}scanf.o
-sscanf: ${OUTPUT}sscanf.o
-perror: ${OUTPUT}perror.o
-tmpfile: ${OUTPUT}tmpfile.o
-tmpnam: ${OUTPUT}tmpnam.o
-tempnam: ${OUTPUT}tempnam.o
-sprintf: ${OUTPUT}sprintf.o
-snprintf: ${OUTPUT}snprintf.o
-setbuf: ${OUTPUT}setbuf.o
-setvbuf: ${OUTPUT}setvbuf.o
-fgets: ${OUTPUT}fgets.o
-fopen: ${OUTPUT}fopen.o
-fread: ${OUTPUT}fread.o
-fscanf: ${OUTPUT}fscanf.o
-fopencookie: ${OUTPUT}fopencookie.o

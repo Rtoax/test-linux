@@ -78,24 +78,15 @@ target-y += ftm _GNU_SOURCE _XOPEN_SOURCE
 target-y += __progname
 target-y += __GLIBC_USE
 
-CFLAGS := -pthread
+target-post-y := post
+
+LDFLAGS := -pthread
 
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 CFLAGS___GLIBC_USE := -DTEST_MAIN=1
 
-target-post-y := post
-
 include main.mk
 
 post:
 	@$(call logo_gnu)
-
-gnu_get_libc_version: ${OUTPUT}gnu_get_libc_version.o
-environ: ${OUTPUT}environ.o
-lib-names: ${OUTPUT}lib-names.o
-ftm: ${OUTPUT}ftm.o
-__progname: ${OUTPUT}__progname.o
-_GNU_SOURCE: ${OUTPUT}_GNU_SOURCE.o
-_XOPEN_SOURCE: ${OUTPUT}_XOPEN_SOURCE.o
-__GLIBC_USE: ${OUTPUT}__GLIBC_USE.o

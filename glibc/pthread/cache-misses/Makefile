@@ -6,5 +6,3 @@ CFLAGS := ${cpu-cflags}
 LDFLAGS := -pthread
 
 include main.mk
-
-struct: struct.o

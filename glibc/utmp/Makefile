@@ -1,4 +1,3 @@
-target-y :=
 target-y += getutent getutid
 target-y += getutline pututline
 target-y += utmpname
@@ -7,24 +6,12 @@ target-y += setutent endutent
 target-y += login logwtmp
 target-y += login_tty
 
-CFLAGS :=
-CFLAGS += -lutil
+getutent-objs := utmp_helpers.o
+getutid-objs := utmp_helpers.o
+getutline-objs := utmp_helpers.o
+pututline-objs := utmp_helpers.o
+updwtmp-objs := utmp_helpers.o
 
-LDFLAGS :=
 LDFLAGS += -lutil
 
 include main.mk
-
-utmp_helpers.o: utmp_helpers.h
-
-getutent: getutent.o utmp_helpers.o
-getutid: getutid.o utmp_helpers.o
-getutline: getutline.o utmp_helpers.o
-pututline: pututline.o utmp_helpers.o
-utmpname: utmpname.o
-updwtmp: updwtmp.o utmp_helpers.o
-setutent: setutent.o
-endutent: endutent.o
-login: login.o
-logwtmp: logwtmp.o
-login_tty: login_tty.o

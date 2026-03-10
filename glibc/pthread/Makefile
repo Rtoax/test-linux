@@ -13,7 +13,3 @@ libpthread_helpers.a-objs := pthread_helpers.a.o
 libpthread_helpers.so-objs := pthread_helpers.so.o
 
 include main.mk
-
-pthread_helpers.so.o: pthread_helpers.h
-
-pthread_helpers.a.o: pthread_helpers.h

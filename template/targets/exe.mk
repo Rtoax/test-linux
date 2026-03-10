@@ -71,6 +71,7 @@ $(foreach t, ${target-cpp-y}, \
   ) \
 )
 
+# TODO: need include ${t}-objs .d file
 $(foreach t, ${target-y}, \
   $(if $(shell test -f ${OUTPUT}${t}.o.d && echo yes), \
     $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.o.d)) \
@@ -79,6 +80,7 @@ $(foreach t, ${target-y}, \
   ) \
 )
 
+# TODO: need include ${t}-objs .d file
 $(foreach t, ${target-cpp-y}, \
   $(if $(shell test -f ${OUTPUT}${t}.cpp.o.d && echo yes), \
     $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.cpp.o.d)) \

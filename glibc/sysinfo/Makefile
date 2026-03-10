@@ -1,16 +1,8 @@
-target-y :=
 target-y += sysinfo
 target-y += get_avphys_pages get_phys_pages
 target-y += get_nprocs get_nprocs_conf
 
-CFLAGS :=
 CFLAGS += -I../../../
-CFLAGS += -lm
+LDFLAGS += -lm
 
 include main.mk
-
-sysinfo: sysinfo.o
-get_avphys_pages: get_avphys_pages.o
-get_phys_pages: get_phys_pages.o
-get_nprocs: get_nprocs.o
-get_nprocs_conf: get_nprocs_conf.o

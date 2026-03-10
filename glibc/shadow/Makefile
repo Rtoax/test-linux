@@ -1,11 +1,7 @@
 target-y := getspent
 target-y += getspnam
 
-CFLAGS :=
-CFLAGS += -I../../
-CFLAGS += -pthread
+getspent-objs := shadow_helpers.o
+getspnam-objs := shadow_helpers.o
 
 include main.mk
-
-getspent: getspent.o shadow_helpers.o
-getspnam: getspnam.o shadow_helpers.o

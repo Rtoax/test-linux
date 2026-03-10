@@ -1,15 +1,9 @@
 target-y := crypt
 target-y += encrypt
 
-CFLAGS :=
-CFLAGS += -lcrypt
 CFLAGS += -D_XOPEN_SOURCE
 CFLAGS += -Wno-error=implicit-function-declaration
 
 LDFLAGS := -lcrypt
-CFLAGS_crypt := -lcrypt
 
 include main.mk
-
-crypt: crypt.o
-encrypt: encrypt.o

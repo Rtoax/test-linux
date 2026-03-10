@@ -1,19 +1,13 @@
-target-y :=
+include jemalloc.mk
+
 target-y += obstack
 target-y += alloc-performance-cmp
 target-y += multithread
 
-CFLAGS :=
-CFLAGS += -lpthread
-
-LDFLAGS :=
 LDFLAGS := -pthread
 
-ifneq ($(wildcard /usr/include/jemalloc/jemalloc.h),)
-  $(info Found jemalloc)
-  CFLAGS += -DHAVE_JEMALLOC -ljemalloc
-  LDFLAGS += -ljemalloc
-endif
+CFLAGS += ${jemalloc-cflags}
+LDFLAGS += ${jemalloc-ldflags}
 
 ifneq ($(wildcard /usr/include/gperftools/tcmalloc.h),)
   $(info Found tcmalloc)
@@ -22,7 +16,3 @@ ifneq ($(wildcard /usr/include/gperftools/tcmalloc.h),)
 endif
 
 include main.mk
-
-obstack: obstack.o
-alloc-performance-cmp: alloc-performance-cmp.o
-multithread:  multithread.o
