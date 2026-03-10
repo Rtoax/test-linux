@@ -26,6 +26,8 @@ target-asm-y := vperm2i128
 target-asm-y += vfmadd231ps
 target-asm-y += kxord
 
+test-asm-objs := ${OUTPUT}test-asm.S.o
+
 CFLAGS += -g -ggdb
 CFLAGS += -O0
 
@@ -50,22 +52,6 @@ CFLAGS_mask := -mavx2 -mavx512f -mfma
 
 include main.mk
 
-sum: ${OUTPUT}sum.o
-sum-avx: ${OUTPUT}sum-avx.o
-sum-avx2: ${OUTPUT}sum-avx2.o
-cpu-features: ${OUTPUT}cpu-features.o
-test-asm: ${OUTPUT}test-asm.S.o ${OUTPUT}test-asm.o
-avx512_aux: ${OUTPUT}avx512_aux.o
-mul-avx256: ${OUTPUT}mul-avx256.o
-mul-avx512: ${OUTPUT}mul-avx512.o
-add_pd-avx256: ${OUTPUT}add_pd-avx256.o
-add_pd-avx512: ${OUTPUT}add_pd-avx512.o
-add-2dim: ${OUTPUT}add-2dim.o
-ctrl_flow-f4: ${OUTPUT}ctrl_flow-f4.o
-reducetion-f4: ${OUTPUT}reducetion-f4.o
-add-unalign-f4: ${OUTPUT}add-unalign-f4.o
-cvt-df: ${OUTPUT}cvt-df.o
-mask: ${OUTPUT}mask.o
 vperm2i128: ${OUTPUT}vperm2i128.asm.o
 vfmadd231ps: ${OUTPUT}vfmadd231ps.asm.o
 kxord: ${OUTPUT}kxord.asm.o
