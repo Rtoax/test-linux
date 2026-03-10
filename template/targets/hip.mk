@@ -135,6 +135,9 @@ $(target-hipcc-liba-y): %:
 	$(call log_tgt,HIPCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+$(foreach lib, ${target-hipcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
+$(foreach lib, ${target-hipcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
+
 # Depends, like:
 # hello: hello.hip.o
 # hello-hip: hello.hip.o
