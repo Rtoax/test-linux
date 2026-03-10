@@ -15,4 +15,12 @@ ${target-java-y}:
 	$(call log_tgt,JAVAC,$(@))
 	${Q}$(JAVAC) $(^)
 
+$(foreach t, ${target-java-y}, \
+	$(if $(shell test -f ${t:.class=.java} && echo yes), \
+    $(if ${DEBUG}, $(info Found ${t}.java)) \
+    $(eval ${t}: ${t:.class=.java}), \
+    $(error Not found ${t}.java) \
+  ) \
+)
+
 endif

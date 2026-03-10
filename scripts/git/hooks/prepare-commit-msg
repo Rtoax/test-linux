@@ -176,6 +176,7 @@ git_ver() { add_ver "Git $(${TOPDIR}/scripts/git/version.sh)"; }
 glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 gnome_ver() { add_ver "GNOME $(${TOPDIR}/gnome/version.sh)"; }
 hpcc_ver() { add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"; }
+java_ver() { add_ver "Java $(${TOPDIR}/java/version.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${TOPDIR}/bpf/libbpf/version.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
 llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
@@ -366,6 +367,10 @@ fi
 if [[ "$(has_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
 	hpcc_ver
 	llvm_ver
+fi
+
+if [[ "$(has_key java jdk)" ]]; then
+	java_ver
 fi
 
 if [[ "$(has_key libbpf bcc bpf)" ]]; then

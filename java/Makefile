@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
-target-java-y :=
 target-java-y += hello.class
 target-java-y += malloc.class
 target-java-y += url_GET.class
 
-include main.mk
+target-prog-y := version.sh version.sh.1 version.sh.2 version.sh.3
 
-hello.class: hello.java
-malloc.class: malloc.java
-url_GET.class: url_GET.java
+PROG_ARGS_version.sh.1 := --major
+PROG_ARGS_version.sh.2 := --minor
+PROG_ARGS_version.sh.3 := --patchlevel
+
+include main.mk
