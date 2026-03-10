@@ -9,7 +9,7 @@
 ifndef _LIBSECCOMP_MK
 _LIBSECCOMP_MK = 1
 
-LIBSECCOMP_H := /usr/include/libseccomp.h
+LIBSECCOMP_H := /usr/include/seccomp.h
 libseccomp-cflags :=
 libseccomp-ldflags :=
 
