@@ -22,12 +22,6 @@ target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs))
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
 
-define blas_dep
-${1}-hip-objs := ${OUTPUT}${1}.hip.o
-endef
-
-$(foreach obj, ${common-objs}, $(eval $(call blas_dep,${obj})))
-
 include main.mk
 
 define blas_obj

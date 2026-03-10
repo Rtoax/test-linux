@@ -50,8 +50,8 @@ CFLAGS_NVCC := ${common-cflags}
 
 include main.mk
 
-# $1 - hip, hpcc, luca
-# $2 - hip, hpcc, luca
+# $1 - hpcc, luca
+# $2 - hpcc, luca
 define cuda_intrinsics_objs
 fp4-${2}: $${OUTPUT}fp4.${1}.o
 fp6-${2}: $${OUTPUT}fp6.${1}.o
@@ -66,6 +66,5 @@ int-${2}: $${OUTPUT}int.${1}.o
 simd-${2}: $${OUTPUT}simd.${1}.o
 endef
 
-$(eval $(call cuda_intrinsics_objs,hip,hip))
 $(eval $(call cuda_intrinsics_objs,hpcc,hpcc))
 $(eval $(call cuda_intrinsics_objs,luca,luca))

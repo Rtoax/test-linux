@@ -120,12 +120,6 @@ CFLAGS_LSCC_matrix-fp32 := -DTEST_FP32=1
 CFLAGS_LSCC_matrix-fp16 := -DTEST_FP16=1
 CFLAGS_LSCC_matrix-int8 := -DTEST_INT8=1
 
-define cuda_dep
-${1}-hip-objs := ${OUTPUT}${1}.hip.o
-endef
-
-$(foreach name,${common-objs},$(eval $(call cuda_dep,$(name))))
-
 include main.mk
 
 define cuda_obj

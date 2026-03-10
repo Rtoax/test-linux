@@ -135,10 +135,17 @@ $(target-hipcc-liba-y): %:
 	$(call log_tgt,HIPCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+# Depends, like:
+# hello: hello.hip.o
+# hello-hip: hello.hip.o
 $(foreach t, ${target-hipcc-y}, \
   $(if $(shell test -f ${t}.cu && echo yes), \
     $(eval ${t}: ${OUTPUT}${t}.hip.o $${${t}-objs} ${HIP_HELPERS}), \
-    $(eval ${t}: $${${t}-objs} ${HIP_HELPERS}) \
+    $(eval tname := $(call strip_tail,${t},-hip)) \
+    $(if $(shell test -f ${tname}.cu && echo yes), \
+      $(eval ${t}: ${OUTPUT}${tname}.hip.o $${${t}-objs} ${HIP_HELPERS}), \
+      $(eval ${t}: $${${t}-objs} ${HIP_HELPERS}) \
+    ) \
   ) \
 )
 
