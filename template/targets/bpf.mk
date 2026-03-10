@@ -28,8 +28,6 @@ ifeq ($(LLVM_OBJDUMP),)
   endif
 endif
 
-OBJDUMP_ARGS :=
-
 CFLAGS_BPF += -I.
 CFLAGS_BPF += -O2 -g
 # Like -target bpfel
@@ -47,18 +45,18 @@ ifdef DEBUG
   $(info CFLAGS_BPF = ${CFLAGS_BPF})
 endif
 
-# This is target-bpf-y
+# Note: This is target-bpf-y
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
 	$(call log_obj,BPF,$(@))
 	${Q}$(CLANG) -MMD -MT $(@) -MF $(@:=.d) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 ${OUTPUT}%.bpf.disasm: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	$(call log_obj,BPF DIS,$(@))
-	${Q}${LLVM_OBJDUMP} --disassemble --source ${OBJDUMP_ARGS} $(<) > $(@)
+	${Q}${LLVM_OBJDUMP} --disassemble --source $(<) > $(@)
 
 ${OUTPUT}%.bpf.s: %.bpf.c | ${OUTPUT}
 	$(call log_obj,BPF S,$(@))
-	${Q}$(CLANG) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
+	${Q}$(CLANG) -S $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 ${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	$(call log_obj,SKEL,$(@))
