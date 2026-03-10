@@ -28,6 +28,7 @@ _TARGET_HIP_MK = 1
 include amd/rocm.mk
 include cflags.mk
 include dir.mk
+include string.mk
 
 cflags-hipcc-so := -Xcompiler -fPIC
 ldflags-hipcc-so := -shared -Xcompiler -fPIC
@@ -143,9 +144,14 @@ $(foreach t, ${target-hipcc-y}, \
 
 $(foreach t, ${target-hipcc-y}, \
   $(if $(shell test -f ${OUTPUT}${t}.hip.o.d && echo yes), \
-    $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.hip.o.d)) \
+    $(if ${DEBUG}, $(info Include ${OUTPUT}${t}.hip.o.d)) \
     $(eval include ${OUTPUT}${t}.hip.o.d), \
-    $(if ${DEBUG}, $(info Not found ${OUTPUT}${t}.hip.o.d)) \
+    $(eval depname := ${OUTPUT}$(call strip_tail,${t},-hip).hip.o.d) \
+    $(if $(shell test -f ${depname} && echo yes), \
+      $(if ${DEBUG}, $(info Include ${depname})) \
+      $(eval include ${depname}), \
+      $(if ${DEBUG}, $(info Not found ${depname})) \
+    ) \
   ) \
 )
 

@@ -50,8 +50,6 @@ CFLAGS_NVCC := ${common-cflags}
 
 include main.mk
 
-HDRS := print.h compiler.h types.h
-
 # $1 - hip, hpcc, luca
 # $2 - hip, hpcc, luca
 define cuda_intrinsics_objs
@@ -68,7 +66,6 @@ int-${2}: $${OUTPUT}int.${1}.o
 simd-${2}: $${OUTPUT}simd.${1}.o
 endef
 
-# FIXME&TODO: include .output/fp4-hip.hip.o.d should be .output/fp4.hip.o.d
 $(eval $(call cuda_intrinsics_objs,hip,hip))
 $(eval $(call cuda_intrinsics_objs,hpcc,hpcc))
 $(eval $(call cuda_intrinsics_objs,luca,luca))
