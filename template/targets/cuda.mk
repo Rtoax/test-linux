@@ -210,4 +210,11 @@ $(foreach t, ${target-nvcc-y}, \
   ) \
 )
 
+$(foreach so, ${target-nvcc-libso-y} ${target-nvcc-liba-y}, \
+  $(foreach obj, ${${so}-objs}, \
+    $(if ${DEBUG}, $(info Include ${obj}.d)) \
+    $(eval include ${obj}.d) \
+  ) \
+)
+
 endif

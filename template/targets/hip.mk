@@ -165,4 +165,11 @@ $(foreach t, ${target-hipcc-y}, \
   ) \
 )
 
+$(foreach so, ${target-hipcc-libso-y} ${target-hipcc-liba-y}, \
+  $(foreach obj, ${${so}-objs}, \
+    $(if ${DEBUG}, $(info Include ${obj}.d)) \
+    $(eval include ${obj}.d) \
+  ) \
+)
+
 endif
