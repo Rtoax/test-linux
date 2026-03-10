@@ -29,17 +29,11 @@ AnnotateFunctions.so-objs := ${OUTPUT}AnnotateFunctions.cpp.so.o
 Attribute.so-objs := ${OUTPUT}Attribute.cpp.so.o
 pid.so-objs := ${OUTPUT}pid.cpp.so.o
 
-
 include main.mk
 
 ${SRCS}:
 	$(call log_tgt,COPY,$(@))
 	${Q}cp ${clang-codes} $(shell pwd)
-
-${OUTPUT}PrintFunctionNames.cpp.so.o: PrintFunctionNames.cpp
-${OUTPUT}AnnotateFunctions.cpp.so.o: AnnotateFunctions.cpp
-${OUTPUT}Attribute.cpp.so.o: Attribute.cpp
-${OUTPUT}pid.cpp.so.o: pid.cpp
 
 test-plugins:
 	${Q}${SHELL} test-plugins.sh

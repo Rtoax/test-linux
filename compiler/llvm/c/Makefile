@@ -14,5 +14,4 @@ target-post-y := ${obj-ast} ${obj-ll} ${obj-ll.s} ${obj-bc} ${obj-bc.dis}
 
 include main.mk
 
-hello: hello.o
 hello_ll: hello.llvm.ll

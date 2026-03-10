@@ -1,7 +1,4 @@
 target-y := CEDT
+CEDT-objs := chbs.o cfmws.o
 
 include main.mk
-
-chbs.o: chbs.h
-cfmws.o: cfmws.h
-CEDT: CEDT.o chbs.o cfmws.o

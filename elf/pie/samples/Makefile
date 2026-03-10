@@ -2,10 +2,14 @@
 __USE_PROC_HELPERS__ = y
 
 include elf.mk
+include helpers.mk
 
 target-y := hello
 target-y += hello-pie
 target-y += is_pie
+
+hello-objs := ${PROC_HELPERS}
+hello-pie-objs := ${PROC_HELPERS}
 
 CFLAGS_hello += -no-pie
 LDFLAGS_hello += -no-pie
@@ -16,7 +20,3 @@ LDFLAGS_hello-pie := -pie
 LDFLAGS_is_pie := -lelf
 
 include main.mk
-
-hello: hello.o ${PROC_HELPERS}
-hello-pie: hello-pie.o ${PROC_HELPERS}
-is_pie: is_pie.o

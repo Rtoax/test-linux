@@ -10,6 +10,3 @@ target-y := macro
 target-y += rewrite-elf64
 
 include main.mk
-
-macro: macro.o
-rewrite-elf64: rewrite-elf64.o

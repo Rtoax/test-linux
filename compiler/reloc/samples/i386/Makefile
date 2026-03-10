@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-
 CC := gcc
 include compiler.mk
 
@@ -10,5 +9,3 @@ CFLAGS += -m32
 LDFLAGS += -m32
 
 include main.mk
-
-R_386_32: R_386_32.o

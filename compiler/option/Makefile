@@ -1,4 +1,3 @@
-target-y :=
 target-y += nostartfiles
 
 LDFLAGS_nostartfiles := -nostartfiles
@@ -6,5 +5,3 @@ LDFLAGS_nostartfiles := -nostartfiles
 LDFLAGS_nostartfiles += -lc --entry whatever
 
 include main.mk
-
-nostartfiles: nostartfiles.o

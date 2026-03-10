@@ -8,6 +8,3 @@ CFLAGS := -fopenacc
 LDFLAGS := -fopenacc
 
 include main.mk
-
-hello: ${OUTPUT}hello.o
-acc_get_num_devices: ${OUTPUT}acc_get_num_devices.o

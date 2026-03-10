@@ -4,5 +4,3 @@ target-shell-y += lsblk.sh
 target-y := open
 
 include main.mk
-
-open: open.o

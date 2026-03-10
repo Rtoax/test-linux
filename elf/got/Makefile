@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 
-target-y :=
 target-y += _GLOBAL_OFFSET_TABLE_
 target-${CC_M32} += _GLOBAL_OFFSET_TABLE_-32
 
@@ -13,6 +12,3 @@ CFLAGS__GLOBAL_OFFSET_TABLE_-32 := -m32 -DM32=1
 LDFLAGS__GLOBAL_OFFSET_TABLE_-32 := -m32
 
 include main.mk
-
-_GLOBAL_OFFSET_TABLE_: _GLOBAL_OFFSET_TABLE_.o
-_GLOBAL_OFFSET_TABLE_-32: _GLOBAL_OFFSET_TABLE_-32.o

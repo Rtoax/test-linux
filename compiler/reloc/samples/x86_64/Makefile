@@ -1,13 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-target-y :=
 obj-o :=
 obj-s-o :=
 
 CC := gcc
 AS := as
-
-CFLAGS :=
-LDFLAGS :=
 
 target-y += R_X86_64
 target-y += R_X86_64_64
@@ -55,20 +51,6 @@ CFLAGS_R_X86_64_GOTPCRELX := -fpic -fno-plt
 CFLAGS_R_X86_64_GLOB_DAT := -fpic -fno-plt
 
 include main.mk
-
-R_X86_64: R_X86_64.o
-
-R_X86_64_JUMP_SLOT: R_X86_64_JUMP_SLOT.o
-R_X86_64_GLOB_DAT: R_X86_64_GLOB_DAT.o
-
-R_X86_64_64: R_X86_64_64.o
-R_X86_64_32S: R_X86_64_32S.o
-R_X86_64_PC32: R_X86_64_PC32.o
-R_X86_64_COPY: R_X86_64_COPY.o
-R_X86_64_PLT32: R_X86_64_PLT32.o
-
-R_X86_64_PLT32.o: R_X86_64_PLT32.c
-R_X86_64_GOTPCRELX.o: R_X86_64_GOTPCRELX.c
 
 # TODO: use it
 define print_elf_reloc

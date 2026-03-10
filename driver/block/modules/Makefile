@@ -1,9 +1,9 @@
-obj-m	:=   ramdisk_driver.o
+obj-m := ramdisk_driver.o
 
 KBUILD_CFLAGS +=-g -O0
 BASEINCLUDE ?= /lib/modules/$(shell uname -r)/build
 
-all : 
+all: 
 	$(MAKE) -C $(BASEINCLUDE) M=$(PWD) modules;
 	
 clean:

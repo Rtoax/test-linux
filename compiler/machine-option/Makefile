@@ -1,22 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
-target-y :=
+include arch.mk
+
 target-y += helloworld
 target-y += march-native
 target-y += mbranch-protection
-
-ifeq ($(shell uname -m),aarch64)
-  target-y += march-armv8.3-a
-endif
-
+target-${IS_AARCH64} += march-armv8.3-a
 # FIXME: aarch64 seems like don't support -mfentry
-ifeq ($(shell uname -m),x86_64)
-  target-y += mfentry
-endif
+target-${IS_X86_64} += mfentry
 
 target-shell-y := info.sh
 
 CC := gcc
-CFLAGS :=
 
 include compiler.mk
 
@@ -39,10 +33,3 @@ else
 endif
 
 include main.mk
-
-
-helloworld: helloworld.o
-march-native: march-native.o
-march-armv8.3-a: march-armv8.3-a.o
-mbranch-protection: mbranch-protection.o
-mfentry: mfentry.o

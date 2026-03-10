@@ -1,4 +1,3 @@
-target-y :=
 target-y += duplicate-decl-specifier
 target-y += no-warn
 target-y += no-error
@@ -8,7 +7,3 @@ CFLAGS_no-warn := -Wno-warn -Wno-warning
 CFLAGS_no-error := -Wno-error
 
 include main.mk
-
-duplicate-decl-specifier: duplicate-decl-specifier.o
-no-warn: no-warn.o
-no-error: no-error.o

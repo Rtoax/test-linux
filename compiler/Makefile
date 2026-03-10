@@ -39,7 +39,3 @@ include main.mk
 $(CC)-macros.h:
 	$(call log_tgt,HDR,$(@))
 	$(call gen_compiler_macro_hdr,$(@))
-
-__VERSION__: __VERSION__.o
-__GNUC__: __GNUC__.o
-__GNUC_PREREQ: __GNUC_PREREQ.o
