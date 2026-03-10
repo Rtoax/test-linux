@@ -1,7 +1,7 @@
 target-y := truncate
 target-y += ftruncate
 
-include main.mk
+truncate-objs := syscall_helpers.o
+ftruncate-objs := syscall_helpers.o
 
-truncate: truncate.o syscall_helpers.o
-ftruncate: ftruncate.o syscall_helpers.o
+include main.mk

@@ -11,6 +11,10 @@ endif
 target-y += level-triggered edge-triggered
 target-y += tcp-echo
 
+eventfd-objs := epoll_helpers.o
+eventfd-epoll_pwait-objs := epoll_helpers.o
+eventfd-epoll_pwait2-objs := epoll_helpers.o
+
 CFLAGS += -pthread
 LDFLAGS := -pthread
 
@@ -22,12 +26,3 @@ CFLAGS_eventfd-epoll_pwait := -DEPOLL_PWAIT=1
 CFLAGS_eventfd-epoll_pwait2 := -DEPOLL_PWAIT2=1
 
 include main.mk
-
-epoll_helpers.o: epoll_helpers.h
-
-eventfd: eventfd.o epoll_helpers.o
-eventfd-epoll_pwait: eventfd-epoll_pwait.o epoll_helpers.o
-eventfd-epoll_pwait2: eventfd-epoll_pwait2.o epoll_helpers.o
-level-triggered: level-triggered.o
-edge-triggered: edge-triggered.o
-tcp-echo: tcp-echo.o

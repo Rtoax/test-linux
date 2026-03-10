@@ -6,6 +6,3 @@ CFLAGS += -I../../
 CFLAGS += -pthread
 
 include main.mk
-
-execve: execve.o
-fork: fork.o

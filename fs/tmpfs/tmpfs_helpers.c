@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <sys/mount.h>
-
+#include "tmpfs_helpers.h"
 
 const char *create_tmpfs(const char *mountpoint, const char *sz)
 {

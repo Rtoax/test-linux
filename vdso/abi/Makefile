@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include vdso.mk
 
-VDSO_CFLAGS :=
 VDSO_CFLAGS += -nolibc
 
 ifeq ($(shell uname -m),x86_64)

@@ -1,4 +1,3 @@
-target-y :=
 ifeq ($(shell uname -m),x86_64)
   target-y += PTRACE_GETREGS
   target-y += PTRACE_PEEKDATA
@@ -17,7 +16,11 @@ target-y += pthread_create
 target-y += multi-thread
 target-y += ptrace-strace
 
-CFLAGS :=
+PTRACE_GETREGS-objs := ptrace_helpers.o
+PTRACE_GETREGSET-objs := ptrace_helpers.o
+ptrace-strace-objs := ptrace_helpers.o
+ptrace-execve-objs := ptrace_helpers.o
+
 CFLAGS += -pthread
 
 target-prep-y := nr.h
@@ -27,18 +30,3 @@ include main.mk
 nr.h: ../nr.sh
 	$(shell bash ../nr.sh)
 	${Q}cp nr.h ../
-
-PTRACE_GETREGS: PTRACE_GETREGS.o ptrace_helpers.o
-PTRACE_GETREGSET: PTRACE_GETREGSET.o ptrace_helpers.o
-PTRACE_PEEKTEXT: PTRACE_PEEKTEXT.o
-PTRACE_PEEKUSER: PTRACE_PEEKUSER.o
-PTRACE_PEEKDATA: PTRACE_PEEKDATA.o
-PTRACE_POKEDATA: PTRACE_POKEDATA.o
-PTRACE_SINGLESTEP: PTRACE_SINGLESTEP.o
-peeksiginfo: peeksiginfo.o
-ptrace-breakpoint: ptrace-breakpoint.o
-ptrace-breakpoint-2: ptrace-breakpoint-2.o
-ptrace-strace: ptrace-strace.o ptrace_helpers.o
-ptrace-execve: ptrace-execve.o ptrace_helpers.o
-pthread_create: pthread_create.o
-multi-thread: multi-thread.o

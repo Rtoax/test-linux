@@ -8,7 +8,6 @@
 #include "stat_helpers.h"
 #include "proc_helpers.h"
 
-
 int main(int argc, char *argv[])
 {
 	int fd;

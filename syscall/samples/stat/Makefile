@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+__USE_PROC_HELPERS__ = y
+include helpers.mk
+
 target-y := lstat
 target-y += stat
 target-y += statx
@@ -14,26 +17,16 @@ target-y += utimensat
 target-y += futimens
 target-y += ustat
 
-CFLAGS :=
+stat-objs := stat_helpers.o
+statx-objs := stat_helpers.o
+fstat-objs := stat_helpers.o ${PROC_HELPERS}
+lstat-objs := stat_helpers.o
+fstatat-objs := stat_helpers.o ${PROC_HELPERS}
+st_mode-objs := stat_helpers.o
+ustat-objs := stat_helpers.o
+
 CFLAGS += -pthread
 
 CFLAGS_futimens := -DFUTIMENS=1
 
 include main.mk
-
-stat_helpers.o: stat_helpers.h
-
-stat: stat.o stat_helpers.o
-statx: statx.o stat_helpers.o
-fstat: fstat.o stat_helpers.o proc_helpers.o
-lstat: lstat.o stat_helpers.o
-listdir: listdir.o
-chmod: chmod.o
-fchmod: fchmod.o
-mkdir: mkdir.o
-mknod: mknod.o
-fstatat: fstatat.o stat_helpers.o proc_helpers.o
-st_mode: st_mode.o stat_helpers.o
-utimensat: utimensat.o
-futimens: futimens.o
-ustat: ustat.o stat_helpers.o

@@ -22,15 +22,11 @@ ifeq (${CONFIG_ANON_VMA_NAME},y)
   CFLAGS += -DCONFIG_ANON_VMA_NAME=1
 endif
 
-CFLAGS_main :=
-
 target-post-y := virt2phy
 target-test-y := test-nvdso
 target-clean-y := clean-nvdso
 
 include main.mk
-
-main: main.o
 
 virt2phy:
 	$(Q)make -C ../../mm/ virt2phy

@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 			break;
 		ret = sscanf(line, "%lx-%lx %s %lx %x:%x %d %255s",
 			&vm_start, &vm_end, perms, &offset, &maj, &min, &inode, name);
-		if (!strcmp(name, "[vsyscall]")) {
+		if (ret >= 8 && !strcmp(name, "[vsyscall]")) {
 			start = vm_start;
 			end = vm_end;
 			if (perms[0] != 'r') {

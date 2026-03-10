@@ -54,7 +54,7 @@ typedef struct {
 
 #define WARN(x,...) if (x) fprintf(stderr, __VA_ARGS__);
 
-static bool static_key_initialized = false;
+static bool __attribute__((unused)) static_key_initialized = false;
 
 #define STATIC_KEY_CHECK_USE() WARN(!static_key_initialized,		      \
 				    "%s used before call to jump_label_init", \

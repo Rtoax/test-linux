@@ -2,7 +2,6 @@
 include kernel.mk
 include kconfig.mk
 
-target-y :=
 # This system call is present only before Linux 2.6. see create_module(2)
 ifeq ($(call kver_lt,2,7,0),y)
   target-y += create_module
@@ -10,6 +9,10 @@ endif
 target-y += init_module
 target-y += finit_module
 target-y += delete_module
+
+init_module-objs := mod_helpers.o
+finit_module-objs := mod_helpers.o
+delete_module-objs := mod_helpers.o
 
 ifeq (${CONFIG_MODULE_FORCE_LOAD},y)
   CFLAGS += -DCONFIG_MODULE_FORCE_LOAD=1
@@ -23,13 +26,3 @@ ifdef STATIC
 endif
 
 include main.mk
-
-mod_helpers.o: mod_helpers.h
-
-create_module: create_module.o
-init_module.o: mod_helpers.h
-init_module: init_module.o mod_helpers.o
-finit_module.o: mod_helpers.h
-finit_module: finit_module.o mod_helpers.o
-delete_module.o: mod_helpers.h
-delete_module: delete_module.o mod_helpers.o

@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_C_HELPERS__ = y
 
+include helpers.mk
+
 subdir-y += clone
 subdir-y += fork
 subdir-y += namespace
@@ -21,42 +23,24 @@ target-y += daemon
 target-libso-y := libsched_helpers.so
 target-liba-y := libsched_helpers.a
 
+target-test-y := test0
+
 libsched_helpers.a-objs := sched_helpers.a.o
 libsched_helpers.so-objs := sched_helpers.so.o
 
-target-test-y := test0
+str2cpuset-objs := libsched_helpers.a
+getcpu-objs := libsched_helpers.a
+sched_setattr-objs := libsched_helpers.a
+sched_setscheduler-objs := libsched_helpers.a
+sched_getscheduler-objs := libsched_helpers.a
+sched_getaffinity-objs := ${C_HELPERS}
+sched_getcpu-objs := libsched_helpers.a
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -I../../../
 CFLAGS += -pthread
 
 include main.mk
-
-sched_helpers.so.o: sched_helpers.h
-sched_helpers.a.o: sched_helpers.h
-
-cpuset: cpuset.o
-CPU_SETSIZE: CPU_SETSIZE.o
-CPU_ALLOC: CPU_ALLOC.o
-str2cpuset: str2cpuset.o libsched_helpers.a
-nice: nice.o
-nice-latency: nice-latency.o
-getcpu: getcpu.o libsched_helpers.a
-sched_setattr: sched_setattr.o libsched_helpers.a
-sched_getparam: sched_getparam.o
-sched_setparam: sched_setparam.o
-sched_setscheduler: sched_setscheduler.o libsched_helpers.a
-sched_getscheduler: sched_getscheduler.o libsched_helpers.a
-policy: policy.o
-sched_get_priority_max: sched_get_priority_max.o
-sched_get_priority_min: sched_get_priority_min.o
-sched_getaffinity: sched_getaffinity.o ${C_HELPERS}
-sched_rr_get_interval: sched_rr_get_interval.o
-sched_getcpu: sched_getcpu.o libsched_helpers.a
-sched_yield: sched_yield.o
-setns: setns.o
-taskset: taskset.o
-daemon: daemon.o
 
 test0:
 	$(call log_tgt,TEST,$(@))

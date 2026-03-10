@@ -10,7 +10,7 @@
 #include <sys/ioctl.h>
 #include <linux/loop.h>
 #include <linux/unistd.h>
-
+#include "mnt_helpers.h"
 
 /* Hope -1 isn't a syscall */
 #ifndef __NR_fsopen

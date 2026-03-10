@@ -5,9 +5,3 @@ target-y += spin
 target-y += latency
 
 include main.mk
-
-requeue: requeue.o
-wait-wake: wait-wake.o
-h2o: h2o.o
-spin: spin.o
-latency: latency.o

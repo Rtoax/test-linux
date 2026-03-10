@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_C_HELPERS__ = y
 
+include helpers.mk
 include signal.mk
 
 subdir-y := SIGURG
@@ -27,6 +28,8 @@ target-y += signalfd
 target-prep-y := sig.h
 target-test-y := test0
 
+sigaddset-objs := ${C_HELPERS}
+
 CFLAGS += -I../../../
 
 LDFLAGS_tkill := -pthread
@@ -38,45 +41,6 @@ include main.mk
 
 sig.h:
 	$(shell bash signo.sh)
-
-signo: signo.o
-signal: signal.o
-sigaction: sigaction.o
-sigaction-2: sigaction-2.o
-sigaction-3: sigaction-3.o
-sigwait: sigwait.o
-sigaddset: sigaddset.o ${C_HELPERS}
-psignal: psignal.o
-raise: raise.o
-kill: kill.o
-tkill: tkill.o
-tgkill: tgkill.o
-kill-fork: kill-fork.o
-killpg: killpg.o
-SIGBUS: SIGBUS.o
-SIGFPE: SIGFPE.o
-SIGHUP: SIGHUP.o
-SIGALRM: SIGALRM.o
-SIGUSR1: SIGUSR1.o
-SIGUSR1-1: SIGUSR1-1.o
-SIGUSR2: SIGUSR2.o
-SIGCHLD: SIGCHLD.o
-SIGRTMAX: SIGRTMAX.o
-SIGPIPE: SIGPIPE.o
-SIGILL: SIGILL.o
-SIGTERM: SIGTERM.o
-SIGKILL: SIGKILL.o
-NSIG: NSIG.o
-strsignal: strsignal.o
-alarm: alarm.o
-alarm-sleep: alarm-sleep.o
-alarm-sleep-2: alarm-sleep-2.o
-sigaltstack: sigaltstack.o
-sigpending: sigpending.o
-sigsuspend: sigsuspend.o
-sigprocmask: sigprocmask.o
-signalfd: signalfd.o
-
 
 test0: ${target-y}
 	$(call log_tgt,TEST,$(@))

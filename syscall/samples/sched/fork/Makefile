@@ -3,18 +3,12 @@ target-y += fork vfork fork-share
 target-y += fork-ENOMEM fork-ENOMEM-2
 target-y += fork_twice
 
+fork-ENOMEM-objs := fork_helpers.o
+fork-ENOMEM-2-objs := fork_helpers.o
+
 CFLAGS := -D__USE_GNU
 CFLAGS += -pthread
 
 CFLAGS_vfork := -DVFORK=1
 
 include main.mk
-
-fork_helpers.o: fork_helpers.h
-
-fork: fork.o
-vfork: vfork.o
-fork_twice: fork_twice.o
-fork-share: fork-share.o
-fork-ENOMEM: fork-ENOMEM.o fork_helpers.o
-fork-ENOMEM-2: fork-ENOMEM-2.o fork_helpers.o

@@ -1,17 +1,13 @@
-target-y :=
 target-y += getrlimit setrlimit ulimit prlimit
 target-y += fork-inherit
 target-y += getrusage vlimit
 
-CFLAGS :=
+getrlimit-objs := resource_helpers.o
+setrlimit-objs := resource_helpers.o
+prlimit-objs := resource_helpers.o
+fork-inherit-objs := resource_helpers.o
+getrusage-objs := resource_helpers.o
+
 CFLAGS += -pthread
 
 include main.mk
-
-getrlimit: getrlimit.o resource_helpers.o
-setrlimit: setrlimit.o resource_helpers.o
-prlimit: prlimit.o resource_helpers.o
-ulimit: ulimit.o
-fork-inherit: fork-inherit.o resource_helpers.o
-getrusage: getrusage.o resource_helpers.o
-vlimit: vlimit.o

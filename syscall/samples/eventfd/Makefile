@@ -1,12 +1,10 @@
-target-y :=
 target-y += epoll
 target-y += eventfd_read
 target-y += eventfd-irq
 target-y += eventfd-latency
 
-include main.mk
+eventfd_read-objs := utils.o
+eventfd-irq-objs := utils.o
+eventfd-latency-objs := utils.o
 
-epoll: epoll.o
-eventfd_read: eventfd_read.o utils.o
-eventfd-irq: eventfd-irq.o utils.o
-eventfd-latency: eventfd-latency.o utils.o
+include main.mk

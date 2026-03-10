@@ -1,4 +1,3 @@
-target-y :=
 target-y += glibc
 target-y += clone
 target-y += parent_tid
@@ -24,13 +23,3 @@ include main.mk
 
 CLONE_.h:
 	${Q}./CLONE_.sh
-
-glibc: glibc.o
-clone: clone.o
-parent_tid: parent_tid.o
-ns_pid: ns_pid.o
-ns_net: ns_net.o
-container: container.o
-uts_hostname: uts_hostname.o
-CLONE_: CLONE_.o CLONE_.h
-
