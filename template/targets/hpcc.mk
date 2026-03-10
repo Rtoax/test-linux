@@ -108,7 +108,7 @@ $${OUTPUT}%.E.hpcc: %.${1} | $${OUTPUT}
 
 $${OUTPUT}%.hpcc.o: %.${1} | $${OUTPUT}
 	$(call log_obj,HTCC,$$(@))
-	$${Q}$$(HTCC) $${dep_cflags} -o $$(@) -c $$(<) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
+	$${Q}$$(HTCC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS_HTCC) $$(CFLAGS_HTCC_$$(*))
 
 $${OUTPUT}%.hpcc.devbin: %.${1} | $${OUTPUT}
 	$(call log_obj,HTCC DEVBIN,$$(@))
@@ -122,13 +122,13 @@ endef
 define hpcc_obj_so
 $${OUTPUT}%.hpcc.so.o: %.${1} | $${OUTPUT}
 	$(call log_obj,HTCC CC SO,$$(@))
-	$${Q}$$(HTCC) $${dep_cflags} -o $$(@) -c $$(<) $$(CFLAGS_HTCC_SO) $$(CFLAGS_HTCC_SO_$$(*))
+	$${Q}$$(HTCC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS_HTCC_SO) $$(CFLAGS_HTCC_SO_$$(*))
 endef
 # $1 - suffix of file: hpcc, cu
 define hpcc_obj_a
 $${OUTPUT}%.hpcc.a.o: %.${1} | $${OUTPUT}
 	$(call log_obj,HTCC CC A,$$(@))
-	$${Q}$$(HTCC) $${dep_cflags} -o $$(@) -c $$(<) $$(CFLAGS_HTCC_A) $$(CFLAGS_HTCC_A_$$(*))
+	$${Q}$$(HTCC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS_HTCC_A) $$(CFLAGS_HTCC_A_$$(*))
 endef
 $(eval $(call hpcc_obj,cu))
 $(eval $(call hpcc_obj,hpcc))
