@@ -19,8 +19,3 @@ libsocket_helpers.a-objs := socket_helpers.a.o
 libsocket_helpers.so-objs := socket_helpers.so.o
 
 include main.mk
-
-socket_helpers.so.o: socket_helpers.h
-socket_helpers.a.o: socket_helpers.h
-
-sockaddr-size: sockaddr-size.o

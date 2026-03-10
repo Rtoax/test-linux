@@ -1,11 +1,7 @@
 subdir-y := Rescheduling-interrupts
 
-x86 := cli
+include arch.mk
 
-ifeq ($(shell uname -m),x86_64)
-  target-y := ${x86}
-endif
+target-${IS_X86_64} := cli
 
 include main.mk
-
-cli: cli.o

@@ -4,12 +4,9 @@ target-y += server-pthread
 target-y += client
 target-y += client-pthread
 
+server-objs := tcp_helpers.o
+client-objs := tcp_helpers.o
+
 LDFLAGS := -pthread
 
 include main.mk
-
-server: server.o tcp_helpers.o
-server-pthread: server-pthread.o
-server-fork-pipe: server-fork-pipe.o
-client: client.o tcp_helpers.o
-client-pthread: client-pthread.o

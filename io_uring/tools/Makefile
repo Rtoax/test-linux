@@ -1,11 +1,11 @@
-target-y := io_uring-cp.out
-target-y += io_uring-bench.out
-target-y += io_uring-latency.out
+target-y := io_uring-cp
+target-y += io_uring-bench
+target-y += io_uring-latency
+
+io_uring-bench-objs := syscall.o
+io_uring-cp-objs := setup.o syscall.o queue.o
+io_uring-latency-objs :=  setup.o syscall.o queue.o
 
 CFLAGS += -Wextra -g
 
 include main.mk
-
-io_uring-bench.out: syscall.o io_uring-bench.o
-io_uring-cp.out: setup.o syscall.o queue.o io_uring-cp.o
-io_uring-latency.out:  setup.o syscall.o queue.o io_uring-latency.o

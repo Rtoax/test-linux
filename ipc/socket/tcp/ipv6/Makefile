@@ -1,8 +1,7 @@
-target-y :=
 target-y += server
 target-y += client
 
-include main.mk
+server-objs := common.o
+client-objs := common.o
 
-server: server.o common.o
-client: client.o common.o
+include main.mk

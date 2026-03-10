@@ -1,8 +1,7 @@
-target-y :=
 target-y += receiver
 target-y += sender
 
-include main.mk
+receiver-objs := common.o
+sender-objs := common.o
 
-receiver: receiver.o common.o
-sender: sender.o common.o
+include main.mk

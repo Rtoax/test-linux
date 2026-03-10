@@ -8,11 +8,6 @@ target-test-y += test0
 
 include main.mk
 
-shm-reader: shm-reader.o
-shm-writer: shm-writer.o
-mmap-reader: mmap-reader.o
-mmap-writer: mmap-writer.o
-
 test0:
 	$(call log_tgt,TEST,$(@))
 	$(Q)./shm-writer && ./shm-reader

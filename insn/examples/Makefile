@@ -60,6 +60,8 @@ else ifeq ($(shell uname -m),aarch64)
   ARCH_LIB_CPUID += ${OUTPUT}cpuid-arm64.o
 endif
 
+cpuid_user-objs := ${ARCH_LIB_CPUID}
+
 ifdef BFD
   LDFLAGS += -fuse-ld=bfd
   $(info User linker bfd)
@@ -92,27 +94,3 @@ LDFLAGS_syscall := -nostdlib
 LDFLAGS_invalid_opcode_user := -no-pie
 
 include main.mk
-
-add-x86: ${OUTPUT}add-x86.o
-breakpoint: ${OUTPUT}breakpoint.o
-bts: ${OUTPUT}bts.o
-bswapl: ${OUTPUT}bswapl.o
-invalid_opcode_user: ${OUTPUT}invalid_opcode_user.o
-cpuid_user: ${OUTPUT}cpuid_user.o ${ARCH_LIB_CPUID}
-_mm_clflush: ${OUTPUT}_mm_clflush.o
-prefetch: ${OUTPUT}prefetch.o
-rte_memcpy: ${OUTPUT}rte_memcpy.o
-fsin: ${OUTPUT}fsin.o
-udiv: ${OUTPUT}udiv.o
-div: ${OUTPUT}div.o
-vgetbv: ${OUTPUT}vgetbv.o
-stosb: ${OUTPUT}stosb.o
-memset: ${OUTPUT}memset.o
-nop: ${OUTPUT}nop.o
-rdmsr: ${OUTPUT}rdmsr.o
-mrs: ${OUTPUT}mrs.o
-ret: ${OUTPUT}ret.o
-simd: ${OUTPUT}simd.o
-rdrand: ${OUTPUT}rdrand.o
-rdseed: ${OUTPUT}rdseed.o
-syscall: ${OUTPUT}syscall.o

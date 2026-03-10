@@ -14,8 +14,3 @@ CFLAGS += -march=armv8-a+sve+sve2
 CFLAGS += ${cpu-feature-cflags}
 
 include main.mk
-
-sve-width: sve-width.o
-add_array: add_array.o
-svaddlb: svaddlb.o
-neon-sve: neon-sve.o

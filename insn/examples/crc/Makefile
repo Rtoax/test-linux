@@ -10,6 +10,3 @@ include main.mk
 
 kernel:
 	${Q}make -C ${KERNELDIR} M=$(PWD) modules
-
-crc32b: crc32b.o
-crc32w: crc32w.o

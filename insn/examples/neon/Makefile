@@ -13,8 +13,3 @@ ifeq (${feature-sve2},y)
 endif
 
 include main.mk
-
-vrsqrtsq_f32: vrsqrtsq_f32.o
-vst1q_u8: vst1q_u8.o
-vaddq_s64: vaddq_s64.o
-neon-sve: neon-sve.o

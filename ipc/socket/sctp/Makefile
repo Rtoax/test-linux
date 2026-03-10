@@ -1,6 +1,5 @@
 LKSCTP_TOOLS_DEVEL=/usr/include/netinet/sctp.h
 
-target-y :=
 ifneq ($(wildcard $(LKSCTP_TOOLS_DEVEL)),)
   target-y += IPPROTO_SCTP
   target-y += client server
@@ -12,7 +11,3 @@ CFLAGS += -lsctp
 LDFLAGS := $(CFLAGS)
 
 include main.mk
-
-IPPROTO_SCTP: IPPROTO_SCTP.o
-client: client.o
-server: server.o

@@ -8,5 +8,3 @@ ifneq ($(shell ld --help | grep -o no-warn-rwx-segments),)
 endif
 
 include main.mk
-
-main: main.o

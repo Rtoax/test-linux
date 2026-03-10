@@ -1,8 +1,4 @@
-target-y :=
-ifeq ($(shell uname -m),x86_64)
-  target-y += rdpkru
-endif
+include arch.mk
+target-${IS_X86_64} += rdpkru
 
 include main.mk
-
-rdpkru: rdpkru.o

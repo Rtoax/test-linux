@@ -1,10 +1,8 @@
-target-y :=
 target-y += consumer producer
 
-CFLAGS :=
+consumer-objs := mlinklist.o
+producer-objs := mlinklist.o
+
 CFLAGS += -I. -ggdb
 
 include main.mk
-
-consumer: consumer.o mlinklist.o
-producer: producer.o mlinklist.o
