@@ -246,39 +246,6 @@ rt-hip-objs += ${OUTPUT}runtime_event-hip.cpp.so.o
 rt-hip-objs += ${OUTPUT}runtime_memory-hip.cpp.so.o
 rt-hip-objs += ${OUTPUT}runtime_internal-hip.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
 
-${rt-objs}: runtime.hpp
-${rt-hpcc-objs}: runtime.hpp
-${rt-luca-objs}: runtime.hpp
-${rt-hip-objs}: runtime.hpp
-
-${OUTPUT}common.cpp.so.o: debug.h
-${OUTPUT}utils.cpp.so.o: utils.hpp
-${OUTPUT}fatbin.cpp.so.o: fatbin.hpp fatbin-hip.hpp
-${OUTPUT}fft.cpp.so.o: fft.hpp
-${OUTPUT}fft-hpcc.cpp.so.o: fft.hpp fft.cpp
-${OUTPUT}fft-hip.cpp.so.o: fft.hpp fft.cpp
-${OUTPUT}blas.cpp.so.o: blas.hpp
-${OUTPUT}blas-hpcc.cpp.so.o: blas.hpp blas.cpp
-${OUTPUT}blas-hip.cpp.so.o: blas.hpp blas.cpp
-${OUTPUT}blasLt.cpp.so.o: blasLt.hpp
-${OUTPUT}blasLt-hpcc.cpp.so.o: blasLt.hpp blasLt.cpp
-${OUTPUT}blasLt-hip.cpp.so.o: blasLt.hpp blasLt.cpp
-${OUTPUT}sparse.cpp.so.o: sparse.hpp
-${OUTPUT}sparse-hpcc.cpp.so.o: sparse.hpp sparse.cpp
-${OUTPUT}sparse-hip.cpp.so.o: sparse.hpp sparse.cpp
-${OUTPUT}rand.cpp.so.o: rand.hpp
-${OUTPUT}rand-hpcc.cpp.so.o: rand.hpp rand.cpp
-${OUTPUT}rand-hip.cpp.so.o: rand.hpp rand.cpp
-${OUTPUT}nccl-hpcc.cpp.so.o: nccl.hpp
-${OUTPUT}cuda.cpp.so.o: cuda.hpp
-${OUTPUT}cuda-hpcc.cpp.so.o: cuda.hpp cuda.cpp
-${OUTPUT}cuda-hip.cpp.so.o: cuda.hpp cuda.cpp
-${OUTPUT}cuda-module-mgmt.cpp.so.o: cuda.hpp
-${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
-${OUTPUT}cuda-module-mgmt-hip.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
-${OUTPUT}cuda-module-mgmt-hip-private.cpp.so.o: cuda.hpp cuda-module-mgmt.cpp
-${OUTPUT}device.cpp.so.o: device.h device-mars-x203.h device-nvidia-h800.h
-
 # HPCC
 libhccompiler.so-objs := ${common-objs} ${rt-hpcc-objs}
 libhcruntime.so-objs := ${common-objs} ${rt-hpcc-objs} ${OUTPUT}cuda-hpcc.cpp.so.o ${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o
