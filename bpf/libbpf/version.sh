@@ -3,7 +3,11 @@
 # the git/hooks will use it.
 set -e
 
-LIBBPF_PATH=$(realpath $(ldconfig -p | grep libbpf.so 2>/dev/null | awk '{print $NF}' | head -1) 2>/dev/null || :)
+LIBBPF_PATH=$(realpath $(ldconfig -p | \
+				grep libbpf.so 2>/dev/null | \
+				awk '{print $NF}' | \
+				head -1) 2>/dev/null \
+		|| :)
 
 if [[ -z ${LIBBPF_PATH} ]]; then
 	echo >&2 "ERROR: not found libbpf.so in anywhere"
