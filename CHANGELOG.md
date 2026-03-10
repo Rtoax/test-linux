@@ -25,6 +25,7 @@ and this project adheres to
 #### Tools
 - cmake/samples: add cflags/ subdir;
 #### Template
+- add libseccomp.mk;
 - targets/exe.mk: Automatically add target to the .o dependency;
 - rename flags.mk to mkflags.mk and export `_MKFLAGS_MK`;
 - add cflags.mk;
