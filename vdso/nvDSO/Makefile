@@ -5,8 +5,6 @@ target-libso-y := libnvdso.so
 
 libnvdso.so-objs := nvdso.so.o
 
-NVDSO_ENV :=
-
 ifdef DEBUG
   CFLAGS += -DNVDSO_DEBUG=1
   NVDSO_ENV += NVDSO_DEBUG=1

@@ -190,6 +190,9 @@ $(target-nvcc-liba-y): %:
 	$(call log_tgt,NVCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+$(foreach lib, ${target-nvcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
+$(foreach lib, ${target-nvcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
+
 $(foreach t, ${target-nvcc-y}, \
   $(if $(shell test -f ${t}.cu && echo yes), \
     $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${t}.cu.o $${${t}-objs} ${CUDA_HELPERS})) \

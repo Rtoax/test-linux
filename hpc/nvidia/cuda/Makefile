@@ -32,10 +32,11 @@ target-htcc-liba-${HAVE_HPCC} := libhpcc_helper.a
 target-lscc-libso-${HAVE_LUCA} := libluca_helper.so
 target-lscc-liba-${HAVE_LUCA} := libluca_helper.a
 
+libcuda_helper.so-objs := $(OUTPUT)cuda_helpers.cu.so.o
+libcuda_helper.a-objs := $(OUTPUT)cuda_helpers.cu.a.o
+
 include main.mk
 
-libcuda_helper.so: $(OUTPUT)cuda_helpers.cu.so.o
-libcuda_helper.a: $(OUTPUT)cuda_helpers.cu.a.o
 libhip_helper.so: $(OUTPUT)cuda_helpers.hip.so.o
 libhip_helper.a: $(OUTPUT)cuda_helpers.hip.a.o
 libhpcc_helper.so: $(OUTPUT)cuda_helpers.hpcc.so.o
