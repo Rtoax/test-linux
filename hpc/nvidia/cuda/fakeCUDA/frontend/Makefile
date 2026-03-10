@@ -8,9 +8,7 @@ CXX := clang++
 
 target-libso-cpp-y += fakecuda_plugin.so
 
-test-exe := hello
-
-target-y := ${test-exe}
+target-y := hello
 
 plugin-objs := ${OUTPUT}attribute-global.cpp.so.o
 plugin-objs += ${OUTPUT}attribute-device.cpp.so.o
@@ -21,11 +19,3 @@ CFLAGS += -fplugin=./fakecuda_plugin.so
 CXXFLAGS_SO += ${llvm-cflags}
 
 include main.mk
-
-${OUTPUT}hello.o: ${target-libso-cpp-y}
-
-${OUTPUT}lexerExtension.cpp.so.o: syntax.hpp
-${OUTPUT}attribute-global.cpp.so.o: configs.hpp
-${OUTPUT}attribute-device.cpp.so.o: configs.hpp
-
-hello: ${OUTPUT}hello.o
