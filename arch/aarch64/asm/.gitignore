@@ -13,7 +13,7 @@
 /printf
 /hello_sve
 /say_hello
-/loop-c
+/loop
 /daxpy
 /while
 /puts
@@ -24,5 +24,5 @@
 /paciasp-c
 /nanosleep
 /nanosleep-c
-/write-c
-/write-c-loop
+/write
+/write-loop

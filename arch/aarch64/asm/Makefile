@@ -1,12 +1,9 @@
 target-asm-y := hello
 target-asm-y += hello-stack
-target-asm-y += paciasp
-target-asm-y += exit
 target-asm-y += ldr
 target-asm-y += while
-target-asm-y += add
-target-asm-y += mov
 target-asm-y += nanosleep
+target-asm-y += mov
 
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
   target-asm-y += hello_sve
@@ -26,15 +23,16 @@ ifneq ($(shell uname -m),aarch64)
   ASMLDFLAGS += --sysroot $(HOME)/rootfs-aarch64/
 else ifeq ($(shell uname -m),aarch64)
   target-y += add-c
-  target-y += loop-c
+  target-y += loop
   target-y += puts-c
   target-y += paciasp-c
   target-y += nanosleep-c
-  target-y += write-c write-c-loop
+  target-y += write write-loop
   target-y += exit-c
 
   target-asm-y += branch
 
+  target-as-y += add
   target-as-y += say_hello
   target-as-y += read
   target-as-y += hello-puts
@@ -48,7 +46,12 @@ else ifeq ($(shell uname -m),aarch64)
   ASMLDFLAGS += -lc
 endif
 
+add-c-objs := add.o
+exit-c-objs := exit.o
 puts-c-objs := puts.o
+paciasp-c-objs := paciasp.o
+nanosleep-c-objs := nanosleep.o
+daxpy-objs := daxpy.s.o daxpy_sve.s.o
 
 ifdef STATIC
   CFLAGS += -static
@@ -61,10 +64,10 @@ ifdef STATIC
 endif
 
 ASFLAGS_paciasp := -march=armv8.3-a
-CFLAGS_paciasp-c := -march=armv8.3-a
+CFLAGS_paciasp := -march=armv8.3-a
 
 ASFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
-CFLAGS_write-c-loop := -DINFINITE_LOOP=1
+CFLAGS_write-loop := -DINFINITE_LOOP=1
 
 include main.mk
 
@@ -83,7 +86,6 @@ say_hello: say_hello.s.o
 exit: exit.s.o
 nanosleep: nanosleep.s.o
 hello_sve: hello_sve.s.o
-daxpy: daxpy.s.o daxpy_sve.s.o daxpy-c.o
 while: while.s.o
 ldr: ldr.s.o
 mov: mov.s.o
