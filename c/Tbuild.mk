@@ -57,6 +57,9 @@ target-y += return
 target-y += overflow
 target-y += typeof
 
+# preprocessing
+target-prep-y := $(patsubst %,${OUTPUT}%.E.c,$(target-y))
+
 ptr-dim-objs := ${OUTPUT}c_helpers.o
 
 define arch_strip
@@ -95,8 +98,3 @@ CFLAGS__Float128 += ${cflags-support-headers-y}
 CFLAGS__Float128 += -Wno-error=unused-variable
 LDFLAGS__Float128 += ${ldflags-support-headers-y}
 LDFLAGS_float := -lm
-
-# preprocessing
-target-prep-y := $(patsubst %,${OUTPUT}%.E.c,$(target-y))
-
-include main.mk

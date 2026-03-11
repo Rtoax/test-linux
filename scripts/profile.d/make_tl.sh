@@ -19,6 +19,9 @@ make_tl() {
 	   [[ "$(realpath .)" =~ "test-linux" ]]; then
 		make_args+=( __USE_TEST_LINUX_MAKE__=1 )
 		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
+		if [[ -f Tbuild.mk ]]; then
+			make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.tbuild )
+		fi
 		${sys_make} ${make_args[@]} $@
 	else
 		${sys_make} $@

@@ -22,5 +22,3 @@ target-shell-y += runprog_examples.sh
 SHELL_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display all
 SHELL_ARGS_kversion.sh := short
 SHELL_ARGS_kversion.sh.1 := full
-
-include main.mk
