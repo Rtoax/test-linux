@@ -32,6 +32,15 @@ target-y += cr3
 # TODO
 target-todo += sum_cal
 
+exit-c-objs := ${OUTPUT}exit.o
+hello-c-objs := ${OUTPUT}hello.o
+nanosleep-c-objs := ${OUTPUT}nanosleep.o
+write-c-objs := ${OUTPUT}write.o
+write-c-loop-objs := ${OUTPUT}write-loop.o
+out-c-objs := ${OUTPUT}out.o
+puts-c-objs := ${OUTPUT}puts.o
+puts-c-loop-objs := ${OUTPUT}puts-loop.o
+
 ifneq ($(shell uname -m),x86_64)
   CC = x86_64-linux-gnu-gcc
   LD = x86_64-linux-gnu-ld
@@ -39,8 +48,8 @@ ifneq ($(shell uname -m),x86_64)
   LDFLAGS += --sysroot $(HOME)/rootfs-x86_64
 endif
 
-CFLAGS_write-c-loop := -DINFINITE_LOOP=1
-CFLAGS_puts-c-loop := -DINFINITE_LOOP=1
+CFLAGS_write-loop := -DINFINITE_LOOP=1
+CFLAGS_puts-loop := -DINFINITE_LOOP=1
 
 LDFLAGS += -z noexecstack
 LDFLAGS_echo += -no-pie
@@ -55,14 +64,6 @@ cr3: ${OUTPUT}cr3.o
 echo: ${OUTPUT}echo.asm.o
 hello-puts: ${OUTPUT}hello-puts.asm.o
 hello: ${OUTPUT}hello.asm.o
-hello-c: ${OUTPUT}hello-c.o
-nanosleep-c: ${OUTPUT}nanosleep-c.o
-exit-c: ${OUTPUT}exit-c.o
-write-c: ${OUTPUT}write-c.o
-write-c-loop: ${OUTPUT}write-c-loop.o
-out-c: ${OUTPUT}out-c.o
-puts-c: ${OUTPUT}puts-c.o
-puts-c-loop: ${OUTPUT}puts-c-loop.o
 hello-stack: ${OUTPUT}hello-stack.asm.o
 nanosleep: ${OUTPUT}nanosleep.asm.o
 printf: ${OUTPUT}printf.s.o
