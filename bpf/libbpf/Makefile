@@ -11,6 +11,7 @@ OUTPUT := .output/
 
 include kconfig.mk
 include ansi.mk
+include helpers.mk
 include bpf/bpf.mk
 include ldconfig.mk
 include bpf/btf.mk
@@ -263,11 +264,12 @@ STACK_HELPERS := ${OUTPUT}stack_helpers.o
 TRACE_HELPERS := libtrace_helpers.so
 LIBBPF_WRAPPER := ${OUTPUT}libbpf_wrapper.o
 LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
-target-libso-y := libtrace_helpers.so
+target-libso-y := ${TRACE_HELPERS}
 
 HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
 	   ${TASK_HELPERS} ${LIBBPF_WRAPPER} \
-	   ${STACK_HELPERS}
+	   ${STACK_HELPERS} ${SOCKET_HELPERS} \
+	   ${KSYM_HELPERS}
 
 target-y += libbpf_version
 target-prep-y += libbpf_version
@@ -276,10 +278,9 @@ target-prep-y += ${HELPERS}
 
 libtrace_helpers.so-objs := ${OUTPUT}trace_helpers.so.o
 
-include main.mk
+config-map-objs := ${HELPERS}
 
-HELPERS += ${SOCKET_HELPERS}
-HELPERS += ${KSYM_HELPERS}
+include main.mk
 
 test-libbpf_version: libbpf_version
 	${Q}./libbpf_version cflags >/dev/null
@@ -289,7 +290,6 @@ test-libbpf_version: libbpf_version
 libbpf_version: ${OUTPUT}libbpf_version.o ${HELPERS}
 
 ${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h
-config-map: ${OUTPUT}config-map.o ${HELPERS}
 socket_filter: ${OUTPUT}socket_filter.o ${HELPERS}
 ${OUTPUT}socket_filter.o: ${OUTPUT}map_array.skel.h ${OUTPUT}socket_filter.skel.h
 ${OUTPUT}ring_buffer.o: ${OUTPUT}map_array.skel.h ${OUTPUT}ring_buffer.skel.h
