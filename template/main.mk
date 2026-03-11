@@ -246,4 +246,6 @@ ifneq ($(subdir-y),)
   include targets/subdir-footer.mk
 endif
 
+include targets/vdso.mk
+
 endif

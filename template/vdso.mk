@@ -1,4 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# Functions:
+# - VDSO_NAME=[linux-vdso.so.1]
+# - gen_vdso_elf()
+#
 ifndef _VDSO_MK
 _VDSO_MK = 1
 
