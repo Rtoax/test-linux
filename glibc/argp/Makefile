@@ -1,4 +1,0 @@
-# SPDX-License-Identifier: GPL-3.0
-target-y += argp_parse
-
-include main.mk
