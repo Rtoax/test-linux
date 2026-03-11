@@ -51,9 +51,9 @@ char *red_tasklet_data = "The tasklet is red !!";
  * https://elixir.bootlin.com/linux/v5.9/source/include/linux/interrupt.h
  */
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 9, 0)
-void tasklet_callback(struct tasklet_struct * data )
+static void tasklet_callback(struct tasklet_struct *data)
 #else
-void tasklet_callback(unsigned long int data )
+static void tasklet_callback(unsigned long int data)
 #endif
 {
 	printk( "%s\n", red_tasklet_data );
@@ -85,7 +85,7 @@ static void job_a( struct work_struct *work )
 	kfree( (void*)work );
 }
 
-void create_work_queue(void)
+static void create_work_queue(void)
 {
 	int ret;
 	wq_a = create_workqueue( "workqueueA" );
@@ -112,7 +112,7 @@ void create_work_queue(void)
 
 }
 
-int init_module()
+static int red_init(void)
 {
 	printk(KERN_INFO "Hello.");
 	red_tasklet.data = (unsigned long)red_tasklet_data;
@@ -125,7 +125,7 @@ int init_module()
 	return 0;
 }
 
-void cleanup_module()
+static void cleanup(void)
 {
 	printk(KERN_INFO "Bye.");
 	tasklet_kill( &red_tasklet );
@@ -133,3 +133,5 @@ void cleanup_module()
 	destroy_workqueue( wq_a );
 }
 
+module_init(red_init);
+module_exit(cleanup);

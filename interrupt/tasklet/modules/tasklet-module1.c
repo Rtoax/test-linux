@@ -34,7 +34,7 @@ static int __init onload(void)
 	return 0;
 }
 
-void onunload(void)
+static void onunload(void)
 {
 	tasklet_kill(&my_tasklet);
 }
