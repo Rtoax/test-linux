@@ -7,9 +7,10 @@
 # | nasm    | Netwide Assembler | Intel   | mov bx, ax   |
 #
 # Targets:
-# - %.asm.o
 # - %.s.o
+# - %.asm.o
 # - target-as-y
+# - target-asm-y
 #
 ifndef _TARGET_ASM_MK
 _TARGET_ASM_MK = 1
@@ -32,6 +33,7 @@ ${target-asm-y}: %:
 	$(call log_tgt,LD ASM,$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
 
+# Or use CC directly
 ${OUTPUT}%.s.o: %.s | ${OUTPUT}
 	$(call log_obj,AS,$(@))
 	${Q}${AS} -o $(@) $(<) $(ASFLAGS) $(ASFLAGS_$(*))
@@ -40,11 +42,6 @@ ${OUTPUT}%.s.o: %.s | ${OUTPUT}
 ${target-as-y}: %:
 	$(call log_tgt,LD S,$(@))
 	${Q}$(LD) -lc -o $(@) $(^) $(ASLDFLAGS) $(ASLDFLAGS_$(*))
-
-# Same as: as {--64,--32} a.S -o a.o
-${OUTPUT}%.S.o: %.S | ${OUTPUT}
-	$(call log_obj,CC S,$(@))
-	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 # TODO: auto deps
 

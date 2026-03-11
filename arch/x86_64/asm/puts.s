@@ -1,16 +1,12 @@
         .intel_syntax noprefix
-        .global main
+        .global _start
 
-main:
+_start:
         sub     rsp, 8                  /* 16-byte alignment */
 
-        mov     rcx, 100                /* test data */
-
-        /* printf(3) library-call */
+        /* puts(3) library-call */
         lea     rdi, [rip + msg]        /* 1st argument */
-        mov     rsi, rcx                /* 2nd argument */
-        mov     eax, 0                  /* the number of vector regsters */
-        call    printf
+        call    puts
 
         /* return from main */
         add     rsp, 8                  /* 16-byte alignment */
@@ -19,4 +15,4 @@ main:
         /* read-only data */
         .section .rodata
 msg:
-        .string "rcx = %d\n"
+        .string "Hello world!"

@@ -1,35 +1,33 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-include arch.mk
-
 target-asm-y := hello
 target-asm-y += hello-stack
 target-asm-y += while
 target-asm-y += out
 target-asm-y += nanosleep
 
-target-y := printf-main
-target-y += read-main write-main
-target-y += puts-main
-target-y += putchar-main
+target-as-y += printf
+target-as-y += putchar
+target-as-y += read write
+target-as-y += puts
 
-target-${IS_X86_64} += echo
-target-${IS_X86_64} += hello-puts
-target-${IS_X86_64} += hola
-target-${IS_X86_64} += fibonacci
-target-${IS_X86_64} += power
-target-${IS_X86_64} += factorial_call
-target-${IS_X86_64} += maxofthree_call
-target-${IS_X86_64} += hello-c
-target-${IS_X86_64} += nanosleep-c
-target-${IS_X86_64} += exit-c
-target-${IS_X86_64} += write-c write-c-loop
-target-${IS_X86_64} += out-c
-target-${IS_X86_64} += puts-c puts-c-loop
-target-${IS_X86_64} += atomic_forced_read
-target-${IS_X86_64} += time
-target-${IS_X86_64} += cr3
+target-y += echo
+target-y += hello-puts
+target-y += hola
+target-y += fibonacci
+target-y += power
+target-y += factorial_call
+target-y += maxofthree_call
+target-y += hello-c
+target-y += nanosleep-c
+target-y += exit-c
+target-y += write-c write-c-loop
+target-y += out-c
+target-y += puts-c puts-c-loop
+target-y += atomic_forced_read
+target-y += time
+target-y += cr3
 
 # TODO
 target-todo += sum_cal
@@ -67,11 +65,11 @@ puts-c: ${OUTPUT}puts-c.o
 puts-c-loop: ${OUTPUT}puts-c-loop.o
 hello-stack: ${OUTPUT}hello-stack.asm.o
 nanosleep: ${OUTPUT}nanosleep.asm.o
-printf-main: ${OUTPUT}printf-main.S.o
-read-main: ${OUTPUT}read-main.S.o
-write-main: ${OUTPUT}write-main.S.o
-puts-main: ${OUTPUT}puts-main.S.o
-putchar-main: ${OUTPUT}putchar-main.S.o
+printf: ${OUTPUT}printf.s.o
+read: ${OUTPUT}read.s.o
+write: ${OUTPUT}write.s.o
+puts: ${OUTPUT}puts.s.o
+putchar: ${OUTPUT}putchar.s.o
 fibonacci: ${OUTPUT}fibonacci.asm.o
 hola: ${OUTPUT}hola.asm.o
 sum_cal: ${OUTPUT}sum_cal.o ${OUTPUT}sum.o

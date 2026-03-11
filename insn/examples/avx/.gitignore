@@ -2,7 +2,6 @@
 /*.bc
 /*.llc.s
 /*.obj.s
-/*.S.o
 /*.os
 /sum
 /sum-avx

@@ -9,7 +9,6 @@ target-y += sum
 target-y += sum-avx
 target-y += sum-avx2
 target-y += cpu-features
-target-y += test-asm
 target-y += avx512_aux
 target-y += mul-avx256
 target-y += mul-avx512
@@ -22,11 +21,13 @@ target-y += add-unalign-f4
 target-y += cvt-df
 target-y += mask
 
+target-y += test-asm
+
 target-asm-y := vperm2i128
 target-asm-y += vfmadd231ps
 target-asm-y += kxord
 
-test-asm-objs := ${OUTPUT}test-asm.S.o
+test-asm-objs := ${OUTPUT}test.s.o ${OUTPUT}test.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -O0
@@ -34,7 +35,7 @@ CFLAGS += -O0
 CFLAGS_sum := -DTYPE_FLOAT
 CFLAGS_sum-avx := -DTYPE_FLOAT -mavx
 CFLAGS_sum-avx2 := -DTYPE_FLOAT -mavx2
-CFLAGS_test-asm := -std=gnu11
+CFLAGS_test := -std=gnu11
 CFLAGS_avx512_aux := -mavx512f
 # Why -mfma?
 # - https://www.cnblogs.com/hellowooorld/p/11529078.html

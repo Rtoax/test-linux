@@ -18,6 +18,7 @@ and this project adheres to
 - ptx: add globaltimer.cu, laneid.cu;
 - crypto: add fips subdir;
 #### Changed
+- rename all .S to .s;
 - cuda: cmake: add ptx subdir;
 #### Deprecated
 #### Removed
@@ -27,6 +28,7 @@ and this project adheres to
 #### Tools
 - cmake/samples: add cflags/ subdir;
 #### Template
+- targets/asm.mk: remove .S.o target, use .s.o instead;
 - targets/asm.mk: add target-as-y and modify aarch64/asm;
 - targets/asm.mk: rename .as.o to .s.o;
 - targets: split exe.mk to asm.mk, c.mk, cpp.mk;

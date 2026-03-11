@@ -1,7 +1,7 @@
         .intel_syntax noprefix
-        .global main
+        .global _start
 
-main:
+_start:
         sub     rsp, 8                  /* 16-byte alignment */
 
         /* putchar(3) library-call */

@@ -1,10 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-obj-o :=
-obj-s-o :=
-
-CC := gcc
-AS := as
-
 target-y += R_X86_64
 target-y += R_X86_64_64
 target-y += R_X86_64_32S
@@ -18,14 +12,14 @@ obj-o += R_X86_64_32.o
 obj-o += R_X86_64_PLT32.o
 obj-o += R_X86_64_GOTPCRELX.o
 
-obj-s-o += R_X86_64_32.S.o
-obj-s-o += R_X86_64_64.S.o
-obj-s-o += R_X86_64_GOT32.S.o R_X86_64_GOTPC32.S.o
-obj-s-o += R_X86_64_GOTPLT64.S.o
-obj-s-o += R_X86_64_GOTOFF64.S.o
-obj-s-o += R_X86_64_REX_GOTPCRELX.S.o
-obj-s-o += R_X86_64_PLT32.S.o
-obj-s-o += R_X86_64_PLTOFF64.S.o
+obj-s-o += R_X86_64_32.s.o
+obj-s-o += R_X86_64_64.s.o
+obj-s-o += R_X86_64_GOT32.s.o R_X86_64_GOTPC32.s.o
+obj-s-o += R_X86_64_GOTPLT64.s.o
+obj-s-o += R_X86_64_GOTOFF64.s.o
+obj-s-o += R_X86_64_REX_GOTPCRELX.s.o
+obj-s-o += R_X86_64_PLT32.s.o
+obj-s-o += R_X86_64_PLTOFF64.s.o
 
 target-prep-y := ${obj-o} ${obj-s-o}
 target-shell-y := R_X86_64_64.sh
