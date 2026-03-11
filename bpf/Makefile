@@ -31,9 +31,6 @@ CFLAGS_BPF_tcpdump := -DVERIFER=1
 
 include main.mk
 
-tcpdump: tcpdump.o
-tcpdump.bpf.o: vmlinux.h
-
 post0:
 	$(Q)./tcpdump.sh
 	$(call logo_bpf_summit_2021)

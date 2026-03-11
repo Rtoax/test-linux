@@ -10,9 +10,4 @@ LDFLAGS += -lbpf
 
 include main.mk
 
-define define_target
-${OUTPUT}${1}.o: ${OUTPUT}${1}.skel.h
-${1}: ${OUTPUT}${1}.o
-endef
-
-$(eval $(call define_target,hello))
+${OUTPUT}hello.o: ${OUTPUT}hello.skel.h

@@ -3,5 +3,3 @@ subdir-y := samples
 target-y := bpf_func_mapper
 
 include main.mk
-
-bpf_func_mapper: bpf_func_mapper.o

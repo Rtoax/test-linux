@@ -12,5 +12,3 @@ subdir-${IS_RISCV64} += riscv64
 target-post-y := $(patsubst %,%.c.s,${target-y})
 
 include main.mk
-
-cpu_relax: cpu_relax.o
