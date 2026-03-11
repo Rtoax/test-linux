@@ -78,13 +78,8 @@ target-y += ftm _GNU_SOURCE _XOPEN_SOURCE
 target-y += __progname
 target-y += __GLIBC_USE
 
-target-post-y := post
-
 LDFLAGS := -pthread
 
 CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 CFLAGS___GLIBC_USE := -DTEST_MAIN=1
-
-post:
-	@$(call logo_gnu)

@@ -11,10 +11,7 @@ target-y += get_cursor_position
 cfmakeraw-objs := termios_helpers.o
 tcgetattr-objs := termios_helpers.o
 
-target-post-y := post-tcsetattr
+target-prog-y := tcsetattr.sh
 
 CFLAGS += -I../../../
 LDFLAGS += -lm
-
-post-tcsetattr:
-	${Q}echo abcde | ./tcsetattr

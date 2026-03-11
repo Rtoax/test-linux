@@ -33,7 +33,4 @@ CFLAGS_getdelim := -DTEST_getdelim=1
 CFLAGS_sprintf := -Wno-error=format-overflow
 CFLAGS_snprintf := -Wno-error=format-truncation
 
-target-post-y := os-release
-
-os-release:
-	${Q}cp /etc/os-release os-release
+target-prog-y := os-release.sh

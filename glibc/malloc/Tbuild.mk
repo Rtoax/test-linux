@@ -16,7 +16,7 @@ target-y += malloc_usable_size
 target-y += memalign
 target-y += pvalloc
 
-target-post-y := ld-list-tunables
+target-prog-y := list-tunables.sh
 
 mallinfo-objs := malloc_helpers.o
 malloc_trim-objs := malloc_helpers.o
@@ -37,6 +37,3 @@ ifeq (${CC_-use-after-free},y)
   CFLAGS_use-after-free += -Wno-error=use-after-free
   CFLAGS_double-free += -Wno-error=use-after-free
 endif
-
-ld-list-tunables:
-	${Q}ld.so --list-tunables 2>/dev/null | grep -i malloc || true
