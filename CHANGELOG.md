@@ -27,6 +27,7 @@ and this project adheres to
 #### Tools
 - cmake/samples: add cflags/ subdir;
 #### Template
+- targets/asm.mk: rename .as.o to .s.o;
 - targets: split exe.mk to asm.mk, c.mk, cpp.mk;
 - add glib.mk, opencl.mk, mpich.mk, jemalloc.mk, libseccomp.mk, libpmem.mk;
 - targets/exe.mk: Automatically add target to the .o dependency;

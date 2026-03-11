@@ -68,11 +68,11 @@ CFLAGS_write-c-loop := -DINFINITE_LOOP=1
 
 include main.mk
 
-add: add.as.o
-branch: branch.as.o
-hello: hello.as.o
-hello-stack: hello-stack.as.o
-paciasp: paciasp.as.o
+add: add.s.o
+branch: branch.s.o
+hello: hello.s.o
+hello-stack: hello-stack.s.o
+paciasp: paciasp.s.o
 hello-puts: hello-puts.o
 hello-puts-infinite-loop: hello-puts-infinite-loop.o
 main: main.o
@@ -82,10 +82,10 @@ exit-main: exit-main.o
 puts-main: puts-main.o
 printf-main: printf-main.o
 say_hello: say_hello.o
-exit: exit.as.o
-nanosleep: nanosleep.as.o
-hello_sve: hello_sve.as.o
-daxpy: daxpy.as.o daxpy_sve.as.o daxpy-c.o
-while: while.as.o
-ldr: ldr.as.o
-mov: mov.as.o
+exit: exit.s.o
+nanosleep: nanosleep.s.o
+hello_sve: hello_sve.s.o
+daxpy: daxpy.s.o daxpy_sve.s.o daxpy-c.o
+while: while.s.o
+ldr: ldr.s.o
+mov: mov.s.o

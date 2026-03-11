@@ -1,4 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# Assembler Types
+# | Command | Type              | Grammar | Example      |
+# | ------- | ----------------- | ------- | ------------ |
+# | as      | GNU Assembler     | AT&T    | mov %ax, %bx |
+# | nasm    | Netwide Assembler | Intel   | mov bx, ax   |
+#
+# Targets:
+# - %.asm.o
+# - %.s.o
+#
 ifndef _TARGET_ASM_MK
 _TARGET_ASM_MK = 1
 
@@ -15,7 +26,7 @@ ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 	$(call log_obj,ASM,$(@))
 	${Q}${NASM} -o $(@) -felf64 $(<) $(ASMCFLAGS) $(ASMCFLAGS_$(*))
 
-${OUTPUT}%.as.o: %.asm | ${OUTPUT}
+${OUTPUT}%.s.o: %.s | ${OUTPUT}
 	$(call log_obj,AS,$(@))
 	${Q}${AS} -o $(@) $(<) $(ASCFLAGS) $(ASCFLAGS_$(*))
 
