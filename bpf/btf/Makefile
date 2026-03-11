@@ -2,7 +2,8 @@
 __USE_BTF_HELPERS__ = y
 
 OUTPUT := .output/
-subdir-y := examples
+subdir-y += btf_h
+subdir-y += examples
 
 include helpers.mk
 
@@ -13,10 +14,6 @@ target-y := btf_ksym
 target-y += btf_kfunc
 target-y += btf_struct
 target-y += btf_decl_tag
-
-ifneq ($(wildcard /sys/kernel/btf/kvm),)
-  target-btf-y := kvm.h
-endif
 
 libbtf_helpers.a-objs := ${OUTPUT}btf_helpers.a.o
 libbtf_helpers.so-objs := ${OUTPUT}btf_helpers.so.o
