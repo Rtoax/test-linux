@@ -23,25 +23,12 @@ include shell.mk
 include compiler/feature.mk
 include compiler/std.mk
 include compiler/m32.mk
+include compiler/macros.mk
 include compiler/types.mk
 
 cflags-support-types-y :=
 cflags-support-headers-y :=
 ldflags-support-headers-y :=
-
-ifndef CROSS_COMPILE
-  MARCH_NATIVE := -march=native
-endif
-# $(1) - compiler, CC or CXX
-# $(2) - output file name
-define __gen_compiler_macro_hdr
-	$(1) ${MARCH_NATIVE} -E -dM - </dev/null -o $(2)
-endef
-
-# $(1) - output file name
-define gen_compiler_macro_hdr
-$(call __gen_compiler_macro_hdr,$(CC),$(1))
-endef
 
 cflags-support-types-${CC__Float16} += -DSUPPORT__Float16=1
 cflags-support-types-${CC___fp16} += -DSUPPORT___fp16=1

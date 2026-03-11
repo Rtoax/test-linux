@@ -5,7 +5,7 @@
 ifndef _TARGET_COMPILER_MK
 _TARGET_COMPILER_MK = 1
 
-include compiler.mk
+include compiler/macros.mk
 
 $(CC)-macros.h:
 	$(call log_tgt,HDR,$(@))

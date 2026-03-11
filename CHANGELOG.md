@@ -31,6 +31,7 @@ and this project adheres to
 - add nasm subdir;
 - cmake/samples: add cflags/ subdir;
 #### Template
+- add compiler/macros.mk;
 - add targets/compiler.mk;
 - add targets/vdso.mk;
 - targets/asm.mk: add target-asm-std-y target;
