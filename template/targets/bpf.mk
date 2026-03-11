@@ -85,4 +85,13 @@ ${VMLINUX_H}: | ${OUTPUT}
 	$(call log_tgt,BTF_H,$(@))
 	$(call btf_gen_hdr,vmlinux,${VMLINUX_H})
 
+# Include all the .bpf.o.d depends files
+$(foreach dep, $(shell ls ${OUTPUT}*.bpf.o.d), \
+  $(if $(shell test -f ${dep} && echo yes), \
+    $(if ${DEBUG}, $(info Found ${dep})) \
+    $(eval include ${dep}), \
+    $(if ${DEBUG}, $(info Not found ${dep})) \
+  ) \
+)
+
 endif

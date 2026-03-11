@@ -286,15 +286,9 @@ test-libbpf_version: libbpf_version
 	${Q}./libbpf_version env >/dev/null
 	${Q}./libbpf_version >/dev/null
 
-${OUTPUT}trace_helpers.so.o: trace_helpers.h
-${OUTPUT}task_helpers.o: task_helpers.h
-${OUTPUT}stack_helpers.o: stack_helpers.h
-${OUTPUT}libbpf_wrapper.o: libbpf_wrapper.h
-${OUTPUT}libxdp_helpers.o: libxdp_helpers.h
-
 libbpf_version: ${OUTPUT}libbpf_version.o ${HELPERS}
 
-${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h config-map.h
+${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h
 config-map: ${OUTPUT}config-map.o ${HELPERS}
 socket_filter: ${OUTPUT}socket_filter.o ${HELPERS}
 ${OUTPUT}socket_filter.o: ${OUTPUT}map_array.skel.h ${OUTPUT}socket_filter.skel.h
@@ -303,14 +297,9 @@ ring_buffer: ${OUTPUT}ring_buffer.o ${HELPERS}
 tc: ${OUTPUT}tc.o ${HELPERS}
 ${OUTPUT}tc.o: ${OUTPUT}tc.skel.h
 ${OUTPUT}rbtree.o: rbtree.h ${OUTPUT}rbtree.skel.h
-${OUTPUT}rbtree.bpf.o: rbtree.h
 rbtree: ${OUTPUT}rbtree.o ${HELPERS}
-${OUTPUT}rbtree-raw-map.o: rbtree.h
-${OUTPUT}rbtree-raw-map.bpf.o: rbtree.h
 rbtree-raw-map: ${OUTPUT}rbtree-raw-map.o ${HELPERS}
 ${OUTPUT}rbtree-raw-map.o: ${OUTPUT}rbtree-raw-map.skel.h
-${OUTPUT}spin_lock.o: spin_lock.h
-${OUTPUT}spin_lock.bpf.o: spin_lock.h
 spin_lock: ${OUTPUT}spin_lock.o ${HELPERS}
 ${OUTPUT}spin_lock.o: ${OUTPUT}spin_lock.skel.h
 xdp: ${OUTPUT}xdp.o ${HELPERS}
@@ -331,7 +320,6 @@ kprobe: ${OUTPUT}kprobe.o ${HELPERS}
 ${OUTPUT}kprobe.o: ${OUTPUT}kprobe.skel.h
 tracepoint: ${OUTPUT}tracepoint.o ${HELPERS}
 ${OUTPUT}tracepoint.o: ${OUTPUT}tracepoint.skel.h ${OUTPUT}tracepoint.bpf.o ${OUTPUT}map_hash.skel.h
-${OUTPUT}tracepoint.bpf.o: tracepoint.h bpf_helpers.bpf.h string_helpers.bpf.h cgroup.bpf.h
 raw_tracepoint: ${OUTPUT}raw_tracepoint.o ${HELPERS}
 ${OUTPUT}raw_tracepoint.o: ${OUTPUT}raw_tracepoint.skel.h
 tp_btf: ${OUTPUT}tp_btf.o ${HELPERS}
@@ -368,13 +356,10 @@ ${OUTPUT}lsm_file_open.bpf.o: lsm_file_open.bpf.c
 ${OUTPUT}lsm_file_open.o: ${OUTPUT}lsm_file_open.skel.h
 ${OUTPUT}lsm_file_open.skel.h: ${OUTPUT}lsm_file_open.bpf.o
 lsm_file_open: ${OUTPUT}lsm_file_open.o ${HELPERS}
-${OUTPUT}lsm_bpf.bpf.o: bpf_helpers.bpf.h
 lsm_socket_create: ${OUTPUT}lsm_socket_create.o ${HELPERS}
 ${OUTPUT}lsm_socket_create.o: ${OUTPUT}lsm_socket_create.skel.h
-${OUTPUT}lsm_socket_create.bpf.o: bpf_helpers.bpf.h
 lsm_socket_sendmsg: ${OUTPUT}lsm_socket_sendmsg.o ${HELPERS}
 ${OUTPUT}lsm_socket_sendmsg.o: ${OUTPUT}lsm_socket_sendmsg.skel.h
-${OUTPUT}lsm_socket_sendmsg.bpf.o: bpf_helpers.bpf.h
 map_hash: ${OUTPUT}map_hash.o ${HELPERS}
 ${OUTPUT}map_hash.o: ${OUTPUT}map_hash.skel.h
 map_percpu_hash: ${OUTPUT}map_percpu_hash.o ${HELPERS}
