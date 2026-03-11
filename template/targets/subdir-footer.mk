@@ -5,6 +5,7 @@ _TARGET_SUBDIR_FOOTER_MK = 1
 include verbose.mk
 include emoji.mk
 include mkflags.mk
+include make.mk
 
 ifneq ($(CHECK_ERROR),)
   CHECK_ERROR_EXIT = exit 1;
@@ -16,7 +17,7 @@ define make_sub_dir
 	$(call log_info,${1} $(call strip_topdir_prefix,$(2)))
 	$(Q)pushd $(2) >/dev/null; \
 	start_ms=$$(date +%s%3N); \
-	make ${1} ${SUBMKFLAGS}; \
+	${MAKE} ${1} ${SUBMKFLAGS}; \
 	makeret=$$?; \
 	end_ms=$$(date +%s%3N); \
 	cost_ms=$$((end_ms - start_ms)); \

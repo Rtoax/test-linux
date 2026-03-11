@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
 #
+# Export:
+# - MAKE=
+#
 # Functions:
 # - make_{gt,ge,eq,lt,le}()=[y|n]
 #
@@ -9,6 +12,8 @@ _MAKE_MK = 1
 
 include dir.mk
 include version.mk
+
+MAKE := ${TOPDIR}/scripts/profile.d/make_tl.sh
 
 MAKE_VERSION := $(shell ${TOPDIR}/gnu/make/version.sh)
 MAKE_MAJOR := $(shell ${TOPDIR}/gnu/make/version.sh --major)
@@ -33,6 +38,7 @@ $(call version2_code100010_cmp,${MAKE_VERSION_CODE},-le,${1},${2})
 endef
 
 ifdef DEBUG
+  $(info MAKE = ${MAKE})
   $(info MAKE_VERSION = ${MAKE_VERSION})
   $(info MAKE_MAJOR = ${MAKE_MAJOR})
   $(info MAKE_MINOR = ${MAKE_MINOR})

@@ -2,8 +2,7 @@
 ifndef _TARGET_MAKE_MK
 _TARGET_MAKE_MK = 1
 
-MAKE := make
-
+include make.mk
 include runprog.mk
 
 # $1 - suffix of file: mk, mak
