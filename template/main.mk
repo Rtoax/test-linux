@@ -247,5 +247,6 @@ ifneq ($(subdir-y),)
 endif
 
 include targets/vdso.mk
+include targets/compiler.mk
 
 endif

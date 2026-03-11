@@ -1,8 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include ansi.mk
-include gnu.mk
-
-subdir-y := annobin
+subdir-y += annobin
 subdir-y += ast
 subdir-y += bison
 subdir-y += gnu
@@ -24,7 +21,7 @@ subdir-y += specs
 subdir-y += __sync
 subdir-y += Wwarn
 
-target-y := __GNUC__
+target-y += __GNUC__
 target-y += __GNUC_PREREQ
 target-y += __VERSION__
 
@@ -32,10 +29,4 @@ target-shell-y := info.sh
 
 target-prep-y := $(CC)-macros.h
 
-include compiler.mk
-
 include main.mk
-
-$(CC)-macros.h:
-	$(call log_tgt,HDR,$(@))
-	$(call gen_compiler_macro_hdr,$(@))
