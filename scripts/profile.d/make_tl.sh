@@ -20,6 +20,7 @@ make_tl() {
 		make_args+=( __USE_TEST_LINUX_MAKE__=1 )
 		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 
+		# FIXME: When use make -C, this statement check will be wrong.
 		if [[ -f Tbuild.mk ]]; then
 			# It is not supported to use Tbuild.mk and Makefile at
 			# the same time.
@@ -32,6 +33,8 @@ make_tl() {
 
 		# The build is added by default because we can put `post`
 		# before `include main.mk` in the Makefile or Tbuild.mk.
+		# FIXME: We should never add target, because we could specify
+		# one.
 		if ! [[ " ${@} " =~ " build " ]] &&
 		   ! [[ " ${@} " =~ " test " ]] &&
 		   ! [[ " ${@} " =~ " clean " ]]; then
