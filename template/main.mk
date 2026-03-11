@@ -189,7 +189,9 @@ include targets/helpers.mk
 ifneq (${OUTPUT},)
   include targets/output.mk
 endif
-include targets/exe.mk
+include targets/asm.mk
+include targets/c.mk
+include targets/cpp.mk
 ifneq ($(target-liba-y),)
   include targets/liba.mk
 endif
