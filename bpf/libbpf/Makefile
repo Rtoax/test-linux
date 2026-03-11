@@ -19,6 +19,15 @@ include bpf/helper.mk
 include bpf/libbpf.mk
 include bpf/bpftool.mk
 
+TRACE_HELPERS := libtrace_helpers.so
+HELPERS := ${OUTPUT}task_helpers.o \
+	${OUTPUT}stack_helpers.o \
+	${OUTPUT}libbpf_wrapper.o \
+	${OUTPUT}libxdp_helpers.o \
+	${TRACE_HELPERS} \
+	${SOCKET_HELPERS} \
+	${KSYM_HELPERS}
+
 KSYM_DO_EXECVEAT_COMMON := $(shell grep -w 't do_execveat_common' /proc/kallsyms \
 			| grep -v cold \
 			| head -1 \
@@ -129,7 +138,19 @@ obj-bpf.o += sched_cls.bpf.o
 obj-bpf.o += sched_act.bpf.o
 
 target-bpf-y := $(addprefix ${OUTPUT},${obj-bpf.o})
+
+# Set after obj-bpf.o
+target-y += libbpf_version
+
+target-libso-y := ${TRACE_HELPERS}
+libtrace_helpers.so-objs := ${OUTPUT}trace_helpers.so.o
+
+target-prep-y += libbpf_version
+target-prep-y += test-libbpf_version
+target-prep-y += ${HELPERS}
 target-post-y := $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
+
+$(foreach t, ${target-y}, $(eval ${t}-objs := ${HELPERS}))
 
 ifeq ($(CONFIG_ARCH_HAS_SYSCALL_WRAPPER),y)
   CFLAGS_BPF += -DCONFIG_ARCH_HAS_SYSCALL_WRAPPER=1
@@ -258,27 +279,6 @@ libbpf-cflags := $(shell ${CC} libbpf_version.c ${CFLAGS} ${LDFLAGS} -o libbpf_v
 CFLAGS += $(libbpf-cflags)
 CFLAGS_BPF += $(libbpf-cflags)
 LDFLAGS += -Wl,-rpath,$(shell pwd)
-
-TASK_HELPERS := ${OUTPUT}task_helpers.o
-STACK_HELPERS := ${OUTPUT}stack_helpers.o
-TRACE_HELPERS := libtrace_helpers.so
-LIBBPF_WRAPPER := ${OUTPUT}libbpf_wrapper.o
-LIBXDP_HELPERS := ${OUTPUT}libxdp_helpers.o
-target-libso-y := ${TRACE_HELPERS}
-
-HELPERS := ${LIBXDP_HELPERS} ${TRACE_HELPERS} \
-	   ${TASK_HELPERS} ${LIBBPF_WRAPPER} \
-	   ${STACK_HELPERS} ${SOCKET_HELPERS} \
-	   ${KSYM_HELPERS}
-
-target-y += libbpf_version
-target-prep-y += libbpf_version
-target-prep-y += test-libbpf_version
-target-prep-y += ${HELPERS}
-
-libtrace_helpers.so-objs := ${OUTPUT}trace_helpers.so.o
-
-$(foreach t, ${target-y}, $(eval ${t}-objs := ${HELPERS}))
 
 include main.mk
 
