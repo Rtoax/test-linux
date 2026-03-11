@@ -86,7 +86,5 @@ CFLAGS__GNU_SOURCE := -D_GNU_SOURCE=1
 CFLAGS__XOPEN_SOURCE := -D_XOPEN_SOURCE=1
 CFLAGS___GLIBC_USE := -DTEST_MAIN=1
 
-include main.mk
-
 post:
 	@$(call logo_gnu)
