@@ -3,6 +3,7 @@
 #
 # Output definitions:
 # - HAVE_BTF=[y|n]                 Check your system support BTF or not
+# - VMLINUX_H=[vmlinux.h]
 # - BTF_ROOT=[/sys/kernel/btf]
 #
 # Functions:

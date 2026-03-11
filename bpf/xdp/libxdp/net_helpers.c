@@ -10,7 +10,6 @@
 #include "net_helpers.h"
 #include "log.h"
 
-
 const char *stricmptype(uint8_t type)
 {
 	switch (type) {
