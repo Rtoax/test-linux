@@ -27,6 +27,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- add nasm subdir;
 - cmake/samples: add cflags/ subdir;
 #### Template
 - targets/asm.mk: remove .S.o target, use .s.o instead;

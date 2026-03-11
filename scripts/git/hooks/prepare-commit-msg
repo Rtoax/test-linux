@@ -185,6 +185,7 @@ llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
 lsof_ver() { add_ver "lsof $(${TOPDIR}/tools/lsof/version.sh)"; }
 luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"; }
 make_ver() { add_ver "Make $(${TOPDIR}/gnu/make/version.sh)"; }
+nasm_ver() { add_ver "Nasm $(${TOPDIR}/tools/nasm/version.sh)"; }
 numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
 openssl_ver() { add_ver "OpenSSL $(${TOPDIR}/security/openssl/version.sh)"; }
 os_ver() { add_ver "$(${TOPDIR}/distro/version.sh)"; }
@@ -319,6 +320,11 @@ fi
 
 if [[ "$(has_key git)" ]]; then
 	git_ver
+fi
+
+# .asm is nasm in test-linux.
+if [[ "$(has_type asm)$(has_key nasm)" ]]; then
+	nasm_ver
 fi
 
 if [[ "$(has_key numa numactl)" ]]; then
