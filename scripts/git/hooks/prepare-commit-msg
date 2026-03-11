@@ -164,7 +164,9 @@ has_content() {
 	return 0
 }
 
+as_ver() { add_ver "As $(${TOPDIR}/gnu/binutils/as/version.sh)"; }
 bcc_ver() { add_ver "BCC $(${TOPDIR}/bpf/bcc/version.sh)"; }
+binutils_ver() { add_ver "Binutils $(${TOPDIR}/gnu/binutils/version.sh)"; }
 bpftool_ver() { add_ver "bpftool $(${TOPDIR}/bpf/bpftool/version.sh)"; }
 bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/bpf/bpftrace/version.sh)"; }
 cmake_ver() { add_ver "CMake $(${TOPDIR}/tools/cmake/version.sh)"; }
@@ -373,9 +375,17 @@ if [[ "$(has_key java jdk)" ]]; then
 	java_ver
 fi
 
+if [[ "$(has_type s)$(has_key asm)" ]]; then
+	as_ver
+fi
+
 if [[ "$(has_key libbpf bcc bpf)" ]]; then
 	bcc_ver
 	libbpf_ver
+fi
+
+if [[ "$(has_key binutils bfd)" ]]; then
+	binutils_ver
 fi
 
 if [[ "$(has_key ai pytorch python py)" ]]; then

@@ -1,14 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0
 OUTPUT := .output/
 
-target-asm-y :=
+include arch.mk
+
 target-y := main-c
 target-libso-y := libhello.so
 target-prep-y := default.lds
 
-ifeq ($(shell uname -m),x86_64)
-  target-asm-y += hello-as
-endif
+target-asm-${IS_X86_64} += hello-as
 
 # ld --verbose argument can print linker script
 LDFLAGS := -Wl,--script=default.lds

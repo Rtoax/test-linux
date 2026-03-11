@@ -26,7 +26,7 @@ endif
 
 CFLAGS += -m32
 LDFLAGS += -m32
-ASMCFLAGS += -felf32
+ASMFLAGS += -felf32
 ASMLDFLAGS += -m elf_i386
 
 include main.mk

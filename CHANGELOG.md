@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- binutils/as: add symlink version.sh;
 - btf: add `btf_h` subdir to generate all btf headers;
 - java: add version.sh;
 - cuda/solver: add solverSp.cu;
