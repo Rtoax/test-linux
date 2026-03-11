@@ -11,7 +11,7 @@ target-asm-y += nanosleep
 ifneq ($(shell lscpu | grep -w -e sve -e sve2),)
   target-asm-y += hello_sve
   target-y += daxpy
-  ASCFLAGS := -march=armv8-a+sve2
+  ASFLAGS := -march=armv8-a+sve2
 endif
 
 # Cross compile
@@ -27,7 +27,7 @@ ifneq ($(shell uname -m),aarch64)
 else ifeq ($(shell uname -m),aarch64)
   target-y += add-c
   target-y += loop-c
-  target-y += puts
+  target-y += puts-c
   target-y += paciasp-c
   target-y += nanosleep-c
   target-y += write-c write-c-loop
@@ -35,20 +35,20 @@ else ifeq ($(shell uname -m),aarch64)
 
   target-asm-y += branch
 
-  target-y += main
-  target-y += say_hello
-  target-y += hello-puts
-  target-y += hello-puts-infinite-loop
-  target-y += hello-main
-  target-y += read-main
-  target-y += exit-main
-  target-y += puts-main
-  target-y += printf-main
+  target-as-y += say_hello
+  target-as-y += read
+  target-as-y += hello-puts
+  target-as-y += hello-puts-infinite-loop
+  target-as-y += puts
+  target-as-y += main
+  target-as-y += printf
 
   LDFLAGS += -lc
 
   ASMLDFLAGS += -lc
 endif
+
+puts-c-objs := puts.o
 
 ifdef STATIC
   CFLAGS += -static
@@ -63,7 +63,7 @@ endif
 ASFLAGS_paciasp := -march=armv8.3-a
 CFLAGS_paciasp-c := -march=armv8.3-a
 
-CFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
+ASFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 CFLAGS_write-c-loop := -DINFINITE_LOOP=1
 
 include main.mk
@@ -73,15 +73,13 @@ branch: branch.s.o
 hello: hello.s.o
 hello-stack: hello-stack.s.o
 paciasp: paciasp.s.o
-hello-puts: hello-puts.o
-hello-puts-infinite-loop: hello-puts-infinite-loop.o
-main: main.o
-hello-main: hello-main.o
-read-main: read-main.o
-exit-main: exit-main.o
-puts-main: puts-main.o
-printf-main: printf-main.o
-say_hello: say_hello.o
+hello-puts: hello-puts.s.o
+hello-puts-infinite-loop: hello-puts-infinite-loop.s.o
+main: main.s.o
+read: read.s.o
+puts: puts.s.o
+printf: printf.s.o
+say_hello: say_hello.s.o
 exit: exit.s.o
 nanosleep: nanosleep.s.o
 hello_sve: hello_sve.s.o

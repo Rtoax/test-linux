@@ -9,6 +9,7 @@
 # Targets:
 # - %.asm.o
 # - %.s.o
+# - target-as-y
 #
 ifndef _TARGET_ASM_MK
 _TARGET_ASM_MK = 1
@@ -28,7 +29,12 @@ ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 
 ${OUTPUT}%.s.o: %.s | ${OUTPUT}
 	$(call log_obj,AS,$(@))
-	${Q}${AS} -o $(@) $(<) $(ASCFLAGS) $(ASCFLAGS_$(*))
+	${Q}${AS} -o $(@) $(<) $(ASFLAGS) $(ASFLAGS_$(*))
+
+# Default _start() entry and link libc
+${target-as-y}: %:
+	$(call log_tgt,LD S,$(@))
+	${Q}$(LD) -lc -o $(@) $(^) $(ASLDFLAGS) $(ASLDFLAGS_$(*))
 
 # Same as: as {--64,--32} a.S -o a.o
 ${OUTPUT}%.S.o: %.S | ${OUTPUT}

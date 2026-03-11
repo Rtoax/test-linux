@@ -5,7 +5,7 @@
 say_hello: .asciz "Hello world!"
 
 .balign 8
-/* We need to keep x30 otherwise we will not be able to return from main! */
+/* We need to keep x30 otherwise we will not be able to return from _start! */
 keep_x30: .dword 0
 
 .text
@@ -13,8 +13,8 @@ keep_x30: .dword 0
 /* We are going to call a C-library puts function */
 .globl puts
 
-.globl main
-main:
+.globl _start
+_start:
     ldr x0, addr_keep_x30     // x0 <- &keep_30   [64]
     str x30, [x0]             // *keep_30 <- x30  [64]
 

@@ -1,6 +1,6 @@
-        .global main
+        .global _start
 
-main:
+_start:
         /* read(2) system-call */
         mov     x8, 63                  /* system-call number: read() */
         mov     x0, 0                   /* fd: stdin */

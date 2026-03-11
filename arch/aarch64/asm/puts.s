@@ -1,6 +1,5 @@
-        .global main
-
-main:
+        .global _start
+_start:
         /* save fp,lr registers */
         stp     x29, x30, [sp, -16]!
 
