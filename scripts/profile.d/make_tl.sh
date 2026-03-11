@@ -26,3 +26,9 @@ make_tl() {
 }
 
 alias make="make_tl"
+
+# Not call from alias, call script directly
+if [[ $(basename $0) == make_tl ]] || \
+   [[ $(basename $0) == make_tl.sh ]]; then
+	make_tl "$@"
+fi
