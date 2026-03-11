@@ -1,26 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include vdso.mk
 
-VDSO_CFLAGS += -nolibc
-
-ifeq ($(shell uname -m),x86_64)
-  # See linux:/arch/x86/entry/vdso/Makefile
-  VDSO_CFLAGS += -P -C --shared -Wl,-melf_x86_64
-  VDSO_CFLAGS += -Wl,-soname=${VDSO_NAME}.custom
-  VDSO_CFLAGS += -Wl,-shared -Wl,--hash-style=both -Wl,--build-id=sha1 -Wl,--no-undefined
-  VDSO_CFLAGS += -Wl,-Bsymbolic -Wl,-znoexecstack
-  VDSO_CFLAGS += -Wl,--no-undefined -Wl,-zmax-page-size=4096
-  VDSO_CFLAGS += -mcmodel=small -fPIC -O2 -fasynchronous-unwind-tables -m64
-  VDSO_CFLAGS += -fno-stack-protector -fno-omit-frame-pointer -foptimize-sibling-calls
-else ifeq ($(shell uname -m),aarch64)
-  # See linux:/arch/arm64/kernel/vdso/Makefile
-  VDSO_CFLAGS += -shared
-  VDSO_CFLAGS += -Wl,-soname=${VDSO_NAME}.custom
-  VDSO_CFLAGS += -Wl,-Bsymbolic -Wl,--build-id=sha1
-  VDSO_CFLAGS += -fno-common -fno-builtin -fno-stack-protector -ffixed-x18
-  VDSO_CFLAGS += -O2 -mcmodel=tiny -fasynchronous-unwind-tables
-endif
-
 target-prep-y := lib${VDSO_NAME}.custom.so
 target-prep-y += lib${VDSO_NAME}.copy.so
 target-prep-y += ${VDSO_NAME}
@@ -32,10 +12,6 @@ lib${VDSO_NAME}.custom.so:
 	$(call log_tgt,VDSO,$(@))
 	$(Q)gcc vdso.c ${VDSO_CFLAGS} -o lib${VDSO_NAME}.custom.so
 	$(Q)ln -s lib${VDSO_NAME}.custom.so ${VDSO_NAME}.custom
-
-${VDSO_NAME}:
-	$(call log_tgt,VDSO,$(@))
-	$(call gen_vdso_elf)
 
 lib${VDSO_NAME}.copy.so: ${KVDSO64}
 	$(call log_tgt,VDSO,$(@))
