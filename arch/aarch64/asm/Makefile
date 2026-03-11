@@ -70,22 +70,3 @@ ASFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 CFLAGS_write-loop := -DINFINITE_LOOP=1
 
 include main.mk
-
-add: add.s.o
-branch: branch.s.o
-hello: hello.s.o
-hello-stack: hello-stack.s.o
-paciasp: paciasp.s.o
-hello-puts: hello-puts.s.o
-hello-puts-infinite-loop: hello-puts-infinite-loop.s.o
-main: main.s.o
-read: read.s.o
-puts: puts.s.o
-printf: printf.s.o
-say_hello: say_hello.s.o
-exit: exit.s.o
-nanosleep: nanosleep.s.o
-hello_sve: hello_sve.s.o
-while: while.s.o
-ldr: ldr.s.o
-mov: mov.s.o

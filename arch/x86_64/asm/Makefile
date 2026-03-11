@@ -64,21 +64,3 @@ LDFLAGS_fibonacci += -no-pie
 LDFLAGS_hello-puts += -no-pie
 
 include main.mk
-
-hello-puts: ${OUTPUT}hello-puts.asm.o
-fibonacci: ${OUTPUT}fibonacci.asm.o
-hola: ${OUTPUT}hola.asm.o
-average: ${OUTPUT}average.asm.o
-echo: ${OUTPUT}echo.asm.o
-power: ${OUTPUT}power.asm.o
-hello: ${OUTPUT}hello.asm.o
-hello-stack: ${OUTPUT}hello-stack.asm.o
-nanosleep: ${OUTPUT}nanosleep.asm.o
-while: ${OUTPUT}while.asm.o
-out: ${OUTPUT}out.asm.o
-
-printf: ${OUTPUT}printf.s.o
-read: ${OUTPUT}read.s.o
-write: ${OUTPUT}write.s.o
-puts: ${OUTPUT}puts.s.o
-putchar: ${OUTPUT}putchar.s.o

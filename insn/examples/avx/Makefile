@@ -53,10 +53,6 @@ CFLAGS_mask := -mavx2 -mavx512f -mfma
 
 include main.mk
 
-vperm2i128: ${OUTPUT}vperm2i128.asm.o
-vfmadd231ps: ${OUTPUT}vfmadd231ps.asm.o
-kxord: ${OUTPUT}kxord.asm.o
-
 # FIXME: move to main.mk??
 ifeq ($(CC),clang)
   # If clang, i want to get IR

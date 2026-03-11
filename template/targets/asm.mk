@@ -55,6 +55,18 @@ ${target-as-y}: %:
 	$(call log_tgt,LD S,$(@))
 	${Q}$(LD) -lc -o $(@) $(^) $(ASLDFLAGS) $(ASLDFLAGS_$(*))
 
-# TODO: auto deps
+$(foreach t, ${target-asm-y} ${target-asm-std-y}, \
+  $(if $(shell test -f ${t}.asm && echo yes), \
+    $(eval ${t}: ${OUTPUT}${t}.asm.o $${${t}-objs}), \
+    $(eval ${t}: $${${t}-objs}) \
+  ) \
+)
+
+$(foreach t, ${target-as-y}, \
+  $(if $(shell test -f ${t}.s && echo yes), \
+    $(eval ${t}: ${OUTPUT}${t}.s.o $${${t}-objs}), \
+    $(eval ${t}: $${${t}-objs}) \
+  ) \
+)
 
 endif

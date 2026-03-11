@@ -19,16 +19,3 @@ factorial_call-objs := ${OUTPUT}factorial.asm.o
 maxofthree_call-objs := ${OUTPUT}maxofthree.asm.o
 
 include main.mk
-
-average: ${OUTPUT}average.asm.o
-echo: ${OUTPUT}echo.asm.o
-fibonacci: ${OUTPUT}fibonacci.asm.o
-power: ${OUTPUT}power.asm.o
-call-func: ${OUTPUT}call-func.asm.o
-call-func-ret: ${OUTPUT}call-func-ret.asm.o
-jmp: ${OUTPUT}jmp.asm.o
-jg: ${OUTPUT}jg.asm.o
-jl: ${OUTPUT}jl.asm.o
-write: ${OUTPUT}write.asm.o
-write-2: ${OUTPUT}write-2.asm.o
-write-3: ${OUTPUT}write-3.asm.o
