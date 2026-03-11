@@ -19,7 +19,7 @@ target-y += ipaddr
 target-libso-y += libtest-linux-c.so.0.1
 target-liba-y += libtest-linux-c.a
 
-target-test-y += test1
+target-post-y += post1
 
 objs-dynamic := ${OUTPUT}ipaddr.so.o
 objs-dynamic += ${OUTPUT}readline.so.o
@@ -43,7 +43,7 @@ endif
 
 include main.mk
 
-test1:
+post1:
 	$(call log_tgt,TEST,$(@))
 	${Q}LD_LIBRARY_PATH=$(shell pwd) ./byteswap
 	${Q}clear

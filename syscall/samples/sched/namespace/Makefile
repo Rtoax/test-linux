@@ -14,10 +14,10 @@ CFLAGS_dummy-fork := -static -DTRY_FORK=1
 CFLAGS_dummy-vfork := -static -DTRY_VFORK=1
 CFLAGS_dummy-popen := -static -DTRY_POPEN=1
 
-target-test-y := test0
+target-post-y := post0
 
 include main.mk
 
-test0:
+post0:
 	${Q}timeout --signal=SIGINT 4 ./fork-ENOMEM.sh test3 || true
 

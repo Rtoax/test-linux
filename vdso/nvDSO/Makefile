@@ -20,9 +20,9 @@ ifeq (${CONFIG_ANON_VMA_NAME},y)
   CFLAGS += -DCONFIG_ANON_VMA_NAME=1
 endif
 
-target-post-y := virt2phy
-target-test-y := test-nvdso
-target-clean-y := clean-nvdso
+target-post-y += virt2phy
+target-post-y += post-nvdso
+target-clean-y += clean-nvdso
 
 include main.mk
 
@@ -31,7 +31,7 @@ virt2phy:
 	$(Q)rm -f virt2phy
 	$(Q)cp ../../mm/virt2phy .
 
-test-nvdso:
+post-nvdso:
 	$(Q)${NVDSO_ENV} LD_PRELOAD=./libnvdso.so ./main
 
 clean-nvdso:

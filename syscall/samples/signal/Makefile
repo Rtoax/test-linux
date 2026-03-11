@@ -26,7 +26,7 @@ target-y += sigprocmask
 target-y += signalfd
 
 target-prep-y := sig.h
-target-test-y := test0
+target-prog-y := sigpending.sh
 
 sigaddset-objs := ${C_HELPERS}
 
@@ -41,13 +41,3 @@ include main.mk
 
 sig.h:
 	$(shell bash signo.sh)
-
-test0: ${target-y}
-	$(call log_tgt,TEST,$(@))
-	./sigpending &
-	sleep 1
-	kill -2 $(shell pidof sigpending) # SIGINT
-	sleep 1
-	kill -20 $(shell pidof sigpending) # SIGTSTP
-	sleep 1
-	kill -9 $(shell pidof sigpending)

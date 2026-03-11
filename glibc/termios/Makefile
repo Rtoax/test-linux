@@ -11,12 +11,12 @@ target-y += get_cursor_position
 cfmakeraw-objs := termios_helpers.o
 tcgetattr-objs := termios_helpers.o
 
-target-test-y := test-tcsetattr
+target-post-y := post-tcsetattr
 
 CFLAGS += -I../../../
 LDFLAGS += -lm
 
 include main.mk
 
-test-tcsetattr:
-	echo abcde | ./tcsetattr
+post-tcsetattr:
+	${Q}echo abcde | ./tcsetattr

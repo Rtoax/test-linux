@@ -23,12 +23,12 @@ endif
 CFLAGS += -Wno-error=unused-result
 CFLAGS_MPI_Sendrecv_replace := -DCONFIG_MPI_Sendrecv_replace=1
 
-target-test-y := test0
+target-post-y := post0
 
 include main.mk
 
-test0:
+post0:
 	$(call log_tgt,TEST,$(@))
-	$(Q)$(MPIRUN) -n 2 ./MPI_Init
-	$(Q)$(MPIRUN) -n 2 ./MPI_Send
-	$(Q)$(MPIRUN) -n 10 ./MPI_Send-2
+	$(Q)timeout 1 $(MPIRUN) -n 2 ./MPI_Init
+	$(Q)timeout 1 $(MPIRUN) -n 2 ./MPI_Send
+	$(Q)timeout 1 $(MPIRUN) -n 10 ./MPI_Send-2

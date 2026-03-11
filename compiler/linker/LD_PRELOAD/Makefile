@@ -7,7 +7,7 @@ target-${feature-mfentry} += fentry
 target-libso-y += libmcount-nop.so
 target-libso-y += libconstructor-obj.so
 
-target-test-y := test0
+target-post-y := post0
 
 libmcount-nop.so-objs := mcount-nop.so.o
 libconstructor-obj.so-objs := constructor-obj.so.o
@@ -22,7 +22,7 @@ CFLAGS_constructor-obj := ${CFLAGS_PIC}
 
 include main.mk
 
-test0:
+post0:
 	$(Q)LD_PRELOAD=./libmcount-nop.so ./main
 	$(Q)LD_PRELOAD=./libmcount-nop.so ./fentry
 	$(Q)LD_PRELOAD=./libconstructor-obj.so ./main

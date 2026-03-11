@@ -23,7 +23,7 @@ target-y += daemon
 target-libso-y := libsched_helpers.so
 target-liba-y := libsched_helpers.a
 
-target-test-y := test0
+target-post-y := post0
 
 libsched_helpers.a-objs := sched_helpers.a.o
 libsched_helpers.so-objs := sched_helpers.so.o
@@ -42,7 +42,7 @@ CFLAGS += -pthread
 
 include main.mk
 
-test0:
+post0:
 	$(call log_tgt,TEST,$(@))
 	$(Q)sudo chrt -r 10 ./sched_rr_get_interval
 	$(Q)sudo chrt -f 10 ./sched_rr_get_interval
