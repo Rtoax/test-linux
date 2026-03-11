@@ -1,5 +1,4 @@
 OUTPUT := .output/
-CC := gcc
 NASM := nasm
 
 # Include '_start' function

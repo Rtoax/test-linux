@@ -24,8 +24,13 @@ include cflags.mk
 
 # Better define OUTPUT, to fix make: Circular dependency
 ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
-	$(call log_obj,ASM,$(@))
+	$(call log_obj,NASM,$(@))
 	${Q}${NASM} -o $(@) -felf64 $(<) $(ASMCFLAGS) $(ASMCFLAGS_$(*))
+
+# Same as: ld -m elf_i386 a.o -o a
+${target-asm-y}: %:
+	$(call log_tgt,LD ASM,$(@))
+	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
 
 ${OUTPUT}%.s.o: %.s | ${OUTPUT}
 	$(call log_obj,AS,$(@))
@@ -41,10 +46,6 @@ ${OUTPUT}%.S.o: %.S | ${OUTPUT}
 	$(call log_obj,CC S,$(@))
 	${Q}$(CC) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
-# Same as: ld -m elf_i386 a.o -o a
 # TODO: auto deps
-${target-asm-y}: %:
-	$(call log_tgt,LD ASM,$(@))
-	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
 
 endif
