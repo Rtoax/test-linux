@@ -12,8 +12,20 @@
 sys_make=$(which make)
 
 make_tl() {
+	local i ARGS
+	local workdir=$PWD
 	local make_args=()
 	local TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../../)
+
+	ARGS=( "${@}" )
+	for ((i = 0; i < ${#ARGS[@]}; i++)); do
+		case ${ARGS[i]} in
+		-C | --directory)
+			workdir=${ARGS[$(( i + 1 ))]}
+			;;
+		esac
+	done
+
 	if [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] ||
 	   [[ "$(realpath .)" =~ "ostools" ]] ||
 	   [[ "$(realpath .)" =~ "test-linux" ]]; then
@@ -21,10 +33,10 @@ make_tl() {
 		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 
 		# FIXME: When use make -C, this statement check will be wrong.
-		if [[ -f Tbuild.mk ]]; then
+		if [[ -f ${workdir}/Tbuild.mk ]]; then
 			# It is not supported to use Tbuild.mk and Makefile at
 			# the same time.
-			if [[ -f Makefile ]]; then
+			if [[ -f ${workdir}/Makefile ]]; then
 				echo >&2 "ERROR: Not allow Tbuild.mk and Makefile at the same time"
 				exit 1
 			fi
