@@ -11,6 +11,7 @@
 # - %.asm.o
 # - target-as-y
 # - target-asm-y
+# - target-asm-std-y
 #
 ifndef _TARGET_ASM_MK
 _TARGET_ASM_MK = 1
@@ -39,6 +40,10 @@ ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 ${target-asm-y}: %:
 	$(call log_tgt,LD ASM,$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
+
+$(target-asm-std-y): %:
+	$(call log_tgt,LD ASM STD,$(@))
+	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 # Or use CC directly
 ${OUTPUT}%.s.o: %.s | ${OUTPUT}

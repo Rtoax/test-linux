@@ -1,5 +1,6 @@
 /average
 /echo
+/fibonacci
 /call-func
 /call-func-ret
 /factorial_call

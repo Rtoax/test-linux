@@ -30,6 +30,7 @@ and this project adheres to
 - add nasm subdir;
 - cmake/samples: add cflags/ subdir;
 #### Template
+- targets/asm.mk: add target-asm-std-y target;
 - targets/asm.mk: remove .S.o target, use .s.o instead;
 - targets/asm.mk: add target-as-y and modify aarch64/asm;
 - targets/asm.mk: rename .as.o to .s.o;
