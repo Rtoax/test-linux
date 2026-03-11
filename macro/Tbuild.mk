@@ -47,7 +47,7 @@ target-${IS_LOONGARCH64} += __loongarch64
 
 target-cpp-y := __cplusplus __cplusplus-std98
 
-target-prep-y := compiler-macros.h
+target-prep-y := ${CC}-macros.h
 target-shell-y := likely.sh
 
 CFLAGS += ${KFLAGS}
@@ -64,9 +64,3 @@ CFLAGS_machine := -Wno-error=deprecated -Wno-deprecated
 CFLAGS___user := -Wno-error=attributes
 CFLAGS___cplusplus-std98 := -std=c++98
 CFLAGS_os += ${OS_CFLAGS}
-
-include main.mk
-
-compiler-macros.h:
-	$(call log_tgt,HDR,$(@))
-	$(call gen_compiler_macro_hdr,$(@))
