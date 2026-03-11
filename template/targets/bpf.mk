@@ -86,7 +86,7 @@ ${VMLINUX_H}: | ${OUTPUT}
 	$(call btf_gen_hdr,vmlinux,${VMLINUX_H})
 
 # Include all the .bpf.o.d depends files
-$(foreach dep, $(shell ls ${OUTPUT}*.bpf.o.d), \
+$(foreach dep, $(shell ls ${OUTPUT}*.bpf.o.d 2>/dev/null), \
   $(if $(shell test -f ${dep} && echo yes), \
     $(if ${DEBUG}, $(info Found ${dep})) \
     $(eval include ${dep}), \
