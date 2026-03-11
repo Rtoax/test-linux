@@ -1,10 +1,3 @@
-CC := gcc
-AS := as
-LD := ld
-LDFLAGS :=
-
-target-y :=
-
 target-asm-y := hello
 target-asm-y += hello-stack
 target-asm-y += paciasp
@@ -93,14 +86,6 @@ exit: exit.as.o
 nanosleep: nanosleep.as.o
 hello_sve: hello_sve.as.o
 daxpy: daxpy.as.o daxpy_sve.as.o daxpy-c.o
-add-c: add-c.o
-loop-c: loop-c.o
-paciasp-c: paciasp-c.o
-nanosleep-c: nanosleep-c.o
-write-c: write-c.o
-write-c-loop: write-c-loop.o
-exit-c: exit-c.o
-puts: puts.o
 while: while.as.o
 ldr: ldr.as.o
 mov: mov.as.o
