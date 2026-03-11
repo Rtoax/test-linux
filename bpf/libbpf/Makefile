@@ -278,7 +278,7 @@ target-prep-y += ${HELPERS}
 
 libtrace_helpers.so-objs := ${OUTPUT}trace_helpers.so.o
 
-config-map-objs := ${HELPERS}
+$(foreach t, ${target-y}, $(eval ${t}-objs := ${HELPERS}))
 
 include main.mk
 
@@ -287,90 +287,47 @@ test-libbpf_version: libbpf_version
 	${Q}./libbpf_version env >/dev/null
 	${Q}./libbpf_version >/dev/null
 
-libbpf_version: ${OUTPUT}libbpf_version.o ${HELPERS}
-
 ${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h
-socket_filter: ${OUTPUT}socket_filter.o ${HELPERS}
 ${OUTPUT}socket_filter.o: ${OUTPUT}map_array.skel.h ${OUTPUT}socket_filter.skel.h
 ${OUTPUT}ring_buffer.o: ${OUTPUT}map_array.skel.h ${OUTPUT}ring_buffer.skel.h
-ring_buffer: ${OUTPUT}ring_buffer.o ${HELPERS}
-tc: ${OUTPUT}tc.o ${HELPERS}
 ${OUTPUT}tc.o: ${OUTPUT}tc.skel.h
 ${OUTPUT}rbtree.o: rbtree.h ${OUTPUT}rbtree.skel.h
-rbtree: ${OUTPUT}rbtree.o ${HELPERS}
-rbtree-raw-map: ${OUTPUT}rbtree-raw-map.o ${HELPERS}
 ${OUTPUT}rbtree-raw-map.o: ${OUTPUT}rbtree-raw-map.skel.h
-spin_lock: ${OUTPUT}spin_lock.o ${HELPERS}
 ${OUTPUT}spin_lock.o: ${OUTPUT}spin_lock.skel.h
-xdp: ${OUTPUT}xdp.o ${HELPERS}
 ${OUTPUT}xdp.o: ${OUTPUT}xdp.skel.h
-xdp_simple: ${OUTPUT}xdp_simple.o ${HELPERS}
 ${OUTPUT}xdp_simple.o: ${OUTPUT}xdp_simple.skel.h
-xdp_dos: ${OUTPUT}xdp_dos.o ${HELPERS}
 ${OUTPUT}xdp_dos.o: ${OUTPUT}xdp_dos.skel.h
-xdp_devmap: ${OUTPUT}xdp_devmap.o ${HELPERS}
 ${OUTPUT}xdp_devmap.o: ${OUTPUT}xdp_devmap.skel.h
-xdp_cpumap: ${OUTPUT}xdp_cpumap.o ${HELPERS}
 ${OUTPUT}xdp_cpumap.o: ${OUTPUT}xdp_cpumap.skel.h
-xdp_xskmap: ${OUTPUT}xdp_xskmap.o ${HELPERS}
 ${OUTPUT}xdp_xskmap.o: ${OUTPUT}xdp_xskmap.skel.h
-sockops: ${OUTPUT}sockops.o ${HELPERS}
 ${OUTPUT}sockops.o: ${OUTPUT}sockops.skel.h
-kprobe: ${OUTPUT}kprobe.o ${HELPERS}
 ${OUTPUT}kprobe.o: ${OUTPUT}kprobe.skel.h
-tracepoint: ${OUTPUT}tracepoint.o ${HELPERS}
-${OUTPUT}tracepoint.o: ${OUTPUT}tracepoint.skel.h ${OUTPUT}tracepoint.bpf.o ${OUTPUT}map_hash.skel.h
-raw_tracepoint: ${OUTPUT}raw_tracepoint.o ${HELPERS}
+${OUTPUT}tracepoint.o: ${OUTPUT}tracepoint.skel.h ${OUTPUT}map_hash.skel.h
 ${OUTPUT}raw_tracepoint.o: ${OUTPUT}raw_tracepoint.skel.h
-tp_btf: ${OUTPUT}tp_btf.o ${HELPERS}
 ${OUTPUT}tp_btf.o: ${OUTPUT}tp_btf.skel.h
-perf_event: ${OUTPUT}perf_event.o ${HELPERS}
 ${OUTPUT}perf_event.o: ${OUTPUT}perf_event.skel.h
-perf_buffer: ${OUTPUT}perf_buffer.o ${HELPERS}
 ${OUTPUT}perf_buffer.o: ${OUTPUT}perf_buffer.skel.h
-sk_skb: ${OUTPUT}sk_skb.o ${HELPERS}
 ${OUTPUT}sk_skb.o: ${OUTPUT}sk_skb.skel.h
-sk_msg: ${OUTPUT}sk_msg.o ${HELPERS}
 ${OUTPUT}sk_msg.o: ${OUTPUT}sk_msg.skel.h
-cgroup_device: ${OUTPUT}cgroup_device.o ${HELPERS}
 ${OUTPUT}cgroup_device.o: ${OUTPUT}cgroup_device.skel.h
-cgroup_sysctl: ${OUTPUT}cgroup_sysctl.o ${HELPERS}
 ${OUTPUT}cgroup_sysctl.o: ${OUTPUT}cgroup_sysctl.skel.h
-fentry: ${OUTPUT}fentry.o ${HELPERS}
 ${OUTPUT}fentry.o: ${OUTPUT}fentry.skel.h
-fmod_ret: ${OUTPUT}fmod_ret.o ${HELPERS}
 ${OUTPUT}fmod_ret.o: ${OUTPUT}fmod_ret.skel.h
-iter_task: ${OUTPUT}iter_task.o ${HELPERS}
 ${OUTPUT}iter_task.o: ${OUTPUT}iter_task.skel.h
-iter_task_file: ${OUTPUT}iter_task_file.o ${HELPERS}
 ${OUTPUT}iter_task_file.o: ${OUTPUT}iter_task_file.skel.h
-iter_task_vma: ${OUTPUT}iter_task_vma.o ${HELPERS}
 ${OUTPUT}iter_task_vma.o: ${OUTPUT}iter_task_vma.skel.h
-iter_bpf_map: ${OUTPUT}iter_bpf_map.o ${HELPERS}
 ${OUTPUT}iter_bpf_map.o: ${OUTPUT}iter_bpf_map.skel.h
-iter_kmem_cache: ${OUTPUT}iter_kmem_cache.o ${HELPERS}
 ${OUTPUT}iter_kmem_cache.o: ${OUTPUT}iter_kmem_cache.skel.h
-lsm_bpf: ${OUTPUT}lsm_bpf.o ${HELPERS}
 ${OUTPUT}lsm_bpf.o: ${OUTPUT}lsm_bpf.skel.h
 ${OUTPUT}lsm_file_open.bpf.o: lsm_file_open.bpf.c
 ${OUTPUT}lsm_file_open.o: ${OUTPUT}lsm_file_open.skel.h
 ${OUTPUT}lsm_file_open.skel.h: ${OUTPUT}lsm_file_open.bpf.o
-lsm_file_open: ${OUTPUT}lsm_file_open.o ${HELPERS}
-lsm_socket_create: ${OUTPUT}lsm_socket_create.o ${HELPERS}
 ${OUTPUT}lsm_socket_create.o: ${OUTPUT}lsm_socket_create.skel.h
-lsm_socket_sendmsg: ${OUTPUT}lsm_socket_sendmsg.o ${HELPERS}
 ${OUTPUT}lsm_socket_sendmsg.o: ${OUTPUT}lsm_socket_sendmsg.skel.h
-map_hash: ${OUTPUT}map_hash.o ${HELPERS}
 ${OUTPUT}map_hash.o: ${OUTPUT}map_hash.skel.h
-map_percpu_hash: ${OUTPUT}map_percpu_hash.o ${HELPERS}
 ${OUTPUT}map_percpu_hash.o: ${OUTPUT}map_percpu_hash.skel.h
-map_lru_hash: ${OUTPUT}map_lru_hash.o ${HELPERS}
 ${OUTPUT}map_lru_hash.o: ${OUTPUT}tracepoint.skel.h
 ${OUTPUT}map_lru_percpu_hash.o: ${OUTPUT}tracepoint.skel.h
-map_lru_percpu_hash: ${OUTPUT}map_lru_percpu_hash.o ${HELPERS}
 ${OUTPUT}map_array.o: ${OUTPUT}map_array.skel.h
-map_array: ${OUTPUT}map_array.o ${HELPERS}
-map_percpu_array: ${OUTPUT}map_percpu_array.o ${HELPERS}
 ${OUTPUT}map_percpu_array.o: ${OUTPUT}map_percpu_array.skel.h
-map_prog_array: ${OUTPUT}map_prog_array.o ${HELPERS}
 ${OUTPUT}map_prog_array.o: ${OUTPUT}map_prog_array.skel.h
