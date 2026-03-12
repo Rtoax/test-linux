@@ -10,6 +10,20 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+#### Template
+
+
+## [v2.4.0] 2026-03-12
+
+#### Breaking Changes
 - template: support Build.mk and need Target.mk if need;
 - make: all make use `make_tl.sh`;
 #### Added
