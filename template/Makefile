@@ -4,7 +4,6 @@
 #
 # Usage: $ make MK_ALL=[os.mk] DEBUG=1
 #
-__IGNORE_NOTFOUND_ERROR__ = 1
 OUTPUT := .output/
 
 V ?= 1

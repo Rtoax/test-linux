@@ -14,23 +14,21 @@ include dir.mk
 
 BPFTOOL := $(shell which bpftool 2>/dev/null)
 ifeq ($(BPFTOOL),)
-  ifdef __IGNORE_NOTFOUND_ERROR__
-    $(warning "Not found bpftool, skipping")
-  else
-    $(error "Not found bpftool, install first")
-  endif
+  $(warning "Not found bpftool, please install it first")
   export HAVE_BPFTOOL := n
 else
-  BPFTOOL_VERSION := $(shell ${TOPDIR}/bpf/bpftool/version.sh)
-  BPFTOOL_VERSION_MAJOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$1}')
-  BPFTOOL_VERSION_MINOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$2}')
 
-  ifdef DEBUG
-    $(info BPFTOOL: ${BPFTOOL} version ${BPFTOOL_VERSION_MAJOR}.${BPFTOOL_VERSION_MINOR})
-  endif
+BPFTOOL_VERSION := $(shell ${TOPDIR}/bpf/bpftool/version.sh)
+BPFTOOL_VERSION_MAJOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$1}')
+BPFTOOL_VERSION_MINOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$2}')
 
-  export HAVE_BPFTOOL := y
-  export BPFTOOL BPFTOOL_VERSION_MAJOR BPFTOOL_VERSION_MINOR
+ifdef DEBUG
+  $(info BPFTOOL: ${BPFTOOL} version ${BPFTOOL_VERSION_MAJOR}.${BPFTOOL_VERSION_MINOR})
 endif
+
+export HAVE_BPFTOOL := y
+export BPFTOOL BPFTOOL_VERSION_MAJOR BPFTOOL_VERSION_MINOR
+
+endif # end of Found BPFTOOL
 
 endif

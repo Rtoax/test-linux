@@ -11,21 +11,11 @@ include bpf/helper.mk
 include cflags.mk
 
 ifeq ($(CLANG),)
-  ifdef __IGNORE_NOTFOUND_ERROR__
-    $(warning Not found clang, skipping bpf targets)
-    CLANG := echo
-  else
-    $(error Not found clang, please install clang first)
-  endif
+  $(error Not found clang, please install clang first)
 endif
 
 ifeq ($(LLVM_OBJDUMP),)
-  ifdef __IGNORE_NOTFOUND_ERROR__
-    $(warning Not found llvm-objdump, skipping some bpf targets)
-    LLVM_OBJDUMP := echo
-  else
-    $(error Not found llvm-objdump, please install llvm first)
-  endif
+  $(error Not found llvm-objdump, please install llvm first)
 endif
 
 CFLAGS_BPF += -I.

@@ -25,11 +25,7 @@ BTF_ROOT := /sys/kernel/btf
 HAVE_BTF := y
 
 ifeq ($(wildcard ${BTF_ROOT}),)
-  ifdef __IGNORE_NOTFOUND_ERROR__
-    $(warning Not found BTF in your system, skipping!!)
-  else
-    $(error Not found BTF in your system, see CONFIG_DEBUG_INFO_BTF in your kernel config!!)
-  endif
+  $(warning Not found BTF in your system, see CONFIG_DEBUG_INFO_BTF in your kernel config!!)
   HAVE_BTF := n
 endif
 ifeq (${BPFTOOL},)
@@ -45,16 +41,10 @@ ifeq (${HAVE_BTF}, y)
     ${BPFTOOL} btf dump file ${BTF_ROOT}/${1} format c > ${2}
   endef
 else
-  ifdef __IGNORE_NOTFOUND_ERROR__
-    define btf_gen_hdr
-    $(warning Your system not support BTF, see CONFIG_DEBUG_INFO_BTF, generate empty ${2})
-    touch ${2}
-    endef
-  else
-    define btf_gen_hdr
-    $(error Your system not support BTF, see CONFIG_DEBUG_INFO_BTF)
-    endef
-  endif
+  define btf_gen_hdr
+  $(warning Your system not support BTF, see CONFIG_DEBUG_INFO_BTF, generate empty ${2})
+  touch ${2}
+  endef
 endif # end of HAVE_BTF
 
 define auto_gen_vmlinux_h

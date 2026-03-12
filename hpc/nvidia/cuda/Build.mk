@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-__IGNORE_NOTFOUND_ERROR__ = y
-
 include nvidia/cuda.mk
 include amd/rocm.mk
 include metax/hpcc.mk

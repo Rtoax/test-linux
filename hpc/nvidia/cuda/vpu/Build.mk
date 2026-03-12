@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-__IGNORE_NOTFOUND_ERROR__ := 1
-
 include cestc/luca.mk
 include compiler.mk
 
