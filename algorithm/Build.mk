@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-
-subdir-y := bitmask
+subdir-y += bitmask
 subdir-y += bitops
 subdir-y += fft
 subdir-y += hashmap
@@ -16,5 +15,3 @@ subdir-y += search
 target-y += pi
 
 CFLAGS += -I../macro/
-
-include main.mk
