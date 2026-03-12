@@ -12,7 +12,7 @@
 sys_make=$(which make)
 
 make_tl() {
-	local i ARGS
+	local i ARGS makefile
 	local workdir=$PWD
 	local make_args=()
 	local TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../../)
@@ -23,6 +23,9 @@ make_tl() {
 		-C | --directory)
 			workdir=${ARGS[$(( i + 1 ))]}
 			;;
+		-f | --file | --makefile)
+			makefile=${ARGS[$(( i + 1 ))]}
+			;;
 		esac
 	done
 
@@ -32,8 +35,7 @@ make_tl() {
 		make_args+=( __USE_TEST_LINUX_MAKE__=1 )
 		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 
-		# FIXME: When use make -C, this statement check will be wrong.
-		if [[ -f ${workdir}/Build.mk ]]; then
+		if [[ ! -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]]; then
 			# It is not supported to use Build.mk and Makefile at
 			# the same time.
 			if [[ -f ${workdir}/Makefile ]]; then
