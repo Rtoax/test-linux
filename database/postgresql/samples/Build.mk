@@ -14,11 +14,3 @@ target-y += PQuser
 target-y += transaction
 
 LDFLAGS += -lpq
-
-# Compile nothing if not install libpq.
-ifeq ($(wildcard /usr/include/libpq-fe.h),)
-  $(warning Not install libpq develope header)
-  target-y :=
-endif
-
-include main.mk
