@@ -8,7 +8,6 @@ ifndef NO_PAHOLE
 endif
 
 include kconfig.mk
-include ansi.mk
 include helpers.mk
 include bpf/bpf.mk
 include ldconfig.mk

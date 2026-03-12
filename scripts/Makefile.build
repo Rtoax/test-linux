@@ -2,6 +2,7 @@
 OUTPUT := .output/
 
 include arch.mk
+include ansi.mk
 
 include ${CURDIR}/Build.mk
 

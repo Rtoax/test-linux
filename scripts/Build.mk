@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 include glibc.mk
-include ansi.mk
 include dir.mk
 include sudo.mk
 include cpu.mk

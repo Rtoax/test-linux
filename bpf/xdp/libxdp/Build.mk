@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_TRACE_HELPERS__ := y
-include ansi.mk
 include helpers.mk
 include bpf/bpf.mk
 include bpf/libxdp.mk
