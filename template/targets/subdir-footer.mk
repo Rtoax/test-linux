@@ -2,6 +2,7 @@
 ifndef _TARGET_SUBDIR_FOOTER_MK
 _TARGET_SUBDIR_FOOTER_MK = 1
 
+include dir.mk
 include verbose.mk
 include emoji.mk
 include mkflags.mk
