@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: GPL-3.0
+subdir-y += access
+subdir-y += crypto
+subdir-y += openssl
+subdir-y += openssh
+subdir-y += pam
+subdir-y += scap
+subdir-y += seccomp
+subdir-y += sgx

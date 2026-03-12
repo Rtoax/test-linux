@@ -15,8 +15,6 @@ target-y += ping
 
 tcpdump-objs := ${SOCKET_HELPERS}
 
-target-shell-y := interface.sh
+target-prog-y := interface.sh
 
 LDFLAGS := -Wl,-rpath,$(shell pwd)
-
-include main.mk

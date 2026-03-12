@@ -1,0 +1,16 @@
+target-prep-y += hello
+target-prep-y += basic-vm
+target-prep-y += load-payload01
+target-prep-y += load-payload02
+target-prep-y += cpuid
+target-prep-y += assemly-compiling
+target-prep-y += ia32e-paging
+target-prep-y += protected-mode-with-paging
+target-prep-y += exceptions
+
+CC := gcc
+AS := as
+NASM := nasm
+OBJCOPY := objcopy
+
+LIBS += common.o

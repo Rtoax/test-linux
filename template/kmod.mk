@@ -2,21 +2,22 @@
 # Copyright (C) 2026 Rong Tao
 #
 # Exports:
+# - HAVE_LIBKMOD=[y|n]
 # - KDIR=
 #
 ifndef _KMOD_MK
 _KMOD_MK = 1
 
+include define.mk
+
 KDIR := /lib/modules/$(shell uname -r)/build/
 
 ifeq ($(wildcard ${KDIR}),)
-  ifndef __IGNORE_NOTFOUND_ERROR__
-    $(error Not found ${KDIR}, install kernel development package first)
-  else
-    $(warning Not found ${KDIR}, skipping)
-  endif
+  $(warning Not found ${KDIR}, skipping)
 else
   export KDIR
 endif
+
+$(call check_file_and_def,/usr/include/libkmod.h,HAVE_LIBKMOD)
 
 endif

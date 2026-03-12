@@ -1,2 +1,0 @@
-# todo
-include main.mk

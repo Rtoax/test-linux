@@ -2,7 +2,9 @@
 include arch.mk
 
 include ${CURDIR}/Build.mk
-include main.mk
+
+include	main.mk
+
 ifneq ($(wildcard ${CURDIR}/Target.mk),)
   include ${CURDIR}/Target.mk
 endif
