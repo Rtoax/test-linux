@@ -1,0 +1,1 @@
+target-y := bss

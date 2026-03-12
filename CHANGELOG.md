@@ -32,6 +32,7 @@ and this project adheres to
 - add nasm subdir;
 - cmake/samples: add cflags/ subdir;
 #### Template
+- add libxml2.mk;
 - add postgresql.mk;
 - add capstone.mk;
 - dir.mk: CURDIR and HOME is Make builtin;

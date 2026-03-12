@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-sudo find -type d -exec chmod 755 {} \;
-sudo find -type f -exec chmod 644 {} \;
+sudo find -type d -exec chmod +x {} \;
+sudo find -type f -name '*.sh' -exec chmod +x {} \;
