@@ -21,6 +21,8 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- add template/bits/mk-cache.mk;
+- compiler/feature.mk support cache;
 
 
 ## [v2.4.0] 2026-03-12
