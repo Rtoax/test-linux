@@ -1,5 +1,3 @@
-include arch.mk
-
 target-y += ceil
 target-y += copysign
 target-y += exp

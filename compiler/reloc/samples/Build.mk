@@ -1,4 +1,3 @@
-include arch.mk
 subdir-${IS_X86_64} += x86_64
 subdir-${IS_X86_64} += i386
 subdir-${IS_AARCH64} += aarch64

@@ -1,5 +1,3 @@
-include arch.mk
-
 subdir-y := hacking
 
 target-y := hello

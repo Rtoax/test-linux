@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include arch.mk
-
 target-y += helloworld
 target-y += march-native
 target-y += mbranch-protection
