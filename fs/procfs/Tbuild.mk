@@ -31,5 +31,3 @@ thread-self-objs := ${libproc-helpers}
 
 LDFLAGS := -Wl,-rpath,$(shell pwd)
 LDFLAGS_SO_${libproc-helpers} := -Wl,--version-script=proc_helpers.map
-
-include main.mk

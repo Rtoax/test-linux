@@ -1,2 +1,5 @@
-include Tbuild.mk
+include ${CURDIR}/Tbuild.mk
 include main.mk
+ifneq ($(wildcard ${CURDIR}/Target.mk),)
+  include ${CURDIR}/Target.mk
+endif
