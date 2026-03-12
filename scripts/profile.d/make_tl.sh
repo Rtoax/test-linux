@@ -17,6 +17,14 @@ make_tl() {
 	local make_args=()
 	local TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../../)
 
+	# Use origin make command
+	if ! [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] &&
+	   ! [[ "$(realpath .)" =~ "ostools" ]] &&
+	   ! [[ "$(realpath .)" =~ "test-linux" ]]; then
+		${sys_make} $@
+		return $?
+	fi
+
 	ARGS=( "${@}" )
 	for ((i = 0; i < ${#ARGS[@]}; i++)); do
 		case ${ARGS[i]} in
@@ -29,25 +37,20 @@ make_tl() {
 		esac
 	done
 
-	if [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] ||
-	   [[ "$(realpath .)" =~ "ostools" ]] ||
-	   [[ "$(realpath .)" =~ "test-linux" ]]; then
-		make_args+=( __USE_TEST_LINUX_MAKE__=1 )
-		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
+	make_args+=( __USE_TEST_LINUX_MAKE__=1 )
+	make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 
-		if [[ -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]]; then
-			# It is not supported to use Build.mk and Makefile at
-			# the same time.
-			if [[ -f ${workdir}/Makefile ]]; then
-				echo >&2 "ERROR: Not allow Build.mk and Makefile at the same time"
-				exit 1
-			fi
-			make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.build )
+	if [[ -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]]; then
+		# It is not supported to use Build.mk and Makefile at
+		# the same time.
+		if [[ -f ${workdir}/Makefile ]]; then
+			echo >&2 "ERROR: Not allow Build.mk and Makefile at the same time"
+			exit 1
 		fi
-		${sys_make} ${make_args[@]} $@
-	else
-		${sys_make} $@
+		make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.build )
 	fi
+
+	${sys_make} ${make_args[@]} $@
 }
 
 alias make="make_tl"
