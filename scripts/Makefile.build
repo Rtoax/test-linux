@@ -1,3 +1,6 @@
+# Default support definitions
+include arch.mk
+
 include ${CURDIR}/Build.mk
 include main.mk
 ifneq ($(wildcard ${CURDIR}/Target.mk),)

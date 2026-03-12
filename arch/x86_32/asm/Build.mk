@@ -17,5 +17,3 @@ target-y += maxofthree_call
 
 factorial_call-objs := ${OUTPUT}factorial.asm.o
 maxofthree_call-objs := ${OUTPUT}maxofthree.asm.o
-
-include main.mk

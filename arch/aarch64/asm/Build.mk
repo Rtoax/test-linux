@@ -68,5 +68,3 @@ CFLAGS_paciasp := -march=armv8.3-a
 
 ASFLAGS_hello-puts-infinite-loop := -DINFINITE_LOOP=1
 CFLAGS_write-loop := -DINFINITE_LOOP=1
-
-include main.mk

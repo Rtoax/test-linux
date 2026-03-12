@@ -1,5 +1,3 @@
-include arch.mk
-
 target-y := cpu_relax
 
 subdir-${IS_X86_64} += x86_32
@@ -10,5 +8,3 @@ subdir-${IS_LOONGARCH64} += loongarch64
 subdir-${IS_RISCV64} += riscv64
 
 target-post-y := $(patsubst %,%.c.s,${target-y})
-
-include main.mk

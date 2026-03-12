@@ -62,5 +62,3 @@ LDFLAGS_hola += -no-pie
 LDFLAGS_average += -no-pie
 LDFLAGS_fibonacci += -no-pie
 LDFLAGS_hello-puts += -no-pie
-
-include main.mk
