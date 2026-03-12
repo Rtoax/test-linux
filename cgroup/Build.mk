@@ -12,5 +12,3 @@ target-y := cgroup_examples
 cgroup_examples-objs := cgroup_helpers.o
 
 target-prog-y := info.sh
-
-include main.mk

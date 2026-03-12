@@ -6,5 +6,3 @@ target-y += cgroup_new_cgroup
 
 CFLAGS += ${libcgroup-cflags}
 LDFLAGS += ${libcgroup-ldflags}
-
-include main.mk
