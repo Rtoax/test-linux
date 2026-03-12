@@ -96,3 +96,4 @@ kmod-list-y += module/version
 kmod-list-y += sched/kthread
 kmod-list-y += sched/softlockup/modules
 kmod-list-y += sched/waitqueue/modules
+kmod-list-y += trace/trace_printk/modules

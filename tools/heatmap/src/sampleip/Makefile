@@ -1,4 +1,3 @@
-
 ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' | sed 's/aarch64/arm64/')
 
 CFLAGS := -O0 -Wall -g -ggdb
@@ -20,4 +19,3 @@ all:
 
 clean:
 	rm -f *.o sampleip vmlinux.h
-
