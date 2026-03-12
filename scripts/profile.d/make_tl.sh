@@ -41,16 +41,17 @@ make_tl() {
 				exit 1
 			fi
 			make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.tbuild )
-		fi
 
-		# The build is added by default because we can put `post`
-		# before `include main.mk` in the Makefile or Tbuild.mk.
-		# FIXME: We should never add target, because we could specify
-		# one.
-		if ! [[ " ${@} " =~ " build " ]] &&
-		   ! [[ " ${@} " =~ " test " ]] &&
-		   ! [[ " ${@} " =~ " clean " ]]; then
-			make_args+=( build )
+			# The build is added by default because we can put
+			# `post` before `include main.mk` in the Makefile or
+			# Tbuild.mk.
+			# FIXME: We should never add target, because we could
+			# specify one.
+			if ! [[ " ${@} " =~ " build " ]] &&
+			   ! [[ " ${@} " =~ " test " ]] &&
+			   ! [[ " ${@} " =~ " clean " ]]; then
+				make_args+=( build )
+			fi
 		fi
 		${sys_make} ${make_args[@]} $@
 	else
