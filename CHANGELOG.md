@@ -21,6 +21,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- compiler/{m32,std,types}.mk support cache;
 - add template/bits/mk-cache.mk;
 - compiler/feature.mk support cache;
 

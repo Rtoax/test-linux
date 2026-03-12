@@ -5,6 +5,13 @@ ifndef _COMPILER_TYPES_MK
 _COMPILER_TYPES_MK = 1
 
 include compiler/check.mk
+include bits/mk-cache.mk
+
+cachefile := ${TOPDIR}/template/compiler/.types.mk.cache
+
+ifneq ($(wildcard ${cachefile}),)
+  include ${cachefile}
+else
 
 # see https://clang.llvm.org/docs/LanguageExtensions.html
 CC__Float16 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float16))
@@ -21,6 +28,16 @@ CC___float80 := $(findstring y,$(call check_compiler_support_type,$(CC),__float8
 CC___uint128_t := $(findstring y,$(call check_compiler_support_type,$(CC),__uint128_t))
 
 CC_H_quadmath_h := $(findstring y,$(call check_compiler_support_header,$(CC),quadmath.h))
+
+$(call mk_cache_var,CC__Float16,${cachefile})
+$(call mk_cache_var,CC___fp16,${cachefile})
+$(call mk_cache_var,CC___bf16,${cachefile})
+$(call mk_cache_var,CC___float128,${cachefile})
+$(call mk_cache_var,CC__Float128,${cachefile})
+$(call mk_cache_var,CC___float80,${cachefile})
+$(call mk_cache_var,CC___uint128_t,${cachefile})
+
+endif # end of cache file exist
 
 ifdef DEBUG
   $(info CC: ${CC})
