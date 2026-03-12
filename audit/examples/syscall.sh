@@ -8,11 +8,19 @@ seperator() {
 	printf "\033[32m## %s ##\033[m\n" "$*"
 }
 
+if [[ $(uname -m) == x86_64 ]]; then
+	syscalls="rename,unlink,unlinkat,renameat"
+elif [[ $(uname -m) == aarch64 ]]; then
+	syscalls="unlinkat"
+else
+	exit 1
+fi
+
 seperator "--------- add audit rule ---------"
 sudo auditctl \
 	-a always,exit \
 	-F 'arch=b64' \
-	-S rename,unlink,unlinkat,renameat \
+	-S ${syscalls} \
 	-F 'auid>=1000' \
 	-F 'auid!=-1' \
 	-F 'dir=/home/' \
