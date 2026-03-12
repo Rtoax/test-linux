@@ -35,7 +35,7 @@ make_tl() {
 		make_args+=( __USE_TEST_LINUX_MAKE__=1 )
 		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 
-		if [[ ! -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]]; then
+		if [[ -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]]; then
 			# It is not supported to use Build.mk and Makefile at
 			# the same time.
 			if [[ -f ${workdir}/Makefile ]]; then
