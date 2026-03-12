@@ -19,6 +19,16 @@
 # - __USE_LUCA_HELPERS__=y
 # - __USE_HPCC_HELPERS__=y
 #
+# Append definitions:
+# - CFLAGS
+# - CFLAGS_A
+# - CFLAGS_SO
+# - CFLAGS_NVCC
+# - CFLAGS_HIPCC
+# - CFLAGS_LSCC
+# - CFLAGS_HTCC
+# - LDFLAGS
+#
 ifndef _TARGET_HELPERS_MK
 _TARGET_HELPERS_MK = 1
 

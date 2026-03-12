@@ -25,16 +25,6 @@
 # - BTF_HELPERS
 # - BPF_INSN_SAMPLES
 #
-# Append definitions:
-# - CFLAGS
-# - CFLAGS_A
-# - CFLAGS_SO
-# - CFLAGS_NVCC
-# - CFLAGS_HIPCC
-# - CFLAGS_LSCC
-# - CFLAGS_HTCC
-# - LDFLAGS
-#
 ifndef _HELPERS_MK
 _HELPERS_MK = 1
 
