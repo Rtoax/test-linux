@@ -10,7 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
-- template: support Tbuild.mk and need Target.mk if need;
+- template: support Build.mk and need Target.mk if need;
 - make: all make use `make_tl.sh`;
 #### Added
 - binutils/as: add symlink version.sh;

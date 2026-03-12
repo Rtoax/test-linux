@@ -33,14 +33,14 @@ make_tl() {
 		make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 
 		# FIXME: When use make -C, this statement check will be wrong.
-		if [[ -f ${workdir}/Tbuild.mk ]]; then
-			# It is not supported to use Tbuild.mk and Makefile at
+		if [[ -f ${workdir}/Build.mk ]]; then
+			# It is not supported to use Build.mk and Makefile at
 			# the same time.
 			if [[ -f ${workdir}/Makefile ]]; then
-				echo >&2 "ERROR: Not allow Tbuild.mk and Makefile at the same time"
+				echo >&2 "ERROR: Not allow Build.mk and Makefile at the same time"
 				exit 1
 			fi
-			make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.tbuild )
+			make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.build )
 		fi
 		${sys_make} ${make_args[@]} $@
 	else
