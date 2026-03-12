@@ -1,10 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
 #
+# Makefile builtin:
+# - CURDIR=[]
+# - HOME=[/home/rongtao/]
+#
 # Output definitions:
 # - TOPDIR=
-# - CURDIR=
-# - HOME=[/home/rongtao/]
 #
 # Functions:
 # - strip_topdir_prefix()
@@ -13,15 +15,9 @@ ifndef _DIR_MK
 _DIR_MK = 1
 
 TOPDIR := $(dir $(shell realpath $(abspath $(lastword $(MAKEFILE_LIST))/../)))
-CURDIR := $(shell realpath .)
-HOME := $(shell echo $$HOME)
 
 ifeq (${TOPDIR},)
   $(error Could not found top directory in anywhere)
-endif
-
-ifeq (${CURDIR},)
-  $(error Could not found current directory in anywhere)
 endif
 
 # remove test-linux root directory from $1
@@ -31,10 +27,8 @@ endef
 
 ifdef DEBUG
   $(info TOPDIR = ${TOPDIR})
-  $(info CURDIR = ${CURDIR})
-  $(info HOME = ${HOME})
 endif
 
-export TOPDIR CURDIR HOME
+export TOPDIR
 
 endif

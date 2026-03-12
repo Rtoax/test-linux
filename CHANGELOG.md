@@ -32,6 +32,7 @@ and this project adheres to
 - add nasm subdir;
 - cmake/samples: add cflags/ subdir;
 #### Template
+- dir.mk: CURDIR and HOME is Make builtin;
 - add compiler/macros.mk;
 - add targets/compiler.mk;
 - add targets/vdso.mk;
