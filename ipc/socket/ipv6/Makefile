@@ -1,3 +1,0 @@
-target-y += IN6ADDR_ANY_INIT IN6ADDR_LOOPBACK_INIT
-
-include main.mk

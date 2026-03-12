@@ -1,3 +1,0 @@
-target-y := key-handler-user
-
-include main.mk

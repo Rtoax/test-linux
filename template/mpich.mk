@@ -2,9 +2,9 @@
 # Copyright (C) 2026 Rong Tao
 #
 # Output definitions:
-# - MPICC
-# - MPIRUN
-# - MPIEXEC
+# - MPICC=
+# - MPIRUN=
+# - MPIEXEC=
 #
 ifndef _MPICH_MK
 _MPICH_MK = 1
