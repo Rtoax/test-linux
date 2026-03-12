@@ -13,6 +13,7 @@ and this project adheres to
 - template: support Build.mk and need Target.mk if need;
 - make: all make use `make_tl.sh`;
 #### Added
+- go: add version.sh;
 - binutils/as: add symlink version.sh;
 - btf: add `btf_h` subdir to generate all btf headers;
 - java: add version.sh;
