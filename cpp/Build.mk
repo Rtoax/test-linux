@@ -27,6 +27,8 @@ target-cpp-y += __STDC__c++23
 target-cpp-y += expired
 target-cpp-y += unordered_map
 
+target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${target-cpp-y}))
+
 CXXFLAGS += -DCPP
 
 CXXFLAGS_return := -Wno-error=return-type
@@ -56,7 +58,3 @@ CXXFLAGS___STDC__c++20 := -std=c++20
 CXXFLAGS___STDC__c++23 := -std=c++23
 CXXFLAGS_string := -std=c++23
 LDXXFLAGS_fmt := -lfmt
-
-target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.cpp.s,${target-cpp-y}))
-
-include main.mk
