@@ -122,7 +122,7 @@ static void __jump_label_transform(struct jump_entry *entry,
 	 */
 
 	if (sk_mprotect((void *)entry->code, JUMP_LABEL_NOP_SIZE) == NULL)
-		bug_at("sk_mprotect", __LINE__);
+		bug_at((unsigned char *)"sk_mprotect", __LINE__);
 
 	// and now do the actual copy:
 	memcpy((void*) entry->code, &code, JUMP_LABEL_NOP_SIZE);
