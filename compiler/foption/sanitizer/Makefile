@@ -27,5 +27,3 @@ ifdef LOCK
 else
   $(warning Define LOCK=1 to running with lock for SAN)
 endif
-
-include main.mk

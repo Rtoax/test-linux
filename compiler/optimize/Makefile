@@ -1,8 +1,0 @@
-target-y += arg arg-O3
-
-target-shell-y := optimizers.sh
-
-CFLAGS_arg := -O0
-CFLAGS_arg-O3 := -O3
-
-include main.mk
