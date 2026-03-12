@@ -16,5 +16,3 @@ clock_nanosleep-objs := time_helpers.o
 nanosleep-objs := time_helpers.o
 
 CFLAGS += -pthread
-
-include main.mk

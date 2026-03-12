@@ -33,6 +33,7 @@ and this project adheres to
 - add nasm subdir;
 - cmake/samples: add cflags/ subdir;
 #### Template
+- add libaio.mk;
 - add libxml2.mk;
 - add postgresql.mk;
 - add capstone.mk;

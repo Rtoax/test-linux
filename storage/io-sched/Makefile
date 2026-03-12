@@ -1,3 +1,1 @@
-target-shell-y := scheduler.sh
-
-include main.mk
+target-prog-y := scheduler.sh

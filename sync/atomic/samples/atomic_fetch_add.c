@@ -35,4 +35,3 @@ int main(void)
 	printf("The non-atomic counter is %u\n", cnt);
 	return 0;
 }
-
