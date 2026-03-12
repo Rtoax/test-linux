@@ -1,4 +1,4 @@
-nr_errno.o: nr_errno.h
+${OUTPUT}nr_errno.o: nr_errno.h
 
 nr_errno.h: errno.sh
 	$(shell bash errno.sh)
