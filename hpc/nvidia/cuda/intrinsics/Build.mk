@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-OUTPUT := .output/
 __IGNORE_NOTFOUND_ERROR__ := 1
 
 include os.mk

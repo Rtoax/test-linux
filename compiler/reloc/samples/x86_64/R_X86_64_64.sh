@@ -4,7 +4,9 @@ set -e
 . ../../../../elf/libelf.sh
 . ../../../../libs/file.sh
 
-ELF_OBJ=R_X86_64_64.o
+OUTPUT=$1
+
+ELF_OBJ=${OUTPUT}R_X86_64_64.o
 ELF_EXE=R_X86_64_64
 
 while read r_offset r_info r_type svalue sname r_addend r_secname

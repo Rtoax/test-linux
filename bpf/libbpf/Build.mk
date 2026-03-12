@@ -7,8 +7,6 @@ ifndef NO_PAHOLE
   include pahole.mk
 endif
 
-OUTPUT := .output/
-
 include kconfig.mk
 include ansi.mk
 include helpers.mk

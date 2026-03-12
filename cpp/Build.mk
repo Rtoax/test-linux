@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 
-OUTPUT := .output/
-
 subdir-y := demangle
 subdir-y += std
 

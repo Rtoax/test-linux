@@ -13,8 +13,8 @@ target-y += oom_minimal
 target-libso-y := liboom_helpers.so
 target-liba-y := liboom_helpers.a
 
-liboom_helpers.a-objs := oom_helpers.a.o
-liboom_helpers.so-objs := oom_helpers.so.o
+liboom_helpers.a-objs := ${OUTPUT}oom_helpers.a.o
+liboom_helpers.so-objs := ${OUTPUT}oom_helpers.so.o
 oom-objs := ${OOM_HELPERS} ${PROC_HELPERS} ${C_HELPERS}
 
 CFLAGS += ${libcgroup-cflags}

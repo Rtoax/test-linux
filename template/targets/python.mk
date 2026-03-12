@@ -6,13 +6,13 @@ include python.mk
 include dir.mk
 include runprog.mk
 
-%.py.log: %.py
+${OUTPUT}%.py.log: %.py
 	$(call log_tgt,PYTHON,$(@))
 	$(Q)$(RUNPROG) --log $(@) -- ${PYTHON} $(<) $(ARGS_$(*)) $(PY_ARGS_$(<))
 
 # $1: 1, 2, 3, ...
 define py_target
-%.py.log.${1}: %.py
+${OUTPUT}%.py.log.${1}: %.py
 	$$(call log_tgt,PYTHON,$$(@))
 	$$(Q)$$(RUNPROG) --log $$(@) -- $${PYTHON} $$(<) $$(ARGS_$$(*).${1}) $$(PY_ARGS_$$(<).${1})
 endef

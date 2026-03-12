@@ -8,10 +8,10 @@ include helpers.mk
 
 target-y := bpfprobe
 
-target-bpf-y := foo.bpf.o
+target-bpf-y := ${OUTPUT}foo.bpf.o
 
 target-post-y := $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
-target-post-y += foo.c.s foo.o
+target-post-y += ${OUTPUT}foo.c.s ${OUTPUT}foo.o
 
 bpfprobe-objs := ${BPF_INSN_SAMPLES} ${BPF_HELPERS} ${BTF_HELPERS}
 

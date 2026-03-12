@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_C_HELPERS__ = y
-OUTPUT := .output/
 
 include helpers.mk
 include signal.mk

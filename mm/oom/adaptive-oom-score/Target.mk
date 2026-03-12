@@ -1,1 +1,1 @@
-adaptive-oom-score.o: memory.skel.h
+${OUTPUT}adaptive-oom-score.o: ${OUTPUT}memory.skel.h

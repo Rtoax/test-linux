@@ -1,7 +1,5 @@
 include llvm.mk
 
-OUTPUT := .output/
-
 CC := clang
 CXX := clang++
 

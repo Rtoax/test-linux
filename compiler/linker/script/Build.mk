@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-OUTPUT := .output/
-
 target-y := main
 target-libso-y := libhello.so
 target-prep-y := default.lds

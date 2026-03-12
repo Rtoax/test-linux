@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include mpich.mk
 
-OUTPUT = .output/
 CC := ${MPICC}
 
 target-y += MPI_Abort

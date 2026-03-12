@@ -14,11 +14,13 @@ endif
 
 subdir-y ?=
 
+CFLAGS += -I${OUTPUT}
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += -Werror -Wall
 # C special, not for C++
 CFLAGS += -Wstrict-prototypes
 
+CXXFLAGS += -I${OUTPUT}
 CXXFLAGS += -D_GNU_SOURCE
 CXXFLAGS += -Werror -Wall
 

@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- OUTPUT: global make variable;
 #### Added
 #### Changed
 #### Deprecated

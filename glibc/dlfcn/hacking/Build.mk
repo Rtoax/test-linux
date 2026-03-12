@@ -5,7 +5,7 @@ target-libso-y += libdev_hack.so
 
 target-prog-y := run.sh
 
-libdev.so.1-objs := libdev.so.o
+libdev.so.1-objs := ${OUTPUT}libdev.so.o
 dev-objs := libdev.so.1
 
 CFLAGS_dev := -ldev

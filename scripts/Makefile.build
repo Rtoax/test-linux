@@ -1,4 +1,6 @@
 # Default support definitions
+OUTPUT := .output/
+
 include arch.mk
 
 include ${CURDIR}/Build.mk

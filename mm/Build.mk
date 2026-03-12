@@ -22,7 +22,7 @@ target-liba-y := libtest-linux-mm.a
 
 virt2phy-objs := ${PROC_HELPERS} numa.a.1 ${MMAP_HELPERS}
 
-libtest-linux-mm.a-objs := virt2phy.a.o
+libtest-linux-mm.a-objs := ${OUTPUT}virt2phy.a.o
 
 CFLAGS_virt2phy := -DHAVE_MAIN=1
 CFLAGS_virt2phy += -DHAVE_LIB_TEST_LINUX_C=1

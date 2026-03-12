@@ -41,6 +41,11 @@ stat_nic()
 
 for s in ${sar_history_logs[@]}
 do
+	# FIXME: Skip sarXX file to fix:
+	# Invalid system activity file: /var/log/sa//sar01
+	if [[ ${s:0:3} == sar ]]; then
+		continue
+	fi
 	f=$sar_log_dir/$s
 
 	stat_paging $f

@@ -1,8 +1,6 @@
 __USE_PROC_HELPERS__ = y
 __USE_SCHED_HELPERS__ = y
 
-OUTPUT := .output/
-
 include kconfig.mk
 include helpers.mk
 

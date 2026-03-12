@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-OUTPUT := .output/
-
 CXX := clang++
 
 target-cpp-y += ParseCommandLineOptions

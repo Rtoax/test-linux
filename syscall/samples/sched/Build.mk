@@ -25,8 +25,8 @@ target-liba-y := libsched_helpers.a
 
 target-post-y := post0
 
-libsched_helpers.a-objs := sched_helpers.a.o
-libsched_helpers.so-objs := sched_helpers.so.o
+libsched_helpers.a-objs := ${OUTPUT}sched_helpers.a.o
+libsched_helpers.so-objs := ${OUTPUT}sched_helpers.so.o
 
 str2cpuset-objs := libsched_helpers.a
 getcpu-objs := libsched_helpers.a

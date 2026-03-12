@@ -8,7 +8,7 @@ target-y := numa_mem
 target-y += memory
 target-liba-y := numa.a
 
-numa.a-objs := numa_mem.h numa_mem.a.o
+numa.a-objs := numa_mem.h ${OUTPUT}numa_mem.a.o
 
 CFLAGS += -g
 LDFLAGS += -lnuma

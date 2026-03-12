@@ -1,3 +1,6 @@
+__USE_PROC_HELPERS__ = y
+include helpers.mk
+
 subdir-y := hacking
 
 target-y := hello
@@ -11,17 +14,13 @@ target-${IS_AARCH64} += dlsym-RTLD_DEFAULT
 target-libso-y := libhello.so.0.1
 target-libso-y += libglibc.so.6
 
-libhello.so.0.1-objs := libhello.so.o
-libglibc.so.6-objs := libc.so.o
+libhello.so.0.1-objs := ${OUTPUT}libhello.so.o
+libglibc.so.6-objs := ${OUTPUT}libc.so.o
 
-socket-objs := libc.o
-dlinfo-objs := proc_helpers.o
+socket-objs := ${OUTPUT}libc.o
+dlinfo-objs := ${PROC_HELPERS}
 
 LDFLAGS := -ldl
 
 CFLAGS += -I../../
 CFLAGS += -I../../fs/procfs/
-
-proc_helpers.o: ../../fs/procfs/proc_helpers.o
-	$(info We are in $(shell pwd))
-	${Q}mv $(<) $(@)

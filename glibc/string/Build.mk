@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 __USE_PROC_HELPERS__ = y
-OUTPUT := .output/
-
 include glibc.mk
 
 # $1: memcpy name, like __memcpy_ssse3

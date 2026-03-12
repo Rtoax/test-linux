@@ -1,5 +1,3 @@
-OUTPUT := .output/
-
 target-y := usdt_test
 target-y += usdt_hello
 target-y += usdt_inlined

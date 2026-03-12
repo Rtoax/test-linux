@@ -1,5 +1,3 @@
-OUTPUT := .output/
-
 target-y += sum
 target-y += sum-avx
 target-y += sum-avx2

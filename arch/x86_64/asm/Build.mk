@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-OUTPUT := .output/
-
 target-asm-y += hello
 target-asm-y += hello-stack
 target-asm-y += while

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 
-OUTPUT := .output/
+OUTPUT := .output0/
 OUTPUT += .output1/
 OUTPUT += .output2/
 OUTPUT += .output3/a

@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-OUTPUT := .output/
-
 target-y := libc
 target-y += main
 target-y += main-a

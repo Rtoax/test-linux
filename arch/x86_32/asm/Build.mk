@@ -1,5 +1,3 @@
-OUTPUT := .output/
-
 M32 ?= 1
 
 # Include '_start' function

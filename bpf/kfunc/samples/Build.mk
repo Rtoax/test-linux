@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-OUTPUT := .output/
-
 include bpf/kfunc.mk
 
 target-prep-y := vmlinux.h

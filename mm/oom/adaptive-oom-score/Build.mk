@@ -7,8 +7,8 @@ include helpers.mk
 
 target-y := adaptive-oom-score
 
-target-bpf-y := memory.bpf.o
-target-post-y := memory.skel.h
+target-bpf-y := ${OUTPUT}memory.bpf.o
+target-post-y := ${OUTPUT}memory.skel.h
 
 adaptive-oom-score-objs := ${OOM_HELPERS} ${PROC_HELPERS} ${C_HELPERS}
 

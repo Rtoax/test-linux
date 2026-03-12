@@ -3,8 +3,6 @@ include compiler.mk
 include cpu.mk
 include binutils.mk
 
-OUTPUT := .output/
-
 subdir-${IS_X86_64} += avx
 subdir-${IS_X86_64} += tsc
 subdir-${IS_X86_64} += pku

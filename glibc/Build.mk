@@ -3,8 +3,6 @@ include ansi.mk
 include gnu.mk
 include glibc.mk
 
-OUTPUT := .output/
-
 subdir-y := alloca
 subdir-y += aio
 subdir-y += assert

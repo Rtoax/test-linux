@@ -1,7 +1,5 @@
 include kconfig.mk
 
-OUTPUT := .output/
-
 target-y += msync
 target-y += fexecve
 target-y += mmap-anon

@@ -1,5 +1,3 @@
-OUTPUT := .output/
-
 target-y += parent-crash
 target-y += thread
 

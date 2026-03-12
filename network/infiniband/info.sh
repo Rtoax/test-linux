@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-ibstat
-ibv_devinfo
+ibstat || true
+ibv_devinfo || true

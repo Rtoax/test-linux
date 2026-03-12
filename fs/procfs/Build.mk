@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-OUTPUT = .output/
-
 subdir-y := process
 subdir-y += procps-ng
 subdir-y += kallsyms

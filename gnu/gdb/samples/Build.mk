@@ -1,5 +1,3 @@
-OUTPUT := .output/
-
 target-y += set-value
 target-y += set-value-func
 target-y += set-value-volatile

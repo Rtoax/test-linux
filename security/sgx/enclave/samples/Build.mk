@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 include intel/linux-sgx.mk
 
-target-y := app
+# TODO: link error
+#target-y := app
 
 target-prep-y := enclave_u.c enclave_u.h
 target-prep-y += enclave_t.c enclave_t.h

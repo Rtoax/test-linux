@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Input definitions:
-# - OUTPUT=[.output/]
 # - SHELL_ENVS_*=--env ENV=V
 # - SHELL_ARGS_*=
 #

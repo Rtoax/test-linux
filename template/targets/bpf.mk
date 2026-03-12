@@ -29,6 +29,7 @@ ifeq ($(LLVM_OBJDUMP),)
 endif
 
 CFLAGS_BPF += -I.
+CFLAGS_BPF += -I${OUTPUT}
 CFLAGS_BPF += -O2 -g
 # Like -target bpfel
 CFLAGS_BPF += -target bpf -mlittle-endian

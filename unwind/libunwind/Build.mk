@@ -1,5 +1,3 @@
-OUTPUT = .output/
-
 target-y += tst
 target-y += unw_regname
 target-y += unw_create_addr_space

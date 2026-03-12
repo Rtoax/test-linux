@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-OUTPUT := .output/
-
 target-y += atomic
 target-y += barrier
 target-y += critical
