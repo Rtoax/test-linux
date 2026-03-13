@@ -5,13 +5,13 @@ ifndef _COMPILER_STD_MK
 _COMPILER_STD_MK = 1
 
 include compiler/check.mk
-include bits/mk-cache.mk
 
 cachefile := ${TOPDIR}/template/compiler/.std.mk.cache
 
 ifneq ($(wildcard ${cachefile}),)
   include ${cachefile}
 else
+include bits/mk-cache.mk
 
 CC_STD_C11 := $(findstring y,$(call check_compiler_option,$(CC),-std=c11))
 CC_STD_GNU11 := $(findstring y,$(call check_compiler_option,$(CC),-std=gnu11))

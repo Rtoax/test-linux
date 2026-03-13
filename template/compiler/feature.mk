@@ -9,13 +9,13 @@ _COMPILER_FEATURE_MK = 1
 
 include dir.mk
 include compiler/check.mk
-include bits/mk-cache.mk
 
 cachefile := ${TOPDIR}/template/compiler/.feature.mk.cache
 
 ifneq ($(wildcard ${cachefile}),)
   include ${cachefile}
 else
+include bits/mk-cache.mk
 
 feature-mavx2 := $(findstring y,$(call check_compiler_option,$(CC),-mavx2))
 feature-mfentry := $(findstring y,$(call check_compiler_option,$(CC),-mfentry))

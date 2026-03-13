@@ -5,7 +5,6 @@ ifndef _COMPILER_TYPES_MK
 _COMPILER_TYPES_MK = 1
 
 include compiler/check.mk
-include bits/mk-cache.mk
 
 cachefile := ${TOPDIR}/template/compiler/.types.mk.cache
 
@@ -29,6 +28,7 @@ CC___uint128_t := $(findstring y,$(call check_compiler_support_type,$(CC),__uint
 
 CC_H_quadmath_h := $(findstring y,$(call check_compiler_support_header,$(CC),quadmath.h))
 
+include bits/mk-cache.mk
 $(call mk_cache_var,CC__Float16,${cachefile})
 $(call mk_cache_var,CC___fp16,${cachefile})
 $(call mk_cache_var,CC___bf16,${cachefile})

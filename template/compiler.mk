@@ -26,6 +26,12 @@ include compiler/m32.mk
 include compiler/macros.mk
 include compiler/types.mk
 
+cachefile := ${TOPDIR}/template/.compiler.mk.cache
+
+ifneq ($(wildcard ${cachefile}),)
+  include ${cachefile}
+else
+
 cflags-support-types-y :=
 cflags-support-headers-y :=
 ldflags-support-headers-y :=
@@ -46,6 +52,20 @@ CC_VERSION := $(shell $(CC) -dumpversion)
 CC_MAJOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$1}')
 CC_MINOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$2}')
 CC_PATCHLEVEL := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$3}')
+
+# Save to cache
+include bits/mk-cache.mk
+$(call mk_cache_var,cflags-support-types-y,${cachefile})
+$(call mk_cache_var,cflags-support-headers-y,${cachefile})
+$(call mk_cache_var,ldflags-support-headers-y,${cachefile})
+
+$(call mk_cache_var,CC_FULLVERSION,${cachefile})
+$(call mk_cache_var,CC_VERSION,${cachefile})
+$(call mk_cache_var,CC_MAJOR,${cachefile})
+$(call mk_cache_var,CC_MINOR,${cachefile})
+$(call mk_cache_var,CC_PATCHLEVEL,${cachefile})
+
+endif # end of cache file exist
 
 ifdef DEBUG
   $(info CC: $(CC) ${CC_MAJOR}.${CC_MINOR}.${CC_PATCHLEVEL} ${CC_FULLVERSION} ${CC_VERSION})

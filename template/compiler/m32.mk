@@ -5,13 +5,13 @@ ifndef _COMPILER_M32_MK
 _COMPILER_M32_MK = 1
 
 include compiler/check.mk
-include bits/mk-cache.mk
 
 cachefile := ${TOPDIR}/template/compiler/.m32.mk.cache
 
 ifneq ($(wildcard ${cachefile}),)
   include ${cachefile}
 else
+include bits/mk-cache.mk
 
 CC_M32 := $(findstring y,$(call check_compiler_option_noS,$(CC),-m32))
 feature-m32 := $(findstring y,$(call check_compiler_option,$(CC),-m32))
