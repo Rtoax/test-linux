@@ -1,3 +1,4 @@
 /hello
 /*.ll
 /*.ast
+/*.bc
