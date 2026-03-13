@@ -5,8 +5,9 @@ _MAIN_MK = 1
 
 CC ?= gcc
 CXX ?= g++
+AS ?= as
+NASM ?= nasm
 OBJCOPY ?= objcopy
-Q ?= @
 
 ifeq ($(shell uname -m),x86_64)
 else ifeq ($(shell uname -m),aarch64)

@@ -7,10 +7,3 @@ target-prep-y += assemly-compiling
 target-prep-y += ia32e-paging
 target-prep-y += protected-mode-with-paging
 target-prep-y += exceptions
-
-CC := gcc
-AS := as
-NASM := nasm
-OBJCOPY := objcopy
-
-LIBS += common.o
