@@ -11,6 +11,7 @@
 # - LIBBPF_MAJOR_VERSION=
 # - LIBBPF_MINOR_VERSION=
 # - LIBBPF_PATCHLEVEL_VERSION=
+# - libbpf-cflags=
 #
 ifndef _BPF_LIBBPF_MK
 _BPF_LIBBPF_MK = 1
@@ -34,7 +35,11 @@ ifeq (${LIBBPF_MINOR_VERSION},)
   $(error "Could not get libbpf LIBBPF_MINOR_VERSION")
 endif
 
+libbpf-cflags += -DLIBBPF_MAJOR_VERSION=${LIBBPF_MAJOR_VERSION}
+libbpf-cflags += -DLIBBPF_MINOR_VERSION=${LIBBPF_MINOR_VERSION}
+
 export HAVE_LIBBPF := y
+export libbpf-cflags
 
 endif # end of Found libbpf
 
@@ -44,6 +49,7 @@ ifdef DEBUG
   $(info LIBBPF_MAJOR_VERSION = ${LIBBPF_MAJOR_VERSION})
   $(info LIBBPF_MINOR_VERSION = ${LIBBPF_MINOR_VERSION})
   $(info LIBBPF_PATCHLEVEL_VERSION = ${LIBBPF_PATCHLEVEL_VERSION})
+  $(info libbpf-cflags = ${libbpf-cflags})
 endif
 
 endif # end of _BPF_LIBBPF_MK
