@@ -21,6 +21,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- bpf/libbpf.mk: use version.sh;
 - add bpf/iter.mk;
 - Build.mk include ansi.mk;
 - compiler/{m32,std,types}.mk support cache;
