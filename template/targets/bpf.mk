@@ -30,6 +30,7 @@ CFLAGS_BPF += -std=gnu89 -Drestrict=
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 CFLAGS_BPF += -DCONFIG_UID=${CONFIG_UID}
 CFLAGS_BPF += ${bpf-helper-cflags}
+CFLAGS_BPF += -Wno-missing-declarations
 
 ifdef DEBUG
   CFLAGS_BPF += -DDEBUG=${DEBUG}
