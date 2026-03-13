@@ -51,6 +51,7 @@ $(targets-user): %:
 vmlinux.h:
 	$(Q)bpftool btf dump file /sys/kernel/btf/vmlinux format c > ${@}
 
+# xdp xdpdrv xdpgeneric xdpoffload
 install:
 	${Q}sudo bpftool prog load proto.o /sys/fs/bpf/proto
 	${Q}sudo bpftool net attach xdp pinned /sys/fs/bpf/proto dev ${IF}
