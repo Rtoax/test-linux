@@ -15,6 +15,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- remove bpf/libbpf/`libbpf_version.c` use bpf/libbpf.mk instead;
 - remove `__IGNORE_NOTFOUND_ERROR__` totally;
 #### Fixed
 #### Security

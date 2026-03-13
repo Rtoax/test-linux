@@ -130,14 +130,9 @@ obj-bpf.o += sched_act.bpf.o
 
 target-bpf-y := $(addprefix ${OUTPUT},${obj-bpf.o})
 
-# Set after obj-bpf.o
-target-y += libbpf_version
-
 target-libso-y := ${LIBBPF_TRACE_HELPERS}
 libtrace_helpers.so-objs := ${OUTPUT}trace_helpers.so.o
 
-target-prep-y += libbpf_version
-target-prep-y += test-libbpf_version
 target-prep-y += ${HELPERS}
 target-post-y := $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
 
@@ -162,11 +157,6 @@ CFLAGS += $(KFLAGS)
 CFLAGS_BPF += $(KFLAGS)
 CFLAGS += $(CFLAG_BPF_TARGET_ARCH)
 CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
-
-# libbpf commit 8ade99a6f84d ("libbpf: Make libbpf_version.h non-auto-generated")
-# v0.6.0 add macro LIBBPF_MAJOR_VERSION and LIBBPF_MINOR_VERSION in libbpf_version.h
-CFLAGS += -DLIB_LIBBPF_MAJOR_VERSION=${LIBBPF_MAJOR_VERSION}
-CFLAGS += -DLIB_LIBBPF_MINOR_VERSION=${LIBBPF_MINOR_VERSION}
 
 ifdef DEBUG
   CLANG_V = -v
@@ -268,10 +258,6 @@ CFLAGS_BPF_rbtree-raw-map := ${CFLAGS_rbtree-raw-map}
 
 CFLAGS_spin_lock := -DTEST_SPIN_LOCK=1
 CFLAGS_BPF_spin_lock := ${CFLAGS_spin_lock}
-
-# Get libbpf cflags
-libbpf-cflags := $(shell ${CC} libbpf_version.c ${CFLAGS} ${LDFLAGS} -o libbpf_version && \
-	./libbpf_version cflags)
 
 CFLAGS += $(libbpf-cflags)
 CFLAGS_BPF += $(libbpf-cflags)

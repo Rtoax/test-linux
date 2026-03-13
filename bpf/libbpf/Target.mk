@@ -1,10 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-
-test-libbpf_version: libbpf_version
-	${Q}./libbpf_version cflags >/dev/null
-	${Q}./libbpf_version env >/dev/null
-	${Q}./libbpf_version >/dev/null
-
 ${OUTPUT}config-map.o: ${OUTPUT}config-map.skel.h
 ${OUTPUT}socket_filter.o: ${OUTPUT}map_array.skel.h ${OUTPUT}socket_filter.skel.h
 ${OUTPUT}ring_buffer.o: ${OUTPUT}map_array.skel.h ${OUTPUT}ring_buffer.skel.h
