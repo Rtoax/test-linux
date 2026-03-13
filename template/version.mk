@@ -14,7 +14,9 @@ include shell.mk
 
 ###### Version3 1688
 
-# Generate version code from major,minor,patchlevel
+# Generate version code from major,minor,patchlevel.
+# linux kernel use this method, see /usr/include/linux/version.h.
+#
 # $1: major, 16bits
 # $2: minor, 8bits
 # $3: patchlevel, 8bits

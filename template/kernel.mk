@@ -30,6 +30,7 @@ ifndef _KERNEL_MK
 _KERNEL_MK = 1
 
 include shell.mk
+include version.mk
 
 KVER_GREP_CMD := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
 
@@ -57,51 +58,35 @@ KFLAGS += -DKVERSION=$(KVERSION)
 KFLAGS += -DKPATCHLEVEL=$(KPATCHLEVEL)
 KFLAGS += -DKSUBLEVEL=$(KSUBLEVEL)
 
-# See linux/version.h
-define kernel_version
-$(shell echo "$$(( (${1}<<16) + (${2}<<8) + (${3}>255?255:${3}) ))")
-endef
-
-# Arguments:
-# $1: kcode
-# $2: [-gt|-ge|-eq|-lt|-le]
-# $3,$4,$5: x,y,z
-define kernel_compare
-$(shell if [[ ${1} ${2} $(call kernel_version,${3},${4},${5}) ]]; then \
-		echo y; \
-	else echo n; \
-	fi)
-endef
-
 define kver_gt
-$(call kernel_compare,${KVERSION_CODE},-gt,${1},${2},${3})
+$(call version3_code1688_cmp,${KVERSION_CODE},-gt,${1},${2},${3})
 endef
 define kver_ge
-$(call kernel_compare,${KVERSION_CODE},-ge,${1},${2},${3})
+$(call version3_code1688_cmp,${KVERSION_CODE},-ge,${1},${2},${3})
 endef
 define kver_eq
-$(call kernel_compare,${KVERSION_CODE},-eq,${1},${2},${3})
+$(call version3_code1688_cmp,${KVERSION_CODE},-eq,${1},${2},${3})
 endef
 define kver_lt
-$(call kernel_compare,${KVERSION_CODE},-lt,${1},${2},${3})
+$(call version3_code1688_cmp,${KVERSION_CODE},-lt,${1},${2},${3})
 endef
 define kver_le
-$(call kernel_compare,${KVERSION_CODE},-le,${1},${2},${3})
+$(call version3_code1688_cmp,${KVERSION_CODE},-le,${1},${2},${3})
 endef
 define kver_uapi_gt
-$(call kernel_compare,${KUAPIVERSION_CODE},-gt,${1},${2},${3})
+$(call version3_code1688_cmp,${KUAPIVERSION_CODE},-gt,${1},${2},${3})
 endef
 define kver_uapi_eq
-$(call kernel_compare,${KUAPIVERSION_CODE},-eq,${1},${2},${3})
+$(call version3_code1688_cmp,${KUAPIVERSION_CODE},-eq,${1},${2},${3})
 endef
 define kver_uapi_lt
-$(call kernel_compare,${KUAPIVERSION_CODE},-lt,${1},${2},${3})
+$(call version3_code1688_cmp,${KUAPIVERSION_CODE},-lt,${1},${2},${3})
 endef
 
-ifneq (${KVERSION_CODE},$(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+ifneq (${KVERSION_CODE},$(call version3_code1688,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(error "Bad KVERSION_CODE ${KVERSION_CODE}")
 endif
-ifneq (${KUAPIVERSION_CODE},$(call kernel_version,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}))
+ifneq (${KUAPIVERSION_CODE},$(call version3_code1688,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}))
   $(error "Bad KUAPIVERSION_CODE ${KUAPIVERSION_CODE}")
 endif
 # no body use linux v1.1.1 i think
@@ -133,8 +118,8 @@ ifdef DEBUG
   $(info KVERSION = ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE})
   $(info KUAPIVERSION = ${KUAPIVERSION}.${KUAPIPATCHLEVEL}.${KUAPISUBLEVEL}, CODE ${KUAPIVERSION_CODE})
   $(info KFLAGS = ${KFLAGS})
-  $(info kernel_version(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
-         $(call kernel_version,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+  $(info version3_code1688(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
+         $(call version3_code1688,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(info kver_gt(1,1,1) = $(call kver_gt,1,1,1))
   $(info kver_eq(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
          $(call kver_eq,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
