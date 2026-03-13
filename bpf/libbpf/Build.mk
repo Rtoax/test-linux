@@ -141,6 +141,12 @@ target-prep-y += test-libbpf_version
 target-prep-y += ${HELPERS}
 target-post-y := $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
 
+target-prog-y := version.sh version.sh.1 version.sh.2 version.sh.3
+
+PROG_ARGS_version.sh.1 := --major
+PROG_ARGS_version.sh.2 := --minor
+PROG_ARGS_version.sh.3 := --patchlevel
+
 $(foreach t, ${target-y}, $(eval ${t}-objs := ${HELPERS}))
 
 ifeq ($(CONFIG_ARCH_HAS_SYSCALL_WRAPPER),y)

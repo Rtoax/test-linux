@@ -14,4 +14,24 @@ if [[ -z ${LIBBPF_PATH} ]]; then
 	exit 1
 fi
 
-echo ${LIBBPF_PATH} | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true
+version=$(echo ${LIBBPF_PATH} | \
+		grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
+
+case $1 in
+--major)
+	echo ${version%%.*} | tr -d v
+	;;
+--minor)
+	major_minor=${version%.*}
+	echo ${major_minor##*.}
+	;;
+--patchlevel)
+	echo ${version##*.}
+	;;
+"")
+	echo ${version}
+	;;
+*)
+	exit 1
+	;;
+esac
