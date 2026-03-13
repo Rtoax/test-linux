@@ -1142,6 +1142,8 @@ apt_add_packages()
 
 	pkgs_build+=( ninja-build )
 
+	pkgs_db+=( libpq-dev )
+
 	pkgs_gpu+=( libdrm-dev )
 
 	if [[ $(is_os ubuntu) ]]; then
