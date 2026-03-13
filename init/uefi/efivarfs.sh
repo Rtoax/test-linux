@@ -12,9 +12,11 @@ efivar_list() {
 }
 
 efivar_print() {
-	local boot0=$(efivar --list | grep Boot0000)
-
-	efivar --name ${boot0} --print
+	local boot
+	for boot in $(efivar --list | grep -E 'Boot[0-9]+')
+	do
+		efivar --name ${boot} --print
+	done
 }
 
 efivar_print

@@ -599,7 +599,7 @@ pkgs_base+=( cscope )
 pkgs_base+=( dialog kdialog )
 pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal tool
 pkgs_base+=( dwarves )              # pahole
-pkgs_base+=( efivar mokutil )       # UEFI
+pkgs_base+=( efivar )               # UEFI
 pkgs_base+=( elfutils )             # eu- prefix tools
 pkgs_base+=( gdb cgdb )
 pkgs_base+=( git )
@@ -615,6 +615,7 @@ pkgs_base+=( jq )
 pkgs_base+=( lshw )
 pkgs_base+=( lsof )
 pkgs_base+=( make cmake )
+pkgs_base+=( mokutil )              # UEFI
 pkgs_base+=( nasm )
 if [[ $(is_os fedora:40 fedora:41 fedora:42 fedora:43 ubuntu:24.04 ubuntu:25.10) ]]; then
 	pkgs_base+=( fastfetch )
