@@ -16,12 +16,12 @@ include bpf/helper.mk
 include bpf/libbpf.mk
 include bpf/bpftool.mk
 
-TRACE_HELPERS := libtrace_helpers.so
+LIBBPF_TRACE_HELPERS := libtrace_helpers.so
 HELPERS := ${OUTPUT}task_helpers.o \
 	${OUTPUT}stack_helpers.o \
 	${OUTPUT}libbpf_wrapper.o \
 	${OUTPUT}libxdp_helpers.o \
-	${TRACE_HELPERS} \
+	${LIBBPF_TRACE_HELPERS} \
 	${SOCKET_HELPERS} \
 	${KSYM_HELPERS}
 
@@ -139,7 +139,7 @@ target-bpf-y := $(addprefix ${OUTPUT},${obj-bpf.o})
 # Set after obj-bpf.o
 target-y += libbpf_version
 
-target-libso-y := ${TRACE_HELPERS}
+target-libso-y := ${LIBBPF_TRACE_HELPERS}
 libtrace_helpers.so-objs := ${OUTPUT}trace_helpers.so.o
 
 target-prep-y += libbpf_version
