@@ -186,8 +186,10 @@ done:
 	@echo "Done"
 	$(call log_display_failed)
 
-# Helpers
-include targets/helpers.mk
+# All helpers, only include targets/helpers.mk if helpers.mk was included.
+ifdef _HELPERS_MK
+  include targets/helpers.mk
+endif
 
 ifneq (${OUTPUT},)
   include targets/output.mk
