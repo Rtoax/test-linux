@@ -10,6 +10,15 @@ ${OUTPUT}%.o: %.c | ${OUTPUT}
 	$(call log_obj,CC,$(@))
 	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
+# Compile .c to .N.o, this use to compile single source code to more than one
+# object file.
+define c_obj_x
+$${OUTPUT}%.${1}.o: %.c | $${OUTPUT}
+	$$(call log_obj,CC.${1},$$(@))
+	$${Q}$$(CC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS) $$(CFLAGS_$$(*).${1})
+endef
+$(foreach i, ${SRC_SFX_LIST}, $(eval $(call c_obj_x,${i})))
+
 ${OUTPUT}%.E.c: %.c | ${OUTPUT}
 	$(call log_obj,CC E,$(@))
 	${Q}$(CC) -E -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
