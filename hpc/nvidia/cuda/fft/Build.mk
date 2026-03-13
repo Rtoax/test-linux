@@ -5,11 +5,6 @@ include amd/rocm.mk
 include cestc/luca.mk
 include metax/hpcc.mk
 
-__USE_CUDA_HELPERS__ = ${HAVE_CUDA}
-__USE_HIP_HELPERS__ = ${HAVE_HIP}
-__USE_LUCA_HELPERS__ = ${HAVE_LUCA}
-__USE_HPCC_HELPERS__ = ${HAVE_HPCC}
-
 common-objs := fft
 
 target-nvcc-${HAVE_CUDA} := ${common-objs}

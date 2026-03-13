@@ -1,4 +1,3 @@
-__USE_PROC_HELPERS__ = y
 include helpers.mk
 
 subdir-y := hacking

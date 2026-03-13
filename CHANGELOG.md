@@ -22,6 +22,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- targets/helpers.mk: remove all `__USE_..._HELPERS__`;
 - bpf/libbpf.mk: use version.sh;
 - add bpf/iter.mk;
 - Build.mk include ansi.mk;

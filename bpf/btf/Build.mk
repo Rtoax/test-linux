@@ -1,10 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_BTF_HELPERS__ = y
+include helpers.mk
 
 subdir-y += btf_h
 subdir-y += examples
-
-include helpers.mk
 
 target-liba-y := libbtf_helpers.a
 target-libso-y := libbtf_helpers.so

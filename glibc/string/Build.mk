@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_PROC_HELPERS__ = y
 include glibc.mk
+include helpers.mk
 
 # $1: memcpy name, like __memcpy_ssse3
 define add_glibc_obj

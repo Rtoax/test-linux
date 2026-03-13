@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_BPF_HELPERS__ = y
-__USE_BTF_HELPERS__ = y
 __USE_BPF_INSN_SAMPLES__ = y
 
 include bpf/bcc.mk

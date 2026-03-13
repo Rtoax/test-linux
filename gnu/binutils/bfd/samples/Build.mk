@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_PROC_HELPERS__ = y
-
 include bfd.mk
 include helpers.mk
 include binutils.mk

@@ -1,5 +1,3 @@
-__USE_TRACE_HELPERS__ := y
-
 include helpers.mk
 
 target-y := execsnoop
