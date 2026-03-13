@@ -149,6 +149,8 @@ endif
 
 # linux v6.6-rc2-737-g4ac454682158
 # commit 4ac454682158 ("bpf: Introduce task_vma open-coded iterator kfuncs")
+# see also iter in linux v5.11-rc4-606-g3a7b35b899de
+# commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
 ifeq ($(call kver_ge,6,6,0),y)
   ifeq ($(call vmlinux_has_sym_shell,bpf_iter_task_vma_new),y)
     $(call bpf_def_helper,bpf_iter_task_vma_new)

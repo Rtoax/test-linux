@@ -33,17 +33,25 @@ define bpf_def_iter
   $(call mk_cache_var,SUPPORT_$(call toupper_shell,${1}),${cachefile})
 endef
 
-# linux v6.12-rc1-177-g4971266e1595
-# commit 4971266e1595 ("bpf: Add kmem_cache iterator")
-ifeq ($(call kver_ge,6,13,0),y)
-  $(call bpf_def_iter,iter_kmem_cache)
-endif
-
 # linux v5.7-rc2-1180-geaaacd23910f
 # commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
 ifeq ($(call kver_ge,5,7,0),y)
   $(call bpf_def_iter,iter_task)
   $(call bpf_def_iter,iter_task_file)
+endif
+
+# linux v5.11-rc4-606-g3a7b35b899de
+# commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
+# see also kfuncs in linux v6.6-rc2-737-g4ac454682158
+# commit 4ac454682158 ("bpf: Introduce task_vma open-coded iterator kfuncs")
+ifeq ($(call kver_ge,5,7,0),y)
+  $(call bpf_def_iter,iter_task_vma)
+endif
+
+# linux v6.12-rc1-177-g4971266e1595
+# commit 4971266e1595 ("bpf: Add kmem_cache iterator")
+ifeq ($(call kver_ge,6,13,0),y)
+  $(call bpf_def_iter,iter_kmem_cache)
 endif
 
 $(call mk_cache_var,bpf-iter-cflags,${cachefile})
