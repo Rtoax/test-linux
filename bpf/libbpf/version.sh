@@ -1,6 +1,6 @@
 #!/bin/bash
-# This script only display BPF version, do not display other anything, because
-# the git/hooks will use it.
+# This script only display LIBBPF version, do not display other anything,
+# because the git/hooks will use it.
 set -e
 
 LIBBPF_PATH=$(realpath $(ldconfig -p | \
