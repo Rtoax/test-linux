@@ -4,6 +4,7 @@ include amd/rocm.mk
 include cestc/luca.mk
 include metax/hpcc.mk
 include compiler.mk
+include helpers.mk
 
 common-objs := sparse
 
