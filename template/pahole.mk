@@ -29,6 +29,7 @@ ifeq ($(PAHOLE),)
   $(warning "Not found pahole, skipping")
   export HAVE_PAHOLE := n
 else
+export HAVE_PAHOLE := y
 
 PAHOLE_VERSION := 0.0
 PAHOLE_VERSION_MAJOR := 0
@@ -101,7 +102,6 @@ ifneq ($(call pahole_lt,1,32),y)
   $(error "Call pahole_lt failed")
 endif
 
-export HAVE_PAHOLE := y
 export PAHOLE PAHOLE_VERSION_MAJOR PAHOLE_VERSION_MINOR
 export DWARVES_MAJOR_VERSION DWARVES_MINOR_VERSION
 export pahole-cflags

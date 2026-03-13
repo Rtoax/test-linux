@@ -19,7 +19,8 @@ ifeq (${BPF_TARGET_ARCH},$(shell uname -m))
   $(error Not handle arch ${shell uname -m} yet, please do)
 endif
 
-CFLAG_BPF_TARGET_ARCH := -D__TARGET_ARCH_$(BPF_TARGET_ARCH)
+export BPF_TARGET_ARCH
+export CFLAG_BPF_TARGET_ARCH := -D__TARGET_ARCH_$(BPF_TARGET_ARCH)
 
 ifdef DEBUG
   $(info BPF_TARGET_ARCH = ${BPF_TARGET_ARCH})
