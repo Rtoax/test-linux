@@ -25,9 +25,6 @@ build: $(targets-kern) ${targets-user}
 %.o: %.c
 	@echo -e "  CLANG-K  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CLANG) -O2 -target bpf -c $(<) -o $(@) ${CFLAGS_KERN}
-	${Q}llvm-objdump --disassemble --source --no-show-raw-insn $(@)
-	${Q}llvm-objdump --disassemble --source $(@)
-	${Q}$(CLANG) -O2 -target bpf -c $(<) -S -o $(<:.c=.S) ${CFLAGS_KERN}
 	${Q}llvm-mc -triple bpf -filetype=obj -o $(@) $(<:.c=.S) # LLVM 6.0
 	${Q}$(CLANG) -O2 -target bpf -emit-llvm -c $(<) -o $(<:.c=.bc) ${CFLAGS_KERN}
 	${Q}llc $(<:.c=.bc) -march=bpf -filetype=obj -o $(@)

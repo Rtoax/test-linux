@@ -131,9 +131,10 @@ target-libso-y := ${LIBBPF_TRACE_HELPERS}
 libtrace_helpers.so-objs := ${OUTPUT}trace_helpers.so.o
 
 target-prep-y += ${HELPERS}
-target-post-y := $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
+target-post-y += $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
+target-post-y += $(patsubst %.bpf.o,%.bpf.s,$(target-bpf-y))
 
-target-prog-y := version.sh version.sh.1 version.sh.2 version.sh.3
+target-prog-y += version.sh version.sh.1 version.sh.2 version.sh.3
 
 PROG_ARGS_version.sh.1 := --major
 PROG_ARGS_version.sh.2 := --minor

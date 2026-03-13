@@ -42,6 +42,8 @@ ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
 	$(call log_obj,BPF,$(@))
 	${Q}$(CLANG) -MMD -MT $(@) -MF $(@:=.d) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
+# Other arguments:
+# --no-show-raw-insn
 ${OUTPUT}%.bpf.disasm: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	$(call log_obj,BPF DIS,$(@))
 	${Q}${LLVM_OBJDUMP} --disassemble --source $(<) > $(@)
