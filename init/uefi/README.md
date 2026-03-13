@@ -66,9 +66,7 @@ LoongArch64	BOOTLOONGARCH64.EFI	0x6264
 
 # efivarfs `/sys/firmware/efi/efivars/`
 
-从 linux 3.8 开始，内核中添加的一个新的文件系统。efivarfs 文件系统是为了解决在
-sysfs 中使用entries来维护EFI variables的缺点。旧的 sysfs EFI variables 只技持
-1024 bytes, 这是EFI 0.99标准之前的限制。在新的标准中已经被删除。
+从 linux 3.8 开始，内核中添加的一个新的文件系统。efivarfs 文件系统是为了解决在 sysfs 中使用entries来维护EFI variables的缺点。旧的 sysfs EFI variables 只技持 1024 bytes, 这是EFI 0.99标准之前的限制。在新的标准中已经被删除。
 
 
 # Links
