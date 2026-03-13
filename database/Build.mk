@@ -1,1 +1,1 @@
-subdir-y := postgresql/samples/
+subdir-y := postgresql
