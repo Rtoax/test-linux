@@ -1,5 +1,7 @@
+include make.mk
+
 virt2phy:
-	$(Q)pushd ../../mm/; make virt2phy; popd
+	$(Q)${MAKE} -C ../../mm/ virt2phy
 	$(Q)cp ../../mm/virt2phy .
 
 post-nvdso:
