@@ -1,5 +1,3 @@
-__USE_PTHREAD_HELPERS__ = y
-
 include helpers.mk
 
 target-y += rdtsc_user

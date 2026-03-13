@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_PROC_HELPERS__ = y
 include helpers.mk
 
 target-y := dl_iterate_phdr

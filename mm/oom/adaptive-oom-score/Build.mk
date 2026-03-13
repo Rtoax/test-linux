@@ -1,7 +1,3 @@
-__USE_C_HELPERS__ = y
-__USE_PROC_HELPERS__ = y
-__USE_OOM_HELPERS__ = y
-
 include libcgroup.mk
 include helpers.mk
 

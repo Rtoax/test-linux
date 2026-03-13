@@ -1,7 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_SOCKET_HELPERS__ = y
-__USE_KSYM_HELPERS__ = y
-
 include kernel.mk
 ifndef NO_PAHOLE
   include pahole.mk

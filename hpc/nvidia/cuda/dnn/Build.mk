@@ -4,11 +4,6 @@ include amd/rocm.mk
 include cestc/luca.mk
 include metax/hpcc.mk
 
-__USE_CUDA_HELPERS__ = ${HAVE_CUDNN}
-__USE_HIP_HELPERS__ = ${HAVE_HIPDNN}
-__USE_LUCA_HELPERS__ = ${HAVE_LCDNN}
-__USE_HPCC_HELPERS__ = ${HAVE_HCDNN}
-
 common-objs := version
 
 target-nvcc-${HAVE_CUDNN} := ${common-objs}

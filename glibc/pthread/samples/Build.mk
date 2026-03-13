@@ -1,7 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_C_HELPERS__ = y
-__USE_PTHREAD_HELPERS__ = y
-__USE_SCHED_HELPERS__ = y
 include helpers.mk
 
 target-y += foobar

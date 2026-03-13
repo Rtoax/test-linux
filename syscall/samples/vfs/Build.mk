@@ -1,5 +1,3 @@
-__USE_PROC_HELPERS__ = y
-
 include helpers.mk
 
 target-y := statfs

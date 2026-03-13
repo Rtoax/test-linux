@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-__USE_BTF_HELPERS__ = y
-
 include helpers.mk
 include kernel.mk
 include bpf/helper.mk
