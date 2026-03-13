@@ -39,6 +39,13 @@ ifeq ($(call kver_ge,6,13,0),y)
   $(call bpf_def_iter,iter_kmem_cache)
 endif
 
+# linux v5.7-rc2-1180-geaaacd23910f
+# commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
+ifeq ($(call kver_ge,5,7,0),y)
+  $(call bpf_def_iter,iter_task)
+  $(call bpf_def_iter,iter_task_file)
+endif
+
 $(call mk_cache_var,bpf-iter-cflags,${cachefile})
 
 endif # end of include cache file
