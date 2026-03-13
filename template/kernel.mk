@@ -36,9 +36,9 @@ include version.mk
 KVER_GREP_CMD := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
 
 KVERSION := $(shell ${TOPDIR}/init/kernel/version.sh --major)
-KPATCHLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --minor)
-KSUBLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --patchlevel)
-KVERSION_CODE := $(shell echo "$$(( (${KVERSION}<<16) + (${KPATCHLEVEL}<<8) + (${KSUBLEVEL}>255?255:${KSUBLEVEL}) ))" )
+KPATCHLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --patchlevel)
+KSUBLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --sublevel)
+KVERSION_CODE := $(shell ${TOPDIR}/init/kernel/version.sh --code)
 
 KUAPI_VERSION_H := /usr/include/linux/version.h
 KUAPI_VERSION_RAW := $(shell rpm -q --queryformat='%{VERSION}' kernel-headers 2>/dev/null \
