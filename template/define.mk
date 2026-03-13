@@ -12,8 +12,8 @@ _DEFINE_MK = 1
 define check_file_and_def
 $(if $(wildcard $(1)), \
   $(eval export $(2) = y); \
-  $(if $(DEBUG),$(info Found $(1), defining $(2)=y));, \
-  $(if $(DEBUG),$(info Not found $(1), not define $(2))); \
+  $(if $(DEBUG),$(info Found $(1), define $(2)=y));, \
+  $(if $(DEBUG),$(info Not found $(1), do not define $(2))); \
 )
 endef
 

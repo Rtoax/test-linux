@@ -1,3 +1,5 @@
+include postgresql.mk
+
 target-y += list_tables
 target-y += PQconnectdb
 target-y += PQdb
@@ -13,4 +15,5 @@ target-y += PQserverVersion
 target-y += PQuser
 target-y += transaction
 
+CFLAGS += ${postgresql-cflags}
 LDFLAGS += -lpq
