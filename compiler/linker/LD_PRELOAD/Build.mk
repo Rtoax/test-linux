@@ -8,6 +8,7 @@ target-libso-y += libmcount-nop.so
 target-libso-y += libconstructor-obj.so
 
 target-post-y := post0
+target-post-${feature-mfentry} += post0
 
 libmcount-nop.so-objs := ${OUTPUT}mcount-nop.so.o
 libconstructor-obj.so-objs := ${OUTPUT}constructor-obj.so.o
