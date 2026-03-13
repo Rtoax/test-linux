@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2025-2026 Rong Tao
 #
 # Helper functions are part of a stable UAPI and generally remain backward
 # compatible.
@@ -8,17 +9,25 @@
 # kernel versions.
 #
 # Output definitions:
-# - SUPPORT_<upcase kfunc name>=[y]
+# - SUPPORT_<upcase helper or kfunc name>=[y]
 # - bpf-helper-cflags=
 #
 ifndef _BPF_HELPER_MK
 _BPF_HELPER_MK = 1
 _BPF_KFUNC_MK = 1
 
+include dir.mk
 include kernel.mk
 include pahole.mk
 include string.mk
 include bpf/btf.mk
+include bits/mk-cache.mk
+
+# Use cache first if it's exist, because it's fast.
+cachefile := ${TOPDIR}/template/bpf/.helper.mk.cache
+ifneq ($(wildcard ${cachefile}),)
+  include ${cachefile}
+else
 
 bpf-helper-cflags :=
 
@@ -31,6 +40,7 @@ define ___bpf_def_helper
 endef
 define bpf_def_helper
   $(eval $(call ___bpf_def_helper,${1},$(call toupper_shell,${1})))
+  $(call mk_cache_var,SUPPORT_$(call toupper_shell,${1}),${cachefile})
 endef
 
 # linux v3.18-rc4-943-gd0003ec01c66
@@ -228,6 +238,10 @@ endif
 ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
   bpf-helper-cflags += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
 endif
+
+$(call mk_cache_var,bpf-helper-cflags,${cachefile})
+
+endif # end of include cache file
 
 export bpf-helper-cflags
 
