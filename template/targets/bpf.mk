@@ -42,6 +42,11 @@ ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
 	$(call log_obj,BPF,$(@))
 	${Q}$(CLANG) -MMD -MT $(@) -MF $(@:=.d) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
+# LLVM IR bitcode, only add -emit-llvm
+${OUTPUT}%.bpf.bc: %.bpf.c | ${OUTPUT}
+	$(call log_obj,BPF,$(@))
+	${Q}$(CLANG) -MMD -MT $(@) -MF $(@:=.d) -emit-llvm -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
+
 # Other arguments:
 # --no-show-raw-insn
 ${OUTPUT}%.bpf.disasm: ${OUTPUT}%.bpf.o | ${OUTPUT}

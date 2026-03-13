@@ -27,6 +27,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- targets/bpf.mk: add `%.bpf.bc` object;
 - targets/c.mk: support compile .c to .N.o;
 - targets/llvm.mk: target-llvm-ll-y auto deps .llvm.ll;
 - targets/helpers.mk: remove all `__USE_..._HELPERS__`;
