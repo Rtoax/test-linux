@@ -19,7 +19,7 @@ version=$(echo ${LIBBPF_PATH} | \
 
 case $1 in
 --major)
-	echo ${version%%.*} | tr -d v
+	echo ${version%%.*}
 	;;
 --minor)
 	major_minor=${version%.*}

@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- kernel: add version.sh;
 #### Changed
 #### Deprecated
 #### Removed
