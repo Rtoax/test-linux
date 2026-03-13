@@ -8,6 +8,7 @@
 # - PAHOLE=
 # - PAHOLE_VERSION_MAJOR=DWARVES_MINOR_VERSION=
 # - PAHOLE_VERSION_MINOR=DWARVES_MINOR_VERSION=
+# - pahole-cflags=
 #
 # Funtions:
 # - pahole_gt()=[y|n]
@@ -57,6 +58,9 @@ endif
 DWARVES_MAJOR_VERSION := ${PAHOLE_VERSION_MAJOR}
 DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
 
+pahole-cflags += -DPAHOLE_VERSION_MAJOR=${PAHOLE_VERSION_MAJOR}
+pahole-cflags += -DPAHOLE_VERSION_MINOR=${PAHOLE_VERSION_MINOR}
+
 PAHOLE_VERSION_CODE := $(call version3_code1688,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR},0)
 
 define pahole_gt
@@ -82,6 +86,7 @@ ifdef DEBUG
   $(info PAHOLE_VERSION_MINOR = ${PAHOLE_VERSION_MINOR})
   $(info DWARVES_MAJOR_VERSION = ${DWARVES_MAJOR_VERSION})
   $(info DWARVES_MINOR_VERSION = ${DWARVES_MINOR_VERSION})
+  $(info pahole-cflags = ${pahole-cflags})
 endif
 
 # Make sure function works fine.
@@ -99,6 +104,7 @@ endif
 export HAVE_PAHOLE := y
 export PAHOLE PAHOLE_VERSION_MAJOR PAHOLE_VERSION_MINOR
 export DWARVES_MAJOR_VERSION DWARVES_MINOR_VERSION
+export pahole-cflags
 
 endif # end of pahole is found
 endif # end of _PAHOLE_MK
