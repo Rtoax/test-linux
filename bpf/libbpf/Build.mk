@@ -13,6 +13,7 @@ include bpf/bpf.mk
 include ldconfig.mk
 include bpf/btf.mk
 include bpf/helper.mk
+include bpf/iter.mk
 include bpf/libbpf.mk
 include bpf/bpftool.mk
 
@@ -74,18 +75,11 @@ target-y += sk_msg
 target-y += cgroup_device
 target-y += cgroup_sysctl
 target-y += fmod_ret
-# linux v5.7-rc2-1180-geaaacd23910f
-# commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
-target-$(call kver_gt,5,7,0) += iter_task iter_task_file
-# linux v5.7-rc2-1178-g6086d29def80
-# commit 6086d29def80 ("bpf: Add bpf_map iterator")
-target-$(call kver_gt,5,7,0) += iter_bpf_map
-# linux v5.11-rc4-606-g3a7b35b899de
-# commit 3a7b35b899de ("bpf: Introduce task_vma bpf_iter")
-target-$(call kver_gt,5,11,0) += iter_task_vma
-# linux v6.12-rc1-177-g4971266e1595
-# commit 4971266e1595 ("bpf: Add kmem_cache iterator")
-target-$(call kver_gt,6,12,0) += iter_kmem_cache
+target-${SUPPORT_ITER_TASK} += iter_task
+target-${SUPPORT_ITER_TASK_FILE} += iter_task_file
+target-${SUPPORT_ITER_BPF_MAP} += iter_bpf_map
+target-${SUPPORT_ITER_TASK_VMA} += iter_task_vma
+target-${SUPPORT_ITER_KMEM_CACHE} += iter_kmem_cache
 target-y += $(kobjs-y)
 target-y += map_array map_prog_array map_percpu_array
 target-y += xdp_xskmap

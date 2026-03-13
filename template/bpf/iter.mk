@@ -56,7 +56,7 @@ endif
 
 # linux v6.12-rc1-177-g4971266e1595
 # commit 4971266e1595 ("bpf: Add kmem_cache iterator")
-ifeq ($(call kver_ge,6,13,0),y)
+ifeq ($(call kver_gt,6,12,0),y)
   $(call bpf_def_iter,iter_kmem_cache)
 endif
 
