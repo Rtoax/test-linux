@@ -2,15 +2,17 @@
 # This script only display kernel version, do not display other anything,
 # and don't execute failed, because the git/hooks will use it.
 #
-# Usage: version.sh [--major|--patchlevel|--sublevel|--code]
+# Usage: version.sh [--<uapi>major|--<uapi>patchlevel|--<uapi>sublevel|--<uapi>code]
 #
 set -e
 
-version=$(uname -r | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true | head -1)
-major=${version%%.*}
-major_patchlevel=${version%.*}
-patchlevel=${major_patchlevel##*.}
-sublevel=${version##*.}
+readonly version=$(uname -r | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true | head -1)
+readonly major=${version%%.*}
+readonly major_patchlevel=${version%.*}
+readonly patchlevel=${major_patchlevel##*.}
+readonly sublevel=${version##*.}
+
+readonly version_h=/usr/include/linux/version.h
 
 case $1 in
 --major)
@@ -25,6 +27,18 @@ case $1 in
 --code)
 	# see /usr/include/linux/version.h
 	echo $(( (${major}<<16) + (${patchlevel}<<8) + (${sublevel}>255?255:${sublevel}) ))
+	;;
+--uapicode)
+	echo $(awk '/LINUX_VERSION_CODE/{print $3}' ${version_h})
+	;;
+--uapimajor)
+	echo $(awk '/LINUX_VERSION_MAJOR/{print $3}' ${version_h})
+	;;
+--uapipatchlevel)
+	echo $(awk '/LINUX_VERSION_PATCHLEVEL/{print $3}' ${version_h})
+	;;
+--uapisublevel)
+	echo $(awk '/LINUX_VERSION_SUBLEVEL/{print $3}' ${version_h})
 	;;
 "")
 	echo ${version}

@@ -33,25 +33,15 @@ include dir.mk
 include shell.mk
 include version.mk
 
-KVER_GREP_CMD := grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'
-
 KVERSION := $(shell ${TOPDIR}/init/kernel/version.sh --major)
 KPATCHLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --patchlevel)
 KSUBLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --sublevel)
 KVERSION_CODE := $(shell ${TOPDIR}/init/kernel/version.sh --code)
 
-KUAPI_VERSION_H := /usr/include/linux/version.h
-KUAPI_VERSION_RAW := $(shell rpm -q --queryformat='%{VERSION}' kernel-headers 2>/dev/null \
-				| ${KVER_GREP_CMD} || \
-			dpkg-query -W -f='$${Version}' linux-libc-dev 2>/dev/null \
-				| ${KVER_GREP_CMD})
-ifeq ($(KUAPI_VERSION_RAW),)
-  $(error Not found kernel-headers or linux-libc-dev on your system)
-endif
-KUAPIVERSION := $(shell echo ${KUAPI_VERSION_RAW} | awk -F '.' '{print $$1}')
-KUAPIPATCHLEVEL := $(shell echo ${KUAPI_VERSION_RAW} | awk -F '.' '{print $$2}')
-KUAPISUBLEVEL := $(shell echo ${KUAPI_VERSION_RAW} | awk -F '.' '{print $$3}')
-KUAPIVERSION_CODE := $(shell echo "$$(( (${KUAPIVERSION}<<16) + (${KUAPIPATCHLEVEL}<<8) + (${KUAPISUBLEVEL}>255?255:${KUAPISUBLEVEL}) ))" )
+KUAPIVERSION := $(shell ${TOPDIR}/init/kernel/version.sh --uapimajor)
+KUAPIPATCHLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --uapipatchlevel)
+KUAPISUBLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --uapisublevel)
+KUAPIVERSION_CODE := $(shell ${TOPDIR}/init/kernel/version.sh --uapicode)
 
 KFLAGS :=
 KFLAGS += -DKVERSION=$(KVERSION)
