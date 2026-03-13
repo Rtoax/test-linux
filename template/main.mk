@@ -204,7 +204,7 @@ endif
 ifneq ($(target-libso-y)$(target-libso-cpp-y),)
   include targets/libso.mk
 endif
-ifneq ($(USE_LLVM)$(target-llvm-ll-y),)
+ifneq ($(target-llvm-ll-y),)
   include targets/llvm.mk
 endif
 ifneq ($(target-bpf-y)$(target-btf-y),)

@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-USE_LLVM = 1
-
 target-y := hello
 target-llvm-ll-y := hello_ll
 
