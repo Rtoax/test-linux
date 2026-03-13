@@ -33,6 +33,12 @@ define bpf_def_iter
   $(call mk_cache_var,SUPPORT_$(call toupper_shell,${1}),${cachefile})
 endef
 
+# linux v5.7-rc2-1178-g6086d29def80
+# commit 6086d29def80 ("bpf: Add bpf_map iterator")
+ifeq ($(call kver_ge,5,7,0),y)
+  $(call bpf_def_iter,iter_bpf_map)
+endif
+
 # linux v5.7-rc2-1180-geaaacd23910f
 # commit eaaacd23910f ("bpf: Add task and task/file iterator targets")
 ifeq ($(call kver_ge,5,7,0),y)
