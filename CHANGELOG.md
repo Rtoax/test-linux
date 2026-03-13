@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- cpp: add std/unique to test std::unique();
 - kernel: add version.sh;
 #### Changed
 #### Deprecated
