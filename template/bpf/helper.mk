@@ -23,7 +23,8 @@ include string.mk
 include bpf/btf.mk
 include bits/mk-cache.mk
 
-# Use cache first if it's exist, because it's fast.
+# Use cache first if it's exist, because it's fast,
+# see commit d48999813cd4 ("bpf/helper.mk: support cache")
 cachefile := ${TOPDIR}/template/bpf/.helper.mk.cache
 ifneq ($(wildcard ${cachefile}),)
   include ${cachefile}
