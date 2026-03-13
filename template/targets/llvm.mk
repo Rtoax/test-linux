@@ -46,9 +46,16 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 	$(call log_obj,LLC,$(@))
 	${Q}$(LLC) $(<) -o $(@)
 
-# TODO: Auto deps
 ${target-llvm-ll-y}: %:
 	$(call log_tgt,LLVM LL,$(@))
 	${Q}$(CLANG) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+
+# depends on .llvm.ll
+$(foreach t, ${target-llvm-ll-y}, \
+  $(if $(shell test -f ${t}.llvm.ll && echo yes), \
+    $(eval ${t}: ${t}.llvm.ll $${${t}-objs}), \
+    $(eval ${t}: $${${t}-objs}) \
+  ) \
+)
 
 endif

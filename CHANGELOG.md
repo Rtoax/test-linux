@@ -25,6 +25,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- targets/llvm.mk: target-llvm-ll-y auto deps .llvm.ll;
 - targets/helpers.mk: remove all `__USE_..._HELPERS__`;
 - bpf/libbpf.mk: use version.sh;
 - add bpf/iter.mk;

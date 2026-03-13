@@ -4,6 +4,8 @@ USE_LLVM = 1
 target-y := hello
 target-llvm-ll-y := hello_ll
 
+hello_ll-objs := hello.llvm.ll
+
 obj-ast := $(addsuffix .llvm.ast, $(target-y))
 obj-ll := $(addsuffix .llvm.ll, $(target-y))
 obj-ll.s := $(addsuffix .llvm.ll.s, $(target-y))
