@@ -10,34 +10,13 @@
 # - CFLAGS_LSCC
 # - CFLAGS_HTCC
 # - LDFLAGS
+# - LDFLAGS_A
+# - LDFLAGS_SO
 #
 ifndef _TARGET_HELPERS_MK
 _TARGET_HELPERS_MK = 1
 
 include helpers.mk
-include mkflags.mk
-include make.mk
-
-# $1 - helper library absolute path
-define add_helper_target
-CFLAGS += -I$(shell dirname ${1})
-CFLAGS_A += -I$(shell dirname ${1})
-CFLAGS_SO += -I$(shell dirname ${1})
-CFLAGS_NVCC += -I$(shell dirname ${1})
-CFLAGS_HIPCC += -I$(shell dirname ${1})
-CFLAGS_LSCC += -I$(shell dirname ${1})
-CFLAGS_HTCC += -I$(shell dirname ${1})
-ifdef DEBUG
-  $$(info Use helper $1)
-endif
-ifdef STATIC
-  LDFLAGS += ${1}
-else
-  LDFLAGS += -Wl,-rpath,$$(shell dirname ${1})
-endif
-${1}:
-	${Q}${MAKE} --no-print-directory --silent ${SUBMKFLAGS} -C $$(shell dirname ${1}) $$(shell basename ${1})
-endef
 
 $(eval $(call add_helper_target,${C_HELPERS}))
 $(eval $(call add_helper_target,${PROC_HELPERS}))
@@ -55,5 +34,17 @@ $(eval $(call add_helper_target,${HPCC_HELPERS}))
 $(eval $(call add_helper_target,${BPF_HELPERS}))
 $(eval $(call add_helper_target,${BTF_HELPERS}))
 $(eval $(call add_helper_target,${BPF_INSN_SAMPLES}))
+
+$(call add_helpers_cflags, CFLAGS)
+$(call add_helpers_cflags, CFLAGS_A)
+$(call add_helpers_cflags, CFLAGS_SO)
+$(call add_helpers_cflags, CFLAGS_NVCC)
+$(call add_helpers_cflags, CFLAGS_HIPCC)
+$(call add_helpers_cflags, CFLAGS_LSCC)
+$(call add_helpers_cflags, CFLAGS_HTCC)
+
+$(call add_helpers_ldflags, LDFLAGS)
+$(call add_helpers_ldflags, LDFLAGS_A)
+$(call add_helpers_ldflags, LDFLAGS_SO)
 
 endif
