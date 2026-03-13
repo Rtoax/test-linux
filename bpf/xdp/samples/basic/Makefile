@@ -8,12 +8,10 @@ targets-kern :=
 targets-user :=
 
 targets-kern += vmlinux.h
-targets-kern += drop.o
 targets-kern += proto.o
 targets-kern += config_map.kern.o
 
 ifdef DEBUG
-  targets-kern += drop.g.o
   targets-kern += proto.g.o
 endif
 
@@ -58,12 +56,6 @@ $(targets-user): %:
 
 vmlinux.h:
 	$(Q)bpftool btf dump file /sys/kernel/btf/vmlinux format c > ${@}
-
-attach:
-	${Q}sudo ip link set dev ${IF} xdp obj drop.o
-
-detach:
-	${Q}sudo ip link set dev ${IF} xdp off
 
 install:
 	${Q}sudo bpftool prog load proto.o /sys/fs/bpf/proto

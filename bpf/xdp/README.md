@@ -1,19 +1,21 @@
 XDP - eXpress Data Path
 =======================
 
-# XDP Type
+# XDP Type and Load/Attach
 
-1. `Native XDP`: Runs directly on the network driver, providing higher performance.
+1. **Native XDP**: Runs directly on the network driver, providing higher performance.
   - BCC: `b.attach_xdp("eth0", fn, flags=BPF.XDP_FLAGS_DRV_MODE)`
-  - iproute: `ip link set dev eth0 xdp obj xdp_program.o sec xdp`
+  - iproute:
+    - attach: `ip link set dev [IF] xdp obj xdp_program.o sec xdp`
+    - detach: `ip link set dev [IF] xdp off`
   - libbpf: `bpf_xdp_attach(XDP_FLAGS_DRV_MODE)`, `bpf_set_link_xdp_fd(XDP_FLAGS_DRV_MODE)`
-2. `Offloaded XDP`:
+2. **Offloaded XDP**:
   - BCC: `b.attach_xdp("eth0", fn, flags=BPF.XDP_FLAGS_HW_MODE)`
   - iproute: `ip link set dev [IF] xdp offload obj xdp_program.o sec xdp`
   - libbpf: `bpf_xdp_attach(XDP_FLAGS_HW_MODE)`, `bpf_set_link_xdp_fd(XDP_FLAGS_HW_MODE)`
-3. `Generic XDP`: Runs on the kernel's network stack, providing compatibility with all network drivers but with lower performance.
+3. **Generic XDP**: Runs on the kernel's network stack, providing compatibility with all network drivers but with lower performance.
   - BCC: `b.attach_xdp("eth0", fn, flags=BPF.XDP_FLAGS_SKB_MODE)`
-  - iproute: `ip link set dev eth0 xdpgeneric obj xdp_program.o sec xdp`
+  - iproute: `ip link set dev [IF] xdpgeneric obj xdp_program.o sec xdp`
   - libbpf: `bpf_xdp_attach(XDP_FLAGS_SKB_MODE)`, `bpf_set_link_xdp_fd(XDP_FLAGS_SKB_MODE)`
 
 
@@ -97,4 +99,3 @@ sudo ip -details link set eth0 xdp off
 - https://github.com/xdp-project
   - [libxdp](https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp)
 - [AF_XDP](https://docs.ebpf.io/linux/concepts/af_xdp/)
-

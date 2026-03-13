@@ -19,6 +19,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- xdp: remove samples/basic/drop.c;
 - remove bpf/libbpf/`libbpf_version.c` use bpf/libbpf.mk instead;
 - remove `__IGNORE_NOTFOUND_ERROR__` totally;
 #### Fixed
