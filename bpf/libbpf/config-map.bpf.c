@@ -18,7 +18,7 @@ struct {
 	__uint(type, BPF_MAP_TYPE_HASH);
 	__uint(max_entries, 10240);
 	__type(key, u32);
-	__type(value, struct msg_t);
+	__type(value, struct config_st);
 } config_hash SEC(".maps");
 
 #if defined(BPF_KPROBE_SYSCALL)
@@ -30,7 +30,7 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter* ctx)
 #endif
 {
 	struct data_t data = {};
-	struct msg_t *p;
+	struct config_st *config;
 	u64 uid;
 
 	data.counter = c;
@@ -40,18 +40,20 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter* ctx)
 	uid = bpf_get_current_uid_gid() & 0xFFFFFFFF;
 	data.uid = uid;
 
-	p = bpf_map_lookup_elem(&config_hash, &uid);
+	config = bpf_map_lookup_elem(&config_hash, &uid);
 
 	/* Attempt to dereference a potentially null pointer */
-	if (p != 0) {
-		char a = p->message[0];
+	if (config != 0) {
+		char a = config->message[0];
 		bpf_printk("%d", a);
 	}
 
-	if (p != 0) {
-		bpf_probe_read_kernel(&data.message, sizeof(data.message), p->message);
+	if (config != 0) {
+		bpf_probe_read_kernel(&data.message, sizeof(data.message),
+				      config->message);
 	} else {
-		bpf_probe_read_kernel(&data.message, sizeof(data.message), message);
+		bpf_probe_read_kernel(&data.message, sizeof(data.message),
+				      message);
 	}
 
 	/**

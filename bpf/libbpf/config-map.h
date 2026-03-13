@@ -8,6 +8,9 @@ struct data_t {
 	char message[12];
 };
 
-struct msg_t {
+struct config_st {
+	__u32 action;
+	int ifindex;
+	__u32 options;
 	char message[12];
 };

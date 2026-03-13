@@ -9,11 +9,9 @@
 #include "trace_helpers.h"
 #include "libbpf_wrapper.h"
 
-
 void handle_event(void *ctx, int cpu, void *data, unsigned int data_sz)
 {
 	struct data_t *m = data;
-
 	printf("%-6d %-6d %-4d %-16s %s\n", m->pid, m->uid, m->counter, m->command, m->message);
 }
 
@@ -42,16 +40,20 @@ int main(void)
 	 * user.
 	 */
 	uint32_t key = getuid();
-	struct msg_t msg;
+	struct config_st config;
 	const char *m = "Hello RT";
-	strncpy((char *)&msg.message, m, strlen(m));
+	config.action = 0;
+	config.ifindex = 1;
+	config.options = 0xff;
+	strncpy((char *)&config.message, m, strlen(m));
 
 	printf("Config message for uid = %d\n", key);
 	printf("event max entries %d\n", bpf_map__max_entries(skel->maps.event));
 	printf("config_hash max entries %d\n", bpf_map__max_entries(skel->maps.config_hash));
 
-	err = libbpf_bpf_map_update_elem(skel->maps.config_hash, &key, sizeof(key),
-				&msg, sizeof(msg), 0);
+	err = libbpf_bpf_map_update_elem(skel->maps.config_hash, &key,
+					 sizeof(key), &config, sizeof(config),
+					 0);
 	if (err < 0) {
 		printf("failed to update elem.\n");
 		config_map_bpf__destroy(skel);

@@ -4,12 +4,8 @@ include verbose.mk
 CC := gcc
 CLANG := clang
 
-targets-kern :=
-targets-user :=
-
 targets-kern += vmlinux.h
 targets-kern += proto.o
-targets-kern += config_map.kern.o
 
 ifdef DEBUG
   targets-kern += proto.g.o
