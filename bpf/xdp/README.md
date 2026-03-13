@@ -12,6 +12,7 @@ XDP - eXpress Data Path
     - load:   `bpftool prog load proto.o /sys/fs/bpf/proto`
     - attach: `bpftool net attach xdpdrv pinned /sys/fs/bpf/proto dev [IF]`
     - detach: `bpftool net detach xdpdrv dev [IF]`
+    - unload: `rm -f /sys/fs/bpf/proto`
   - libbpf: `bpf_xdp_attach(XDP_FLAGS_DRV_MODE)`, `bpf_set_link_xdp_fd(XDP_FLAGS_DRV_MODE)`
 2. **Offloaded XDP**:
   - BCC: `b.attach_xdp("eth0", fn, flags=BPF.XDP_FLAGS_HW_MODE)`
@@ -20,6 +21,7 @@ XDP - eXpress Data Path
     - load:   `bpftool prog load proto.o /sys/fs/bpf/proto`
     - attach: `bpftool net attach xdpoffload pinned /sys/fs/bpf/proto dev [IF]`
     - detach: `bpftool net detach xdpoffload dev [IF]`
+    - unload: `rm -f /sys/fs/bpf/proto`
   - libbpf: `bpf_xdp_attach(XDP_FLAGS_HW_MODE)`, `bpf_set_link_xdp_fd(XDP_FLAGS_HW_MODE)`
 3. **Generic XDP**: Runs on the kernel's network stack, providing compatibility with all network drivers but with lower performance.
   - BCC: `b.attach_xdp("eth0", fn, flags=BPF.XDP_FLAGS_SKB_MODE)`
@@ -28,6 +30,7 @@ XDP - eXpress Data Path
     - load:   `bpftool prog load proto.o /sys/fs/bpf/proto`
     - attach: `bpftool net attach xdpgeneric pinned /sys/fs/bpf/proto dev [IF]`
     - detach: `bpftool net detach xdpgeneric dev [IF]`
+    - unload: `rm -f /sys/fs/bpf/proto`
   - libbpf: `bpf_xdp_attach(XDP_FLAGS_SKB_MODE)`, `bpf_set_link_xdp_fd(XDP_FLAGS_SKB_MODE)`
 
 
