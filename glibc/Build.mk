@@ -1,7 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-include gnu.mk
-include glibc.mk
-
 subdir-y := alloca
 subdir-y += aio
 subdir-y += assert
