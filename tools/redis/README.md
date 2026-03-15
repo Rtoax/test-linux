@@ -1,6 +1,15 @@
 Redis
 ======
 
+# Data Types
+
+1. Key/Value
+2. list
+3. set
+4. hash
+5. sorted
+
+
 # License
 
 | Redis Version | License     |
