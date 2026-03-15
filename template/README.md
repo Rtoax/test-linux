@@ -1,9 +1,9 @@
 Template of Test-Linux
 ======================
 
-Store all mk files of test-linux.
+Store all template make files of test-linux.
 
-In the test-linux project, all Makefiles in the template directory have the `.mk` extension. The `.mk` extension cannot be used in other directories.
+In the test-linux project, all Makefiles in the template directory have the `.mk` extension. The `.mk` extension better not be used in other directories.
 
 
 # Syntax

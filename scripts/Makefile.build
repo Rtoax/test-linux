@@ -1,4 +1,6 @@
-# Default support definitions
+# Use template to default support some definitions, and include main.mk is not
+# necessacy.
+#
 OUTPUT := .output/
 
 include arch.mk
@@ -8,6 +10,7 @@ include ${CURDIR}/Build.mk
 
 include	main.mk
 
+# Target.mk is not necessacy.
 ifneq ($(wildcard ${CURDIR}/Target.mk),)
   include ${CURDIR}/Target.mk
 endif
