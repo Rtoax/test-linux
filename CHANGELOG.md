@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- add scripts/scripts-install.sh;
 - llvm: add llc subdir;
 - uefi: add efivarfs subdir;
 - cpp: add std/unique to test std::unique();

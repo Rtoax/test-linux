@@ -126,38 +126,18 @@ install: uninstall
 	@echo "Install"
 	${Q}ln -s ${TOPDIR}/ai/pytorch/build/compile /usr/bin/pytorch-compile
 	${Q}ln -s ${TOPDIR}/qemu/compile.sh /usr/bin/qemu-compile
-	${Q}ln -s ${TOPDIR}/scripts/git/bigfile.sh /usr/bin/git-bigfile
-	${Q}ln -s ${TOPDIR}/scripts/git/statistic.sh /usr/bin/git-statistic
-	${Q}ln -s ${TOPDIR}/scripts/git/statistic.py /usr/bin/git-statistic.py
-	${Q}ln -s ${TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all
-	${Q}ln -s ${TOPDIR}/scripts/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
-	${Q}ln -s ${TOPDIR}/scripts/git/rm-permanent.sh /usr/bin/git-rm-permanent
-	${Q}ln -s ${TOPDIR}/scripts/patchset.sh /usr/bin/patchset
-	${Q}ln -s ${TOPDIR}/scripts/findelf.sh /usr/bin/findelf
-	${Q}ln -s ${TOPDIR}/scripts/termplot.sh /usr/bin/termplot
-	${Q}ln -s ${TOPDIR}/scripts/kconfig_compare.sh /usr/bin/kconfig_compare
 	${Q}ln -s ${TOPDIR}/init/kernel/compile.sh /usr/bin/kcompile
 	${Q}ln -s ${TOPDIR}/tools/heatmap/hmctl.sh /usr/bin/hmctl
-	${Q}ln -s ${TOPDIR}/scripts/profile.d/make_tl.sh /etc/profile.d/make_tl.sh
+	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh
 
 .PHONY: uninstall
 uninstall:
 	@echo "Uninstall"
+	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh uninstall
 	${Q}rm -f /usr/bin/pytorch-compile \
 		/usr/bin/qemu-compile \
-		/usr/bin/git-bigfile \
-		/usr/bin/git-statistic \
-		/usr/bin/git-statistic.py \
-		/usr/bin/git-push-remote-all \
-		/usr/bin/git-push-remote-all-tags \
-		/usr/bin/git-rm-permanent \
-		/usr/bin/patchset \
-		/usr/bin/findelf \
-		/usr/bin/termplot \
-		/usr/bin/kconfig_compare \
 		/usr/bin/kcompile \
-		/usr/bin/hmctl \
-		/etc/profile.d/make_tl.sh
+		/usr/bin/hmctl
 
 .PHONY: version
 version:
