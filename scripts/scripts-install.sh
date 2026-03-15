@@ -15,7 +15,7 @@ scripts_install()
 	ln -s ${SCRIPTS_DIR}/findelf.sh /usr/bin/findelf
 	ln -s ${SCRIPTS_DIR}/termplot.sh /usr/bin/termplot
 	ln -s ${SCRIPTS_DIR}/kconfig_compare.sh /usr/bin/kconfig_compare
-	ln -s ${TOPDIR}/profile.d/make_tl.sh /etc/profile.d/make_tl.sh
+	ln -s ${SCRIPTS_DIR}/profile.d/make_tl.sh /etc/profile.d/make_tl.sh
 }
 
 scripts_uninstall()
