@@ -1,0 +1,7 @@
+- ACID: Atomicity, Consistency, Isolation, Durability (原子性，一致性，隔离性，持续性)
+- CAP: Consistency, Availability, Partition tolerance (一致性，可用性，分区容错性)
+- DB: Database (数据库)
+- DBS: Database System (数据库系统)
+- DBMS: Database Management System (数据库管理系统)
+- NoSQL: Not Only SQL or Non-Relational (泛指非关系型数据库)
+- ORM: Object-Relation Mapping (对象关系映射)
