@@ -5,6 +5,7 @@ subdir-y += fstabd
 subdir-y += libguestfs
 subdir-y += libosinfo
 subdir-y += lsof
+subdir-y += memcached
 subdir-y += nasm
 subdir-y += ostree
 subdir-y += perf

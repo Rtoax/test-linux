@@ -26,6 +26,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- add memcached;
 #### Template
 - targets/bpf.mk: add `%.bpf.bc` object;
 - targets/c.mk: support compile .c to .N.o;

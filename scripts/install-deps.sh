@@ -716,7 +716,6 @@ pkgs_virt+=( virt-manager )
 # Benchmark
 pkgs_bench+=( fio )
 pkgs_bench+=( iperf )
-pkgs_bench+=( redis )
 
 pkgs_ostree+=( ostree )
 pkgs_ostree+=( rpm-ostree )
@@ -807,7 +806,9 @@ elif [[ $(is_debian_like) ]] && [[ ${have_3rd_party} ]]; then
 fi
 
 # Database
+pkgs_db+=( memcached )
 pkgs_db+=( postgresql )
+pkgs_db+=( redis )
 
 # Filesystem
 pkgs_fs+=( attr )

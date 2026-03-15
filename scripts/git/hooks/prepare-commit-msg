@@ -186,6 +186,7 @@ llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
 lsof_ver() { add_ver "lsof $(${TOPDIR}/tools/lsof/version.sh)"; }
 luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/hpc/cestc/luca/version.sh)"; }
 make_ver() { add_ver "Make $(${TOPDIR}/gnu/make/version.sh)"; }
+memcached_ver() { add_ver "Memcached $(${TOPDIR}/tools/memcached/version.sh)"; }
 nasm_ver() { add_ver "Nasm $(${TOPDIR}/tools/nasm/version.sh)"; }
 numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/numa/numactl/version.sh)"; }
 openssl_ver() { add_ver "OpenSSL $(${TOPDIR}/security/openssl/version.sh)"; }
@@ -273,6 +274,10 @@ fi
 
 if [[ "$(has_key redis)" ]]; then
 	redis_ver
+fi
+
+if [[ "$(has_key memcache memcached)" ]]; then
+	memcached_ver
 fi
 
 if [[ "$(has_type rpm)$(has_key rpm dnf)" ]]; then
