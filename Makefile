@@ -38,7 +38,7 @@ ifneq (${GIT_TOPDIR},)
   endif
 endif
 
-ifeq ($(wildcard /etc/profile.d/make_tl.sh),)
+ifeq ($(wildcard /usr/bin/patchset),)
   ifeq ($(filter $(MAKECMDGOALS),install gitconfig deps),)
     $(error You MUST run 'make install' first, then start a new bash session!!)
   endif

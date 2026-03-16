@@ -15,7 +15,6 @@ scripts_install()
 	ln -s ${SCRIPTS_DIR}/findelf.sh /usr/bin/findelf
 	ln -s ${SCRIPTS_DIR}/termplot.sh /usr/bin/termplot
 	ln -s ${SCRIPTS_DIR}/kconfig_compare.sh /usr/bin/kconfig_compare
-	ln -s ${SCRIPTS_DIR}/profile.d/make_tl.sh /etc/profile.d/make_tl.sh
 }
 
 scripts_uninstall()
@@ -30,15 +29,31 @@ scripts_uninstall()
 		/usr/bin/patchset \
 		/usr/bin/findelf \
 		/usr/bin/termplot \
-		/usr/bin/kconfig_compare \
-		/etc/profile.d/make_tl.sh
+		/usr/bin/kconfig_compare
+}
+
+scripts_set_env()
+{
+	cat >>/home/rongtao/.bashrc<<-EOF
+	source ${SCRIPTS_DIR}/make_tl.sh
+	alias make='make_tl'
+	EOF
+}
+
+scripts_unset_env()
+{
+	sed -i '/make_tl/d' /home/rongtao/.bashrc
+	# FIXME: remove this line after a little while
+	rm -f /etc/profile.d/make_tl.sh
 }
 
 case $1 in
 uninstall)
 	scripts_uninstall
+	scripts_unset_env
 	;;
 *)
 	scripts_install
+	scripts_set_env
 	;;
 esac

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. ../scripts/profile.d/make_tl.sh
+. ../scripts/make_tl.sh
 
 case $(basename $0) in
 aarch64.sh) ARCH=aarch64 ;;

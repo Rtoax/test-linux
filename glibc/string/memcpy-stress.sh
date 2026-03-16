@@ -1,11 +1,7 @@
 #!/bin/bash
 set -e
 
-source /etc/profile.d/make_tl.sh
-
 readonly MiB=1024*1024
-
-make_tl >&2
 
 pfx=
 exes=( memcpy-stress

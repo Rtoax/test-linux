@@ -13,7 +13,7 @@ _MAKE_MK = 1
 include dir.mk
 include version.mk
 
-MAKE := ${TOPDIR}/scripts/profile.d/make_tl.sh
+MAKE := ${TOPDIR}/scripts/make_tl.sh
 
 MAKE_VERSION := $(shell ${TOPDIR}/gnu/make/version.sh)
 MAKE_MAJOR := $(shell ${TOPDIR}/gnu/make/version.sh --major)

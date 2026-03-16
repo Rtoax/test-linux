@@ -15,7 +15,13 @@ make_tl() {
 	local i ARGS makefile
 	local workdir=$PWD
 	local make_args=()
-	local TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../../)
+	local TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../)
+
+	# FIXME: remove this check after a little while
+	if [[ -L /etc/profile.d/make_tl.sh ]]; then
+		echo >&2 "ERROR: 'make uninstall' first, then 'make install' again"
+		exit 1
+	fi
 
 	# Use origin make command
 	if ! [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] &&
