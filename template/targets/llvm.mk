@@ -3,11 +3,12 @@
 #
 # Targets list:
 # - .llvm.ast
-# - .llvm.ll
 # - .llvm.bc
-# - .llvm.ll.bc
 # - .llvm.bc.dis
+# - .llvm.ll
+# - .llvm.ll.bc
 # - .llvm.ll.s
+# - .llvm.s
 # - target-llvm-ll-y
 #
 # Input definitions:
@@ -32,6 +33,10 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 	$(call log_obj,CLANG AST,$(@))
 	${Q}$(CLANG) $(<) ${CLANG_AST_CFLAGS} $(CFLAGS) $(CFLAGS_$(*)) > $(@)
 
+%.llvm.s: %.c
+	$(call log_obj,CLANG S,$(@))
+	${Q}$(CLANG) -S $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))
+
 # IR bitcode ascii txt
 %.llvm.ll: %.c
 	$(call log_obj,CLANG LL,$(@))
@@ -39,7 +44,7 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 
 # IR bitcode
 %.llvm.bc: %.c
-	$(call log_obj,CLANG LL,$(@))
+	$(call log_obj,CLANG BC,$(@))
 	${Q}$(CLANG) -c -emit-llvm $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
 # Generate bitcode from .llvm.ll
