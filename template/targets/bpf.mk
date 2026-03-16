@@ -34,6 +34,9 @@ CFLAGS_BPF += -Wno-missing-declarations
 
 ifdef DEBUG
   CFLAGS_BPF += -DDEBUG=${DEBUG}
+  # Or, it can be divided into two steps:
+  # $ clang -O2 -g -target bpf -emit-llvm -c a.c -o a.bc
+  # $ llc a.bc -march=bpf -mattr=dwarfris -filetype=obj -o a.o
   CFLAGS_BPF += -g -Xclang -target-feature -Xclang +dwarfris
   $(info CFLAGS_BPF = ${CFLAGS_BPF})
 endif

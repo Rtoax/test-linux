@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- libxdp: add `xdp_helpers.bpf.h`;
 - bpf/xdp.mk: add `{attach,detach}_xdp()` functions;
 - huawei: add ub-mesh subdir;
 - amd: add ualink subdir;
@@ -25,6 +26,7 @@ and this project adheres to
 - `make_tl`: only use `make_tl` for user `rongtao`;
 #### Deprecated
 #### Removed
+- xdp/samples: remove basic;
 - xdp: remove samples/basic/drop.c;
 - remove bpf/libbpf/`libbpf_version.c` use bpf/libbpf.mk instead;
 - remove `__IGNORE_NOTFOUND_ERROR__` totally;
