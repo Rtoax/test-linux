@@ -38,6 +38,13 @@ ifneq (${GIT_TOPDIR},)
   endif
 endif
 
+# FIXME: remove this check after a little while.
+ifeq ($(shell test -L /etc/profile.d/make_tl.sh && echo yes),yes)
+  ifeq ($(filter $(MAKECMDGOALS),uninstall),)
+    $(error You MUST run 'make uninstall' and 'make install' first!!)
+  endif
+endif
+
 ifeq ($(wildcard /usr/bin/patchset),)
   ifeq ($(filter $(MAKECMDGOALS),install gitconfig deps),)
     $(error You MUST run 'make install' first, then start a new bash session!!)
