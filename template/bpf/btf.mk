@@ -38,7 +38,7 @@ ifeq (${HAVE_BTF}, y)
   # $2 - btf header file name or fullpath
   define btf_gen_hdr
     mkdir -p $$(dirname ${2}); \
-    ${BPFTOOL} btf dump file ${BTF_ROOT}/${1} format c > ${2}
+    ${BPFTOOL} btf dump file ${BTF_ROOT}/${1} format c > ${2} || rm ${2}
   endef
 else
   define btf_gen_hdr
