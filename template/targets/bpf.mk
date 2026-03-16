@@ -38,6 +38,11 @@ ifdef DEBUG
 endif
 
 # Note: This is target-bpf-y
+# Compile .bpf.o methods:
+# 1. $ clang -O2 -target bpf -c $(<) -S -o $(<:.c=.S)
+#    $ llvm-mc -triple bpf -filetype=obj -o $(@) $(<:.c=.S)
+# 2. $ clang -O2 -target bpf -emit-llvm -c $(<) -o $(<:.c=.bc)
+#    $ llc $(<:.c=.bc) -march=bpf -filetype=obj -o $(@)
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
 	$(call log_obj,BPF,$(@))
 	${Q}$(CLANG) -MMD -MT $(@) -MF $(@:=.d) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
