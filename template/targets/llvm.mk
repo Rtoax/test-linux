@@ -5,6 +5,7 @@
 # - .llvm.ast
 # - .llvm.ll
 # - .llvm.bc
+# - .llvm.ll.bc
 # - .llvm.bc.dis
 # - .llvm.ll.s
 # - target-llvm-ll-y
@@ -31,12 +32,18 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 	$(call log_obj,CLANG AST,$(@))
 	${Q}$(CLANG) $(<) ${CLANG_AST_CFLAGS} $(CFLAGS) $(CFLAGS_$(*)) > $(@)
 
-# -S -emit-llvm: Generate IR txt, generate IR bitcode if no -S.
+# IR bitcode ascii txt
 %.llvm.ll: %.c
 	$(call log_obj,CLANG LL,$(@))
 	${Q}$(CLANG) -S -emit-llvm $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))
 
-%.llvm.bc: %.llvm.ll
+# IR bitcode
+%.llvm.bc: %.c
+	$(call log_obj,CLANG LL,$(@))
+	${Q}$(CLANG) -c -emit-llvm $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))
+
+# Generate bitcode from .llvm.ll
+%.llvm.ll.bc: %.llvm.ll
 	$(call log_obj,LLVM AS,$(@))
 	${Q}$(LLVM_AS) $(<) -o $(@)
 
