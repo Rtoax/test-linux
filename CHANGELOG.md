@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- bpf/xdp.mk: add `{attach,detach}_xdp()` functions;
 - huawei: add ub-mesh subdir;
 - amd: add ualink subdir;
 - superpod: first commit;

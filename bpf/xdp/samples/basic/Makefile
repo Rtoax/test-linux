@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include verbose.mk
+include bpf/xdp.mk
 
 CC := gcc
 CLANG := clang
@@ -10,8 +11,6 @@ targets-kern += proto.o
 ifdef DEBUG
   targets-kern += proto.g.o
 endif
-
-IF := lo
 
 CFLAGS_KERN := -Wno-unknown-attributes
 CFLAGS_KERN += -Wno-compare-distinct-pointer-types
@@ -46,15 +45,11 @@ $(targets-user): %:
 vmlinux.h:
 	$(Q)bpftool btf dump file /sys/kernel/btf/vmlinux format c > ${@}
 
-# xdp xdpdrv xdpgeneric xdpoffload
 install:
-	${Q}sudo bpftool prog load proto.o /sys/fs/bpf/proto
-	${Q}sudo bpftool net attach xdp pinned /sys/fs/bpf/proto dev ${IF}
-	${Q}sudo bpftool net show
+	$(call attach_xdp,lo,proto.o,proto)
 
 uninstall:
-	${Q}sudo bpftool net detach xdp dev ${IF}
-	${Q}sudo rm -f /sys/fs/bpf/proto
+	$(call detach_xdp,lo,proto)
 
 clean:
 	${Q}rm -f ${targets-kern} ${targets-user} *.o *.S *.bc *.uo

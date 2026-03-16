@@ -1,9 +1,33 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
 #
-# Output definitions:
+# Functions:
+# - attach_xdp()
+# - detach_xdp()
 #
 ifndef _BPF_XDP_MK
 _BPF_XDP_MK = 1
+
+include sudo.mk
+include bpf/bpftool.mk
+include bpf/btf.mk
+
+# Attach XDP to network interface, the 'xdp' could be change to one of `xdpdrv`
+# `xdpgeneric`, `xdpoffload`.
+#
+# $1: network interface, like 'eth0'
+# $2: object bpf file
+# $3: bpf program name
+define attach_xdp
+$(shell ${SUDO} ${BPFTOOL} prog load ${2} ${BTF_ROOT}/${3} && \
+	${SUDO} ${BPFTOOL} net attach xdp pinned ${BTF_ROOT}/${3} dev ${1})
+endef
+
+# $1: network interface, like 'eth0'
+# $2: bpf program name
+define detach_xdp
+$(shell ${SUDO} ${BPFTOOL} net detach xdp dev ${1} && \
+	${SUDO} rm -f ${BTF_ROOT}/${2})
+endef
 
 endif
