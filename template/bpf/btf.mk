@@ -24,7 +24,7 @@ VMLINUX_H := vmlinux.h
 BTF_ROOT := /sys/kernel/btf
 HAVE_BTF := y
 
-ifeq ($(wildcard ${BTF_ROOT}),)
+ifeq ($(wildcard ${BTF_ROOT}/vmlinux),)
   $(warning Not found BTF in your system, see CONFIG_DEBUG_INFO_BTF in your kernel config!!)
   HAVE_BTF := n
 endif
