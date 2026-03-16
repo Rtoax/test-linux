@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- superpod: first commit;
 - add scripts/scripts-install.sh;
 - llvm: add llc subdir;
 - uefi: add efivarfs subdir;
