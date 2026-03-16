@@ -2,8 +2,7 @@
 #include <bpf/bpf_endian.h>
 #include <bpf/bpf_helpers.h>
 
-
-#define ETH_P_IP	0x0800
+#define ETH_P_IP 0x0800
 
 SEC("xdp")
 int ping(struct xdp_md *ctx)
