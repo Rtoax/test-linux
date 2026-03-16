@@ -31,6 +31,7 @@ CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 	$(call log_obj,CLANG AST,$(@))
 	${Q}$(CLANG) $(<) ${CLANG_AST_CFLAGS} $(CFLAGS) $(CFLAGS_$(*)) > $(@)
 
+# -S -emit-llvm: Generate IR txt, generate IR bitcode if no -S.
 %.llvm.ll: %.c
 	$(call log_obj,CLANG LL,$(@))
 	${Q}$(CLANG) -S -emit-llvm $(<) -o $(@) $(CFLAGS) $(CFLAGS_$(*))

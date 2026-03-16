@@ -24,12 +24,10 @@ build: $(targets-kern) ${targets-user}
 
 %.o: %.c
 	@echo -e "  CLANG-K  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
-	${Q}$(CLANG) -O2 -target bpf -c $(<) -o $(@) ${CFLAGS_KERN}
 	${Q}$(CLANG) -O2 -target bpf -c $(<) -S -o $(<:.c=.S) ${CFLAGS_KERN}
 	${Q}llvm-mc -triple bpf -filetype=obj -o $(@) $(<:.c=.S) # LLVM 6.0
 	${Q}$(CLANG) -O2 -target bpf -emit-llvm -c $(<) -o $(<:.c=.bc) ${CFLAGS_KERN}
 	${Q}llc $(<:.c=.bc) -march=bpf -filetype=obj -o $(@)
-	${Q}$(CLANG) -O2 -emit-llvm -S -c $(<) ${CFLAGS_KERN} -o -
 
 %.g.o: %.c
 	@echo -e "  CLANG-g  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
