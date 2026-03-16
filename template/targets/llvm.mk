@@ -14,6 +14,7 @@
 ifndef _TARGET_LLVM_MK
 _TARGET_LLVM_MK = 1
 
+include clang.mk
 include llvm.mk
 
 ifeq ($(CLANG),)

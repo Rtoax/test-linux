@@ -16,6 +16,7 @@ _LOG_MK = 1
 include dir.mk
 include ansi.mk
 include file.mk
+include shell.mk
 
 LOG_FILE_INFO := $(TOPDIR)/info.log
 LOG_FILE_FAILED := $(TOPDIR)/failed.log

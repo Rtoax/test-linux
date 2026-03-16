@@ -9,6 +9,8 @@
 ifndef _CGROUP_MK
 _CGROUP_MK = 1
 
+include shell.mk
+
 CGROUPFS_ROOT := /sys/fs/cgroup
 
 ifeq ($(shell [[ -d "${CGROUPFS_ROOT}/memory" ]] && echo "yes" || echo "no"), yes)
