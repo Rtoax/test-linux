@@ -34,6 +34,7 @@ CFLAGS_BPF += -Wno-missing-declarations
 
 ifdef DEBUG
   CFLAGS_BPF += -DDEBUG=${DEBUG}
+  CFLAGS_BPF += -g -Xclang -target-feature -Xclang +dwarfris
   $(info CFLAGS_BPF = ${CFLAGS_BPF})
 endif
 

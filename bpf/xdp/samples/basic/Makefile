@@ -29,7 +29,6 @@ build: $(targets-kern) ${targets-user}
 	@echo -e "  CLANG-g  \033[1m$(<)\033[m to \033[1m$(@)\033[m"
 	${Q}$(CLANG) -O2 -g -target bpf -emit-llvm -c $(<) -o $(<:.c=.g.bc) ${CFLAGS_KERN}
 	${Q}llc $(<:.c=.g.bc) -march=bpf -mattr=dwarfris -filetype=obj -o $(<:.c=.g.o)
-	${Q}$(CLANG) -target bpf -O2 -g -c -Xclang -target-feature -Xclang +dwarfris -c $(<) -o $(<:.c=.g.o) ${CFLAGS_KERN}
 	${Q}pahole $(<:.c=.g.o)
 	${Q}pahole -J $(<:.c=.g.o)
 	${Q}readelf -a $(<:.c=.g.o) | grep BTF
