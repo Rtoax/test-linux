@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- huawei: add ub-mesh subdir;
 - amd: add ualink subdir;
 - superpod: first commit;
 - add scripts/scripts-install.sh;
