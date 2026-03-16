@@ -2,17 +2,19 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
-# - OS_ID=[fedora|ubuntu|debian|cclinux]
+# - OS_ID=[centos|fedora|ubuntu|debian|cclinux]
+# - __cclinux__=1
+# - __centos__=1
+# - __debian__=1
 # - __fedora__=1
 # - __ubuntu__=1
-# - __debian__=1
-# - __cclinux__=1
 #
 # - OS_VERSION_ID=[43|24.04]
 # - __os_major__=[43|24]
 # - __os_minor__=[0|04]
 #
 # - OS_CFLAGS+=-DOS_ID=${OS_ID}
+#   OS_CFLAGS+=-D__centos__=1
 #   OS_CFLAGS+=-D__fedora__=1
 #   OS_CFLAGS+=-D__ubuntu__=1
 #   OS_CFLAGS+=-D__debian__=1
@@ -59,6 +61,9 @@ ifeq (${OS_ID},fedora)
 else ifeq (${OS_ID},ubuntu)
   OS_CFLAGS := -D__ubuntu__=1
   export __ubuntu__ = 1
+else ifeq (${OS_ID},centos)
+  OS_CFLAGS := -D__centos__=1
+  export __centos__ = 1
 else ifeq (${OS_ID},debian)
   OS_CFLAGS := -D__debian__=1
   export __debian__ = 1
