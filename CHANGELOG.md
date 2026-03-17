@@ -26,8 +26,7 @@ and this project adheres to
 - `make_tl`: only use `make_tl` for user `rongtao`;
 #### Deprecated
 #### Removed
-- xdp/samples: remove basic,icmp,`xdp_count`,iproute2;
-- xdp: remove samples/basic/drop.c;
+- remove xdp/samples totally;
 - remove bpf/libbpf/`libbpf_version.c` use bpf/libbpf.mk instead;
 - remove `__IGNORE_NOTFOUND_ERROR__` totally;
 #### Fixed

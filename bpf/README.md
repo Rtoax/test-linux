@@ -40,6 +40,7 @@ The GCC compiler comes with an eBPF backend starting from **GCC 10**. Up to that
 * GitHub [lizrice/ebpf-beginners](https://github.com/lizrice/ebpf-beginners)
 * GitHub [eunomia-bpf](https://github.com/eunomia-bpf)
   * GitHub [bpf-developer-tutorial](https://github.com/eunomia-bpf/bpf-developer-tutorial)
+* GitHub [linux-observability-with-bpf](https://github.com/bpftools/linux-observability-with-bpf)
 * CO-RE
   * [https://nakryiko.com/posts/bpf-portability-and-co-re/]
 
