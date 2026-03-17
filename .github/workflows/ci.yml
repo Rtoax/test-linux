@@ -9,6 +9,7 @@ permissions:
 jobs:
   test_linux:
     runs-on: ubuntu-latest
+    shell: bash
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
@@ -17,6 +18,7 @@ jobs:
     - name: Test-Linux info
       run: |
         make gitconfig
+        make install
         make config
         make help
         make version
