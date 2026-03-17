@@ -19,7 +19,6 @@ jobs:
         make gitconfig
         sudo make install
         bash -l
-        make config
     - name: Test-Linux Info
       run: |
         make help
