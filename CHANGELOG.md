@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- libxdp: add version.sh;
 - libxdp: add `xdp_helpers.bpf.h`;
 - bpf/xdp.mk: add `{attach,detach}_xdp()` functions;
 - huawei: add ub-mesh subdir;

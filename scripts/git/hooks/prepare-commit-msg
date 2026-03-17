@@ -181,6 +181,7 @@ gnome_ver() { add_ver "GNOME $(${TOPDIR}/gnome/version.sh)"; }
 hpcc_ver() { add_ver_weak "HPCC $(${TOPDIR}/hpc/metax/hpcc/version.sh)"; }
 java_ver() { add_ver "Java $(${TOPDIR}/java/version.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${TOPDIR}/bpf/libbpf/version.sh)"; }
+libxdp_ver() { add_ver "LibXDP $(${TOPDIR}/bpf/xdp/libxdp/version.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
 llvm_ver() { add_ver "LLVM $(${TOPDIR}/compiler/llvm/version.sh)"; }
 lsof_ver() { add_ver "lsof $(${TOPDIR}/tools/lsof/version.sh)"; }
@@ -322,6 +323,10 @@ fi
 
 if [[ "$(has_key libbpf pahole)" ]]; then
 	pahole_ver
+fi
+
+if [[ "$(has_key libxdp xdp)" ]]; then
+	libxdp_ver
 fi
 
 if [[ "$(has_key pci pcie)" ]]; then
