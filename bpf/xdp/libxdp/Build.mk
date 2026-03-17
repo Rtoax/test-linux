@@ -12,6 +12,7 @@ target-bpf-y += ${OUTPUT}xdp_drop.bpf.o
 target-bpf-y += ${OUTPUT}xdp_xsk.bpf.o
 
 target-post-y += post-xdp_elfsec
+target-post-y += post-xdp_drop
 
 xsk_user-objs := ${OUTPUT}libbpf_wrapper.o ${OUTPUT}libxdp_helpers.o \
 		${OUTPUT}net_helpers.o ${OUTPUT}pkt_stream.o \

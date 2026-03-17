@@ -22,15 +22,14 @@ include bpf/btf.mk
 # $2: object bpf file
 # $3: bpf program name
 define attach_xdp
-$(shell ${SUDO} ${BPFTOOL} prog load ${2} ${BTF_ROOT}/${3} && \
-	${SUDO} ${BPFTOOL} net attach xdp pinned ${BTF_ROOT}/${3} dev ${1})
+${SUDO} ${BPFTOOL} prog load ${2} ${BTF_ROOT}/${3} && \
+${SUDO} ${BPFTOOL} net attach xdp pinned ${BTF_ROOT}/${3} dev ${1}
 endef
 
 # $1: network interface, like 'eth0'
 # $2: bpf program name
 define detach_xdp
-$(shell ${SUDO} ${BPFTOOL} net detach xdp dev ${1} && \
-	${SUDO} rm -f ${BTF_ROOT}/${2})
+${SUDO} ${BPFTOOL} net detach xdp dev ${1} && ${SUDO} rm -f ${BTF_ROOT}/${2}
 endef
 
 # $1: network interface, like 'eth0'
