@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt install -y clang-format
     - name: Clang Format
       run: scripts/clang-format.sh
 
