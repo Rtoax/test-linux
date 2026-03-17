@@ -22,5 +22,6 @@ jobs:
         sudo make install
     - name: Test-Linux Info
       run: |
+        ls -al ~/
         make help
         make version
