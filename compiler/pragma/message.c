@@ -1,7 +1,9 @@
 #include <stdio.h>
 
+#pragma message "This is a message"
+#pragma message("xyh, I love you!\n")
+
 int main(void)
 {
-#pragma message("xyh, I still love you!\n")
 	return 0;
 }

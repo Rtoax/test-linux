@@ -8,7 +8,6 @@ target-y += GCC_target
 target-y += GCC_novector
 target-y += GCC_unroll
 target-y += GCC_ivdep
-target-y += pragma-message
 target-y += call-func
 target-y += push_macro
 target-y += message
