@@ -33,6 +33,8 @@ else ifeq (${CPU_ARCH},loongarch64)
   export IS_LOONGARCH64 := y
 else ifeq (${CPU_ARCH},riscv64)
   export IS_RISCV64 := y
+else
+  $(error Not support ${CPU_ARCH})
 endif
 
 # see linux scripts/subarch.include
@@ -52,5 +54,6 @@ endif
 
 export CPU_ARCH
 export cflags-arch
+export LINUX_SUBARCH
 
 endif
