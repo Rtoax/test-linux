@@ -8,6 +8,7 @@
 #
 # Targets:
 # - %.s.o
+# - %.S.o
 # - %.asm.o
 # - target-as-y
 # - target-asm-y
@@ -45,10 +46,16 @@ $(target-asm-std-y): %:
 	$(call log_tgt,LD ASM STD,$(@))
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
-# Or use CC directly
-${OUTPUT}%.s.o: %.s | ${OUTPUT}
-	$(call log_obj,AS,$(@))
-	${Q}${AS} -o $(@) $(<) $(ASFLAGS) $(ASFLAGS_$(*))
+# Compile assembly code with AS
+# Note: or we could use CC directly
+# $1: asm source code extend, like: s, S
+define obj_s
+$${OUTPUT}%.${1}.o: %.${1} | $${OUTPUT}
+	$$(call log_obj,AS ${1},$$(@))
+	$${Q}$${AS} -o $$(@) $$(<) $$(ASFLAGS) $$(ASFLAGS_$$(*))
+endef
+$(eval $(call obj_s,s))
+$(eval $(call obj_s,S))
 
 # Default _start() entry and link libc
 ${target-as-y}: %:
