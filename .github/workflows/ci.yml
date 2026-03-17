@@ -14,11 +14,13 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt install -y git make sudo
-    - name: Test-Linux info
+    - name: Test-Linux Config
       run: |
         make gitconfig
         sudo make install
-        source $HOME/.bashrc
+        bash -l
         make config
+    - name: Test-Linux Info
+      run: |
         make help
         make version
