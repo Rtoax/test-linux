@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- add .gitlab directory;
 - shell: add `SUDO_USER.sh`;
 - libxdp: add version.sh;
 - libxdp: add `xdp_helpers.bpf.h`;
