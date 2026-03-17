@@ -2,8 +2,8 @@
 
 BEGIN
 {
-	let $addr = 0x155148;
-	let $bias = 0x564f61f77000;
+	$addr = 0x155148;
+	$bias = 0x564f61f77000;
 
 	printf("addr %lx\n", $addr);
 	printf("bias %lx\n", $bias);
@@ -11,4 +11,6 @@ BEGIN
 
 	$addr += $bias;
 	printf("addr %lx\n", $addr);
+
+	exit();
 }

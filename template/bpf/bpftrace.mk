@@ -9,7 +9,7 @@
 # - BPFTRACE_PATCHLEVEL=
 #
 # Functions:
-# - bpftrace_{gt,ge,eq,lt,le}()=[y|n]
+# - bpftrace_{gt,ge,eq,lt,le}(major,minor,patchlevel)=[y|n]
 #
 ifndef _BPFTRACE_MK
 _BPFTRACE_MK = 1

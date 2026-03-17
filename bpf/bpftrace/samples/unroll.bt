@@ -7,4 +7,5 @@ BEGIN
 		printf("%d\n", $i);
 		$i++;
 	}
+	exit();
 }
