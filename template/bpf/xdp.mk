@@ -37,12 +37,12 @@ endef
 # $2: object bpf file
 # $3: section name
 define attach_xdp_with_ip
-$(shell ${SUDO} ip link set dev ${1} xdp obj ${2} sec ${3})
+${SUDO} ip link set dev ${1} xdp obj ${2} sec ${3}
 endef
 
 # $1: network interface, like 'eth0'
 define detach_xdp_with_ip
-$(shell ${SUDO} ip link set dev ${1} xdp off)
+${SUDO} ip link set dev ${1} xdp off
 endef
 
 endif
