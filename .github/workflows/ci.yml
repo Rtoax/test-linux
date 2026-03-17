@@ -27,3 +27,6 @@ jobs:
     - name: Test-Linux Install Depends
       run: |
         $MAKE deps
+    - name: Test-Linux Compile C
+      run: |
+        $MAKE $(realpath .)/c.build
