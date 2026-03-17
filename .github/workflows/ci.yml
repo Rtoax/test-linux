@@ -10,7 +10,7 @@ jobs:
   test_linux:
     runs-on: ubuntu-latest
     env:
-      BASH_ENV: ~/.bashrc
+      MAKE: scripts/make_tl.sh
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
@@ -22,6 +22,5 @@ jobs:
         sudo make install
     - name: Test-Linux Info
       run: |
-        ls -al ~/
-        make help
-        make version
+        $MAKE help
+        $MAKE version
