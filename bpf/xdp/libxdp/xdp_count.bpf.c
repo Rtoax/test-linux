@@ -9,21 +9,15 @@
  * remove struct bpf_map_def {}
  */
 struct bpf_map_def {
-	unsigned int type;
-	unsigned int key_size;
-	unsigned int value_size;
-	unsigned int max_entries;
-	unsigned int map_flags;
+	__uint(type, BPF_MAP_TYPE_ARRAY);
+	__uint(key_size, sizeof(__u32));
+	__uint(value_size, sizeof(long));
+	__uint(max_entries, 2);
+	__uint(map_flags, 0);
 /**
  * https://github.com/libbpf/libbpf/wiki/Libbpf:-the-road-to-v1.0#drop-support-for-legacy-bpf-map-declaration-syntax
  */
-} cnt SEC(".maps") = {
-	.type = BPF_MAP_TYPE_ARRAY,
-	.key_size = sizeof(__u32),
-	.value_size = sizeof(long),
-	.max_entries = 2,
-};
-
+} cnt SEC(".maps");
 
 SEC("xdp_count")
 int xdp_count_prog(struct xdp_md *ctx)

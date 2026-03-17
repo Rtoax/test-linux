@@ -6,6 +6,7 @@ include bpf/libxdp.mk
 target-y := xsk_user
 
 target-bpf-y := ${OUTPUT}xdp_hello.bpf.o
+target-bpf-y += ${OUTPUT}xdp_count.bpf.o
 target-bpf-y += ${OUTPUT}xdp_drop.bpf.o
 target-bpf-y += ${OUTPUT}xdp_xsk.bpf.o
 
