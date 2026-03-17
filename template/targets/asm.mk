@@ -8,6 +8,7 @@
 #
 # Targets:
 # - %.s.o
+# - %.S.o
 # - %.asm.o
 # - target-as-y
 # - target-asm-y
@@ -45,7 +46,13 @@ $(target-asm-std-y): %:
 	$(call log_tgt,LD ASM STD,$(@))
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
-# Or use CC directly
+# .S files can be compiled directly with GCC because .S files can use GCC's
+# preprocessing capabilities, while .s files will treat the preprocessor's '#'
+# symbol as a comment and will not perform any processing.
+${OUTPUT}%.S.o: %.S | ${OUTPUT}
+	$(call log_obj,CC S,$(@))
+	${Q}${CC} -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
 ${OUTPUT}%.s.o: %.s | ${OUTPUT}
 	$(call log_obj,AS,$(@))
 	${Q}${AS} -o $(@) $(<) $(ASFLAGS) $(ASFLAGS_$(*))

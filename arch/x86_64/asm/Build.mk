@@ -30,6 +30,7 @@ target-y += atomic_forced_read
 target-y += time
 target-y += cr3
 
+read-objs := ${OUTPUT}syscall.S.o
 exit-c-objs := ${OUTPUT}exit.o
 hello-c-objs := ${OUTPUT}hello.o
 nanosleep-c-objs := ${OUTPUT}nanosleep.o

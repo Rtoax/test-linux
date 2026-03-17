@@ -39,6 +39,7 @@ and this project adheres to
 #### Tools
 - add memcached;
 #### Template
+- targets/asm.mk: support `.S.o` object;
 - targets/bpf.mk: add `%.bpf.bc` object;
 - targets/c.mk: support compile .c to .N.o;
 - targets/llvm.mk: target-llvm-ll-y auto deps .llvm.ll;
