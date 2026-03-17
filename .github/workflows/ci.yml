@@ -9,7 +9,6 @@ permissions:
 jobs:
   test_linux:
     runs-on: ubuntu-latest
-    shell: bash
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
