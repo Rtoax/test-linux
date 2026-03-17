@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Assembler Types
-# | Command | Type              | Grammar | Example      |
-# | ------- | ----------------- | ------- | ------------ |
-# | as      | GNU Assembler     | AT&T    | mov %ax, %bx |
-# | nasm    | Netwide Assembler | Intel   | mov bx, ax   |
+# | Command | Assembler Type | Grammar | Example      |
+# | ------- | -------------- | ------- | ------------ |
+# | as      | GNU            | AT&T    | mov %ax, %bx |
+# | gcc     | GNU            | AT&T    | mov %ax, %bx |
+# | nasm    | Netwide        | Intel   | mov bx, ax   |
 #
 # Targets:
 # - %.s.o
