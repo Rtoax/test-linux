@@ -3,10 +3,10 @@ include bpf/kfunc.mk
 
 target-prep-y := vmlinux.h
 
-kfuncs-y := task_from_pid
-kfuncs-y += cgroup_from_id
-kfuncs-y += cgroup_acquire
-kfuncs-$(SUPPORT_BPF_ITER_TASK_VMA_NEW) += iter_task_vma_new
+kfuncs-${SUPPORT_BPF_TASK_FROM_PID} := task_from_pid
+kfuncs-${SUPPORT_BPF_CGROUP_FROM_ID} += cgroup_from_id
+kfuncs-${SUPPORT_BPF_CGROUP_ACQUIRE} += cgroup_acquire
+kfuncs-${SUPPORT_BPF_ITER_TASK_VMA_NEW} += iter_task_vma_new
 
 helpers-y := trace_printk
 helpers-y += strncmp
