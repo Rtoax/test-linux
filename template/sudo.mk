@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
 #
+# Note: You can get real user useing env $SUDO_USER
+#
 # Output definitions:
 # - SUDO=[sudo]
 # - SUDO_NON_INTERACTIVE=[y]

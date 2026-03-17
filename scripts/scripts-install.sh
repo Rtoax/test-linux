@@ -3,6 +3,17 @@ set -e
 
 readonly SCRIPTS_DIR=$(dirname $(realpath $0))
 
+realuser=$USER
+# running with sudo, we should get real user
+if [[ ! -z ${SUDO_USER} ]]; then
+	realuser=${SUDO_USER}
+fi
+if [[ ${realuser} == root ]]; then
+	realhome=/root
+else
+	realhome=/home/${realuser}
+fi
+
 scripts_install()
 {
 	ln -s ${SCRIPTS_DIR}/git/bigfile.sh /usr/bin/git-bigfile
@@ -34,7 +45,7 @@ scripts_uninstall()
 
 scripts_set_env()
 {
-	cat >>/home/rongtao/.bashrc<<-EOF
+	cat >>${realhome}/.bashrc<<-EOF
 	source ${SCRIPTS_DIR}/make_tl.sh
 	alias make='make_tl'
 	EOF
@@ -42,7 +53,7 @@ scripts_set_env()
 
 scripts_unset_env()
 {
-	sed -i '/make_tl/d' /home/rongtao/.bashrc
+	sed -i '/make_tl/d' ${realhome}/.bashrc
 	# FIXME: remove this line after a little while
 	rm -f /etc/profile.d/make_tl.sh
 }

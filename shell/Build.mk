@@ -28,6 +28,7 @@ target-shell-y += tracing.sh
 target-shell-y += trap.sh
 target-shell-y += version.sh version.sh.1 version.sh.2
 target-shell-y += while.sh
+target-shell-y += SUDO_USER.sh
 
 SHELL_ARGS_stat.sh := /etc/os-release /etc/hosts
 SHELL_ARGS_version.sh.1 := --name
