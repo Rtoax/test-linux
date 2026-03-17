@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+include bpf/xdp.mk
+
 IF := lo
 $(warning "Specify IF=[Interface] like IF=lo")
 
@@ -15,10 +17,10 @@ vmlinux.h:
 	$(Q)bpftool btf dump file /sys/kernel/btf/vmlinux format c > ${@}
 
 load:
-	sudo ip link set dev ${IF} xdp obj program.o sec mysection
+	$(call attach_xdp_with_ip,${IF},program.o,mysection)
 
 unload:
-	sudo ip link set dev ${IF} xdp off
+	$(call detach_xdp_with_ip,${IF})
 
 clean:
 	rm -f program.o vmlinux.h

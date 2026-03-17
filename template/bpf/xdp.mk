@@ -5,6 +5,9 @@
 # - attach_xdp()
 # - detach_xdp()
 #
+# - attach_xdp_with_ip()
+# - detach_xdp_with_ip()
+#
 ifndef _BPF_XDP_MK
 _BPF_XDP_MK = 1
 
@@ -28,6 +31,18 @@ endef
 define detach_xdp
 $(shell ${SUDO} ${BPFTOOL} net detach xdp dev ${1} && \
 	${SUDO} rm -f ${BTF_ROOT}/${2})
+endef
+
+# $1: network interface, like 'eth0'
+# $2: object bpf file
+# $3: section name
+define attach_xdp_with_ip
+$(shell ${SUDO} ip link set dev ${1} xdp obj ${2} sec ${3})
+endef
+
+# $1: network interface, like 'eth0'
+define detach_xdp_with_ip
+$(shell ${SUDO} ip link set dev ${1} xdp off)
 endef
 
 endif
