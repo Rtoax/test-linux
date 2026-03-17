@@ -24,3 +24,6 @@ jobs:
       run: |
         $MAKE help
         $MAKE version
+    - name: Test-Linux Install Depends
+      run: |
+        $MAKE deps
