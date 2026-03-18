@@ -37,7 +37,7 @@ PAHOLE_VERSION_MINOR := 0
 DWARVES_MAJOR_VERSION := 0
 DWARVES_MINOR_VERSION := 0
 
-paholeversh = ${TOPDIR}/scripts/version/binutils.sh
+paholeversh = ${TOPDIR}/scripts/version/pahole.sh
 
 PAHOLE_VERSION := $(shell ${paholeversh})
 PAHOLE_VERSION_MAJOR := $(shell ${paholeversh} --major)
