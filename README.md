@@ -63,7 +63,6 @@ Linus Torvalds releases a new kernel and opens a **2-week merge window**, howeve
 * Ignore file (check `.gitignore`).
 * If you want to write a text `Note`, use `.md`(`markdown`).
 * There are so many **symlinks** in this repo, so you better clone this repo in linux system, if windows, oops. You'd better use `make check`(or `./scripts/broken-symlinks.sh`) check invalid links and modify them.
-* Each `version.sh` is current directory's component version, for example, running `bpftrace/version.sh` will get bpftrace version.
 
 
 ## Standard

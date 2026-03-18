@@ -2,7 +2,7 @@
 # This script only display kernel version, do not display other anything,
 # and don't execute failed, because the git/hooks will use it.
 #
-# Usage: version.sh [--<uapi>major|--<uapi>patchlevel|--<uapi>sublevel|--<uapi>code]
+# Usage: linux.sh [--<uapi>major|--<uapi>patchlevel|--<uapi>sublevel|--<uapi>code]
 #
 set -e
 

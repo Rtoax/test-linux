@@ -2,7 +2,7 @@
 # This script only display vim version, do not display other anything,
 # because the git/hooks will use it.
 #
-# Usage: version.sh [sharepath]
+# Usage: vim.sh [sharepath]
 #
 set -e
 VIM=$(which vim 2>/dev/null || :)

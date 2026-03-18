@@ -18,15 +18,17 @@ _BPF_LIBBPF_MK = 1
 
 include dir.mk
 
-LIBBPF_VERSION := $(shell ${TOPDIR}/bpf/libbpf/version.sh)
+versh = ${TOPDIR}/scripts/version/libbpf.sh
+
+LIBBPF_VERSION := $(shell ${versh})
 
 ifeq (${LIBBPF_VERSION},)
   export HAVE_LIBBPF := n
 else
 
-export LIBBPF_MAJOR_VERSION := $(shell ${TOPDIR}/bpf/libbpf/version.sh --major)
-export LIBBPF_MINOR_VERSION := $(shell ${TOPDIR}/bpf/libbpf/version.sh --minor)
-export LIBBPF_PATCHLEVEL_VERSION := $(shell ${TOPDIR}/bpf/libbpf/version.sh --patchlevel)
+export LIBBPF_MAJOR_VERSION := $(shell ${versh} --major)
+export LIBBPF_MINOR_VERSION := $(shell ${versh} --minor)
+export LIBBPF_PATCHLEVEL_VERSION := $(shell ${versh} --patchlevel)
 
 ifeq (${LIBBPF_MAJOR_VERSION},)
   $(error "Could not get libbpf LIBBPF_MAJOR_VERSION")

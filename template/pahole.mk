@@ -37,9 +37,11 @@ PAHOLE_VERSION_MINOR := 0
 DWARVES_MAJOR_VERSION := 0
 DWARVES_MINOR_VERSION := 0
 
-PAHOLE_VERSION := $(shell ${TOPDIR}/pahole/version.sh)
-PAHOLE_VERSION_MAJOR := $(shell ${TOPDIR}/pahole/version.sh --major)
-PAHOLE_VERSION_MINOR := $(shell ${TOPDIR}/pahole/version.sh --minor)
+versh = ${TOPDIR}/scripts/version/binutils.sh
+
+PAHOLE_VERSION := $(shell ${versh})
+PAHOLE_VERSION_MAJOR := $(shell ${versh} --major)
+PAHOLE_VERSION_MINOR := $(shell ${versh} --minor)
 
 ifdef DEBUG
   $(info ${PAHOLE} version ${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})

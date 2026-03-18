@@ -6,7 +6,8 @@ include sudo.mk
 include cpu.mk
 include os.mk
 
-subdir-y := git
+subdir-y += git
+subdir-y += version
 
 target-shell-y := code-count.sh
 target-shell-y += moonlight.sh

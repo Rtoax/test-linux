@@ -10,5 +10,3 @@ target-go-y += pi
 #target-go-y += ignition
 target-go-y += write
 target-go-y += sleep
-
-target-prog-y := version.sh

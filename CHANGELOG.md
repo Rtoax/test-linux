@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - libvirt: add Build.mk, version.mk;
 #### Changed
+- move all version.sh into scripts/version/ directory;
 #### Deprecated
 #### Removed
 #### Fixed

@@ -30,10 +30,12 @@ GXX := g++
 CC ?= ${GCC}
 CXX ?= ${GXX}
 
-GCC_VERSION := $(shell ${TOPDIR}/compiler/gcc/version.sh)
-GCC_MAJOR := $(shell ${TOPDIR}/compiler/gcc/version.sh --major)
-GCC_MINOR := $(shell ${TOPDIR}/compiler/gcc/version.sh --minor)
-GCC_PATCHLEVEL := $(shell ${TOPDIR}/compiler/gcc/version.sh --patchlevel)
+versh = ${TOPDIR}/scripts/version/gcc.sh
+
+GCC_VERSION := $(shell ${versh})
+GCC_MAJOR := $(shell ${versh} --major)
+GCC_MINOR := $(shell ${versh} --minor)
+GCC_PATCHLEVEL := $(shell ${versh} --patchlevel)
 
 include compiler.mk
 include version.mk

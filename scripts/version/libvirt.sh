@@ -2,7 +2,7 @@
 # This script only display libvirt version, do not display other anything,
 # and don't execute failed, because the git/hooks will use it.
 #
-# Usage: version.sh [--major|--minor|--patchlevel]
+# Usage: libvirt.sh [--major|--minor|--patchlevel]
 #
 set -e
 VIRSH=$(which virsh 2>/dev/null || :)

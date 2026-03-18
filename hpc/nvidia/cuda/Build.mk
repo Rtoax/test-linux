@@ -18,7 +18,6 @@ subdir-y += vpu
 subdir-y += intrinsics
 subdir-y += fakeCUDA
 
-target-shell-${HAVE_CUDA} := version.sh
 target-nvcc-libso-${HAVE_CUDA} := libcuda_helper.so
 target-nvcc-liba-${HAVE_CUDA} := libcuda_helper.a
 target-hipcc-libso-${HAVE_HIP} := libhip_helper.so

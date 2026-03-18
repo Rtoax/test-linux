@@ -4,7 +4,7 @@
 set -e
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
-. ${WHERE_AM_I}/libqemu.sh
+. ${WHERE_AM_I}/../../qemu/libqemu.sh
 
 QEMU_KVM=$(get_qemu_kvm_emulator)
 if [[ -z ${QEMU_KVM} ]]; then

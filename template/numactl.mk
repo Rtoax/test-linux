@@ -23,7 +23,7 @@ ifeq (${NUMACTL},)
   export HAVE_LIBNUMA := n
 else
 # Get numactl version
-NUMACTL_VERSION := $(shell ${TOPDIR}/numa/numactl/version.sh)
+NUMACTL_VERSION := $(shell ${TOPDIR}/scripts/version/numactl.sh)
 
 $(call check_file_and_def,${LIBNUMA_HDR},HAVE_LIBNUMA)
 

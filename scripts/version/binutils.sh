@@ -2,7 +2,7 @@
 # This script only display binutils version, do not display other anything,
 # because the git/hooks will use it.
 #
-# Usage: version.sh [--major|--minor]
+# Usage: binutils.sh [--major|--minor]
 #
 set -e
 ldbfd=$(which ld.bfd 2>/dev/null || :)

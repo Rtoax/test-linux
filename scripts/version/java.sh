@@ -2,7 +2,7 @@
 # This script only display java version, do not display other anything,
 # and don't execute failed, because the git/hooks will use it.
 #
-# Usage: version.sh [--major|--minor|--patchlevel]
+# Usage: java.sh [--major|--minor|--patchlevel]
 #
 set -e
 JAVAC=$(which javac 2>/dev/null || :)

@@ -11,10 +11,12 @@ ifeq ($(LD_BFD),)
   $(warning "Not found linker ld.bfd, install binutils first")
 endif
 
+versh = ${TOPDIR}/scripts/version/binutils.sh
+
 # Get binutils version
-BINUTILS_VERSION := $(shell ${TOPDIR}/gnu/binutils/version.sh)
-BINUTILS_VERSION_MAJOR := $(shell ${TOPDIR}/gnu/binutils/version.sh --major)
-BINUTILS_VERSION_MINOR := $(shell ${TOPDIR}/gnu/binutils/version.sh --minor)
+BINUTILS_VERSION := $(shell ${versh})
+BINUTILS_VERSION_MAJOR := $(shell ${versh} --major)
+BINUTILS_VERSION_MINOR := $(shell ${versh} --minor)
 
 ifneq (${BINUTILS_VERSION_MAJOR},2)
   $(error Not support binutils major=${BINUTILS_VERSION})

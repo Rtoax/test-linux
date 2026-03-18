@@ -2,7 +2,7 @@
 # This script only display pahole version, do not display other anything,
 # because the git/hooks will use it.
 #
-# Usage: version.sh [--major|--minor]
+# Usage: pahole.sh [--major|--minor]
 #
 set -e
 PAHOLE=$(which pahole 2>/dev/null || :)

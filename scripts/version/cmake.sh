@@ -2,7 +2,7 @@
 # This script only display cmake version, do not display other anything,
 # because the git/hooks will use it.
 #
-# Usage: version.sh [--major|--minor|--patchlevel]
+# Usage: cmake.sh [--major|--minor|--patchlevel]
 #
 set -e
 cmake=$(which cmake 2>/dev/null || :)

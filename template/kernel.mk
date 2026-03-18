@@ -33,15 +33,17 @@ include dir.mk
 include shell.mk
 include version.mk
 
-KVERSION := $(shell ${TOPDIR}/init/kernel/version.sh --major)
-KPATCHLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --patchlevel)
-KSUBLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --sublevel)
-KVERSION_CODE := $(shell ${TOPDIR}/init/kernel/version.sh --code)
+kversh = ${TOPDIR}/scripts/version/linux.sh
 
-KUAPIVERSION := $(shell ${TOPDIR}/init/kernel/version.sh --uapimajor)
-KUAPIPATCHLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --uapipatchlevel)
-KUAPISUBLEVEL := $(shell ${TOPDIR}/init/kernel/version.sh --uapisublevel)
-KUAPIVERSION_CODE := $(shell ${TOPDIR}/init/kernel/version.sh --uapicode)
+KVERSION := $(shell ${kversh} --major)
+KPATCHLEVEL := $(shell ${kversh} --patchlevel)
+KSUBLEVEL := $(shell ${kversh} --sublevel)
+KVERSION_CODE := $(shell ${kversh} --code)
+
+KUAPIVERSION := $(shell ${kversh} --uapimajor)
+KUAPIPATCHLEVEL := $(shell ${kversh} --uapipatchlevel)
+KUAPISUBLEVEL := $(shell ${kversh} --uapisublevel)
+KUAPIVERSION_CODE := $(shell ${kversh} --uapicode)
 
 KFLAGS :=
 KFLAGS += -DKVERSION=$(KVERSION)

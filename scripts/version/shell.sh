@@ -2,7 +2,7 @@
 # This script only display BASH version, do not display other anything, because
 # the git/hooks will use it.
 #
-# Usage: version.sh [--name] [--pretty-name]
+# Usage: shell.sh [--name] [--pretty-name]
 set -e
 
 MY_SHELL=${SHELL}

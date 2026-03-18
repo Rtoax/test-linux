@@ -2,7 +2,7 @@
 # This script only display redis version, do not display other anything, and
 # don't execute failed, because the git/hooks will use it.
 #
-# Usage: version.sh [--name]
+# Usage: redis.sh [--name]
 #
 set -e
 REDIS_CLI=$(which redis-cli 2>/dev/null || :)

@@ -18,7 +18,7 @@ ifeq ($(BPFTOOL),)
   export HAVE_BPFTOOL := n
 else
 
-BPFTOOL_VERSION := $(shell ${TOPDIR}/bpf/bpftool/version.sh)
+BPFTOOL_VERSION := $(shell ${TOPDIR}/scripts/version/bpftool.sh)
 BPFTOOL_VERSION_MAJOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$1}')
 BPFTOOL_VERSION_MINOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$2}')
 

@@ -15,9 +15,11 @@ include version.mk
 
 MAKE := ${TOPDIR}/scripts/make_tl.sh
 
-MAKE_VERSION := $(shell ${TOPDIR}/gnu/make/version.sh)
-MAKE_MAJOR := $(shell ${TOPDIR}/gnu/make/version.sh --major)
-MAKE_MINOR := $(shell ${TOPDIR}/gnu/make/version.sh --minor)
+versh = ${TOPDIR}/scripts/version/make.sh
+
+MAKE_VERSION := $(shell ${versh})
+MAKE_MAJOR := $(shell ${versh} --major)
+MAKE_MINOR := $(shell ${versh} --minor)
 
 MAKE_VERSION_CODE := $(call version2_code100010,${MAKE_MAJOR},${MAKE_MINOR})
 

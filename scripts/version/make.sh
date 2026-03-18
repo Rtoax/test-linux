@@ -2,7 +2,7 @@
 # This script only display make version, do not display other anything,
 # because the git/hooks will use it.
 #
-# Usage: version.sh [--major|--minor]
+# Usage: make.sh [--major|--minor]
 #
 set -e
 make=$(which make 2>/dev/null || :)
@@ -16,6 +16,7 @@ if [[ -z ${version} ]]; then
 	version=$( ${make} --version | grep -Eo '[0-9]+\.[0-9]+' 2>/dev/null || true )
 fi
 
+# FIXME: major,minor,patchlevel
 case $1 in
 --major)
 	echo ${version%%.*}

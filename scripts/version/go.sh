@@ -2,7 +2,7 @@
 # This script only display golang version, do not display other anything,
 # and don't execute failed, because the git/hooks will use it.
 #
-# Usage: version.sh [--major|--minor|--patchlevel]
+# Usage: go.sh [--major|--minor|--patchlevel]
 #
 set -e
 GO=$(which go 2>/dev/null || :)
