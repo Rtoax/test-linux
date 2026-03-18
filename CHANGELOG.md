@@ -42,6 +42,7 @@ and this project adheres to
 #### Tools
 - add memcached;
 #### Template
+- python: add sphinx.mk;
 - python/pytorch.mk: add `HAVE_PYTORCH`;
 - move pytorch.mk into python/ dir;
 - split python.mk to python/{python,module}.py;
