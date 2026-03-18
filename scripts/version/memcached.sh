@@ -11,4 +11,8 @@ if [[ -z ${MEMCACHED} ]]; then
 	exit 0
 fi
 
-${MEMCACHED} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true
+version=$(${MEMCACHED} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
+
+source $(dirname $(realpath $0))/libversion.sh
+
+version_parser ${@} -- ${version}
