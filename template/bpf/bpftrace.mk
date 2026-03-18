@@ -23,12 +23,12 @@ else
 include dir.mk
 include version.mk
 
-versh = ${TOPDIR}/scripts/version/bpftrace.sh
+bpftraceversh = ${TOPDIR}/scripts/version/bpftrace.sh
 
-BPFTRACE_VERSION := $(shell ${versh})
-BPFTRACE_MAJOR := $(shell ${versh} --major)
-BPFTRACE_MINOR := $(shell ${versh} --minor)
-BPFTRACE_PATCHLEVEL := $(shell ${versh} --patchlevel)
+BPFTRACE_VERSION := $(shell ${bpftraceversh})
+BPFTRACE_MAJOR := $(shell ${bpftraceversh} --major)
+BPFTRACE_MINOR := $(shell ${bpftraceversh} --minor)
+BPFTRACE_PATCHLEVEL := $(shell ${bpftraceversh} --patchlevel)
 
 BPFTRACE_VERSION_CODE := $(call version3_code1688,${BPFTRACE_MAJOR},${BPFTRACE_MINOR},${BPFTRACE_PATCHLEVEL})
 

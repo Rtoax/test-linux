@@ -10,12 +10,12 @@ _CMAKE_MK = 1
 include dir.mk
 include version.mk
 
-versh = ${TOPDIR}/scripts/version/cmake.sh
+cmakeversh = ${TOPDIR}/scripts/version/cmake.sh
 
-CMAKE_VERSION := $(shell ${versh})
-CMAKE_MAJOR := $(shell ${versh} --major)
-CMAKE_MINOR := $(shell ${versh} --minor)
-CMAKE_PATCHLEVEL := $(shell ${versh} --patchlevel)
+CMAKE_VERSION := $(shell ${cmakeversh})
+CMAKE_MAJOR := $(shell ${cmakeversh} --major)
+CMAKE_MINOR := $(shell ${cmakeversh} --minor)
+CMAKE_PATCHLEVEL := $(shell ${cmakeversh} --patchlevel)
 
 CMAKE_VERSION_CODE := $(call version3_code1688,${CMAKE_MAJOR},${CMAKE_MINOR},${CMAKE_PATCHLEVEL})
 
