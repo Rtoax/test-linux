@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display HPCC version, do not display other anything, because
-# the git/hooks will use it.
 set -e
 HPCC_PATH=$(readlink /opt/hpcc || :)
 if [[ -z ${HPCC_PATH} ]]; then

@@ -1,9 +1,4 @@
 #!/bin/bash
-# This script only display nasm version, do not display other anything,
-# because the git/hooks will use it.
-#
-# Usage: nasm.sh [--major|--minor]
-#
 set -e
 nasm=$(which nasm 2>/dev/null || :)
 if [[ -z ${nasm} ]]; then

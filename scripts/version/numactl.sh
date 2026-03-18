@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display numactl version, do not display other anything,
-# because the git/hooks will use it.
 set -e
 NUMACTL=$(which numactl 2>/dev/null || :)
 if [[ -z ${NUMACTL} ]]; then

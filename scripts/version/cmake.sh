@@ -1,9 +1,4 @@
 #!/bin/bash
-# This script only display cmake version, do not display other anything,
-# because the git/hooks will use it.
-#
-# Usage: cmake.sh [--major|--minor|--patchlevel]
-#
 set -e
 cmake=$(which cmake 2>/dev/null || :)
 if [[ -z ${cmake} ]]; then

@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display pstree version, do not display other anything,
-# and don't execute failed, because the git/hooks will use it.
 set -e
 PSTREE=$(which pstree 2>/dev/null || :)
 if [[ -z ${PSTREE} ]]; then

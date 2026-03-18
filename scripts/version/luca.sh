@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display LUCA version, do not display other anything, because
-# the git/hooks will use it.
 set -e
 LUCA_PATH=$(readlink /opt/luca || :)
 if [[ -z ${LUCA_PATH} ]]; then

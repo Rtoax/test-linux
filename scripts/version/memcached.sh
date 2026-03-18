@@ -1,9 +1,4 @@
 #!/bin/bash
-# This script only display memcached version, do not display other anything,
-# and don't execute failed, because the git/hooks will use it.
-#
-# Usage: memcached.sh [--name]
-#
 set -e
 MEMCACHED=$(which memcached 2>/dev/null || :)
 if [[ -z ${MEMCACHED} ]]; then

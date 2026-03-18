@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display ROCm version, do not display other anything, because
-# the git/hooks will use it.
 set -e
 HIPCC=$(which hipcc 2>/dev/null || :)
 if [[ -z ${HIPCC} ]]; then

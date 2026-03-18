@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display uefi version, do not display other anything,
-# and don't execute failed, because the git/hooks will use it.
 #
 # Usage: uefi.sh [--specmajor|--specminor|--vendor]
 #

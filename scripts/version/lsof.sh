@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display lsof version, do not display other anything,
-# and don't execute failed, because the git/hooks will use it.
 set -e
 LSOF=$(which lsof 2>/dev/null || :)
 if [[ -z ${LSOF} ]]; then

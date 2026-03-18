@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display PYTHON version, do not display other anything,
-# because the git/hooks will use it.
 set -e
 
 [[ -z ${PYTHON} ]] && PYTHON=$(which python 2>/dev/null || true)

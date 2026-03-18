@@ -1,7 +1,4 @@
 #!/bin/bash
-# This script only display BASH version, do not display other anything, because
-# the git/hooks will use it.
-#
 # Usage: shell.sh [--name] [--pretty-name]
 set -e
 

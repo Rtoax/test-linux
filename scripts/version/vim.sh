@@ -1,9 +1,4 @@
 #!/bin/bash
-# This script only display vim version, do not display other anything,
-# because the git/hooks will use it.
-#
-# Usage: vim.sh
-#
 set -e
 VIM=$(which vim 2>/dev/null || :)
 

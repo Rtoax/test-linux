@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display LIBXDP version, do not display other anything,
-# because the git/hooks will use it.
 set -e
 
 LIBXDP_PATH=$(realpath $(ldconfig -p | \

@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display OS version, do not display other anything, because
-# the git/hooks will use it.
 set -e
 
 declare name_full name_short ver_num

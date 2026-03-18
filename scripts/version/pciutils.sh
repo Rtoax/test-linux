@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display lspci version, do not display other anything,
-# because the git/hooks will use it.
 set -e
 LSPCI=$(which lspci 2>/dev/null || :)
 if [[ -z ${LSPCI} ]]; then

@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display bpftool version, do not display other anything,
-# because the git/hooks will use it.
 set -e
 BPFTOOL=$(which bpftool 2>/dev/null || :)
 if [[ -z ${BPFTOOL} ]]; then

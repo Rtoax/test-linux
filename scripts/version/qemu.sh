@@ -1,6 +1,4 @@
 #!/bin/bash
-# This script only display qemu version, do not display other anything,
-# because the git/hooks will use it.
 set -e
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))

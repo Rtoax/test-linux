@@ -1,9 +1,4 @@
 #!/bin/bash
-# This script only display make version, do not display other anything,
-# because the git/hooks will use it.
-#
-# Usage: make.sh [--major|--minor]
-#
 set -e
 make=$(which make 2>/dev/null || :)
 if [[ -z ${make} ]]; then
