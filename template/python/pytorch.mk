@@ -2,9 +2,9 @@
 # Copyright (C) 2026 Rong Tao
 #
 # Output definitions:
-# - HAVE_PYTORCH=[y|n]
+# - HAVE_PYTHON_PYTORCH=[y|n]
 #
-ifndef _PYTORCH_MK
-_PYTORCH_MK = 1
+ifndef _PYTHON_PYTORCH_MK
+_PYTHON_PYTORCH_MK = 1
 
 endif
