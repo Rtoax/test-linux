@@ -83,8 +83,6 @@ help:
 	@echo >&2 -e "*** make menuconfig"
 	@echo >&2 -e "*** make config"
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** make version"
-	@echo >&2 -e "***"
 	@echo >&2 -e "*** Arguments:"
 	@echo >&2 -e "***"
 	@echo >&2 -e "***  V=1           compile with verbose mode"
@@ -143,10 +141,6 @@ uninstall:
 		/usr/bin/qemu-compile \
 		/usr/bin/kcompile \
 		/usr/bin/hmctl
-
-.PHONY: version
-version:
-	@echo "v${TEST_LINUX_VERSION}-${NAME} (${TEST_LINUX_GIT_VERSION})"
 
 .PHONY: menuconfig
 menuconfig:

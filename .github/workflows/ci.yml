@@ -33,7 +33,6 @@ jobs:
     - name: Test-Linux Info
       run: |
         $MAKE help
-        $MAKE version
     - name: Test-Linux Install Depends
       run: |
         $MAKE deps
