@@ -8,7 +8,6 @@ target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
 target-prog-y += systemd.sh
 target-prog-y += uefi.sh uefi.sh.1 uefi.sh.2 uefi.sh.3
-target-prog-y += numactl.sh
 target-prog-y += pahole.sh pahole.sh.1 pahole.sh.2
 target-prog-y += python.sh
 target-prog-y += rust.sh
@@ -33,7 +32,7 @@ endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java libbpf libvirt libxdp \
-			llvm lsof luca make memcached nasm qemu, \
+			llvm lsof luca make memcached nasm numactl qemu, \
   $(eval $(call test_mmp,${software})) \
 )
 
