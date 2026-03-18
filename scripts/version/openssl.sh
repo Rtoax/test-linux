@@ -7,6 +7,10 @@ if [[ -z ${OPENSSL} ]]; then
 	echo >&2 "ERROR: not found OPENSSL in your system"
 	exit 0
 fi
-${OPENSSL} --version 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || {
+version=$(${OPENSSL} --version 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || {
 	${OPENSSL} version 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -1
-}
+})
+
+source $(dirname $(realpath $0))/libversion.sh
+
+version_parser ${@} -- ${version}

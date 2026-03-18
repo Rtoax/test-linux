@@ -12,7 +12,6 @@ target-prog-y += pahole.sh pahole.sh.1 pahole.sh.2
 target-prog-y += python.sh
 target-prog-y += rust.sh
 target-prog-y += shell.sh shell.sh.1 shell.sh.2
-target-prog-y += openssl.sh
 target-prog-y += strace.sh
 target-prog-y += vim.sh vim.sh.1
 target-prog-y += podman.sh
@@ -32,7 +31,8 @@ endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java libbpf libvirt libxdp \
-			llvm lsof luca make memcached nasm numactl qemu, \
+			llvm lsof luca make memcached nasm numactl openssl \
+			qemu, \
   $(eval $(call test_mmp,${software})) \
 )
 
