@@ -19,7 +19,6 @@ target-prog-y += java.sh java.sh.1 java.sh.2 java.sh.3
 target-prog-y += numactl.sh
 target-prog-y += pahole.sh pahole.sh.1 pahole.sh.2
 target-prog-y += python.sh
-target-prog-y += git.sh
 target-prog-y += rust.sh
 target-prog-y += shell.sh shell.sh.1 shell.sh.2
 target-prog-y += openssl.sh
@@ -53,6 +52,7 @@ $(eval $(call test_mmp,cuda))
 $(eval $(call test_mmp,findutils))
 $(eval $(call test_mmp,gcc))
 $(eval $(call test_mmp,gdb))
+$(eval $(call test_mmp,git))
 $(eval $(call test_mmp,qemu))
 
 PROG_ARGS_distro.sh.1 := short
