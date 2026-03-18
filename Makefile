@@ -32,8 +32,8 @@ include template/sudo.mk
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
   ifneq (${GIT_CONFIG_CORE_HOOKSPATH},scripts/git/hooks/)
-    ifeq ($(filter $(MAKECMDGOALS),install uninstall gitconfig deps),)
-      $(error You MUST run 'make gitconfig' first!!)
+    ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
+      $(error You MUST run 'make install' first!!)
     endif
   endif
 endif
@@ -46,13 +46,13 @@ ifeq ($(shell test -L /etc/profile.d/make_tl.sh && echo yes),yes)
 endif
 
 ifeq ($(wildcard /usr/bin/patchset),)
-  ifeq ($(filter $(MAKECMDGOALS),install gitconfig deps),)
+  ifeq ($(filter $(MAKECMDGOALS),install deps),)
     $(error You MUST run 'make install' first, then start a new bash session!!)
   endif
 endif
 
 ifndef __USE_TEST_LINUX_MAKE__
-  ifeq ($(filter $(MAKECMDGOALS),install uninstall gitconfig),)
+  ifeq ($(filter $(MAKECMDGOALS),install uninstall),)
     $(error Must use test-linux make_tl.sh, startup a login shell with `bash -l`)
   endif
 else
@@ -73,7 +73,6 @@ help:
 	@echo >&2 -e "*** make test"
 	@echo >&2 -e "*** make clean"
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** make gitconfig"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make deps"
 	@echo >&2 -e "*** make [install|uninstall]"
@@ -114,7 +113,7 @@ endif
 subdir-y := ${kmod-list-y}
 subdir-y += ${user-list-y}
 
-ifeq ($(filter $(MAKECMDGOALS),install uninstall gitconfig deps),)
+ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
   include template/main.mk
 endif
 
@@ -135,6 +134,7 @@ install: uninstall
 	${Q}ln -s ${TOPDIR}/init/kernel/compile.sh /usr/bin/kcompile
 	${Q}ln -s ${TOPDIR}/tools/heatmap/hmctl.sh /usr/bin/hmctl
 	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh
+	${Q}$(SHELL) ${TOPDIR}/scripts/git/hooks/config.sh
 
 .PHONY: uninstall
 uninstall:
@@ -148,11 +148,6 @@ uninstall:
 .PHONY: version
 version:
 	@echo "v${TEST_LINUX_VERSION}-${NAME} (${TEST_LINUX_GIT_VERSION})"
-
-.PHONY: gitconfig
-gitconfig:
-	@echo "=== gitconfig"
-	$(SHELL) scripts/git/hooks/config.sh
 
 .PHONY: menuconfig
 menuconfig:
