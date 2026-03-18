@@ -56,7 +56,6 @@ $(foreach mk, ${MK_TGT}, $(eval $(call include_stat,${mk})))
 .PHONY: gitprep
 gitprep:
 	$(call git_config)
-	$(call git_archive)
 
 .PHONY: gitpost
 gitpost:

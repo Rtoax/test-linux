@@ -73,7 +73,6 @@ help:
 	@echo >&2 -e "*** make test"
 	@echo >&2 -e "*** make clean"
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** make archive"
 	@echo >&2 -e "*** make gitconfig"
 	@echo >&2 -e "*** make check"
 	@echo >&2 -e "*** make deps"
@@ -149,11 +148,6 @@ uninstall:
 .PHONY: version
 version:
 	@echo "v${TEST_LINUX_VERSION}-${NAME} (${TEST_LINUX_GIT_VERSION})"
-
-.PHONY: archive
-archive:
-	@echo "=== archive"
-	$(call git_archive)
 
 .PHONY: gitconfig
 gitconfig:

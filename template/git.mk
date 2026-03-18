@@ -27,12 +27,6 @@ define git_config
 	fi
 endef
 
-define git_archive
-	@if [[ ! -z $(TOPDIR) ]]; then \
-		${SHELL} ${TOPDIR}/scripts/git/archive.sh; \
-	fi
-endef
-
 # $1: Y or N
 define git_clean
 	@if [[ ! -z $(TOPDIR) ]]; then \
