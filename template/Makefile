@@ -45,16 +45,10 @@ subdir-y := targets/test/
 target-prep-y += log
 target-prep-y += logo
 
-target-post-y := gitpost
-
 # __main__
 $(call include_stat,main.mk)
 
 $(foreach mk, ${MK_TGT}, $(eval $(call include_stat,${mk})))
-
-.PHONY: gitpost
-gitpost:
-	$(call git_clean,Y)
 
 .PHONY: log
 log:

@@ -46,7 +46,7 @@ and this project adheres to
 #### Tools
 - add memcached;
 #### Template
-- git.mk: remove `git_archive()`, `git_config()` functions;
+- git.mk: remove `git_archive()`, `git_config()`, `git_clean()` functions;
 - python: add sphinx.mk;
 - python/pytorch.mk: add `HAVE_PYTORCH`;
 - move pytorch.mk into python/ dir;

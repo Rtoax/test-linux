@@ -122,7 +122,6 @@ opt:
 }
 
 compile_type=$(uname -m)
-git_clean=
 
 while true
 do

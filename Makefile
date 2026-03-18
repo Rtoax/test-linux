@@ -25,7 +25,6 @@ export VERSION PATCHLEVEL SUBLEVEL NAME TEST_LINUX_VERSION TEST_LINUX_GIT_VERSIO
 
 include template/verbose.mk
 include template/dir.mk
-include template/git.mk
 include template/shell.mk
 include template/sudo.mk
 
@@ -117,14 +116,10 @@ ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
   include template/main.mk
 endif
 
-define installdeps
-	${SUDO} ${SHELL} scripts/install-deps.sh --all --force --noupgrade
-endef
-
 .PHONY: deps
 deps:
 	@echo "Deps"
-	$(call installdeps)
+	${@}${SUDO} ${SHELL} scripts/install-deps.sh --all --force --noupgrade
 
 .PHONY: install
 install: uninstall
@@ -173,6 +168,6 @@ check:
 .PHONY: cleangit
 cleangit:
 	@echo "=== clean git repo"
-	$(call git_clean)
+	${Q}${SHELL} ${TOPDIR}/scripts/git/clean.sh
 
 endif # _TEST_LINUX_MK

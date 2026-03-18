@@ -8,24 +8,12 @@
 ifndef _GIT_MK
 _GIT_MK = 1
 
-# Note: top Makefile use git.mk, before install, we could not include template
-# mk in here.
-ifndef _DIR_MK
-  include dir.mk
-endif
+include dir.mk
 
 GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 
 GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
 	|| git config core.hooksPath 2>/dev/null \
 	|| echo "UnsupportGetHooks")
-
-
-# $1: Y or N
-define git_clean
-	@if [[ ! -z $(TOPDIR) ]]; then \
-		${SHELL} ${TOPDIR}/scripts/git/clean.sh $(1); \
-	fi
-endef
 
 endif
