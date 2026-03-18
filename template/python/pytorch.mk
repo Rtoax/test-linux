@@ -7,9 +7,24 @@
 ifndef _PYTHON_PYTORCH_MK
 _PYTHON_PYTORCH_MK = 1
 
-include python/module.mk
+include dir.mk
 
-export HAVE_PYTORCH := $(call python_has_module,torch)
+cachefile := ${TOPDIR}/template/python/.pytorch.mk.cache
+
+ifneq ($(wildcard ${cachefile}),)
+  include ${cachefile}
+else
+
+include python/module.mk
+include bits/mk-cache.mk
+
+HAVE_PYTORCH := $(call python_has_module,torch)
+
+$(call mk_cache_var,HAVE_PYTORCH,${cachefile})
+
+endif # End of cache
+
+export HAVE_PYTORCH
 
 ifdef DEBUG
   $(info HAVE_PYTORCH = ${HAVE_PYTORCH})
