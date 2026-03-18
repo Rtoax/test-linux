@@ -10,4 +10,8 @@ if [[ -z ${LIBBCC_PATH} ]]; then
 	exit 1
 fi
 
-echo ${LIBBCC_PATH} | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true
+version=$(echo ${LIBBCC_PATH} | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
+
+source $(dirname $(realpath $0))/libversion.sh
+
+version_parser ${@} -- ${version}
