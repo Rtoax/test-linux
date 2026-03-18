@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-target-prog-y += bpftool.sh
 target-prog-y += bpftrace.sh bpftrace.sh.1 bpftrace.sh.2 bpftrace.sh.3
 target-prog-y += libbpf.sh libbpf.sh.1 libbpf.sh.2 libbpf.sh.3
 target-prog-y += libxdp.sh libxdp.sh.1 libxdp.sh.2 libxdp.sh.3
@@ -53,6 +52,7 @@ endef
 
 $(eval $(call test_mmp,bcc))
 $(eval $(call test_mmp,binutils))
+$(eval $(call test_mmp,bpftool))
 $(eval $(call test_mmp,qemu))
 
 PROG_ARGS_distro.sh.1 := short
