@@ -42,6 +42,7 @@ and this project adheres to
 #### Tools
 - add memcached;
 #### Template
+- python/pytorch.mk: add `HAVE_PYTORCH`;
 - move pytorch.mk into python/ dir;
 - split python.mk to python/{python,module}.py;
 - python.mk: add `python_has_module()`;
