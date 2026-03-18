@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- libvirt: add Build.mk;
+- libvirt: add Build.mk, version.mk;
 #### Changed
 #### Deprecated
 #### Removed
