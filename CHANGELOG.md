@@ -37,6 +37,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add conf.py like linux/Documentation/conf.py;
 - Add Documentation subdir like linux;
 #### Tools
 - add memcached;
