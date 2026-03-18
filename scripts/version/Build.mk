@@ -8,7 +8,6 @@ target-prog-y += pciutils.sh
 target-prog-y += procps-ng.sh
 target-prog-y += gnome.sh
 target-prog-y += make.sh make.sh.1 make.sh.2
-target-prog-y += binutils.sh binutils.sh.1 binutils.sh.2
 target-prog-y += gcc.sh gcc.sh.1 gcc.sh.2 gcc.sh.3
 target-prog-y += gdb.sh
 target-prog-y += findutils.sh
@@ -52,8 +51,9 @@ PROG_ARGS_${1}.sh.2 := --minor
 PROG_ARGS_${1}.sh.3 := --patchlevel
 endef
 
-$(eval $(call test_mmp,qemu))
 $(eval $(call test_mmp,bcc))
+$(eval $(call test_mmp,binutils))
+$(eval $(call test_mmp,qemu))
 
 PROG_ARGS_distro.sh.1 := short
 
@@ -99,9 +99,6 @@ PROG_ARGS_linux.sh.8 := --uapicode
 PROG_ARGS_gcc.sh.1 := --major
 PROG_ARGS_gcc.sh.2 := --minor
 PROG_ARGS_gcc.sh.3 := --patchlevel
-
-PROG_ARGS_binutils.sh.1 := --major
-PROG_ARGS_binutils.sh.2 := --minor
 
 PROG_ARGS_make.sh.1 := --major
 PROG_ARGS_make.sh.2 := --minor
