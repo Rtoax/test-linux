@@ -41,6 +41,7 @@ and this project adheres to
 #### Tools
 - add memcached;
 #### Template
+- python.mk: add `python_has_module()`;
 - add sqlite.mk;
 - targets/asm.mk: support `.S.o` object;
 - targets/bpf.mk: add `%.bpf.bc` object;
