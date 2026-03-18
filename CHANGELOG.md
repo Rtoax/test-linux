@@ -37,7 +37,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
-- add gnu and bpf subdirectory;
+- add gnu, gpu and bpf subdirectory;
 - add index.rst, subsystem.rst, gnu/index.rst;
 - add .github/workflows/docs.yml;
 - add conf.py like linux/Documentation/conf.py;

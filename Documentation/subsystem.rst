@@ -10,3 +10,4 @@ GNU (GNU is not UNIX)
 
    bpf/index
    gnu/index
+   gpu/index
