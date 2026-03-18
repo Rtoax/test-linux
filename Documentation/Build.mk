@@ -1,3 +1,1 @@
-include python.mk
-
-target-python-y := conf.py
+target-prep-y := html
