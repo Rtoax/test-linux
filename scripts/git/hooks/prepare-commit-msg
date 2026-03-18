@@ -246,7 +246,7 @@ if [[ "$(has_type go)$(has_key go golang)" ]]; then
 	go_ver
 fi
 
-if [[ "$(has_key find)" ]]; then
+if [[ "$(has_key find findutils)" ]]; then
 	findutils_ver
 fi
 

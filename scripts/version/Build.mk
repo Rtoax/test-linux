@@ -8,7 +8,6 @@ target-prog-y += gnome.sh
 target-prog-y += make.sh make.sh.1 make.sh.2
 target-prog-y += gcc.sh gcc.sh.1 gcc.sh.2 gcc.sh.3
 target-prog-y += gdb.sh
-target-prog-y += findutils.sh
 target-prog-y += go.sh
 target-prog-y += rocm.sh
 target-prog-y += luca.sh
@@ -53,6 +52,7 @@ $(eval $(call test_mmp,bpftool))
 $(eval $(call test_mmp,bpftrace))
 $(eval $(call test_mmp,cmake))
 $(eval $(call test_mmp,cuda))
+$(eval $(call test_mmp,findutils))
 $(eval $(call test_mmp,qemu))
 
 PROG_ARGS_distro.sh.1 := short
