@@ -119,7 +119,7 @@ endif
 .PHONY: deps
 deps:
 	@echo "Deps"
-	${@}${SUDO} ${SHELL} scripts/install-deps.sh --all --force --noupgrade
+	${@}${SUDO} ${SHELL} ${TOPDIR}/scripts/install-deps.sh --all --force --noupgrade
 
 .PHONY: install
 install: uninstall
@@ -147,23 +147,18 @@ version:
 .PHONY: menuconfig
 menuconfig:
 	@echo "=== menuconfig"
-	$(SHELL) scripts/config/dialog.sh
+	$(SHELL) ${TOPDIR}/scripts/config/dialog.sh
 
 .PHONY: config
 config:
 	@echo "=== config"
-	$(SHELL) scripts/config/no-interaction.sh
-
-define check_links
-	@echo "Check invalid symbol link start"
-	${SHELL} scripts/broken-symlinks.sh
-	@echo "Check invalid symbol link done"
-endef
+	$(SHELL) ${TOPDIR}/scripts/config/no-interaction.sh
 
 .PHONY: check
 check:
-	@echo "Check"
-	$(call check_links)
+	@echo "Check startup"
+	${Q}${SHELL} ${TOPDIR}/scripts/broken-symlinks.sh
+	@echo "Check done"
 
 .PHONY: cleangit
 cleangit:
