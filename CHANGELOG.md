@@ -20,6 +20,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- add libvirt.mk;
 
 
 ## [v2.4.1] 2026-03-18
