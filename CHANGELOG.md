@@ -10,6 +10,20 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+#### Template
+
+
+## [v2.4.1] 2026-03-18
+
+#### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
 - sqlite: first commit;
