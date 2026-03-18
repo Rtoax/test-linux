@@ -18,5 +18,9 @@ if [[ $1 == --name ]]; then
 elif [[ $1 == --pretty-name ]]; then
 	echo ${_name^}
 else
-	${MY_SHELL} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true
+	version=$(${MY_SHELL} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
+
+	source $(dirname $(realpath $0))/libversion.sh
+
+	version_parser ${@} -- ${version}
 fi

@@ -11,4 +11,8 @@ if [[ -z ${PYTHON} ]]; then
 	exit 1
 fi
 
-${PYTHON} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true
+version=$(${PYTHON} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
+
+source $(dirname $(realpath $0))/libversion.sh
+
+version_parser ${@} -- ${version}

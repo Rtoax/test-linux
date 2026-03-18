@@ -7,4 +7,8 @@ if [[ -z ${RUSTC} ]]; then
 	echo >&2 "ERROR: not found RUSTC in your system"
 	exit 0
 fi
-(${RUSTC} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true ) | head -1
+version=$( (${RUSTC} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true ) | head -1)
+
+source $(dirname $(realpath $0))/libversion.sh
+
+version_parser ${@} -- ${version}

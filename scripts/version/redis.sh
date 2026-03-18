@@ -19,5 +19,9 @@ if [[ $1 == --name ]]; then
 		echo "Redis"
 	fi
 else
-	${REDIS_CLI} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true
+	version=$(${REDIS_CLI} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
+
+	source $(dirname $(realpath $0))/libversion.sh
+
+	version_parser ${@} -- ${version}
 fi
