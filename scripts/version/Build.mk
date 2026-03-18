@@ -28,7 +28,6 @@ target-prog-y += rust.sh
 target-prog-y += shell.sh shell.sh.1 shell.sh.2
 target-prog-y += openssl.sh
 target-prog-y += strace.sh
-target-prog-y += cmake.sh cmake.sh.1 cmake.sh.2 cmake.sh.3
 target-prog-y += vim.sh vim.sh.1
 target-prog-y += podman.sh
 target-prog-y += ostree.sh
@@ -53,6 +52,7 @@ $(eval $(call test_mmp,bcc))
 $(eval $(call test_mmp,binutils))
 $(eval $(call test_mmp,bpftool))
 $(eval $(call test_mmp,bpftrace))
+$(eval $(call test_mmp,cmake))
 $(eval $(call test_mmp,qemu))
 
 PROG_ARGS_distro.sh.1 := short
@@ -68,10 +68,6 @@ PROG_ARGS_nasm.sh.3 := --patchlevel
 PROG_ARGS_redis.sh.1 := --name
 
 PROG_ARGS_vim.sh.1 := sharepath
-
-PROG_ARGS_cmake.sh.1 := --major
-PROG_ARGS_cmake.sh.2 := --minor
-PROG_ARGS_cmake.sh.3 := --patchlevel
 
 PROG_ARGS_shell.sh.1 := --name
 PROG_ARGS_shell.sh.2 := --pretty-name
