@@ -42,6 +42,7 @@ and this project adheres to
 #### Tools
 - add memcached;
 #### Template
+- split python.mk to python/{python,module}.py;
 - python.mk: add `python_has_module()`;
 - add sqlite.mk;
 - targets/asm.mk: support `.S.o` object;
