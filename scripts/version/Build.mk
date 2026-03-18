@@ -12,7 +12,6 @@ target-prog-y += python.sh
 target-prog-y += rust.sh
 target-prog-y += shell.sh shell.sh.1 shell.sh.2
 target-prog-y += strace.sh
-target-prog-y += vim.sh vim.sh.1
 target-prog-y += podman.sh
 target-prog-y += psmisc.sh
 target-prog-y += redis.sh redis.sh.1
@@ -30,15 +29,13 @@ endef
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java libbpf libvirt libxdp \
 			llvm lsof luca make memcached nasm numactl openssl \
-			ostree pahole qemu, \
+			ostree pahole qemu vim, \
   $(eval $(call test_mmp,${software})) \
 )
 
 PROG_ARGS_distro.sh.1 := short
 
 PROG_ARGS_redis.sh.1 := --name
-
-PROG_ARGS_vim.sh.1 := sharepath
 
 PROG_ARGS_shell.sh.1 := --name
 PROG_ARGS_shell.sh.2 := --pretty-name
