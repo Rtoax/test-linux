@@ -13,7 +13,6 @@ target-prog-y += go.sh
 target-prog-y += rocm.sh
 target-prog-y += luca.sh
 target-prog-y += hpcc.sh
-target-prog-y += cuda.sh
 target-prog-y += linux.sh
 target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
@@ -53,6 +52,7 @@ $(eval $(call test_mmp,binutils))
 $(eval $(call test_mmp,bpftool))
 $(eval $(call test_mmp,bpftrace))
 $(eval $(call test_mmp,cmake))
+$(eval $(call test_mmp,cuda))
 $(eval $(call test_mmp,qemu))
 
 PROG_ARGS_distro.sh.1 := short

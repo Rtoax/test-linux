@@ -8,4 +8,8 @@ if [[ -z ${NVCC} ]]; then
 	echo >&2 "ERROR: not found nvcc in anywhere"
 	exit 1
 fi
-${NVCC} --version | grep -Eo 'V[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true
+version=$(${NVCC} --version | grep -Eo 'V[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
+
+source $(dirname $(realpath $0))/libversion.sh
+
+version_parser ${@} -- ${version:1}
