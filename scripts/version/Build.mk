@@ -5,7 +5,6 @@ target-prog-y += llvm.sh
 target-prog-y += pciutils.sh
 target-prog-y += procps-ng.sh
 target-prog-y += make.sh make.sh.1 make.sh.2
-target-prog-y += go.sh
 target-prog-y += rocm.sh
 target-prog-y += luca.sh
 target-prog-y += hpcc.sh
@@ -43,7 +42,7 @@ PROG_ARGS_${1}.sh.3 := --patchlevel
 endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
-			gdb git gnome qemu, \
+			gdb git gnome go qemu, \
   $(eval $(call test_mmp,${software})) \
 )
 
