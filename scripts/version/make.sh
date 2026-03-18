@@ -16,18 +16,6 @@ if [[ -z ${version} ]]; then
 	version=$( ${make} --version | grep -Eo '[0-9]+\.[0-9]+' 2>/dev/null || true )
 fi
 
-# FIXME: major,minor,patchlevel
-case $1 in
---major)
-	echo ${version%%.*}
-	;;
---minor)
-	echo ${version##*.}
-	;;
-"")
-	echo ${version}
-	;;
-*)
-	exit 1
-	;;
-esac
+source $(dirname $(realpath $0))/libversion.sh
+
+version_parser ${@} -- ${version}
