@@ -4,7 +4,6 @@ target-prog-y += pciutils.sh
 target-prog-y += procps-ng.sh
 target-prog-y += make.sh make.sh.1 make.sh.2
 target-prog-y += rocm.sh
-target-prog-y += luca.sh
 target-prog-y += linux.sh
 target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
@@ -37,7 +36,7 @@ endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java libbpf libvirt libxdp \
-			llvm lsof qemu, \
+			llvm lsof luca qemu, \
   $(eval $(call test_mmp,${software})) \
 )
 
