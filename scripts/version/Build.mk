@@ -6,7 +6,6 @@ target-prog-y += pciutils.sh
 target-prog-y += procps-ng.sh
 target-prog-y += gnome.sh
 target-prog-y += make.sh make.sh.1 make.sh.2
-target-prog-y += gcc.sh gcc.sh.1 gcc.sh.2 gcc.sh.3
 target-prog-y += gdb.sh
 target-prog-y += go.sh
 target-prog-y += rocm.sh
@@ -53,6 +52,7 @@ $(eval $(call test_mmp,bpftrace))
 $(eval $(call test_mmp,cmake))
 $(eval $(call test_mmp,cuda))
 $(eval $(call test_mmp,findutils))
+$(eval $(call test_mmp,gcc))
 $(eval $(call test_mmp,qemu))
 
 PROG_ARGS_distro.sh.1 := short
@@ -91,10 +91,6 @@ PROG_ARGS_linux.sh.5 := --uapimajor
 PROG_ARGS_linux.sh.6 := --uapipatchlevel
 PROG_ARGS_linux.sh.7 := --uapisublevel
 PROG_ARGS_linux.sh.8 := --uapicode
-
-PROG_ARGS_gcc.sh.1 := --major
-PROG_ARGS_gcc.sh.2 := --minor
-PROG_ARGS_gcc.sh.3 := --patchlevel
 
 PROG_ARGS_make.sh.1 := --major
 PROG_ARGS_make.sh.2 := --minor

@@ -7,21 +7,6 @@
 set -e
 version=$(gcc -dumpfullversion -dumpversion)
 
-case $1 in
---major)
-	echo ${version%%.*} | tr -d v
-	;;
---minor)
-	major_minor=${version%.*}
-	echo ${major_minor##*.}
-	;;
---patchlevel)
-	echo ${version##*.}
-	;;
-"")
-	echo ${version}
-	;;
-*)
-	exit 1
-	;;
-esac
+source $(dirname $(realpath $0))/libversion.sh
+
+version_parser ${@} -- ${version}
