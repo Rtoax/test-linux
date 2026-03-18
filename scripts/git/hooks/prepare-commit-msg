@@ -265,7 +265,7 @@ if [[ "$(has_key strace)" ]]; then
 	strace_ver
 fi
 
-if [[ "$(has_key qcow qcow2 qcow3 qemu)" ]]; then
+if [[ "$(has_type qcow2 raw)$(has_key qcow qcow2 qcow3 qemu)" ]]; then
 	virt_env
 	qemu_ver
 fi
