@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-target-prog-y += libbpf.sh libbpf.sh.1 libbpf.sh.2 libbpf.sh.3
 target-prog-y += libxdp.sh libxdp.sh.1 libxdp.sh.2 libxdp.sh.3
 target-prog-y += llvm.sh
 target-prog-y += pciutils.sh
@@ -40,7 +39,7 @@ PROG_ARGS_${1}.sh.3 := --patchlevel
 endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
-			gdb git gnome go hpcc java qemu, \
+			gdb git gnome go hpcc java libbpf qemu, \
   $(eval $(call test_mmp,${software})) \
 )
 
@@ -83,7 +82,3 @@ PROG_ARGS_make.sh.2 := --minor
 PROG_ARGS_libxdp.sh.1 := --major
 PROG_ARGS_libxdp.sh.2 := --minor
 PROG_ARGS_libxdp.sh.3 := --patchlevel
-
-PROG_ARGS_libbpf.sh.1 := --major
-PROG_ARGS_libbpf.sh.2 := --minor
-PROG_ARGS_libbpf.sh.3 := --patchlevel

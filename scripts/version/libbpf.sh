@@ -17,21 +17,6 @@ fi
 version=$(echo ${LIBBPF_PATH} | \
 		grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
 
-case $1 in
---major)
-	echo ${version%%.*}
-	;;
---minor)
-	major_minor=${version%.*}
-	echo ${major_minor##*.}
-	;;
---patchlevel)
-	echo ${version##*.}
-	;;
-"")
-	echo ${version}
-	;;
-*)
-	exit 1
-	;;
-esac
+source $(dirname $(realpath $0))/libversion.sh
+
+version_parser ${@} -- ${version}
