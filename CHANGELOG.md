@@ -40,6 +40,7 @@ and this project adheres to
 #### Tools
 - add memcached;
 #### Template
+- add sqlite.mk;
 - targets/asm.mk: support `.S.o` object;
 - targets/bpf.mk: add `%.bpf.bc` object;
 - targets/c.mk: support compile .c to .N.o;
