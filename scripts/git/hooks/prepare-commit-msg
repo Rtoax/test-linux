@@ -13,6 +13,7 @@ readonly COMMIT_SHA1=$3
 
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
 readonly TOPDIR=$(realpath ${MY_DIRECTORY}/../../../)
+readonly VERDIR=${TOPDIR}/scripts/version
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
 readonly first_commentline=$(sed -n '/^#/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
@@ -164,52 +165,52 @@ has_content() {
 	return 0
 }
 
-as_ver() { add_ver "As $(${TOPDIR}/scripts/version/binutils.sh)"; }
-bcc_ver() { add_ver "BCC $(${TOPDIR}/scripts/version/bcc.sh)"; }
-binutils_ver() { add_ver "Binutils $(${TOPDIR}/scripts/version/binutils.sh)"; }
-bpftool_ver() { add_ver "bpftool $(${TOPDIR}/scripts/version/bpftool.sh)"; }
-bpftrace_ver() { add_ver "BPFTrace $(${TOPDIR}/scripts/version/bpftrace.sh)"; }
-cmake_ver() { add_ver "CMake $(${TOPDIR}/scripts/version/cmake.sh)"; }
-cuda_ver() { add_ver "CUDA $(${TOPDIR}/scripts/version/cuda.sh)"; }
-findutils_ver() { add_ver "Findutils $(${TOPDIR}/scripts/version/findutils.sh)"; }
-gcc_ver() { add_ver "GCC $(${TOPDIR}/scripts/version/gcc.sh)"; }
-gdb_ver() { add_ver "GDB $(${TOPDIR}/scripts/version/gdb.sh)"; }
-go_ver() { add_ver "Golang $(${TOPDIR}/scripts/version/go.sh)"; }
-git_ver() { add_ver "Git $(${TOPDIR}/scripts/version/git.sh)"; }
+as_ver() { add_ver "As $(${VERDIR}/binutils.sh)"; }
+bcc_ver() { add_ver "BCC $(${VERDIR}/bcc.sh)"; }
+binutils_ver() { add_ver "Binutils $(${VERDIR}/binutils.sh)"; }
+bpftool_ver() { add_ver "bpftool $(${VERDIR}/bpftool.sh)"; }
+bpftrace_ver() { add_ver "BPFTrace $(${VERDIR}/bpftrace.sh)"; }
+cmake_ver() { add_ver "CMake $(${VERDIR}/cmake.sh)"; }
+cuda_ver() { add_ver "CUDA $(${VERDIR}/cuda.sh)"; }
+findutils_ver() { add_ver "Findutils $(${VERDIR}/findutils.sh)"; }
+gcc_ver() { add_ver "GCC $(${VERDIR}/gcc.sh)"; }
+gdb_ver() { add_ver "GDB $(${VERDIR}/gdb.sh)"; }
+go_ver() { add_ver "Golang $(${VERDIR}/go.sh)"; }
+git_ver() { add_ver "Git $(${VERDIR}/git.sh)"; }
 glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
-gnome_ver() { add_ver "GNOME $(${TOPDIR}/scripts/version/gnome.sh)"; }
-hpcc_ver() { add_ver_weak "HPCC $(${TOPDIR}/scripts/version/hpcc.sh)"; }
-java_ver() { add_ver "Java $(${TOPDIR}/scripts/version/java.sh)"; }
-libbpf_ver() { add_ver "LibBpf $(${TOPDIR}/scripts/version/libbpf.sh)"; }
-libvirt_ver() { add_ver "Libvirt $(${TOPDIR}/scripts/version/libvirt.sh)"; }
-libxdp_ver() { add_ver "LibXDP $(${TOPDIR}/scripts/version/libxdp.sh)"; }
+gnome_ver() { add_ver "GNOME $(${VERDIR}/gnome.sh)"; }
+hpcc_ver() { add_ver_weak "HPCC $(${VERDIR}/hpcc.sh)"; }
+java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
+libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
+libvirt_ver() { add_ver "Libvirt $(${VERDIR}/libvirt.sh)"; }
+libxdp_ver() { add_ver "LibXDP $(${VERDIR}/libxdp.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
-llvm_ver() { add_ver "LLVM $(${TOPDIR}/scripts/version/llvm.sh)"; }
-lsof_ver() { add_ver "lsof $(${TOPDIR}/scripts/version/lsof.sh)"; }
-luca_ver() { add_ver_weak "LUCA $(${TOPDIR}/scripts/version/luca.sh)"; }
-make_ver() { add_ver "Make $(${TOPDIR}/scripts/version/make.sh)"; }
-memcached_ver() { add_ver "Memcached $(${TOPDIR}/scripts/version/memcached.sh)"; }
-nasm_ver() { add_ver "Nasm $(${TOPDIR}/scripts/version/nasm.sh)"; }
-numactl_ver() { add_ver "NUMACTL $(${TOPDIR}/scripts/version/numactl.sh)"; }
-openssl_ver() { add_ver "OpenSSL $(${TOPDIR}/scripts/version/openssl.sh)"; }
-os_ver() { add_ver "$(${TOPDIR}/scripts/version/distro.sh)"; }
-ostree_ver() { add_ver "RPM $(${TOPDIR}/scripts/version/ostree.sh)"; }
-pahole_ver() { add_ver "Pahole $(${TOPDIR}/scripts/version/pahole.sh)"; }
-pciutils_ver() { add_ver "PCIUtils $(${TOPDIR}/scripts/version/pciutils.sh)"; }
-podman_ver() { add_ver "Podman $(${TOPDIR}/scripts/version/podman.sh)"; }
-procps_ver() { add_ver "Procps-ng $(${TOPDIR}/scripts/version/procps-ng.sh)"; }
-psmisc_ver() { add_ver "Psmisc $(${TOPDIR}/scripts/version/psmisc.sh)"; }
-py_ver() { add_ver "Python $(${TOPDIR}/scripts/version/python.sh)"; }
-qemu_ver() { add_ver "Qemu $(${TOPDIR}/scripts/version/qemu.sh)"; }
-redis_ver() { add_ver "$(${TOPDIR}/scripts/version/redis.sh --name) $(${TOPDIR}/scripts/version/redis.sh)"; }
-rocm_ver() { add_ver_weak "ROCm $(${TOPDIR}/scripts/version/rocm.sh)"; }
-rpm_ver() { add_ver "RPM $(${TOPDIR}/scripts/version/rpm.sh)"; }
-rust_ver() { add_ver "Rust $(${TOPDIR}/scripts/version/rust.sh)"; }
-shell_ver() { add_ver "$(${TOPDIR}/scripts/version/shell.sh --pretty-name) $(${TOPDIR}/scripts/version/shell.sh)"; }
-strace_ver() { add_ver "Strace $(${TOPDIR}/scripts/version/strace.sh)"; }
-systemd_ver() { add_ver "Systemd $(${TOPDIR}/scripts/version/systemd.sh)"; }
-uefi_ver() { add_ver "UEFI Spec $(${TOPDIR}/scripts/version/uefi.sh)"; }
-vim_ver() { add_ver "Vim $(${TOPDIR}/scripts/version/vim.sh)"; }
+llvm_ver() { add_ver "LLVM $(${VERDIR}/llvm.sh)"; }
+lsof_ver() { add_ver "lsof $(${VERDIR}/lsof.sh)"; }
+luca_ver() { add_ver_weak "LUCA $(${VERDIR}/luca.sh)"; }
+make_ver() { add_ver "Make $(${VERDIR}/make.sh)"; }
+memcached_ver() { add_ver "Memcached $(${VERDIR}/memcached.sh)"; }
+nasm_ver() { add_ver "Nasm $(${VERDIR}/nasm.sh)"; }
+numactl_ver() { add_ver "NUMACTL $(${VERDIR}/numactl.sh)"; }
+openssl_ver() { add_ver "OpenSSL $(${VERDIR}/openssl.sh)"; }
+os_ver() { add_ver "$(${VERDIR}/distro.sh)"; }
+ostree_ver() { add_ver "RPM $(${VERDIR}/ostree.sh)"; }
+pahole_ver() { add_ver "Pahole $(${VERDIR}/pahole.sh)"; }
+pciutils_ver() { add_ver "PCIUtils $(${VERDIR}/pciutils.sh)"; }
+podman_ver() { add_ver "Podman $(${VERDIR}/podman.sh)"; }
+procps_ver() { add_ver "Procps-ng $(${VERDIR}/procps-ng.sh)"; }
+psmisc_ver() { add_ver "Psmisc $(${VERDIR}/psmisc.sh)"; }
+py_ver() { add_ver "Python $(${VERDIR}/python.sh)"; }
+qemu_ver() { add_ver "Qemu $(${VERDIR}/qemu.sh)"; }
+redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
+rocm_ver() { add_ver_weak "ROCm $(${VERDIR}/rocm.sh)"; }
+rpm_ver() { add_ver "RPM $(${VERDIR}/rpm.sh)"; }
+rust_ver() { add_ver "Rust $(${VERDIR}/rust.sh)"; }
+shell_ver() { add_ver "$(${VERDIR}/shell.sh --pretty-name) $(${VERDIR}/shell.sh)"; }
+strace_ver() { add_ver "Strace $(${VERDIR}/strace.sh)"; }
+systemd_ver() { add_ver "Systemd $(${VERDIR}/systemd.sh)"; }
+uefi_ver() { add_ver "UEFI Spec $(${VERDIR}/uefi.sh)"; }
+vim_ver() { add_ver "Vim $(${VERDIR}/vim.sh)"; }
 
 cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
 pid1_env() { add_env "pid1=$(cat /proc/1/comm)"; }
