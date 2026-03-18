@@ -15,7 +15,6 @@ target-prog-y += shell.sh shell.sh.1 shell.sh.2
 target-prog-y += strace.sh
 target-prog-y += vim.sh vim.sh.1
 target-prog-y += podman.sh
-target-prog-y += ostree.sh
 target-prog-y += psmisc.sh
 target-prog-y += redis.sh redis.sh.1
 target-prog-y += rpm.sh
@@ -32,7 +31,7 @@ endef
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java libbpf libvirt libxdp \
 			llvm lsof luca make memcached nasm numactl openssl \
-			qemu, \
+			ostree qemu, \
   $(eval $(call test_mmp,${software})) \
 )
 
