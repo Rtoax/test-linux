@@ -1,0 +1,16 @@
+# Test-Linux CI on github
+name: Docs
+
+on: [push, pull_request]
+
+permissions:
+  contents: write
+
+jobs:
+  test_linux_docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt install -y python3 python3-sphinx
