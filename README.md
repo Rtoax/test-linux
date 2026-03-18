@@ -1,9 +1,7 @@
 Test-Linux README
 =================
 
-This code repository contains **GNU/Linux** related test case codes, scripts and knowledge points, as well as operating system related content.
-
-I'd rather name the repository **test-gnu-linux**, but it's too late to regret it, because I should have referenced the name test-linux somewhere else, like **ostools**.
+Test-Linux repository contains **GNU/Linux** related test case codes, scripts and knowledge points, as well as operating system related content.
 
 You must clone this repo under **Linux(UNIX like)** system. Because there are lots of symbol links, some file system not support in Windows OS.
 
