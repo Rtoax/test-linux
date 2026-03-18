@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - OUTPUT: global make variable;
 #### Added
+- sqlite: first commit;
 - add .gitlab directory;
 - shell: add `SUDO_USER.sh`;
 - libxdp: add version.sh;
