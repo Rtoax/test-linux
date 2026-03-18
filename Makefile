@@ -152,17 +152,17 @@ version:
 .PHONY: gitconfig
 gitconfig:
 	@echo "=== gitconfig"
-	$(call git_config)
+	$(SHELL) scripts/git/hooks/config.sh
 
 .PHONY: menuconfig
 menuconfig:
 	@echo "=== menuconfig"
-	$(SHELL) ./scripts/config/dialog.sh
+	$(SHELL) scripts/config/dialog.sh
 
 .PHONY: config
 config:
 	@echo "=== config"
-	$(SHELL) ./scripts/config/no-interaction.sh
+	$(SHELL) scripts/config/no-interaction.sh
 
 define check_links
 	@echo "Check invalid symbol link start"

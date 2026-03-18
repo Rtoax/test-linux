@@ -21,12 +21,6 @@ GIT_CONFIG_CORE_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
 	|| echo "UnsupportGetHooks")
 
 
-define git_config
-	@if [[ ! -z $(TOPDIR) ]]; then \
-		${SHELL} ${TOPDIR}/scripts/git/hooks/config.sh; \
-	fi
-endef
-
 # $1: Y or N
 define git_clean
 	@if [[ ! -z $(TOPDIR) ]]; then \
