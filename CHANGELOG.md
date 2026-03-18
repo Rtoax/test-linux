@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- scripts/version: add libversion.sh;
 - libvirt: add Build.mk, version.mk;
 #### Changed
 - move all version.sh into scripts/version/ directory;
