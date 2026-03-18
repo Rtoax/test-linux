@@ -1,6 +1,6 @@
 # test-linux make list
 # Copyright (C) 2022-2026 Rong Tao
-user-list-y :=
+user-list-y += Documentation
 user-list-y += algorithm
 user-list-y += arch
 user-list-y += audit
@@ -57,7 +57,6 @@ user-list-y += unwind
 user-list-y += vdso
 user-list-y += virt
 
-kmod-list-y :=
 kmod-list-y += algorithm/bitmap/modules
 kmod-list-y += algorithm/bitops/modules
 kmod-list-y += algorithm/bits/modules
