@@ -20,7 +20,6 @@ target-prog-y += podman.sh
 target-prog-y += ostree.sh
 target-prog-y += psmisc.sh
 target-prog-y += redis.sh redis.sh.1
-target-prog-y += nasm.sh nasm.sh.1 nasm.sh.2 nasm.sh.3
 target-prog-y += rpm.sh
 target-prog-y += distro.sh distro.sh.1
 
@@ -34,15 +33,11 @@ endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java libbpf libvirt libxdp \
-			llvm lsof luca make memcached qemu, \
+			llvm lsof luca make memcached nasm qemu, \
   $(eval $(call test_mmp,${software})) \
 )
 
 PROG_ARGS_distro.sh.1 := short
-
-PROG_ARGS_nasm.sh.1 := --major
-PROG_ARGS_nasm.sh.2 := --minor
-PROG_ARGS_nasm.sh.3 := --patchlevel
 
 PROG_ARGS_redis.sh.1 := --name
 
