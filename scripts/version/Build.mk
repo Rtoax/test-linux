@@ -27,7 +27,7 @@ target-prog-y += java.sh java.sh.1 java.sh.2 java.sh.3
 target-prog-y += numactl.sh
 target-prog-y += pahole.sh pahole.sh.1 pahole.sh.2
 target-prog-y += python.sh
-target-prog-y += qemu.sh
+target-prog-y += qemu.sh qemu.sh.1 qemu.sh.2 qemu.sh.3
 target-prog-y += git.sh
 target-prog-y += rust.sh
 target-prog-y += shell.sh shell.sh.1 shell.sh.2
@@ -45,6 +45,10 @@ target-prog-y += memcached.sh
 target-prog-y += libvirt.sh libvirt.sh.1 libvirt.sh.2 libvirt.sh.3
 target-prog-y += rpm.sh
 target-prog-y += distro.sh distro.sh.1
+
+PROG_ARGS_qemu.sh.1 := --major
+PROG_ARGS_qemu.sh.2 := --minor
+PROG_ARGS_qemu.sh.3 := --patchlevel
 
 PROG_ARGS_distro.sh.1 := short
 

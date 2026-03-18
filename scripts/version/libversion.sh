@@ -16,6 +16,7 @@ version_parser() {
 	local version
 
 	TEMP=$(getopt \
+		--options Mmp \
 		--long major \
 		--long minor \
 		--long patchlevel \
@@ -24,21 +25,20 @@ version_parser() {
 	test $? != 0 && version_parser_usage 1
 
 	eval set -- "$TEMP"
-	echo "TEMP=${TEMP}"
 
 	while true; do
 		case $1 in
-		--major)
+		-M | --major)
 			shift
 			show_major=YES
 			show_whole=
 			;;
-		--minor)
+		-m | --minor)
 			shift
 			show_minor=YES
 			show_whole=
 			;;
-		--patchlevel)
+		-p | --patchlevel)
 			shift
 			show_patchlevel=YES
 			show_whole=

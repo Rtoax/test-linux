@@ -12,4 +12,5 @@ subdir-y += perf
 subdir-y += podman
 subdir-y += psmisc
 subdir-y += redis
+subdir-y += util-linux
 subdir-y += vim
