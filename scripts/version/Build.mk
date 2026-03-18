@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 target-prog-y += llvm.sh
-target-prog-y += pciutils.sh
 target-prog-y += procps-ng.sh
 target-prog-y += rocm.sh
 target-prog-y += linux.sh
@@ -29,7 +28,7 @@ endef
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java libbpf libvirt libxdp \
 			llvm lsof luca make memcached nasm numactl openssl \
-			ostree pahole qemu vim, \
+			ostree pahole pciutils qemu vim, \
   $(eval $(call test_mmp,${software})) \
 )
 
