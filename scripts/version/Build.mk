@@ -26,7 +26,6 @@ target-prog-y += lsof.sh
 target-prog-y += redis.sh redis.sh.1
 target-prog-y += nasm.sh nasm.sh.1 nasm.sh.2 nasm.sh.3
 target-prog-y += memcached.sh
-target-prog-y += libvirt.sh libvirt.sh.1 libvirt.sh.2 libvirt.sh.3
 target-prog-y += rpm.sh
 target-prog-y += distro.sh distro.sh.1
 
@@ -39,15 +38,11 @@ PROG_ARGS_${1}.sh.3 := --patchlevel
 endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
-			gdb git gnome go hpcc java libbpf qemu, \
+			gdb git gnome go hpcc java libbpf libvirt qemu, \
   $(eval $(call test_mmp,${software})) \
 )
 
 PROG_ARGS_distro.sh.1 := short
-
-PROG_ARGS_libvirt.sh.1 := --major
-PROG_ARGS_libvirt.sh.2 := --minor
-PROG_ARGS_libvirt.sh.3 := --patchlevel
 
 PROG_ARGS_nasm.sh.1 := --major
 PROG_ARGS_nasm.sh.2 := --minor
