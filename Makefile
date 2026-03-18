@@ -20,6 +20,10 @@ TEST_LINUX_GIT_VERSION := $(shell git describe --abbrev=6 --dirty --tags 2>/dev/
 ifeq ($(TEST_LINUX_GIT_VERSION),)
   TEST_LINUX_GIT_VERSION := not-in-git
 endif
+GIT_HOOKSPATH := $(shell git config get core.hooksPath 2>/dev/null \
+				|| git config core.hooksPath 2>/dev/null \
+				|| echo "UnsupportGetHooks")
+GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 
 export VERSION PATCHLEVEL SUBLEVEL NAME TEST_LINUX_VERSION TEST_LINUX_GIT_VERSION
 
@@ -30,7 +34,7 @@ include template/sudo.mk
 
 # If in git-tree, need check something already config.
 ifneq (${GIT_TOPDIR},)
-  ifneq (${GIT_CONFIG_CORE_HOOKSPATH},scripts/git/hooks/)
+  ifneq (${GIT_HOOKSPATH},scripts/git/hooks/)
     ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
       $(error You MUST run 'make install' first!!)
     endif
@@ -65,7 +69,7 @@ help:
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** TOPDIR ${TOPDIR}"
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
-	@echo >&2 -e "***    core.hooksPath = ${GIT_CONFIG_CORE_HOOKSPATH}"
+	@echo >&2 -e "***    core.hooksPath = ${GIT_HOOKSPATH}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION v${TEST_LINUX_VERSION}-${NAME} (${TEST_LINUX_GIT_VERSION})"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make build [KMOD=0] [USER=0]"
