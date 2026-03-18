@@ -38,7 +38,7 @@ endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java libbpf libvirt libxdp \
-			qemu, \
+			llvm qemu, \
   $(eval $(call test_mmp,${software})) \
 )
 
