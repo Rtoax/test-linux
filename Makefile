@@ -121,7 +121,7 @@ endif
 .PHONY: deps
 deps:
 	@echo "Deps"
-	${@}${SUDO} ${SHELL} ${TOPDIR}/scripts/install-deps.sh --all --force --noupgrade
+	${Q}${SUDO} ${SHELL} ${TOPDIR}/scripts/install-deps.sh --all --force --noupgrade
 
 .PHONY: install
 install: uninstall
