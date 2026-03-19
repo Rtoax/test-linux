@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   clang-format:
+    name: Run clang-format
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -17,7 +18,8 @@ jobs:
     - name: Clang Format
       run: scripts/clang-format.sh
 
-  test_linux:
+  test-linux:
+    name: Run test
     runs-on: ubuntu-latest
     env:
       MAKE: scripts/make_tl.sh
