@@ -1,9 +1,12 @@
+===
 GNU
 ===
+
+The `GNU <https://www.gnu.org>`_ project.
+
 
 .. toctree::
    :maxdepth: 1
 
-   gnu
    gcc/index
    glibc/index
