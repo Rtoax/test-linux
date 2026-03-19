@@ -22,6 +22,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- Documentation: add `make serve` target;
 #### Tools
 - add util-linux;
 #### Template
