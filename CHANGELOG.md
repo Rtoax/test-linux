@@ -27,6 +27,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add arch/`sw_64`/;
 - add bpf/bpftrace/;
 - remove subsystem.rst;
 - add arch subdir;

@@ -9,4 +9,5 @@ CPU Architectures
    arm64/index
    loongarch/index
    riscv/index
+   sw_64/index
    x86/index
