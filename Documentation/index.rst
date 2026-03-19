@@ -9,3 +9,12 @@ The **Test Linux** repository contains **GNU/Linux** related test case codes, sc
    :maxdepth: 1
 
    subsystem
+
+
+Architecture-specific documentation
+===================================
+
+.. toctree::
+   :maxdepth: 2
+
+   CPU architecture <arch/index>
