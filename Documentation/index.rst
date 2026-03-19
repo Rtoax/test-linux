@@ -15,12 +15,20 @@ Architecture-specific documentation
    CPU architecture <arch/index>
 
 
+eBPF: extended Berkeley Packet Filter
+=====================================
+
+.. toctree::
+   :maxdepth: 2
+
+   eBPF <bpf/index>
+
+
 Subsystem
 =========
 
 .. toctree::
    :maxdepth: 1
 
-   bpf/index
    gnu/index
    gpu/index

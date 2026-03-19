@@ -1,8 +1,7 @@
-=====================================
 eBPF: Extended Berkeley Packet Filter
 =====================================
 
-Links
-=====
+.. toctree::
+   :maxdepth: 2
 
-- https://ebpf.io/what-is-ebpf/
+   bpftrace/index
