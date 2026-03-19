@@ -5,11 +5,6 @@ The Test Linux Documentation
 
 The **Test Linux** repository contains **GNU/Linux** related test case codes, scripts and knowledge points, as well as operating system related content.
 
-.. toctree::
-   :maxdepth: 1
-
-   subsystem
-
 
 Architecture-specific documentation
 ===================================
@@ -18,3 +13,14 @@ Architecture-specific documentation
    :maxdepth: 2
 
    CPU architecture <arch/index>
+
+
+Subsystem
+=========
+
+.. toctree::
+   :maxdepth: 1
+
+   bpf/index
+   gnu/index
+   gpu/index

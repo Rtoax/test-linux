@@ -27,6 +27,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- remove subsystem.rst;
 - add arch subdir;
 - add images/logo.svg from linux;
 - add `make serve` target;
