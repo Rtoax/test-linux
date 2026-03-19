@@ -2,6 +2,6 @@ GNU (GNU is not UNIX)
 =====================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    gcc/index

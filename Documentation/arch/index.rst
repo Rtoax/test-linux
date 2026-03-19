@@ -4,7 +4,7 @@ CPU Architectures
 =================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    arm64/index
    loongarch/index
