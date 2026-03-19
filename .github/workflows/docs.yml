@@ -1,4 +1,4 @@
-# Test-Linux CI on github
+# Test-Linux Docs on github
 name: Docs
 
 on:
@@ -26,9 +26,7 @@ jobs:
     - name: Sphinx build
       run: |
         sphinx-build -M html Documentation Documentation/build
-    # Deploy to github pages
     - name: Deploy to gh-pages
-      #if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'Rtoax/test-linux'
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
