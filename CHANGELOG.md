@@ -28,6 +28,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add images/logo.drawio.svg;
 - add bpf/{bcc,bpftrace,libbpf};
 - add arch/`sw_64`/;
 - remove subsystem.rst;

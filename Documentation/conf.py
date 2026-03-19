@@ -15,6 +15,6 @@ copyright = 'Copyright (C) 2022-2026 Rong Tao'
 author = 'Rong Tao'
 version = release = '0.0.2'
 
-html_logo = "images/logo.svg"
+html_logo = "images/logo.drawio.svg"
 
 extensions = []

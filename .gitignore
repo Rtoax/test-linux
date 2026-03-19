@@ -74,6 +74,7 @@ squashfs-root
 .tmp_versions
 .tmp_*
 tmp-*
+*.drawio.svg.bkp
 .cache.mk
 *.ko.cmd
 *.o.cmd
