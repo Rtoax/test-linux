@@ -19,7 +19,8 @@ $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java libbpf libvirt libxdp \
 			llvm lsof luca make memcached nasm numactl openssl \
 			ostree pahole pciutils podman procps-ng psmisc python \
-			qemu redis rocm rpm rust shell strace systemd vim, \
+			qemu redis rocm rpm rust shell sphinx strace systemd \
+			vim, \
   $(eval $(call test_mmp,${software})) \
 )
 
