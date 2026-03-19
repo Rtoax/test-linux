@@ -22,6 +22,7 @@ and this project adheres to
 - move all version.sh into scripts/version/ directory;
 #### Deprecated
 #### Removed
+- mpi/samples: remove openmpi.sh;
 #### Fixed
 #### Security
 #### Docs
