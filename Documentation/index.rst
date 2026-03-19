@@ -27,6 +27,15 @@ You could always use `man-pages <https://git.kernel.org/pub/scm/docs/man-pages/m
 to check what you want to know.
 
 
+Development rules
+=================
+
+.. toctree::
+   :maxdepth: 2
+
+   Development rules <devel/index>
+
+
 Architecture-specific documentation
 ===================================
 
