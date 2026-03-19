@@ -6,7 +6,10 @@ NAME=fedora
 
 sudo podman rm -f ${NAME} || true
 
-sudo podman run --rm -d --privileged --name ${NAME} ${IMAGE} /sbin/init
+sudo podman run --rm -d --privileged \
+	-v /dev:/dev -v /run/systemd/:/run/systemd/ \
+	--name ${NAME} ${IMAGE} /sbin/init
+
 sudo podman exec ${NAME} ps -ef
 
 sudo podman ps --all
