@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-include mpich.mk
+include mpi/mpi.mk
 
 CC := ${MPICC}
 

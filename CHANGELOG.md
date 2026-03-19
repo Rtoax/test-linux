@@ -31,6 +31,7 @@ and this project adheres to
 - add util-linux;
 #### Template
 - add libvirt.mk;
+- add mpi/{mpi,mpich,openmpi}.mk;
 
 
 ## [v2.4.1] 2026-03-18
