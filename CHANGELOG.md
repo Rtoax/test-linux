@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- github: support pages;
 #### Added
 - scripts/version: add sphinx.sh;
 - openmpi: add README.md;
