@@ -24,17 +24,18 @@ $(info MK_TST = ${MK_TST})
 
 # Sometimes including an mk file takes too long, and this function can be
 # used to effectively measure the time required to include the mk.
+# Set V or DEBUG to enable debug mode.
 # Arguments:
-# $1: file to include
+# $1: makefile to include
 define include_stat
   $(eval _mk := $(1))
   $(eval _mk_id := $(subst /,_,$(subst .,_,$(1))))
   $(eval _start_$(_mk_id) := $(shell date +%s%6N))
-  $(if ${V},$(info Include $(_mk) -> Startup.))
+  $(if ${V}${DEBUG},$(info Include $(_mk) -> Startup.))
   $(eval include $(_mk))
   $(eval _end_$(_mk_id) := $(shell date +%s%6N))
   $(eval _cost_$(_mk_id) := $(shell echo "scale=3; ($(_end_$(_mk_id)) - $(_start_$(_mk_id))) / 1000" | bc))
-  $(if ${V},$(info Include $(_mk) -> Done. Took $(_cost_$(_mk_id)) ms))
+  $(if ${V}${DEBUG},$(info Include $(_mk) -> Done. Took $(_cost_$(_mk_id)) ms))
 endef
 
 # include each mk for twice to test ifndef-endif pair
