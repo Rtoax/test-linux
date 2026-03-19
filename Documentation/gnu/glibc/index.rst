@@ -1,4 +1,5 @@
-The GNU C Library (glibc)
+=========================
+GLibc (The GNU C Library)
 =========================
 
 The GNU C Library project provides the core libraries for the GNU system and
@@ -9,8 +10,8 @@ open, read, write, malloc, printf, getaddrinfo, dlopen, `pthread_create`,
 crypt, login, exit and more.
 
 
-# Links
+Links
+=====
 
-* [https://sourceware.org/git/glibc](https://sourceware.org/git/glibc)
-* [https://www.gnu.org/software/libc/](https://www.gnu.org/software/libc/)
-
+- https://sourceware.org/git/glibc
+- https://www.gnu.org/software/libc

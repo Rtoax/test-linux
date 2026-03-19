@@ -6,3 +6,4 @@ GNU
 
    gnu
    gcc/index
+   glibc/index
