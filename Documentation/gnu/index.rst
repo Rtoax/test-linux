@@ -1,14 +1,7 @@
-=====================
 GNU (GNU is not UNIX)
 =====================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    gcc/index
-
-
-Links
-=====
-
-- https://www.gnu.org

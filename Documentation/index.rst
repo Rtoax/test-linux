@@ -24,11 +24,19 @@ eBPF: extended Berkeley Packet Filter
    eBPF <bpf/index>
 
 
-Subsystem
+GNU (GNU is not UNIX)
+=====================
+
+.. toctree::
+   :maxdepth: 2
+
+   gnu/index
+
+
+Hardware
 =========
 
 .. toctree::
    :maxdepth: 1
 
-   gnu/index
    gpu/index
