@@ -15,4 +15,6 @@ copyright = 'Copyright (C) 2022-2026 Rong Tao'
 author = 'Rong Tao'
 release = '0.0.1'
 
+html_logo = "images/logo.svg"
+
 extensions = []

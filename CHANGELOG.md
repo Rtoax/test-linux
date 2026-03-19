@@ -27,6 +27,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- Documentation: add images/logo.svg from linux;
 - Documentation: add `make serve` target;
 #### Tools
 - add util-linux;
