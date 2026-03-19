@@ -4,8 +4,7 @@
 #include <string.h>
 #include "mpi.h"
 
-
-int main(int argc,char *argv[])
+int main(int argc, char *argv[])
 {
 	int rank, size;
 
@@ -18,4 +17,3 @@ int main(int argc,char *argv[])
 	MPI_Finalize();
 	return 0;
 }
-

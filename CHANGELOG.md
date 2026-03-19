@@ -11,12 +11,14 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- openmpi: add README.md;
 - nvidia: add nvlink;
 - add .clang-format-ignore;
 - add .gitattributes;
 - scripts/version: add libversion.sh;
 - libvirt: add Build.mk, version.mk;
 #### Changed
+- mpi: move mpich/samples to upper directory;
 - move all version.sh into scripts/version/ directory;
 #### Deprecated
 #### Removed

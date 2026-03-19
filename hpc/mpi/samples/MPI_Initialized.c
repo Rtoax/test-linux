@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
-int main(int argc,char *argv[])
+int main(int argc, char *argv[])
 {
 	int myid, numprocs;
 
@@ -10,7 +10,7 @@ int main(int argc,char *argv[])
 
 	MPI_Initialized(&flag);
 
-	fprintf(stderr,"init: %d\n", flag);
+	fprintf(stderr, "init: %d\n", flag);
 
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &myid);
@@ -18,13 +18,7 @@ int main(int argc,char *argv[])
 
 	MPI_Initialized(&flag);
 
-	fprintf(stderr,"init: %d\n", flag);
+	fprintf(stderr, "init: %d\n", flag);
 
 	MPI_Finalize();
 }
-
-
-
-
-
-

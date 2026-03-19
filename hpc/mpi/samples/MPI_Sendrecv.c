@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-int main(int argc,char *argv[])
+int main(int argc, char *argv[])
 {
 	int i, rank, size;
 
@@ -14,12 +14,12 @@ int main(int argc,char *argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-
 	if (size != 3) {
 		if (rank == 0) {
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
 	}
+
 	for (i = 0; i < 1; i++) {
 		a[i] = 9;
 	}
@@ -33,8 +33,8 @@ int main(int argc,char *argv[])
 		for (i = 0; i < 1; i++) {
 			a[i] = 2;
 		}
-		MPI_Recv(a, 1, MPI_FLOAT, 1, 111, MPI_COMM_WORLD,&status);
-	} else if(rank == 1) {
+		MPI_Recv(a, 1, MPI_FLOAT, 1, 111, MPI_COMM_WORLD, &status);
+	} else if (rank == 1) {
 		for (i = 0; i < 1; i++) {
 			a[i] = 1;
 		}
@@ -48,7 +48,7 @@ int main(int argc,char *argv[])
 	}
 
 	for (i = 0; i < 1; i++) {
-		printf("rank = %d, a[%d] = %f\n",rank,i,a[i]);
+		printf("rank = %d, a[%d] = %f\n", rank, i, a[i]);
 	}
 
 	MPI_Finalize();

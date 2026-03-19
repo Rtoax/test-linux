@@ -1,7 +1,7 @@
-MPIi - Message Passing Interface
-=================================
+MPI - Message Passing Interface
+===============================
 
-MPI collective communication primitives:
+# MPI collective communication primitives
 
 - Reduce
 - AllReduce
@@ -12,7 +12,7 @@ MPI collective communication primitives:
 - Scatter
 - ReduceScatter
 
-* Reduce
+## Reduce
 
 ```
  GPU1    GPU2    GPU3    GPU4            GPU1      GPU2      GPU3       GPU4
@@ -32,8 +32,7 @@ MPI collective communication primitives:
                          ══════════════════▶
 ```
 
-
-* AllReduce
+## AllReduce
 
 ```
  GPU1    GPU2    GPU3    GPU4            GPU1      GPU2      GPU3       GPU4
@@ -53,7 +52,7 @@ MPI collective communication primitives:
                          ══════════════════▶
 ```
 
-* Broadcast
+## Broadcast
 
 ```
  GPU1    GPU2    GPU3    GPU4            GPU1    GPU2    GPU3    GPU4
@@ -73,7 +72,7 @@ MPI collective communication primitives:
                          ══════════════════▶
 ```
 
-* Gather
+## Gather
 
 ```
  GPU1    GPU2    GPU3    GPU4            GPU1    GPU2    GPU3    GPU4
@@ -93,7 +92,7 @@ MPI collective communication primitives:
                          ══════════════════▶
 ```
 
-* AllGather
+## AllGather
 
 ```
  GPU1    GPU2    GPU3    GPU4            GPU1    GPU2    GPU3    GPU4
@@ -113,7 +112,7 @@ MPI collective communication primitives:
                          ══════════════════▶
 ```
 
-* AlltoAll
+## AlltoAll
 
 ```
  GPU1    GPU2    GPU3    GPU4           GPU1    GPU2    GPU3    GPU4
@@ -133,7 +132,7 @@ MPI collective communication primitives:
                          ══════════════════▶
 ```
 
-* Scatter
+## Scatter
 
 ```
  GPU1    GPU2    GPU3    GPU4            GPU1    GPU2    GPU3    GPU4
@@ -153,7 +152,7 @@ MPI collective communication primitives:
                          ══════════════════▶
 ```
 
-* ReduceScatter
+## ReduceScatter
 
 ```
  GPU1    GPU2    GPU3    GPU4                    GPU1      GPU2      GPU3       GPU4
@@ -173,7 +172,3 @@ MPI collective communication primitives:
                                ReduceScatter
                             ══════════════════▶
 ```
-
-# Projects
-
-`mpich` and `openmpi`
