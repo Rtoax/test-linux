@@ -27,11 +27,9 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
-- add bpf/bcc;
+- add bpf/{bcc,bpftrace,libbpf};
 - add arch/`sw_64`/;
-- add bpf/bpftrace/;
 - remove subsystem.rst;
-- add arch subdir;
 - add images/logo.svg from linux;
 - add `make serve` target;
 #### Tools

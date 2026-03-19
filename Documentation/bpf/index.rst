@@ -6,3 +6,4 @@ eBPF: Extended Berkeley Packet Filter
 
    bcc/index
    bpftrace/index
+   libbpf/index
