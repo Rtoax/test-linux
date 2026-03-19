@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- add .clang-format-ignore;
 - add .gitattributes;
 - scripts/version: add libversion.sh;
 - libvirt: add Build.mk, version.mk;
