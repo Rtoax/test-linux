@@ -1,6 +1,8 @@
+include python/sphinx.mk
+
 .PHONY: html
 html:
-	${Q}sphinx-build -M html . build
+	${Q}${SPHINX_BUILD} -M html . build
 	$(call log_success, Startup HTTP server with $$ make serve)
 
 .PHONY: serve
