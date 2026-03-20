@@ -14,6 +14,12 @@ library that for loading eBPF programs and interacting with the loaded
 resources.
 
 
+blazesym
+--------
+
+- https://github.com/libbpf/blazesym
+
+
 Links
 -----
 
