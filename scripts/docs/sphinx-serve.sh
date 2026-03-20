@@ -5,7 +5,8 @@ sphinx_build=$(dirname $(realpath $0))/sphinx-build.sh
 
 file_monitor()
 {
-	local inotifywait_pid=
+	local inotifywait_pid
+
 	while true
 	do
 		inotifywait --recursive \
@@ -15,6 +16,8 @@ file_monitor()
 			-e move_self \
 			-e delete_self . &
 		inotifywait_pid=$!
+
+		echo "Start a new inotifywait $inotifywait_pid"
 
 		wait $inotifywait_pid
 		local exit_code=$?
@@ -29,10 +32,11 @@ file_monitor()
 
 file_monitor &
 monitor_pid=$!
-pstree $monitor_pid
+echo "Monitor $monitor_pid"
 
 python -m http.server 8888 --directory ./build/html/ &
 server_pid=$!
+echo "Server $server_pid"
 
 sig_handler()
 {
