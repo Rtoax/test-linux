@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - github: support pages;
 #### Added
+- Doc: add scripts/docs/sphinx-serve.sh;
 - Doc: add scripts/docs/sphinx-build.sh;
 - scripts/version: add sphinx.sh, latexmk.sh;
 - openmpi: add README.md;
