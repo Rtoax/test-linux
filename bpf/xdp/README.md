@@ -1,5 +1,3 @@
-XDP - eXpress Data Path
-=======================
 
 # XDP Type and Load/Attach
 
