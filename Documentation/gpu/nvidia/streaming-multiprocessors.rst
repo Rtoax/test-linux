@@ -17,8 +17,6 @@ Abbreviations
 Nvidia Pascal GP100 SM Unit
 ---------------------------
 
-- :ref:`nvidia_pascal_gp100_sm`
-
 .. _nvidia_pascal_gp100_sm:
 
 .. code-block:: text
@@ -82,8 +80,6 @@ Nvidia Pascal GP100 SM Unit
 
 Nvidia Volta GV100 SM Unit
 --------------------------
-
-- :ref:`nvidia_volta_gv100_sm`
 
 .. _nvidia_volta_gv100_sm:
 
