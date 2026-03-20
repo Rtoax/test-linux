@@ -2,6 +2,15 @@
 set -e
 
 sphinx_build=$(dirname $(realpath $0))/sphinx-build.sh
+monitor_pid=
+server_pid=
+
+kill_all()
+{
+	echo "Killing $monitor_pid, $server_pid"
+	kill -9 $monitor_pid
+	kill -9 $server_pid
+}
 
 file_monitor()
 {
@@ -25,6 +34,7 @@ file_monitor()
 			# build again
 			$sphinx_build
 		else
+			kill_all
 			break
 		fi
 	done
@@ -40,9 +50,7 @@ echo "Server $server_pid"
 
 sig_handler()
 {
-	echo "Goodbye....... $monitor_pid, $server_pid"
-	kill -9 $monitor_pid
-	kill -9 $server_pid
+	kill_all
 }
 trap sig_handler INT
 
