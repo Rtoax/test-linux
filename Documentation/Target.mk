@@ -1,5 +1,6 @@
 include python/sphinx.mk
 
+# Support more builder: singlehtml, etc.
 .PHONY: htmldocs
 htmldocs:
 	${Q}${SPHINX_BUILD} -M html . build --fail-on-warning

@@ -7,6 +7,7 @@ NVIDIA GPU
    :maxdepth: 1
 
    nvidia
+   device
    compute-capability
    cuda-core
    precisions
