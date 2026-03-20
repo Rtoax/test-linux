@@ -710,6 +710,9 @@ pkgs_container+=( runc )
 pkgs_container+=( skopeo )
 pkgs_container+=( systemd-container )
 
+pkgs_docs+=( latexmk )
+pkgs_docs+=( texlive )
+
 pkgs_virt+=( virt-manager )
 #pkgs_virt+=( wine )
 
@@ -1031,6 +1034,7 @@ dnf_add_packages()
 
 	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx_rtd_theme )
+	pkgs_docs+=( texlive-scheme-full )
 
 	pkgs_math+=( fftw-devel )
 
@@ -1230,6 +1234,7 @@ apt_add_packages()
 
 	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx-rtd-theme )
+	pkgs_docs+=( texlive-full )
 
 	pkgs_fs+=( unionfs-fuse )
 
