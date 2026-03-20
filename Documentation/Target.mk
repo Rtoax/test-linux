@@ -1,9 +1,10 @@
 include python/sphinx.mk
+include dir.mk
 
 # Support more builder: singlehtml, etc.
 .PHONY: htmldocs
 htmldocs:
-	${Q}${SPHINX_BUILD} -M html . build --fail-on-warning
+	${Q}${SHELL} ${TOPDIR}/scripts/docs/sphinx-build.sh
 	$(call log_success, Startup HTTP server with $$ make serve)
 
 .PHONY: serve
