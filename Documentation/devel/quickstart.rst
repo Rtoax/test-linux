@@ -24,6 +24,15 @@ Config
         $ make config
 
 
+Install and Uninstall
+---------------------
+
+.. code-block:: bash
+
+        $ sudo make install
+        $ sudo make uninstall
+
+
 Compile in Top Directory
 ------------------------
 
