@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - github: support pages;
 #### Added
-- scripts/version: add sphinx.sh;
+- scripts/version: add sphinx.sh, latexmk.sh;
 - openmpi: add README.md;
 - nvidia: add nvlink;
 - add .clang-format-ignore;

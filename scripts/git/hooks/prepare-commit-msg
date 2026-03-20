@@ -181,6 +181,7 @@ glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 gnome_ver() { add_ver "GNOME $(${VERDIR}/gnome.sh)"; }
 hpcc_ver() { add_ver_weak "HPCC $(${VERDIR}/hpcc.sh)"; }
 java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
+latexmk_ver() { add_ver "LaTeXmk $(${VERDIR}/latexmk.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 libvirt_ver() { add_ver "Libvirt $(${VERDIR}/libvirt.sh)"; }
 libxdp_ver() { add_ver "LibXDP $(${VERDIR}/libxdp.sh)"; }
@@ -267,7 +268,8 @@ if [[ "$(has_key strace)" ]]; then
 	strace_ver
 fi
 
-if [[ "$(has_key sphinx Documentation)" ]]; then
+if [[ "$(has_key latexmk sphinx Documentation)" ]]; then
+	latexmk_ver
 	sphinx_ver
 fi
 
