@@ -2,7 +2,7 @@ include python/sphinx.mk
 
 .PHONY: html
 html:
-	${Q}${SPHINX_BUILD} -M html . build
+	${Q}${SPHINX_BUILD} -M html . build --fail-on-warning
 	$(call log_success, Startup HTTP server with $$ make serve)
 
 .PHONY: serve
