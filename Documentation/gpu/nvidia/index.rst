@@ -9,5 +9,6 @@ NVIDIA GPU
    nvidia
    device
    compute-capability
+   streaming-multiprocessors
    cuda-core
    precisions
