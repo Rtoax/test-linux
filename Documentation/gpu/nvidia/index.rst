@@ -60,6 +60,34 @@ Precisions
 
 see `NVIDIA Tensor Cores <https://www.nvidia.com/en-us/data-center/tensor-cores/>`_.
 
+see :ref:`nvidia_cuda_core`.
+
+
+CUDA Core
+---------
+
+.. _nvidia_cuda_core:
+
+.. code-block:: text
+   :caption: CUDA Core
+
+    ┌─────────────────────┐
+    │┌───────────────────┐│
+    ││   Dispatch Port   ││
+    │└───────────────────┘│
+    │┌───────────────────┐│
+    ││ Operand Collector ││
+    │└───┬──────────┬────┘│
+    │    │          │     │
+    │┌───▼───┐  ┌───▼────┐│
+    ││FP Unit│  │INT Unit││
+    │└───┬───┘  └───┬────┘│
+    │    │          │     │
+    │┌───▼──────────▼────┐│
+    ││   Result Queue    ││
+    │└───────────────────┘│
+    └─────────────────────┘
+
 
 Links
 -----
