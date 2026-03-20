@@ -51,6 +51,7 @@ Hardware Architecture
 
    CPU Architecture <arch/index>
    GPU Architecture <gpu/index>
+   superPod <superpod/index>
 
 
 eBPF and Observability

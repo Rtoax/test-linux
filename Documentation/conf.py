@@ -13,7 +13,7 @@ doc_dir = os.path.dirname(os.path.abspath(__file__))
 project = 'The Test Linux Documentation'
 copyright = 'Copyright (C) 2022-2026 Rong Tao'
 author = 'Rong Tao'
-version = release = '0.0.6'
+version = release = '0.0.7'
 
 html_logo = "images/logo.svg"
 
