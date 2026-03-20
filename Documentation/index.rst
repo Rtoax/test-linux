@@ -34,64 +34,32 @@ Development
 ===========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   Development Rules <devel/index>
+   Standard <standard/index>
+   The Linux Kernel <linux/index>
+   The GNU Project <gnu/index>
+   Development Rules <devel/rules>
    Quick Start <devel/quickstart>
 
 
-Standard
+Hardware
 ========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   Standard <standard/index>
+   CPU Architecture <arch/index>
+   GPU Architecture <gpu/index>
 
 
-The Linux Kernel
-================
+Observability and Debugging
+===========================
 
 .. toctree::
    :maxdepth: 1
-
-   The Linux Kernel <linux/index>
-
-
-Architecture-specific documentation
-===================================
-
-.. toctree::
-   :maxdepth: 2
-
-   CPU architecture <arch/index>
-
-
-eBPF: extended Berkeley Packet Filter
-=====================================
-
-.. toctree::
-   :maxdepth: 2
 
    eBPF <bpf/index>
-
-
-GNU (GNU is not UNIX)
-=====================
-
-.. toctree::
-   :maxdepth: 2
-
-   gnu/index
-
-
-Hardware
-=========
-
-.. toctree::
-   :maxdepth: 1
-
-   gpu/index
 
 
 Relative Projects
