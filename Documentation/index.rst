@@ -36,6 +36,15 @@ Development rules
    Development rules <devel/index>
 
 
+Standard
+========
+
+.. toctree::
+   :maxdepth: 2
+
+   Standard <standard/index>
+
+
 Architecture-specific documentation
 ===================================
 
