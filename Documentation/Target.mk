@@ -10,4 +10,4 @@ htmldocs:
 .PHONY: serve
 serve: htmldocs
 	$(call log_success, Access: http://localhost:8888/)
-	${Q}python -m http.server 8888 --directory ./build/html/
+	${Q}${SHELL} ${TOPDIR}/scripts/docs/sphinx-serve.sh
