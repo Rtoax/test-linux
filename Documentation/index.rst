@@ -30,8 +30,8 @@ You could always use `man-pages <https://git.kernel.org/pub/scm/docs/man-pages/m
 to check what you want to know.
 
 
-Development
-===========
+Standard and Development
+========================
 
 .. toctree::
    :maxdepth: 1
@@ -39,8 +39,7 @@ Development
    Standard <standard/index>
    The Linux Kernel <linux/index>
    The GNU Project <gnu/index>
-   Development Rules <devel/rules>
-   Quick Start <devel/quickstart>
+   Test Linux Development <devel/index>
 
 
 Hardware Architecture
@@ -54,8 +53,8 @@ Hardware Architecture
    superPod <superpod/index>
 
 
-eBPF and Observability
-======================
+Debug and Observability
+=======================
 
 .. toctree::
    :maxdepth: 1
