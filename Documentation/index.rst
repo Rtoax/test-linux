@@ -48,6 +48,15 @@ Standard
    Standard <standard/index>
 
 
+The Linux Kernel
+================
+
+.. toctree::
+   :maxdepth: 1
+
+   The Linux Kernel <linux/index>
+
+
 Architecture-specific documentation
 ===================================
 

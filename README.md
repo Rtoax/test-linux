@@ -13,22 +13,3 @@ Test-Linux README
 # Links
 
 ## Linux
-
-- [The Linux Kernel Archives](https://www.kernel.org/)
-- [Linux Foundation: Referenced Specifications](https://refspecs.linuxfoundation.org/)
-- [LSB: Linux Standard Base](https://refspecs.linuxfoundation.org/lsb.shtml)
-- [vger.kernel.org](https://subspace.kernel.org/vger.kernel.org.html)
-  - [lore.kernel.org/lkml](https://lore.kernel.org/lkml/)
-- [elixir.bootlin.com](https://elixir.bootlin.com/linux/latest/source)
-- [www.kernel.org/doc/html/latest](https://www.kernel.org/doc/html/latest/)
-- [Contributors to the Linux Kernel](https://cregit.linuxsources.org/)
-- [KernelCI](https://kernelci.org/)
-- [linaro LKFT](https://qa-reports.linaro.org/lkft/)
-- [kerneltests](https://kerneltests.org/)
-- [kernel/map](https://makelinux.github.io/kernel/map/)
-  - [github.com/makelinux](https://github.com/makelinux/linux_kernel_map)
-- linux git
-  - [github torvalds](https://github.com/torvalds/linux)
-  - [git.kernel.org stable](git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git)
-  - [git.kernel.org torvalds](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
-  - [mirrors.kernel.org](https://mirrors.kernel.org/)
