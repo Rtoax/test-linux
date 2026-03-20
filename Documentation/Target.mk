@@ -7,6 +7,8 @@ htmldocs:
 	${Q}${SHELL} ${TOPDIR}/scripts/docs/sphinx-build.sh
 	$(call log_success, Startup HTTP server with $$ make serve)
 
+# TODO: could we detect Doc change and build again. maybe:
+# inotifywait --recursive -e modify -e delete -e move -e move_self -e delete_self .
 .PHONY: serve
 serve: htmldocs
 	$(call log_success, Access: http://localhost:8888/)
