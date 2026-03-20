@@ -69,3 +69,17 @@ Files
 - There are so many **symlinks** in this repo, so you better clone this repo in
   linux system, if windows, oops. You'd better use **make check**
   (or **./scripts/broken-symlinks.sh**) check invalid links and modify them.
+
+
+Licenses
+========
+
+If the source code file has a copyright information at the beginning, the
+copyright of the source code is the description content, otherwise, it is the
+copyright of the test-linux repository.
+
+If the code does not specify, then it follows **GPLv3**.
+
+BPF programs always follow **GPLv2**.
+
+The copyright line format must be **Copyright (C) Year-Year Author**.
