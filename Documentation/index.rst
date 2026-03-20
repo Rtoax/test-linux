@@ -30,13 +30,14 @@ You could always use `man-pages <https://git.kernel.org/pub/scm/docs/man-pages/m
 to check what you want to know.
 
 
-Development rules
-=================
+Development
+===========
 
 .. toctree::
    :maxdepth: 2
 
-   Development rules <devel/index>
+   Development Rules <devel/index>
+   Quick Start <devel/quickstart>
 
 
 Standard

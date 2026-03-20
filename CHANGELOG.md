@@ -28,6 +28,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add devel/quickstart.rst;
 - add linux;
 - add standard;
 - add images/logo.drawio.svg;
