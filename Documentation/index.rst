@@ -23,6 +23,9 @@ as **GNOME**, but that is not the main purpose of the repository. Perhaps
 researching the **GUI** is also the purpose of this repository, such as
 **GTK**, **Wayland**.
 
+It seems that I have also added some **GPU** and **AI** related content, which
+is less related to Linux, but most of it is still part of the Linux ecosystem.
+
 You could always use `man-pages <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/>`_
 to check what you want to know.
 

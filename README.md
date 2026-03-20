@@ -10,13 +10,6 @@ Test-Linux README
 - [ ] `loongarch64`
 
 
-# Test Linux Development
-
-# Miscs
-
-It seems that I have also added some **GPU** and **AI** related content, which is less related to Linux, but most of it is still part of the Linux ecosystem.
-
-
 # Links
 
 ## Linux
