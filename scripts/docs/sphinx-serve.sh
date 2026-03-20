@@ -32,7 +32,9 @@ file_monitor()
 		local exit_code=$?
 		if [[ $exit_code -eq 0 ]]; then
 			# build again
-			$sphinx_build
+			$sphinx_build || {
+				continue
+			}
 		else
 			kill_all
 			break
