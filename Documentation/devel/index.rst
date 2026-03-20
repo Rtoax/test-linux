@@ -1,5 +1,6 @@
 .. SPDX-License-Identifier: GPL-2.0
 
+=================
 Development rules
 =================
 
@@ -34,3 +35,37 @@ Commit Tags
   bug originated.
 - **Envs**: This tag indicates the env of your system.
 - **Vers**: This tag indicates the software/hardware version of your system.
+
+
+Sub-Directories
+===============
+
+- Each **scripts** directory contain scriptions(bpftrace, bcc, shell).
+- Each **modules** directory contain Linux Modules(KO) source code.
+- Each **samples** directory contain source userspace code.
+- Each **commands** directory contain relative command lines.
+- Each **images** directory contains relative images.
+
+
+Files
+=====
+
+- Each **README.md** is current directory's description.
+- Each **FAQ.md** is current directory's FAQs.
+- Each **abbrev.md** is current directory's relative abbreviation.
+  - scripts: **./abbrev.sh** to check all abbreviations.
+- Each **history.md** is store history of some technology.
+- Each **drawio** contains relate directory diagrams.
+- Never call **include** in ***.mk** file, only call **include** in Makefile.
+- Each **kconfig** contains kernel CONFIG, each CONFIG is placed in the kconfig
+  of the corresponding directory, and the public CONFIG is placed in the
+  kconfig of the top-level directory.
+  - scripts: **./kconfig.sh** to check all kernel config;
+- Each ***_helpers*** is helpers program/script of current directory, better
+  **LGPL-2.1 OR BSD-2-Clause** license.
+- Each **requirements.txt** is Python pip --requirement for each directory.
+- Ignore file (check **.gitignore**).
+- If you want to write a text **Note**, use **.md**(**markdown**).
+- There are so many **symlinks** in this repo, so you better clone this repo in
+  linux system, if windows, oops. You'd better use **make check**
+  (or **./scripts/broken-symlinks.sh**) check invalid links and modify them.
