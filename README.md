@@ -33,13 +33,6 @@ Test-Linux README
   - [git.kernel.org torvalds](git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
   - [mirrors.kernel.org](https://mirrors.kernel.org/)
 
-## Relative Projects
-
-- [linux-test-project/ltp](https://github.com/linux-test-project/ltp)
-- [unpbook/unpv13e](https://github.com/unpbook/unpv13e)
-- [GitHub mirror of test-linux](https://github.com/Rtoax/test-linux)
-- [Gitee mirror of test-linux](https://gitee.com/rtoax/test-linux)
-
 ## Tools
 
 - [asciiflow](https://asciiflow.com/#/)
