@@ -28,6 +28,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add gpu/amd;
 - add devel/quickstart.rst;
 - add linux;
 - add standard;
