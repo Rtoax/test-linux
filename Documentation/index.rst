@@ -43,8 +43,8 @@ Development
    Quick Start <devel/quickstart>
 
 
-Hardware
-========
+Hardware Architecture
+=====================
 
 .. toctree::
    :maxdepth: 1
@@ -53,8 +53,8 @@ Hardware
    GPU Architecture <gpu/index>
 
 
-Observability and Debugging
-===========================
+eBPF and Observability
+======================
 
 .. toctree::
    :maxdepth: 1

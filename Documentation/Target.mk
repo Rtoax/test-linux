@@ -6,6 +6,6 @@ html:
 	$(call log_success, Startup HTTP server with $$ make serve)
 
 .PHONY: serve
-serve:
+serve: html
 	$(call log_success, Access: http://localhost:8888/)
 	${Q}python -m http.server 8888 --directory ./build/html/
