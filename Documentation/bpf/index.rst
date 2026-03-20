@@ -6,7 +6,7 @@ eBPF: Extended Berkeley Packet Filter
    :maxdepth: 1
 
    bpf
-   isa/index
-   bcc/index
-   bpftrace/index
-   libbpf/index
+   isa
+   bcc
+   bpftrace
+   libbpf
