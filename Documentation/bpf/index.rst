@@ -2,8 +2,9 @@ eBPF: Extended Berkeley Packet Filter
 =====================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
+   bpf
    bcc/index
    bpftrace/index
    libbpf/index
