@@ -2,7 +2,6 @@
 AMD GPU
 =======
 
-
 ROCm - Radeon Open Compute
 --------------------------
 
