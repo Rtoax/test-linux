@@ -30,6 +30,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add bigdata;
 - add superpod;
 - add gpu/amd;
 - add devel/quickstart.rst;
