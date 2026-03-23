@@ -9,6 +9,7 @@ subdir-y += bpftrace
 subdir-y += bpftool
 subdir-y += btf
 subdir-y += c
+subdir-y += cilium
 subdir-y += insn
 subdir-y += kfunc
 subdir-y += jit
