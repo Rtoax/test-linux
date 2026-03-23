@@ -2,6 +2,12 @@
 Linux Distributions
 ===================
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+
+
 Linux Kernel Reference
 ----------------------
 
