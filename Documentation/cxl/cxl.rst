@@ -7,6 +7,7 @@ CXL - Compute Express Link
 
    abbrev
 
+
 * **Compute Express Link (CXL)** is an open standard interconnect for
   high-speed, high capacity central processing unit (CPU)-to-device and
   CPU-to-memory connections, designed for high performance data center
@@ -55,3 +56,4 @@ Links
 - https://www.qemu.org/docs/master/system/devices/cxl.html
 - https://github.com/computexpresslink/
 - https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/
+- https://github.com/pmem/ndctl
