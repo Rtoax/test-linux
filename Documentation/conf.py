@@ -14,7 +14,7 @@ doc_dir = os.path.dirname(os.path.abspath(__file__))
 project = 'The Test Linux Documentation'
 copyright = 'Copyright (C) 2022-2026 Rong Tao'
 author = 'Rong Tao'
-version = release = '0.0.9'
+version = release = '0.0.10'
 
 html_logo = "images/logo.svg"
 # Theme: alabaster, sphinx_rtd_theme, sphinx_rtd_dark_mode
@@ -38,4 +38,5 @@ if html_theme == "alabaster":
 
 extensions = []
 
+# Display
 sys.stderr.write("Using %s theme\n" % html_theme)
