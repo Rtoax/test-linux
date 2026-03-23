@@ -1,4 +1,5 @@
 #!/usr/bin/env bpftrace
+/* https://github.com/bpftrace/bpftrace/pull/5094 */
 tracepoint:syscalls:sys_exit_openat,
 tracepoint:syscalls:sys_exit_openat2
 {
