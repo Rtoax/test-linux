@@ -17,16 +17,24 @@ author = 'Rong Tao'
 version = release = '0.0.9'
 
 html_logo = "images/logo.svg"
-html_theme = "alabaster"
+# Theme: alabaster, sphinx_rtd_theme, sphinx_rtd_dark_mode
+html_theme = "sphinx_rtd_theme"
 
-html_theme_options = {
-    "description": version,
-    "page_width": "65em",
-    "sidebar_width": "15em",
-    "fixed_sidebar": "true",
-    "font_size": "inherit",
-    "font_family": "serif",
-}
+if html_theme in ["sphinx_rtd_theme", "sphinx_rtd_dark_mode"]:
+    try:
+        import sphinx_rtd_theme
+    except ImportError:
+        html_theme = "alabaster"
+
+if html_theme == "alabaster":
+    html_theme_options = {
+        "description": version,
+        "page_width": "65em",
+        "sidebar_width": "15em",
+        "fixed_sidebar": "true",
+        "font_size": "inherit",
+        "font_family": "serif",
+    }
 
 extensions = []
 
