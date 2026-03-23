@@ -7,6 +7,7 @@ eBPF: Extended Berkeley Packet Filter
 
    bpf
    isa
+   btf
    xdp
    libbpf
    bpftool
