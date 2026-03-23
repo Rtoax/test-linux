@@ -1,7 +1,7 @@
-${OUTPUT}nr_errno.o: nr_errno.h
+${OUTPUT}nr_errno.o: errors.h
 
-nr_errno.h: errno.sh
+errors.h: errno.sh
 	$(shell bash errno.sh)
 
 clean-more:
-	${Q}rm -f nr_errno.h
+	${Q}rm -f errors.h

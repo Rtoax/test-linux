@@ -1,5 +1,5 @@
 /errors
-/nr_errno.h
+/errors.h
 /nr_errno
 /__errno_location
 /EDOM

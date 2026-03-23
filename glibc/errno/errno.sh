@@ -7,7 +7,7 @@ errnos=(
 	$(cat /usr/include/asm-generic/errno.h | tr '\t' ' ' | grep 'define E' | awk '{print $2}')
 )
 
-file=nr_errno.h
+file=errors.h
 
 cat >${file}<<-EOF
 #if defined(NR_ERRNO)

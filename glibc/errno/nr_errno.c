@@ -8,7 +8,7 @@ int main(void)
 	int i, nr;
 
 #define NR_ERRNO(no) printf("%30s (%4d)(-0x%x) : %s\n", #no, no, -no, strerror(no));
-#include "nr_errno.h"
+#include "errors.h"
 #undef NR_ERRNO
 
 	printf("errno = %d\n", errno);
