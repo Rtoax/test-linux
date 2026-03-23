@@ -1,6 +1,7 @@
 include glibc.mk
 
-target-y := nr_errno
+target-y += errors
+target-y += nr_errno
 target-y += __errno_location
 target-y += EDOM
 target-y += ENOENT
