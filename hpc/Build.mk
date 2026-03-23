@@ -7,3 +7,4 @@ subdir-y += kunlunxin
 subdir-y += mpi
 subdir-y += openmp
 subdir-y += openacc
+subdir-y += superpod

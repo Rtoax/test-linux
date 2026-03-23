@@ -45,15 +45,17 @@ while true; do
 done
 
 name=$1
-files=( $(find -name abbrev.md) )
+files=( $(find -name abbrev.md) $(find -name abbrev.rst) )
 
 list_all() {
 	for f in ${files[@]}
 	do
 		# - Delete white lines
+		# - filter '-' start lines
 		# - Add filename suffix
 		cat ${f} | \
 			sed '/^$/d' | \
+			grep '^-' | \
 			sed "s|$| <$(dirname ${f})>|g"
 	done | sort | nl
 }
