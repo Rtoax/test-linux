@@ -30,6 +30,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add distro/index.rst;
 - add bigdata;
 - add superpod;
 - add gpu/amd;

@@ -7,7 +7,7 @@ readonly THISPATH=$(dirname $(realpath $0))
 readonly kver_short=$(${THISPATH}/../scripts/kversion.sh short)
 readonly os_short=$(${THISPATH}/../scripts/version/distro.sh short)
 
-readonly README=${THISPATH}/README.md
+readonly README=${THISPATH}/../Documentation/distro/index.rst
 
 # Show all
 [[ ${V}${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}

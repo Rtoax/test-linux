@@ -38,6 +38,7 @@ Standard and Development
 
    Standard <standard/index>
    The Linux Kernel <linux/index>
+   Linux Distributions <distro/index>
    The GNU Project <gnu/index>
    Test Linux Development <devel/index>
 
