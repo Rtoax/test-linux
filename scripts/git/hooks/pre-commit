@@ -29,7 +29,7 @@ fatal() {
 }
 
 ${MY_DIRECTORY}/scripts/clang-format.sh
-${MY_DIRECTORY}/distro/README.md.check.sh
+${MY_DIRECTORY}/scripts/docs/linux-reference.sh
 
 try_add=( $(git status --short | grep ^A | awk '{print $2}' || true) )
 try_del=( $(git status --short | grep ^D | awk '{print $2}' || true) )

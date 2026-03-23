@@ -1,13 +1,13 @@
 #!/bin/bash
-# Usage: [V=1|VERBOSE=1] ./README.md.check.sh
+# Usage: [V=1|VERBOSE=1] ./linux-reference.sh
 set -e
 
 readonly THISPATH=$(dirname $(realpath $0))
 
-readonly kver_short=$(${THISPATH}/../scripts/kversion.sh short)
-readonly os_short=$(${THISPATH}/../scripts/version/distro.sh short)
+readonly kver_short=$(${THISPATH}/../kversion.sh short)
+readonly os_short=$(${THISPATH}/../version/distro.sh short)
 
-readonly README=${THISPATH}/../Documentation/distro/index.rst
+readonly README=$(realpath ${THISPATH}/../../Documentation/distro/linux-reference.rst)
 
 # Show all
 [[ ${V}${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}

@@ -6,42 +6,7 @@ Linux Distributions
    :maxdepth: 1
 
    abbrev
-
-
-Linux Kernel Reference
-----------------------
-
-* 6.19.8 (fedora43)
-* 6.19.7 (fedora43)
-* 6.19.6 (fedora43)
-* 6.18.16 (fedora43)
-* 6.18.13 (fedora43)
-* 6.18.12 (fedora42,fedora43)
-* 6.18.10 (fedora42,fedora43)
-* 6.18.9 (fedora43)
-* 6.18.8 (fedora43)
-* 6.18.7 (fedora43)
-* 6.18.6 (fedora43)
-* 6.18.5 (fedora43)
-* 6.18.3 (fedora43)
-* 6.17.12 (fedora43)
-* 6.17.9 (fedora42)
-* 6.17.0 (ubuntu24.04,ubuntu25.10)
-* 6.16.3 (fedora42)
-* 6.14.0 (ubuntu24.04)
-* 6.12.73 (debian13.3)
-* 6.12.69 (debian13.3)
-* 6.12.63 (debian13.3)
-* 6.12.57 (debian13)
-* 6.12.0 (centos10)
-* 6.8.0 (ubuntu24.04)
-* 6.6.0 (openEuler24.03)
-* 5.15.131 (cclinux21.08.5,cclinux22.09.2)
-* 5.15.0 (ubuntu22.04)
-* 5.14.0 (almalinux9.7,centos9)
-* 5.10.13 ()
-* 4.19.90 (kylinV10)
-* 4.18.0 (cclinux21.08.2)
+   linux-reference
 
 
 Repository
