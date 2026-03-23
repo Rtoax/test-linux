@@ -12,16 +12,14 @@ and this project adheres to
 #### Breaking Changes
 - github: support pages;
 #### Added
-- Doc: add cxl.rst;
-- Doc: add superpod/abbrev.rst;
+- Doc: add cxl.rst, superpod/abbrev.rst;
 - Doc: add scripts/docs/sphinx-serve.sh;
 - Doc: add scripts/docs/sphinx-build.sh;
-- scripts/version: add sphinx.sh, latexmk.sh;
+- scripts/version: add libversion.sh, sphinx.sh, latexmk.sh, ndctl.sh;
 - openmpi: add README.md;
 - nvidia: add nvlink;
 - add .clang-format-ignore;
 - add .gitattributes;
-- scripts/version: add libversion.sh;
 - libvirt: add Build.mk, version.mk;
 #### Changed
 - mpi: move mpich/samples to upper directory;

@@ -192,6 +192,7 @@ luca_ver() { add_ver_weak "LUCA $(${VERDIR}/luca.sh)"; }
 make_ver() { add_ver "Make $(${VERDIR}/make.sh)"; }
 memcached_ver() { add_ver "Memcached $(${VERDIR}/memcached.sh)"; }
 nasm_ver() { add_ver "Nasm $(${VERDIR}/nasm.sh)"; }
+ndctl_ver() { add_ver "ndctl $(${VERDIR}/ndctl.sh)"; }
 numactl_ver() { add_ver "NUMACTL $(${VERDIR}/numactl.sh)"; }
 openssl_ver() { add_ver "OpenSSL $(${VERDIR}/openssl.sh)"; }
 os_ver() { add_ver "$(${VERDIR}/distro.sh)"; }
@@ -353,6 +354,10 @@ fi
 # .asm is nasm in test-linux.
 if [[ "$(has_type asm)$(has_key nasm)" ]]; then
 	nasm_ver
+fi
+
+if [[ "$(has_key cxl)" ]]; then
+	ndctl_ver
 fi
 
 if [[ "$(has_key numa numactl)" ]]; then
