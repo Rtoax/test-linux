@@ -13,3 +13,4 @@ eBPF: Extended Berkeley Packet Filter
    bpftool
    bpftrace
    bcc
+   cilium
