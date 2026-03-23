@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - github: support pages;
 #### Added
+- Doc: add cxl.rst;
 - Doc: add superpod/abbrev.rst;
 - Doc: add scripts/docs/sphinx-serve.sh;
 - Doc: add scripts/docs/sphinx-build.sh;
