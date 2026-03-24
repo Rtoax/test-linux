@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Input definitions:
+# - PROG_ENVS_*=--env ENV=V
+# - PROG_ARGS_*=
 #
 ifndef _TARGET_PROG_MK
 _TARGET_PROG_MK = 1
