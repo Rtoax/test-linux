@@ -55,6 +55,15 @@ Build System
    vagrant
 
 
+Deploy System
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
+   anaconda
+
+
 Repository
 ----------
 
