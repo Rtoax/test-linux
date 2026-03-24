@@ -26,6 +26,7 @@ and this project adheres to
 - move all version.sh into scripts/version/ directory;
 #### Deprecated
 #### Removed
+- luca: remove `LUCA_PHASE_II_PROJECT`;
 - mpi/samples: remove openmpi.sh;
 #### Fixed
 #### Security

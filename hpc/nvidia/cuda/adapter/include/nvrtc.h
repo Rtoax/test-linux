@@ -117,11 +117,7 @@
 #ifdef __USE_HPCC__
 # include <hcr/hcrtc.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcr/lcrtc.h>
-# else
-#  include <hcr/hcrtc.h>
-# endif
+# include <lcr/lcrtc.h>
 #elif defined(__USE_HIP__)
 # include <hip/hiprtc.h>
 #endif

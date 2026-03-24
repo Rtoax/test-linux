@@ -89,11 +89,7 @@
 #ifdef __USE_HPCC__
 # include <hcComplex.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcComplex.h>
-# else
-#  include <hcComplex.h>
-# endif
+# include <lcComplex.h>
 #elif defined(__USE_HIP__)
 # include <hip/amd_detail/amd_hip_complex.h>
 #endif

@@ -5,7 +5,6 @@
  * - __USE_HIP__		AMD ROCm HIP
  * - __USE_HPCC__		Mars
  * - __USE_LUCA__		Luca
- *   LUCA_PHASE_II_PROJECT
  */
 #ifndef __CUDA_ADAPTER_WRAPPER_DEFS_H
 #define __CUDA_ADAPTER_WRAPPER_DEFS_H 1
@@ -34,39 +33,19 @@
  * LUCA                                                                       *
 \******************************************************************************/
 #elif defined(__USE_LUCA__)
-/**
- * In the second phase of LUCA development, the filename changed, and the
- * definition was deleted once development was completed.
- */
-# ifdef LUCA_PHASE_II_PROJECT
-#  define cuX(name) lc##name
-#  define cudaX(name) lc##name
-#  define CUX(name) LC##name
-#  define CUXcudaX(n1, n2) LC##n1##lc##n2
-#  define cudaXCudaX(n1, n2) lc##n1##Luca##n2
-#  define CUDAX(name) LC_##name
-#  define CUDA_ERROR_X(name) LCC_STATUS_##name
-#  define XcuX(a, b) a##lc##b
-#  define nvX(name) lc##name
-#  define NVX(name) LC##name
-#  define ncclX(name) lccl##name
-#  define NCCLX(name) LCCL##name
-#  define pncclX(name) plccl##name
-# else /* LUCA_PHASE_II_PROJECT */
-#  define cuX(name) hc##name
-#  define cudaX(name) hc##name
-#  define CUX(name) HC##name
-#  define CUXcudaX(n1, n2) HC##n1##hc##n2
-#  define cudaXCudaX(n1, n2) hc##n1##Hpcc##n2
-#  define CUDAX(name) HC_##name
-#  define CUDA_ERROR_X(name) HCC_STATUS_##name
-#  define XcuX(a, b) a##hc##b
-#  define nvX(name) hc##name
-#  define NVX(name) HC##name
-#  define ncclX(name) hccl##name
-#  define NCCLX(name) HCCL##name
-#  define pncclX(name) phccl##name
-# endif /* LUCA_PHASE_II_PROJECT */
+# define cuX(name) lc##name
+# define cudaX(name) lc##name
+# define CUX(name) LC##name
+# define CUXcudaX(n1, n2) LC##n1##lc##n2
+# define cudaXCudaX(n1, n2) lc##n1##Luca##n2
+# define CUDAX(name) LC_##name
+# define CUDA_ERROR_X(name) LCC_STATUS_##name
+# define XcuX(a, b) a##lc##b
+# define nvX(name) lc##name
+# define NVX(name) LC##name
+# define ncclX(name) lccl##name
+# define NCCLX(name) LCCL##name
+# define pncclX(name) plccl##name
 # define __nv_X(name) __luca_##name
 # define __NV_X(name) __LUCA_##name
 /******************************************************************************\

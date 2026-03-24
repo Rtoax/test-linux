@@ -57,11 +57,7 @@
 #ifdef __USE_HPCC__
 # include <hcfft/hcfft.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcfft/lcfft.h>
-# else
-#  include <hcfft/hcfft.h>
-# endif
+# include <lcfft/lcfft.h>
 #elif defined(__USE_HIP__)
 # include <hipfft/hipfft.h>
 #endif

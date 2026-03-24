@@ -52,9 +52,6 @@
 
 #ifdef __USE_HPCC__
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-# else
-# endif
 #elif defined(__USE_HIP__)
 #endif
 

@@ -75,11 +75,7 @@
 #ifdef __USE_HPCC__
 # include <hcfile.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcfile.h>
-# else
-#  include <hcfile.h>
-# endif
+# include <lcfile.h>
 #elif defined(__USE_HIP__)
 #endif
 

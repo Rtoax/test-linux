@@ -32,11 +32,7 @@
 #ifdef __USE_HPCC__
 # include <hcsparse/hcsparse.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcsparse/lcsparse.h>
-# else
-#  include <hcsparse/hcsparse.h>
-# endif
+# include <lcsparse/lcsparse.h>
 #elif defined(__USE_HIP__)
 # include <hipsparse/hipsparse.h>
 #endif

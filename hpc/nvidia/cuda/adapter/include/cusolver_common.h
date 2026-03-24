@@ -58,11 +58,7 @@
 #ifdef __USE_HPCC__
 # include <hcsolver/hcsolver_common.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcsolver/lcsolver_common.h>
-# else
-#  include <hcsolver/hcsolver_common.h>
-# endif
+# include <lcsolver/lcsolver_common.h>
 #elif defined(__USE_HIP__)
 # include <hipsolver/hipsolver.h>
 #endif

@@ -160,11 +160,7 @@
 #ifdef __USE_HPCC__
 # include <hcblas/hcblasLt.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcblas/lcblasLt.h>
-# else
-#  include <hcblas/hcblasLt.h>
-# endif
+# include <lcblas/lcblasLt.h>
 #elif defined(__USE_HIP__)
 # ifdef __USE_HIP_V2__
 #  define HIPBLAS_V2

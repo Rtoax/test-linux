@@ -4,11 +4,7 @@
 #include <string.h>
 #include <cuda_runtime.h>
 #if defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcr/lc_vpu_api.h>
-# else
-#  include <hcr/hc_vpu_api.h>
-# endif
+# include <lcr/lc_vpu_api.h>
 #endif
 #include "cuda_helpers.h"
 

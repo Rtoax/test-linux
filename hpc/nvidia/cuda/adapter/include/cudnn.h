@@ -15,11 +15,7 @@
 #ifdef __USE_HPCC__
 # include <hcdnn/hcdnn.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcdnn/lcdnn.h>
-# else
-#  include <hcdnn/hcdnn.h>
-# endif
+# include <lcdnn/lcdnn.h>
 #elif defined(__USE_HIP__)
 #endif
 

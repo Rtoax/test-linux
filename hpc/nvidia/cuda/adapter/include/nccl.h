@@ -149,11 +149,7 @@
 #ifdef __USE_HPCC__
 # include <hccl.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lccl.h>
-# else
-#  include <hccl.h>
-# endif
+# include <lccl.h>
 #elif defined(__USE_HIP__)
 # include <rccl/rccl.h>
 #endif

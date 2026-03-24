@@ -37,11 +37,7 @@
 #ifdef __USE_HPCC__
 # include <hcrand/hcrand.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcrand/lcrand.h>
-# else
-#  include <hcrand/hcrand.h>
-# endif
+# include <lcrand/lcrand.h>
 #elif defined(__USE_HIP__)
 # include <hiprand/hiprand.h>
 #endif

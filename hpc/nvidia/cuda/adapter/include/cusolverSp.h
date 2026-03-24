@@ -30,11 +30,7 @@
 #ifdef __USE_HPCC__
 # include <hcsolver/hcsolverSp.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcsolver/lcsolverSp.h>
-# else
-#  include <hcsolver/hcsolverSp.h>
-# endif
+# include <lcsolver/lcsolverSp.h>
 #elif defined(__USE_HIP__)
 // TODO
 #endif

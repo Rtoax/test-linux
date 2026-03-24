@@ -249,11 +249,7 @@
 #ifdef __USE_HPCC__
 # include <hcpti/hcpti.h>
 #elif defined(__USE_LUCA__)
-# ifdef LUCA_PHASE_II_PROJECT
-#  include <lcpti/lcpti.h>
-# else
-#  include <hcpti/hcpti.h>
-# endif
+# include <lcpti/lcpti.h>
 #elif defined(__USE_HIP__)
 #endif
 
