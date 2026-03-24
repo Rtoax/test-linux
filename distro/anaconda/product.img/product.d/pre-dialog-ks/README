@@ -41,4 +41,3 @@ ignoredisk --only-use=vda
 ## `/run/install/user.ks`
 
 不支持自定义。
-
