@@ -1,23 +1,48 @@
 RPM/DNF
 =======
 
-# Spec
+Spec
+----
 
-## Scriptlets
+Scriptlets
+~~~~~~~~~~
 
-```
-               install      upgrade     uninstall
----------------------------------------------------
-%pretrans      $1 == 1      $1 == 2     (N/A)
-%pre           $1 == 1      $1 == 2     (N/A)
-%post          $1 == 1      $1 == 2     (N/A)
-%preun          (N/A)       $1 == 1     $1 == 0
-%postun         (N/A)       $1 == 1     $1 == 0
-%posttrans     $1 == 1      $1 == 2     (N/A)
-```
+.. list-table::
+   :widths: 15 15 15 15
+   :header-rows: 1
+
+   * - Scriptlet
+     - Install
+     - Upgrade
+     - Uninstall
+   * - %pretrans
+     - $1 == 1
+     - $1 == 2
+     - N/A
+   * - %pre
+     - $1 == 1
+     - $1 == 2
+     - N/A
+   * - %post
+     - $1 == 1
+     - $1 == 2
+     - N/A
+   * - %preun
+     - N/A
+     - $1 == 1
+     - $1 == 0
+   * - %postun
+     - N/A
+     - $1 == 1
+     - $1 == 0
+   * - %posttrans
+     - $1 == 1
+     - $1 == 2
+     - N/A
 
 
-## Upgrade
+Upgrade
+-------
 
 On upgrade, the scripts are run in the following order:
 
@@ -37,7 +62,8 @@ On upgrade, the scripts are run in the following order:
 - `%posttrans` of new package
 
 
-# Links
+Links
+-----
 
 - https://github.com/rpm-software-management/dnf
 - https://github.com/rpm-software-management/dnf5.git
