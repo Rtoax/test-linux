@@ -1,9 +1,9 @@
-================
-The Linux Kernel
-================
+=====
+Linux
+=====
 
 
 .. toctree::
    :maxdepth: 1
 
-   core
+   The Linux Kernel <linux>

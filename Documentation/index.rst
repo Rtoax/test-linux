@@ -37,7 +37,7 @@ Standard and Development
    :maxdepth: 1
 
    Standard <standard/index>
-   The Linux Kernel <linux/index>
+   Linux <linux/index>
    Linux Distributions <distro/index>
    Test Linux Development <devel/index>
 
