@@ -1,0 +1,3 @@
+- ASIC: Application-Specific Integrated Circuits (专用集成电路)
+- BE: big-endian (大端字节序) @LE
+- LE: little-endian (小端字节序) @BE

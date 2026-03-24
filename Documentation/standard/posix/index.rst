@@ -4,6 +4,12 @@
 POSIX (Portable Operating System Interface of UNIX)
 ===================================================
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+
+
 **POSIX (Portable Operating System Interface)** is a family of standards
 specified by the **IEEE** for maintaining compatibility between operating
 systems. It defines the application programming interface (API), along with
