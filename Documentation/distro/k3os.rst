@@ -1,12 +1,15 @@
-K3OS - The Kubernetes Operating System
-=========================================
+K3OS (The Kubernetes Operating System)
+======================================
 
-k3OS (the Kubernetes Operating System) is a Linux distribution that aims to minimize the OS maintenance tasks in a Kubernetes cluster.
+k3OS (the Kubernetes Operating System) is a Linux distribution that aims to
+minimize the OS maintenance tasks in a Kubernetes cluster.
 
-k3OS is purpose-built to simplify Kubernetes operations in low-resource computing environments. Installs fast. Boots faster. Managed through Kubernetes.
+k3OS is purpose-built to simplify Kubernetes operations in low-resource
+computing environments. Installs fast. Boots faster. Managed through Kubernetes.
 
 
-# Benefits of Using k3OS
+Benefits of Using k3OS
+----------------------
 
 Key benefits of using k3OS are:
 
@@ -18,6 +21,7 @@ Key benefits of using k3OS are:
 - OS configuration is simplified though cloud-init.
 
 
-# Links
+Links
+-----
 
-- [https://k3os.io/](https://k3os.io/)
+- https://k3os.io

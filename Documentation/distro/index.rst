@@ -15,9 +15,20 @@ Distributions
 .. toctree::
    :maxdepth: 1
 
+   alpinelinux
+   archlinux
+   asterinas
+   bottlerocket
+   microsoft
+   centos
+   debian
+   fedora
+   flatcar
+   gentoo
    kali
    kylin
    kylinsec
+   k3os
    mint
    nixos
    openanolis
@@ -38,6 +49,8 @@ Build System
    :maxdepth: 1
 
    koji
+   linuxkit
+   vagrant
 
 
 Repository

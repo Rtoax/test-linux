@@ -1,7 +1,7 @@
 LinuxKit
 ========
 
-* [https://github.com/linuxkit/linuxkit](https://github.com/linuxkit/linuxkit)
+- https://github.com/linuxkit/linuxkit
 
 LinuxKit，一个用于构建自定义最小、不可变 Linux 发行版的工具包。
 
