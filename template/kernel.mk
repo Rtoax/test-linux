@@ -75,6 +75,22 @@ define kver_uapi_lt
 $(call version3_code1688_cmp,${KUAPIVERSION_CODE},-lt,${1},${2},${3})
 endef
 
+export KVERSION KPATCHLEVEL KSUBLEVEL KVERSION_CODE
+export KUAPIVERSION KUAPIPATCHLEVEL KUAPISUBLEVEL KUAPIVERSION_CODE
+export KFLAGS
+
+ifdef DEBUG
+  $(info KVERSION = ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE})
+  $(info KUAPIVERSION = ${KUAPIVERSION}.${KUAPIPATCHLEVEL}.${KUAPISUBLEVEL}, CODE ${KUAPIVERSION_CODE})
+  $(info KFLAGS = ${KFLAGS})
+  $(info version3_code1688(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
+         $(call version3_code1688,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+  $(info kver_gt(1,1,1) = $(call kver_gt,1,1,1))
+  $(info kver_eq(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
+         $(call kver_eq,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+  $(info kver_lt(7,0,0) = $(call kver_lt,7,0,0))
+endif
+
 ifneq (${KVERSION_CODE},$(call version3_code1688,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
   $(error "Bad KVERSION_CODE ${KVERSION_CODE}")
 endif
@@ -100,22 +116,6 @@ ifneq ($(call kver_lt,7,1,0),y)
 endif
 ifneq ($(call kver_uapi_lt,7,0,0),y)
   $(error "call kver_uapi_lt failed")
-endif
-
-export KVERSION KPATCHLEVEL KSUBLEVEL KVERSION_CODE
-export KUAPIVERSION KUAPIPATCHLEVEL KUAPISUBLEVEL KUAPIVERSION_CODE
-export KFLAGS
-
-ifdef DEBUG
-  $(info KVERSION = ${KVERSION}.${KPATCHLEVEL}.${KSUBLEVEL}, CODE ${KVERSION_CODE})
-  $(info KUAPIVERSION = ${KUAPIVERSION}.${KUAPIPATCHLEVEL}.${KUAPISUBLEVEL}, CODE ${KUAPIVERSION_CODE})
-  $(info KFLAGS = ${KFLAGS})
-  $(info version3_code1688(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
-         $(call version3_code1688,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
-  $(info kver_gt(1,1,1) = $(call kver_gt,1,1,1))
-  $(info kver_eq(${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}) = \
-         $(call kver_eq,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
-  $(info kver_lt(7,0,0) = $(call kver_lt,7,0,0))
 endif
 
 endif
