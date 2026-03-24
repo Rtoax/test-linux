@@ -7,4 +7,6 @@ Linux Distributions Desktop
 
    gnome
    kde
+   wayland
+   x
    xfce
