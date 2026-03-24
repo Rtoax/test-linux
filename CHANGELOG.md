@@ -31,7 +31,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
-- add ai, shell, network, distro, bigdata, superpod, linux, standard, gpu/amd;
+- add ai, shell, network, distro, bigdata, superpod, linux, standard, gpu/amd, binutils;
 - add devel/quickstart.rst;
 - add images/logo.drawio.svg;
 - add bpf/{bcc,bpftrace,libbpf};

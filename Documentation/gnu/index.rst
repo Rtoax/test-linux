@@ -11,6 +11,7 @@ under the GPL.
    :maxdepth: 1
 
    bash
+   binutils
    coreutils
    gcc
    gdb
