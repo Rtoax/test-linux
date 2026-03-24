@@ -9,6 +9,37 @@ Linux Distributions
    linux-reference
 
 
+Distributions
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
+   kali
+   kylin
+   kylinsec
+   mint
+   nixos
+   openanolis
+   opencloudos
+   openeuler
+   opensuse
+   rhel
+   tencentos
+   ubuntu
+   uos
+   vmware
+
+
+Build System
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   koji
+
+
 Repository
 ----------
 
