@@ -16,7 +16,8 @@ PROG_ARGS_${1}.sh.3 := --patchlevel
 endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
-			gdb git gnome go hpcc java latexmk libbpf libvirt libxdp \
+			gdb git gnome gnuplot go hpcc java latexmk libbpf \
+			libvirt libxdp \
 			llvm lsof luca make memcached nasm NetworkManater \
 			ndctl numactl openssl \
 			ostree pahole pciutils podman procps-ng psmisc python \

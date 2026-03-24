@@ -16,3 +16,4 @@ under the GPL.
    gcc
    gdb
    glibc
+   gnuplot
