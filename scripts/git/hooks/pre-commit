@@ -77,6 +77,11 @@ docs_check() {
 			fatal "You need to change doc version in Documentation/conf.py"
 		fi
 	fi
+
+	if [[ " ${try_modify[@]} " =~ "README.md" ]] ||
+	   [[ " ${try_add[@]} " =~ "README.md" ]]; then
+		fatal "Don't modify/add README.md, please move it to Documentation!"
+	fi
 }
 
 broken_symlinks=( $(find ${GIT_TOPDIR} -xtype l) )
