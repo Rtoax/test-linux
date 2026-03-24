@@ -1,5 +1,5 @@
 ======================================
-BPF Instruction Set Architecture (ISA)
+BPF ISA (Instruction Set Architecture)
 ======================================
 
 Compiler

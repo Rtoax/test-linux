@@ -1,5 +1,5 @@
 =======================
-XDP - eXpress Data Path
+XDP (eXpress Data Path)
 =======================
 
 

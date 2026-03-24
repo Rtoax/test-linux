@@ -1,5 +1,6 @@
-eBPF: Extended Berkeley Packet Filter
-=====================================
+======================================
+eBPF (Extended Berkeley Packet Filter)
+======================================
 
 eBPF Projects
 -------------

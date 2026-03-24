@@ -34,9 +34,13 @@ Standard and Development
 ========================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    Standard <standard/index>
+
+.. toctree::
+   :maxdepth: 1
+
    Linux <linux/index>
    Linux Distributions <distro/index>
    Test Linux Development <devel/index>
