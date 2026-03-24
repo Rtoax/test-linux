@@ -64,6 +64,15 @@ Deploy System
    anaconda
 
 
+Desktop
+-------
+
+.. toctree::
+   :maxdepth: 1
+
+   desktop/index
+
+
 Repository
 ----------
 
