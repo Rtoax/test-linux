@@ -1,17 +1,17 @@
-target-shell-y := env.sh
-target-shell-y += env.sh.1
-target-shell-y += env.sh.9
-target-shell-y += env.sh.10
+target-shell-y := test-env.sh
+target-shell-y += test-env.sh.1
+target-shell-y += test-env.sh.9
+target-shell-y += test-env.sh.10
 
-SHELL_ENVS_env.sh := -e TEST_LINUX_TEMPLATE_TARGETS_SHELL_ENV=rtoax
-SHELL_ENVS_env.sh.1 := ${SHELL_ENVS_env.sh}
-SHELL_ENVS_env.sh.9 := ${SHELL_ENVS_env.sh}
-SHELL_ENVS_env.sh.10 := ${SHELL_ENVS_env.sh}
+SHELL_ENVS_test-env.sh := -e TEST_LINUX_TEMPLATE_TARGETS_SHELL_ENV=rtoax
+SHELL_ENVS_test-env.sh.1 := ${SHELL_ENVS_test-env.sh}
+SHELL_ENVS_test-env.sh.9 := ${SHELL_ENVS_test-env.sh}
+SHELL_ENVS_test-env.sh.10 := ${SHELL_ENVS_test-env.sh}
 
-SHELL_ARGS_env.sh := abc
-SHELL_ARGS_env.sh.1 := def
-SHELL_ARGS_env.sh.9 := uvw
-SHELL_ARGS_env.sh.10 := xyz
+SHELL_ARGS_test-env.sh := abc
+SHELL_ARGS_test-env.sh.1 := def
+SHELL_ARGS_test-env.sh.9 := uvw
+SHELL_ARGS_test-env.sh.10 := xyz
 
 target-mk-y += test.mk test.mk.1 test.mk.9 test.mk.10
 target-mk-y += test.mak test.mak.1 test.mak.9 test.mak.10
