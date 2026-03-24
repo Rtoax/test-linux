@@ -9,3 +9,4 @@ set -e
 	./runprog.sh -- ls
 	rm ls
 }
+./runprog.sh --env ENV_EXPECT=THISISAEXPECTENV -- tests/expect_env.sh

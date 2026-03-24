@@ -22,11 +22,11 @@ error() {
 __usage__()
 {
 	echo -e "
--e, --env [ENV=V]      set a env (may be listed multiple times)
+-e, --env [ENV=<VAL>]  set a env (may be listed multiple times)
 -T, --timeout [SEC]    set timeout seconds
 --maybe-sudo           running with superuser if possible
 
--l, --log [NAME]       set log file name
+-l, --log [FILE]       set log file name
 
 -v, --verbose          run verbose mode
 -h, --help             show this help information
@@ -92,6 +92,9 @@ done
 
 LEFT_ARGS=( "${@}" )
 EXEC=${LEFT_ARGS[0]}
+
+# If not found EXEC in system env, and it's exist file under current directory,
+# add './' prefix.
 if [[ -f ${EXEC} ]] && [[ "${EXEC:0:1}" != "/" ]] && \
    [[ "${EXEC:0:2}" != "./" ]] && [[ "${EXEC:0:3}" != "../" ]] && \
    [[ ! $(which ${EXEC} 2>/dev/null) ]]; then
