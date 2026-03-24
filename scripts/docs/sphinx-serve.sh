@@ -5,6 +5,11 @@ sphinx_build=$(dirname $(realpath $0))/sphinx-build.sh
 monitor_pid=
 server_pid=
 
+hint()
+{
+	echo -e "\033[1;32mAccess: http://localhost:8888/\033[m"
+}
+
 kill_all()
 {
 	echo "Killing $monitor_pid, $server_pid"
@@ -35,6 +40,7 @@ file_monitor()
 			$sphinx_build || {
 				continue
 			}
+			hint
 		else
 			kill_all
 			break
@@ -49,6 +55,7 @@ echo "Monitor $monitor_pid"
 python -m http.server 8888 --directory ./build/html/ &
 server_pid=$!
 echo "Server $server_pid"
+hint
 
 sig_handler()
 {

@@ -9,5 +9,4 @@ htmldocs:
 
 .PHONY: serve
 serve: htmldocs
-	$(call log_success, Access: http://localhost:8888/)
 	${Q}${SHELL} ${TOPDIR}/scripts/docs/sphinx-serve.sh
