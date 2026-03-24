@@ -31,7 +31,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
-- add ai;
+- add ai, shell/;
 - add distro/index.rst;
 - add bigdata;
 - add superpod;
