@@ -7,6 +7,7 @@ subdir-y += libosinfo
 subdir-y += lsof
 subdir-y += memcached
 subdir-y += nasm
+subdir-y += NetworkManager
 subdir-y += ostree
 subdir-y += perf
 subdir-y += podman

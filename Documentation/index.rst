@@ -73,6 +73,15 @@ Debug and Observability
    eBPF <bpf/index>
 
 
+Network and Servers
+===================
+
+.. toctree::
+   :maxdepth: 1
+
+   Network <network/index>
+
+
 Frontier and Future Technology
 ==============================
 

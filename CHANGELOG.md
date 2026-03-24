@@ -15,7 +15,7 @@ and this project adheres to
 - Doc: add cxl.rst, superpod/abbrev.rst;
 - Doc: add scripts/docs/sphinx-serve.sh;
 - Doc: add scripts/docs/sphinx-build.sh;
-- scripts/version: add libversion.sh, sphinx.sh, latexmk.sh, ndctl.sh;
+- scripts/version: add libversion.sh, sphinx.sh, latexmk.sh, ndctl.sh, NetworkManater.sh;
 - openmpi: add README.md;
 - nvidia: add nvlink;
 - add .clang-format-ignore;
@@ -31,14 +31,8 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
-- add ai, shell/;
-- add distro/index.rst;
-- add bigdata;
-- add superpod;
-- add gpu/amd;
+- add ai, shell, network, distro, bigdata, superpod, linux, standard, gpu/amd;
 - add devel/quickstart.rst;
-- add linux;
-- add standard;
 - add images/logo.drawio.svg;
 - add bpf/{bcc,bpftrace,libbpf};
 - add arch/`sw_64`/;

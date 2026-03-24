@@ -17,7 +17,8 @@ endef
 
 $(foreach software, bcc binutils bpftool bpftrace cmake cuda findutils gcc \
 			gdb git gnome go hpcc java latexmk libbpf libvirt libxdp \
-			llvm lsof luca make memcached nasm ndctl numactl openssl \
+			llvm lsof luca make memcached nasm NetworkManater \
+			ndctl numactl openssl \
 			ostree pahole pciutils podman procps-ng psmisc python \
 			qemu redis rocm rpm rust shell sphinx strace systemd \
 			vim, \
