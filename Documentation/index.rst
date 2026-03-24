@@ -86,6 +86,15 @@ Network and Servers
    Network <network/index>
 
 
+Benchmark System
+================
+
+.. toctree::
+   :maxdepth: 1
+
+   Benchmark <benchmark/index>
+
+
 Frontier and Future Technology
 ==============================
 
