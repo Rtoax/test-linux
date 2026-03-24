@@ -70,6 +70,7 @@ Frontier and Future Technology
 .. toctree::
    :maxdepth: 1
 
+   AI <ai/index>
    Big Data <bigdata/index>
 
 
