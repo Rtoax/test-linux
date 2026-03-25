@@ -2,7 +2,8 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Usage:
-# [ALL=1] [VCM=1] [FCM=1] git commit ...
+# $ [AV=1] [VCM=1] [FCM=1] git commit ...
+# - AV: Match all versions
 # - VCM: Verbose mode of Commit Message
 # - FCM: Force mode of Commit Message
 [[ ${VCM} ]] && set -x
@@ -113,7 +114,7 @@ add_env() {
 has_key() {
 	local key
 
-	[[ ${ALL} ]] && echo "YES" && return 0
+	[[ ${AV} ]] && echo "YES" && return 0
 
 	for key in ${@}
 	do
@@ -135,7 +136,7 @@ has_key() {
 has_type() {
 	local ext
 
-	[[ ${ALL} ]] && echo "YES" && return 0
+	[[ ${AV} ]] && echo "YES" && return 0
 
 	for ext in ${@}
 	do
@@ -152,7 +153,7 @@ has_type() {
 has_content() {
 	local str
 
-	[[ ${ALL} ]] && echo "YES" && return 0
+	[[ ${AV} ]] && echo "YES" && return 0
 
 	for str in ${@}
 	do

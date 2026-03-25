@@ -3,8 +3,12 @@
 set -e
 
 debver() {
-	dpkg-query -W -f='${Version}\n' firmware-linux-free 2>/dev/null | \
-		grep -v 'no packages found'
+	for fw in firmware-linux-free linux-firmware; do
+		if dpkg-query -W -f='${Version}\n' ${fw} 2>/dev/null | \
+			grep -v 'no packages found'; then
+			break
+		fi
+	done
 }
 
 rpmver() {
