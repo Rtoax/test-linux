@@ -23,7 +23,7 @@ readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 . ${WHERE_AM_I}/../scripts/libqemu.sh
 
-readonly prog=qemu-vm.sh
+readonly prog=qemu-vm
 readonly qemu=$(get_qemu_kvm_emulator)
 
 q_vm_name=$(mktemp -u vm-XXXXXX)

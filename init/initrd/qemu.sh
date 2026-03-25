@@ -1,1 +1,1 @@
-../../qemu/qemu-vm.sh
+../../scripts/qemu-vm.sh

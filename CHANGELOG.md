@@ -20,6 +20,7 @@ and this project adheres to
 - add .gitattributes;
 - libvirt: add Build.mk, version.mk;
 #### Changed
+- move qemu/qemu-vm.sh to scripts/qemu-vm.sh;
 - move qemu/libqemu.sh to scripts/libqemu.sh;
 - move init/rootfs/fedora-arch.sh to scripts/rootfs/fedora.sh;
 - mpi: move mpich/samples to upper directory;

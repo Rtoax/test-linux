@@ -19,6 +19,7 @@ target-prog-y += termplot_examples.sh
 target-prog-y += kconfig_compare.sh
 target-prog-y += kversion.sh kversion.sh.1
 target-prog-y += patchset_examples.sh
+target-prog-y += qemu-vm.sh
 target-prog-y += runprog_examples.sh
 
 PROG_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display all
