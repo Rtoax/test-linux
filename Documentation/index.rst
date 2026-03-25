@@ -62,6 +62,7 @@ Hardware Architecture
 .. toctree::
    :maxdepth: 1
 
+   PCIe <pcie/index>
    CPU Architecture <arch/index>
    GPU Architecture <gpu/index>
    superPod <superpod/index>
