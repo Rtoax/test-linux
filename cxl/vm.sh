@@ -27,7 +27,7 @@ if ! [[ -e initramfs.img ]]; then
 fi
 
 if ! [[ -e vm.qcow2 ]]; then
-	sudo ../init/rootfs/fedora-arch.sh --rootfs vm.rootfs/ --image vm.qcow2 \
+	sudo ../scripts/rootfs/fedora.sh --rootfs vm.rootfs/ --image vm.qcow2 \
 		-i cxl-cli -i cxl-libs -i ndctl -i daxctl \
 		-i dmidecode -i kmod -i util-linux -i pciutils \
 		-i kernel-$(uname -r) \

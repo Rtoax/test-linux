@@ -20,6 +20,7 @@ and this project adheres to
 - add .gitattributes;
 - libvirt: add Build.mk, version.mk;
 #### Changed
+- move init/rootfs/fedora-arch.sh to scripts/rootfs/fedora.sh;
 - mpi: move mpich/samples to upper directory;
 - move all version.sh into scripts/version/ directory;
 #### Deprecated

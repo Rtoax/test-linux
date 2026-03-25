@@ -8,6 +8,7 @@ include os.mk
 
 subdir-y += docs
 subdir-y += git
+subdir-y += rootfs
 subdir-y += version
 
 target-prog-y := code-count.sh
