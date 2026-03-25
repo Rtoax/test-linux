@@ -29,7 +29,8 @@ int main(void)
 	for (i = 0; i < NSIG; i++) {
 		if (flags[i])
 			continue;
-		printf("%-16s (%2d) : %s %s\n", "", i, sigabbrev_np(i), strsignal(i));
+		printf("SIG%-6s [%2d] = %s\n", sigabbrev_np(i), i,
+		       strsignal(i));
 	}
 
 	return 0;
