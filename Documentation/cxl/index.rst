@@ -7,4 +7,5 @@ CXL (Compute Express Link)
 
    abbrev
    cxl
+   qemu
    history
