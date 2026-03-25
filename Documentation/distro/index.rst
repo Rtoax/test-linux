@@ -62,6 +62,7 @@ Deploy System
    :maxdepth: 1
 
    anaconda
+   rootfs
 
 
 Desktop
