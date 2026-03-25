@@ -10,8 +10,8 @@
 # - .luca.devbin
 # - .luca.fatbc
 # - .luca.fatbin
-# - .luca.hc_fatbin
-# - .luca.hcFatBinSegment
+# - .luca.lc_fatbin
+# - .luca.lcFatBinSegment
 # - target-lscc-y
 # - target-lscc-libso-y
 # - target-lscc-liba-y
@@ -165,17 +165,17 @@ $(eval $(call luca_obj_so,luca))
 $(eval $(call luca_obj_a,cu))
 $(eval $(call luca_obj_a,luca))
 
-# Example format of hc_fatbin and hcFatBinSegment, see:
-# commit 798dd703bcc9 ("targets/hpcc.mk: add .hc_fatbin and .hcFatBinSegment targets")
-# TODO: section name .hc_fatbin will be renamed.
-${OUTPUT}%.luca.hc_fatbin: % | ${OUTPUT}
+# Example format of lc_fatbin and lcFatBinSegment, see:
+# commit 798dd703bcc9 ("targets/hpcc.mk: add .lc_fatbin and .lcFatBinSegment targets")
+# TODO: section name .lc_fatbin will be renamed.
+${OUTPUT}%.luca.lc_fatbin: % | ${OUTPUT}
 	$(call log_obj,HC FATBIN,$(@))
-	${Q}$(OBJCOPY) -O binary --only-section=.hc_fatbin $(<) $(@)
+	${Q}$(OBJCOPY) -O binary --only-section=.lc_fatbin $(<) $(@)
 
-# TODO: section name .hcFatBinSegment will be renamed.
-${OUTPUT}%.luca.hcFatBinSegment: % | ${OUTPUT}
+# TODO: section name .lcFatBinSegment will be renamed.
+${OUTPUT}%.luca.lcFatBinSegment: % | ${OUTPUT}
 	$(call log_obj,HC FATBIN SEG,$(@))
-	${Q}$(OBJCOPY) -O binary --only-section=.hcFatBinSegment $(<) $(@)
+	${Q}$(OBJCOPY) -O binary --only-section=.lcFatBinSegment $(<) $(@)
 
 $(target-lscc-y): %:
 	$(call log_tgt,LSCC LD,$(@))

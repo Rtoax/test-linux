@@ -31,6 +31,7 @@ struct __CudaFatBinaryWrapper {
 	/**
 	 * CUDA ELF .nv_fatbin section
 	 * HPCC ELF .hc_fatbin section
+	 * LUCA ELF .lc_fatbin section
 	 */
 	void *fatbin;
 	void *dummy1;
