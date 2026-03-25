@@ -1,5 +1,5 @@
 ==========================
-CXL - Compute Express Link
+CXL (Compute Express Link)
 ==========================
 
 .. toctree::

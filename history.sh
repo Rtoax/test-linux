@@ -44,7 +44,7 @@ while true; do
 done
 
 name=$1
-files=( $(find -name history.md -type f) )
+files=( $(find -name history.md -type f) $(find -name history.rst -type f) )
 
 list_all() {
 	for f in ${files[@]}
@@ -54,6 +54,7 @@ list_all() {
 		cat ${f} | \
 			sed '/^$/d' | \
 			sed '/^#/d' | \
+			grep -e '^-' -e '^\*' | \
 			sed "s|$| <$(dirname ${f})>|g"
 	done | sort -r | nl
 }

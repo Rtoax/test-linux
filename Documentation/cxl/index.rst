@@ -7,3 +7,4 @@ CXL
    :maxdepth: 1
 
    cxl
+   history
