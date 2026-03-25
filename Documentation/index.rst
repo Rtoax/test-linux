@@ -86,6 +86,15 @@ Network and Servers
    Network <network/index>
 
 
+Virtualization
+==============
+
+.. toctree::
+   :maxdepth: 1
+
+   virt/index
+
+
 Benchmark System
 ================
 
