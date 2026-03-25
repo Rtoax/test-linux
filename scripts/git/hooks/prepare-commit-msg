@@ -157,7 +157,8 @@ has_content() {
 	for str in ${@}
 	do
 		# search the 'str' in patch
-		if [[ "$(git status --verbose | grep -o ${str})" ]]; then
+		if [[ "$(git status --verbose | grep -o ${str})" ]] ||
+		   [[ "$(git diff --staged | grep -o ${str})" ]]; then
 			echo "YES"
 			return 0
 		fi
@@ -361,7 +362,7 @@ if [[ "$(has_key nmcli NetworkManater)" ]]; then
 	NetworkManater_ver
 fi
 
-if [[ "$(has_key ndctl daxctl cxl)" ]]; then
+if [[ "$(has_key ndctl daxctl cxl)$(has_content cxl)" ]]; then
 	ndctl_ver
 fi
 
