@@ -24,8 +24,12 @@ Contents
    :maxdepth: 1
 
    abbrev
+   mmio
+   pio
    device-class
    configuration-space
+   bar
+   aer
    kernel-cmdline
 
 
