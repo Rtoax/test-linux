@@ -21,7 +21,7 @@ readonly RST="\033[m"
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
-. ${WHERE_AM_I}/libqemu.sh
+. ${WHERE_AM_I}/../scripts/libqemu.sh
 
 readonly prog=qemu-vm.sh
 readonly qemu=$(get_qemu_kvm_emulator)

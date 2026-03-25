@@ -2,7 +2,7 @@
 set -e
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
-. ${WHERE_AM_I}/../../qemu/libqemu.sh
+. ${WHERE_AM_I}/../../scripts/libqemu.sh
 . ${WHERE_AM_I}/libversion.sh
 
 QEMU_KVM=$(get_qemu_kvm_emulator)

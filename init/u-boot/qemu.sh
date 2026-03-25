@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. ../../qemu/libqemu.sh
+. ../../scripts/libqemu.sh
 . config
 
 program_name=$0
