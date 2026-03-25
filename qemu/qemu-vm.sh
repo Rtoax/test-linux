@@ -75,12 +75,15 @@ declare -a cleanup_files
 __usage__() {
 	echo -e "
 ${BOLD}NAME${RST}
-	${prog} - Running a virtual machine with Qemu
+	${prog} - Running a virtual machine with Qemu-KVM
 
 ${BOLD}SYNOPSIS${RST}
 	${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
 
 ${BOLD}DESCRIPTION${RST}
+	Running a virtual machine with Qemu-KVM, support flexable arguments.
+
+${BOLD}OPTIONS${RST}
 	-n, --name [NAME]       specify vm name, default: vm- prefix
 
 	-m, --memory [SIZE]     Sets guest startup RAM size, default: ${memory}.
@@ -103,7 +106,7 @@ ${BOLD}DESCRIPTION${RST}
 
 	--stdio                 input/output from/to stdio
 
-	--cxl [TYPE]            test CXL, support: ${CXL_TYPES[@]}
+	--cxl [TYPE]            test CXL, support: ${GRAY}${CXL_TYPES[@]}${RST}
 	                        debug with debug mode.
 
 	-u, --dry-run           only show commands
