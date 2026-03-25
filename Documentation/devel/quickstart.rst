@@ -13,7 +13,7 @@ Install depends
 
 .. code-block:: bash
 
-        $ sudo make deps
+    $ sudo make deps
 
 
 Config
@@ -21,7 +21,7 @@ Config
 
 .. code-block:: bash
 
-        $ make config
+    $ make config
 
 
 Install and Uninstall
@@ -29,8 +29,8 @@ Install and Uninstall
 
 .. code-block:: bash
 
-        $ sudo make install
-        $ sudo make uninstall
+    $ sudo make install
+    $ sudo make uninstall
 
 
 Compile in Top Directory
@@ -41,29 +41,28 @@ You'd better compiled under git-repo, because some Makefile use **git rev-parse
 
 .. code-block:: bash
 
-        $ make build
+    $ make build
 
 Compile without kernel modules:
 
 .. code-block:: bash
 
-        $ make build KMOD=0
+    $ make build KMOD=0
 
 Compile with **-m32**:
 
 .. code-block:: bash
 
-        $ make build M32=1
+    $ make build M32=1
 
 Compile with verbose:
 
 .. code-block:: bash
 
-        $ make build V=1
+    $ make build V=1
 
 Stop immediately when an error occurs:
 
 .. code-block:: bash
 
-        $ make build CHECK_ERROR=1
-
+    $ make build CHECK_ERROR=1

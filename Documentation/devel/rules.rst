@@ -10,7 +10,7 @@ development, and releases can be done at any time.
 
 
 Commit Tags
-===========
+-----------
 
 - **Signed-off-by**: Using sign-off, developers certify the patch to be their
   original work or have the right to pass it on as an open source patch. In
@@ -38,7 +38,7 @@ Commit Tags
 
 
 Sub-Directories
-===============
+---------------
 
 - Each **scripts** directory contain scriptions(bpftrace, bcc, shell).
 - Each **modules** directory contain Linux Modules(KO) source code.
@@ -48,7 +48,7 @@ Sub-Directories
 
 
 Files
-=====
+-----
 
 - Each **README.md** is current directory's description.
 - Each **FAQ.md** is current directory's FAQs.
@@ -71,8 +71,27 @@ Files
   (or **./scripts/broken-symlinks.sh**) check invalid links and modify them.
 
 
+Template of Test-Linux
+----------------------
+
+Store all template make files of test-linux.
+
+In the test-linux project, all Makefiles in the template directory have the
+`.mk` extension. The `.mk` extension better not be used in other directories.
+
+Template Syntax
+~~~~~~~~~~~~~~~
+
+If you want to check if a feature or software exists, you need to set `HAVE_`
+to either `n` or `y`, for example, in **cuda.mk** define `HAVE_CUDA=y` if cuda
+was installed in your system.
+
+`HAVE_` cannot be empty. For example, you cannot use `ifdef HAVE_CUDA` to
+determine whether CUDA is installed.
+
+
 Licenses
-========
+--------
 
 If the source code file has a copyright information at the beginning, the
 copyright of the source code is the description content, otherwise, it is the
@@ -86,7 +105,7 @@ The copyright line format must be **Copyright (C) Year-Year Author**.
 
 
 Development Tools
-=================
+-----------------
 
 - `asciiflow <https://asciiflow.com/#/>`_
 - `MonoSketch <https://app.monosketch.io/>`_
