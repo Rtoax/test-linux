@@ -52,9 +52,9 @@ Files
 
 - Each **README.md** is current directory's description.
 - Each **FAQ.md** is current directory's FAQs.
-- Each **abbrev.md** is current directory's relative abbreviation.
+- Each **abbrev.md** and **abbrev.rst** is current directory's relative abbreviation.
   - scripts: **./abbrev.sh** to check all abbreviations.
-- Each **history.md** is store history of some technology.
+- Each **history.md** and **history.rst** is store history of some technology.
 - Each **drawio** contains relate directory diagrams.
 - Never call **include** in ***.mk** file, only call **include** in Makefile.
 - Each **kconfig** contains kernel CONFIG, each CONFIG is placed in the kconfig
