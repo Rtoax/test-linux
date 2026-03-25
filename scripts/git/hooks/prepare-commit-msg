@@ -361,7 +361,7 @@ if [[ "$(has_key nmcli NetworkManater)" ]]; then
 	NetworkManater_ver
 fi
 
-if [[ "$(has_key cxl)" ]]; then
+if [[ "$(has_key ndctl daxctl cxl)" ]]; then
 	ndctl_ver
 fi
 
