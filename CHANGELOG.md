@@ -13,7 +13,7 @@ and this project adheres to
 - github: support pages;
 #### Added
 - pcie: add configuration-space/info.sh;
-- scripts/version: add libversion.sh, sphinx.sh, latexmk.sh, ndctl.sh, NetworkManater.sh, gnuplot.sh;
+- scripts/version: add libversion.sh, sphinx.sh, latexmk.sh, ndctl.sh, NetworkManater.sh, gnuplot.sh, linux-firmware.sh;
 - openmpi: add README.md;
 - nvidia: add nvlink;
 - add .clang-format-ignore;

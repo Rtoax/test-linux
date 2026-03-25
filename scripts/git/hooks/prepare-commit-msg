@@ -187,6 +187,7 @@ libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 libvirt_ver() { add_ver "Libvirt $(${VERDIR}/libvirt.sh)"; }
 libxdp_ver() { add_ver "LibXDP $(${VERDIR}/libxdp.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
+linux_fw_ver() { add_ver "Linux-Firmware $(${VERDIR}/linux-firmware.sh)"; }
 llvm_ver() { add_ver "LLVM $(${VERDIR}/llvm.sh)"; }
 lsof_ver() { add_ver "lsof $(${VERDIR}/lsof.sh)"; }
 luca_ver() { add_ver_weak "LUCA $(${VERDIR}/luca.sh)"; }
@@ -238,6 +239,10 @@ fi
 
 os_ver
 linux_ver
+
+if [[ "$(has_key firmware)" ]]; then
+	linux_fw_ver
+fi
 
 if [[ "$(has_type c cpp c++ h hpp)$(has_key cpp gcc compiler)" ]]; then
 	gcc_ver

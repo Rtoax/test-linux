@@ -2,6 +2,7 @@
 target-prog-y += linux.sh
 target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
+target-prog-y += linux-firmware.sh
 target-prog-y += uefi.sh uefi.sh.1 uefi.sh.2 uefi.sh.3
 target-prog-y += shell.sh.4 shell.sh.5
 target-prog-y += redis.sh.4
