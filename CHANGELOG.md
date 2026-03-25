@@ -46,6 +46,7 @@ and this project adheres to
 #### Tools
 - add util-linux;
 #### Template
+- add firmware/linux-firmware.mk;
 - add libvirt.mk;
 - add mpi/{mpi,mpich,openmpi}.mk;
 
