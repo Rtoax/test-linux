@@ -1,4 +1,5 @@
 #!/bin/bash
+# ref: https://www.kernel.org/pub/linux/kernel/firmware/
 set -e
 
 debver() {
