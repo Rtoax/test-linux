@@ -21,7 +21,7 @@ Links
 -----
 
 - GitHub: https://github.com/rhinstaller/anaconda.git
-- `Anaconda Customization Guide of RHEL 7<https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/anaconda_customization_guide/index>`_
+- `Anaconda Customization Guide of RHEL 7 <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/anaconda_customization_guide/index>`_
 - Fedora Wiki: https://fedoraproject.org/wiki/Anaconda
 - `How to: Image Builder + OSTree + Anaconda <https://www.osbuild.org/news/2020-06-01-how-to-ostree-anaconda.html>`_
 - `Anaconda Customization Guide <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/anaconda_customization_guide/index>`_
