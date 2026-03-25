@@ -2,12 +2,6 @@
 CXL (Compute Express Link)
 ==========================
 
-.. toctree::
-   :maxdepth: 1
-
-   abbrev
-
-
 * **Compute Express Link (CXL)** is an open standard interconnect for
   high-speed, high capacity central processing unit (CPU)-to-device and
   CPU-to-memory connections, designed for high performance data center
