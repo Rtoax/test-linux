@@ -4,7 +4,7 @@
 int main(void)
 {
 	int err;
-	char buffer[8];
+	char buffer[11];
 
 	err = sprintf(buffer, "%s", "1234567890");
 
