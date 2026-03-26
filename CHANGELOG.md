@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - github: support pages;
 #### Added
+- init: add firmware subdir;
 - syscall/samples: add `reboot_helpers.c`;
 - syscall/samples: add reboot subdir;
 - pcie: add configuration-space/info.sh;
