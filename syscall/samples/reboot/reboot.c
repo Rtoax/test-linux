@@ -3,10 +3,12 @@
  * glibc: int reboot(int op);
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/reboot.h>
+#include <string.h>
 #include <unistd.h>
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int err, op = RB_AUTOBOOT;
 
@@ -15,6 +17,20 @@ int main(void)
 #elif defined(KEXEC)
 	/* work with CONFIG_KEXEC=y */
 	op = RB_KEXEC;
+#elif defined(CAD)
+	/**
+	 * see also /proc/sys/kernel/ctrl-alt-del
+	 */
+	fprintf(stderr, "%s [cad=<0|1>]\n", argv[0]);
+	op = RB_DISABLE_CAD;
+
+	for (int i = 1; i < argc; i++) {
+		char *cad = argv[i];
+		if (!strncmp(cad, "cad=", 4)) {
+			op = atoi(cad + 4) == 0 ? RB_DISABLE_CAD :
+						  RB_ENABLE_CAD;
+		}
+	}
 #endif
 
 	err = geteuid();

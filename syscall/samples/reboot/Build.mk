@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+target-y += ctrl-alt-del
 target-y += kexec
 target-y += poweroff
 target-y += reboot
@@ -9,5 +10,6 @@ target-liba-y := libreboot_helpers.a
 libreboot_helpers.a-objs := ${OUTPUT}reboot_helpers.a.o
 libreboot_helpers.so-objs := ${OUTPUT}reboot_helpers.so.o
 
+CFLAGS_ctrl-alt-del := -DCAD=1
 CFLAGS_kexec := -DKEXEC=1
 CFLAGS_poweroff := -DPOWEROFF=1
