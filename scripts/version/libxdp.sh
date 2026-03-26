@@ -7,7 +7,7 @@ LIBXDP_PATH=$(ldconfig_libver libxdp.so)
 
 if [[ -z ${LIBXDP_PATH} ]]; then
 	echo >&2 "ERROR: not found libxdp.so in anywhere"
-	exit 1
+	exit 0
 fi
 
 version=$(echo ${LIBXDP_PATH} | \

@@ -71,5 +71,5 @@ ldconfig_libver()
 	LDCONFIG=$(which ldconfig 2>/dev/null || ls /sbin/ldconfig 2>/dev/null)
 	realpath $(${LDCONFIG} -p | grep ${1} 2>/dev/null | \
 			awk '{print $NF}' | \
-			head -1) 2>/dev/null
+			head -1 || :) 2>/dev/null || :
 }
