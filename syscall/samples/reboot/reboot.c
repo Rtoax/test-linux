@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 #elif defined(CAD)
 	/**
 	 * see also /proc/sys/kernel/ctrl-alt-del
+	 * or: $ sudo bpftrace -e 'begin { printf("%d\n", *kaddr("C_A_D")) }'
 	 */
 	fprintf(stderr, "%s [cad=<0|1>]\n", argv[0]);
 	op = RB_DISABLE_CAD;

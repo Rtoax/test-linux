@@ -376,7 +376,7 @@ if [[ "$(has_key numa numactl)" ]]; then
 	numactl_ver
 fi
 
-if [[ "$(has_type bt)$(has_key bpftrace)" ]]; then
+if [[ "$(has_type bt)$(has_key bpftrace)$(has_content bpftrace)" ]]; then
 	bpftrace_ver
 fi
 
