@@ -1,6 +1,12 @@
 /**
- * linux: int reboot(int magic, int magic2, int op, void *arg);
- * glibc: int reboot(int op);
+ * Syscall prototype:
+ * 1. linux: int reboot(int magic, int magic2, int op, void *arg);
+ * 2. glibc: int reboot(int op);
+ *
+ * Reboot in container:
+ * - Could not reboot the Host in container except the container use init_pid_ns
+ *   see also podman '--pid=host' parameter and linux kernel stack:
+ *   reboot(2)->reboot_pid_ns().
  */
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,4 +1,6 @@
 #!/bin/bash
+# Could not reboot the Host in container except pass '--pid=host' to podman, see
+# linux kernel reboot(2)->reboot_pid_ns().
 set -ex
 
 IMAGE=fedora:latest
@@ -14,7 +16,6 @@ sudo podman exec ${NAME} ps -ef
 
 sudo podman ps --all
 
-# Could not reboot the Host
 # - reboot(2) syscall
 # - reboot
 # - init 6
