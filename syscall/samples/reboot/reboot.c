@@ -1,3 +1,7 @@
+/**
+ * linux: int reboot(int magic, int magic2, int op, void *arg);
+ * glibc: int reboot(int op);
+ */
 #include <stdio.h>
 #include <sys/reboot.h>
 #include <unistd.h>
