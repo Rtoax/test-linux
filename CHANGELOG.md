@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - github: support pages;
 #### Added
+- syscall/samples: add reboot subdir;
 - pcie: add configuration-space/info.sh;
 - scripts/version: add libversion.sh, sphinx.sh, latexmk.sh, ndctl.sh, NetworkManater.sh, gnuplot.sh, linux-firmware.sh;
 - openmpi: add README.md;

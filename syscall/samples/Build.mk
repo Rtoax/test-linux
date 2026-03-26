@@ -36,6 +36,7 @@ subdir-y += prctl
 subdir-y += perf_event_open
 subdir-y += arch_prctl
 subdir-y += pidfd
+subdir-y += reboot
 subdir-y += wait
 subdir-y += uio
 subdir-y += sendfile
