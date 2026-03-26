@@ -8,6 +8,9 @@ int main(void)
 
 #ifdef POWEROFF
 	op = RB_POWER_OFF;
+#elif defined(KEXEC)
+	/* work with CONFIG_KEXEC=y */
+	op = RB_KEXEC;
 #endif
 
 	err = geteuid();
