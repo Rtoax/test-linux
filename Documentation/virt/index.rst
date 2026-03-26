@@ -8,4 +8,5 @@ Virtualization
    abbrev
    sr-iov
    virtio
+   vhost
    xen
