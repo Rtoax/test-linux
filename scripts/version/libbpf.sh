@@ -1,11 +1,9 @@
 #!/bin/bash
 set -e
 
-LIBBPF_PATH=$(realpath $(ldconfig -p | \
-				grep libbpf.so 2>/dev/null | \
-				awk '{print $NF}' | \
-				head -1) 2>/dev/null \
-		|| :)
+source $(dirname $(realpath $0))/libversion.sh
+
+LIBBPF_PATH=$(ldconfig_libver libbpf.so)
 
 if [[ -z ${LIBBPF_PATH} ]]; then
 	echo >&2 "ERROR: not found libbpf.so in anywhere"
@@ -14,7 +12,5 @@ fi
 
 version=$(echo ${LIBBPF_PATH} | \
 		grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
-
-source $(dirname $(realpath $0))/libversion.sh
 
 version_parser ${@} -- ${version}
