@@ -14,6 +14,8 @@ sudo podman exec ${NAME} ps -ef
 
 sudo podman ps --all
 
+# Could not reboot the Host
+# - reboot(2) syscall
 # - reboot
 # - init 6
 # - shutdown -r now
