@@ -4,7 +4,11 @@
 
 int main(void)
 {
-	int err;
+	int err, op = RB_AUTOBOOT;
+
+#ifdef POWEROFF
+	op = RB_POWER_OFF;
+#endif
 
 	err = geteuid();
 	if (err) {
@@ -14,7 +18,7 @@ int main(void)
 
 	sync();
 
-	err = reboot(RB_POWER_OFF);
+	err = reboot(op);
 	if (err) {
 		fprintf(stderr, "reboot: %m.\n");
 		return -err;
