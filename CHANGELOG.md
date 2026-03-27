@@ -36,6 +36,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add almalinux.rst;
 - add cxl.rst, superpod/abbrev.rst;
 - add scripts/docs/sphinx-serve.sh;
 - add scripts/docs/sphinx-build.sh;

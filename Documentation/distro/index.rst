@@ -15,6 +15,7 @@ Distributions
 .. toctree::
    :maxdepth: 1
 
+   almalinux
    alpinelinux
    archlinux
    asterinas
