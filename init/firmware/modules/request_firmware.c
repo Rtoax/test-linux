@@ -8,9 +8,10 @@ static int __init test_firmware_init(void)
 {
 	const struct firmware *fw;
 	int ret;
+	const char *bin = "test-firmware.bin";
 
-	pr_info("Test firmware module: requesting 'test-firmware.bin'\n");
-	ret = request_firmware(&fw, "test-firmware.bin", NULL);
+	pr_info("Test firmware module: requesting '%s'\n", bin);
+	ret = request_firmware(&fw, bin, NULL);
 	if (ret) {
 		pr_err("Failed to load firmware: %d\n", ret);
 		return ret;
