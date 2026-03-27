@@ -2,19 +2,13 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/printk.h>
-#include <linux/firmware.h>
 #include <linux/platform_device.h>
 
 static struct platform_device *test_dev;
 
-static int __init test_firmware_init(void)
+static int __init test_dev_init(void)
 {
-	const struct firmware *fw;
 	int ret;
-	/**
-	 * Don't forget create /lib/firmware/test-firmware.bin dummy file.
-	 */
-	const char *bin = "test-firmware.bin";
 
 	test_dev = platform_device_alloc("test_firmware", -1);
 	if (!test_dev) {
@@ -29,22 +23,13 @@ static int __init test_firmware_init(void)
 		return ret;
 	}
 
-	pr_info("Test firmware module: requesting '%s' via device %s\n", bin,
-		dev_name(&test_dev->dev));
-	ret = request_firmware(&fw, bin, NULL);
-	if (ret) {
-		pr_err("Failed to load firmware: %d\n", ret);
-		goto release_dev;
-	}
+	pr_info("Test via device %s\n", dev_name(&test_dev->dev));
 
-	pr_info("Firmware loaded, size: %zu bytes\n", fw->size);
-	release_firmware(fw);
-release_dev:
 	platform_device_del(test_dev);
 	platform_device_put(test_dev);
 	return -EINVAL;
 }
 
-module_init(test_firmware_init);
+module_init(test_dev_init);
 MODULE_AUTHOR("Rong Tao");
 MODULE_LICENSE("GPL");
