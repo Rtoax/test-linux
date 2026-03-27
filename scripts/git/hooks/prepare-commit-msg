@@ -158,8 +158,10 @@ has_content() {
 	for str in ${@}
 	do
 		# search the 'str' in patch
-		if [[ "$(git status --verbose | grep -o ${str})" ]] ||
-		   [[ "$(git diff --staged | grep -o ${str})" ]]; then
+		if [[ "$(git status --verbose | grep -e '^+' -e '^-' | \
+				grep -o ${str})" ]] ||
+		   [[ "$(git diff --staged | grep -e '^+' -e '^-' | \
+				grep -o ${str})" ]]; then
 			echo "YES"
 			return 0
 		fi
