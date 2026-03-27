@@ -53,7 +53,6 @@ int random_number(int min, int max)
 	return min + (random_value % (max - min + 1));
 }
 
-
 int main(void)
 {
 	int i;

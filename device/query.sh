@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 declare -a devices pathes
 
