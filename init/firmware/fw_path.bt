@@ -1,0 +1,11 @@
+#!/bin/env bpftrace
+
+begin
+{
+	printf("fw_path_para: 0x%lx\n", kaddr("fw_path_para"));
+	printf("fw_path: 0x%lx\n", kaddr("fw_path"));
+	for ($i : ((uint64)0) .. ((uint64)5)) {
+		printf("*fw_path[%d]: %s\n", $i, str(*(kaddr("fw_path") + 8 * $i)));
+	}
+	exit()
+}
