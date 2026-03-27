@@ -9,4 +9,4 @@ target-prep-y += ia32e-paging
 target-prep-y += protected-mode-with-paging
 target-prep-y += exceptions
 
-basic-vm-objs := ${OUTPUT}common.o
+basic-vm-objs := ${OUTPUT}kvm_helpers.o

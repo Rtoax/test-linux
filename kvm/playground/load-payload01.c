@@ -8,7 +8,7 @@
 #include <linux/kvm.h>
 #include <stdio.h>
 
-#include "common.h"
+#include "kvm_helpers.h"
 
 extern uint8_t start_of_code;
 extern uint8_t end_of_code;
@@ -22,8 +22,9 @@ int main(int argc, char **argv)
 
 	int vmfd = create_vm(kvm);
 
-	void __unused *mem = mmap_user_memory_region(vmfd, 0x1000, 0x1000,
-					&start_of_code, &end_of_code - &start_of_code);
+	void __unused *mem =
+		mmap_user_memory_region(vmfd, 0x1000, 0x1000, &start_of_code,
+					&end_of_code - &start_of_code);
 
 	int vcpufd = create_vcpu(vmfd);
 	struct kvm_run *run = mmap_kvm_run(kvm, vcpufd);

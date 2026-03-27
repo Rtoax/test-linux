@@ -1,4 +1,4 @@
-LIBS += common.o
+LIBS += kvm_helpers.o
 
 hello: hello.c ${LIBS}
 	$(call log_tgt,LD,$(@))

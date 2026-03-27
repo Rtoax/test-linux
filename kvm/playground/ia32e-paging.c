@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "common.h"
+#include "kvm_helpers.h"
 
 static_assert(sizeof(unsigned) == 4,
 	"This program requires that size of unsigned int type is 4.\n");

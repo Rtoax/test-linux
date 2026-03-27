@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 #### Changed
+- kvm/playground: rename common.c to `kvm_helpers.c`;
 #### Deprecated
 #### Removed
 #### Fixed

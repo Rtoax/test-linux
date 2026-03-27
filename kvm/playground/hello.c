@@ -3,7 +3,6 @@
  * Author: Qiang Li
  * Recode: Rong Tao <rtoax@foxmail.com>
  * Date: 2022.06.03
- *
  */
 #include <fcntl.h>
 #include <stdio.h>
@@ -12,7 +11,7 @@
 #include <sys/mman.h>
 #include <linux/kvm.h>
 
-#include "common.h"
+#include "kvm_helpers.h"
 
 #define MEM_SIZE 0x1000
 

@@ -8,7 +8,7 @@
 #include <linux/kvm.h>
 #include <stdio.h>
 
-#include "common.h"
+#include "kvm_helpers.h"
 
 int main(int argc, char **argv)
 {

@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "common.h"
+#include "kvm_helpers.h"
 
 #define PM 0  // Protected mode
 #define PG 31 // Paging enabled
