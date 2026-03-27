@@ -26,9 +26,9 @@ endef
 define logo_linux_tux
 @echo -e "$(1)                                                               ${BB}#####${RST}"
 @echo -e "$(1)                                                              ${BB}#######${RST}"
-@echo -e "$(1)                 ${GB}#${RST}                                            ${BB}##${RST}O${BB}#${RST}O${BB}##${RST}"
-@echo -e "$(1)${YB}######${RST}          ${GB}###${RST}                                           ${BB}#${RST}${RB}VVVVV${RST}${BB}#${RST}"
-@echo -e "$(1)${YB}  ##${RST}             ${GB}#${RST}                                          ${BB}##${RST}  ${RB}VVV${RST}  ${BB}##${RST}"
+@echo -e "$(1)                 ${GB}@${RST}                                            ${BB}##${RST}${RB}❤${RST}${BB}#${RST}${RB}❤${RST}${BB}##${RST}"
+@echo -e "$(1)${YB}######${RST}          ${GB}@@@${RST}                                           ${BB}#${RST}${YB}VVVVV${RST}${BB}#${RST}"
+@echo -e "$(1)${YB}  ##${RST}             ${GB}@${RST}                                          ${BB}##${RST}  ${YB}VVV${RST}  ${BB}##${RST}"
 @echo -e "$(1)${YB}  ##${RST}         ${GB}###${RST}    ${YB}### ####   ###    ###  ##### #####${RST}     ${BB}#${RST}          ${BB}##${RST}"
 @echo -e "$(1)${YB}  ##${RST}        ${GB}#  ##${RST}    ${YB}###    ##  ##     ##    ##   ##${RST}      ${BB}#${RST}            ${BB}##${RST}"
 @echo -e "$(1)${YB}  ##${RST}       ${GB}#   ##${RST}    ${YB}##     ##  ##     ##      ###${RST}        ${BB}#${RST}            ${BB}###${RST}"
