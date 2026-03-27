@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - github: support pages;
 #### Added
+- firmware: add scripts/monitor.sh and test `request_firmware()`;
 - init: add firmware subdir;
 - syscall/samples: add `reboot_helpers.c`;
 - syscall/samples: add reboot subdir;
