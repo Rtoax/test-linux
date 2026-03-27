@@ -8,6 +8,9 @@ static int __init test_firmware_init(void)
 {
 	const struct firmware *fw;
 	int ret;
+	/**
+	 * Don't forget create /lib/firmware/test-firmware.bin dummy file.
+	 */
 	const char *bin = "test-firmware.bin";
 
 	pr_info("Test firmware module: requesting '%s'\n", bin);
