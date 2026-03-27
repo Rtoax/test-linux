@@ -1,0 +1,4 @@
+# Use template to compile kernel module.
+
+# TODO
+include ${CURDIR}/Kbuild.mk

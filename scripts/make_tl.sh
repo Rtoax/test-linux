@@ -54,6 +54,9 @@ make_tl() {
 			exit 1
 		fi
 		make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.build )
+	elif [[ -z ${makefile} ]] && [[ -f ${workdir}/Kbuild.mk ]]; then
+		# TODO
+		make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.kmod )
 	fi
 
 	${sys_make} ${make_args[@]} $@
