@@ -1,14 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Assembler Types
-# | Command | Assembler Type | Grammar | Example      |
-# | ------- | -------------- | ------- | ------------ |
-# | as      | GNU            | AT&T    | mov %ax, %bx |
-# | gcc     | GNU            | AT&T    | mov %ax, %bx |
-# | nasm    | Netwide        | Intel   | mov bx, ax   |
+# | Command | Assembler Type | Grammar | Example      | Extension |
+# | ------- | -------------- | ------- | ------------ | --------- |
+# | as      | GNU            | AT&T    | mov %ax, %bx | .s        |
+# | gcc     | GNU            | AT&T    | mov %ax, %bx | .S        |
+# | nasm    | Netwide        | Intel   | mov bx, ax   | .asm      |
 #
 # Targets:
 # - %.s.o
+# - %.s.o.bin
 # - %.S.o
 # - %.asm.o
 # - target-as-y
@@ -23,6 +24,7 @@ CXX ?= g++
 LD ?= ld
 AS ?= as
 NASM ?= nasm
+OBJCOPY ?= objcopy
 
 include cflags.mk
 
@@ -57,6 +59,10 @@ ${OUTPUT}%.S.o: %.S | ${OUTPUT}
 ${OUTPUT}%.s.o: %.s | ${OUTPUT}
 	$(call log_obj,AS,$(@))
 	${Q}${AS} -o $(@) $(<) $(ASFLAGS) $(ASFLAGS_$(*))
+
+${OUTPUT}%.s.o.bin: ${OUTPUT}%.s.o
+	$(call log_obj,OBJCOPY BIN,$(@))
+	${Q}${OBJCOPY} -O binary $(<) $(@)
 
 # Default _start() entry and link libc
 ${target-as-y}: %:

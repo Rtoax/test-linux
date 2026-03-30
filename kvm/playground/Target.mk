@@ -1,11 +1,5 @@
 LIBS += kvm_helpers.o
 
-hello: hello.c ${LIBS}
-	$(call log_tgt,LD,$(@))
-	${Q}$(CC) $(CFLAGS) -o $(@) $(<) $(LIBS)
-	${Q}$(AS) hello.asm -o hello.o
-	${Q}$(OBJCOPY) -O binary hello.o hello.bin
-
 load-payload01: load-payload01.c ${LIBS}
 	$(call log_tgt,LD,$(@))
 	${Q}$(NASM) load-payload01-program.asm -o load-payload01-program.bin

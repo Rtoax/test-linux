@@ -27,6 +27,7 @@ int main(void)
 	unsigned char __unused *ram;
 	struct kvm_run *run;
 	char code[MEM_SIZE];
+	char binary[64] = { ".output/hello.s.o.bin" };
 
 	kvmfd = open_dev_kvm();
 
@@ -34,14 +35,14 @@ int main(void)
 
 	vmfd = create_vm(kvmfd);
 
-	kfd = open("hello.bin", O_RDONLY);
+	kfd = open(binary, O_RDONLY);
 	if (kfd <= 0) {
-		perror("open(hello.bin)");
+		perror("open");
 		return -1;
 	}
 	ret = read(kfd, code, MEM_SIZE);
 	if (ret <= 0) {
-		perror("read(hello.bin)");
+		perror("read");
 		return -1;
 	}
 
