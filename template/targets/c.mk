@@ -3,12 +3,17 @@ ifndef _TARGET_C_MK
 _TARGET_C_MK = 1
 
 CC ?= gcc
+OBJCOPY ?= objcopy
 
 include cflags.mk
 
 ${OUTPUT}%.o: %.c | ${OUTPUT}
 	$(call log_obj,CC,$(@))
 	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+
+${OUTPUT}%.o.bin: ${OUTPUT}%.o
+	$(call log_obj,OBJCOPY BIN,$(@))
+	${Q}$(OBJCOPY) -O binary $(<) $(@)
 
 # Compile .c to .N.o, this use to compile single source code to more than one
 # object file.

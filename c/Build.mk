@@ -57,6 +57,7 @@ target-y += typeof
 
 # preprocessing
 target-prep-y := $(patsubst %,${OUTPUT}%.E.c,$(target-y))
+target-prep-y += ${OUTPUT}return.o.bin
 
 ptr-dim-objs := ${OUTPUT}c_helpers.o
 
