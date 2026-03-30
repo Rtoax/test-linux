@@ -177,6 +177,7 @@ bpftrace_ver() { add_ver "BPFTrace $(${VERDIR}/bpftrace.sh)"; }
 capstone_ver() { add_ver "capstone $(${VERDIR}/capstone.sh)"; }
 cmake_ver() { add_ver "CMake $(${VERDIR}/cmake.sh)"; }
 cuda_ver() { add_ver "CUDA $(${VERDIR}/cuda.sh)"; }
+ffmpeg_ver() { add_ver "ffmpeg $(${VERDIR}/ffmpeg.sh)"; }
 findutils_ver() { add_ver "Findutils $(${VERDIR}/findutils.sh)"; }
 gcc_ver() { add_ver "GCC $(${VERDIR}/gcc.sh)"; }
 gdb_ver() { add_ver "GDB $(${VERDIR}/gdb.sh)"; }
@@ -258,6 +259,10 @@ fi
 
 if [[ "$(has_type go)$(has_key go golang)" ]]; then
 	go_ver
+fi
+
+if [[ "$(has_key ffmpeg)$(has_content ffmpeg)" ]]; then
+	ffmpeg_ver
 fi
 
 if [[ "$(has_key find findutils)" ]]; then

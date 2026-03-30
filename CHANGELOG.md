@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - cestc: add gpuinfo.sh;
-- scripts/version: add capstone.sh;
+- scripts/version: add capstone.sh, ffmpeg.sh;
 #### Changed
 - kvm/playground: rename common.c to `kvm_helpers.c`;
 #### Deprecated
@@ -21,6 +21,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- add ffmpeg subdir;
 #### Template
 - targets/asm.mk: add `%.s.o.bin` target and apply to kvm/playground;
 - targets/asm.mk: add `%.asm.o.bin` target and apply to kvm/playground;
