@@ -5,6 +5,7 @@ set -e
 
 readonly VENDOR_INTEL=8086
 readonly VENDOR_NVIDIA=10DE
+readonly VENDOR_CESTC=20E1
 
 # -n: Show PCI vendor and device codes as numbers
 readonly pcie_slots=( $(lspci -n | awk '{print $1}' | sort -u ) )
@@ -32,6 +33,10 @@ pcie_vendor_slots() {
 
 pcie_nvidia_slots() {
 	pcie_vendor_slots ${VENDOR_NVIDIA}
+}
+
+pcie_cestc_slots() {
+	pcie_vendor_slots ${VENDOR_CESTC}
 }
 
 pcie_find_ether() {

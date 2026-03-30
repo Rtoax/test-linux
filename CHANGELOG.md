@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cestc: add gpuinfo.sh;
 - scripts/version: add capstone.sh;
 #### Changed
 - kvm/playground: rename common.c to `kvm_helpers.c`;
