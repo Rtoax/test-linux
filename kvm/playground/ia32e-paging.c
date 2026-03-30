@@ -103,15 +103,15 @@ int read_into_buffer(int fd, uint8_t *buf)
 
 int main(int argc, char **argv)
 {
-	int a_fd = open("ia32e-paging-a.bin", O_RDONLY);
+	int a_fd = open(".output/ia32e-paging-a.asm.o", O_RDONLY);
 	if (a_fd == -1) {
-		printf("Could not open a.bin.\n");
+		printf("Could not open a.asm.o\n");
 		return -1;
 	}
 
-	int b_fd = open("ia32e-paging-b.bin", O_RDONLY);
+	int b_fd = open(".output/ia32e-paging-b.asm.o", O_RDONLY);
 	if (b_fd == -1) {
-		printf("Could not open b.bin.\n");
+		printf("Could not open b.asm.o\n");
 		return -1;
 	}
 

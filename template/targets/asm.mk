@@ -11,7 +11,8 @@
 # - %.s.o
 # - %.s.o.bin
 # - %.S.o
-# - %.asm.o
+# - %.asm.o (ASMFLAGS_NO_DEFAULT_ELF64=0)
+# - %.asm.o.bin
 # - target-as-y
 # - target-asm-y
 # - target-asm-std-y
@@ -28,17 +29,24 @@ OBJCOPY ?= objcopy
 
 include cflags.mk
 
+# More to see 'nasm -felf64 -y'
 ifdef M32
   ASMFLAGS += -felf32
   ASMLDFLAGS += -m elf_i386
 else
-  ASMFLAGS += -felf64
+  ifndef ASMFLAGS_NO_DEFAULT_ELF64
+    ASMFLAGS += -felf64
+  endif
 endif
 
 # M32: -felf32
 ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
 	$(call log_obj,NASM,$(@))
 	${Q}${NASM} -o $(@) $(<) $(ASMFLAGS) $(ASMFLAGS_$(*))
+
+${OUTPUT}%.asm.o.bin: ${OUTPUT}%.asm.o
+	$(call log_obj,OBJCOPY NASM BIN,$(@))
+	${Q}${OBJCOPY} -O binary $(<) $(@)
 
 # Same as: ld -m elf_i386 a.o -o a
 ${target-asm-y}: %:

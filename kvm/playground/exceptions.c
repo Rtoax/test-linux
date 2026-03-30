@@ -156,15 +156,15 @@ int read_into_buffer(int fd, uint8_t *buf)
 
 int main(int argc, char **argv)
 {
-	int a_fd = open("exceptions-a.bin", O_RDONLY);
+	int a_fd = open(".output/exceptions-a.asm.o", O_RDONLY);
 	if (a_fd == -1) {
-		printf("Could not open a.bin.\n");
+		printf("Could not open a.asm.o\n");
 		return -1;
 	}
 
-	int handler_fd = open("exceptions-handler.bin", O_RDONLY);
+	int handler_fd = open(".output/exceptions-handler.asm.o", O_RDONLY);
 	if (handler_fd == -1) {
-		printf("Could not open handler.bin.\n");
+		printf("Could not open handler.asm.o\n");
 		return -1;
 	}
 

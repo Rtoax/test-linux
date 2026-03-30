@@ -2,6 +2,5 @@
 	global end_of_code
 section .data
 start_of_code:
-	incbin "cpuid-program.bin"
+	incbin ".output/cpuid-program.asm.o"
 end_of_code:
-

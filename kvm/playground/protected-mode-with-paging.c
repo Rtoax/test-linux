@@ -91,15 +91,15 @@ int read_into_buffer(int fd, uint8_t *buf)
 int main(int argc, char **argv)
 {
 	int i;
-	int a_fd = open("protected-mode-with-paging-a.bin", O_RDONLY);
+	int a_fd = open(".output/protected-mode-with-paging-a.asm.o", O_RDONLY);
 	if (a_fd == -1) {
-		printf("Could not open a.bin.\n");
+		printf("Could not open a.asm.o\n");
 		return -1;
 	}
 
-	int b_fd = open("protected-mode-with-paging-b.bin", O_RDONLY);
+	int b_fd = open(".output/protected-mode-with-paging-b.asm.o", O_RDONLY);
 	if (b_fd == -1) {
-		printf("Could not open b.bin.\n");
+		printf("Could not open b.asm.o\n");
 		return -1;
 	}
 
@@ -141,13 +141,13 @@ int main(int argc, char **argv)
 
 	int bytes_copied = read_into_buffer(a_fd, mem + 0x3000);
 	if (bytes_copied != a_fs) {
-		printf("Expected to copy as many bytes as there are in a.bin.\n");
+		printf("Expected to copy as many bytes as there are in a.asm.o\n");
 		return -1;
 	}
 
 	bytes_copied = read_into_buffer(b_fd, mem + 0x5000);
 	if (bytes_copied != b_fs) {
-		printf("Expected to copy as many bytes as there are in b.bin.\n");
+		printf("Expected to copy as many bytes as there are in b.asm.o\n");
 		return -1;
 	}
 

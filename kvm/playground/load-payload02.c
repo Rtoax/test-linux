@@ -40,7 +40,7 @@ int read_into_buffer(int fd, char* buf)
 
 int main(int argc, char **argv)
 {
-	int payload_fd = open("load-payload02-program.bin", O_RDONLY);
+	int payload_fd = open(".output/load-payload02-program.asm.o", O_RDONLY);
 	off_t fsize = get_file_size(payload_fd);
 	void *buf = malloc(fsize);
 

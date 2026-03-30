@@ -2,6 +2,5 @@
 	global end_of_code
 section .data
 start_of_code:
-	incbin "load-payload01-program.bin"
+	incbin ".output/load-payload01-program.asm.o"
 end_of_code:
-
