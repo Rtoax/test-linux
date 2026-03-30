@@ -7,3 +7,5 @@ for1() {
 }
 
 for1 a b c
+
+echo {1..3}
