@@ -5,7 +5,11 @@ System Architecture Designer
 思维导图
 --------
 
+软件工程
+~~~~~~~~
+
 - :ref:`fig-Software-Engineering`
+- :ref:`fig-Software-process-model`
 - :ref:`fig-software-lifecycle`
 
 .. _fig-Software-Engineering:
@@ -23,6 +27,39 @@ System Architecture Designer
 
         Maturity --> Maturity1[CMM: 能力成熟度模型]
         Maturity --> Maturity2[CMMI: 能力成熟度模型集成]
+
+
+.. _fig-Software-process-model:
+
+.. mermaid::
+   :caption: 软件过程模型
+
+    flowchart LR
+        Process(软件过程模型) ==> Traditional([传统模型])
+        Process ==> Agile([敏捷模型])
+        Process ==> Other([其他模型])
+
+        Traditional --> Traditional1[瀑布模型]
+        Traditional --> Traditional2[原型模型]
+        Traditional --> Traditional3[螺旋模型]
+        Traditional --> Traditional4[V模型]
+
+        Agile --> Agile1[核心思想]
+        Agile --> Agile2[4大价值观]
+        Agile --> Agile3[5大原则]
+        Agile --> Agile4[12个最佳实践]
+        Agile --> Agile5[典型方法]
+
+        Other --> Other1[增量模型]
+        Other --> Other2[喷泉模型]
+        Other --> Other3[RUP:统一过程模型]
+        Other --> Other4[净室软件工程]
+        Other --> Other5[基于构件的软件工程CBSE]
+
+        Other3 --> Other31[9个工作流]
+        Other3 --> Other32[4个阶段]
+        Other3 --> Other33[核心特点]
+        Other3 --> Other34[4+1视图]
 
 
 .. _fig-software-lifecycle:
