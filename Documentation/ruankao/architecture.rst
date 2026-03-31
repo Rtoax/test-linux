@@ -2,8 +2,8 @@
 System Architecture Designer
 ============================
 
-思维导图
---------
+思维导图概览
+------------
 
 软件工程
 ~~~~~~~~
@@ -11,6 +11,10 @@ System Architecture Designer
 - :ref:`fig-Software-Engineering`
 - :ref:`fig-Software-process-model`
 - :ref:`fig-software-lifecycle`
+
+
+软件工程
+--------
 
 .. _fig-Software-Engineering:
 
@@ -27,6 +31,8 @@ System Architecture Designer
 
         Maturity --> Maturity1[CMM: 能力成熟度模型]
         Maturity --> Maturity2[CMMI: 能力成熟度模型集成]
+
+        style Engineering fill:#f9f,stroke:#333,stroke-width:2px
 
 
 .. _fig-Software-process-model:
@@ -60,6 +66,8 @@ System Architecture Designer
         Other3 --> Other32[4个阶段]
         Other3 --> Other33[核心特点]
         Other3 --> Other34[4+1视图]
+
+        style Process fill:#f9f,stroke:#333,stroke-width:2px
 
 
 .. _fig-software-lifecycle:
