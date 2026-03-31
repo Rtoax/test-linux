@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- kmod: add alias.sh;
+- kmod: add alias.sh, scripts/version/kmod.sh;
 - cestc: add gpuinfo.sh;
 - scripts/version: add capstone.sh, ffmpeg.sh;
 #### Changed

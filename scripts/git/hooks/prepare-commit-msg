@@ -187,6 +187,7 @@ glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 gnome_ver() { add_ver "GNOME $(${VERDIR}/gnome.sh)"; }
 hpcc_ver() { add_ver_weak "HPCC $(${VERDIR}/hpcc.sh)"; }
 java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
+kmod_ver() { add_ver "kmod $(${VERDIR}/kmod.sh)"; }
 latexmk_ver() { add_ver_weak "LaTeXmk $(${VERDIR}/latexmk.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 libvirt_ver() { add_ver "Libvirt $(${VERDIR}/libvirt.sh)"; }
@@ -436,6 +437,10 @@ fi
 
 if [[ "$(has_key java jdk)" ]]; then
 	java_ver
+fi
+
+if [[ "$(has_key kmod module)" ]]; then
+	kmod_ver
 fi
 
 if [[ "$(has_type s)$(has_key asm)" ]]; then
