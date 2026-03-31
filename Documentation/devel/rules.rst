@@ -114,3 +114,5 @@ Development Tools
     - `releases <https://github.com/jgraph/drawio-desktop/releases>`_
 - `IDA <https://hex-rays.com/ida-free>`_
     - `Download Center <https://my.hex-rays.com/dashboard/download-center/>`_
+- `Sphinx-build <https://www.sphinx-doc.org/en/master/man/sphinx-build.html>`_
+    - `Mermaid <https://docs.min2k.com/zh/mermaid/intro/>`_
