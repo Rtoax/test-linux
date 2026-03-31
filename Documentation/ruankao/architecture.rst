@@ -2,7 +2,16 @@
 System Architecture Designer
 ============================
 
+思维导图
+--------
+
+- :ref:`fig-software-lifecycle`
+
+
+.. _fig-software-lifecycle:
+
 .. mermaid::
+   :caption: 软件生命周期
 
     flowchart LR
         lifecycle(软件生命周期) ==> define([软件定义时期])
