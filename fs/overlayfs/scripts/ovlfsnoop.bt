@@ -5,55 +5,24 @@
  * Need overlay kernel module.
  *
  * Copyright (C) Rong Tao 2022-2025
- *
- * 2024-03-21	Rong Tao	Create this.
  */
 BEGIN
 {
 	printf("Tracing overlayfs file operations, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s\n", "TIME", "PID", "COMM", "OPS");
+	printf("%-8s %-8s %-16s %s\n", "TIME", "PID", "COMM", "OPS");
 }
 
-kprobe:ovl_open
-{
-	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s\n", pid, comm, "open");
-}
-
-kprobe:ovl_unlink
-{
-	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s\n", pid, comm, "unlink");
-}
-
-kprobe:ovl_statfs
-{
-	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s\n", pid, comm, "statfs");
-}
-
-kprobe:ovl_mkdir
-{
-	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s\n", pid, comm, "mkdir");
-}
-
-kprobe:ovl_rmdir
-{
-	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s\n", pid, comm, "rmdir");
-}
-
-kprobe:ovl_rename
-{
-	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s\n", pid, comm, "rename");
-}
-
+kprobe:ovl_open,
+kprobe:ovl_unlink,
+kprobe:ovl_statfs,
+kprobe:ovl_mkdir,
+kprobe:ovl_rmdir,
+kprobe:ovl_rename,
 kprobe:ovl_new_inode
 {
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s\n", pid, comm, "new-ino");
+	/* probe+11 to skip kprobe:ovl_ prefix */
+	printf("%-8d %-16s %s\n", pid, comm, probe + 11);
 }
 
 END

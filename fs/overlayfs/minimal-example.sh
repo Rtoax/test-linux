@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 sudo dd if=/dev/zero of=lower.ext4 bs=4096 count=4096
 sudo mkfs -t ext4 lower.ext4
@@ -41,4 +42,5 @@ sudo tree lower upper/upper upper/work overlay
 
 # Cleanup.
 sudo umount upper lower
-
+sudo rm lower.ext4 upper.ext4
+sudo rmdir lower upper overlay
