@@ -22,6 +22,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- superpod: add history.rst;
 - add pxe.rst;
 #### Tools
 - add ffmpeg subdir;
