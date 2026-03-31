@@ -57,6 +57,22 @@ System Architecture Designer
         Agile --> Agile4[12个最佳实践]
         Agile --> Agile5[典型方法]
 
+        Agile2 --> Agile21[沟通]
+        Agile2 --> Agile22[简单]
+        Agile2 --> Agile23[反馈]
+        Agile2 --> Agile24[勇气]
+
+        Agile3 --> Agile31[快速反馈]
+        Agile3 --> Agile32[简单性假设]
+        Agile3 --> Agile33[逐步修改]
+        Agile3 --> Agile34[提倡更改]
+        Agile3 --> Agile35[优质工作]
+
+        Agile5 --> Agile51[极限编程XP]
+        Agile5 --> Agile52[水晶系列方法]
+        Agile5 --> Agile53[并列争球法Scrum]
+        Agile5 --> Agile54[特性驱动开发方法FDD]
+
         Other --> Other1[增量模型]
         Other --> Other2[喷泉模型]
         Other --> RUP[RUP:统一过程模型]
