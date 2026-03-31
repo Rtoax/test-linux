@@ -21,6 +21,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add pxe.rst;
 #### Tools
 - add ffmpeg subdir;
 #### Template
