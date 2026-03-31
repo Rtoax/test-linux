@@ -5,9 +5,9 @@ System Architecture Designer
 .. mermaid::
 
     flowchart LR
-        lifecycle[软件生命周期] --> define[软件定义时期]
-        lifecycle --> devel[软件开发时期]
-        lifecycle --> run[软件运行维护时期]
+        lifecycle(软件生命周期) ==> define([软件定义时期])
+        lifecycle ==> devel([软件开发时期])
+        lifecycle ==> run([软件运行维护时期])
 
         define --> define1[可行性研究]
         define --> define2[需求工程]
