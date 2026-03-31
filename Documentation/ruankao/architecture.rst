@@ -5,7 +5,24 @@ System Architecture Designer
 思维导图
 --------
 
+- :ref:`fig-Software-Engineering`
 - :ref:`fig-software-lifecycle`
+
+.. _fig-Software-Engineering:
+
+.. mermaid::
+   :caption: 软件工程概述
+
+    flowchart LR
+        Engineering(软件工程概述) ==> Concept([基本概念])
+        Engineering ==> Maturity([软件成熟度模型])
+
+        Concept --> Concept1[定义]
+        Concept --> Concept2[软件工程活动]
+        Concept --> Concept3[软件工具分类]
+
+        Maturity --> Maturity1[CMM: 能力成熟度模型]
+        Maturity --> Maturity2[CMMI: 能力成熟度模型集成]
 
 
 .. _fig-software-lifecycle:
