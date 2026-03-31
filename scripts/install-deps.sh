@@ -1034,6 +1034,7 @@ dnf_add_packages()
 
 	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx_rtd_theme )
+	pkgs_docs+=( python3-sphinxcontrib_mermaid )
 	pkgs_docs+=( texlive-scheme-full )
 
 	pkgs_math+=( fftw-devel )
@@ -1234,6 +1235,7 @@ apt_add_packages()
 
 	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx-rtd-theme )
+	pkgs_docs+=( python3-sphinxcontrib-mermaid )
 	pkgs_docs+=( texlive-full )
 
 	pkgs_fs+=( unionfs-fuse )

@@ -22,6 +22,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add ruankao dir;
 - superpod: add history.rst;
 - add pxe.rst;
 #### Tools
