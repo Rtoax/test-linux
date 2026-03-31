@@ -1,1 +1,2 @@
-target-prog-y := gpuname.sh
+target-prog-y += gpuname.sh
+target-prog-y += gpuinfo.sh

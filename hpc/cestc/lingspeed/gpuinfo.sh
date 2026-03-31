@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. ../../driver/pcie/libpcie.sh
+. ../../../driver/pcie/libpcie.sh
 
 printf "%-16s %-4s\n" "PCI_SLOT" "NUMA"
 for slot in $(pcie_cestc_slots)
