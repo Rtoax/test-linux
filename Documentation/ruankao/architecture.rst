@@ -59,14 +59,29 @@ System Architecture Designer
 
         Other --> Other1[增量模型]
         Other --> Other2[喷泉模型]
-        Other --> Other3[RUP:统一过程模型]
+        Other --> RUP[RUP:统一过程模型]
         Other --> Other4[净室软件工程]
         Other --> Other5[基于构件的软件工程CBSE]
 
-        Other3 --> Other31[9个工作流]
-        Other3 --> Other32[4个阶段]
-        Other3 --> Other33[核心特点]
-        Other3 --> Other34[4+1视图]
+        RUP --> RUP1[9个工作流]
+        RUP --> RUP2[4个阶段]
+        RUP --> RUP3[核心特点]
+        RUP --> RUP4[4+1视图]
+
+        RUP1 --> RUP11[业务建模]
+        RUP1 --> RUP12[需求]
+        RUP1 --> RUP13[分析与设计]
+        RUP1 --> RUP14[实现]
+        RUP1 --> RUP15[测试]
+        RUP1 --> RUP16[部署]
+        RUP1 --> RUP17[配置与变更管理]
+        RUP1 --> RUP18[项目管理]
+        RUP1 --> RUP19[环境]
+
+        RUP2 --> RUP21[初始阶段]
+        RUP2 --> RUP22[细化节点]
+        RUP2 --> RUP23[构造阶段]
+        RUP2 --> RUP24[移交阶段]
 
         style Process fill:#f9f,stroke:#333,stroke-width:2px
 
