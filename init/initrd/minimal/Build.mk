@@ -2,4 +2,4 @@
 target-y := fakeinit
 target-post-y := initrd.img
 
-CFLAGS := -static
+LDFLAGS := -static
