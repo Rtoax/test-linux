@@ -37,6 +37,11 @@ static int __init test_firmware_init(void)
 		goto release_dev;
 	}
 
+	/* Use firmware */
+	for (int i; i < fw->size; i++) {
+		pr_info("fw[%d] = 0x%x\n", i, *(u8 *)(fw->data + i));
+	}
+
 	pr_info("Firmware loaded, size: %zu bytes\n", fw->size);
 	release_firmware(fw);
 release_dev:
