@@ -11,6 +11,7 @@ System Architecture Designer
 - :ref:`fig-Software-Engineering`
 - :ref:`fig-Software-process-model`
 - :ref:`fig-software-lifecycle`
+- :ref:`fig-Reverse-engineering`
 
 
 软件工程
@@ -138,3 +139,25 @@ System Architecture Designer
         style define fill:#bbf,stroke:#333
         style devel fill:#bbf,stroke:#333
         style run fill:#bbf,stroke:#333
+
+
+.. _fig-Reverse-engineering:
+
+.. mermaid::
+   :caption: 逆向工程
+
+    flowchart LR
+        Reverse(逆向工程) ==> Levels([四个级别])
+        Reverse ==> Other([其他概念])
+
+        Levels --> Levels1[实现级]
+        Levels --> Levels2[结构级]
+        Levels --> Levels3[功能级]
+        Levels --> Levels4[领域级]
+
+        Other --> Other1[软件复用]
+        Other --> Other2[重构]
+        Other --> Other3[设计恢复]
+        Other --> Other4[再工程]
+
+        style Reverse fill:#f9f,stroke:#333,stroke-width:2px
