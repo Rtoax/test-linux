@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- kmod: add alias.sh;
 - cestc: add gpuinfo.sh;
 - scripts/version: add capstone.sh, ffmpeg.sh;
 #### Changed
