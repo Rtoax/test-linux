@@ -10,7 +10,7 @@ static struct platform_device *test_dev;
 static int __init test_firmware_init(void)
 {
 	const struct firmware *fw;
-	int ret;
+	int i, ret;
 	/**
 	 * Don't forget create /lib/firmware/test-firmware.bin dummy file.
 	 */
@@ -38,7 +38,7 @@ static int __init test_firmware_init(void)
 	}
 
 	/* Use firmware */
-	for (int i; i < fw->size; i++) {
+	for (i = 0; i < fw->size; i++) {
 		pr_info("fw[%d] = 0x%x\n", i, *(u8 *)(fw->data + i));
 	}
 
