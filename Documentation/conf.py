@@ -14,7 +14,7 @@ doc_dir = os.path.dirname(os.path.abspath(__file__))
 project = 'The Test Linux Documentation'
 copyright = 'Copyright (C) 2022-2026 Rong Tao'
 author = 'Rong Tao'
-version = release = '0.0.63'
+version = release = '0.0.64'
 
 html_logo = "images/logo.svg"
 # Theme: alabaster, sphinx_rtd_theme, sphinx_rtd_dark_mode
@@ -35,6 +35,11 @@ if html_theme == "alabaster":
         "font_size": "inherit",
         "font_family": "serif",
     }
+
+html_static_path = ["sphinx-static"]
+html_css_files = [
+    "custom.css",
+]
 
 extensions = [
     'sphinxcontrib.mermaid',

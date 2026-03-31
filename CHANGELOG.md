@@ -22,6 +22,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add sphinx-static/custom.css;
 - add ruankao dir;
 - superpod: add history.rst;
 - add pxe.rst;
