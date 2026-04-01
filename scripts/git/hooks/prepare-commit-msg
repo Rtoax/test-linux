@@ -178,6 +178,7 @@ capstone_ver() { add_ver "capstone $(${VERDIR}/capstone.sh)"; }
 cmake_ver() { add_ver "CMake $(${VERDIR}/cmake.sh)"; }
 cuda_ver() { add_ver "CUDA $(${VERDIR}/cuda.sh)"; }
 dracut_ver() { add_ver "Dracut $(${VERDIR}/dracut.sh)"; }
+ethtool_ver() { add_ver "Ethtool $(${VERDIR}/ethtool.sh)"; }
 ffmpeg_ver() { add_ver "ffmpeg $(${VERDIR}/ffmpeg.sh)"; }
 findutils_ver() { add_ver "Findutils $(${VERDIR}/findutils.sh)"; }
 gcc_ver() { add_ver "GCC $(${VERDIR}/gcc.sh)"; }
@@ -438,6 +439,10 @@ fi
 
 if [[ "$(has_key dracut initramfs initrd)" ]]; then
 	dracut_ver
+fi
+
+if [[ "$(has_key ethtool)" ]]; then
+	ethtool_ver
 fi
 
 if [[ "$(has_key java jdk)" ]]; then

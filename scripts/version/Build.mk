@@ -17,7 +17,7 @@ PROG_ARGS_${1}.sh.3 := --patchlevel
 endef
 
 $(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
-			findutils ffmpeg \
+			ethtool findutils ffmpeg \
 			gcc gdb git gnome gnuplot go hpcc java kmod latexmk \
 			libbpf \
 			libvirt libxdp \
