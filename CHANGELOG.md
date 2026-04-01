@@ -31,6 +31,7 @@ and this project adheres to
 #### Template
 - targets/asm.mk: add `%.s.o.bin` target and apply to kvm/playground;
 - targets/asm.mk: add `%.asm.o.bin` target and apply to kvm/playground;
+- add dracut.mk;
 
 
 ## [v2.4.2] 2026-03-18
