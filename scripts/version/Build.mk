@@ -16,7 +16,7 @@ PROG_ARGS_${1}.sh.2 := --minor
 PROG_ARGS_${1}.sh.3 := --patchlevel
 endef
 
-$(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda \
+$(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
 			findutils ffmpeg \
 			gcc gdb git gnome gnuplot go hpcc java kmod latexmk \
 			libbpf \

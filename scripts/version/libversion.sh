@@ -14,12 +14,14 @@ version_parser_usage()
 version_parser() {
 	local show_major show_minor show_patchlevel show_whole=YES
 	local version
+	local seperator='.'
 
 	TEMP=$(getopt \
-		--options Mmp \
+		--options MmpS \
 		--long major \
 		--long minor \
 		--long patchlevel \
+		--long seperator: \
 		-n version-parser -- "$@")
 
 	test $? != 0 && version_parser_usage 1
@@ -43,6 +45,11 @@ version_parser() {
 			show_patchlevel=YES
 			show_whole=
 			;;
+		-S | --seperator)
+			shift
+			seperator="${1}"
+			shift
+			;;
 		--)
 			shift
 			version="$1"
@@ -55,7 +62,7 @@ version_parser() {
 		esac
 	done
 
-	local ver_arr=( $(echo ${version} | tr '.' ' ') )
+	local ver_arr=( $(echo ${version} | tr "${seperator}" ' ') )
 
 	[[ ${show_major} ]] && echo ${ver_arr[0]}
 	[[ ${show_minor} ]] && echo ${ver_arr[1]}

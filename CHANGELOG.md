@@ -13,7 +13,7 @@ and this project adheres to
 #### Added
 - kmod: add alias.sh, scripts/version/kmod.sh;
 - cestc: add gpuinfo.sh;
-- scripts/version: add capstone.sh, ffmpeg.sh;
+- scripts/version: add capstone.sh, ffmpeg.sh, dracut.sh;
 #### Changed
 - kvm/playground: rename common.c to `kvm_helpers.c`;
 #### Deprecated
