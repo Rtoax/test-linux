@@ -1,5 +1,30 @@
 #!/bin/bash
 
+checkcmd() {
+	local cmd=$(which ${1} 2>/dev/null || :)
+	if [[ -z ${cmd} ]]; then
+		echo >&2 "ERROR: not found ${cmd} in your system"
+		exit 0
+	fi
+}
+
+# $1: command like 'ls'
+getver2() {
+	checkcmd ${1}
+	${1} --version | grep -Eo -e '[0-9]+\.[0-9]+' \
+				  -e '[0-9]+\-[0-9]+' 2>/dev/null | \
+			sort -u | \
+			head -1 || true
+}
+
+# $1: command like 'ls'
+getver3() {
+	checkcmd ${1}
+	${1} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null | \
+			sort -u | \
+			head -1 || true
+}
+
 version_parser_usage()
 {
 	echo -e "
