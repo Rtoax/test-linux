@@ -2,20 +2,27 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
-# - OPENSSL_VERSION_{MAJOR,MINOR,PATCH}=
+# - HAVE_OPENSSL=[y|n]
+# - OPENSSL_{VERSION,MAJOR,MINOR,PATCH}=
 #
 ifndef _OPENSSL_MK
 _OPENSSL_MK = 1
 
-OPENSSL := openssl
+OPENSSL := $(shell which openssl 2>/dev/null)
 
-OPENSSL_VERSION := $(shell openssl version | \
-		grep -m1 -o -E '^OpenSSL [0-9]*?.[0-9]*?.[0-9]*?' | \
-		awk '{print $$2}' )
+ifeq (${OPENSSL},)
+  export HAVE_OPENSSL := n
+else
+export HAVE_OPENSSL := y
 
-OPENSSL_VERSION_MAJOR := $(shell echo ${OPENSSL_VERSION} | awk -F '.' '{print $$1}')
-OPENSSL_VERSION_MINOR := $(shell echo ${OPENSSL_VERSION} | awk -F '.' '{print $$2}')
-OPENSSL_VERSION_PATCH := $(shell echo ${OPENSSL_VERSION} | awk -F '.' '{print $$3}')
+include dir.mk
+
+sslversh = ${TOPDIR}/scripts/version/openssl.sh
+
+OPENSSL_VERSION := $(shell ${sslversh})
+OPENSSL_MAJOR := $(shell ${sslversh} --major)
+OPENSSL_MINOR := $(shell ${sslversh} --minor)
+OPENSSL_PATCH := $(shell ${sslversh} --patchlevel)
 
 # $1: output pem file name
 define openssl_genrsa
@@ -23,16 +30,19 @@ ${Q}${OPENSSL} genrsa -out $(1) -3 3072
 endef
 
 ifdef DEBUG
+  $(info HAVE_OPENSSL = ${HAVE_OPENSSL})
   $(info OPENSSL_VERSION ${OPENSSL_VERSION})
-  $(info OPENSSL_VERSION_MAJOR ${OPENSSL_VERSION_MAJOR})
-  $(info OPENSSL_VERSION_MINOR ${OPENSSL_VERSION_MINOR})
-  $(info OPENSSL_VERSION_PATCH ${OPENSSL_VERSION_PATCH})
+  $(info OPENSSL_MAJOR ${OPENSSL_MAJOR})
+  $(info OPENSSL_MINOR ${OPENSSL_MINOR})
+  $(info OPENSSL_PATCH ${OPENSSL_PATCH})
 endif
 
-ifneq (${OPENSSL_VERSION},${OPENSSL_VERSION_MAJOR}.${OPENSSL_VERSION_MINOR}.${OPENSSL_VERSION_PATCH})
-  $(error ${OPENSSL_VERSION} != ${OPENSSL_VERSION_MAJOR}.${OPENSSL_VERSION_MINOR}.${OPENSSL_VERSION_PATCH})
+ifneq (${OPENSSL_VERSION},${OPENSSL_MAJOR}.${OPENSSL_MINOR}.${OPENSSL_PATCH})
+  $(error ${OPENSSL_VERSION} != ${OPENSSL_MAJOR}.${OPENSSL_MINOR}.${OPENSSL_PATCH})
 endif
 
-export OPENSSL_VERSION_MAJOR OPENSSL_VERSION_MINOR OPENSSL_VERSION_PATCH
+export OPENSSL_MAJOR OPENSSL_MINOR OPENSSL_PATCH
+
+endif # end of HAVE_OPENSSL
 
 endif
