@@ -20,10 +20,12 @@ libproc-helpers := libproc_helpers.so.0.1.0
 target-liba-y += libtest-linux-c.a
 target-liba-y += libproc_helpers.a
 target-liba-y += libksym_helpers.a
+target-liba-y += libsocket_helpers.a
 
 target-libso-y += libtest-linux-c.so.0.1
 target-libso-y += ${libproc-helpers}
 target-libso-y += libksym_helpers.so
+target-libso-y += libsocket_helpers.so
 
 target-test-y += test1
 
@@ -47,6 +49,8 @@ libksym_helpers.a-objs := ${OUTPUT}ksym_helpers.a.o
 libksym_helpers.so-objs := ${OUTPUT}ksym_helpers.so.o
 libproc_helpers.a-objs := ${OUTPUT}proc_helpers.a.o
 ${libproc-helpers}-objs := ${OUTPUT}proc_helpers.so.o
+libsocket_helpers.a-objs := ${OUTPUT}socket_helpers.a.o
+libsocket_helpers.so-objs := ${OUTPUT}socket_helpers.so.o
 
 ksym_examples-objs := ${OUTPUT}ksym_helpers.o
 proc_examples-objs := ${libproc-helpers}

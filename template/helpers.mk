@@ -51,7 +51,7 @@ endif
 export C_HELPERS := ${TOPDIR}/libs/libtest-linux-c.${LIB_TYPE}
 export KSYM_HELPERS := ${TOPDIR}/libs/libksym_helpers.${LIB_TYPE}
 export PROC_HELPERS := ${TOPDIR}/libs/libproc_helpers.${LIB_TYPE}
-export SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.${LIB_TYPE}
+export SOCKET_HELPERS := ${TOPDIR}/libs/libsocket_helpers.${LIB_TYPE}
 export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.${LIB_TYPE}
 export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.${LIB_TYPE}
 export MMAP_HELPERS := ${TOPDIR}/syscall/samples/mm/mmap/libmmap_helpers.${LIB_TYPE}

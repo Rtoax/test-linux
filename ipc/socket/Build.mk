@@ -11,9 +11,3 @@ subdir-y += vsock
 subdir-y += ipv6
 
 target-y := sockaddr-size
-
-target-liba-y := libsocket_helpers.a
-target-libso-y := libsocket_helpers.so
-
-libsocket_helpers.a-objs := ${OUTPUT}socket_helpers.a.o
-libsocket_helpers.so-objs := ${OUTPUT}socket_helpers.so.o

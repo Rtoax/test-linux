@@ -38,7 +38,8 @@ int socket_raw(const char *ifname, bool nonblk)
 		sll.sll_ifindex = if_nametoindex(ifname);
 		sll.sll_protocol = htons(ETH_P_ALL);
 		if (bind(sock, (struct sockaddr *)&sll, sizeof(sll)) < 0) {
-			fprintf(stderr, "Failed to bind to %s: %s\n", ifname, strerror(errno));
+			fprintf(stderr, "Failed to bind to %s: %s\n", ifname,
+				strerror(errno));
 			close(sock);
 			return -1;
 		}
