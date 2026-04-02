@@ -14,6 +14,7 @@ subdir-y += version
 target-prog-y := code-count.sh
 target-prog-y += moonlight.sh
 target-prog-y += gotoxy.sh
+target-prog-y += libqemu_examples.sh
 target-prog-y += libso-multiver_examples.sh
 target-prog-y += termplot_examples.sh
 target-prog-y += kconfig_compare.sh
