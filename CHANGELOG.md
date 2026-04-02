@@ -19,6 +19,7 @@ and this project adheres to
 - cestc: add gpuinfo.sh;
 - scripts/version: add capstone.sh, ffmpeg.sh, dracut.sh, ethtool.sh;
 #### Changed
+- move `syscall_helpers.c` to libs;
 - kvm/playground: rename common.c to `kvm_helpers.c`;
 #### Deprecated
 #### Removed

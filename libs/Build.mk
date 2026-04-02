@@ -29,6 +29,7 @@ objs-dynamic += ${OUTPUT}mac.so.o
 objs-dynamic += ${OUTPUT}memshow.so.o
 objs-dynamic += ${OUTPUT}progress.so.o
 objs-dynamic += ${OUTPUT}str.so.o
+objs-dynamic += ${OUTPUT}syscall_helpers.so.o
 objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
 
 libtest-linux-c.a-objs := ${objs-static}

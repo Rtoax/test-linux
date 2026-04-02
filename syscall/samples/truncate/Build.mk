@@ -1,5 +1,7 @@
+include helpers.mk
+
 target-y := truncate
 target-y += ftruncate
 
-truncate-objs := syscall_helpers.o
-ftruncate-objs := syscall_helpers.o
+truncate-objs := ${C_HELPERS}
+ftruncate-objs := ${C_HELPERS}

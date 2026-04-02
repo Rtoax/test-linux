@@ -118,13 +118,6 @@ ifeq ($(shell uname -m),riscv64)
   target-y := $(filter-out getdents, $(target-y))
 endif
 
-target-libso-y += libsyscall_helpers.so
-
-libsyscall_helpers.so-objs := ${OUTPUT}syscall_helpers.so.o
-libsyscall_helpers.so-objs += ${OUTPUT}read/read_helpers.so.o
-
-link-objs := ${OUTPUT}syscall_helpers.o
-
 CFLAGS += -I../../
 CFLAGS += -pthread
 

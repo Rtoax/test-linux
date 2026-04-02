@@ -2,9 +2,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <sys/stat.h>
-
 #include "syscall_helpers.h"
-
 
 int main(int argc, char *argv[])
 {

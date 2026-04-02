@@ -3,14 +3,13 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-#include "syscall_helpers.h"
-
-
 int main(void)
 {
 	int ret;
+	FILE *fp;
 
-	create_file("rong.out", 'a', 0);
+	fp = fopen("rong.out", "w");
+	fclose(fp);
 
 	/* Make hard link (same inode) */
 	ret = link("rong.out", "rong2.out");

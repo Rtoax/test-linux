@@ -1,11 +1,7 @@
-/**
- * More to see truncate(2)
- */
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
-
 #include "syscall_helpers.h"
 
 int main(int argc, char *argv[])
@@ -29,4 +25,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-
