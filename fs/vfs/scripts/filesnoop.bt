@@ -2,5 +2,7 @@
 
 kprobe:vfs_read
 {
-	printf("%-8s %-8s %-8d %-8d\n", comm, str(arg1), arg2, *arg3);
+	$file = (struct file *)arg0;
+	$ino = $file->f_inode->i_ino;
+	printf("%-8s %-8s %-16ld %-8d %-8d\n", comm, str(arg1), $ino, arg2, *arg3);
 }
