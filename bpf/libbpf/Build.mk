@@ -13,12 +13,11 @@ include bpf/iter.mk
 include bpf/libbpf.mk
 include bpf/bpftool.mk
 
-LIBBPF_TRACE_HELPERS := libtrace_helpers.so
 HELPERS := ${OUTPUT}task_helpers.o \
 	${OUTPUT}stack_helpers.o \
 	${OUTPUT}libbpf_wrapper.o \
 	${OUTPUT}libxdp_helpers.o \
-	${LIBBPF_TRACE_HELPERS} \
+	${TRACE_HELPERS} \
 	${SOCKET_HELPERS} \
 	${KSYM_HELPERS}
 
@@ -125,9 +124,6 @@ obj-bpf.o += sched_cls.bpf.o
 obj-bpf.o += sched_act.bpf.o
 
 target-bpf-y := $(addprefix ${OUTPUT},${obj-bpf.o})
-
-target-libso-y := ${LIBBPF_TRACE_HELPERS}
-libtrace_helpers.so-objs := ${OUTPUT}trace_helpers.so.o
 
 target-prep-y += ${HELPERS}
 target-post-y += $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))

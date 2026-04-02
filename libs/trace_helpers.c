@@ -10,12 +10,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
-
 #include "trace_helpers.h"
 
-
-#define TRACEFS_PIPE    "/sys/kernel/tracing/trace_pipe"
-#define DEBUGFS_PIPE    "/sys/kernel/debug/tracing/trace_pipe"
+#define TRACEFS_PIPE "/sys/kernel/tracing/trace_pipe"
+#define DEBUGFS_PIPE "/sys/kernel/debug/tracing/trace_pipe"
 
 static pthread_t thread;
 
@@ -82,7 +80,8 @@ static int read_trace_pipe_cb(int (*cb)(const char *str, void *arg), void *arg)
 				struct signalfd_siginfo fdsi;
 
 				n = read(sfd, &fdsi, sizeof(fdsi));
-				psignal(fdsi.ssi_signo, "read_trace_pipe terminate");
+				psignal(fdsi.ssi_signo,
+					"read_trace_pipe terminate");
 				goto close;
 			}
 		}

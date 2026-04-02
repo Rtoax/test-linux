@@ -19,7 +19,7 @@ and this project adheres to
 - cestc: add gpuinfo.sh;
 - scripts/version: add capstone.sh, ffmpeg.sh, dracut.sh, ethtool.sh;
 #### Changed
-- move `mmap_helpers`, `sched_helpers`, `pthread_helpers`, `socket_helpers`, `proc_helpers`, `ksym_helpers`, `syscall_helpers` to libs;
+- move `trace_helpers`, `mmap_helpers`, `sched_helpers`, `pthread_helpers`, `socket_helpers`, `proc_helpers`, `ksym_helpers`, `syscall_helpers` to libs;
 - kvm/playground: rename common.c to `kvm_helpers.c`;
 #### Deprecated
 #### Removed
