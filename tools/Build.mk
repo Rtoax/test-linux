@@ -3,6 +3,7 @@ subdir-y += code-formatter
 subdir-y += criu
 subdir-y += ffmpeg
 subdir-y += fstabd
+subdir-y += heatmap
 subdir-y += libguestfs
 subdir-y += libosinfo
 subdir-y += lsof

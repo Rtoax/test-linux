@@ -73,8 +73,8 @@ static int addr_node_cmp(const struct addr_node *a, const struct addr_node *b)
 	return 0;
 }
 
-rb_gen(static __unused, addr_, addr_tree, struct addr_node, rb_link_node, addr_node_cmp);
-
+rb_gen(static __unused, addr_, addr_tree, struct addr_node, rb_link_node,
+       addr_node_cmp);
 
 void init_addr_space(struct addr_space *space, unsigned long granularity);
 void insert_addr(struct addr_space *space, unsigned long addr, unsigned long quota);

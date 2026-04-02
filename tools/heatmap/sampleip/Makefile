@@ -2,7 +2,7 @@ ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' | sed 's/aarch64/arm64/')
 
 CFLAGS := -O0 -Wall -g -ggdb
 
-all:
+build:
 	clang -nostdinc -I/usr/include -fno-stack-protector -g \
 		-D__BPF_TRACING__ -Wno-unused-value -Wno-pointer-sign \
 		-D__TARGET_ARCH_$(ARCH) -Wno-compare-distinct-pointer-types \
