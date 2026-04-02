@@ -111,6 +111,7 @@ else
   cuda-cflags += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
   cuda-cflags += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
   cuda-cflags += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
+  cuda-cflags += -I${CUDA_ROOT}/include/
   cuda-cflags += -DHAVE_CUDA=1
 endif
 
