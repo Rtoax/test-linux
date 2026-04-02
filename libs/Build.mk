@@ -13,6 +13,12 @@ target-y += progress
 target-y += str
 target-y += ipaddr
 target-y += ksym_examples
+target-y += proc_examples
+
+libproc-helpers := libproc_helpers.so.0.1.0
+
+target-liba-y += libproc_helpers.a
+target-libso-y += ${libproc-helpers}
 
 target-libso-y += libtest-linux-c.so.0.1
 target-liba-y += libtest-linux-c.a
@@ -36,7 +42,11 @@ objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
 
 libtest-linux-c.a-objs := ${objs-static}
 libtest-linux-c.so.0.1-objs := ${objs-dynamic}
+libproc_helpers.a-objs := ${OUTPUT}proc_helpers.a.o
+${libproc-helpers}-objs := ${OUTPUT}proc_helpers.so.o
+
 ksym_examples-objs := ${OUTPUT}ksym_helpers.o
+proc_examples-objs := ${libproc-helpers}
 
 CFLAGS += -DTEST_MAIN=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)
@@ -48,3 +58,5 @@ ifdef LINK_LIB
   CFLAGS += -ltest-linux-c
   LDFLAGS += libtest-linux-c.so.0.1
 endif
+
+LDFLAGS_SO_${libproc-helpers} := -Wl,--version-script=proc_helpers.map

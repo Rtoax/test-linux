@@ -48,7 +48,7 @@ else
 endif
 
 export C_HELPERS := ${TOPDIR}/libs/libtest-linux-c.${LIB_TYPE}
-export PROC_HELPERS := ${TOPDIR}/fs/procfs/libproc_helpers.${LIB_TYPE}
+export PROC_HELPERS := ${TOPDIR}/libs/libproc_helpers.${LIB_TYPE}
 export SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.${LIB_TYPE}
 export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.${LIB_TYPE}
 export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.${LIB_TYPE}
@@ -65,7 +65,6 @@ export BPF_INSN_SAMPLES := ${TOPDIR}/bpf/insn/samples/libbpf_insn_samples.${LIB_
 
 export ALL_HELPERS := \
 		${C_HELPERS} \
-		${PROC_HELPERS} \
 		${SOCKET_HELPERS} \
 		${PTHREAD_HELPERS} \
 		${SCHED_HELPERS} \
