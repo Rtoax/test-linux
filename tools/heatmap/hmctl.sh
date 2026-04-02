@@ -316,11 +316,11 @@ __sampleip__()
 	[[ -z ${output_txt} ]] && echo "ERROR: Must specify output txt" && exit 1
 	[[ -e ${output_txt} ]] && echo "ERROR: ${output_txt} is already exist" && exit 1
 
-	make -C $HEATMAP_ROOT_DIRECTORY/src/sampleip/ 2>&1 >/dev/null
+	make -C $HEATMAP_ROOT_DIRECTORY/sampleip/ 2>&1 >/dev/null
 
 	echo "Start sampling... (freq ${sample_freq}Hz, ${sample_secs}s)"
 
-	sudo $HEATMAP_ROOT_DIRECTORY/src/sampleip/sampleip \
+	sudo $HEATMAP_ROOT_DIRECTORY/sampleip/sampleip \
 		${sample_user:+-u} \
 		${sample_kern:+-k} \
 		${sample_freq:+-F ${sample_freq}} \
