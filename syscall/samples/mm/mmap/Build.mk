@@ -1,4 +1,5 @@
 include kconfig.mk
+include helpers.mk
 
 target-y += msync
 target-y += fexecve
@@ -9,12 +10,7 @@ target-y += get_unmapped_page
 target-y += mmap-multi-thread-copy
 target-y += mmap-exec
 
-target-libso-y := libmmap_helpers.so
-target-liba-y := libmmap_helpers.a
-
-libmmap_helpers.a-objs := ${OUTPUT}mmap_helpers.a.o
-libmmap_helpers.so-objs := ${OUTPUT}mmap_helpers.so.o
-get_unmapped_page-objs := libmmap_helpers.a
+get_unmapped_page-objs := ${MMAP_HELPERS}
 
 CFLAGS := -pthread
 CFLAGS += -lrt

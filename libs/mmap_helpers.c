@@ -17,14 +17,13 @@
 #include <sys/stat.h>
 #include <sys/syscall.h>
 #include <linux/mman.h> /* for hugetlb-related flags */
-
 #include "mmap_helpers.h"
-
 
 void *sys_mmap(void *addr, size_t length, int prot, int flags, int fd,
 	       off_t offset)
 {
-	return (void *)syscall(__NR_mmap, addr, length, prot, flags, fd, offset);
+	return (void *)syscall(__NR_mmap, addr, length, prot, flags, fd,
+			       offset);
 }
 
 void *sys_munmap(void *addr, size_t length)
@@ -38,7 +37,7 @@ void *sys_munmap(void *addr, size_t length)
  */
 void *map_shared_memory(const char *filename, const size_t mem_size, int flags)
 {
-	void *retval;
+	void *p;
 	int fd = open(filename, flags, 0600);
 	if (fd < 0)
 		return NULL;
@@ -46,10 +45,9 @@ void *map_shared_memory(const char *filename, const size_t mem_size, int flags)
 		close(fd);
 		return NULL;
 	}
-	retval = mmap(NULL, mem_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
-		      0);
+	p = mmap(NULL, mem_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 	close(fd);
-	return retval;
+	return p;
 }
 
 void *open_shared_memory(const char *filename, const size_t mem_size)
@@ -61,4 +59,3 @@ void *create_shared_memory(const char *filename, const size_t mem_size)
 {
 	return map_shared_memory(filename, mem_size, O_RDWR | O_CREAT);
 }
-

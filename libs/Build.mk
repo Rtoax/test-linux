@@ -23,6 +23,7 @@ target-liba-y += libksym_helpers.a
 target-liba-y += libsocket_helpers.a
 target-liba-y += libpthread_helpers.a
 target-liba-y += libsched_helpers.a
+target-liba-y += libmmap_helpers.a
 
 target-libso-y += libtest-linux-c.so.0.1
 target-libso-y += ${libproc-helpers}
@@ -30,6 +31,7 @@ target-libso-y += libksym_helpers.so
 target-libso-y += libsocket_helpers.so
 target-libso-y += libpthread_helpers.so
 target-libso-y += libsched_helpers.so
+target-libso-y += libmmap_helpers.so
 
 target-test-y += test1
 
@@ -59,6 +61,8 @@ libpthread_helpers.a-objs := ${OUTPUT}pthread_helpers.a.o
 libpthread_helpers.so-objs := ${OUTPUT}pthread_helpers.so.o
 libsched_helpers.a-objs := ${OUTPUT}sched_helpers.a.o
 libsched_helpers.so-objs := ${OUTPUT}sched_helpers.so.o
+libmmap_helpers.a-objs := ${OUTPUT}mmap_helpers.a.o
+libmmap_helpers.so-objs := ${OUTPUT}mmap_helpers.so.o
 
 ksym_examples-objs := ${OUTPUT}ksym_helpers.o
 proc_examples-objs := ${libproc-helpers}
