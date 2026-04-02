@@ -1004,4 +1004,3 @@ a_prefix##destroy(a_rbt_type *rbtree, void (*cb)(a_type *, void *),	\
 }
 
 #endif /* RB_H_ */
-

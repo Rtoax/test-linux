@@ -19,7 +19,6 @@
 #include <addr.h>
 #include <common.h>
 
-
 struct addr_node *get_addr_node(addr_tree *tree, unsigned long addr);
 
 void init_addr_space(struct addr_space *space, unsigned long granularity)
@@ -261,4 +260,3 @@ unsigned long strtoaddr(const char *s)
 
 	return 0;
 }
-

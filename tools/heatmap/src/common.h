@@ -54,19 +54,8 @@ static const char *const ANSI_COLORS_GRAY[] = {
 static const char *const ANSI_COLORS_RESET = "\033[0m";
 #define NR_ANSI ARRAY_SIZE(ANSI_COLORS_GRAY)
 
-static const char *ansi_text[] = {
-	" ",
-	" ",
-	".",
-	".",
-	"*",
-	"*",
-	"o",
-	"o",
-	"O",
-	"O",
-	"#",
-	"#",
+static const char __attribute__((unused)) * ansi_text[] = {
+	" ", " ", ".", ".", "*", "*", "o", "o", "O", "O", "#", "#",
 };
 
 unsigned long power_of_2(unsigned long v);

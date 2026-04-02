@@ -20,7 +20,6 @@ void print_ansi(void)
 }
 
 #if TEST
-
 void round(void)
 {
 	int i;

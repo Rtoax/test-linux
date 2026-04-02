@@ -1,5 +1,4 @@
 #pragma once
-
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/select.h>
@@ -18,7 +17,6 @@
 #include <assert.h>
 #include <rb.h>
 #include <common.h>
-
 
 struct addr_node {
 	/* [start, end) */
@@ -90,4 +88,3 @@ void addr_normalization(struct addr_space *space,
 		unsigned long min, unsigned long max);
 
 unsigned long strtoaddr(const char *s);
-
