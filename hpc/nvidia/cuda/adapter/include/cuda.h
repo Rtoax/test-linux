@@ -648,4 +648,49 @@
 #define CU_DEVICE_ATTRIBUTE_MAX \
 	CUX(_DEVICE_ATTRIBUTE_MAX)
 
+/**
+ * CUresult cuMemGetAllocationGranularity(size_t *granularity,
+ *                                        const CUmemAllocationProp *prop,
+ *                                        CUmemAllocationGranularity_flags option);
+ *
+ * lcError_t lcMemGetAllocationGranularity(size_t *granularity,
+ *                                         const lcMemAllocationProp *prop,
+ *                                         lcMemAllocationGranularity_flags option);
+ *
+ * hipError_t hipMemGetAllocationGranularity(size_t* granularity,
+ *                                           const hipMemAllocationProp* prop,
+ *                                           hipMemAllocationGranularity_flags option);
+ */
+#define CUmemAllocationProp cuX(MemAllocationProp) /* struct */
+#define CUmemAllocationType cuX(MemAllocationType) /* enum */
+#define CU_MEM_ALLOCATION_TYPE_INVALID cuX(MemAllocationTypeInvalid) /* 0x0 */
+#define CU_MEM_ALLOCATION_TYPE_PINNED cuX(MemAllocationTypePinned) /* 0x1 */
+#define CU_MEM_ALLOCATION_TYPE_MANAGED 0x2 /* TODO */
+#define CU_MEM_ALLOCATION_TYPE_MAX cuX(MemAllocationTypeMax) /* 0x7FFFFFFF */
+#define CUmemAllocationHandleType cuX(MemAllocationHandleType) /* enum */
+#define CU_MEM_HANDLE_TYPE_NONE cuX(MemHandleTypeNone) /* 0x0 */
+#define CU_MEM_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR \
+	cuX(MemHandleTypePosixFileDescriptor) /* 0x1 */
+#define CU_MEM_HANDLE_TYPE_WIN32 cuX(MemHandleTypeWin32)
+#define CU_MEM_HANDLE_TYPE_WIN32_KMT cuX(MemHandleTypeWin32Kmt)
+#define CU_MEM_HANDLE_TYPE_FABRIC 0x8 /* TODO */
+#define CU_MEM_HANDLE_TYPE_MAX cuX(MemHandleTypeMax)
+#define CUmemLocation cuX(MemLocation) /* struct */
+#define CUmemLocationType cuX(MemLocationType) /* enum */
+#define CU_MEM_LOCATION_TYPE_INVALID cuX(MemLocationTypeInvalid)
+#define CU_MEM_LOCATION_TYPE_NONE cuX(MemLocationTypeInvalid)
+#define CU_MEM_LOCATION_TYPE_DEVICE cuX(MemLocationTypeDevice)
+#define CU_MEM_LOCATION_TYPE_HOST 0x2 /* TODO */
+#define CU_MEM_LOCATION_TYPE_HOST_NUMA 0x3 /* TODO */
+#define CU_MEM_LOCATION_TYPE_HOST_NUMA_CURRENT 0x4 /* TODO */
+#define CU_MEM_LOCATION_TYPE_MAX cuX(MemLocationTypeMax)
+#define CUmemAllocationGranularity_flags \
+	cuX(MemAllocationGranularity_flags) /* enum */
+#define CU_MEM_ALLOC_GRANULARITY_MINIMUM CUX(_MEM_ALLOC_GRANULARITY_MINIMUM)
+#define CU_MEM_ALLOC_GRANULARITY_RECOMMENDED \
+	CUX(_MEM_ALLOC_GRANULARITY_RECOMMENDED)
+#define CUmemAllocationGranularity_flags \
+	cuX(MemAllocationGranularity_flags) /* enum */
+#define cuMemGetAllocationGranularity cuX(MemGetAllocationGranularity)
+
 #endif
