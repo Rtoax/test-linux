@@ -2,6 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #include <stdio.h>
 #include <cuda_runtime.h>
+#include "cuda_helpers.h"
 
 #define KiB 1024
 #define MiB (KiB * 1024)
@@ -20,7 +21,7 @@ int main(void)
 
 	for (;;) {
 		size_t blksz = MiB;
-		cudaMalloc(&mem, blksz);
+		CUDA_RUNTIME_CHECK(cudaMalloc(&mem, blksz), break);
 		kern_pagefault<<<1, 1, 0>>>(mem, blksz);
 		total += blksz;
 		printf("Alloc %ld B, %ld MiB, %ld GiB\n", total, total / MiB,
