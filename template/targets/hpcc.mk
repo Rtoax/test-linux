@@ -37,6 +37,7 @@ cflags-htcc-so := -Xcompiler -fPIC
 ldflags-htcc-so := -shared -Xcompiler -fPIC
 
 
+CFLAGS_HTCC += -I${TOPDIR}/libs/
 CFLAGS_HTCC += -I${TOPDIR}/hpc/nvidia/cuda/
 CFLAGS_HTCC += -I${TOPDIR}/hpc/nvidia/cuda/adapter/include/
 CFLAGS_HTCC += -DHAVE_HPCC=1

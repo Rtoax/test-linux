@@ -37,6 +37,7 @@ cflags-lscc-fatbin := -fatbin
 cflags-lscc-so := -Xcompiler -fPIC
 ldflags-lscc-so := -shared -Xcompiler -fPIC
 
+CFLAGS_LSCC += -I${TOPDIR}/libs/
 CFLAGS_LSCC += -I${TOPDIR}/hpc/nvidia/cuda/
 CFLAGS_LSCC += -I${TOPDIR}/hpc/nvidia/cuda/adapter/include/
 CFLAGS_LSCC += -DHAVE_LUCA=1

@@ -57,12 +57,12 @@ export SCHED_HELPERS := ${TOPDIR}/libs/libsched_helpers.${LIB_TYPE}
 export MMAP_HELPERS := ${TOPDIR}/libs/libmmap_helpers.${LIB_TYPE}
 export OOM_HELPERS := ${TOPDIR}/libs/liboom_helpers.${LIB_TYPE}
 export TRACE_HELPERS := ${TOPDIR}/libs/libtrace_helpers.${LIB_TYPE}
-export CUDA_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libcuda_helper.${LIB_TYPE}
-export HIP_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libhip_helper.${LIB_TYPE}
-export LUCA_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libluca_helper.${LIB_TYPE}
-export HPCC_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libhpcc_helper.${LIB_TYPE}
 export BPF_HELPERS := ${TOPDIR}/libs/libbpf_helpers.${LIB_TYPE}
 export BTF_HELPERS := ${TOPDIR}/libs/libbtf_helpers.${LIB_TYPE}
+export CUDA_HELPERS := ${TOPDIR}/libs/libcuda_helpers.${LIB_TYPE}
+export HIP_HELPERS := ${TOPDIR}/libs/libhip_helpers.${LIB_TYPE}
+export LUCA_HELPERS := ${TOPDIR}/libs/libluca_helpers.${LIB_TYPE}
+export HPCC_HELPERS := ${TOPDIR}/libs/libhpcc_helpers.${LIB_TYPE}
 export BPF_INSN_SAMPLES := ${TOPDIR}/bpf/insn/samples/libbpf_insn_samples.${LIB_TYPE}
 
 export ALL_HELPERS := \

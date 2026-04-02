@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 include kconfig.mk
+include nvidia/cuda.mk
+include amd/rocm.mk
+include metax/hpcc.mk
+include cestc/luca.mk
 
 target-y += byteswap
 target-y += endian
@@ -41,6 +45,15 @@ target-libso-y += liboom_helpers.so
 target-libso-y += libbpf_helpers.so
 target-libso-y += libbtf_helpers.so
 
+target-nvcc-libso-${HAVE_CUDA} := libcuda_helpers.so
+target-nvcc-liba-${HAVE_CUDA} := libcuda_helpers.a
+target-hipcc-libso-${HAVE_HIP} := libhip_helpers.so
+target-hipcc-liba-${HAVE_HIP} := libhip_helpers.a
+target-htcc-libso-${HAVE_HPCC} := libhpcc_helpers.so
+target-htcc-liba-${HAVE_HPCC} := libhpcc_helpers.a
+target-lscc-libso-${HAVE_LUCA} := libluca_helpers.so
+target-lscc-liba-${HAVE_LUCA} := libluca_helpers.a
+
 target-test-y += test1
 
 objs-dynamic += ${OUTPUT}byteswap.so.o
@@ -79,6 +92,14 @@ libbpf_helpers.a-objs := ${OUTPUT}bpf_helpers.a.o
 libbpf_helpers.so-objs := ${OUTPUT}bpf_helpers.so.o
 libbtf_helpers.a-objs := ${OUTPUT}btf_helpers.a.o
 libbtf_helpers.so-objs := ${OUTPUT}btf_helpers.so.o
+libcuda_helpers.so-objs := $(OUTPUT)cuda_helpers.cu.so.o
+libcuda_helpers.a-objs := $(OUTPUT)cuda_helpers.cu.a.o
+libhip_helpers.so-objs := $(OUTPUT)cuda_helpers.hip.so.o
+libhip_helpers.a-objs := $(OUTPUT)cuda_helpers.hip.a.o
+libluca_helpers.so-objs := $(OUTPUT)cuda_helpers.luca.so.o
+libluca_helpers.a-objs := $(OUTPUT)cuda_helpers.luca.a.o
+libhpcc_helpers.so-objs := $(OUTPUT)cuda_helpers.hpcc.so.o
+libhpcc_helpers.a-objs := $(OUTPUT)cuda_helpers.hpcc.a.o
 
 ksym_examples-objs := ${OUTPUT}ksym_helpers.o
 proc_examples-objs := ${OUTPUT}proc_helpers.o

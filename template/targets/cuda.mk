@@ -39,6 +39,7 @@ ldflags-nvcc-so := -shared -Xcompiler -fPIC
 
 CFLAGS_NVCC += ${cuda-cflags}
 CFLAGS_NVCC += ${nccl-cflags}
+CFLAGS_NVCC += -I${TOPDIR}/libs/
 CFLAGS_NVCC += -I${TOPDIR}/hpc/nvidia/cuda/
 
 ifeq (${HAVE_NVIDIA_GPU},y)

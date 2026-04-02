@@ -33,6 +33,7 @@ include string.mk
 cflags-hipcc-so := -Xcompiler -fPIC
 ldflags-hipcc-so := -shared -Xcompiler -fPIC
 
+CFLAGS_HIPCC += -I${TOPDIR}/libs/
 CFLAGS_HIPCC += -I${TOPDIR}/hpc/nvidia/cuda/
 CFLAGS_HIPCC += -I${TOPDIR}/hpc/nvidia/cuda/adapter/include/
 CFLAGS_HIPCC += -DHAVE_HIP=1

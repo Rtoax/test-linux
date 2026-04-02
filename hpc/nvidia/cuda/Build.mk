@@ -17,21 +17,3 @@ subdir-y += solver
 subdir-y += vpu
 subdir-y += intrinsics
 subdir-y += fakeCUDA
-
-target-nvcc-libso-${HAVE_CUDA} := libcuda_helper.so
-target-nvcc-liba-${HAVE_CUDA} := libcuda_helper.a
-target-hipcc-libso-${HAVE_HIP} := libhip_helper.so
-target-hipcc-liba-${HAVE_HIP} := libhip_helper.a
-target-htcc-libso-${HAVE_HPCC} := libhpcc_helper.so
-target-htcc-liba-${HAVE_HPCC} := libhpcc_helper.a
-target-lscc-libso-${HAVE_LUCA} := libluca_helper.so
-target-lscc-liba-${HAVE_LUCA} := libluca_helper.a
-
-libcuda_helper.so-objs := $(OUTPUT)cuda_helpers.cu.so.o
-libcuda_helper.a-objs := $(OUTPUT)cuda_helpers.cu.a.o
-libhip_helper.so-objs := $(OUTPUT)cuda_helpers.hip.so.o
-libhip_helper.a-objs := $(OUTPUT)cuda_helpers.hip.a.o
-libluca_helper.so-objs := $(OUTPUT)cuda_helpers.luca.so.o
-libluca_helper.a-objs := $(OUTPUT)cuda_helpers.luca.a.o
-libhpcc_helper.so-objs := $(OUTPUT)cuda_helpers.hpcc.so.o
-libhpcc_helper.a-objs := $(OUTPUT)cuda_helpers.hpcc.a.o
