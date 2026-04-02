@@ -4,7 +4,7 @@
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
-void runtime_attr(int dev)
+void runtime_device_attr(int dev)
 {
 	int value;
 #define Attr(attr) do {	\
@@ -230,9 +230,10 @@ void runtime_attr(int dev)
 #if !defined(__NVCC__) && !defined(__HIPCC__)
 	Attr(cudaDevAttrWaveSize);
 #endif
+#undef Attr
 }
 
-void dev_attr(int dev)
+void device_attr(int dev)
 {
 	int value;
 	/**
@@ -244,6 +245,34 @@ void dev_attr(int dev)
 		&value, CU_DEVICE_ATTRIBUTE_GENERIC_COMPRESSION_SUPPORTED, dev);
 	printf("CU_DEVICE_ATTRIBUTE_GENERIC_COMPRESSION_SUPPORTED %d\n", value);
 #endif
+}
+
+void runtime_mem_attr(int dev)
+{
+	// TODO
+	// cudaMemRangeGetAttribute();
+}
+
+void mem_attr(int dev)
+{
+	CUmemAllocationProp prop;
+	prop.type = CU_MEM_ALLOCATION_TYPE_PINNED;
+	prop.location.type = CU_MEM_LOCATION_TYPE_DEVICE;
+	prop.location.id = dev;
+
+	size_t minGranularity;
+	size_t recommendedGranularity;
+
+	cuMemGetAllocationGranularity(&minGranularity, &prop,
+				      CU_MEM_ALLOC_GRANULARITY_MINIMUM);
+
+	cuMemGetAllocationGranularity(&recommendedGranularity, &prop,
+				      CU_MEM_ALLOC_GRANULARITY_RECOMMENDED);
+
+	printf("CU_MEM_ALLOC_GRANULARITY_MINIMUM = %ld (%ld MiB)\n",
+	       minGranularity, minGranularity / (1024 * 1024));
+	printf("CU_MEM_ALLOC_GRANULARITY_RECOMMENDED = %ld (%ld MiB)\n",
+	       recommendedGranularity, recommendedGranularity / (1024 * 1024));
 }
 
 int main(int argc, char *argv[])
@@ -264,8 +293,11 @@ int main(int argc, char *argv[])
 
 	gpu_init(dev);
 
-	runtime_attr(dev);
-	dev_attr(dev);
+	runtime_device_attr(dev);
+	device_attr(dev);
+
+	runtime_mem_attr(dev);
+	mem_attr(dev);
 
 	return 0;
 }
