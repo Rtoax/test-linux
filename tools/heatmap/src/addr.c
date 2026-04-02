@@ -178,10 +178,11 @@ void plot_space(FILE *fp, struct addr_space *space, unsigned long col,
 
 
 	/* | | | */
-	fprintf(std, "%16s [[Address vs. Quota logf() plot]]\n", "");
+	fprintf(std, "  %16s [[Address vs. Quota logf() plot]]\n", "");
 	fprintf(std, "\n");
-	fprintf(std, "%16s |<----->| = %#0lx bytes\n", "", 8 * space->granularity);
-	fprintf(std, "%16s ", "");
+	fprintf(std, "  %16s |<----->| = %#0lx bytes\n", "",
+		8 * space->granularity);
+	fprintf(std, "  %16s ", "");
 	for (icol = 0, igran = 0; icol <= col;
 		igran += space->granularity, icol++) {
 
@@ -228,7 +229,7 @@ void plot_space(FILE *fp, struct addr_space *space, unsigned long col,
 		}
 
 		if (icol % col == 1) {
-			fprintf(std, "%#016lx ", addr);
+			fprintf(std, "%#018lx ", addr);
 		}
 
 		if (text_only)
