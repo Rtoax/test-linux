@@ -4,7 +4,6 @@
 #include <assert.h>
 #include <string.h>
 #include <sys/types.h>
-
 #include "c_helpers.h"
 
 void *alloc_mem_internal(void **ptr, size_t size)

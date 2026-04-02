@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
 #include "wait_helpers.h"
 
 void print_wstatus(int status)

@@ -3,7 +3,6 @@ include kernel.mk
 ifndef NO_PAHOLE
   include pahole.mk
 endif
-
 include kconfig.mk
 include helpers.mk
 include bpf/bpf.mk
@@ -21,7 +20,7 @@ HELPERS := ${OUTPUT}task_helpers.o \
 	${OUTPUT}libxdp_helpers.o \
 	${LIBBPF_TRACE_HELPERS} \
 	${SOCKET_HELPERS} \
-	${KSYM_HELPERS}
+	${C_HELPERS}
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep -w 't do_execveat_common' /proc/kallsyms \
 			| grep -v cold \

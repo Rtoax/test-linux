@@ -18,7 +18,6 @@
 # - MMAP_HELPERS
 # - OOM_HELPERS
 # - TRACE_HELPERS
-# - KSYM_HELPERS
 # - CUDA_HELPERS
 # - HIP_HELPERS
 # - LUCA_HELPERS
@@ -56,7 +55,6 @@ export SCHED_HELPERS := ${TOPDIR}/syscall/samples/sched/libsched_helpers.${LIB_T
 export MMAP_HELPERS := ${TOPDIR}/syscall/samples/mm/mmap/libmmap_helpers.${LIB_TYPE}
 export OOM_HELPERS := ${TOPDIR}/mm/oom/liboom_helpers.${LIB_TYPE}
 export TRACE_HELPERS := ${TOPDIR}/bpf/libbpf/libtrace_helpers.${LIB_TYPE}
-export KSYM_HELPERS := ${TOPDIR}/fs/procfs/kallsyms/libksym_helpers.${LIB_TYPE}
 export CUDA_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libcuda_helper.${LIB_TYPE}
 export HIP_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libhip_helper.${LIB_TYPE}
 export LUCA_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libluca_helper.${LIB_TYPE}
@@ -74,7 +72,6 @@ export ALL_HELPERS := \
 		${MMAP_HELPERS} \
 		${OOM_HELPERS} \
 		${TRACE_HELPERS} \
-		${KSYM_HELPERS} \
 		${CUDA_HELPERS} \
 		${HIP_HELPERS} \
 		${LUCA_HELPERS} \
@@ -122,7 +119,6 @@ ifdef DEBUG
   $(info MMAP_HELPERS = ${MMAP_HELPERS})
   $(info OOM_HELPERS = ${OOM_HELPERS})
   $(info TRACE_HELPERS = ${TRACE_HELPERS})
-  $(info KSYM_HELPERS = ${KSYM_HELPERS})
   $(info CUDA_HELPERS = ${CUDA_HELPERS})
   $(info HIP_HELPERS = ${HIP_HELPERS})
   $(info LUCA_HELPERS = ${LUCA_HELPERS})

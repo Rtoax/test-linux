@@ -12,6 +12,7 @@ target-y += mac
 target-y += progress
 target-y += str
 target-y += ipaddr
+target-y += ksym_examples
 
 target-libso-y += libtest-linux-c.so.0.1
 target-liba-y += libtest-linux-c.a
@@ -22,6 +23,7 @@ objs-dynamic += ${OUTPUT}byteswap.so.o
 objs-dynamic += ${OUTPUT}endian.so.o
 objs-dynamic += ${OUTPUT}fd.so.o
 objs-dynamic += ${OUTPUT}file.so.o
+objs-dynamic += ${OUTPUT}ksym_helpers.so.o
 objs-dynamic += ${OUTPUT}log.so.o
 objs-dynamic += ${OUTPUT}ipaddr.so.o
 objs-dynamic += ${OUTPUT}readline.so.o
@@ -34,6 +36,7 @@ objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
 
 libtest-linux-c.a-objs := ${objs-static}
 libtest-linux-c.so.0.1-objs := ${objs-dynamic}
+ksym_examples-objs := ${OUTPUT}ksym_helpers.o
 
 CFLAGS += -DTEST_MAIN=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)

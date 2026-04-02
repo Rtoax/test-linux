@@ -11,11 +11,9 @@
 #include <sys/mman.h>
 #include <sys/time.h>
 #include <setjmp.h>
-
 #include "proc_helpers.h"
 
-
-#define JMP_SKIP	12
+#define JMP_SKIP 12
 
 jmp_buf vdso_segv_jmp;
 
@@ -153,4 +151,3 @@ skip_call_vdso:
 
 	return 0;
 }
-
