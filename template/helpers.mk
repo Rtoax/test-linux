@@ -61,7 +61,7 @@ export CUDA_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libcuda_helper.${LIB_TYPE}
 export HIP_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libhip_helper.${LIB_TYPE}
 export LUCA_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libluca_helper.${LIB_TYPE}
 export HPCC_HELPERS := ${TOPDIR}/hpc/nvidia/cuda/libhpcc_helper.${LIB_TYPE}
-export BPF_HELPERS := ${TOPDIR}/syscall/samples/bpf/libbpf_helpers.${LIB_TYPE}
+export BPF_HELPERS := ${TOPDIR}/libs/libbpf_helpers.${LIB_TYPE}
 export BTF_HELPERS := ${TOPDIR}/bpf/btf/libbtf_helpers.${LIB_TYPE}
 export BPF_INSN_SAMPLES := ${TOPDIR}/bpf/insn/samples/libbpf_insn_samples.${LIB_TYPE}
 
