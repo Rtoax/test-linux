@@ -13,6 +13,7 @@ subdir-y += ostree
 subdir-y += perf
 subdir-y += podman
 subdir-y += psmisc
+subdir-y += readline
 subdir-y += redis
 subdir-y += util-linux
 subdir-y += vim

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <stdio.h>
 #include <errno.h>
 #include <sys/types.h>
@@ -32,4 +31,3 @@
 	} while (0)
 
 #define debug() fprintf(stdout, "[%s:%s %d]\n", __FILE__, __func__, __LINE__)
-

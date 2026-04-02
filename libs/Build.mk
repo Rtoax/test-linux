@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include kconfig.mk
 
-subdir-y := readline
-
 target-y += byteswap
 target-y += endian
 target-y += file
@@ -18,11 +16,18 @@ target-y += ipaddr
 target-libso-y += libtest-linux-c.so.0.1
 target-liba-y += libtest-linux-c.a
 
-target-post-y += post1
+target-test-y += test1
 
-objs-dynamic := ${OUTPUT}ipaddr.so.o
+objs-dynamic += ${OUTPUT}byteswap.so.o
+objs-dynamic += ${OUTPUT}endian.so.o
+objs-dynamic += ${OUTPUT}fd.so.o
+objs-dynamic += ${OUTPUT}file.so.o
+objs-dynamic += ${OUTPUT}log.so.o
+objs-dynamic += ${OUTPUT}ipaddr.so.o
 objs-dynamic += ${OUTPUT}readline.so.o
+objs-dynamic += ${OUTPUT}mac.so.o
 objs-dynamic += ${OUTPUT}memshow.so.o
+objs-dynamic += ${OUTPUT}progress.so.o
 objs-dynamic += ${OUTPUT}str.so.o
 objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
 

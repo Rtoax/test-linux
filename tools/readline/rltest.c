@@ -4,7 +4,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-
 int main(void)
 {
 	char *temp, *prompt;
@@ -38,7 +37,8 @@ int main(void)
 			list = history_list();
 			if (list) {
 				for (i = 0; list[i]; i++)
-					fprintf(stderr, "%d: %s\r\n", i, list[i]->line);
+					fprintf(stderr, "%d: %s\r\n", i,
+						list[i]->line);
 			}
 		}
 		free(temp);

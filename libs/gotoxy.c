@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
-
 #include "gotoxy.h"
 
 #define WHITE	7
@@ -52,10 +51,10 @@ int main(void)
 
 	for (i = 0; i < ARRAY_SIZE(colors); i++) {
 		for (bnd = 4; bnd < MIN(row, col) / 2; bnd += 2) {
-			fang(row, col, bnd, colors[i], 10);
+			fang(row, col, bnd, colors[i], 1);
 		}
 		for (bnd = MIN(row, col) / 2; bnd > 2; bnd -= 2) {
-			fang(row, col, bnd, colors[i], 10);
+			fang(row, col, bnd, colors[i], 1);
 		}
 	}
 

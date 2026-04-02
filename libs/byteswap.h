@@ -1,5 +1,4 @@
 #pragma once
-
 #include <stdint.h>
 
 /* see /usr/include/linux/swab.h */
