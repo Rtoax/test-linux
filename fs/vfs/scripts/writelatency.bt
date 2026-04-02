@@ -1,6 +1,6 @@
 #!/bin/env bpftrace
 /**
- * vfs_write.bt - Tracing vfs_write latency
+ * writelatency.bt - Tracing vfs_write latency
  *
  * Copyright (C) Rong Tao 2024
  *
