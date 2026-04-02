@@ -17,11 +17,13 @@ target-y += proc_examples
 
 libproc-helpers := libproc_helpers.so.0.1.0
 
+target-liba-y += libtest-linux-c.a
 target-liba-y += libproc_helpers.a
-target-libso-y += ${libproc-helpers}
+target-liba-y += libksym_helpers.a
 
 target-libso-y += libtest-linux-c.so.0.1
-target-liba-y += libtest-linux-c.a
+target-libso-y += ${libproc-helpers}
+target-libso-y += libksym_helpers.so
 
 target-test-y += test1
 
@@ -29,7 +31,6 @@ objs-dynamic += ${OUTPUT}byteswap.so.o
 objs-dynamic += ${OUTPUT}endian.so.o
 objs-dynamic += ${OUTPUT}fd.so.o
 objs-dynamic += ${OUTPUT}file.so.o
-objs-dynamic += ${OUTPUT}ksym_helpers.so.o
 objs-dynamic += ${OUTPUT}log.so.o
 objs-dynamic += ${OUTPUT}ipaddr.so.o
 objs-dynamic += ${OUTPUT}readline.so.o
@@ -42,6 +43,8 @@ objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
 
 libtest-linux-c.a-objs := ${objs-static}
 libtest-linux-c.so.0.1-objs := ${objs-dynamic}
+libksym_helpers.a-objs := ${OUTPUT}ksym_helpers.a.o
+libksym_helpers.so-objs := ${OUTPUT}ksym_helpers.so.o
 libproc_helpers.a-objs := ${OUTPUT}proc_helpers.a.o
 ${libproc-helpers}-objs := ${OUTPUT}proc_helpers.so.o
 

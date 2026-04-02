@@ -19,6 +19,7 @@ _TARGET_HELPERS_MK = 1
 include helpers.mk
 
 $(eval $(call add_helper_target,${C_HELPERS}))
+$(eval $(call add_helper_target,${KSYM_HELPERS}))
 $(eval $(call add_helper_target,${PROC_HELPERS}))
 $(eval $(call add_helper_target,${SOCKET_HELPERS}))
 $(eval $(call add_helper_target,${PTHREAD_HELPERS}))

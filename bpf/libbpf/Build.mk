@@ -20,7 +20,7 @@ HELPERS := ${OUTPUT}task_helpers.o \
 	${OUTPUT}libxdp_helpers.o \
 	${LIBBPF_TRACE_HELPERS} \
 	${SOCKET_HELPERS} \
-	${C_HELPERS}
+	${KSYM_HELPERS}
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep -w 't do_execveat_common' /proc/kallsyms \
 			| grep -v cold \

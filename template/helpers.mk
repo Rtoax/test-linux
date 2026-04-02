@@ -11,6 +11,7 @@
 # Output definitions:
 # - helpers-cflags=
 # - helpers-ldflags=
+# - KSYM_HELPERS
 # - PROC_HELPERS
 # - SOCKET_HELPERS
 # - PTHREAD_HELPERS
@@ -48,6 +49,7 @@ else
 endif
 
 export C_HELPERS := ${TOPDIR}/libs/libtest-linux-c.${LIB_TYPE}
+export KSYM_HELPERS := ${TOPDIR}/libs/libksym_helpers.${LIB_TYPE}
 export PROC_HELPERS := ${TOPDIR}/libs/libproc_helpers.${LIB_TYPE}
 export SOCKET_HELPERS := ${TOPDIR}/ipc/socket/libsocket_helpers.${LIB_TYPE}
 export PTHREAD_HELPERS := ${TOPDIR}/glibc/pthread/libpthread_helpers.${LIB_TYPE}
@@ -111,6 +113,7 @@ endef
 ifdef DEBUG
   $(info ALL_HELPERS = ${ALL_HELPERS})
   $(info C_HELPERS = ${C_HELPERS})
+  $(info KSYM_HELPERS = ${KSYM_HELPERS})
   $(info PROC_HELPERS = ${PROC_HELPERS})
   $(info SOCKET_HELPERS = ${SOCKET_HELPERS})
   $(info PTHREAD_HELPERS = ${PTHREAD_HELPERS})
