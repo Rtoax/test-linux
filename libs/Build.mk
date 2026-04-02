@@ -65,7 +65,7 @@ libmmap_helpers.a-objs := ${OUTPUT}mmap_helpers.a.o
 libmmap_helpers.so-objs := ${OUTPUT}mmap_helpers.so.o
 
 ksym_examples-objs := ${OUTPUT}ksym_helpers.o
-proc_examples-objs := ${libproc-helpers}
+proc_examples-objs := ${OUTPUT}proc_helpers.o
 
 CFLAGS += -DTEST_MAIN=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)
