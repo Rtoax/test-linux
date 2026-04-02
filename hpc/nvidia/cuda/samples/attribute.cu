@@ -260,14 +260,15 @@ void mem_attr(int dev)
 	prop.location.type = CU_MEM_LOCATION_TYPE_DEVICE;
 	prop.location.id = dev;
 
-	size_t minGranularity;
-	size_t recommendedGranularity;
+	size_t minGranularity = 0;
+	size_t recommendedGranularity = 0;
 
-	cuMemGetAllocationGranularity(&minGranularity, &prop,
-				      CU_MEM_ALLOC_GRANULARITY_MINIMUM);
+	CHECK_CUDA_ERROR_EXIT(cuMemGetAllocationGranularity(
+		&minGranularity, &prop, CU_MEM_ALLOC_GRANULARITY_MINIMUM));
 
-	cuMemGetAllocationGranularity(&recommendedGranularity, &prop,
-				      CU_MEM_ALLOC_GRANULARITY_RECOMMENDED);
+	CHECK_CUDA_ERROR_EXIT(cuMemGetAllocationGranularity(
+		&recommendedGranularity, &prop,
+		CU_MEM_ALLOC_GRANULARITY_RECOMMENDED));
 
 	printf("CU_MEM_ALLOC_GRANULARITY_MINIMUM = %ld (%ld MiB)\n",
 	       minGranularity, minGranularity / (1024 * 1024));
