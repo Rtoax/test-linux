@@ -2,7 +2,7 @@ message(STATUS "cudaSamples")
 link_libraries(cuda_helpers)
 
 set(EXECUTIONS attribute cooperative device dim3 event float graph hello malloc
-		mallocHost mallocManaged matrix memory mempool module p2p
+		mallocHost mallocManaged matrix memory mempool module oom p2p
 		parallel properties rtc stream version __STDC__ __GNUC__)
 
 foreach(tgt ${EXECUTIONS})
