@@ -13,6 +13,8 @@ const char argp_prog_doc[] = "USAGE: cuda oom [-v]\n\n";
 
 static const struct argp_option opts[] = {
 	{ "nopf", 'n', NULL, 1, "Disable page fault" },
+	{ "managed", 'm', NULL, 1,
+	  "Use cudaMallocManaged() instead of cudaMalloc()" },
 	{},
 };
 
@@ -22,8 +24,10 @@ struct {
 	 * nvidia-smi.
 	 */
 	bool nopagefault;
+	bool managed;
 } env = {
 	.nopagefault = false,
+	.managed = false,
 };
 
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
@@ -31,6 +35,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 	switch (key) {
 	case 'n':
 		env.nopagefault = true;
+		break;
+	case 'm':
+		env.managed = true;
 		break;
 	case ARGP_KEY_ARG:
 		break;
@@ -71,7 +78,14 @@ int main(int argc, char *argv[])
 
 	for (;;) {
 		size_t blksz = MiB;
-		CUDA_RUNTIME_CHECK(cudaMalloc(&mem, blksz), break);
+		if (env.managed) {
+			CUDA_RUNTIME_CHECK(
+				cudaMallocManaged(&mem, blksz,
+						  cudaMemAttachGlobal),
+				break);
+		} else {
+			CUDA_RUNTIME_CHECK(cudaMalloc(&mem, blksz), break);
+		}
 		if (!env.nopagefault) {
 			kern_pagefault<<<1, 1, 0>>>(mem, blksz);
 		}
