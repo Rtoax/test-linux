@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/samples: add oom.cu;
 - kmod: add alias.sh, scripts/version/kmod.sh;
 - cestc: add gpuinfo.sh;
 - scripts/version: add capstone.sh, ffmpeg.sh, dracut.sh, ethtool.sh;

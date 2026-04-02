@@ -83,6 +83,10 @@
 /module-hip
 /module-hpcc
 /module-luca
+/oom
+/oom-hip
+/oom-hpcc
+/oom-luca
 /p2p
 /p2p-hip
 /p2p-hpcc
