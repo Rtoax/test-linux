@@ -81,17 +81,11 @@ export ALL_HELPERS := \
 		${BTF_HELPERS} \
 		${BPF_INSN_SAMPLES}
 
-$(foreach helper, ${ALL_HELPERS}, $(eval helpers-cflags += -I$(shell dirname ${helper})))
+helpers-cflags += -I${TOPDIR}/libs/
+helpers-cflags += -I${TOPDIR}/bpf/insn/samples/
 
-$(foreach helper, ${ALL_HELPERS}, \
-  $(if ${STATIC}, \
-    $(eval helpers-ldflags += ${helper}), \
-    $(eval helpers-ldflags += -Wl,-rpath,$(shell dirname ${helper})) \
-  ) \
-)
-
-export helpers-cflags
-export helpers-ldflags
+helpers-ldflags += -Wl,-rpath,-I${TOPDIR}/libs/
+helpers-ldflags += -Wl,-rpath,-I${TOPDIR}/bpf/insn/samples/
 
 # $1: cflags's name, like CFLAGS, CFLAGS_SO
 define add_helpers_cflags
@@ -131,5 +125,9 @@ ifdef DEBUG
   $(info helpers-cflags = ${helpers-cflags})
   $(info helpers-ldflags = ${helpers-ldflags})
 endif
+
+export ${ALL_HELPERS}
+export helpers-cflags
+export helpers-ldflags
 
 endif
