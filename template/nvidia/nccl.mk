@@ -4,8 +4,10 @@
 # Input definitions:
 # - CUDA_ROOT=
 #
-# Output macros:
+# Output definitions:
 # - HAVE_NCCL=[y]
+# - nccl-cflags=
+# - nccl-ldflags=
 #
 ifndef _NVIDIA_NCCL_MK
 _NVIDIA_NCCL_MK = 1
@@ -18,8 +20,16 @@ ifndef (${HAVE_NCCL},y)
   $(call check_file_and_def,${CUDA_ROOT}/include/nccl.h,HAVE_NCCL)
 endif
 
+$(if ${HAVE_NCCL}, $(eval nccl-cflags += -DHAVE_NCCL=1))
+$(if ${HAVE_NCCL}, $(eval nccl-ldflags += -lnccl))
+
 ifdef DEBUG
   $(info HAVE_NCCL = ${HAVE_NCCL})
+  $(info nccl-cflags = ${nccl-cflags})
+  $(info nccl-ldflags = ${nccl-ldflags})
 endif
+
+export nccl-cflags
+export nccl-ldflags
 
 endif

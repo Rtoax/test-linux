@@ -20,6 +20,9 @@
 # - CUDA_VERSION_MINOR=[0]
 # - CUDA_VERSION_PATCH=[0]
 #
+# - cuda-cflags=-DHAVE_CUDA=1 ...
+# - cuda-ldflags=...
+#
 # Functions:
 # - cuda_{ge,gt,eq,lt,le}()
 #
@@ -105,6 +108,10 @@ else
   CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
   export HAVE_CUDA := y
+  cuda-cflags += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
+  cuda-cflags += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
+  cuda-cflags += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
+  cuda-cflags += -DHAVE_CUDA=1
 endif
 
 ifneq (${CUDA_ROOT},)
@@ -137,8 +144,21 @@ $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
 $(call check_file_and_def,${CUDA_ROOT}/include/nvrtc.h,HAVE_NVRTC)
 $(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)
 
+$(if ${HAVE_CUDNN}, $(eval cuda-cflags += -DHAVE_CUDNN=1))
+$(if ${HAVE_CUPTI}, $(eval cuda-cflags += -DHAVE_CUPTI=1))
+$(if ${HAVE_CUFILE}, $(eval cuda-cflags += -DHAVE_CUFILE=1))
+$(if ${HAVE_NVRTC}, $(eval cuda-cflags += -DHAVE_NVRTC=1))
+
+$(if ${HAVE_CUDNN}, $(eval cuda-ldflags += -lcudnn))
+$(if ${HAVE_CUPTI}, $(eval cuda-ldflags += -lcupti))
+$(if ${HAVE_CUFILE}, $(eval cuda-ldflags += -lcufile))
+$(if ${HAVE_NVRTC}, $(eval cuda-ldflags += -lnvrtc))
+
 ifdef DEBUG
   $(info HAVE_CUDA = ${HAVE_CUDA})
+  $(info HAVE_CUDNN = ${HAVE_CUDNN})
+  $(info HAVE_CUPTI = ${HAVE_CUPTI})
+  $(info HAVE_CUFILE = ${HAVE_CUFILE})
   $(info CUDA_ROOT = ${CUDA_ROOT})
   ifneq (${NVCC},)
     $(info NVCC Version $(shell ${NVCC} --version))
@@ -149,6 +169,8 @@ ifdef DEBUG
   $(info CUDA_VERSION_MAJOR = ${CUDA_VERSION_MAJOR})
   $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
   $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
+  $(info cuda-cflags = ${cuda-cflags})
+  $(info cuda-ldflags = ${cuda-ldflags})
 endif
 
 # When use cu-bridge, NVCC is cu-bridge symlink, CUDA_VERSION_CODE is not zero.
@@ -172,5 +194,6 @@ export NVDISASM
 export CUDA_VERSION_MAJOR
 export CUDA_VERSION_MINOR
 export CUDA_VERSION_PATCH
+export cuda-cflags
 
 endif

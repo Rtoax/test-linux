@@ -21,11 +21,6 @@
 # - target-nvcc-liba-y
 #
 # Input definitions:
-# - HAVE_NCCL
-# - HAVE_CUDNN
-# - HAVE_CUFILE
-# - HAVE_CUPTI
-# - HAVE_NVRTC
 # - HAVE_NVIDIA_GPU
 #
 ifndef _TARGET_NVIDIA_MK
@@ -42,26 +37,9 @@ cflags-nvcc-fatbin := --fatbin
 cflags-nvcc-so := -Xcompiler -fPIC
 ldflags-nvcc-so := -shared -Xcompiler -fPIC
 
+CFLAGS_NVCC += ${cuda-cflags}
+CFLAGS_NVCC += ${nccl-cflags}
 CFLAGS_NVCC += -I${TOPDIR}/hpc/nvidia/cuda/
-CFLAGS_NVCC += -DHAVE_CUDA=1
-ifdef HAVE_NCCL
-  CFLAGS_NVCC += -DHAVE_NCCL=1
-endif
-ifdef HAVE_CUDNN
-  CFLAGS_NVCC += -DHAVE_CUDNN=1
-endif
-ifdef HAVE_CUFILE
-  CFLAGS_NVCC += -DHAVE_CUFILE=1
-endif
-ifdef HAVE_CUPTI
-  CFLAGS_NVCC += -DHAVE_CUPTI=1
-endif
-ifdef HAVE_NVRTC
-  CFLAGS_NVCC += -DHAVE_NVRTC=1
-endif
-CFLAGS_NVCC += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
-CFLAGS_NVCC += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
-CFLAGS_NVCC += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
 
 ifeq (${HAVE_NVIDIA_GPU},y)
   CFLAGS_NVCC += -arch=native
@@ -83,21 +61,8 @@ LDFLAGS_NVCC += -lcufft
 LDFLAGS_NVCC += -lcurand
 LDFLAGS_NVCC += -lcusparse
 LDFLAGS_NVCC += -lcusolver
-ifdef HAVE_NCCL
-  LDFLAGS_NVCC += -lnccl
-endif
-ifdef HAVE_CUDNN
-  LDFLAGS_NVCC += -lcudnn
-endif
-ifdef HAVE_CUFILE
-  LDFLAGS_NVCC += -lcufile
-endif
-ifdef HAVE_CUPTI
-  LDFLAGS_NVCC += -lcupti
-endif
-ifdef HAVE_NVRTC
-  LDFLAGS_NVCC += -lnvrtc
-endif
+LDFLAGS_NVCC += ${cuda-ldflags}
+LDFLAGS_NVCC += ${nccl-ldflags}
 LDFLAGS_NVCC += ${ldflags-cudart}
 
 ifdef ERROR
