@@ -15,7 +15,6 @@ struct thread {
 	int flags;
 };
 
-
 pthread_t start_thread(void *(*routine)(void *), int cpu, void *arg);
 
 void init_pi_mutex(pthread_mutex_t *m);
