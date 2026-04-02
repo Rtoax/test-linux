@@ -10,6 +10,9 @@
 
 __global__ void kern_pagefault(void *mem, size_t sz)
 {
+	/**
+	 * TODO: could use cuMemGetAllocationGranularity() get pagesize of HBM.
+	 */
 	for (size_t i = 0; i < sz; i += 4096)
 		*(char *)((char *)mem + i) = i % 26 + 'a';
 }
