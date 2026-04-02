@@ -2,7 +2,6 @@
 #include <linux/sched.h>
 #include <stdio.h>
 #include <unistd.h>
-
 #include "sched_helpers.h"
 
 int main(void)

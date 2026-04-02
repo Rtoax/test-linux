@@ -18,21 +18,15 @@ target-y += sched_yield
 target-y += taskset
 target-y += daemon
 
-target-libso-y := libsched_helpers.so
-target-liba-y := libsched_helpers.a
-
 target-post-y := post0
 
-libsched_helpers.a-objs := ${OUTPUT}sched_helpers.a.o
-libsched_helpers.so-objs := ${OUTPUT}sched_helpers.so.o
-
-str2cpuset-objs := libsched_helpers.a
-getcpu-objs := libsched_helpers.a
-sched_setattr-objs := libsched_helpers.a
-sched_setscheduler-objs := libsched_helpers.a
-sched_getscheduler-objs := libsched_helpers.a
+str2cpuset-objs := ${SCHED_HELPERS}
+getcpu-objs := ${SCHED_HELPERS}
+sched_setattr-objs := ${SCHED_HELPERS}
+sched_setscheduler-objs := ${SCHED_HELPERS}
+sched_getscheduler-objs := ${SCHED_HELPERS}
 sched_getaffinity-objs := ${C_HELPERS}
-sched_getcpu-objs := libsched_helpers.a
+sched_getcpu-objs := ${SCHED_HELPERS}
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -I../../../
