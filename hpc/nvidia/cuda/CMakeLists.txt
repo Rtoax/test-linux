@@ -25,7 +25,8 @@ if(CU_BRIDGE_POSITION GREATER_EQUAL 0)
   add_definitions("-DUSE_CU_BRIDGE=1")
 endif()
 
-add_library(cuda_helpers STATIC cuda_helpers.cu)
+add_library(cuda_helpers STATIC ../../../libs/cuda_helpers.cu)
+include_directories(../../../libs/)
 target_link_libraries(cuda_helpers PRIVATE cuda cusparse cufft curand nvrtc)
 
 include_directories(".")
