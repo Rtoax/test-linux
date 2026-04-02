@@ -686,9 +686,15 @@
 #define CU_MEM_LOCATION_TYPE_MAX cuX(MemLocationTypeMax)
 #define CUmemAllocationGranularity_flags \
 	cuX(MemAllocationGranularity_flags) /* enum */
+#ifdef __HIPCC__
+#define CU_MEM_ALLOC_GRANULARITY_MINIMUM hipMemAllocationGranularityMinimum
+#define CU_MEM_ALLOC_GRANULARITY_RECOMMENDED \
+	hipMemAllocationGranularityRecommended
+#else
 #define CU_MEM_ALLOC_GRANULARITY_MINIMUM CUX(_MEM_ALLOC_GRANULARITY_MINIMUM)
 #define CU_MEM_ALLOC_GRANULARITY_RECOMMENDED \
 	CUX(_MEM_ALLOC_GRANULARITY_RECOMMENDED)
+#endif
 #define CUmemAllocationGranularity_flags \
 	cuX(MemAllocationGranularity_flags) /* enum */
 #define cuMemGetAllocationGranularity cuX(MemGetAllocationGranularity)
