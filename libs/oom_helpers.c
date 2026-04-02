@@ -6,9 +6,7 @@
 #include <string.h>
 #include <errno.h>
 #include <sys/sysinfo.h>
-
 #include "oom_helpers.h"
-
 
 static int set_int_to_file(char *file, int val)
 {
@@ -58,7 +56,7 @@ int set_oom_adj(pid_t pid, int val)
 	char buf[128];
 
 	if ((val < OOM_ADJUST_MIN || val > OOM_ADJUST_MAX) &&
-	     val != OOM_DISABLE) {
+	    val != OOM_DISABLE) {
 		fprintf(stderr, "invalid oom_adj %d\n", val);
 		return -EINVAL;
 	}
@@ -123,10 +121,11 @@ int get_oom_score_adj(pid_t pid)
 	return get_int_from_file(buf);
 }
 
-#define SYSINFO(field) do {	\
-		struct sysinfo ___si;	\
-		sysinfo(&___si);	\
-		return ___si.field;	\
+#define SYSINFO(field)                \
+	do {                          \
+		struct sysinfo ___si; \
+		sysinfo(&___si);      \
+		return ___si.field;   \
 	} while (0)
 
 unsigned long totalram(void)
@@ -148,3 +147,4 @@ unsigned long freeswap(void)
 {
 	SYSINFO(freeswap);
 }
+#undef SYSINFO
