@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- read(2): add `read_helpers.c`;
 - vfs: add filesnoop.bt;
 - syscall/samples: add read subdir;
 - cuda/samples: add oom.cu;
