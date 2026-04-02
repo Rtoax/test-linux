@@ -83,10 +83,10 @@ target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${target-y}))
 target-shell-y := list-tunables.sh
 
 create_thread-objs := ${PTHREAD_HELPERS}
-attr_setstack-3-objs := ${C_HELPERS}
-attr_getdetachstate-objs := ${C_HELPERS}
-attr_getinheritsched-objs := ${C_HELPERS}
-attr_getschedpolicy-objs := ${C_HELPERS}
-attr_init-objs := ${C_HELPERS}
+attr_setstack-3-objs := ${TLC_HELPERS}
+attr_getdetachstate-objs := ${TLC_HELPERS}
+attr_getinheritsched-objs := ${TLC_HELPERS}
+attr_getschedpolicy-objs := ${TLC_HELPERS}
+attr_init-objs := ${TLC_HELPERS}
 create-deadline-objs := ${PTHREAD_HELPERS} ${SCHED_HELPERS}
 taskset_example-objs := ${SCHED_HELPERS}

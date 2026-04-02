@@ -26,7 +26,7 @@ target-y += signalfd
 target-prep-y := sig.h
 target-prog-y := sigpending.sh
 
-sigaddset-objs := ${C_HELPERS}
+sigaddset-objs := ${TLC_HELPERS}
 
 CFLAGS += -I../../../
 

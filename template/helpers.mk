@@ -11,6 +11,7 @@
 # Output definitions:
 # - helpers-cflags=
 # - helpers-ldflags=
+# - TLC_HELPERS
 # - KSYM_HELPERS
 # - PROC_HELPERS
 # - SOCKET_HELPERS
@@ -48,7 +49,7 @@ else
   LIB_TYPE = so
 endif
 
-export C_HELPERS := ${TOPDIR}/libs/libtest-linux-c.${LIB_TYPE}
+export TLC_HELPERS := ${TOPDIR}/libs/libtest-linux-c.${LIB_TYPE}
 export KSYM_HELPERS := ${TOPDIR}/libs/libksym_helpers.${LIB_TYPE}
 export PROC_HELPERS := ${TOPDIR}/libs/libproc_helpers.${LIB_TYPE}
 export SOCKET_HELPERS := ${TOPDIR}/libs/libsocket_helpers.${LIB_TYPE}
@@ -66,7 +67,7 @@ export HPCC_HELPERS := ${TOPDIR}/libs/libhpcc_helpers.${LIB_TYPE}
 export BPF_INSN_SAMPLES := ${TOPDIR}/bpf/insn/samples/libbpf_insn_samples.${LIB_TYPE}
 
 export ALL_HELPERS := \
-		${C_HELPERS} \
+		${TLC_HELPERS} \
 		${SOCKET_HELPERS} \
 		${PTHREAD_HELPERS} \
 		${SCHED_HELPERS} \
@@ -106,7 +107,7 @@ endef
 
 ifdef DEBUG
   $(info ALL_HELPERS = ${ALL_HELPERS})
-  $(info C_HELPERS = ${C_HELPERS})
+  $(info TLC_HELPERS = ${TLC_HELPERS})
   $(info KSYM_HELPERS = ${KSYM_HELPERS})
   $(info PROC_HELPERS = ${PROC_HELPERS})
   $(info SOCKET_HELPERS = ${SOCKET_HELPERS})

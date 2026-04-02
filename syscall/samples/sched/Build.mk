@@ -25,7 +25,7 @@ getcpu-objs := ${SCHED_HELPERS}
 sched_setattr-objs := ${SCHED_HELPERS}
 sched_setscheduler-objs := ${SCHED_HELPERS}
 sched_getscheduler-objs := ${SCHED_HELPERS}
-sched_getaffinity-objs := ${C_HELPERS}
+sched_getaffinity-objs := ${TLC_HELPERS}
 sched_getcpu-objs := ${SCHED_HELPERS}
 
 CFLAGS := -D__USE_GNU

@@ -3,5 +3,5 @@ include helpers.mk
 target-y := truncate
 target-y += ftruncate
 
-truncate-objs := ${C_HELPERS}
-ftruncate-objs := ${C_HELPERS}
+truncate-objs := ${TLC_HELPERS}
+ftruncate-objs := ${TLC_HELPERS}
