@@ -27,10 +27,12 @@ $(foreach lib, ${target-libso-y} ${target-libso-cpp-y}, $(eval ${lib}: $${${lib}
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_obj,CC SO.o,$(@))
+	$(shell mkdir -p $(shell dirname $(@)))
 	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
 
 ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
 	$(call log_obj,CXX SO.o,$(@))
+	$(shell mkdir -p $(shell dirname $(@)))
 	${Q}$(CXX) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
 
 # All symlinks depends on original dynamic target, thus, if some one need the
