@@ -4,7 +4,7 @@ set -e
 HEATMAP_ROOT_DIRECTORY=$(dirname `realpath $0`)
 
 program_name=hmctl
-heatmap_prog=${HEATMAP_ROOT_DIRECTORY}/build/src/heatmap
+heatmap_prog=${HEATMAP_ROOT_DIRECTORY}/src/heatmap
 
 binary=
 
@@ -418,21 +418,6 @@ __sampleip_main__()
 }
 
 ###############################################################################
-# compile
-compile_src()
-{
-	local oldpwd=$PWD
-
-	pushd $HEATMAP_ROOT_DIRECTORY
-	mkdir -p build
-	pushd build
-	cmake .. >/dev/null
-	make >/dev/null
-	popd
-	popd
-}
-
-###############################################################################
 ## main
 __usage__()
 {
@@ -475,8 +460,6 @@ done
 case $1 in
 heatmap)
 	shift
-	# Compile for each time
-	compile_src
 	${heatmap_prog} "$@"
 	;;
 record)
