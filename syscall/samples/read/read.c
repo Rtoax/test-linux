@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <errno.h>
 #include <unistd.h>
 
-int read_off(int fd, off_t off, void *buf, size_t size, int keepoff)
+int read_off(int fd, off_t off, void *buf, size_t size, bool keepoff)
 {
 	off_t cur_pos;
 	int err, n;

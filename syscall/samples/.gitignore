@@ -41,7 +41,6 @@
 /syscall
 /kcmp
 /readdir
-/read
 /getdents
 /*.txt
 /tmp-*

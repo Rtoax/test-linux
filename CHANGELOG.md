@@ -11,6 +11,8 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- vfs: add filesnoop.bt;
+- syscall/samples: add read subdir;
 - cuda/samples: add oom.cu;
 - kmod: add alias.sh, scripts/version/kmod.sh;
 - cestc: add gpuinfo.sh;

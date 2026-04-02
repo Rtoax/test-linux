@@ -1,0 +1,6 @@
+#!/bin/env bpftrace
+
+kprobe:vfs_read
+{
+	printf("%-8s %-8s %-8d %-8d\n", comm, str(arg1), arg2, *arg3);
+}

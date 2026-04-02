@@ -4,7 +4,6 @@
 #include <string.h>
 #include <errno.h>
 
-
 int main(void)
 {
 	int n, err = 0;
