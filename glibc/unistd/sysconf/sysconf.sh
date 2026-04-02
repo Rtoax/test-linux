@@ -1,14 +1,21 @@
 #!/bin/bash
 # generate all sysconf test code
+set -e
 
-function for_each_conf()
+CONFNAME_H=/usr/include/bits/confname.h
+
+if [[ ! -e ${CONFNAME_H} ]]; then
+	CONFNAME_H=/usr/include/$(uname -m)-linux-gnu/bits/confname.h
+fi
+
+for_each_conf()
 {
-	if [[ ! -e /usr/include/bits/confname.h ]]; then
-		echo "ERROR: /usr/include/bits/confname.h is not exist"
+	if [[ ! -e ${CONFNAME_H} ]]; then
+		echo "ERROR: ${CONFNAME_H} is not exist"
 		exit 1
 	fi
 
-	confnames=( $(cat /usr/include/bits/confname.h | awk '{
+	confnames=( $(cat ${CONFNAME_H} | awk '{
 			if ($1=="#define" && $2==$3)
 				print $2
 			}'
