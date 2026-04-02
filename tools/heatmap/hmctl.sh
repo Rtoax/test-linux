@@ -1,13 +1,12 @@
 #!/bin/bash
-
 set -e
+
 HEATMAP_ROOT_DIRECTORY=$(dirname `realpath $0`)
 
 program_name=hmctl
 heatmap_prog=${HEATMAP_ROOT_DIRECTORY}/build/src/heatmap
 
 binary=
-
 
 ###############################################################################
 ## record
@@ -500,4 +499,3 @@ sampleip)
 	__usage__
 	;;
 esac
-
