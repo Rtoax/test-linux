@@ -1,7 +1,5 @@
 #!/bin/bash
-#
 # Usage: uefi.sh [--specmajor|--specminor|--vendor]
-#
 set -e
 
 if [[ ! -d /sys/firmware/efi/ ]]; then
@@ -9,7 +7,7 @@ if [[ ! -d /sys/firmware/efi/ ]]; then
 fi
 
 # UEFI Specification Version
-spec_version=$(sudo dmesg | grep -i "EFI v" | grep -Eo 'v[0-9]+\.[0-9]+')
+spec_version=$(sudo dmesg | grep -i "EFI v" | grep -Eo 'v[0-9]+\.[0-9]+' || :)
 
 # Motherboard vendor
 bios_vendor=$(cat /sys/class/dmi/id/bios_vendor)

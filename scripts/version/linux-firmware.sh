@@ -10,6 +10,7 @@ debver() {
 		fi
 	done
 	[[ ${fw} == END ]] && return 1
+	return 0
 }
 
 rpmver() {
