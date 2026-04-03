@@ -34,6 +34,7 @@ cxl_ram_4way() {
 }
 
 cxl_pmem() {
+	# commit
 	sudo cxl create-region --decoder decoder0.0 --size 1024M --type pmem --memdevs mem0
 	sudo ndctl list -R
 
