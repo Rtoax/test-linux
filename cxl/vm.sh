@@ -47,6 +47,6 @@ sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-git.sock -o source=/
 sudo ../scripts/qemu-vm.sh --name vm-test-cxl \
 	--kernel ${vmlinuz} --initrd ${initramfs} --rootfs ${qcow2} \
 	--virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git \
-	--cxl cxl-pmem --stdio "${@}"
+	--cxl cxl-pmem-4way --stdio "${@}"
 
 wait

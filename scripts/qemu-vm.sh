@@ -610,6 +610,10 @@ config_nvdimm() {
 	add_nvdimm_blk ${f_nvdimm}
 }
 
+# CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
+# pxb: PCIe eXpander Bridge
+# rp: Root Port
+
 # https://www.qemu.org/docs/master/system/devices/cxl.html
 cxl_pmem() {
 	_eval qemu-img create -f raw cxltest.raw ${cxl_size}
@@ -630,19 +634,20 @@ cxl_pmem() {
 # enable 2 way interleave across 2 CXL host bridges. Each host bridge has 2
 # CXL Root Ports, with the CXL Type3 device directly attached (no switches).
 cxl_pmem_4way() {
-	local imgs=(cxltest.raw cxltest2.raw cxltest3.raw cxltest4.raw
-		lsa.raw lsa2.raw lsa3.raw lsa4.raw)
+	local imgs=(cxltest1.raw cxltest2.raw cxltest3.raw cxltest4.raw
+		lsa1.raw lsa2.raw lsa3.raw lsa4.raw)
 	for img in ${imgs[@]}
 	do
 		_eval qemu-img create -f raw ${img} ${cxl_size}
 	done
 	cleanup_files+=( ${imgs[@]} )
+
 	qargs+=(
-		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest1.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-mem2,share=on,mem-path=$PWD/cxltest2.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-mem3,share=on,mem-path=$PWD/cxltest3.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-mem4,share=on,mem-path=$PWD/cxltest4.raw,size=${cxl_size}
-		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size}
+		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa1.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa2,share=on,mem-path=$PWD/lsa2.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa3,share=on,mem-path=$PWD/lsa3.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa4,share=on,mem-path=$PWD/lsa4.raw,size=${cxl_size}
