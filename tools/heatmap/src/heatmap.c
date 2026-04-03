@@ -130,8 +130,8 @@ rb_gen(static __unused, addr_, addr_tree, struct addr_node, rb_link_node,
 
 struct addr_node *get_addr_node(addr_tree *tree, unsigned long addr);
 
-void heatmap_create_space(struct heatmap_space **space,
-			  unsigned long granularity)
+int heatmap_create_space(struct heatmap_space **space,
+			 unsigned long granularity)
 {
 	struct heatmap_space *new = malloc(sizeof(struct heatmap_space));
 	memset(new, 0, sizeof(struct heatmap_space));
@@ -145,21 +145,23 @@ void heatmap_create_space(struct heatmap_space **space,
 	new->max_quota = 0;
 
 	*space = new;
+
+	return 0;
 }
 
-void heatmap_insert_addr(struct heatmap_space *space, unsigned long addr,
-			 unsigned long quota)
+int heatmap_insert_addr(struct heatmap_space *space, unsigned long addr,
+			unsigned long quota)
 {
 	struct addr_node *new = NULL;
 
-	if (addr == 0)
-		return;
+	if (addr == 0 || quota == 0)
+		return -EINVAL;
 
 	if (heatmap_has_addr(space, addr)) {
 		new = get_addr_node(&space->tree, addr);
 		new->quota += quota;
 		ldebug("Update %#016lx %ld\n", new->start, new->quota);
-		return;
+		return 0;
 	}
 
 	new = malloc(sizeof(struct addr_node));
@@ -181,6 +183,8 @@ void heatmap_insert_addr(struct heatmap_space *space, unsigned long addr,
 	ldebug("Insert %#016lx %ld\n", addr, quota);
 
 	addr_insert(&space->tree, new);
+
+	return 0;
 }
 
 static void print_range(struct heatmap_space *space, FILE *fp)

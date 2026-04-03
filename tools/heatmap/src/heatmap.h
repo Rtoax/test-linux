@@ -29,10 +29,10 @@ extern bool debug;
 
 struct heatmap_space;
 
-void heatmap_create_space(struct heatmap_space **space,
-			  unsigned long granularity);
-void heatmap_insert_addr(struct heatmap_space *space, unsigned long addr,
-			 unsigned long quota);
+int heatmap_create_space(struct heatmap_space **space,
+			 unsigned long granularity);
+int heatmap_insert_addr(struct heatmap_space *space, unsigned long addr,
+			unsigned long quota);
 bool heatmap_has_addr(struct heatmap_space *space, unsigned long addr);
 void heatmap_print_space(struct heatmap_space *space, FILE *fp);
 void heatmap_plot_space(FILE *fp, struct heatmap_space *space,
