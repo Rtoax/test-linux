@@ -32,6 +32,7 @@ target-liba-y += libtrace_helpers.a
 target-liba-y += liboom_helpers.a
 target-liba-y += libbpf_helpers.a
 target-liba-y += libbtf_helpers.a
+target-liba-y += libreboot_helpers.a
 
 target-libso-y += libtest-linux-c.so.0.1
 target-libso-y += ${libproc-helpers}
@@ -44,6 +45,7 @@ target-libso-y += libtrace_helpers.so
 target-libso-y += liboom_helpers.so
 target-libso-y += libbpf_helpers.so
 target-libso-y += libbtf_helpers.so
+target-libso-y += libreboot_helpers.so
 
 target-nvcc-libso-${HAVE_CUDA} := libcuda_helpers.so
 target-nvcc-liba-${HAVE_CUDA} := libcuda_helpers.a
@@ -100,6 +102,8 @@ libluca_helpers.so-objs := $(OUTPUT)cuda_helpers.luca.so.o
 libluca_helpers.a-objs := $(OUTPUT)cuda_helpers.luca.a.o
 libhpcc_helpers.so-objs := $(OUTPUT)cuda_helpers.hpcc.so.o
 libhpcc_helpers.a-objs := $(OUTPUT)cuda_helpers.hpcc.a.o
+libreboot_helpers.a-objs := ${OUTPUT}reboot_helpers.a.o
+libreboot_helpers.so-objs := ${OUTPUT}reboot_helpers.so.o
 
 ksym_examples-objs := ${OUTPUT}ksym_helpers.o
 proc_examples-objs := ${OUTPUT}proc_helpers.o
