@@ -1,0 +1,6 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	return 1;
+}

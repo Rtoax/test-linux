@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpftrace: add return.bt sample;
 - qemu-vm.sh: add virtio-fs support;
 - read(2): add `read_helpers.c`;
 - vfs: add filesnoop.bt;
