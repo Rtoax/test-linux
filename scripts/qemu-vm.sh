@@ -618,10 +618,10 @@ cxl_pmem() {
 	qargs+=(
 		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
-		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=pxbcxl.1
+		-device cxl-rp,port=0,bus=pxbcxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
-		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
+		-M cxl-fmw.0.targets.0=pxbcxl.1,cxl-fmw.0.size=4G
 	)
 }
 
