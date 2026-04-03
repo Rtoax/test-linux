@@ -315,4 +315,3 @@ rb_erase_augmented_cached(struct rb_node *node, struct rb_root_cached *root,
 }
 
 #endif	/* _LINUX_RBTREE_AUGMENTED_H */
-
