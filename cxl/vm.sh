@@ -4,6 +4,10 @@
 set -e
 . /etc/os-release
 
+initramfs=${HOME}/cxl/initramfs.img
+vmlinuz=${HOME}/cxl/vmlinuz
+qcow2=${HOME}/cxl/vm.qcow2
+
 case ${ID} in
 fedora|rhel)
 	sudo dnf install -y cxl-cli dracut edk2-ovmf
@@ -16,18 +20,18 @@ debian|ubuntu)
 	;;
 esac
 
-[[ ! -e vmlinuz ]] && sudo cp /boot/vmlinuz-$(uname -r) vmlinuz
+[[ ! -e ${vmlinuz} ]] && sudo cp /boot/vmlinuz-$(uname -r) ${vmlinuz}
 
-if ! [[ -e initramfs.img ]]; then
+if ! [[ -e ${initramfs} ]]; then
 	sudo dracut --kver $(uname -r) --no-hostonly --verbose --force \
 		--install 'insmod rmmod modprobe lspci ndctl cxl lsblk dmidecode tree' \
 		--add 'bash systemd kernel-modules fs-lib' \
 		--add-drivers 'cxl_acpi cxl_core cxl_mem cxl_pci cxl_pmem cxl_pmu cxl_port' \
-		initramfs.img
+		${initramfs}
 fi
 
-if ! [[ -e vm.qcow2 ]]; then
-	sudo ../scripts/rootfs/fedora.sh --rootfs vm.rootfs/ --image vm.qcow2 \
+if ! [[ -e ${qcow2} ]]; then
+	sudo ../scripts/rootfs/fedora.sh --rootfs vm.rootfs/ --image ${qcow2} \
 		-i cxl-cli -i cxl-libs -i ndctl -i daxctl \
 		-i dmidecode -i kmod -i util-linux -i pciutils \
 		-i kernel-$(uname -r) \
@@ -37,5 +41,5 @@ if ! [[ -e vm.qcow2 ]]; then
 fi
 
 sudo ../scripts/qemu-vm.sh --name vm-test-cxl \
-	--kernel vmlinuz --initrd initramfs.img --rootfs vm.qcow2 \
+	--kernel ${vmlinuz} --initrd ${initramfs} --rootfs ${qcow2} \
 	--cxl cxl-pmem --stdio "${@}"
