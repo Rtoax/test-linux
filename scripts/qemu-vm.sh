@@ -26,7 +26,8 @@ readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly prog=qemu-vm
 readonly qemu=$(get_qemu_kvm_emulator)
 
-readonly bus_pcie0=pcie.0 # q35
+readonly bus_pcie0=pcie.0 # q35 default root bus
+pcie_root_port_num=2
 
 q_vm_name=$(mktemp -u vm-XXXXXX)
 q_memory=2G
@@ -398,7 +399,6 @@ config_basic() {
 
 	case $(uname -m) in
 	x86_64)
-		# q35 for pcie.0
 		qmachine+=( type=q35 )
 		;;
 	aarch64)
@@ -468,8 +468,17 @@ config_uefi() {
 }
 
 config_pci() {
-	qargs+=(-device pcie-root-port,id=pcie.1,bus=${bus_pcie0},port=1,chassis=1,slot=0
-		-device pcie-root-port,id=pcie.2,bus=${bus_pcie0},port=2,chassis=2,slot=0)
+	local i args
+
+	# Config pcie-root-port
+	for i in {1..${pcie_root_port_num}}; do
+		unset args
+		args+=( bus=${bus_pcie0} )
+		args+=( id=pcie.${i} )
+		args+=( chassis=${i} )
+		args+=( port=${i} )
+		qargs+=( -device pcie-root-port,$(IFS=,; echo "${args[*]}") )
+	done
 }
 
 add_net_nic_user() {
