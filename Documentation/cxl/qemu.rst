@@ -2,6 +2,10 @@
 Qemu CXL
 ========
 
+Must enable linux CONFIG_CXL_REGION_INVALIDATION_TEST if Qemu, see
+https://lore.kernel.org/all/CAGEDW0dVEk-QXuL=DPVvSP4t5cafz6N-r_SrCxgFnBfFOsixSA@mail.gmail.com/.
+
+
 - QEMU CCIX patches
 - Q35
 
