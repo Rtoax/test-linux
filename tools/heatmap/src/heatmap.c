@@ -15,7 +15,7 @@
 #include <string.h>
 #include <syslog.h>
 #include <assert.h>
-#include "addr.h"
+#include "heatmap.h"
 
 static const char *const ANSI_COLORS_GRAY[] = {
 	"\033[48;5;255m",

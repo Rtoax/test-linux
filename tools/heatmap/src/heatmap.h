@@ -15,7 +15,7 @@
 #include <string.h>
 #include <syslog.h>
 #include <assert.h>
-#include <rb.h>
+#include "rb.h"
 
 #define __unused __attribute__((unused))
 

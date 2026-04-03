@@ -13,9 +13,7 @@
 #include <syslog.h>
 #include <assert.h>
 #include <time.h>
-
-#include "addr.h"
-
+#include "heatmap.h"
 
 static struct addr_space space;
 
