@@ -34,8 +34,8 @@ PCIe Device Class
      -
    * - 0x05
      - Memory Controller
-     - CXL
-     -
+     - RAM(00), FLASH(01), CXL(02)
+     - CXL: lspci -d ::0502
    * - 0x06
      - Bridge Device
      - PCI-PCI, ISA, CardBus, PCIe-PCI
