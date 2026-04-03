@@ -405,14 +405,15 @@ config_cpu() {
 
 config_uefi() {
 	local i code var
-	local codes=(
-		/usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw
-		/usr/share/OVMF/OVMF_CODE.fd
-	)
-	local vars=(
-		/usr/share/edk2/aarch64/QEMU_VARS.fd
-		/usr/share/OVMF/OVMF_VARS.fd
-	)
+	local codes=( /usr/share/OVMF/OVMF_CODE.fd )
+	local vars=( /usr/share/OVMF/OVMF_VARS.fd )
+
+	case $(uname -m) in
+	aarch64)
+		codes+=( /usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw )
+		vars+=( /usr/share/edk2/aarch64/QEMU_VARS.fd )
+		;;
+	esac
 
 	# FIXME: aarch64 default UEFI, skip error:
 	# qemu-kvm: device requires 67108864 bytes, block backend provides 786432 bytes
