@@ -651,17 +651,17 @@ cxl_pmem_4way() {
 		-object memory-backend-file,id=cxl-lsa2,share=on,mem-path=$PWD/lsa2.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa3,share=on,mem-path=$PWD/lsa3.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa4,share=on,mem-path=$PWD/lsa4.raw,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
-		-device pxb-cxl,bus_nr=222,bus=${bus_pcie0},id=cxl.2
-		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=pxbcxl.1
+		-device pxb-cxl,bus_nr=22,bus=${bus_pcie0},id=pxbcxl.2
+		-device cxl-rp,port=0,bus=pxbcxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
-		-device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3
+		-device cxl-rp,port=1,bus=pxbcxl.1,id=root_port14,chassis=0,slot=3
 		-device cxl-type3,bus=root_port14,persistent-memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1,sn=0x2
-		-device cxl-rp,port=0,bus=cxl.2,id=root_port15,chassis=0,slot=5
+		-device cxl-rp,port=0,bus=pxbcxl.2,id=root_port15,chassis=0,slot=5
 		-device cxl-type3,bus=root_port15,persistent-memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2,sn=0x3
-		-device cxl-rp,port=1,bus=cxl.2,id=root_port16,chassis=0,slot=6
+		-device cxl-rp,port=1,bus=pxbcxl.2,id=root_port16,chassis=0,slot=6
 		-device cxl-type3,bus=root_port16,persistent-memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3,sn=0x4
-		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.targets.1=cxl.2,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k
+		-M cxl-fmw.0.targets.0=pxbcxl.1,cxl-fmw.0.targets.1=pxbcxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k
 	)
 }
 
