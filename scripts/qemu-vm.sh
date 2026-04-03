@@ -471,7 +471,7 @@ config_pci() {
 	local i args
 
 	# Config pcie-root-port
-	for i in {1..${pcie_root_port_num}}; do
+	for i in $(seq 1 ${pcie_root_port_num}); do
 		unset args
 		args+=( bus=${bus_pcie0} )
 		args+=( id=pcie.${i} )
