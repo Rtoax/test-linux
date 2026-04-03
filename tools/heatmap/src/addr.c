@@ -15,9 +15,30 @@
 #include <string.h>
 #include <syslog.h>
 #include <assert.h>
+#include "addr.h"
 
-#include <addr.h>
-#include <common.h>
+static const char *const ANSI_COLORS_GRAY[] = {
+	"\033[48;5;255m",
+	"\033[48;5;252m",
+	"\033[48;5;250m",
+	"\033[48;5;248m",
+	"\033[48;5;246m",
+	"\033[48;5;244m",
+	"\033[48;5;242m",
+	"\033[48;5;240m",
+	"\033[48;5;238m",
+	"\033[48;5;236m",
+	"\033[48;5;234m",
+	"\033[48;5;232m",
+};
+static const char *const ANSI_COLORS_RESET = "\033[0m";
+#define NR_ANSI ARRAY_SIZE(ANSI_COLORS_GRAY)
+
+static const char __attribute__((unused)) * ansi_text[] = {
+	" ", " ", ".", ".", "*", "*", "o", "o", "O", "O", "#", "#",
+};
+
+bool debug = false;
 
 struct addr_node *get_addr_node(addr_tree *tree, unsigned long addr);
 
@@ -260,4 +281,21 @@ unsigned long strtoaddr(const char *s)
 		return strtoul(s, NULL, 10);
 
 	return 0;
+}
+
+void print_ansi(void)
+{
+	int i;
+	for (i = 0; i < NR_ANSI; i++)
+		printf("%4d %s   %s\n", i, ANSI_COLORS_GRAY[i], ANSI_COLORS_RESET);
+}
+
+unsigned long power_of_2(unsigned long v)
+{
+	unsigned long ret = 2;
+
+	while (ret < v)
+		ret <<= 1;
+
+	return ret;
 }

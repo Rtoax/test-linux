@@ -16,7 +16,41 @@
 #include <syslog.h>
 #include <assert.h>
 #include <rb.h>
-#include <common.h>
+
+#define __unused __attribute__((unused))
+
+#define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
+
+#define ROUND_DOWN(x, m) ((x) & ~((m) - 1))
+#define ROUND_UP(x, m) (((x) + (m) - 1) & ~((m) - 1))
+
+#define stdio_log(fmt...) do { \
+		fprintf(stdout, fmt); \
+	} while (0)
+
+extern bool debug;
+
+/* journalctl */
+#define ldebug(fmt...) do { \
+		if (!debug) \
+			break; \
+		stdio_log(fmt); \
+		syslog(LOG_DEBUG, fmt); \
+	} while (0)
+#define linfo(fmt...) do { \
+		stdio_log(fmt); \
+		syslog(LOG_INFO, fmt); \
+	} while (0)
+#define lwarning(fmt...) do { \
+		stdio_log(fmt); \
+		syslog(LOG_WARNING, fmt); \
+	} while (0)
+#define lerror(fmt...) do { \
+		stdio_log(fmt); \
+		syslog(LOG_ERR, fmt); \
+	} while (0)
+
+unsigned long power_of_2(unsigned long v);
 
 struct addr_node {
 	/* [start, end) */
@@ -88,3 +122,5 @@ void addr_normalization(struct addr_space *space,
 		unsigned long min, unsigned long max);
 
 unsigned long strtoaddr(const char *s);
+
+void print_ansi(void);

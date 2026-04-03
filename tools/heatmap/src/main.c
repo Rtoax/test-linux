@@ -1,6 +1,3 @@
-/**
- * Memory Heat Map
- */
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -17,8 +14,7 @@
 #include <assert.h>
 #include <time.h>
 
-#include <addr.h>
-#include <common.h>
+#include "addr.h"
 
 
 static struct addr_space space;
