@@ -27,6 +27,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add freebsd.rst;
 - add sphinx-static/custom.css;
 - add ruankao dir;
 - superpod: add history.rst;
