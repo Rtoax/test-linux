@@ -80,57 +80,57 @@ declare -a cleanup_files
 __usage__() {
 	echo -e "
 ${BOLD}NAME${RST}
-	${prog} - Running a virtual machine with Qemu-KVM
+    ${prog} - Running a virtual machine with Qemu-KVM
 
 ${BOLD}SYNOPSIS${RST}
-	${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
+    ${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
 
 ${BOLD}DESCRIPTION${RST}
-	Running a virtual machine with Qemu-KVM, support flexable arguments.
+    Running a virtual machine with Qemu-KVM, support flexable arguments.
 
 ${BOLD}OPTIONS${RST}
-	-n, --name [NAME]       specify vm name, default: vm- prefix
+    -n, --name [NAME]       specify vm name, default: vm- prefix
 
-	-m, --memory [SIZE]     Sets guest startup RAM size, default: ${memory}.
+    -m, --memory [SIZE]     Sets guest startup RAM size, default: ${memory}.
 
-	-k, --kernel [KERNEL]   specify vmlinuz, bzImage
-	    --karg [ARG]        add kernel argument, (may be listed multiple times)
-	                        example: --karg=${GRAY}rdinit=/usr/bin/bash${RST}
+    -k, --kernel [KERNEL]   specify vmlinuz, bzImage
+        --karg [ARG]        add kernel argument, (may be listed multiple times)
+                            example: --karg=${GRAY}rdinit=/usr/bin/bash${RST}
 
-	-i, --initrd [INITRD]   specify initrd image
-	    --rdinit [PATH]     specify initrd's init process.
+    -i, --initrd [INITRD]   specify initrd image
+        --rdinit [PATH]     specify initrd's init process.
 
-	-r, --rootfs [type=TYPE,file=ROOTFS,<rw|ro>]|[ROOTFS]
-	                        optional specify rootfs image.
-	                        TYPE=\"${DISK_TYPES[@]}\"
-	    --init [PATH]       specify rootfs's init process.
-	    --root [ROOT]       specify root= in kernel cmdline, default use UUID
-	                        of rootfs image.
+    -r, --rootfs [type=TYPE,file=ROOTFS,<rw|ro>]|[ROOTFS]
+                            optional specify rootfs image.
+                            TYPE=\"${DISK_TYPES[@]}\"
+        --init [PATH]       specify rootfs's init process.
+        --root [ROOT]       specify root= in kernel cmdline, default use UUID
+                            of rootfs image.
 
-	--nvdimm [FILE]         add a nvdimm pmem
+    --nvdimm [FILE]         add a nvdimm pmem
 
-	--stdio                 input/output from/to stdio
+    --stdio                 input/output from/to stdio
 
-	--cxl [TYPE]            test CXL, support: ${GRAY}${CXL_TYPES[@]}${RST}
-	                        debug with debug mode.
+    --cxl [TYPE]            test CXL, support: ${GRAY}${CXL_TYPES[@]}${RST}
+                            debug with debug mode.
 
-	--virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
-	                        by ${GRAY}$ virtiofsd --socket-path=/var/run/vhost-fs.sock -o source=/path/to/host/${RST}
-	--virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}myfs${RST}
+    --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
+                            by ${GRAY}$ virtiofsd --socket-path=/var/run/vhost-fs.sock -o source=/path/to/host/${RST}
+    --virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}myfs${RST}
 
-	-u, --dry-run           only show commands
+    -u, --dry-run           only show commands
 
-	-D, --debug             enable debug mode.
-	-v, --verbose           enable verbose mode.
-	-h, --help              show this help information
+    -D, --debug             enable debug mode.
+    -v, --verbose           enable verbose mode.
+    -h, --help              show this help information
 
 ${BOLD}EXAMPLES${RST}
-	$ sudo ./qemu.sh --kernel ${GRAY}${ITALIC}/boot/vmlinuz-$(uname -r)${RST} \\
-		--initrd ${GRAY}${ITALIC}/boot/initramfs-$(uname -r).img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
-		${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
+    $ sudo ./qemu.sh --kernel ${GRAY}${ITALIC}/boot/vmlinuz-$(uname -r)${RST} \\
+        --initrd ${GRAY}${ITALIC}/boot/initramfs-$(uname -r).img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
+        ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
 
 ${BOLD}SEE ALSO${RST}
-	qemu(1), qemu-kvm(1), etc.
+    qemu(1), qemu-kvm(1), etc.
 "
 	exit ${1-0}
 }
