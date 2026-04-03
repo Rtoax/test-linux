@@ -11,9 +11,9 @@ endif
 target-y += level-triggered edge-triggered
 target-y += tcp-echo
 
-eventfd-objs := epoll_helpers.o
-eventfd-epoll_pwait-objs := epoll_helpers.o
-eventfd-epoll_pwait2-objs := epoll_helpers.o
+eventfd-objs := ${OUTPUT}epoll_helpers.o
+eventfd-epoll_pwait-objs := ${OUTPUT}epoll_helpers.o
+eventfd-epoll_pwait2-objs := ${OUTPUT}epoll_helpers.o
 
 LDFLAGS := -pthread
 
