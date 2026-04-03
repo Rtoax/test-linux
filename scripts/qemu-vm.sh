@@ -26,6 +26,8 @@ readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly prog=qemu-vm
 readonly qemu=$(get_qemu_kvm_emulator)
 
+readonly bus_pcie0=pcie.0 # q35
+
 q_vm_name=$(mktemp -u vm-XXXXXX)
 q_memory=2G
 
@@ -466,13 +468,13 @@ config_uefi() {
 }
 
 config_pci() {
-	qargs+=(-device pcie-root-port,id=pcie.1,bus=pcie.0,port=1,chassis=1,slot=0
-		-device pcie-root-port,id=pcie.2,bus=pcie.0,port=2,chassis=2,slot=0)
+	qargs+=(-device pcie-root-port,id=pcie.1,bus=${bus_pcie0},port=1,chassis=1,slot=0
+		-device pcie-root-port,id=pcie.2,bus=${bus_pcie0},port=2,chassis=2,slot=0)
 }
 
 add_net_nic_user() {
 	qargs+=(-netdev type=user,id=net0
-		-device virtio-net-pci,bus=pcie.0,netdev=net0,addr=6.0 )
+		-device virtio-net-pci,bus=${bus_pcie0},netdev=net0,addr=6.0 )
 }
 
 # Create tap0 with:
@@ -607,7 +609,7 @@ cxl_pmem() {
 	qargs+=(
 		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
 		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
@@ -635,8 +637,8 @@ cxl_pmem_4way() {
 		-object memory-backend-file,id=cxl-lsa2,share=on,mem-path=$PWD/lsa2.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa3,share=on,mem-path=$PWD/lsa3.raw,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa4,share=on,mem-path=$PWD/lsa4.raw,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
-		-device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
+		-device pxb-cxl,bus_nr=222,bus=${bus_pcie0},id=cxl.2
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3
@@ -663,7 +665,7 @@ cxl_pmem_4way_switch() {
 			)
 	done
 	qargs+=(
-		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
 		-device cxl-upstream,bus=root_port0,id=us0
@@ -681,7 +683,7 @@ cxl_pmem_4way_switch() {
 cxl_volatile_mem() {
 	qargs+=(
 		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,id=cxl-vmem0
 		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
@@ -695,7 +697,7 @@ cxl_volatile_mem_lsa() {
 	qargs+=(
 		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
 		-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,lsa=cxl-lsa0,id=cxl-vmem0
 		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
@@ -708,7 +710,7 @@ cxl_volatile_mem_4way() {
 		-object memory-backend-ram,id=vmem1,share=on,size=${cxl_size}
 		-object memory-backend-ram,id=vmem2,share=on,size=${cxl_size}
 		-object memory-backend-ram,id=vmem3,share=on,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3
 		-device cxl-rp,port=2,bus=cxl.1,id=root_port15,chassis=0,slot=4
@@ -728,7 +730,7 @@ cxl_volatile_mem_4way_switch() {
 			)
 	done
 	qargs+=(
-		-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
 		-device cxl-upstream,bus=root_port0,id=us0
@@ -805,7 +807,7 @@ config_virtiofs() {
 
 	# ref: https://qemu-stsquad.readthedocs.io/en/doc-updates/tools/virtiofsd.html
 	qargs+=(-chardev socket,id=char0,path=${f_virtiofs_sock}
-		-device vhost-user-fs-pci,chardev=char0,bus=pcie.0,tag=${q_virtiofs_tag}
+		-device vhost-user-fs-pci,chardev=char0,bus=${bus_pcie0},tag=${q_virtiofs_tag}
 		-object memory-backend-memfd,id=mem,size=${q_memory},share=on
 		-numa node,memdev=mem )
 }
