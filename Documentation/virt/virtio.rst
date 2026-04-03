@@ -106,7 +106,7 @@ VirtIO Balloon
 VirtIO FS
 ---------
 
-- on hostos
+- on hostos: libvirt xml
 
 .. code-block:: xml
 
@@ -120,19 +120,31 @@ VirtIO FS
           <driver type="virtiofs"/>
           <binary path="/usr/libexec/virtiofsd"/>
           <source dir="/home/rongtao/Pictures"/>
-          <target dir="rongtao_Pictures"/>
+          <target dir="myfs"/>
           <alias name="fs0"/>
           <address type="pci" domain="0x0000" bus="0x08" slot="0x00" function="0x0"/>
         </filesystem>
       </devices>
     </domain>
 
+- on host: qemu command
+
+.. code-block:: xml
+
+   host# virtiofsd --socket-path=/var/run/vm001-vhost-fs.sock -o source=/var/lib/fs/vm001
+   host# qemu-system-x86_64 \
+             -chardev socket,id=char0,path=/var/run/vm001-vhost-fs.sock \
+             -device vhost-user-fs-pci,chardev=char0,tag=myfs \
+             -object memory-backend-memfd,id=mem,size=4G,share=on \
+             -numa node,memdev=mem \
+             ...
+
 - in guestos
 
 .. code-block:: bash
 
     $ mkdir pic
-    $ sudo mount -t virtiofs rongtao_Pictures pic
+    $ sudo mount -t virtiofs myfs pic
 
 
 Links
@@ -141,3 +153,4 @@ Links
 - https://kernelgo.org/virtio-overview.html
 - PDF: `Virtual I/O Device (VIRTIO) Version 1.2 <https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.pdf>`_
 - https://gitlab.com/virtio-fs/virtiofsd
+    -- https://qemu-stsquad.readthedocs.io/en/doc-updates/tools/virtiofsd.html

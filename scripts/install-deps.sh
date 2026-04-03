@@ -714,6 +714,7 @@ pkgs_docs+=( latexmk )
 pkgs_docs+=( texlive )
 
 pkgs_virt+=( virt-manager )
+pkgs_virt+=( virtiofsd )
 #pkgs_virt+=( wine )
 
 # Benchmark

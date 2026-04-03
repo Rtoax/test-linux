@@ -40,6 +40,13 @@ if ! [[ -e ${qcow2} ]]; then
 		-i kernel-modules-extra-$(uname -r)
 fi
 
+# Mount in guest
+# $ sudo mount -t virtiofs Git /mnt
+sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-git.sock -o source=/home/rongtao/Git/ &
+
 sudo ../scripts/qemu-vm.sh --name vm-test-cxl \
 	--kernel ${vmlinuz} --initrd ${initramfs} --rootfs ${qcow2} \
+	--virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git \
 	--cxl cxl-pmem --stdio "${@}"
+
+wait

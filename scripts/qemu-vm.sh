@@ -42,6 +42,9 @@ k_rw=rw
 
 f_nvdimm=
 
+f_virtiofs_sock=
+q_virtiofs_tag=
+
 q_stdio=
 
 dry_run=
@@ -109,6 +112,10 @@ ${BOLD}OPTIONS${RST}
 	--cxl [TYPE]            test CXL, support: ${GRAY}${CXL_TYPES[@]}${RST}
 	                        debug with debug mode.
 
+	--virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
+	                        by ${GRAY}$ virtiofsd --socket-path=/var/run/vhost-fs.sock -o source=/path/to/host/${RST}
+	--virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}myfs${RST}
+
 	-u, --dry-run           only show commands
 
 	-D, --debug             enable debug mode.
@@ -167,6 +174,8 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:huDv \
 	--long nvdimm: \
 	--long stdio \
 	--long cxl: \
+	--long virtio-fs-sock: \
+	--long virtio-fs-tag: \
 	--long dry-run \
 	--long debug \
 	--long verbose \
@@ -280,6 +289,17 @@ while true; do
 		if ! [[ " ${CXL_TYPES[@]} " =~ " ${cxl_type} " ]]; then
 			error "cxl type only support <${CXL_TYPES[@]}>"
 		fi
+		shift
+		;;
+	--virtio-fs-sock)
+		shift
+		f_virtiofs_sock=$1
+		check_file_exist_and_exit ${f_virtiofs_sock}
+		shift
+		;;
+	--virtio-fs-tag)
+		shift
+		q_virtiofs_tag=$1
 		shift
 		;;
 	--stdio)
@@ -774,6 +794,22 @@ config_cxl() {
 	esac
 }
 
+config_virtiofs() {
+	if [[ -z ${f_virtiofs_sock} ]] && [[ -z ${q_virtiofs_tag} ]]; then
+		return
+	fi
+
+	if [[ -z ${f_virtiofs_sock} ]] || [[ -z ${q_virtiofs_tag} ]]; then
+		error "Must specify --virtio-fs-sock and --virtio-fs-tag at the same time"
+	fi
+
+	# ref: https://qemu-stsquad.readthedocs.io/en/doc-updates/tools/virtiofsd.html
+	qargs+=(-chardev socket,id=char0,path=${f_virtiofs_sock}
+		-device vhost-user-fs-pci,chardev=char0,bus=pcie.0,tag=${q_virtiofs_tag}
+		-object memory-backend-memfd,id=mem,size=${q_memory},share=on
+		-numa node,memdev=mem )
+}
+
 config_basic
 config_memory
 config_cpu
@@ -784,6 +820,7 @@ config_kernel
 config_rootfs
 config_nvdimm
 config_cxl
+config_virtiofs
 
 qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
