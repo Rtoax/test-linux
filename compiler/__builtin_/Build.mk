@@ -53,4 +53,4 @@ CFLAGS_return_address := -Wno-error=frame-address
 
 CFLAGS_BPF += -O2 -g
 CFLAGS_BPF += -target bpf
-CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
+CFLAGS_BPF += $(bpf-cflags)

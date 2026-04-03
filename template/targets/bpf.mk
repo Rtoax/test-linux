@@ -27,8 +27,8 @@ CFLAGS_BPF += -mcpu=v3
 # FIXME: vmlinux.h use macro 'restrict'
 # TODO: linux selftests/bpf is -std=gnu11
 CFLAGS_BPF += -std=gnu89 -Drestrict=
-CFLAGS_BPF += $(CFLAG_BPF_TARGET_ARCH)
 CFLAGS_BPF += -DCONFIG_UID=${CONFIG_UID}
+CFLAGS_BPF += $(bpf-cflags)
 CFLAGS_BPF += ${bpf-helper-cflags}
 CFLAGS_BPF += -Wno-missing-declarations
 
