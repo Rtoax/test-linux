@@ -15,7 +15,7 @@
 #include <time.h>
 #include "heatmap.h"
 
-static struct addr_space *space;
+static struct heatmap_space *space;
 
 static char *f_txt = NULL;
 static char *f_output_bin = NULL;
@@ -29,37 +29,34 @@ static unsigned long default_max_addr = 0;
 
 void print_help(int _exit)
 {
-	linfo(
-	"\n"
-	"heatmap\n"
-	"\n"
-	" -i, --input     input data text file\n"
-	"                 Format:\n"
-	"                 [address] [quota|count]\n"
-	"\n"
-	" -o, --output    output binary file\n"
-	"                 check with ximage, see [0]\n"
-	"\n"
-	" -r, --rand      use rand value\n"
-	"\n"
-	" --min-addr      only plot address range min\n"
-	" --max-addr      only plot address range max\n"
-	"\n"
-	" --gran          set granularity, default: %ld bytes\n"
-	" --gran-cl3      granularity equal to LEVEL3 cacheline size\n"
-	" --col           set coloum, default: %ld num\n"
-	"\n"
-	" --debug         debug mode\n"
-	" -h, --help      show this information\n"
-	"\n"
-	" --ansi          print ansi example\n"
-	" --text-only     print text instead of ansi\n"
-	"\n"
-	"[0] https://github.com/JohnWStockwellJr/SeisUnix.git\n"
-	"\n",
-	default_granularity,
-	default_col
-	);
+	printf("\n"
+	       "heatmap\n"
+	       "\n"
+	       " -i, --input     input data text file\n"
+	       "                 Format:\n"
+	       "                 [address] [quota|count]\n"
+	       "\n"
+	       " -o, --output    output binary file\n"
+	       "                 check with ximage, see [0]\n"
+	       "\n"
+	       " -r, --rand      use rand value\n"
+	       "\n"
+	       " --min-addr      only plot address range min\n"
+	       " --max-addr      only plot address range max\n"
+	       "\n"
+	       " --gran          set granularity, default: %ld bytes\n"
+	       " --gran-cl3      granularity equal to LEVEL3 cacheline size\n"
+	       " --col           set coloum, default: %ld num\n"
+	       "\n"
+	       " --debug         debug mode\n"
+	       " -h, --help      show this information\n"
+	       "\n"
+	       " --ansi          print ansi example\n"
+	       " --text-only     print text instead of ansi\n"
+	       "\n"
+	       "[0] https://github.com/JohnWStockwellJr/SeisUnix.git\n"
+	       "\n",
+	       default_granularity, default_col);
 	exit(_exit);
 }
 
@@ -129,7 +126,7 @@ static int parse_args(int argc, char *argv[])
 			print_help(0);
 			break;
 		case ARG_ANSI_PRINT:
-			print_ansi();
+			heatmap_print_ansis();
 			exit(0);
 			break;
 		case ARG_TEXT_ONLY:
@@ -142,11 +139,11 @@ static int parse_args(int argc, char *argv[])
 	}
 
 	if (!rand_seed && !f_txt) {
-		lerror("Must specify -i or -r\n");
+		fprintf(stderr, "Must specify -i or -r\n");
 		exit(1);
 	}
 	if (!rand_seed && f_txt && access(f_txt, F_OK) != 0) {
-		lerror("TXT %s is not exist, see -i\n", f_txt);
+		fprintf(stderr, "TXT %s is not exist, see -i\n", f_txt);
 		exit(1);
 	}
 
@@ -159,8 +156,8 @@ void init_rand(void)
 
 	for (i = 0xffff0000; i < 0xffffffff; i += default_granularity) {
 		unsigned long quota = random() % 1024;
-		ldebug("quota %ld\n", quota);
-		insert_addr(space, i, quota);
+		// ldebug("quota %ld\n", quota);
+		heatmap_insert_addr(space, i, quota);
 	}
 }
 
@@ -171,7 +168,7 @@ int load_count_txt(void)
 	unsigned long addr, quota;
 
 	while (fscanf(fp, "%s %s", s_addr, s_cnt) != EOF) {
-		ldebug("function count: %s %s\n", s_addr, s_cnt);
+		// ldebug("function count: %s %s\n", s_addr, s_cnt);
 
 		if (s_addr[0] == '0' && s_addr[1] == 'x')
 			addr = strtoul(s_addr, NULL, 16);
@@ -185,7 +182,7 @@ int load_count_txt(void)
 
 		quota = strtoul(s_cnt, NULL, 10);
 
-		insert_addr(space, addr, quota);
+		heatmap_insert_addr(space, addr, quota);
 	}
 
 	fclose(fp);
@@ -197,22 +194,22 @@ int main(int argc, char *argv[])
 {
 	parse_args(argc, argv);
 
-	linfo("Starting...\n");
+	printf("Starting...\n");
 	srandom((int)time(0));
 
-	init_addr_space(&space, default_granularity);
+	heatmap_create_space(&space, default_granularity);
 
 	if (rand_seed)
 		init_rand();
 	else
 		load_count_txt();
 
-	quota_normalization(space, default_min_addr, default_max_addr);
-	addr_normalization(space, default_min_addr, default_max_addr);
+	heatmap_quota_normalization(space, default_min_addr, default_max_addr);
+	heatmap_addr_normalization(space, default_min_addr, default_max_addr);
 
-	// print_addr_space(space, NULL);
+	// heatmap_print_space(space, NULL);
 
-	plot_space(NULL, space, default_col, f_output_bin, text_only);
+	heatmap_plot_space(NULL, space, default_col, f_output_bin, text_only);
 
 	return 0;
 }

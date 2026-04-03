@@ -27,20 +27,21 @@ extern bool debug;
 		__ret;                   \
 	})
 
-struct addr_space;
+struct heatmap_space;
 
-void init_addr_space(struct addr_space **space, unsigned long granularity);
-void insert_addr(struct addr_space *space, unsigned long addr,
-		 unsigned long quota);
-bool has_addr(struct addr_space *space, unsigned long addr);
-void print_addr_space(struct addr_space *space, FILE *fp);
-void plot_space(FILE *fp, struct addr_space *space, unsigned long col,
-		const char *f_bin, bool text_only);
-void quota_normalization(struct addr_space *space, unsigned long min,
-			 unsigned long max);
-void addr_normalization(struct addr_space *space, unsigned long min,
-			unsigned long max);
+void heatmap_create_space(struct heatmap_space **space,
+			  unsigned long granularity);
+void heatmap_insert_addr(struct heatmap_space *space, unsigned long addr,
+			 unsigned long quota);
+bool heatmap_has_addr(struct heatmap_space *space, unsigned long addr);
+void heatmap_print_space(struct heatmap_space *space, FILE *fp);
+void heatmap_plot_space(FILE *fp, struct heatmap_space *space,
+			unsigned long col, const char *f_bin, bool text_only);
+void heatmap_quota_normalization(struct heatmap_space *space, unsigned long min,
+				 unsigned long max);
+void heatmap_addr_normalization(struct heatmap_space *space, unsigned long min,
+				unsigned long max);
 
 unsigned long strtoaddr(const char *s);
 
-void print_ansi(void);
+void heatmap_print_ansis(void);

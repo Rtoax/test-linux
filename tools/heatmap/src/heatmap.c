@@ -84,7 +84,7 @@ struct addr_node {
 
 typedef rb_tree(struct addr_node) addr_tree;
 
-struct addr_space {
+struct heatmap_space {
 	addr_tree tree;
 
 	/* bytes */
@@ -130,10 +130,11 @@ rb_gen(static __unused, addr_, addr_tree, struct addr_node, rb_link_node,
 
 struct addr_node *get_addr_node(addr_tree *tree, unsigned long addr);
 
-void init_addr_space(struct addr_space **space, unsigned long granularity)
+void heatmap_create_space(struct heatmap_space **space,
+			  unsigned long granularity)
 {
-	struct addr_space *new = malloc(sizeof(struct addr_space));
-	memset(new, 0, sizeof(struct addr_space));
+	struct heatmap_space *new = malloc(sizeof(struct heatmap_space));
+	memset(new, 0, sizeof(struct heatmap_space));
 
 	addr_new(&new->tree);
 
@@ -146,14 +147,15 @@ void init_addr_space(struct addr_space **space, unsigned long granularity)
 	*space = new;
 }
 
-void insert_addr(struct addr_space *space, unsigned long addr, unsigned long quota)
+void heatmap_insert_addr(struct heatmap_space *space, unsigned long addr,
+			 unsigned long quota)
 {
 	struct addr_node *new = NULL;
 
 	if (addr == 0)
 		return;
 
-	if (has_addr(space, addr)) {
+	if (heatmap_has_addr(space, addr)) {
 		new = get_addr_node(&space->tree, addr);
 		new->quota += quota;
 		ldebug("Update %#016lx %ld\n", new->start, new->quota);
@@ -181,7 +183,7 @@ void insert_addr(struct addr_space *space, unsigned long addr, unsigned long quo
 	addr_insert(&space->tree, new);
 }
 
-static void print_range(struct addr_space *space, FILE *fp)
+static void print_range(struct heatmap_space *space, FILE *fp)
 {
 	FILE *std = fp ?: stdout;
 
@@ -192,7 +194,7 @@ static void print_range(struct addr_space *space, FILE *fp)
 	fprintf(std, "Granularity: %#016lx\n", space->granularity);
 }
 
-void print_addr_space(struct addr_space *space, FILE *fp)
+void heatmap_print_space(struct heatmap_space *space, FILE *fp)
 {
 	struct addr_node *a = NULL;
 	FILE *std = fp ?: stdout;
@@ -214,8 +216,8 @@ addr_in_range(unsigned long addr, unsigned long start, unsigned long end)
 	return false;
 }
 
-void quota_normalization(struct addr_space *space,
-		unsigned long min, unsigned long max)
+void heatmap_quota_normalization(struct heatmap_space *space, unsigned long min,
+				 unsigned long max)
 {
 	struct addr_node *a = NULL;
 
@@ -237,8 +239,8 @@ void quota_normalization(struct addr_space *space,
 	}
 }
 
-void addr_normalization(struct addr_space *space,
-		unsigned long min, unsigned long max)
+void heatmap_addr_normalization(struct heatmap_space *space, unsigned long min,
+				unsigned long max)
 {
 	if (min)
 		space->min_addr = min;
@@ -267,13 +269,13 @@ struct addr_node *get_addr_node(addr_tree *tree, unsigned long addr)
 	return addr_search(tree, &node);
 }
 
-bool has_addr(struct addr_space *space, unsigned long addr)
+bool heatmap_has_addr(struct heatmap_space *space, unsigned long addr)
 {
 	return get_addr_node(&space->tree, addr) ? true : false;
 }
 
-void plot_space(FILE *fp, struct addr_space *space, unsigned long col,
-		const char *f_bin, bool text_only)
+void heatmap_plot_space(FILE *fp, struct heatmap_space *space,
+			unsigned long col, const char *f_bin, bool text_only)
 {
 	unsigned long addr;
 	struct addr_node *node;
@@ -374,9 +376,10 @@ unsigned long strtoaddr(const char *s)
 	return 0;
 }
 
-void print_ansi(void)
+void heatmap_print_ansis(void)
 {
 	int i;
 	for (i = 0; i < NR_ANSI; i++)
-		printf("%4d %s   %s\n", i, ANSI_COLORS_GRAY[i], ANSI_COLORS_RESET);
+		printf("%4d %s   %s\n", i, ANSI_COLORS_GRAY[i],
+		       ANSI_COLORS_RESET);
 }
