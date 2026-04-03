@@ -4,6 +4,14 @@
 #
 # Copyright (C) 2025-2026 Rong Tao
 #
+# CXL
+# ===
+# - CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
+#   pxb: PCIe eXpander Bridge
+#   rp: Root Port
+# - Refs:
+#   https://www.qemu.org/docs/master/system/devices/cxl.html
+#
 set -e
 readonly RED="\033[31m"
 readonly GREEN="\033[32m"
@@ -610,11 +618,6 @@ config_nvdimm() {
 	add_nvdimm_blk ${f_nvdimm}
 }
 
-# CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
-# pxb: PCIe eXpander Bridge
-# rp: Root Port
-
-# https://www.qemu.org/docs/master/system/devices/cxl.html
 cxl_pmem() {
 	_eval qemu-img create -f raw cxltest.raw ${cxl_size}
 	_eval qemu-img create -f raw lsa.raw ${cxl_size}
@@ -629,7 +632,6 @@ cxl_pmem() {
 	)
 }
 
-# https://www.qemu.org/docs/master/system/devices/cxl.html
 # A setup suitable for 4 way interleave. Only one fixed window provided, to
 # enable 2 way interleave across 2 CXL host bridges. Each host bridge has 2
 # CXL Root Ports, with the CXL Type3 device directly attached (no switches).
@@ -665,7 +667,6 @@ cxl_pmem_4way() {
 	)
 }
 
-# https://www.qemu.org/docs/master/system/devices/cxl.html
 # An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave:
 cxl_pmem_4way_switch() {
 	for i in $(seq 0 1 3)
@@ -693,29 +694,30 @@ cxl_pmem_4way_switch() {
 	done
 }
 
-# https://www.qemu.org/docs/master/system/devices/cxl.html
-cxl_volatile_mem() {
-	qargs+=(
-		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
+__cxl_volatile_mem_lsa() {
+	local LSA
+
+	qargs+=(-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size})
+
+	if [[ ${1} == lsa ]]; then
+		_eval qemu-img create -f raw lsa.raw ${cxl_size}
+		cleanup_files+=( lsa.raw )
+		LSA="lsa=cxl-lsa0,"
+		qargs+=(-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size})
+	fi
+
+	qargs+=(-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
-		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,id=cxl-vmem0
-		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
-	)
+		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,${LSA}id=cxl-vmem0
+		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G)
 }
 
-# https://www.qemu.org/docs/master/system/devices/cxl.html
+cxl_volatile_mem() {
+	__cxl_volatile_mem_lsa
+}
+
 cxl_volatile_mem_lsa() {
-	_eval qemu-img create -f raw lsa.raw ${cxl_size}
-	cleanup_files+=( lsa.raw )
-	qargs+=(
-		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
-		-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
-		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
-		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,lsa=cxl-lsa0,id=cxl-vmem0
-		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
-	)
+	__cxl_volatile_mem_lsa lsa
 }
 
 cxl_volatile_mem_4way() {
