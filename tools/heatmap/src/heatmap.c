@@ -40,19 +40,80 @@ static const char __attribute__((unused)) * ansi_text[] = {
 
 bool debug = false;
 
+struct addr_node {
+	/* [start, end) */
+	unsigned long start, end;
+
+	/* temp to use */
+	unsigned long addr;
+
+	unsigned long quota;
+
+	rb_node(struct addr_node) rb_link_node;
+};
+
+typedef rb_tree(struct addr_node) addr_tree;
+
+struct addr_space {
+	addr_tree tree;
+
+	/* bytes */
+	unsigned long granularity;
+	unsigned long max_addr, min_addr;
+	unsigned long max_quota, min_quota;
+};
+
+rb_proto(static __unused, addr_, addr_tree, struct addr_node);
+
+static int __addr_in_node(const struct addr_node *node, unsigned long addr)
+{
+	if (addr < node->start)
+		return 1;
+	else if (addr >= node->start && addr < node->end)
+		return 0;
+	else if (addr >= node->end)
+		return -1;
+
+	return 0;
+}
+
+static int addr_node_cmp(const struct addr_node *a, const struct addr_node *b)
+{
+	if (a->addr)
+		return __addr_in_node(b, a->addr);
+
+	if (b->addr)
+		return __addr_in_node(a, b->addr);
+
+	if (b->end <= a->start)
+		return -1;
+	else if (a->start < b->end && a->end > b->start)
+		return 0;
+	else if (a->end <= b->start)
+		return 1;
+
+	return 0;
+}
+
+rb_gen(static __unused, addr_, addr_tree, struct addr_node, rb_link_node,
+       addr_node_cmp);
+
 struct addr_node *get_addr_node(addr_tree *tree, unsigned long addr);
 
-void init_addr_space(struct addr_space *space, unsigned long granularity)
+void init_addr_space(struct addr_space **space, unsigned long granularity)
 {
-	memset(space, 0, sizeof(struct addr_space));
+	struct addr_space *new = malloc(sizeof(struct addr_space));
+	memset(new, 0, sizeof(struct addr_space));
 
-	addr_new(&space->tree);
+	addr_new(&new->tree);
 
-	space->granularity = power_of_2(granularity);
-	space->min_addr = -1UL;
-	space->max_addr = 0;
-	space->min_quota = -1UL;
-	space->max_quota = 0;
+	new->granularity = power_of_2(granularity);
+	new->min_addr = -1UL;
+	new->max_addr = 0;
+	new->min_quota = -1UL;
+	new->max_quota = 0;
+
+	*space = new;
 }
 
 void insert_addr(struct addr_space *space, unsigned long addr, unsigned long quota)
@@ -288,14 +349,4 @@ void print_ansi(void)
 	int i;
 	for (i = 0; i < NR_ANSI; i++)
 		printf("%4d %s   %s\n", i, ANSI_COLORS_GRAY[i], ANSI_COLORS_RESET);
-}
-
-unsigned long power_of_2(unsigned long v)
-{
-	unsigned long ret = 2;
-
-	while (ret < v)
-		ret <<= 1;
-
-	return ret;
 }

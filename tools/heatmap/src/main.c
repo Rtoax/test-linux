@@ -15,7 +15,7 @@
 #include <time.h>
 #include "heatmap.h"
 
-static struct addr_space space;
+static struct addr_space *space;
 
 static char *f_txt = NULL;
 static char *f_output_bin = NULL;
@@ -160,7 +160,7 @@ void init_rand(void)
 	for (i = 0xffff0000; i < 0xffffffff; i += default_granularity) {
 		unsigned long quota = random() % 1024;
 		ldebug("quota %ld\n", quota);
-		insert_addr(&space, i, quota);
+		insert_addr(space, i, quota);
 	}
 }
 
@@ -185,7 +185,7 @@ int load_count_txt(void)
 
 		quota = strtoul(s_cnt, NULL, 10);
 
-		insert_addr(&space, addr, quota);
+		insert_addr(space, addr, quota);
 	}
 
 	fclose(fp);
@@ -207,12 +207,12 @@ int main(int argc, char *argv[])
 	else
 		load_count_txt();
 
-	quota_normalization(&space, default_min_addr, default_max_addr);
-	addr_normalization(&space, default_min_addr, default_max_addr);
+	quota_normalization(space, default_min_addr, default_max_addr);
+	addr_normalization(space, default_min_addr, default_max_addr);
 
-//	print_addr_space(&space, NULL);
+	// print_addr_space(space, NULL);
 
-	plot_space(NULL, &space, default_col, f_output_bin, text_only);
+	plot_space(NULL, space, default_col, f_output_bin, text_only);
 
 	return 0;
 }
