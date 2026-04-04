@@ -1,6 +1,8 @@
 #!/bin/bash
-# Usage: [V=1|VERBOSE=1] ./linux-reference.sh
+# Usage: [FLR/FORCE=1] [V=1|VERBOSE=1] ./linux-reference.sh
 set -e
+
+FLR=${FORCE}
 
 readonly THISPATH=$(dirname $(realpath $0))
 
@@ -19,5 +21,5 @@ if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README})" ]]; the
 	else
 		echo >&2 "ERROR: Missing '* ${kver_short} (${os_short})' in ${README}"
 	fi
-	exit 1
+	[[ -z ${FLR} ]] && exit 1
 fi

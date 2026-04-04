@@ -2,11 +2,13 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Usage:
-# $ [AV=1] [VCM=1] [FCM=1] git commit ...
+# $ [AV=1] [VCM=1] [FORCE/FCM=1] git commit ...
 # - AV: Match all versions
 # - VCM: Verbose mode of Commit Message
-# - FCM: Force mode of Commit Message
+# - FORCE/FCM: Force mode of Commit Message
 [[ ${VCM} ]] && set -x
+
+FCM=${FORCE}
 
 readonly COMMIT_MSG_FILE=$1
 readonly COMMIT_SOURCE=$2 # commit, merge
@@ -53,7 +55,7 @@ Versions=""
 Environments=""
 
 fatal() {
-	echo >&2 "FATAL: "${@}", try FCM=1 or VCM=1"
+	echo >&2 "FATAL: "${@}", try FCM=1/FORCE=1 or VCM=1"
 	[[ -z ${FCM} ]] && exit 1
 }
 

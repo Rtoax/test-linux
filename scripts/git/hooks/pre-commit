@@ -2,19 +2,20 @@
 # Copyright (C) 2024-2026 Rong Tao
 #
 # Usage:
-# $ [VC=1] [FC=1] [NMOD=n] [NADD=n] [NDEL=n] git commit ...
+# $ [VC=1] [{FORCE|FC}=1] [NMOD=n] [NADD=n] [NDEL=n] git commit ...
 # - VC: Verbose mode of Commit
-# - FC: Force Commit
+# - FORCE/FC: Force Commit
 set -e
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly MY_DIRECTORY=$(realpath $(dirname $(realpath $0))/../../../)
 
+FC=${FORCE}
+
 # Usage: $ NMOD=6 git commit -s
 [[ -z ${NMOD} ]] && NMOD=4
 [[ -z ${NADD} ]] && NADD=1
 [[ -z ${NDEL} ]] && NDEL=1
-[[ -z ${FC} ]] && FC=
 
 if [[ ${VC} ]]; then
 	set -x
@@ -23,7 +24,7 @@ fi
 fatal() {
 	echo >&2 -e "\033[1;31mFATAL: ${@}\033[0m"
 	if [[ -z ${FC} ]]; then
-		echo >&2 -e "FATAL: Try FC=1"
+		echo >&2 -e "FATAL: Try FC=1/FORCE=1"
 		exit 1
 	fi
 }
