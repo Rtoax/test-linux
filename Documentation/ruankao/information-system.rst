@@ -6,6 +6,7 @@ Information-System
 ------------
 
 - :ref:`fig-Information-System`
+- :ref:`fig-Nolan-Model`
 
 
 信息系统
@@ -28,14 +29,17 @@ Information-System
         Summary --> InfoLifeCycle[信息系统生命周期]
         Summary --> InfoDevelMethod[信息系统开发方法]
 
-        InfoType --> InfoType1[业务处理系统 TPS]
-        InfoType --> InfoType2[管理信息系统 MIS]
-        InfoType --> InfoType3[决策支持系统 DSS]
-        InfoType --> InfoType4[专家系统 ES]
-        InfoType --> InfoType5[客户关系系统 CRM]
-        InfoType --> InfoType6[供应链管理 SCM]
-        InfoType --> InfoType7[企业资源规划 ERP]
-        InfoType --> InfoType8[办公自动化系统 OAS]
+        InfoIntroduce --> Nolan[诺兰模型]
+
+        InfoType --> TPS[业务处理系统 TPS]
+        InfoType --> DPS[数据处理系统 DPS]
+        InfoType --> MIS[管理信息系统 MIS]
+        InfoType --> DSS[决策支持系统 DSS]
+        InfoType --> ES[专家系统 ES]
+        InfoType --> CRM[客户关系系统 CRM]
+        InfoType --> SCM[供应链管理 SCM]
+        InfoType --> ERP[企业资源规划 ERP]
+        InfoType --> OAS[办公自动化系统 OAS]
 
         InfoDevelMethod --> Method1[结构化开发方法]
         InfoDevelMethod --> Method2[面向对象开发方法]
@@ -44,3 +48,20 @@ Information-System
 
         style Info fill:#f9f,stroke:#333,stroke-width:2px
         style EAI fill:#f9f,stroke:#333,stroke-width:2px
+
+
+诺兰模型
+--------
+
+.. _fig-Nolan-Model:
+
+.. mermaid::
+   :caption: 诺兰模型
+
+    flowchart LR
+        Nolan(诺兰模型) ==> Procedure1([初始阶段])
+        Nolan ==> Procedure2([传播阶段])
+        Nolan ==> Procedure3([控制阶段])
+        Nolan ==> Procedure4([集成阶段])
+        Nolan ==> Procedure5([数据管理阶段])
+        Nolan ==> Procedure6([成熟阶段])
