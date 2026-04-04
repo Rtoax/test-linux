@@ -219,14 +219,22 @@ Software Engineering 软件工程
         ReqsManage --> ReqsManage3[需求跟踪]
         ReqsManage --> ReqsManage4[需求状态跟踪]
 
-        devel --> devel1[业务流程设计]
+        devel --> BusinessProcessDesign[业务流程设计]
         devel --> devel2[系统设计]
         devel --> devel3[编码]
         devel --> devel4[调试]
         devel --> devel5[测试]
 
-        devel1 --> devel11[业务流程设计图]
-        devel1 --> devel12[业务流程设计分类]
+        BusinessProcessDesign --> BusinessProcessDesignDiagram[业务流程设计图]
+        BusinessProcessDesign --> BusinessProcessDesignTypes[业务流程设计分类]
+
+        BusinessProcessDesignDiagram --> PFD[PFD 程序流程图] --> PFD1[顺序、选择、循环结构]
+        BusinessProcessDesignDiagram --> IPO[IPO 输入、处理、输出] --> IPO1[典型：DFD数据流图]
+        BusinessProcessDesignDiagram --> N-S[N-S 图] --> N-S1[不适合复杂情况]
+        BusinessProcessDesignDiagram --> PAD[PAD 问题分析图] --> PAD1[结构化]
+
+        BusinessProcessDesignTypes --> BPM[BPM 业务流程管理]
+        BusinessProcessDesignTypes --> BPR[BPR 业务流程重组]
 
         devel2 --> devel21[系统设计目的]
         devel2 --> devel22[系统设计方法]
