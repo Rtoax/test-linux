@@ -72,7 +72,7 @@ Database 数据库
         RelationalAlgebra --> RelationalAlgebra3[比较运算符]
         RelationalAlgebra --> RelationalAlgebra4[逻辑运算符]
 
-        RelationalAlgebra1 --> RelationalAlgebra11[并，交，差，笛卡尔积]
+        RelationalAlgebra1 --> RelationalAlgebra11[并，交∩，差，笛卡尔积]
         RelationalAlgebra2 --> RelationalAlgebra21[选择，投影，连接，除]
         RelationalAlgebra3 --> RelationalAlgebra31[大于，小于，...]
         RelationalAlgebra4 --> RelationalAlgebra41[与，或，非]
@@ -92,6 +92,9 @@ Database 数据库
         NormalForms --> 2NF[第一范式 2NF] --> 2NFx[不能存在联合主键]
         NormalForms --> 3NF[第一范式 3NF] --> 3NFx[不能存在传递依赖]
         NormalForms --> BCNF[BC范式 BCNF] --> BCNFx[3NF+避免数据冗余和不一致性]
+
+        ModeDecomposition --> MD1[是否保持函数依赖]
+        ModeDecomposition --> MD2[有损无损分解] --> MD2x[无损的充要条件: R1∩R1 -> R1-R2]
 
         NonNormalizationProblems --> NNP1[数据冗余]
         NonNormalizationProblems --> NNP2[修改异常]
