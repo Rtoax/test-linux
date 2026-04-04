@@ -52,8 +52,20 @@ Database 数据库
         Design --> Design5[数据库实施阶段]
         Design --> Design6[数据库运行和维护阶段]
 
-        Model --> E-R[E-R 模型]
+        Model --> ER[E-R 模型]
         Model --> Model2[关系模型]
+        Model --> ModelElement[模型三要素]
+
+        ER --> ER1[实体]
+        ER --> ER2[属性]
+        ER --> ER3[联系]
+
+        ER1 --> ER11[强实体，弱实体]
+        ER3 --> ER31[1对1，1对多，多对1]
+
+        ModelElement --> ModelElement1[数据结构]
+        ModelElement --> ModelElement2[数据操作]
+        ModelElement --> ModelElement3[数据的约束条件]
 
         Norm --> Norm1[函数依赖]
         Norm --> Norm2[键与约束]
