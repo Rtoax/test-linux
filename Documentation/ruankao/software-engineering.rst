@@ -168,9 +168,9 @@ Software Engineering 软件工程
         ReqsEngineering --> ReqsClassification[需求分类]
         ReqsEngineering --> ReqsGathering[需求获取]
         ReqsEngineering --> ReqsAnalysis[需求分析]
-        ReqsEngineering --> ReqsEngineering4[需求定义]
-        ReqsEngineering --> ReqsEngineering5[需求验证]
-        ReqsEngineering --> ReqsEngineering6[需求管理]
+        ReqsEngineering --> ReqsDefinition[需求定义SRS]
+        ReqsEngineering --> ReqsVerification[需求验证/需求确认]
+        ReqsEngineering --> ReqsManage[需求管理]
 
         ReqsClassification --> ReqsClassification1[业务需求]
         ReqsClassification --> ReqsClassification2[用户需求]
@@ -192,7 +192,7 @@ Software Engineering 软件工程
 
         StructuredMethod --> StructuredMethod1[特点]
         StructuredMethod --> StructuredMethod2[三大模型]
-        StructuredMethod --> StructuredMethod3[数据流图]
+        StructuredMethod --> StructuredMethod3[数据流图DFD]
 
         StructuredMethod1 --> StructuredMethod11[自顶向下]
         StructuredMethod1 --> StructuredMethod12[逐步分解]
@@ -203,10 +203,21 @@ Software Engineering 软件工程
         StructuredMethod2 --> StructuredMethod23[数据模型] <--> StructuredMethod23x[E-R 图]
         StructuredMethod2 --> StructuredMethod24[数据字典 DD]
 
-        ReqsEngineering6 --> ReqsEngineering61[变更控制]
-        ReqsEngineering6 --> ReqsEngineering62[版本控制]
-        ReqsEngineering6 --> ReqsEngineering63[需求跟踪]
-        ReqsEngineering6 --> ReqsEngineering64[需求状态跟踪]
+        ReqsDefinition --> SRS[软件需求规格说明书]
+        ReqsDefinition --> ReqsDefinitionMethod[需求定义方法]
+
+        ReqsDefinitionMethod --> ReqsDefinitionMethod1[严格定义、预先定义，结构化定义]
+        ReqsDefinitionMethod --> ReqsDefinitionMethod2[原型方法]
+
+        ReqsVerification --> ReqsVerificationProcedure[步骤]
+
+        ReqsVerificationProcedure --> ReqsVerificationProcedure1[需求评审]
+        ReqsVerificationProcedure --> ReqsVerificationProcedure2[需求测试]
+
+        ReqsManage --> ReqsManage1[变更控制]
+        ReqsManage --> ReqsManage2[版本控制]
+        ReqsManage --> ReqsManage3[需求跟踪]
+        ReqsManage --> ReqsManage4[需求状态跟踪]
 
         devel --> devel1[业务流程设计]
         devel --> devel2[系统设计]
