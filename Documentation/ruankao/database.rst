@@ -78,7 +78,7 @@ Database 数据库
         RelationalAlgebra4 --> RelationalAlgebra41[与，或，非]
 
         Norm --> FunctionDependency[函数依赖]
-        Norm --> Norm2[键与约束]
+        Norm --> KeysConstraints[键与约束]
         Norm --> Norm3[规范化的三范式]
         Norm --> Norm4[模式分解]
         Norm --> Norm5[反规范化]
@@ -93,6 +93,14 @@ Database 数据库
         Armstrong --> Armstrong4[合并律]
         Armstrong --> Armstrong5[分解律]
         Armstrong --> Armstrong6[合成律]
+
+        KeysConstraints --> Keys[键]
+
+        Keys --> Key1[超键] --> Key11[唯一标识一条记录的属性/属性集]
+        Keys --> Key2[候选键] --> Key21[无冗余属性的超键]
+        Keys --> Key3[主属性] --> Key31[候选键中的属性]
+        Keys --> Key4[主键] --> Key41[候选键中的一个属性/属性集]
+        Keys --> Key5[外键] --> Key51[建立表之间的关系]
 
         Control --> Transaction[事物]
         Control --> Concurrency[并发控制]
