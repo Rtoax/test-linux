@@ -220,7 +220,7 @@ Software Engineering 软件工程
         ReqsManage --> ReqsManage4[需求状态跟踪]
 
         devel --> BusinessProcessDesign[业务流程设计]
-        devel --> devel2[系统设计]
+        devel --> SysDesign[系统设计]
         devel --> devel3[编码]
         devel --> devel4[调试]
         devel --> devel5[测试]
@@ -236,15 +236,36 @@ Software Engineering 软件工程
         BusinessProcessDesignTypes --> BPM[BPM 业务流程管理]
         BusinessProcessDesignTypes --> BPR[BPR 业务流程重组]
 
-        devel2 --> devel21[系统设计目的]
-        devel2 --> devel22[系统设计方法]
-        devel2 --> devel23[系统设计内容]
-        devel2 --> devel24[系统设计原则]
-        devel2 --> devel25[衡量模块独立性的标准]
-        devel2 --> devel26[人机设计三大黄金原则]
+        SysDesign --> SysDesignPurpose[系统设计目的] --> SysDesignPurposex[为系统制定蓝图]
+        SysDesign --> SysDesignMethod[系统设计方法]
+        SysDesign --> SysDesignContent[系统设计内容]
+        SysDesign --> SysDesignPrinciples[系统设计原则]
+        SysDesign --> SysDesign5[衡量模块独立性的标准]
+        SysDesign --> SysDesignHuman[人机设计三大黄金原则]
 
-        devel25 --> devel251[内聚]
-        devel25 --> devel252[耦合]
+        SysDesignMethod --> SysDesignMethod1[结构化设计方法]
+        SysDesignMethod --> SysDesignMethod2[面向对象设计方法]
+
+        SysDesignContent --> SysDesignContent1[概要设计] --> SysDesignContent1x[模块/系统结构图] --> SysDesignContent1y[概要设计说明书]
+        SysDesignContent --> SysDesignContent2[详细设计] --> SysDesignContent2x[详细设计说明书]
+
+        SysDesignPrinciples --> SysDesignPrinciples1[抽象化]
+        SysDesignPrinciples --> SysDesignPrinciples2[自顶向下，逐步求精]
+        SysDesignPrinciples --> SysDesignPrinciples3[信息隐蔽：封装]
+        SysDesignPrinciples --> SysDesignPrinciples4[模块独立：高内聚、低耦合]
+        SysDesignPrinciples --> SysDesignPrinciples5[保持模块大小适中]
+        SysDesignPrinciples --> SysDesignPrinciples6[尽可能减少调用深度]
+        SysDesignPrinciples --> SysDesignPrinciples7[多扇入、少扇出]
+        SysDesignPrinciples --> SysDesignPrinciples8[单入口、单出口]
+        SysDesignPrinciples --> SysDesignPrinciples9[模块的作用域在模块内]
+        SysDesignPrinciples --> SysDesignPrinciples10[功能可预测]
+
+        SysDesign5 --> SysDesign51[内聚]
+        SysDesign5 --> SysDesign52[耦合]
+
+        SysDesignHuman --> SysDesignHuman1[置于用户之下]
+        SysDesignHuman --> SysDesignHuman2[减少用户的记忆负担]
+        SysDesignHuman --> SysDesignHuman3[保持界面的一致性]
 
         devel5 --> devel51[测试原则]
         devel5 --> devel52[测试方法]
