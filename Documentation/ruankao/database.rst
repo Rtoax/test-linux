@@ -123,9 +123,21 @@ Database 数据库
         Keys --> Key4[主键] --> Key41[候选键中的一个属性/属性集]
         Keys --> Key5[外键] --> Key51[建立表之间的关系]
 
-        Control --> Transaction[事物]
+        Control --> Transaction[事物] --> ACID[ACID]
         Control --> Concurrency[并发控制]
         Control --> Blockade[封锁协议]
+
+        Concurrency --> ConcurrencyProblem[三种安全问题]
+
+        ConcurrencyProblem --> ConcurrencyProblem1[丢失更新]
+        ConcurrencyProblem --> ConcurrencyProblem2[不可重复读]
+        ConcurrencyProblem --> ConcurrencyProblem3[读脏数据]
+
+        Blockade --> LockX([X锁是排他锁/写锁🔓])
+        Blockade --> LockS([S锁是共享锁/读锁🔓])
+        Blockade --> 1Blockade[一级封锁协议] --> 1Bx[修改前必须加X写锁]
+        Blockade --> 2Blockade[二级封锁协议] --> 2Bx[一级封锁协议 + 读之前必须加S读锁]
+        Blockade --> 3Blockade[三级封锁协议] --> 3Bx[一级封锁协议 + 事物T在读前加S读锁]
 
         Other --> App[应用程序与数据库的交互]
         Other --> NoSQL[NoSQL 数据库]
