@@ -26,6 +26,7 @@ readonly LAST_SUBMITTED_FILES=( $(git log -1 --oneline --name-only --pretty=form
 
 # Changed file list (new, deleted, added, modified)
 declare -a CHANGED_FILES SHEBANGS
+declare is_commit_amend
 
 # Remove old Env first.
 sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
@@ -36,6 +37,7 @@ CHANGED_FILES+=( ${UNCOMMITTED_FILES[@]} )
 # git commit --amend
 if [ "$COMMIT_SOURCE" = "commit" ] && [ "$COMMIT_SHA1" = "HEAD" ]; then
 	CHANGED_FILES+=( ${LAST_SUBMITTED_FILES[@]} )
+	is_commit_amend=YES
 fi
 
 for f in ${CHANGED_FILES[@]}; do
@@ -485,10 +487,11 @@ if [[ ${Environments} ]]; then
 fi
 
 # If only modify The Documentation, try add Commit Message Title
-if [[ -z "$(git status --short | grep -v Documentation || :)" ]]; then
+if [[ -z "$(git status --short | grep -v Documentation || :)" ]] && \
+   [[ -z ${is_commit_amend} ]]; then
 	doc_files=( $(git status --short | grep -Eo 'Documentation.*' | grep -vw conf.py) )
 	doc_names=( $(for f in ${doc_files[@]}; do basename ${f}; done) )
-	doc_dirs=( $(for f in ${doc_files[@]}; do basename $(dirname ${f}); done ) )
+	doc_dirs=( $(for f in ${doc_files[@]}; do basename $(dirname ${f}); done | sort -u ) )
 	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
 	sed -i "1i Doc: ${doc_label}: update ${doc_names[*]}" ${COMMIT_MSG_FILE} || {
 		fatal "Failed add commit message"
