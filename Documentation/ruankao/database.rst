@@ -30,7 +30,7 @@ Database 数据库
 
         Concept --> Concept1[数据库系统概述]
         Concept --> Concept2[三级模型两级映射]
-        Concept --> Concept3[数据库设计]
+        Concept --> Design[数据库设计]
 
         Concept1 --> DBS[数据库系统 DBS]
         Concept1 --> DBMS[数据库管理系统 DBMS]
@@ -44,6 +44,13 @@ Database 数据库
         ExternalLevel --> ExternalLevel1[面向应用程序: View]
         ConceptualLevel --> ConceptualLevel1[面向数据库设计人员: 逻辑结构]
         InternalLevel --> InternalLevel1[磁盘存储]
+
+        Design --> Design1[需求分析] --> Design11[数据流图，数据字典，需求说明书]
+        Design --> Design2[概念结构设计] --> Design21[E-R 图]
+        Design --> Design3[逻辑结构设计] --> Design31[关系模式]
+        Design --> Design4[物理设计]
+        Design --> Design5[数据库实施阶段]
+        Design --> Design6[数据库运行和维护阶段]
 
         Model --> E-R[E-R 模型]
         Model --> Model2[关系模型]
