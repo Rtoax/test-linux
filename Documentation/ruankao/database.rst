@@ -77,6 +77,12 @@ Database 数据库
         RelationalAlgebra3 --> RelationalAlgebra31[大于，小于，...]
         RelationalAlgebra4 --> RelationalAlgebra41[与，或，非]
 
+        SQL --> DDL[数据定义语言 DDL]
+        SQL --> DML[数据操作语言 DML]
+        SQL --> DQL[数据查询语言 DQL]
+        SQL --> TCL[事物控制语言 TCL]
+        SQL --> DCL[数据控制语言 DCL]
+
         Norm --> FunctionDependency[函数依赖]
         Norm --> KeysConstraints[键与约束]
         Norm --> NormalForms[范式]
@@ -141,6 +147,16 @@ Database 数据库
 
         Other --> App[应用程序与数据库的交互]
         Other --> NoSQL[NoSQL 数据库]
+
+        App --> App1[库函数级别访问接口]
+        App --> App2[嵌入 SQL 访问接口]
+        App --> App3[通用数据接口标准]
+        App --> App4[ORM 访问接口]
+
+        NoSQL --> NoSQL1[列式存储数据库]
+        NoSQL --> NoSQL2[键值对存储数据库]
+        NoSQL --> NoSQL3[文档型数据库]
+        NoSQL --> NoSQL4[图数据库]
 
 
 ACID
