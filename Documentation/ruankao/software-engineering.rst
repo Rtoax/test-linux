@@ -10,6 +10,7 @@ Software Engineering 软件工程
 - :ref:`fig-software-lifecycle`
 - :ref:`fig-Reverse-engineering`
 - :ref:`fig-Performance-Evaluation`
+- :ref:`fig-DFD`
 
 
 软件工程概述
@@ -165,7 +166,7 @@ Software Engineering 软件工程
 
         ReqsEngineering --> ReqsClassification[需求分类]
         ReqsEngineering --> ReqsGathering[需求获取]
-        ReqsEngineering --> ReqsEngineering3[需求分析]
+        ReqsEngineering --> ReqsAnalysis[需求分析]
         ReqsEngineering --> ReqsEngineering4[需求定义]
         ReqsEngineering --> ReqsEngineering5[需求验证]
         ReqsEngineering --> ReqsEngineering6[需求管理]
@@ -181,16 +182,25 @@ Software Engineering 软件工程
         ReqsGathering --> ReqsGathering5[联合需求计划 JRP] <--> ReqsGathering51[开会]
         ReqsGathering --> ReqsGathering6[需求记录技术]
 
-        ReqsEngineering3 --> ReqsEngineering31[目的]
-        ReqsEngineering3 --> ReqsEngineering32[步骤]
-        ReqsEngineering3 --> ReqsEngineering33[方法]
+        ReqsAnalysis --> ReqsAnalysis1[目的]
+        ReqsAnalysis --> ReqsAnalysis2[步骤]
+        ReqsAnalysis --> ReqsAnalysisMethod[方法]
 
-        ReqsEngineering33 --> ReqsEngineering331[结构化方法]
-        ReqsEngineering33 --> ReqsEngineering332[面向对象分析方法]
+        ReqsAnalysisMethod --> StructuredMethod[结构化方法]
+        ReqsAnalysisMethod --> ReqsAnalysisMethod2[面向对象分析方法]
 
-        ReqsEngineering331 --> ReqsEngineering3311[特点]
-        ReqsEngineering331 --> ReqsEngineering3312[三大模型]
-        ReqsEngineering331 --> ReqsEngineering3313[数据流图]
+        StructuredMethod --> StructuredMethod1[特点]
+        StructuredMethod --> StructuredMethod2[三大模型]
+        StructuredMethod --> StructuredMethod3[数据流图]
+
+        StructuredMethod1 --> StructuredMethod11[自顶向下]
+        StructuredMethod1 --> StructuredMethod12[逐步分解]
+        StructuredMethod1 --> StructuredMethod13[面向数据]
+
+        StructuredMethod2 --> StructuredMethod21[功能模型] <--> StructuredMethod21x[数据流图 DFD]
+        StructuredMethod2 --> StructuredMethod22[行为模型] <--> StructuredMethod22x[状态转换图]
+        StructuredMethod2 --> StructuredMethod23[数据模型] <--> StructuredMethod23x[E-R 图]
+        StructuredMethod2 --> StructuredMethod24[数据字典 DD]
 
         ReqsEngineering6 --> ReqsEngineering61[变更控制]
         ReqsEngineering6 --> ReqsEngineering62[版本控制]
@@ -229,6 +239,21 @@ Software Engineering 软件工程
         style define fill:#bbf,stroke:#333
         style devel fill:#bbf,stroke:#333
         style run fill:#bbf,stroke:#333
+
+
+数据流图 DFD
+------------
+
+.. _fig-DFD:
+
+.. mermaid::
+   :caption: 数据流图 DFD
+
+    flowchart LR
+        DFD(数据流图) ==> DataFlow([数据流])
+        DFD ==> Process([加工])
+        DFD ==> DataStore([数据存储])
+        DFD ==> Entity([外部实体])
 
 
 逆向工程
