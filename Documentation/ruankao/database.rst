@@ -96,6 +96,13 @@ Database 数据库
         ModeDecomposition --> MD1[是否保持函数依赖]
         ModeDecomposition --> MD2[有损无损分解] --> MD2x[无损的充要条件: R1∩R1 -> R1-R2]
 
+        Denormalization --> DNx([牺牲部分规范化提高性能])
+        Denormalization --> DN1[增加冗余列]
+        Denormalization --> DN2[增加派生列]
+        Denormalization --> DN3[重新组表]
+        Denormalization --> DN4[水平分割表]
+        Denormalization --> DN5[垂直分割表]
+
         NonNormalizationProblems --> NNP1[数据冗余]
         NonNormalizationProblems --> NNP2[修改异常]
         NonNormalizationProblems --> NNP3[插入异常]
