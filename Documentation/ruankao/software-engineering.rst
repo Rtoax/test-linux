@@ -22,14 +22,32 @@ Software Engineering 软件工程
 
     flowchart LR
         Engineering(软件工程概述) ==> Concept([基本概念])
+        Engineering ==> PDCA([软件工程过程 PDCA])
+        Engineering ==> Activity([四个活动])
         Engineering ==> Maturity([软件成熟度模型])
 
         Concept --> Concept1[定义]
         Concept --> Concept2[软件工程活动]
         Concept --> Concept3[软件工具分类]
 
-        Maturity --> Maturity1[CMM: 能力成熟度模型]
+        PDCA --> Plan[Plan 软件规格说明]
+        PDCA --> Do[Do 软件开发]
+        PDCA --> Check[Check 软件确认]
+        PDCA --> Action[Action 软件演进]
+
+        Activity --> Activity1[数据设计]
+        Activity --> Activity2[架构/体系结构设计]
+        Activity --> Activity3[人机界面/接口设计]
+        Activity --> Activity4[过程/功能设计]
+
+        Maturity --> CMM[CMM: 能力成熟度模型]
         Maturity --> Maturity2[CMMI: 能力成熟度模型集成]
+
+        CMM --> CMM1[初始级] --> CMM1x[英雄]
+        CMM --> CMM2[可重复级] --> CMM2x[过程准则、可重复]
+        CMM --> CMM3[可定义级] --> CMM3x[文档化、标准化]
+        CMM --> CMM4[已管理级] --> CMM4x[制定度量标准]
+        CMM --> CMM5[优化级] --> CMM5x[持续改进]
 
         style Engineering fill:#f9f,stroke:#333,stroke-width:2px
 
@@ -47,12 +65,28 @@ Software Engineering 软件工程
         Process ==> Agile([敏捷模型])
         Process ==> Other([其他模型])
 
-        Traditional --> Traditional1[瀑布模型]
-        Traditional --> Traditional2[原型模型]
-        Traditional --> Traditional3[螺旋模型]
-        Traditional --> Traditional4[V模型]
+        Traditional --> WaterfallModel[瀑布模型]
+        Traditional --> PrototypingModel[原型化模型]
+        Traditional --> SpiralModel[螺旋模型]
+        Traditional --> VModel[V 模型]
+        Traditional --> WModel[W 模型]
+        Traditional --> HModel[H 模型]
 
-        Agile --> Agile1[核心思想]
+        WaterfallModel --> WaterfallModel1[风险控制力弱]
+        WaterfallModel --> WaterfallModel2[每阶段文档]
+        WaterfallModel --> WaterfallModel3[适用于需求明确]
+
+        PrototypingModel --> PrototypingModel1[适用于需求不明确]
+
+        SpiralModel --> SpiralModel1[强调风险]
+        SpiralModel --> SpiralModel2[适用于庞大复杂高风险系统]
+
+        VModel --> VModel1[需求分析] <--> VModel1x[验收测试]
+        VModel --> VModel2[概要设计] <--> VModel2x[系统测试]
+        VModel --> VModel3[详细设计] <--> VModel3x[集成测试]
+        VModel --> VModel4[软件编码] <--> VModel4x[单元测试]
+
+        Agile --> Agile1[核心思想] --> Agile11[以人为本、适应性]
         Agile --> Agile2[4大价值观]
         Agile --> Agile3[5大原则]
         Agile --> Agile4[12个最佳实践]
@@ -69,16 +103,16 @@ Software Engineering 软件工程
         Agile3 --> Agile34[提倡更改]
         Agile3 --> Agile35[优质工作]
 
-        Agile5 --> Agile51[极限编程XP]
-        Agile5 --> Agile52[水晶系列方法]
-        Agile5 --> Agile53[并列争球法Scrum]
-        Agile5 --> Agile54[特性驱动开发方法FDD]
+        Agile5 --> Agile51[极限编程XP] --> Agile511[交流、朴素、反馈、勇气，见4大价值观]
+        Agile5 --> Agile52[水晶系列方法] --> Agile521[以人为本，每个人都独特]
+        Agile5 --> Agile53[并列争球法Scrum] --> Agile531[冲刺 Sprint，商业价值]
+        Agile5 --> Agile54[特性驱动开发方法FDD] --> Agile541[迭代，人、过程、技术]
 
-        Other --> Other1[增量模型]
-        Other --> Other2[喷泉模型]
-        Other --> RUP[RUP:统一过程模型]
-        Other --> Other4[净室软件工程]
-        Other --> Other5[基于构件的软件工程CBSE]
+        Other --> IncrementalModel[增量模型] --> IncrementalModel1[每次增量版本都可独立发布]
+        Other --> FountainModel[喷泉模型] --> FountainModel1[面向对象]
+        Other --> RUP[RUP 统一过程模型]
+        Other --> Cleanroom[净室软件工程]
+        Other --> CBSE[基于构件的软件工程CBSE] --> CBSE1[快速开发模型，如低代码平台]
 
         RUP --> RUP1[9个工作流]
         RUP --> RUP2[4个阶段]
@@ -96,9 +130,19 @@ Software Engineering 软件工程
         RUP1 --> RUP19[环境]
 
         RUP2 --> RUP21[初始阶段]
-        RUP2 --> RUP22[细化节点]
+        RUP2 --> RUP22[细化阶段]
         RUP2 --> RUP23[构造阶段]
         RUP2 --> RUP24[移交阶段]
+
+        RUP3 --> RUP31[用例驱动]
+        RUP3 --> RUP32[以体系结构为中心]
+        RUP3 --> RUP33[迭代与增量]
+
+        RUP4 --> RUP41[用例视图] <--> RUP41x[测试人员、分析人员]
+        RUP4 --> RUP42[逻辑视图] <--> RUP42x[用户]
+        RUP4 --> RUP43[进程视图] <--> RUP43x[系统集成人员]
+        RUP4 --> RUP44[实现试图] <--> RUP44x[开发人员、程序员]
+        RUP4 --> RUP45[部署视图] <--> RUP45x[系统工程师]
 
         style Process fill:#f9f,stroke:#333,stroke-width:2px
 
