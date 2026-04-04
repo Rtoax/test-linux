@@ -471,7 +471,7 @@ if [[ "$(has_key ai pytorch python py)" ]]; then
 fi
 
 # If only modify The Documentation, try add Commit Message Title
-if [[ -z "$(git status --short | grep -v -e Documentation -e prepare-commit-msg || :)" ]]; then
+if [[ -z "$(git status --short | grep -v Documentation || :)" ]]; then
 	doc_files=( $(git status --short | grep -Eo 'Documentation.*' | grep -vw conf.py) )
 	doc_dirs=( $(basename $(dirname ${doc_files[@]}) ) )
 	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
