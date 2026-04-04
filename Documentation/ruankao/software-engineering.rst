@@ -1,24 +1,15 @@
-============================
-System Architecture Designer
-============================
+====================
+Software-Engineering
+====================
 
 思维导图概览
 ------------
-
-软件工程
-~~~~~~~~
 
 - :ref:`fig-Software-Engineering`
 - :ref:`fig-Software-process-model`
 - :ref:`fig-software-lifecycle`
 - :ref:`fig-Reverse-engineering`
 - :ref:`fig-Performance-Evaluation`
-
-
-信息系统
-~~~~~~~~
-
-- :ref:`fig-Information-System`
 
 
 软件工程
@@ -212,41 +203,3 @@ System Architecture Designer
         Perf ==> Amdahl([阿姆达尔定律])
 
         style Perf fill:#f9f,stroke:#333,stroke-width:2px
-
-
-信息系统
---------
-
-.. _fig-Information-System:
-
-.. mermaid::
-   :caption: 信息系统
-
-    flowchart LR
-        Info(信息系统) ==> Summary([信息系统概述])
-        Info ==> Models([典型信息系统架构模型])
-        Info ==> Strategy([信息化战略体系])
-        Info ==> EAI([企业应用集成*])
-        Info ==> E-commerce([电子商务])
-
-        Summary --> InfoIntroduce[信息系统介绍]
-        Summary --> InfoType[信息系统分类]
-        Summary --> InfoLifeCycle[信息系统生命周期]
-        Summary --> InfoDevelMethod[信息系统开发方法]
-
-        InfoType --> InfoType1[业务处理系统 TPS]
-        InfoType --> InfoType2[管理信息系统 MIS]
-        InfoType --> InfoType3[决策支持系统 DSS]
-        InfoType --> InfoType4[专家系统 ES]
-        InfoType --> InfoType5[客户关系系统 CRM]
-        InfoType --> InfoType6[供应链管理 SCM]
-        InfoType --> InfoType7[企业资源规划 ERP]
-        InfoType --> InfoType8[办公自动化系统 OAS]
-
-        InfoDevelMethod --> Method1[结构化开发方法]
-        InfoDevelMethod --> Method2[面向对象开发方法]
-        InfoDevelMethod --> Method3[面向服务 SOA]
-        InfoDevelMethod --> Method4[原型化]
-
-        style Info fill:#f9f,stroke:#333,stroke-width:2px
-        style EAI fill:#f9f,stroke:#333,stroke-width:2px

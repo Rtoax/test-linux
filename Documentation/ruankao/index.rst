@@ -2,7 +2,11 @@
 Ruan Kao
 ========
 
+System Architecture Designer
+----------------------------
+
 .. toctree::
    :maxdepth: 2
 
-   System Architecture Designer <architecture>
+   information-system
+   software-engineering
