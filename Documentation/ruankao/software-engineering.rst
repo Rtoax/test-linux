@@ -11,6 +11,7 @@ Software Engineering 软件工程
 - :ref:`fig-Reverse-engineering`
 - :ref:`fig-Performance-Evaluation`
 - :ref:`fig-DFD`
+- :ref:`fig-DD`
 
 
 软件工程概述
@@ -198,7 +199,7 @@ Software Engineering 软件工程
         StructuredMethod1 --> StructuredMethod13[面向数据]
 
         StructuredMethod2 --> StructuredMethod21[功能模型] <--> StructuredMethod21x[数据流图 DFD]
-        StructuredMethod2 --> StructuredMethod22[行为模型] <--> StructuredMethod22x[状态转换图]
+        StructuredMethod2 --> StructuredMethod22[行为模型] <--> StructuredMethod22x[状态转换图 STD]
         StructuredMethod2 --> StructuredMethod23[数据模型] <--> StructuredMethod23x[E-R 图]
         StructuredMethod2 --> StructuredMethod24[数据字典 DD]
 
@@ -250,10 +251,27 @@ Software Engineering 软件工程
    :caption: 数据流图 DFD
 
     flowchart LR
-        DFD(数据流图) ==> DataFlow([数据流])
-        DFD ==> Process([加工])
-        DFD ==> DataStore([数据存储])
-        DFD ==> Entity([外部实体])
+        DFD(数据流图) ==> DataFlow([数据流]) <--> DD-DataFlow[数据字典DD：数据流]
+        DFD ==> DataStore([数据存储]) <--> DD-DataStore[数据字典DD：数据存储]
+        DFD ==> Process([加工]) <--> DD-ProcessLogic[数据字典DD：加工逻辑]
+        DFD ==> Entity([外部实体]) <--> DD-Entity[数据字典DD：外部实体]
+
+
+数据字典 DD
+-----------
+
+.. _fig-DD:
+
+.. mermaid::
+   :caption: 数据字典 DD
+
+    flowchart LR
+        DD(数据字典) ==> DataElement([数据元素])
+        DD ==> DataStructure([数据结构])
+        DD ==> DataFlow([数据流]) <--> DFD-DataFlow[DFD:数据流]
+        DD ==> DataStore([数据存储]) <--> DFD-DataStore[DFD:数据存储]
+        DD ==> ProcessLogic([加工逻辑]) <--> DFD-Process[DFD:加工]
+        DD ==> Entity([外部实体]) <--> DFD-Entity[DFD:外部实体]
 
 
 逆向工程
