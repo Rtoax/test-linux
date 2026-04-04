@@ -30,6 +30,8 @@ Information System 信息系统
         Summary --> InfoLifeCycle[信息系统生命周期]
         Summary --> InfoDevelMethod[信息系统开发方法]
 
+        Models --> Model1[政府信息化和电子政务]
+
         InfoIntroduce --> Nolan[诺兰模型]
 
         InfoType --> TPS[业务处理系统 TPS]
@@ -48,9 +50,9 @@ Information System 信息系统
         InfoLifeCycle --> Cycle4[消亡阶段]
 
         InfoDevelMethod --> Method1[结构化开发方法]
-        InfoDevelMethod --> Method2[面向对象开发方法]
-        InfoDevelMethod --> Method3[面向服务 SOA]
-        InfoDevelMethod --> Method4[原型化]
+        InfoDevelMethod --> Method2[面向对象方法 OOA]
+        InfoDevelMethod --> Method3[面向服务方法 SOA]
+        InfoDevelMethod --> Method4[原型化方法]
 
         style Info fill:#f9f,stroke:#333,stroke-width:2px
         style EAI fill:#f9f,stroke:#333,stroke-width:2px
