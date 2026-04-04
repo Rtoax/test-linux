@@ -79,13 +79,24 @@ Database 数据库
 
         Norm --> FunctionDependency[函数依赖]
         Norm --> KeysConstraints[键与约束]
-        Norm --> Norm3[规范化的三范式]
-        Norm --> Norm4[模式分解]
-        Norm --> Norm5[反规范化]
+        Norm --> NormalForms[范式]
+        Norm --> ModeDecomposition[模式分解]
+        Norm --> Denormalization[反规范化]
+        Norm --> NonNormalizationProblems[不规范化带来的问题]
 
         FunctionDependency --> FunctionDependency1[部分函数依赖]
         FunctionDependency --> FunctionDependency2[传递函数依赖]
         FunctionDependency --> Armstrong([阿姆斯特朗公理])
+
+        NormalForms --> 1NF[第一范式 1NF] --> 1NFx[属性不可分割]
+        NormalForms --> 2NF[第一范式 2NF] --> 2NFx[不能存在联合主键]
+        NormalForms --> 3NF[第一范式 3NF] --> 3NFx[不能存在传递依赖]
+        NormalForms --> BCNF[BC范式 BCNF] --> BCNFx[3NF+避免数据冗余和不一致性]
+
+        NonNormalizationProblems --> NNP1[数据冗余]
+        NonNormalizationProblems --> NNP2[修改异常]
+        NonNormalizationProblems --> NNP3[插入异常]
+        NonNormalizationProblems --> NNP4[删除异常]
 
         Armstrong --> Armstrong1[自反律]
         Armstrong --> Armstrong2[增广律]
