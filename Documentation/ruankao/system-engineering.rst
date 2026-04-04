@@ -8,6 +8,7 @@ System Engineering
 - :ref:`fig-System-Engineering`
 - :ref:`fig-System-Engineering-LifeCycle`
 - :ref:`fig-System-Engineering-LifeCycle-Method`
+- :ref:`fig-MBSE`
 
 
 系统工程
@@ -60,6 +61,8 @@ System Engineering
         LifeCycle(系统工程生命周期) ==> LifeCycle6([保障阶段])
         LifeCycle(系统工程生命周期) ==> LifeCycle7([退役阶段])
 
+        style LifeCycle fill:#f9f,stroke:#333,stroke-width:2px
+
 
 系统工程生命周期方法
 --------------------
@@ -74,3 +77,40 @@ System Engineering
         Method(系统工程生命周期方法) ==> Method2([渐进迭代式开发])
         Method(系统工程生命周期方法) ==> Method3([精益开发])
         Method(系统工程生命周期方法) ==> Method4([敏捷开发])
+
+        style Method fill:#f9f,stroke:#333,stroke-width:2px
+
+
+基于模型的系统工程 MBSE
+------------------------
+
+.. _fig-MBSE:
+
+.. mermaid::
+   :caption: 基于模型的系统工程 MBSE
+
+    flowchart LR
+        MBSE(基于模型的系统工程 MBSE) ==> Procedure([三个阶段])
+        MBSE ==> Zhizhu([三大支柱])
+
+        Procedure --> RequirementsAnalysis([需求分析阶段])
+        Procedure --> FunctionalAnalysis([功能分析与分配阶段])
+        Procedure --> Design([设计综合阶段])
+
+        RequirementsAnalysis --> RequirementsAnalysis1[需求图]
+        RequirementsAnalysis --> RequirementsAnalysis2[用例图]
+        RequirementsAnalysis --> RequirementsAnalysis3[包图]
+
+        FunctionalAnalysis --> FunctionalAnalysis1[顺序图]
+        FunctionalAnalysis --> FunctionalAnalysis2[活动图]
+        FunctionalAnalysis --> FunctionalAnalysis3[状态机图]
+
+        Design --> Design1[模块定义图]
+        Design --> Design2[内部块图]
+        Design --> Design3[参数图]
+
+        Zhizhu --> Zhizhu1[建模语言]
+        Zhizhu --> Zhizhu2[建模工具]
+        Zhizhu --> Zhizhu3[建模思路]
+
+        style MBSE fill:#f9f,stroke:#333,stroke-width:2px
