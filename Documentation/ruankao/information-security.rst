@@ -5,16 +5,16 @@ Information Security 信息安全
 思维导图概览
 ------------
 
-- :ref:`fig-Information-Security`
+- :ref:`fig-Information-Security-Summary`
 
 
-信息安全技术
+信息安全概述
 ------------
 
-.. _fig-Information-Security:
+.. _fig-Information-Security-Summary:
 
 .. mermaid::
-   :caption: 信息安全技术
+   :caption: 信息安全概述
 
     flowchart LR
         Security(信息安全) ==> Essence([核心要素])
