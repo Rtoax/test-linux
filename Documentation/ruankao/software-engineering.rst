@@ -168,7 +168,7 @@ Software Engineering 软件工程
         ReqsEngineering --> ReqsClassification[需求分类]
         ReqsEngineering --> ReqsGathering[需求获取]
         ReqsEngineering --> ReqsAnalysis[需求分析]
-        ReqsEngineering --> ReqsDefinition[需求定义SRS]
+        ReqsEngineering --> ReqsDefinition[需求定义]
         ReqsEngineering --> ReqsVerification[需求验证/需求确认]
         ReqsEngineering --> ReqsManage[需求管理]
 
@@ -203,7 +203,7 @@ Software Engineering 软件工程
         StructuredMethod2 --> StructuredMethod23[数据模型] <--> StructuredMethod23x[E-R 图]
         StructuredMethod2 --> StructuredMethod24[数据字典 DD]
 
-        ReqsDefinition --> SRS[软件需求规格说明书]
+        ReqsDefinition --> SRS[软件需求规格说明书 SRS]
         ReqsDefinition --> ReqsDefinitionMethod[需求定义方法]
 
         ReqsDefinitionMethod --> ReqsDefinitionMethod1[严格定义、预先定义，结构化定义]
