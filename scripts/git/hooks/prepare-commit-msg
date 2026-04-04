@@ -470,18 +470,6 @@ if [[ "$(has_key ai pytorch python py)" ]]; then
 	py_ver
 fi
 
-# If only modify The Documentation, try add Commit Message Title
-if [[ -z "$(git status --short | grep -v Documentation || :)" ]]; then
-	doc_files=( $(git status --short | grep -Eo 'Documentation.*' | grep -vw conf.py) )
-	doc_names=( $(basename ${doc_files[@]}) )
-	doc_dirs=( $(basename $(dirname ${doc_files[@]}) ) )
-	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
-	sed -i "1i Doc: ${doc_label}: update ${doc_names[@]}" ${COMMIT_MSG_FILE} || {
-		fatal "Failed add commit message"
-	}
-
-fi
-
 # Add lines
 if [[ ${Versions} ]]; then
 	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE} || {
@@ -491,5 +479,16 @@ fi
 if [[ ${Environments} ]]; then
 	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE} || {
 		fatal "Failed handle Envs: ${Environments}"
+	}
+fi
+
+# If only modify The Documentation, try add Commit Message Title
+if [[ -z "$(git status --short | grep -v Documentation || :)" ]]; then
+	doc_files=( $(git status --short | grep -Eo 'Documentation.*' | grep -vw conf.py) )
+	doc_names=( $(for f in ${doc_files[@]}; do basename ${f}; done) )
+	doc_dirs=( $(for f in ${doc_files[@]}; do basename $(dirname ${f}); done ) )
+	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
+	sed -i "1i Doc: ${doc_label}: update ${doc_names[*]}" ${COMMIT_MSG_FILE} || {
+		fatal "Failed add commit message"
 	}
 fi
