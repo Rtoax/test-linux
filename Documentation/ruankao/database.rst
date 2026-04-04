@@ -67,11 +67,32 @@ Database 数据库
         ModelElement --> ModelElement2[数据操作]
         ModelElement --> ModelElement3[数据的约束条件]
 
-        Norm --> Norm1[函数依赖]
+        RelationalAlgebra --> RelationalAlgebra1[集合运算符]
+        RelationalAlgebra --> RelationalAlgebra2[关系运算符]
+        RelationalAlgebra --> RelationalAlgebra3[比较运算符]
+        RelationalAlgebra --> RelationalAlgebra4[逻辑运算符]
+
+        RelationalAlgebra1 --> RelationalAlgebra11[并，交，差，笛卡尔积]
+        RelationalAlgebra2 --> RelationalAlgebra21[选择，投影，连接，除]
+        RelationalAlgebra3 --> RelationalAlgebra31[大于，小于，...]
+        RelationalAlgebra4 --> RelationalAlgebra41[与，或，非]
+
+        Norm --> FunctionDependency[函数依赖]
         Norm --> Norm2[键与约束]
         Norm --> Norm3[规范化的三范式]
         Norm --> Norm4[模式分解]
         Norm --> Norm5[反规范化]
+
+        FunctionDependency --> FunctionDependency1[部分函数依赖]
+        FunctionDependency --> FunctionDependency2[传递函数依赖]
+        FunctionDependency --> Armstrong([阿姆斯特朗公理])
+
+        Armstrong --> Armstrong1[自反律]
+        Armstrong --> Armstrong2[增广律]
+        Armstrong --> Armstrong3[传递律]
+        Armstrong --> Armstrong4[合并律]
+        Armstrong --> Armstrong5[分解律]
+        Armstrong --> Armstrong6[合成律]
 
         Control --> Transaction[事物]
         Control --> Concurrency[并发控制]
