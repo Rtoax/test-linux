@@ -260,8 +260,24 @@ Software Engineering 软件工程
         SysDesignPrinciples --> SysDesignPrinciples9[模块的作用域在模块内]
         SysDesignPrinciples --> SysDesignPrinciples10[功能可预测]
 
-        SysDesign5 --> SysDesign51[内聚]
-        SysDesign5 --> SysDesign52[耦合]
+        SysDesign5 --> Cohesion[内聚]
+        SysDesign5 --> Coupling[耦合]
+
+        Cohesion --> Cohesion1[偶然内聚]
+        Cohesion --> Cohesion2[逻辑内聚]
+        Cohesion --> Cohesion3[时间内聚]
+        Cohesion --> Cohesion4[过程内聚]
+        Cohesion --> Cohesion5[通信内聚]
+        Cohesion --> Cohesion6[顺序内聚]
+        Cohesion --> Cohesion7[功能内聚]
+
+        Coupling --> Coupling1[无直接耦合]
+        Coupling --> Coupling2[数据耦合]
+        Coupling --> Coupling3[标记耦合]
+        Coupling --> Coupling4[控制耦合]
+        Coupling --> Coupling5[外部耦合]
+        Coupling --> Coupling6[公共耦合]
+        Coupling --> Coupling7[内容耦合]
 
         SysDesignHuman --> SysDesignHuman1[置于用户之下]
         SysDesignHuman --> SysDesignHuman2[减少用户的记忆负担]
