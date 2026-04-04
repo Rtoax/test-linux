@@ -470,6 +470,17 @@ if [[ "$(has_key ai pytorch python py)" ]]; then
 	py_ver
 fi
 
+# If only modify The Documentation, try add Commit Message Title
+if [[ -z "$(git status --short | grep -v -e Documentation -e prepare-commit-msg || :)" ]]; then
+	doc_files=( $(git status --short | grep -Eo 'Documentation.*' | grep -vw conf.py) )
+	doc_dirs=( $(basename $(dirname ${doc_files[@]}) ) )
+	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
+	sed -i "1i Doc: ${doc_label}: update " ${COMMIT_MSG_FILE} || {
+		fatal "Failed add commit message"
+	}
+
+fi
+
 # Add lines
 if [[ ${Versions} ]]; then
 	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE} || {

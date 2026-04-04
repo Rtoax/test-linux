@@ -65,3 +65,5 @@ Information-System
         Nolan ==> Procedure4([集成阶段])
         Nolan ==> Procedure5([数据管理阶段])
         Nolan ==> Procedure6([成熟阶段])
+
+        style Nolan fill:#f9f,stroke:#333,stroke-width:2px
