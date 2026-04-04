@@ -5,9 +5,61 @@ Database 数据库
 思维导图概览
 ------------
 
+- :ref:`fig-Database-Design`
 - :ref:`fig-Database-ACID`
 - :ref:`fig-Database-CAP`
 - :ref:`fig-Database-BASE`
+
+
+数据库设计
+----------
+
+.. _fig-Database-Design:
+
+.. mermaid::
+   :caption: 数据库设计
+
+    flowchart LR
+        DB(数据库设计概述) ==> Concept([数据库系统概念])
+        DB ==> Model([数据模型])
+        DB ==> RelationalAlgebra([关系代数])
+        DB ==> SQL([SQL])
+        DB ==> Norm([规范化])
+        DB ==> Control([数据库的控制])
+        DB ==> Other([其他知识])
+
+        Concept --> Concept1[数据库系统概述]
+        Concept --> Concept2[三级模型两级映射]
+        Concept --> Concept3[数据库设计]
+
+        Concept1 --> DBS[数据库系统 DBS]
+        Concept1 --> DBMS[数据库管理系统 DBMS]
+
+        Concept2 --> ExternalLevel[外模式]
+        Concept2 --> Image1([外模式/概念模式映像])
+        Concept2 --> ConceptualLevel[概念模式]
+        Concept2 --> Image2([概念模式/内模式映像])
+        Concept2 --> InternalLevel[内模式]
+
+        ExternalLevel --> ExternalLevel1[面向应用程序: View]
+        ConceptualLevel --> ConceptualLevel1[面向数据库设计人员: 逻辑结构]
+        InternalLevel --> InternalLevel1[磁盘存储]
+
+        Model --> E-R[E-R 模型]
+        Model --> Model2[关系模型]
+
+        Norm --> Norm1[函数依赖]
+        Norm --> Norm2[键与约束]
+        Norm --> Norm3[规范化的三范式]
+        Norm --> Norm4[模式分解]
+        Norm --> Norm5[反规范化]
+
+        Control --> Transaction[事物]
+        Control --> Concurrency[并发控制]
+        Control --> Blockade[封锁协议]
+
+        Other --> App[应用程序与数据库的交互]
+        Other --> NoSQL[NoSQL 数据库]
 
 
 ACID
