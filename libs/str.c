@@ -1,10 +1,10 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 #include <sys/types.h>
 #include <errno.h>
-
 #include "str.h"
 #include "constants.h"
 

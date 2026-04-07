@@ -102,9 +102,8 @@ determine whether CUDA is installed.
 Licenses
 --------
 
-If the source code file has a copyright information at the beginning, the
-copyright of the source code is the description content, otherwise, it is the
-copyright of the test-linux repository.
+If a license is specified in the source code header, then this code follows
+that license; otherwise, it follows the test-linux license.
 
 If the code does not specify, then it follows **GPLv3**.
 

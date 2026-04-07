@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include "mac.h"
 
 int strtomacaddr(unsigned char *mac, char *str)

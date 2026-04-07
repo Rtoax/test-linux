@@ -1,9 +1,9 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
 
 int secure_temp_file(char filename[128])
 {

@@ -1,8 +1,8 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include "ksym_helpers.h"
-
 
 static struct ksyms *ksyms = NULL;
 

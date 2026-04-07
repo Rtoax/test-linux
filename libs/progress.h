@@ -1,6 +1,6 @@
-#ifndef progress_h
-#define progress_h
-
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+#ifndef __PROGRESS_H
+#define __PROGRESS_H
 #include <stdio.h>
 
 typedef struct {

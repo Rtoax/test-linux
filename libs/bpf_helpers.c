@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <syscall.h>
 #include <sys/syscall.h>
 #include <unistd.h>
