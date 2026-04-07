@@ -56,6 +56,7 @@ struct pci_cs_hdr_type1 {
 	uint16_t io_base_upper;
 	uint16_t io_limit_upper;
 	uint8_t cap_ptr;
+	uint8_t reserved1[3];
 	uint32_t rom_base_addr;
 	uint8_t irq_line;
 	uint8_t irq_pin;
@@ -65,7 +66,9 @@ struct pci_cs_hdr_type1 {
 /**
  * Configuration space
  */
+void pci_cs_check_headers(void);
 const char *pci_cs_type_name(uint8_t header_type, char *buf, size_t buf_sz);
+
 void pci_cs_print_common(struct pci_cs_hdr_common *c);
 void pci_cs_print_type0(struct pci_cs_hdr_type0 *t);
 void pci_cs_print_type1(struct pci_cs_hdr_type1 *t);

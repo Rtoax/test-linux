@@ -1,13 +1,7 @@
 #include <argp.h>
-#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <pci/header.h>
 #include "pcie_helpers.h"
-
-#ifndef offsetof
-#define offsetof(type, number) __builtin_offsetof(type, number)
-#endif
 
 static char *config = "/sys/bus/pci/devices/0000:02:02.0/config";
 
@@ -41,33 +35,6 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-static void check_type0_header(void)
-{
-#define CHK(field, off) assert(offsetof(struct pci_cs_hdr_type0, field) == off);
-	CHK(common.vendor_id, PCI_VENDOR_ID);
-	CHK(common.device_id, PCI_DEVICE_ID);
-	CHK(common.command, PCI_COMMAND);
-	CHK(common.status, PCI_STATUS);
-	CHK(common.revision_id, PCI_REVISION_ID);
-	CHK(common.prog_if, PCI_CLASS_PROG);
-	CHK(common.subclass, PCI_CLASS_DEVICE);
-	CHK(common.cache_line_size, PCI_CACHE_LINE_SIZE);
-	CHK(common.latency_timer, PCI_LATENCY_TIMER);
-	CHK(common.header_type, PCI_HEADER_TYPE);
-	CHK(common.bist, PCI_BIST);
-	CHK(bar, PCI_BASE_ADDRESS_0);
-	CHK(cardbus_cis_ptr, PCI_CARDBUS_CIS);
-	CHK(subsystem_vendor_id, PCI_SUBSYSTEM_VENDOR_ID);
-	CHK(subsystem_id, PCI_SUBSYSTEM_ID);
-	CHK(expansion_rom_base_addr, PCI_ROM_ADDRESS);
-	CHK(capabilities_pointer, PCI_CAPABILITY_LIST);
-	CHK(interrupt_line, PCI_INTERRUPT_LINE);
-	CHK(interrupt_pin, PCI_INTERRUPT_PIN);
-	CHK(min_gnt, PCI_MIN_GNT);
-	CHK(max_lat, PCI_MAX_LAT);
-#undef CHK
-}
-
 int main(int argc, char *argv[])
 {
 	int err;
@@ -82,7 +49,7 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	check_type0_header();
+	pci_cs_check_headers();
 
 	fp = fopen(config, "r");
 	if (!fp) {

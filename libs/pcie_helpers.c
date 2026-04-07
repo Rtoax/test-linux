@@ -1,9 +1,63 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
-#pragma once
+#include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <pci/header.h>
 #include "pcie_helpers.h"
+
+#ifndef offsetof
+#define offsetof(type, number) __builtin_offsetof(type, number)
+#endif
+
+void pci_cs_check_headers(void)
+{
+#define CHK(field, off) \
+	assert(offsetof(struct pci_cs_hdr_common, field) == off);
+	CHK(vendor_id, PCI_VENDOR_ID);
+	CHK(device_id, PCI_DEVICE_ID);
+	CHK(command, PCI_COMMAND);
+	CHK(status, PCI_STATUS);
+	CHK(revision_id, PCI_REVISION_ID);
+	CHK(prog_if, PCI_CLASS_PROG);
+	CHK(subclass, PCI_CLASS_DEVICE);
+	CHK(cache_line_size, PCI_CACHE_LINE_SIZE);
+	CHK(latency_timer, PCI_LATENCY_TIMER);
+	CHK(header_type, PCI_HEADER_TYPE);
+	CHK(bist, PCI_BIST);
+#undef CHK
+#define CHK(field, off) assert(offsetof(struct pci_cs_hdr_type0, field) == off);
+	CHK(bar, PCI_BASE_ADDRESS_0);
+	CHK(cardbus_cis_ptr, PCI_CARDBUS_CIS);
+	CHK(subsystem_vendor_id, PCI_SUBSYSTEM_VENDOR_ID);
+	CHK(subsystem_id, PCI_SUBSYSTEM_ID);
+	CHK(expansion_rom_base_addr, PCI_ROM_ADDRESS);
+	CHK(capabilities_pointer, PCI_CAPABILITY_LIST);
+	CHK(interrupt_line, PCI_INTERRUPT_LINE);
+	CHK(interrupt_pin, PCI_INTERRUPT_PIN);
+	CHK(min_gnt, PCI_MIN_GNT);
+	CHK(max_lat, PCI_MAX_LAT);
+#undef CHK
+#define CHK(field, off) assert(offsetof(struct pci_cs_hdr_type1, field) == off);
+	CHK(primary_bus, PCI_PRIMARY_BUS);
+	CHK(second_bus, PCI_SECONDARY_BUS);
+	CHK(sub_bus, PCI_SUBORDINATE_BUS);
+	CHK(snd_latency_timer, PCI_SEC_LATENCY_TIMER);
+	CHK(io_base, PCI_IO_BASE);
+	CHK(io_limit, PCI_IO_LIMIT);
+	CHK(secondary_status, PCI_SEC_STATUS);
+	CHK(mem_base, PCI_MEMORY_BASE);
+	CHK(mem_limit, PCI_MEMORY_LIMIT);
+	CHK(pref_mem_base, PCI_PREF_MEMORY_BASE);
+	CHK(pref_mem_limit, PCI_PREF_MEMORY_LIMIT);
+	CHK(pref_base_upper, PCI_PREF_BASE_UPPER32);
+	CHK(pref_limit_upper, PCI_PREF_LIMIT_UPPER32);
+	CHK(io_base_upper, PCI_IO_BASE_UPPER16);
+	CHK(io_limit_upper, PCI_IO_LIMIT_UPPER16);
+	CHK(rom_base_addr, PCI_ROM_ADDRESS1);
+	CHK(bridge_control, PCI_BRIDGE_CONTROL);
+#undef CHK
+}
 
 const char *pci_cs_type_name(uint8_t header_type, char *buf, size_t buf_sz)
 {
