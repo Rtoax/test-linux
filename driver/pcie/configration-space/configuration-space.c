@@ -9,7 +9,7 @@
 #define offsetof(type, number) __builtin_offsetof(type, number)
 #endif
 
-static char *config = "/sys/bus/pci/devices/0000:00:1f.6/config";
+static char *config = "/sys/bus/pci/devices/0000:02:02.0/config";
 
 const char argp_prog_doc[] = "PCIe configuration space";
 
@@ -74,7 +74,9 @@ int main(int argc, char *argv[])
 {
 	int err;
 	FILE *fp;
+	struct pci_config_space_common common_header;
 	struct pci_config_space_type0 type0_header;
+	struct pci_config_space_type1 type1_header;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -90,9 +92,21 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	fread(&type0_header, sizeof(type0_header), 1, fp);
+	fread(&common_header, sizeof(common_header), 1, fp);
+	rewind(fp);
 
-	print_pci_config_space_type0(&type0_header);
+	if (common_header.header_type == 0) {
+		fread(&type0_header, sizeof(type0_header), 1, fp);
+		print_pci_config_space_type0(&type0_header);
+	} else if (common_header.header_type == 1) {
+		fread(&type1_header, sizeof(type1_header), 1, fp);
+		print_pci_config_space_type1(&type1_header);
+	} else {
+		print_pci_config_space_common(&common_header);
+		fprintf(stderr, "ERROR: Unknown header type %d(0x%x)\n",
+			common_header.header_type, common_header.header_type);
+		exit(EXIT_FAILURE);
+	}
 
 	fclose(fp);
 

@@ -34,5 +34,31 @@ struct pci_config_space_type0 {
 	uint8_t max_lat;
 } __attribute__((packed));
 
+struct pci_config_space_type1 {
+	struct pci_config_space_common common;
+	uint32_t bar[2];
+	uint8_t primary_bus;
+	uint8_t second_bus;
+	uint8_t sub_bus;
+	uint8_t snd_latency_timer;
+	uint8_t io_base;
+	uint8_t io_limit;
+	uint16_t secondary_status;
+	uint16_t mem_base;
+	uint16_t mem_limit;
+	uint16_t pref_mem_base;
+	uint16_t pref_mem_limit;
+	uint32_t pref_base_upper;
+	uint32_t pref_limit_upper;
+	uint16_t io_base_upper;
+	uint16_t io_limit_upper;
+	uint8_t cap_ptr;
+	uint32_t rom_base_addr;
+	uint8_t irq_line;
+	uint8_t irq_pin;
+	uint16_t bridge_control;
+} __attribute__((packed));
+
 void print_pci_config_space_common(struct pci_config_space_common *c);
 void print_pci_config_space_type0(struct pci_config_space_type0 *t);
+void print_pci_config_space_type1(struct pci_config_space_type1 *t);

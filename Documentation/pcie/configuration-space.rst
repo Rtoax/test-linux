@@ -46,16 +46,16 @@ Type 1 Header (Bridge)
     +---------+---------+---------+---------+---------+---------+---------+---------+
     |             Base Address0             |             Base Address1             |
     +---------+---------+---------+---------+---------+---------+-------------------+
-    | Primary | Second  |   High  | Second  | IO Base |IO Limit | Secondary Status  |
+    | Primary | Second  |   Sub   | Second  | IO Base |IO Limit | Secondary Status  |
     | Bus     | Bus     |   Bus   | LatTimer|         |         |                   |
     +---------+---------+---------+---------+---------+---------+-------------------+
     |    Memory Base    |   Memory Limit    | Pref Memory Base  | Pref Memory Limit |
     +-------------------+-------------------+-------------------+-------------------+
-    |Upper half of prefetchable memory range| Limit                                 |
+    |      Prefetchable Base Upper          |       Prefetchable Limit Upper        |
     +-------------------+-------------------+---------+-----------------------------+
     |    IO Base Upper  |   IO Limit Upper  | Cap Ptr |          Reserved           |
     +-------------------+-------------------+---------+---------+-------------------+
-    |                ROM Address            | IRQ Line| IRQ Pin | Bridge Control    |
+    |      Expansion ROM Base Address       | IRQ Line| IRQ Pin | Bridge Control    |
     +---------------------------------------+-------------------+-------------------+
 
 

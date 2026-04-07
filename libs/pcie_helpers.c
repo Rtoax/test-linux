@@ -45,3 +45,40 @@ void print_pci_config_space_type0(struct pci_config_space_type0 *t)
 	printf("Min Gnt: %x\n", t->min_gnt);
 	printf("Max Lat: %x\n", t->max_lat);
 }
+
+void print_pci_config_space_type1(struct pci_config_space_type1 *t)
+{
+	int i;
+
+	if (t->common.header_type != 1) {
+		fprintf(stderr,
+			"WARNING: Not found pcie type0 header, skipping.\n");
+		return;
+	}
+
+	print_pci_config_space_common((void *)t);
+
+	for (i = 0; i < 2; i++)
+		printf("Bar[%d] = 0x%x\n", i, t->bar[i]);
+
+	printf("Primary Bus: %x\n", t->primary_bus);
+	printf("Second Bus: %x\n", t->second_bus);
+	printf("Sub Bus: %x\n", t->sub_bus);
+	printf("Second Latency Timer: %x\n", t->snd_latency_timer);
+	printf("IO Base: %x\n", t->io_base);
+	printf("IO Limit: %x\n", t->io_limit);
+	printf("Secondary Status: %x\n", t->secondary_status);
+	printf("Memory Base: %x\n", t->mem_base);
+	printf("Memory Limit: %x\n", t->mem_limit);
+	printf("Prefetchable Memory Base: %x\n", t->pref_mem_base);
+	printf("Prefetchable Memory Limit: %x\n", t->pref_mem_limit);
+	printf("Prefetchable Base Upper: %x\n", t->pref_base_upper);
+	printf("Prefetchable Limit Upper: %x\n", t->pref_limit_upper);
+	printf("IO Base Upper: %x\n", t->io_base_upper);
+	printf("IO Limit Upper: %x\n", t->io_limit_upper);
+	printf("Capabilities Pointer: %x\n", t->cap_ptr);
+	printf("Expansion ROM Base Address: %x\n", t->rom_base_addr);
+	printf("Interrupt Line: %x\n", t->irq_line);
+	printf("Interrupt Pin: %x\n", t->irq_pin);
+	printf("Bridge Control: %x\n", t->bridge_control);
+}
