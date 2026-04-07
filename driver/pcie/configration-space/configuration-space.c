@@ -95,10 +95,10 @@ int main(int argc, char *argv[])
 	fread(&common_header, sizeof(common_header), 1, fp);
 	rewind(fp);
 
-	if (common_header.header_type == 0) {
+	if ((common_header.header_type & 0x7f) == 0) {
 		fread(&type0_header, sizeof(type0_header), 1, fp);
 		print_pci_config_space_type0(&type0_header);
-	} else if (common_header.header_type == 1) {
+	} else if ((common_header.header_type & 0x7f) == 1) {
 		fread(&type1_header, sizeof(type1_header), 1, fp);
 		print_pci_config_space_type1(&type1_header);
 	} else {

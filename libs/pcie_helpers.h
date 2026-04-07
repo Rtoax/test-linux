@@ -14,7 +14,10 @@ struct pci_config_space_common {
 	uint8_t class_code;
 	uint8_t cache_line_size;
 	uint8_t latency_timer;
-	/* 0 - normal, 1 - bridge, 2 - cardbus */
+	/**
+	 * 7 bit: Multi-Function Device or not
+	 * 0-6 bits: 0 - normal, 1 - bridge, 2 - cardbus
+	 */
 	uint8_t header_type;
 	uint8_t bist;
 } __attribute__((packed));

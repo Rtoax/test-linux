@@ -16,7 +16,8 @@ void print_pci_config_space_common(struct pci_config_space_common *c)
 	printf("Class code (class_code): %x\n", c->class_code);
 	printf("Cache Line: %x\n", c->cache_line_size);
 	printf("Latency Timer: %x\n", c->latency_timer);
-	printf("Header Type: %d\n", c->header_type);
+	printf("Header Type: %d%s\n", c->header_type & 0x7f,
+	       c->header_type & 0x80 ? "" : " (Multi-Function Device)");
 	printf("Bist: %d\n", c->bist);
 }
 
@@ -24,7 +25,7 @@ void print_pci_config_space_type0(struct pci_config_space_type0 *t)
 {
 	int i;
 
-	if (t->common.header_type != 0) {
+	if ((t->common.header_type & 0x7f) != 0) {
 		fprintf(stderr,
 			"WARNING: Not found pcie type0 header, skipping.\n");
 		return;
@@ -50,7 +51,7 @@ void print_pci_config_space_type1(struct pci_config_space_type1 *t)
 {
 	int i;
 
-	if (t->common.header_type != 1) {
+	if ((t->common.header_type & 0x7f) != 1) {
 		fprintf(stderr,
 			"WARNING: Not found pcie type0 header, skipping.\n");
 		return;

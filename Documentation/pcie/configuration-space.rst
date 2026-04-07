@@ -32,6 +32,9 @@ Type 0 Header (Normal)
     +---------------------------------------+---------+---------+---------+---------+
 
 
+Header Type: 7bit: **Multi-Function Device**, 0-6bits: Type;
+
+
 Type 1 Header (Bridge)
 ----------------------
 
@@ -61,3 +64,14 @@ Type 1 Header (Bridge)
 
 Type 2 Header (CardBus)
 -----------------------
+
+.. code-block:: text
+
+        0x00     0x01       0x02     0x03       0x04     0x05       0x06      0x07  B
+    +---------+---------+---------+---------+---------+---------+---------+---------+
+    |     Vendor ID     |    Device ID      |  Command Reg      |    Status         |
+    +---------+---------+---------+---------+---------+---------+---------+---------+
+    | Revison |          Class Code         |  Cache  | Latency |  Header |   BIST  |
+    |    ID   | ProgIF  | SubClass|BaseClass|   Line  |  Timer  |   Type  |         |
+    +---------+---------+---------+---------+---------+---------+---------+---------+
+    | TODO ...
