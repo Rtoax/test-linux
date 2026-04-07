@@ -41,7 +41,7 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
-static void check_header(void)
+static void check_type0_header(void)
 {
 #define CHK(field, off)	\
 	assert(offsetof(struct pci_config_space_type0, field) == off);
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 {
 	int err;
 	FILE *fp;
-	struct pci_config_space_type0 header;
+	struct pci_config_space_type0 type0_header;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
-	check_header();
+	check_type0_header();
 
 	fp = fopen(config, "r");
 	if (!fp) {
@@ -90,7 +90,9 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	fread(&header, sizeof(header), 1, fp);
+	fread(&type0_header, sizeof(type0_header), 1, fp);
+
+	print_pci_config_space_type0(&type0_header);
 
 	fclose(fp);
 

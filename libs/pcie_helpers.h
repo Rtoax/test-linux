@@ -33,3 +33,6 @@ struct pci_config_space_type0 {
 	uint8_t min_gnt;
 	uint8_t max_lat;
 } __attribute__((packed));
+
+void print_pci_config_space_common(struct pci_config_space_common *c);
+void print_pci_config_space_type0(struct pci_config_space_type0 *t);

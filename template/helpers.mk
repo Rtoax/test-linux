@@ -88,8 +88,8 @@ export ALL_HELPERS := \
 helpers-cflags += -I${TOPDIR}/libs/
 helpers-cflags += -I${TOPDIR}/bpf/insn/samples/
 
-helpers-ldflags += -Wl,-rpath,-I${TOPDIR}/libs/
-helpers-ldflags += -Wl,-rpath,-I${TOPDIR}/bpf/insn/samples/
+helpers-ldflags += -Wl,-rpath,${TOPDIR}/libs/
+helpers-ldflags += -Wl,-rpath,${TOPDIR}/bpf/insn/samples/
 
 # $1: cflags's name, like CFLAGS, CFLAGS_SO
 define add_helpers_cflags

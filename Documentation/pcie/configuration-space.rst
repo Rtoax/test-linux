@@ -16,7 +16,7 @@ Type 0 Header (Normal)
     |     Vendor ID     |    Device ID      |  Command Reg      |    Status         |
     +---------+---------+---------+---------+---------+---------+---------+---------+
     | Revison |          Class Code         |  Cache  | Latency |  Header |   BIST  |
-    |    ID   |         |         |         |   Line  |  Timer  |   Type  |         |
+    |    ID   | ProgIF  | SubClass|BaseClass|   Line  |  Timer  |   Type  |         |
     +---------+---------+---------+---------+---------+---------+---------+---------+
     |             Base Address0             |             Base Address1             |
     +---------------------------------------+---------------------------------------+
@@ -42,7 +42,7 @@ Type 1 Header (Bridge)
     |     Vendor ID     |    Device ID      |  Command Reg      |    Status         |
     +---------+---------+---------+---------+---------+---------+---------+---------+
     | Revison |          Class Code         |  Cache  | Latency |  Header |   BIST  |
-    |    ID   |         |         |         |   Line  |  Timer  |   Type  |         |
+    |    ID   | ProgIF  | SubClass|BaseClass|   Line  |  Timer  |   Type  |         |
     +---------+---------+---------+---------+---------+---------+---------+---------+
     |             Base Address0             |             Base Address1             |
     +---------+---------+---------+---------+---------+---------+-------------------+

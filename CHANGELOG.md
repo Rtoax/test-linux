@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- libs: add `pcie_helpers.c`;
+- libs: add `pcie_helpers.c` and pcie configuration space header print functions;
 - bpftrace: add return.bt sample;
 - qemu-vm.sh: add virtio-fs support;
 - read(2): add `read_helpers.c`;
