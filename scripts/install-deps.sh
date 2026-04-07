@@ -1367,7 +1367,11 @@ if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
 		PIP_EXTRA_ARGS=( --break-system-packages )
 		PIP_EXTRA_ARGS+=( -i https://pypi.tuna.tsinghua.edu.cn/simple/ )
 	fi
-	inst_eval pip3 install ${PIP_EXTRA_ARGS[@]} --requirement=${ROOT_DIRECTORY}/requirements.txt
+	reqs=( $(find ${ROOT_DIRECTORY}/../ -name requirements.txt) )
+	for req in ${reqs[@]}
+	do
+		inst_eval pip3 install ${PIP_EXTRA_ARGS[@]} --requirement=${req}
+	done
 fi
 
 if [[ ${have_services} ]] && [[ ${enable_srvs} ]]; then
