@@ -19,6 +19,7 @@ target-y += ipaddr
 target-y += ksym_examples
 target-y += proc_examples
 
+libtest-linux-c := libtest-linux-c.so.0.1
 libproc-helpers := libproc_helpers.so.0.1.0
 libpcie-helpers := libpcie_helpers.so.0.0.1
 
@@ -36,12 +37,12 @@ target-liba-y += libbpf_helpers.a
 target-liba-y += libbtf_helpers.a
 target-liba-y += libreboot_helpers.a
 
-target-libso-y += libtest-linux-c.so.0.1
+target-libso-y += ${libpcie-helpers}
 target-libso-y += ${libproc-helpers}
+target-libso-y += ${libtest-linux-c}
 target-libso-y += libksym_helpers.so
 target-libso-y += libsocket_helpers.so
 target-libso-y += libpthread_helpers.so
-target-libso-y += ${libpcie-helpers}
 target-libso-y += libsched_helpers.so
 target-libso-y += libmmap_helpers.so
 target-libso-y += libtrace_helpers.so
@@ -76,7 +77,7 @@ objs-dynamic += ${OUTPUT}syscall_helpers.so.o
 objs-static := $(patsubst %.so.o,%.a.o,${objs-dynamic})
 
 libtest-linux-c.a-objs := ${objs-static}
-libtest-linux-c.so.0.1-objs := ${objs-dynamic}
+${libtest-linux-c}-objs := ${objs-dynamic}
 libksym_helpers.a-objs := ${OUTPUT}ksym_helpers.a.o
 libksym_helpers.so-objs := ${OUTPUT}ksym_helpers.so.o
 libproc_helpers.a-objs := ${OUTPUT}proc_helpers.a.o
@@ -121,7 +122,7 @@ endif
 
 ifdef LINK_LIB
   CFLAGS += -ltest-linux-c
-  LDFLAGS += libtest-linux-c.so.0.1
+  LDFLAGS += ${libtest-linux-c}
 endif
 
 LDFLAGS_SO_${libproc-helpers} := -Wl,--version-script=proc_helpers.map
