@@ -20,6 +20,7 @@
 # - SCHED_HELPERS
 # - MMAP_HELPERS
 # - OOM_HELPERS
+# - QCOW2_HELPERS
 # - TRACE_HELPERS
 # - CUDA_HELPERS
 # - HIP_HELPERS
@@ -59,6 +60,7 @@ export PTHREAD_HELPERS := ${TOPDIR}/libs/libpthread_helpers.${LIB_TYPE}
 export SCHED_HELPERS := ${TOPDIR}/libs/libsched_helpers.${LIB_TYPE}
 export MMAP_HELPERS := ${TOPDIR}/libs/libmmap_helpers.${LIB_TYPE}
 export OOM_HELPERS := ${TOPDIR}/libs/liboom_helpers.${LIB_TYPE}
+export QCOW2_HELPERS := ${TOPDIR}/libs/libqcow2_helpers.${LIB_TYPE}
 export TRACE_HELPERS := ${TOPDIR}/libs/libtrace_helpers.${LIB_TYPE}
 export BPF_HELPERS := ${TOPDIR}/libs/libbpf_helpers.${LIB_TYPE}
 export BTF_HELPERS := ${TOPDIR}/libs/libbtf_helpers.${LIB_TYPE}
@@ -76,6 +78,7 @@ export ALL_HELPERS := \
 		${SCHED_HELPERS} \
 		${MMAP_HELPERS} \
 		${OOM_HELPERS} \
+		${QCOW2_HELPERS} \
 		${TRACE_HELPERS} \
 		${CUDA_HELPERS} \
 		${HIP_HELPERS} \
@@ -119,6 +122,7 @@ ifdef DEBUG
   $(info SCHED_HELPERS = ${SCHED_HELPERS})
   $(info MMAP_HELPERS = ${MMAP_HELPERS})
   $(info OOM_HELPERS = ${OOM_HELPERS})
+  $(info QCOW2_HELPERS = ${QCOW2_HELPERS})
   $(info TRACE_HELPERS = ${TRACE_HELPERS})
   $(info CUDA_HELPERS = ${CUDA_HELPERS})
   $(info HIP_HELPERS = ${HIP_HELPERS})
