@@ -71,6 +71,15 @@ Files
   (or **./scripts/broken-symlinks.sh**) check invalid links and modify them.
 
 
+Libraries of Test-Linux
+-----------------------
+
+Store all libraries of test-linux.
+
+Naming strategy **MODULE_NAME+_helpers**, for example, the **pthread** library
+is named **pthread_helpers**.
+
+
 Template of Test-Linux
 ----------------------
 
