@@ -29,6 +29,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add requirements.txt;
 - add freebsd.rst;
 - add sphinx-static/custom.css;
 - add ruankao dir;
