@@ -62,6 +62,10 @@ struct pci_config_space_type1 {
 	uint16_t bridge_control;
 } __attribute__((packed));
 
-void print_pci_config_space_common(struct pci_config_space_common *c);
-void print_pci_config_space_type0(struct pci_config_space_type0 *t);
-void print_pci_config_space_type1(struct pci_config_space_type1 *t);
+/**
+ * Configuration space
+ */
+const char *pci_cs_type_name(uint8_t header_type, char *buf, size_t buf_sz);
+void pci_cs_print_common(struct pci_config_space_common *c);
+void pci_cs_print_type0(struct pci_config_space_type0 *t);
+void pci_cs_print_type1(struct pci_config_space_type1 *t);

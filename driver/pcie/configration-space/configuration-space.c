@@ -97,12 +97,12 @@ int main(int argc, char *argv[])
 
 	if ((common_header.header_type & 0x7f) == 0) {
 		fread(&type0_header, sizeof(type0_header), 1, fp);
-		print_pci_config_space_type0(&type0_header);
+		pci_cs_print_type0(&type0_header);
 	} else if ((common_header.header_type & 0x7f) == 1) {
 		fread(&type1_header, sizeof(type1_header), 1, fp);
-		print_pci_config_space_type1(&type1_header);
+		pci_cs_print_type1(&type1_header);
 	} else {
-		print_pci_config_space_common(&common_header);
+		pci_cs_print_common(&common_header);
 		fprintf(stderr, "ERROR: Unknown header type %d(0x%x)\n",
 			common_header.header_type, common_header.header_type);
 		exit(EXIT_FAILURE);

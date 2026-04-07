@@ -5,13 +5,12 @@
 #include <stdint.h>
 #include "pcie_helpers.h"
 
-const char *pci_config_space_type_name(uint8_t header_type, char *buf,
-				       size_t buf_sz)
+const char *pci_cs_type_name(uint8_t header_type, char *buf, size_t buf_sz)
 {
 	char *name = "Unknown";
 	switch (header_type & 0x7f) {
 	case 0:
-		name = "Oridinary Device";
+		name = "Ordinary Device";
 		break;
 	case 1:
 		name = "Bridge";
@@ -26,7 +25,7 @@ const char *pci_config_space_type_name(uint8_t header_type, char *buf,
 	return buf;
 }
 
-void print_pci_config_space_common(struct pci_config_space_common *c)
+void pci_cs_print_common(struct pci_config_space_common *c)
 {
 	char buf[64];
 	printf("Vendor ID: 0x%x\n", c->vendor_id);
@@ -40,11 +39,11 @@ void print_pci_config_space_common(struct pci_config_space_common *c)
 	printf("Cache Line: %x\n", c->cache_line_size);
 	printf("Latency Timer: %x\n", c->latency_timer);
 	printf("Header Type: %s\n",
-	       pci_config_space_type_name(c->header_type, buf, sizeof(buf)));
+	       pci_cs_type_name(c->header_type, buf, sizeof(buf)));
 	printf("Bist: %d\n", c->bist);
 }
 
-void print_pci_config_space_type0(struct pci_config_space_type0 *t)
+void pci_cs_print_type0(struct pci_config_space_type0 *t)
 {
 	int i;
 
@@ -54,7 +53,7 @@ void print_pci_config_space_type0(struct pci_config_space_type0 *t)
 		return;
 	}
 
-	print_pci_config_space_common((void *)t);
+	pci_cs_print_common((void *)t);
 
 	for (i = 0; i < 6; i++)
 		printf("Bar[%d] = 0x%x\n", i, t->bar[i]);
@@ -70,7 +69,7 @@ void print_pci_config_space_type0(struct pci_config_space_type0 *t)
 	printf("Max Lat: %x\n", t->max_lat);
 }
 
-void print_pci_config_space_type1(struct pci_config_space_type1 *t)
+void pci_cs_print_type1(struct pci_config_space_type1 *t)
 {
 	int i;
 
@@ -80,7 +79,7 @@ void print_pci_config_space_type1(struct pci_config_space_type1 *t)
 		return;
 	}
 
-	print_pci_config_space_common((void *)t);
+	pci_cs_print_common((void *)t);
 
 	for (i = 0; i < 2; i++)
 		printf("Bar[%d] = 0x%x\n", i, t->bar[i]);
