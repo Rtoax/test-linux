@@ -2,10 +2,33 @@
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
 #include <stdio.h>
+#include <stdint.h>
 #include "pcie_helpers.h"
+
+const char *pci_config_space_type_name(uint8_t header_type, char *buf,
+				       size_t buf_sz)
+{
+	char *name = "Unknown";
+	switch (header_type & 0x7f) {
+	case 0:
+		name = "Oridinary Device";
+		break;
+	case 1:
+		name = "Bridge";
+		break;
+	case 2:
+		name = "CardBus";
+		break;
+	}
+
+	snprintf(buf, buf_sz, "%s%s", name,
+		 header_type & 0x80 ? "" : " (Multi-Function Device)");
+	return buf;
+}
 
 void print_pci_config_space_common(struct pci_config_space_common *c)
 {
+	char buf[64];
 	printf("Vendor ID: 0x%x\n", c->vendor_id);
 	printf("Device ID: 0x%x\n", c->device_id);
 	printf("Command 0x%x\n", c->command);
@@ -16,8 +39,8 @@ void print_pci_config_space_common(struct pci_config_space_common *c)
 	printf("Class code (class_code): %x\n", c->class_code);
 	printf("Cache Line: %x\n", c->cache_line_size);
 	printf("Latency Timer: %x\n", c->latency_timer);
-	printf("Header Type: %d%s\n", c->header_type & 0x7f,
-	       c->header_type & 0x80 ? "" : " (Multi-Function Device)");
+	printf("Header Type: %s\n",
+	       pci_config_space_type_name(c->header_type, buf, sizeof(buf)));
 	printf("Bist: %d\n", c->bist);
 }
 
