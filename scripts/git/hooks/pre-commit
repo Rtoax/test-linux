@@ -10,7 +10,7 @@ set -e
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly MY_DIRECTORY=$(realpath $(dirname $(realpath $0))/../../../)
 
-FC=${FORCE}
+[[ -z ${FC} ]] && FC=${FORCE}
 
 # Usage: $ NMOD=6 git commit -s
 [[ -z ${NMOD} ]] && NMOD=4

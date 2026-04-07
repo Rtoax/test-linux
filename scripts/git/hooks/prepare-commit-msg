@@ -8,7 +8,7 @@
 # - FORCE/FCM: Force mode of Commit Message
 [[ ${VCM} ]] && set -x
 
-FCM=${FORCE}
+[[ -z ${FCM} ]] && FCM=${FORCE}
 
 readonly COMMIT_MSG_FILE=$1
 readonly COMMIT_SOURCE=$2 # commit, merge

@@ -6,7 +6,7 @@
 #
 set -e
 
-FCF=${FORCE}
+[[ -z ${FCF} ]] && FCF=${FORCE}
 
 fatal() {
 	echo >&2 -en "\033[31m"
