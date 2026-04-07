@@ -1,0 +1,10 @@
+libpcie_helpers.0.0.1 {
+	global:
+		pci_cs_check_headers;
+		pci_cs_type_name;
+		pci_cs_print_common;
+		pci_cs_print_type0;
+		pci_cs_print_type1;
+	local:
+		*;
+};

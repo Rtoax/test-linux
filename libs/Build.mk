@@ -20,6 +20,7 @@ target-y += ksym_examples
 target-y += proc_examples
 
 libproc-helpers := libproc_helpers.so.0.1.0
+libpcie-helpers := libpcie_helpers.so.0.0.1
 
 target-liba-y += libtest-linux-c.a
 target-liba-y += libproc_helpers.a
@@ -40,7 +41,7 @@ target-libso-y += ${libproc-helpers}
 target-libso-y += libksym_helpers.so
 target-libso-y += libsocket_helpers.so
 target-libso-y += libpthread_helpers.so
-target-libso-y += libpcie_helpers.so
+target-libso-y += ${libpcie-helpers}
 target-libso-y += libsched_helpers.so
 target-libso-y += libmmap_helpers.so
 target-libso-y += libtrace_helpers.so
@@ -85,7 +86,7 @@ libsocket_helpers.so-objs := ${OUTPUT}socket_helpers.so.o
 libpthread_helpers.a-objs := ${OUTPUT}pthread_helpers.a.o
 libpthread_helpers.so-objs := ${OUTPUT}pthread_helpers.so.o
 libpcie_helpers.a-objs := ${OUTPUT}pcie_helpers.a.o
-libpcie_helpers.so-objs := ${OUTPUT}pcie_helpers.so.o
+${libpcie-helpers}-objs := ${OUTPUT}pcie_helpers.so.o
 libsched_helpers.a-objs := ${OUTPUT}sched_helpers.a.o
 libsched_helpers.so-objs := ${OUTPUT}sched_helpers.so.o
 libmmap_helpers.a-objs := ${OUTPUT}mmap_helpers.a.o
@@ -124,3 +125,4 @@ ifdef LINK_LIB
 endif
 
 LDFLAGS_SO_${libproc-helpers} := -Wl,--version-script=proc_helpers.map
+LDFLAGS_SO_${libpcie-helpers} := -Wl,--version-script=pcie_helpers.map
