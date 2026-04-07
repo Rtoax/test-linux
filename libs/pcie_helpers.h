@@ -3,7 +3,7 @@
 #pragma once
 #include <stdint.h>
 
-struct pci_config_space_common {
+struct pci_cs_hdr_common {
 	uint16_t vendor_id;
 	uint16_t device_id;
 	uint16_t command;
@@ -22,8 +22,8 @@ struct pci_config_space_common {
 	uint8_t bist;
 } __attribute__((packed));
 
-struct pci_config_space_type0 {
-	struct pci_config_space_common common;
+struct pci_cs_hdr_type0 {
+	struct pci_cs_hdr_common common;
 	uint32_t bar[6];
 	uint32_t cardbus_cis_ptr;
 	uint16_t subsystem_vendor_id;
@@ -37,8 +37,8 @@ struct pci_config_space_type0 {
 	uint8_t max_lat;
 } __attribute__((packed));
 
-struct pci_config_space_type1 {
-	struct pci_config_space_common common;
+struct pci_cs_hdr_type1 {
+	struct pci_cs_hdr_common common;
 	uint32_t bar[2];
 	uint8_t primary_bus;
 	uint8_t second_bus;
@@ -66,6 +66,6 @@ struct pci_config_space_type1 {
  * Configuration space
  */
 const char *pci_cs_type_name(uint8_t header_type, char *buf, size_t buf_sz);
-void pci_cs_print_common(struct pci_config_space_common *c);
-void pci_cs_print_type0(struct pci_config_space_type0 *t);
-void pci_cs_print_type1(struct pci_config_space_type1 *t);
+void pci_cs_print_common(struct pci_cs_hdr_common *c);
+void pci_cs_print_type0(struct pci_cs_hdr_type0 *t);
+void pci_cs_print_type1(struct pci_cs_hdr_type1 *t);

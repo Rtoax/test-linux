@@ -25,7 +25,7 @@ const char *pci_cs_type_name(uint8_t header_type, char *buf, size_t buf_sz)
 	return buf;
 }
 
-void pci_cs_print_common(struct pci_config_space_common *c)
+void pci_cs_print_common(struct pci_cs_hdr_common *c)
 {
 	char buf[64];
 	printf("Vendor ID: 0x%x\n", c->vendor_id);
@@ -43,7 +43,7 @@ void pci_cs_print_common(struct pci_config_space_common *c)
 	printf("Bist: %d\n", c->bist);
 }
 
-void pci_cs_print_type0(struct pci_config_space_type0 *t)
+void pci_cs_print_type0(struct pci_cs_hdr_type0 *t)
 {
 	int i;
 
@@ -69,7 +69,7 @@ void pci_cs_print_type0(struct pci_config_space_type0 *t)
 	printf("Max Lat: %x\n", t->max_lat);
 }
 
-void pci_cs_print_type1(struct pci_config_space_type1 *t)
+void pci_cs_print_type1(struct pci_cs_hdr_type1 *t)
 {
 	int i;
 
