@@ -15,6 +15,7 @@
 # - KSYM_HELPERS
 # - PROC_HELPERS
 # - SOCKET_HELPERS
+# - PCIE_HELPERS
 # - PTHREAD_HELPERS
 # - SCHED_HELPERS
 # - MMAP_HELPERS
@@ -53,6 +54,7 @@ export TLC_HELPERS := ${TOPDIR}/libs/libtest-linux-c.${LIB_TYPE}
 export KSYM_HELPERS := ${TOPDIR}/libs/libksym_helpers.${LIB_TYPE}
 export PROC_HELPERS := ${TOPDIR}/libs/libproc_helpers.${LIB_TYPE}
 export SOCKET_HELPERS := ${TOPDIR}/libs/libsocket_helpers.${LIB_TYPE}
+export PCIE_HELPERS := ${TOPDIR}/libs/libpcie_helpers.${LIB_TYPE}
 export PTHREAD_HELPERS := ${TOPDIR}/libs/libpthread_helpers.${LIB_TYPE}
 export SCHED_HELPERS := ${TOPDIR}/libs/libsched_helpers.${LIB_TYPE}
 export MMAP_HELPERS := ${TOPDIR}/libs/libmmap_helpers.${LIB_TYPE}
@@ -69,6 +71,7 @@ export BPF_INSN_SAMPLES := ${TOPDIR}/bpf/insn/samples/libbpf_insn_samples.${LIB_
 export ALL_HELPERS := \
 		${TLC_HELPERS} \
 		${SOCKET_HELPERS} \
+		${PCIE_HELPERS} \
 		${PTHREAD_HELPERS} \
 		${SCHED_HELPERS} \
 		${MMAP_HELPERS} \
@@ -111,6 +114,7 @@ ifdef DEBUG
   $(info KSYM_HELPERS = ${KSYM_HELPERS})
   $(info PROC_HELPERS = ${PROC_HELPERS})
   $(info SOCKET_HELPERS = ${SOCKET_HELPERS})
+  $(info PCIE_HELPERS = ${PCIE_HELPERS})
   $(info PTHREAD_HELPERS = ${PTHREAD_HELPERS})
   $(info SCHED_HELPERS = ${SCHED_HELPERS})
   $(info MMAP_HELPERS = ${MMAP_HELPERS})

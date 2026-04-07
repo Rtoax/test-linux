@@ -5,6 +5,8 @@ PCIe Abbrev
 - ARI: Alternate Routing ID (备用路由ID)
 - ASPM: Active State Power Management (激活状态电源管理) @PCIe
 - BDF: Bus:Device.Function (总线:设备.功能) @PCIe
+- CAM: Configuration Access Mechanism (配置访问机制) @ECAM
+- ECAM: Enhanced Configuration Access Mechanism (增强配置访问机制) @CAM
 - PCI: Peripheral Component Interconnect (外围组件互联) @PCIe
 - PCIe: PCI-Express () @PCI
 - PCIe ACS: Access Control Services (访问控制服务)
