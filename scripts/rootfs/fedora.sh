@@ -240,6 +240,7 @@ if ! [[ " fedora " =~ " ${ID} " ]]; then
 
 	# These is no gpg key in your system, just skip the check.
 	dnf_args+=( --nogpgcheck )
+	dnf_args+=( --disablerepo=updates )
 
 	rootfs_dnf install -y --disablerepo=* --enablerepo=tmp fedora-release
 
