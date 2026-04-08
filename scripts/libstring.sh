@@ -6,6 +6,12 @@ readonly GiB=$((MiB * 1024))
 # $1: size string, format: 123KiB, 123MB, 123B, 124KB, 123
 size2bytes() {
 	local size=$1
+
+	if [[ -z ${size} ]]; then
+		echo >&2 "ERROR: size2bytes(): Input can't be empty"
+		exit 1
+	fi
+
 	local value=$(echo ${size} | grep -Eo '[0-9]+')
 	local v2=$(echo ${size} | \
 			sed 's/GiB$//g;s/GB$//g;s/G$//g' | \
@@ -39,9 +45,11 @@ size2bytes() {
 }
 
 # sizealignfmt - swap size to aligned size with size KiB
-# $1: size string, from 1024 to 1K
+# $1: size string, support format: 1KiB, 1KB, 2K, so does MB,GB
 sizeceilfmt() {
 	local size=${1:-0}
+
+	size=$(size2bytes ${size})
 
 	if (( size == 0 )); then
 		echo "0B"
