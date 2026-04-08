@@ -22,6 +22,7 @@ readonly WHERE_AM_I=$(dirname $(realpath $0))
 . ${WHERE_AM_I}/libstring.sh
 
 readonly prog=qemu-vm
+readonly arch=$(uname -m)
 readonly qemu=$(get_qemu_kvm_emulator)
 
 readonly bus_pcie0=pcie.0 # q35 default root bus
@@ -127,8 +128,8 @@ ${BOLD}OPTIONS${RST}
     -h, --help              show this help information
 
 ${BOLD}EXAMPLES${RST}
-    $ sudo ./qemu.sh --kernel ${GRAY}${ITALIC}/boot/vmlinuz-$(uname -r)${RST} \\
-        --initrd ${GRAY}${ITALIC}/boot/initramfs-$(uname -r).img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
+    $ sudo ./qemu.sh --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${arch}${RST} \\
+        --initrd ${GRAY}${ITALIC}/boot/initramfs-${arch}.img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
         ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
 
 ${BOLD}FORMAT${RST}
@@ -402,7 +403,7 @@ config_basic() {
 		qargs+=( -serial mon:stdio -nographic )
 	fi
 
-	case $(uname -m) in
+	case ${arch} in
 	x86_64)
 		qmachine+=( type=q35 )
 		;;
@@ -443,7 +444,7 @@ config_uefi() {
 	local codes=( /usr/share/OVMF/OVMF_CODE.fd )
 	local vars=( /usr/share/OVMF/OVMF_VARS.fd )
 
-	case $(uname -m) in
+	case ${arch} in
 	aarch64)
 		codes+=( /usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw )
 		vars+=( /usr/share/edk2/aarch64/QEMU_VARS.fd )
@@ -452,7 +453,7 @@ config_uefi() {
 
 	# FIXME: aarch64 default UEFI, skip error:
 	# qemu-kvm: device requires 67108864 bytes, block backend provides 786432 bytes
-	if [[ $(uname -m) == aarch64 ]]; then
+	if [[ ${arch} == aarch64 ]]; then
 		return 0
 	fi
 
@@ -531,7 +532,14 @@ config_kernel() {
 	kcmds+=( earlyprintk=serial )
 	kcmds+=( net.ifnames=0 )
 	kcmds+=( selinux=0 audit=0 nokaslr )
-	kcmds+=( console=tty0 console=ttyS0 )
+	case ${arch} in
+	aarch64)
+		kcmds+=( console=ttyAMA0 )
+		;;
+	*)
+		kcmds+=( console=tty0 console=ttyS0 )
+		;;
+	esac
 
 	if [[ ${k_rdinit} ]]; then
 		kcmds+=( rdinit=${k_rdinit} )
