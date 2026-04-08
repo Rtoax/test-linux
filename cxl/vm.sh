@@ -1,6 +1,8 @@
 #!/bin/bash
 # ref: https://github.com/pmem/run_qemu
 #
+# usage: [GITFS=1] vm.sh
+#
 set -e
 . /etc/os-release
 
@@ -42,11 +44,14 @@ fi
 
 # Mount in guest
 # $ sudo mount -t virtiofs Git /mnt
-sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-git.sock -o source=/home/rongtao/Git/ &
+if [[ ${GITFS} ]]; then
+	sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-git.sock -o source=/home/rongtao/Git/ &
+	gitfs_arg=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
+fi
 
 sudo ../scripts/qemu-vm.sh --name vm-test-cxl --memory 4G \
 	--kernel ${vmlinuz} --initrd ${initramfs} --rootfs ${qcow2} \
-	--virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git \
+	${gitfs_arg[@]} \
 	--cxl cxl-pmem-4way --stdio "${@}"
 
 wait
