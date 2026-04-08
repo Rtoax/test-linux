@@ -14,22 +14,10 @@
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 #
 set -e
-readonly RED="\033[31m"
-readonly GREEN="\033[32m"
-readonly YELLOW="\033[33m"
-readonly BLUE="\033[34m"
-readonly PURPLE="\033[35m"
-
-readonly BOLD="\033[1m"
-readonly GRAY="\033[2m"
-readonly ITALIC="\033[3m"
-readonly UL="\033[4m" # Underline
-readonly REVERSE="\033[7m"
-
-readonly RST="\033[m"
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
+. ${WHERE_AM_I}/liblog.sh
 . ${WHERE_AM_I}/libqemu.sh
 . ${WHERE_AM_I}/libstring.sh
 
@@ -146,11 +134,6 @@ ${BOLD}SEE ALSO${RST}
     qemu(1), qemu-kvm(1), etc.
 "
 	exit ${1-0}
-}
-
-error() {
-	echo -e >&2 "${RED}ERROR: ${@}${RST}"
-	exit 1
 }
 
 check_file_exist_and_exit() {

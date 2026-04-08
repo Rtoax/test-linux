@@ -8,6 +8,9 @@
 #
 set -e
 
+readonly VERSION="v1.1.2"
+readonly WHERE_AM_I=$(dirname $(realpath $0))
+
 subject_prefix=
 downer_commit=
 upper_commit=
@@ -21,21 +24,7 @@ output_dir=patchset.patch
 declare -a patch_files
 declare -a abbrev_commits
 
-readonly RED="\033[31m"
-readonly GREEN="\033[32m"
-readonly YELLOW="\033[33m"
-readonly BLUE="\033[34m"
-readonly PURPLE="\033[35m"
-
-readonly BOLD="\033[1m"
-readonly GRAY="\033[2m"
-readonly ITALIC="\033[3m"
-readonly UL="\033[4m" # Underline
-readonly REVERSE="\033[7m"
-
-readonly RST="\033[m"
-
-readonly VERSION="v1.1.2"
+. ${WHERE_AM_I}/liblog.sh
 
 __patchset_usage__()
 {
@@ -104,11 +93,6 @@ ${BOLD}LINKS${RST}
 	https://www.kernel.org/doc/html/latest/process/submitting-patches.html
 " | more
 	exit ${1-0}
-}
-
-error() {
-	echo -e >&2 "${RED}ERROR: ${@}${RST}"
-	exit 1
 }
 
 warning() {

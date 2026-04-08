@@ -1,12 +1,10 @@
 #!/bin/bash
 set -e
 
+readonly WHERE_AM_I=$(dirname $(realpath $0))
 verbose=
 
-error() {
-	echo >&2 "ERROR: $@"
-	exit 1
-}
+. ${WHERE_AM_I}/liblog.sh
 
 # $1 - symlinks, purename, symlinks-names
 # $2 - library name

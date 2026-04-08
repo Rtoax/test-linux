@@ -7,6 +7,7 @@
 #
 set -e
 
+readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly prog_name=runprog
 LOG_FILE=runprog.log
 declare -a ENVS
@@ -14,10 +15,7 @@ verbose=
 SUDO=
 TMOUT=
 
-error() {
-	echo >&2 "ERROR: $@"
-	exit 1
-}
+. ${WHERE_AM_I}/liblog.sh
 
 __usage__()
 {

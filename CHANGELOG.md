@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - libstring.sh: add sizeceilfmt();
-- scripts: add libstring.sh;
+- scripts: add libstring.sh, liblog.sh;
 - libs: add `pcie_helpers.c` and pcie configuration space header type0,type1 check and print functions, `pcie_helpers.map`;
 - bpftrace: add return.bt sample;
 - qemu-vm.sh: add virtio-fs support;
