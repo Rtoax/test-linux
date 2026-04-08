@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- scripts/rootfs/fedora.sh: support build fedora rootfs on ubuntu;
 - libstring.sh: add sizeceilfmt();
 - scripts: add libstring.sh, liblog.sh;
 - libs: add `pcie_helpers.c` and pcie configuration space header type0,type1 check and print functions, `pcie_helpers.map`;

@@ -21,6 +21,7 @@ pkgs+=( autoconf automake binutils cmake dnf dracut gcc gcc-c++ gdb git
 	glibc-devel glibc-static hostname iproute libtool ltrace make
 	NetworkManager openssh-server pciutils pkgconf rpm strace sudo vim )
 
+declare -a dnf_args
 verbose=
 dry_run=
 
@@ -155,6 +156,7 @@ rootfs_dnf() {
 	_eval sudo dnf --installroot=${ROOTFS_DIR} \
 		--releasever=${VERSION_ID} \
 		--forcearch=${TARGET_ARCH} \
+		${dnf_args[@]} \
 		${SUPPORT_UHC:+--use-host-config} \
 		"$@"
 }
@@ -213,6 +215,35 @@ _eval sudo mkdir -p ${ROOTFS_DIR}
 
 if [[ ${IMAGE} ]]; then
 	image_create_and_mount
+fi
+
+# If not running on fedora or rhel like distrobution, just make newest fedora as
+# default, and install newest fedora-release rpm first.
+# TODO: add more distrobutions support
+if ! [[ " fedora " =~ " ${ID} " ]]; then
+	# Default to fedora
+	ID=fedora
+	VERSION_ID=43 # Newest fedora now(2026-04-08)
+
+	TUNA="https://mirrors.tuna.tsinghua.edu.cn"
+	F_YUM="${TUNA}/fedora/releases/${VERSION_ID}/Everything/${TARGET_ARCH}/os/"
+
+	sudo mkdir -p ${ROOTFS_DIR}/etc/yum.repos.d/
+	tmprepo=${ROOTFS_DIR}/etc/yum.repos.d/tmp.repo
+	sudo tee ${tmprepo} <<-EOF
+	[tmp]
+	name=Temp Fedora ${VERSION_ID} YUM
+	enabled=0
+	baseurl=${F_YUM}
+	gpgcheck=0
+	EOF
+
+	# These is no gpg key in your system, just skip the check.
+	dnf_args+=( --nogpgcheck )
+
+	rootfs_dnf install -y --disablerepo=* --enablerepo=tmp fedora-release
+
+	sudo rm -f ${tmprepo}
 fi
 
 rootfs_dnf install -y ${pkgs[@]}
