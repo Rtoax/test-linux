@@ -74,8 +74,10 @@ export BPF_INSN_SAMPLES := ${TOPDIR}/bpf/insn/samples/libbpf_insn_samples.${LIB_
 
 export ALL_HELPERS := \
 		${TLC_HELPERS} \
+		${KSYM_HELPERS} \
 		${SOCKET_HELPERS} \
 		${PCIE_HELPERS} \
+		${PROC_HELPERS} \
 		${PTHREAD_HELPERS} \
 		${SCHED_HELPERS} \
 		${MMAP_HELPERS} \
@@ -99,17 +101,19 @@ helpers-ldflags += -Wl,-rpath,${TOPDIR}/bpf/insn/samples/
 
 # $1: cflags's name, like CFLAGS, CFLAGS_SO
 define add_helpers_cflags
+$(if ${DEBUG}, $(info Add helper cflags to ${1}))
 $(eval ${1} += ${helpers-cflags})
 endef
 
 # $1: ldflags's name, like LDFLAGS, LDFLAGS_SO
 define add_helpers_ldflags
+$(if ${DEBUG}, $(info Add helper ldflags to ${1}))
 $(eval ${1} += ${helpers-ldflags})
 endef
 
 # $1 - helper library absolute path, like: /path/to/liba.so
 define add_helper_target
-$(if ${DEBUG}, $(info Add helper $1))
+$(if ${DEBUG}, $(info Add helper target ${1}))
 ${1}:
 	${Q}${MAKE} --no-print-directory --silent ${SUBMKFLAGS} -C $$(shell dirname ${1}) $$(shell basename ${1})
 endef
@@ -139,7 +143,6 @@ ifdef DEBUG
   $(info helpers-ldflags = ${helpers-ldflags})
 endif
 
-export ${ALL_HELPERS}
 export helpers-cflags
 export helpers-ldflags
 
