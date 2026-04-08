@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include kconfig.mk
+include bpf/libbpf.mk
 include nvidia/cuda.mk
 include amd/rocm.mk
 include metax/hpcc.mk
@@ -32,11 +33,11 @@ target-liba-y += libpthread_helpers.a
 target-liba-y += libpcie_helpers.a
 target-liba-y += libsched_helpers.a
 target-liba-y += libmmap_helpers.a
-target-liba-y += libtrace_helpers.a
+target-liba-${HAVE_LIBBPF_H} += libtrace_helpers.a
 target-liba-y += liboom_helpers.a
 target-liba-y += libqcow2_helpers.a
-target-liba-y += libbpf_helpers.a
-target-liba-y += libbtf_helpers.a
+target-liba-${HAVE_LIBBPF_H} += libbpf_helpers.a
+target-liba-${HAVE_LIBBPF_H} += libbtf_helpers.a
 target-liba-y += libreboot_helpers.a
 target-liba-y += libcgroup_helpers.a
 
@@ -48,11 +49,11 @@ target-libso-y += libsocket_helpers.so
 target-libso-y += libpthread_helpers.so
 target-libso-y += libsched_helpers.so
 target-libso-y += libmmap_helpers.so
-target-libso-y += libtrace_helpers.so
+target-libso-${HAVE_LIBBPF_H} += libtrace_helpers.so
 target-libso-y += liboom_helpers.so
 target-libso-y += libqcow2_helpers.so
-target-libso-y += libbpf_helpers.so
-target-libso-y += libbtf_helpers.so
+target-libso-${HAVE_LIBBPF_H} += libbpf_helpers.so
+target-libso-${HAVE_LIBBPF_H} += libbtf_helpers.so
 target-libso-y += libreboot_helpers.so
 target-libso-y += libcgroup_helpers.so
 

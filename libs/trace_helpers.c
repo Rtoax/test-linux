@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <bpf/libbpf.h>
 #include "trace_helpers.h"
 
 #define TRACEFS_PIPE "/sys/kernel/tracing/trace_pipe"

@@ -41,6 +41,7 @@ and this project adheres to
 #### Tools
 - add ffmpeg subdir;
 #### Template
+- bpf/libbpf.mk: add `HAVE_LIBBPF_H`;
 - helpers.mk: rename `C_HELPERS` to `TLC_HELPERS`;
 - targets/asm.mk: add `%.s.o.bin` target and apply to kvm/playground;
 - targets/asm.mk: add `%.asm.o.bin` target and apply to kvm/playground;

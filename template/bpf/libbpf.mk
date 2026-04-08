@@ -8,6 +8,7 @@
 #
 # Output definitions:
 # - HAVE_LIBBPF=[y|n]
+# - HAVE_LIBBPF_H=[y|n]
 # - LIBBPF_MAJOR_VERSION=
 # - LIBBPF_MINOR_VERSION=
 # - LIBBPF_PATCHLEVEL_VERSION=
@@ -17,6 +18,7 @@ ifndef _BPF_LIBBPF_MK
 _BPF_LIBBPF_MK = 1
 
 include dir.mk
+include define.mk
 
 libbpfversh = ${TOPDIR}/scripts/version/libbpf.sh
 
@@ -24,7 +26,10 @@ LIBBPF_VERSION := $(shell ${libbpfversh})
 
 ifeq (${LIBBPF_VERSION},)
   export HAVE_LIBBPF := n
+  export HAVE_LIBBPF_H := n
 else
+
+$(call check_file_and_def,/usr/include/bpf/libbpf.h,HAVE_LIBBPF_H)
 
 export LIBBPF_MAJOR_VERSION := $(shell ${libbpfversh} --major)
 export LIBBPF_MINOR_VERSION := $(shell ${libbpfversh} --minor)
@@ -47,6 +52,7 @@ endif # end of Found libbpf
 
 ifdef DEBUG
   $(info HAVE_LIBBPF = ${HAVE_LIBBPF})
+  $(info HAVE_LIBBPF_H = ${HAVE_LIBBPF_H})
   $(info LIBBPF_VERSION = ${LIBBPF_VERSION})
   $(info LIBBPF_MAJOR_VERSION = ${LIBBPF_MAJOR_VERSION})
   $(info LIBBPF_MINOR_VERSION = ${LIBBPF_MINOR_VERSION})
