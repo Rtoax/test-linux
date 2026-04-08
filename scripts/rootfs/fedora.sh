@@ -1,7 +1,7 @@
 #!/bin/bash
 # Wrote by Rong Tao
 set -e
-readonly prog=$0
+readonly prog=rootfs-fedora
 
 . /etc/os-release
 
