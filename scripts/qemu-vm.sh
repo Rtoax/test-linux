@@ -119,7 +119,9 @@ ${BOLD}OPTIONS${RST}
 
     --nvdimm [FILE]         add a nvdimm pmem
 
-    --stdio                 input/output from/to stdio
+    --stdio                 input/output from/to stdio. Default ${GRAY}TERM=${RST}${UL}vt220${RST}
+                            if stdio, you could set ${UL}TERM=xterm-256color${RST}
+                            or ${UL}TERM=linux${RST} in your virtual machine.
 
     --cxl [TYPE]            test CXL, support: ${GRAY}${CXL_TYPES[@]}${RST}
                             debug with debug mode.
@@ -403,6 +405,8 @@ config_basic() {
 	qargs+=( -pidfile ${q_vm_name}.pid)
 
 	if [[ ${q_stdio} ]]; then
+		# Default TERM=vt220 if stdio, you could specify
+		# TERM=xterm-256color or TERM=linux in your virtual machine.
 		qargs+=( -serial mon:stdio -nographic )
 	fi
 
