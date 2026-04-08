@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+readonly LIBQEMU_ROOT=$(dirname $(realpath $0))
+
+. ${LIBQEMU_ROOT}/liblog.sh
 
 find_qemu_emulator()
 {
@@ -15,8 +17,7 @@ find_qemu_emulator()
 	done
 
 	if [[ -z $qemu_kvm ]]; then
-		echo "ERROR: Not found qemu-kvm emulator" >&2
-		exit 1
+		error "Not found qemu-kvm emulator" >&2
 	else
 		echo $qemu_kvm
 	fi
@@ -39,8 +40,7 @@ get_qemu_kvm_emulator_arch()
 {
 	local arch=$1
 	if [[ -z ${arch} ]]; then
-		echo "ERROR: Must specify arch" >&2
-		exit 1
+		error "Must specify arch" >&2
 	fi
 	local qemu_kvm_possible_emulators=(
 		/usr/libexec/qemu-system-${arch}
