@@ -30,7 +30,8 @@ readonly RST="\033[m"
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
-. ${WHERE_AM_I}/../scripts/libqemu.sh
+. ${WHERE_AM_I}/libqemu.sh
+. ${WHERE_AM_I}/libstring.sh
 
 readonly prog=qemu-vm
 readonly qemu=$(get_qemu_kvm_emulator)
@@ -210,6 +211,7 @@ while true; do
 	-m | --memory)
 		shift
 		q_memory=$1
+		# TODO: check available of q_memory
 		shift
 		;;
 	-k | --kernel)
@@ -434,6 +436,14 @@ config_memory() {
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
 }
 
+# $1: require memory size
+min_memory_required() {
+	local reqsz=$1
+	if [[ $(size2bytes ${q_memory}) -lt $(size2bytes ${reqsz}) ]]; then
+		error "Need memory size ${reqsz} at least, but it's ${q_memory}"
+	fi
+}
+
 config_cpu() {
 	qargs+=( -cpu host -smp cpus=4 )
 }
@@ -653,6 +663,9 @@ cxl_pmem_4way() {
 		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=pxbcxl.1
 		-device pxb-cxl,bus_nr=22,bus=${bus_pcie0},id=pxbcxl.2
 	)
+
+	# TODO: Why cxl pmem 4way need 4G+ ram memory??
+	min_memory_required 5G
 
 	qargs+=(
 		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest1.raw,size=${cxl_size}
