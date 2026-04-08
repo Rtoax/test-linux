@@ -7,19 +7,33 @@ readonly GiB=$((MiB * 1024))
 size2bytes() {
 	local size=$1
 	local value=$(echo ${size} | grep -Eo '[0-9]+')
+	local v2=$(echo ${size} | \
+			sed 's/GiB$//g;s/GB$//g;s/G$//g' | \
+			sed 's/MiB$//g;s/MB$//g;s/M$//g' | \
+			sed 's/KiB$//g;s/KB$//g;s/K$//g' | \
+			sed 's/$B//g')
 
-	case ${size} in
-	*G | *GiB | *GB)
+	if [[ ${value} != ${v2} ]]; then
+		echo >&2 "ERROR: size2bytes(): Bad format ${size}"
+		exit 1
+	fi
+
+	case ${size:${#value}} in
+	G | GiB | GB)
 		echo $((${value} * ${GiB}))
 		;;
-	*M | *MiB | *MB)
+	M | MiB | MB)
 		echo $((${value} * ${MiB}))
 		;;
-	*K | *KiB | *KB)
+	K | KiB | KB)
 		echo $((${value} * ${KiB}))
 		;;
-	*B | *B | *B | *)
+	B | "")
 		echo ${value}
+		;;
+	*)
+		echo >&2 "ERROR: size2bytes(): Bad format ${size}"
+		exit 1
 		;;
 	esac
 }
