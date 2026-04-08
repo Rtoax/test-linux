@@ -646,8 +646,9 @@ cxl_pmem() {
 		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=pxbcxl.1
 		-device cxl-rp,port=0,bus=pxbcxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
-		-M cxl-fmw.0.targets.0=pxbcxl.1,cxl-fmw.0.size=4G
 	)
+	qmachine+=( cxl-fmw.0.targets.0=pxbcxl.1 )
+	qmachine+=( cxl-fmw.0.size=4G )
 }
 
 # A setup suitable for 4 way interleave. Only one fixed window provided, to
@@ -689,9 +690,10 @@ cxl_pmem_4way() {
 		-device cxl-type3,bus=root_port16,persistent-memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3,sn=0x4
 	)
 
-	qargs+=(
-		-M cxl-fmw.0.targets.0=pxbcxl.1,cxl-fmw.0.targets.1=pxbcxl.2,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k
-	)
+	qmachine+=( cxl-fmw.0.targets.0=pxbcxl.1 )
+	qmachine+=( cxl-fmw.0.targets.1=pxbcxl.2 )
+	qmachine+=( cxl-fmw.0.size=4G )
+	qmachine+=( cxl-fmw.0.interleave-granularity=8k )
 }
 
 # An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave:
@@ -711,8 +713,12 @@ cxl_pmem_4way_switch() {
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
 		-device cxl-upstream,bus=root_port0,id=us0
-		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
 	)
+
+	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
+	qmachine+=( cxl-fmw.0.size=4G )
+	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
+
 	for i in $(seq 0 1 3)
 	do
 		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2))
@@ -735,8 +741,10 @@ __cxl_volatile_mem_lsa() {
 
 	qargs+=(-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
-		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,${LSA}id=cxl-vmem0
-		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G)
+		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,${LSA}id=cxl-vmem0 )
+
+	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
+	qmachine+=( cxl-fmw.0.size=4G )
 }
 
 cxl_volatile_mem() {
@@ -762,8 +770,9 @@ cxl_volatile_mem_4way() {
 		-device cxl-type3,bus=root_port14,volatile-memdev=vmem1,id=cxl-vmem1
 		-device cxl-type3,bus=root_port15,volatile-memdev=vmem2,id=cxl-vmem2
 		-device cxl-type3,bus=root_port16,volatile-memdev=vmem3,id=cxl-vmem3
-		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
 	)
+	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
+	qmachine+=( cxl-fmw.0.size=4G )
 }
 
 cxl_volatile_mem_4way_switch() {
@@ -777,8 +786,12 @@ cxl_volatile_mem_4way_switch() {
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
 		-device cxl-upstream,bus=root_port0,id=us0
-		-M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
 	)
+
+	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
+	qmachine+=( cxl-fmw.0.size=4G )
+	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
+
 	for i in $(seq 0 1 3)
 	do
 		qargs+=(
