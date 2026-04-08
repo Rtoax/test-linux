@@ -49,7 +49,7 @@ if [[ ${GITFS} ]]; then
 	gitfs_arg=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
 fi
 
-sudo ../scripts/qemu-vm.sh --name vm-test-cxl --memory 5G \
+sudo ../scripts/qemu-vm.sh --name vm-test-cxl --memory 5GiB \
 	--kernel ${vmlinuz} --initrd ${initramfs} --rootfs ${qcow2} \
 	${gitfs_arg[@]} \
 	--cxl cxl-pmem-4way --stdio "${@}"

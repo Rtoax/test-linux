@@ -90,7 +90,8 @@ ${BOLD}DESCRIPTION${RST}
 ${BOLD}OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
 
-    -m, --memory [SIZE]     Sets guest startup RAM size, default: ${memory}.
+    -m, --memory [SIZE]     Sets guest startup RAM size, default: ${q_memory},
+                            format see ${UL}SIZE${RST} section.
 
     -k, --kernel [KERNEL]   specify vmlinuz, bzImage
         --karg [ARG]        add kernel argument, (may be listed multiple times)
@@ -129,6 +130,10 @@ ${BOLD}EXAMPLES${RST}
     $ sudo ./qemu.sh --kernel ${GRAY}${ITALIC}/boot/vmlinuz-$(uname -r)${RST} \\
         --initrd ${GRAY}${ITALIC}/boot/initramfs-$(uname -r).img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
         ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
+
+${BOLD}FORMAT${RST}
+
+  ${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB
 
 ${BOLD}SEE ALSO${RST}
     qemu(1), qemu-kvm(1), etc.
@@ -194,6 +199,9 @@ while true; do
 	-m | --memory)
 		shift
 		q_memory=$(sizeceilfmt $1)
+		if [[ -z ${q_memory} ]]; then
+			error "Bad memory parameter ${q_memory}"
+		fi
 		shift
 		;;
 	-k | --kernel)

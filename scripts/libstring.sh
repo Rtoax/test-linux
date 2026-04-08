@@ -48,9 +48,12 @@ size2bytes() {
 # sizealignfmt - swap size to aligned size with size KiB
 # $1: size string, support format: 1KiB, 1KB, 2K, so does MB,GB
 sizeceilfmt() {
-	local size=${1:-0}
+	local size=${1}
 
 	size=$(size2bytes ${size})
+	if [[ -z ${size} ]]; then
+		error "sizeceilfmt(): Bad format ${1}"
+	fi
 
 	if (( size == 0 )); then
 		echo "0B"
