@@ -1,5 +1,5 @@
 #!/bin/bash
-readonly LIBQEMU_ROOT=$(dirname $(realpath $0))
+readonly LIBQEMU_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_ROOT}/liblog.sh
 

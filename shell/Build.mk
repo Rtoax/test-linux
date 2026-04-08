@@ -28,5 +28,6 @@ target-shell-y += tracing.sh
 target-shell-y += trap.sh
 target-shell-y += while.sh
 target-shell-y += SUDO_USER.sh
+target-shell-y += BASH_SOURCE.sh
 
 SHELL_ARGS_stat.sh := /etc/os-release /etc/hosts

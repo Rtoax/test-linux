@@ -3,7 +3,7 @@ readonly KiB=1024
 readonly MiB=$((KiB * 1024))
 readonly GiB=$((MiB * 1024))
 
-readonly LIBSTRING_ROOT=$(dirname $(realpath $0))
+readonly LIBSTRING_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBSTRING_ROOT}/liblog.sh
 

@@ -30,6 +30,7 @@ and this project adheres to
 #### Removed
 - remove init/initrd/mkfs.sh;
 #### Fixed
+- scripts: Fix library source path with `BASH_SOURCE`;
 #### Security
 #### Docs
 - add requirements.txt;

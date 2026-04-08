@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-readonly WHERE_AM_I=$(dirname $(realpath $0))
+readonly LIBSO_MULTIVER_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 verbose=
 
-. ${WHERE_AM_I}/liblog.sh
+. ${LIBSO_MULTIVER_ROOT}/liblog.sh
 
 # $1 - symlinks, purename, symlinks-names
 # $2 - library name
