@@ -23,6 +23,7 @@
 # - QCOW2_HELPERS
 # - TRACE_HELPERS
 # - CUDA_HELPERS
+# - CGROUP_HELPERS
 # - HIP_HELPERS
 # - LUCA_HELPERS
 # - HPCC_HELPERS
@@ -65,6 +66,7 @@ export TRACE_HELPERS := ${TOPDIR}/libs/libtrace_helpers.${LIB_TYPE}
 export BPF_HELPERS := ${TOPDIR}/libs/libbpf_helpers.${LIB_TYPE}
 export BTF_HELPERS := ${TOPDIR}/libs/libbtf_helpers.${LIB_TYPE}
 export CUDA_HELPERS := ${TOPDIR}/libs/libcuda_helpers.${LIB_TYPE}
+export CGROUP_HELPERS := ${TOPDIR}/libs/libcgroup_helpers.${LIB_TYPE}
 export HIP_HELPERS := ${TOPDIR}/libs/libhip_helpers.${LIB_TYPE}
 export LUCA_HELPERS := ${TOPDIR}/libs/libluca_helpers.${LIB_TYPE}
 export HPCC_HELPERS := ${TOPDIR}/libs/libhpcc_helpers.${LIB_TYPE}
@@ -81,6 +83,7 @@ export ALL_HELPERS := \
 		${QCOW2_HELPERS} \
 		${TRACE_HELPERS} \
 		${CUDA_HELPERS} \
+		${CGROUP_HELPERS} \
 		${HIP_HELPERS} \
 		${LUCA_HELPERS} \
 		${HPCC_HELPERS} \
@@ -125,6 +128,7 @@ ifdef DEBUG
   $(info QCOW2_HELPERS = ${QCOW2_HELPERS})
   $(info TRACE_HELPERS = ${TRACE_HELPERS})
   $(info CUDA_HELPERS = ${CUDA_HELPERS})
+  $(info CGROUP_HELPERS = ${CGROUP_HELPERS})
   $(info HIP_HELPERS = ${HIP_HELPERS})
   $(info LUCA_HELPERS = ${LUCA_HELPERS})
   $(info HPCC_HELPERS = ${HPCC_HELPERS})

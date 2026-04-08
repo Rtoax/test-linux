@@ -10,7 +10,6 @@
 #include <string.h>
 #include "cgroup_helpers.h"
 
-
 int cgroup_get_roots(char ***roots)
 {
 	char line[2048];

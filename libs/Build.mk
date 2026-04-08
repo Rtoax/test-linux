@@ -18,6 +18,7 @@ target-y += str
 target-y += ipaddr
 target-y += ksym_examples
 target-y += proc_examples
+target-y += cgroup_examples
 
 libtest-linux-c := libtest-linux-c.so.0.1
 libproc-helpers := libproc_helpers.so.0.1.0
@@ -37,6 +38,7 @@ target-liba-y += libqcow2_helpers.a
 target-liba-y += libbpf_helpers.a
 target-liba-y += libbtf_helpers.a
 target-liba-y += libreboot_helpers.a
+target-liba-y += libcgroup_helpers.a
 
 target-libso-y += ${libpcie-helpers}
 target-libso-y += ${libproc-helpers}
@@ -52,6 +54,7 @@ target-libso-y += libqcow2_helpers.so
 target-libso-y += libbpf_helpers.so
 target-libso-y += libbtf_helpers.so
 target-libso-y += libreboot_helpers.so
+target-libso-y += libcgroup_helpers.so
 
 target-nvcc-libso-${HAVE_CUDA} := libcuda_helpers.so
 target-nvcc-liba-${HAVE_CUDA} := libcuda_helpers.a
@@ -114,9 +117,12 @@ libhpcc_helpers.so-objs := $(OUTPUT)cuda_helpers.hpcc.so.o
 libhpcc_helpers.a-objs := $(OUTPUT)cuda_helpers.hpcc.a.o
 libreboot_helpers.a-objs := ${OUTPUT}reboot_helpers.a.o
 libreboot_helpers.so-objs := ${OUTPUT}reboot_helpers.so.o
+libcgroup_helpers.a-objs := ${OUTPUT}cgroup_helpers.a.o
+libcgroup_helpers.so-objs := ${OUTPUT}cgroup_helpers.so.o
 
 ksym_examples-objs := ${OUTPUT}ksym_helpers.o
 proc_examples-objs := ${OUTPUT}proc_helpers.o
+cgroup_examples-objs := ${OUTPUT}cgroup_helpers.o
 
 CFLAGS += -DTEST_MAIN=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)
