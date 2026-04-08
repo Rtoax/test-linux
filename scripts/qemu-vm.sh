@@ -117,6 +117,9 @@ ${BOLD}OPTIONS${RST}
     --cxl [TYPE]            test CXL, support: ${GRAY}${CXL_TYPES[@]}${RST}
                             debug with debug mode.
 
+                            CXL require Qemu >= ${UL}9.0${RST} on aarch64,
+                            Qemu >= ${UL}7.2${RST} on x86_64.
+
     --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
                             by ${GRAY}$ virtiofsd --socket-path=/var/run/vhost-fs.sock -o source=/path/to/host/${RST}
     --virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}myfs${RST}

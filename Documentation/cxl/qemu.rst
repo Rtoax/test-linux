@@ -10,6 +10,24 @@ https://lore.kernel.org/all/CAGEDW0dVEk-QXuL=DPVvSP4t5cafz6N-r_SrCxgFnBfFOsixSA@
 - Q35
 
 
+Qemu Version
+------------
+
+.. list-table::
+   :widths: 15 30
+   :header-rows: 1
+
+   * - Architecture
+     - Qemu
+   * - x86_64
+     - 7.2(初步支持), 8.0(能力完善), 9.0(全场景覆盖), 10.x(稳定迭代)
+   * - aarch64
+     - >= 9.0/10.x
+
+
+Qemu PCIe
+---------
+
 .. code-block:: text
 
     ┌─────────────────────────────────────────┐
