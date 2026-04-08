@@ -510,9 +510,11 @@ add_net_nic_tap() {
 
 # Usage:
 # on hostos:
-# $ ssh -p8080 root@localhost
+# $ ssh -p8086 root@localhost
+# Make sure port was not used, check with:
+# $ sudo netstat -tulpn | grep 8086
 add_net_nic_user_tap() {
-	qargs+=( -net user,hostfwd=tcp::8080-:22
+	qargs+=( -net user,hostfwd=tcp::8086-:22
 		-net nic,model=virtio
 		-device virtio-net,netdev=network0
 		-netdev tap,id=network0,ifname=tap0,script=no,downscript=no )
