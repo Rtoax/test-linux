@@ -3,13 +3,16 @@ readonly KiB=1024
 readonly MiB=$((KiB * 1024))
 readonly GiB=$((MiB * 1024))
 
+readonly LIBSTRING_ROOT=$(dirname $(realpath $0))
+
+. ${LIBSTRING_ROOT}/liblog.sh
+
 # $1: size string, format: 123KiB, 123MB, 123B, 124KB, 123
 size2bytes() {
 	local size=$1
 
 	if [[ -z ${size} ]]; then
-		echo >&2 "ERROR: size2bytes(): Input can't be empty"
-		exit 1
+		error "size2bytes(): Input can't be empty"
 	fi
 
 	local value=$(echo ${size} | grep -Eo '[0-9]+')
@@ -20,8 +23,7 @@ size2bytes() {
 			sed 's/$B//g')
 
 	if [[ ${value} != ${v2} ]]; then
-		echo >&2 "ERROR: size2bytes(): Bad format ${size}"
-		exit 1
+		error "size2bytes(): Bad format ${size}"
 	fi
 
 	case ${size:${#value}} in
@@ -38,8 +40,7 @@ size2bytes() {
 		echo ${value}
 		;;
 	*)
-		echo >&2 "ERROR: size2bytes(): Bad format ${size}"
-		exit 1
+		error "size2bytes(): Bad format ${size}"
 		;;
 	esac
 }

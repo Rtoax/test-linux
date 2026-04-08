@@ -193,8 +193,7 @@ while true; do
 		;;
 	-m | --memory)
 		shift
-		q_memory=$1
-		# TODO: check available of q_memory
+		q_memory=$(sizeceilfmt $1)
 		shift
 		;;
 	-k | --kernel)
