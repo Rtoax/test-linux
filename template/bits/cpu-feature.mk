@@ -31,12 +31,16 @@ ifeq (${CPU_ARCH},aarch64)
   # specifications, ASIMD is a mandatory built-in baseline feature, not an
   # optional extension.
   ifndef CPU_HAVE_ASIMD
-    $(error "Not found asimd(neon) in your CPU, please check with 'lscpu'")
+    $(error "Not found asimd(neon) from your CPU, please check with 'lscpu'")
   endif
 else ifeq (${CPU_ARCH},x86_64)
+  $(call define_cpufeature,fpu)
   $(call define_cpufeature,avx2)
   $(call define_cpufeature,avx512f)
   $(call define_cpufeature,sgx)
+  ifndef CPU_HAVE_FPU
+    $(error "Not found fpu from your CPU, please check with 'lscpu'")
+  endif
 # MORE
 endif
 
