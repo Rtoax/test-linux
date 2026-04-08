@@ -223,6 +223,7 @@ redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
 rocm_ver() { add_ver_weak "ROCm $(${VERDIR}/rocm.sh)"; }
 rpm_ver() { add_ver "RPM $(${VERDIR}/rpm.sh)"; }
 rust_ver() { add_ver "Rust $(${VERDIR}/rust.sh)"; }
+sed_ver() { add_ver "sed $(${VERDIR}/sed.sh)"; }
 shell_ver() { add_ver "$(${VERDIR}/shell.sh --pretty-name) $(${VERDIR}/shell.sh)"; }
 sphinx_ver() { add_ver "Sphinx $(${VERDIR}/sphinx.sh)"; }
 strace_ver() { add_ver "Strace $(${VERDIR}/strace.sh)"; }
@@ -348,6 +349,10 @@ fi
 
 if [[ "$(has_key gnome)" ]]; then
 	gnome_ver
+fi
+
+if [[ "$(has_type sed)$(has_key sed)$(has_content sed)" ]]; then
+	sed_ver
 fi
 
 if [[ "$(has_type vim)$(has_key vim)" ]]; then
