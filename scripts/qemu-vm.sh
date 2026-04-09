@@ -690,21 +690,22 @@ cxl_pmem() {
 # enable 2 way interleave across 2 CXL host bridges. Each host bridge has 2
 # CXL Root Ports, with the CXL Type3 device directly attached (no switches).
 cxl_pmem_4way() {
-	local imgs=(cxltest1.raw cxltest2.raw cxltest3.raw cxltest4.raw
-		lsa1.raw lsa2.raw lsa3.raw lsa4.raw)
-	for img in ${imgs[@]}
+	local i ways=4
+
+	# TODO: Why cxl pmem 4way need 4G+ ram memory??
+	min_memory_required 5G
+
+	for ((i = 0; i < ${ways}; i++))
 	do
-		_eval qemu-img create -f raw ${img} ${cxl_size}
+		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
+		_eval qemu-img create -f raw lsa${i}.raw ${cxl_size}
+		cleanup_files+=( cxltest${i}.raw lsa${i}.raw )
 	done
-	cleanup_files+=( ${imgs[@]} )
 
 	qargs+=(
 		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=pxbcxl.1
 		-device pxb-cxl,bus_nr=22,bus=${bus_pcie0},id=pxbcxl.2
 	)
-
-	# TODO: Why cxl pmem 4way need 4G+ ram memory??
-	min_memory_required 5G
 
 	qargs+=(
 		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest1.raw,size=${cxl_size}
