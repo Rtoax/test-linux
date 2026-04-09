@@ -115,18 +115,12 @@ ${BOLD}OPTIONS${RST}
                             if stdio, you could set ${UL}TERM=xterm-256color${RST}
                             or ${UL}TERM=linux${RST} in your virtual machine.
 
-    --cxl [TYPE]            test CXL, support: ${GRAY}${CXL_TYPES[@]}${RST}
-                            debug with debug mode.
-
-                            CXL require Qemu >= ${UL}9.0${RST} on aarch64,
-                            Qemu >= ${UL}7.2${RST} on x86_64.
-
+  ${BOLD}VirtIO OPTIONS${RST}
     --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
                             by ${GRAY}$ virtiofsd --socket-path=/var/run/vhost-fs.sock -o source=/path/to/host/${RST}
     --virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}myfs${RST}
 
-    -u, --dry-run           only show commands
-
+  ${BOLD}QEMU OPTIONS${RST}
     -Q, --qemu [qemu-kvm]   specify qemu emulator binary.
         --gdb               enable qemu debugging, usage:${GRAY}
                             $ gdb -q kernel.elf
@@ -134,8 +128,17 @@ ${BOLD}OPTIONS${RST}
                             (gdb) hbreak start_kernel
                             (gdb) continue${RST}
                             the ${UL}kernel.elf${RST} also could get:${GRAY}
-                            $ objcopy --only-keep-debug vmlinux kernel.elf
+                            $ objcopy --only-keep-debug vmlinux kernel.elf${RST}
 
+  ${BOLD}CXL OPTIONS${RST}
+    --cxl [TYPE]            test CXL, support: ${GRAY}${CXL_TYPES[@]}${RST}
+                            debug with debug mode.
+
+                            CXL require Qemu >= ${UL}9.0${RST} on aarch64,
+                            Qemu >= ${UL}7.2${RST} on x86_64.
+
+  ${BOLD}COMMON OPTIONS${RST}
+    -u, --dry-run           only show commands
     -D, --debug             enable debug mode.
     -v, --verbose           enable verbose mode.
     -h, --help              show this help information
