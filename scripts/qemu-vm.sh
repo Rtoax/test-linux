@@ -226,6 +226,13 @@ handle_rootfs_arg() {
 	f_rootfs=$(realpath ${f_rootfs})
 }
 
+handle_cxl_arg() {
+	cxl_type=$1
+	if ! [[ " ${CXL_TYPES[@]} " =~ " ${cxl_type} " ]]; then
+		error "cxl type only support <${CXL_TYPES[@]}>"
+	fi
+}
+
 TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
 	--long name: \
 	--long memory: \
@@ -316,10 +323,7 @@ while true; do
 		;;
 	--cxl)
 		shift
-		cxl_type=$1
-		if ! [[ " ${CXL_TYPES[@]} " =~ " ${cxl_type} " ]]; then
-			error "cxl type only support <${CXL_TYPES[@]}>"
-		fi
+		handle_cxl_arg ${1}
 		shift
 		;;
 	--virtio-fs-sock)
