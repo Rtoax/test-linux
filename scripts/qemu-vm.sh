@@ -15,11 +15,11 @@
 #
 set -e
 
-readonly WHERE_AM_I=$(dirname $(realpath $0))
+readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
-. ${WHERE_AM_I}/liblog.sh
-. ${WHERE_AM_I}/libqemu.sh
-. ${WHERE_AM_I}/libstring.sh
+. ${QEMU_VM_ROOT}/liblog.sh
+. ${QEMU_VM_ROOT}/libqemu.sh
+. ${QEMU_VM_ROOT}/libstring.sh
 
 readonly prog=qemu-vm
 readonly arch=$(uname -m)

@@ -5,16 +5,13 @@
 #
 set -e
 
+readonly UPDATE_COPYRIGHT_ROOT=$(dirname $(realpath $0))
+
+. ${UPDATE_COPYRIGHT_ROOT}/liblog.sh
+
 AUTHOR='Rong Tao'
 declare -a FILES
 YEAR=$(date +%Y)
-
-backlog() {
-	tput el # clean whole line
-	tput sc # store old curse
-	echo >&2 -en "${@}\r"
-	tput rc # restore old curse
-}
 
 # $1: file path
 # $2: format: "Copyright (C) Y-Y AUTHOR"

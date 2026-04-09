@@ -26,3 +26,9 @@ warning() {
 	echo -e >&2 "${RED}WARNING: ${@}${RST}"
 }
 
+backlog() {
+	tput el # clean whole line
+	tput sc # store old curse
+	echo >&2 -en "${@}\r"
+	tput rc # restore old curse
+}
