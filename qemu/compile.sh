@@ -3,6 +3,8 @@
 #
 set -e
 
+. /etc/os-release
+
 target_lists=(
 	aarch64_be-linux-user
 	aarch64-linux-user alpha-linux-user armeb-linux-user
@@ -53,7 +55,9 @@ make_noerr=
 declare -a config_args
 
 jobs=
-declare -a dnf_extra_args
+declare -a dnf_args
+
+declare -a rpm_deps deb_deps
 
 builddeps_only=
 
@@ -70,7 +74,7 @@ __eval__() {
 	fi
 }
 
-basearch=$(uname -m)
+readonly basearch=$(uname -m)
 
 # qemu feature, if got features, replace disable_everything with FEATUREs
 # GET: ../configure -h | grep '^  [a-z]' | awk '{print $1}'
@@ -518,91 +522,94 @@ run_configure()
     echo "==="
 }
 
-
-declare -a compile_pkg_deps
-compile_pkg_deps+=("alsa-lib-devel")
-compile_pkg_deps+=("brlapi-devel")
-compile_pkg_deps+=("bzip2-devel")
-compile_pkg_deps+=("capstone-devel")
-compile_pkg_deps+=("clang")
-compile_pkg_deps+=("cyrus-sasl-devel")
-compile_pkg_deps+=("daxctl-devel")
-compile_pkg_deps+=("device-mapper-multipath-devel")
-compile_pkg_deps+=("fuse3-devel")
-compile_pkg_deps+=("fuse-devel")
-compile_pkg_deps+=("gcc")
-compile_pkg_deps+=("gettext")
-compile_pkg_deps+=("git")
-compile_pkg_deps+=("glib2-devel")
-compile_pkg_deps+=("glib2-static")
-compile_pkg_deps+=("glibc-static")
-compile_pkg_deps+=("glusterfs-api-devel")
-compile_pkg_deps+=("gnutls-devel")
-compile_pkg_deps+=("gtk3-devel")
-compile_pkg_deps+=("hostname")
-compile_pkg_deps+=("libaio-devel")
-compile_pkg_deps+=("libattr-devel")
-compile_pkg_deps+=("libbpf-devel")
-compile_pkg_deps+=("libcacard-devel")
-compile_pkg_deps+=("libcap-ng-devel")
-compile_pkg_deps+=("libcurl-devel")
-compile_pkg_deps+=("libfdt-devel")
-compile_pkg_deps+=("libiscsi-devel")
-compile_pkg_deps+=("libjpeg-devel")
-compile_pkg_deps+=("libnfs-devel")
+rpm_deps+=("alsa-lib-devel")
+rpm_deps+=("brlapi-devel")
+rpm_deps+=("bzip2-devel")
+rpm_deps+=("capstone-devel")
+rpm_deps+=("clang")
+rpm_deps+=("cyrus-sasl-devel")
+rpm_deps+=("daxctl-devel")
+rpm_deps+=("device-mapper-multipath-devel")
+rpm_deps+=("fuse3-devel")
+rpm_deps+=("fuse-devel")
+rpm_deps+=("gcc")
+rpm_deps+=("gettext")
+rpm_deps+=("git")
+rpm_deps+=("glib2-devel")
+rpm_deps+=("glib2-static")
+rpm_deps+=("glibc-static")
+rpm_deps+=("glusterfs-api-devel")
+rpm_deps+=("gnutls-devel")
+rpm_deps+=("gtk3-devel")
+rpm_deps+=("hostname")
+rpm_deps+=("libaio-devel")
+rpm_deps+=("libattr-devel")
+rpm_deps+=("libbpf-devel")
+rpm_deps+=("libcacard-devel")
+rpm_deps+=("libcap-ng-devel")
+rpm_deps+=("libcurl-devel")
+rpm_deps+=("libfdt-devel")
+rpm_deps+=("libiscsi-devel")
+rpm_deps+=("libjpeg-devel")
+rpm_deps+=("libnfs-devel")
 if [[ "$basearch" == "x86_64" ]]; then
-compile_pkg_deps+=("libpmem-devel")
+rpm_deps+=("libpmem-devel")
 fi
-compile_pkg_deps+=("libpng-devel")
-compile_pkg_deps+=("librbd-devel")
-compile_pkg_deps+=("libseccomp-devel")
-compile_pkg_deps+=("libselinux-devel")
-compile_pkg_deps+=("libslirp-devel")
-compile_pkg_deps+=("libssh-devel")
-compile_pkg_deps+=("libtasn1-devel")
-compile_pkg_deps+=("libudev-devel")
-compile_pkg_deps+=("liburing-devel")
-compile_pkg_deps+=("libusbx-devel")
-compile_pkg_deps+=("libzstd-devel")
-compile_pkg_deps+=("lzo-devel")
-compile_pkg_deps+=("make")
-compile_pkg_deps+=("meson")
-compile_pkg_deps+=("ncurses-devel")
-compile_pkg_deps+=("numactl-devel")
-compile_pkg_deps+=("pam-devel")
-compile_pkg_deps+=("pcre2-static")
-compile_pkg_deps+=("perl-Test-Harness")
-compile_pkg_deps+=("pixman-devel")
-compile_pkg_deps+=("pipewire-jack-audio-connection-kit-devel")
-compile_pkg_deps+=("libepoxy-devel")
-compile_pkg_deps+=("mesa-libgbm-devel")
-compile_pkg_deps+=("libdrm-devel")
-compile_pkg_deps+=("libxkbcommon-devel")
-compile_pkg_deps+=("pulseaudio-libs-devel")
-compile_pkg_deps+=("python3-devel")
-compile_pkg_deps+=("python3-sphinx")
-compile_pkg_deps+=("python3-sphinx_rtd_theme")
-compile_pkg_deps+=("rdma-core-devel")
-compile_pkg_deps+=("SDL2-devel")
-compile_pkg_deps+=("SDL2_image-devel")
-compile_pkg_deps+=("snappy-devel")
-compile_pkg_deps+=("spice-protocol")
-compile_pkg_deps+=("spice-server-devel")
-compile_pkg_deps+=("systemd-devel")
-compile_pkg_deps+=("systemtap")
-compile_pkg_deps+=("systemtap-sdt-devel")
-compile_pkg_deps+=("texinfo")
-compile_pkg_deps+=("usbredir-devel")
-compile_pkg_deps+=("virglrenderer-devel")
-compile_pkg_deps+=("vte291-devel")
-compile_pkg_deps+=("xen-devel")
-compile_pkg_deps+=("zlib-devel")
-compile_pkg_deps+=("zlib-static")
+rpm_deps+=("libpng-devel")
+rpm_deps+=("librbd-devel")
+rpm_deps+=("libseccomp-devel")
+rpm_deps+=("libselinux-devel")
+rpm_deps+=("libslirp-devel")
+rpm_deps+=("libssh-devel")
+rpm_deps+=("libtasn1-devel")
+rpm_deps+=("libudev-devel")
+rpm_deps+=("liburing-devel")
+rpm_deps+=("libusbx-devel")
+rpm_deps+=("libzstd-devel")
+rpm_deps+=("lzo-devel")
+rpm_deps+=("make")
+rpm_deps+=("meson")
+rpm_deps+=("ncurses-devel")
+rpm_deps+=("numactl-devel")
+rpm_deps+=("pam-devel")
+rpm_deps+=("pcre2-static")
+rpm_deps+=("perl-Test-Harness")
+rpm_deps+=("pixman-devel")
+rpm_deps+=("pipewire-jack-audio-connection-kit-devel")
+rpm_deps+=("libepoxy-devel")
+rpm_deps+=("mesa-libgbm-devel")
+rpm_deps+=("libdrm-devel")
+rpm_deps+=("libxkbcommon-devel")
+rpm_deps+=("pulseaudio-libs-devel")
+rpm_deps+=("python3-devel")
+rpm_deps+=("python3-sphinx")
+rpm_deps+=("python3-sphinx_rtd_theme")
+rpm_deps+=("rdma-core-devel")
+rpm_deps+=("SDL2-devel")
+rpm_deps+=("SDL2_image-devel")
+rpm_deps+=("snappy-devel")
+rpm_deps+=("spice-protocol")
+rpm_deps+=("spice-server-devel")
+rpm_deps+=("systemd-devel")
+rpm_deps+=("systemtap")
+rpm_deps+=("systemtap-sdt-devel")
+rpm_deps+=("texinfo")
+rpm_deps+=("usbredir-devel")
+rpm_deps+=("virglrenderer-devel")
+rpm_deps+=("vte291-devel")
+rpm_deps+=("xen-devel")
+rpm_deps+=("zlib-devel")
+rpm_deps+=("zlib-static")
 
+deb_deps+=( libpulse-dev )
 
 install_deps()
 {
-	__eval__ sudo dnf install ${dnf_extra_args[@]} -y ${compile_pkg_deps[@]}
+	if [[ " ubuntu " =~ " ${ID} " ]]; then
+		__eval__ sudo apt install -y ${deb_deps[@]}
+	else
+		__eval__ sudo dnf install ${dnf_args[@]} -y ${rpm_deps[@]}
+	fi
 }
 
 __usage__()
@@ -809,11 +816,11 @@ __main__()
 			;;
 		--skip-broken)
 			shift
-			dnf_extra_args+=("--skip-broken")
+			dnf_args+=("--skip-broken")
 			;;
 		--allowerasing)
 			shift
-			dnf_extra_args+=("--allowerasing")
+			dnf_args+=("--allowerasing")
 			;;
 		--disable-lto)
 			shift
