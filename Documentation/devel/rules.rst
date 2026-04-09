@@ -69,6 +69,8 @@ Files
 - There are so many **symlinks** in this repo, so you better clone this repo in
   linux system, if windows, oops. You'd better use **make check**
   (or **./scripts/broken-symlinks.sh**) check invalid links and modify them.
+- All heavyweight scripts should be placed in the **scripts** directory of the
+  root directory.
 
 
 Libraries of Test-Linux

@@ -128,7 +128,7 @@ install: uninstall
 	@echo "Install"
 	${Q}ln -s ${TOPDIR}/ai/pytorch/build/compile /usr/bin/pytorch-compile
 	${Q}ln -s ${TOPDIR}/qemu/compile.sh /usr/bin/qemu-compile
-	${Q}ln -s ${TOPDIR}/init/kernel/compile.sh /usr/bin/kcompile
+	${Q}ln -s ${TOPDIR}/scripts/kcompile.sh /usr/bin/kcompile
 	${Q}ln -s ${TOPDIR}/tools/heatmap/hmctl.sh /usr/bin/hmctl
 	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh
 	${Q}$(SHELL) ${TOPDIR}/scripts/git/hooks/config.sh
