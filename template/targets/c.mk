@@ -43,10 +43,15 @@ $(foreach t, ${target-y}, \
   ) \
 )
 
-# TODO: need include ${t}-objs .d file
 $(foreach t, ${target-y}, \
   $(if $(shell test -f ${OUTPUT}${t}.o.d && echo yes), \
-    $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.o.d)) \
+    $(if ${DEBUG}, $(info Found target dep ${OUTPUT}${t}.o.d)) \
+    $(foreach tobj, ${${t}-objs}, \
+      $(if $(shell test -f ${tobj}.d && echo yes), \
+        $(if ${DEBUG}, $(info Found obj dep ${tobj}.d)) \
+        $(eval include ${tobj}.d) \
+      ) \
+    ) \
     $(eval include ${OUTPUT}${t}.o.d), \
     $(if ${DEBUG}, $(info Not found ${OUTPUT}${t}.o.d)) \
   ) \

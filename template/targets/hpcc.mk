@@ -194,6 +194,7 @@ $(foreach t, ${target-htcc-y}, \
   ) \
 )
 
+# TODO: need include ${so}-objs .d file
 $(foreach so, ${target-htcc-libso-y} ${target-htcc-liba-y}, \
   $(foreach obj, ${${so}-objs}, \
     $(if $(shell test -f ${obj}.d && echo yes), \

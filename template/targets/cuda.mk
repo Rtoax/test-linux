@@ -177,6 +177,7 @@ $(foreach t, ${target-nvcc-y}, \
   ) \
 )
 
+# TODO: need include ${so}-objs .d file
 $(foreach so, ${target-nvcc-libso-y} ${target-nvcc-liba-y}, \
   $(foreach obj, ${${so}-objs}, \
     $(if $(shell test -f ${obj}.d && echo yes), \
