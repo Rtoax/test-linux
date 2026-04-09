@@ -10,6 +10,9 @@
 set -e
 
 . /etc/os-release
+readonly WHERE_AM_I=$(dirname $(realpath $0))
+
+. ${WHERE_AM_I}/liblog.sh
 
 readonly prog=inst-deps
 readonly ROOT_DIRECTORY=$(dirname $(realpath $0))
@@ -129,7 +132,7 @@ inst_eval()
 dnf_upgrade()
 {
 	inst_eval dnf up ${dnf_args[@]} -y --allowerasing --nobest || {
-		echo "WARNING: Failed to upgrade"
+		warning "Failed to upgrade"
 		true
 	}
 }
@@ -139,7 +142,7 @@ apt_upgrade()
 	inst_eval apt update -y || :
 	inst_eval apt list --upgradable | cat || :
 	inst_eval apt upgrade --fix-missing -y || {
-		echo "WARNING: Failed to upgrade"
+		warning "Failed to upgrade"
 		true
 	}
 	inst_eval apt autoremove -y || :
@@ -148,7 +151,7 @@ apt_upgrade()
 zypper_upgrade()
 {
 	inst_eval zypper update -y || {
-		echo "WARNING: Failed to upgrade"
+		warning "Failed to upgrade"
 		true
 	}
 }
@@ -224,8 +227,7 @@ os_operator()
 		packages) zypper_add_packages "${@}" ;;
 		esac
 	else
-		echo "ERROR: Unknown OS ${OS}"
-		exit 1
+		error "Unknown OS ${OS}"
 	fi
 }
 
@@ -280,8 +282,8 @@ os_packages()
 	os_operator packages "${@}"
 }
 
-[[ ! -e /etc/os-release ]] && echo "ERROR: No /etc/os-release found" && exit 1
-[[ ! -e /usr/bin/getopt ]] && echo "WARNING: Not found getopt, try install util-linux first" && {
+[[ ! -e /etc/os-release ]] && error "No /etc/os-release found"
+[[ ! -e /usr/bin/getopt ]] && warning "Not found getopt, try install util-linux first" && {
 	os_install util-linux
 }
 
@@ -549,7 +551,7 @@ while true; do
 done
 
 if [[ -z $(has_pkgs) ]]; then
-	echo "WARNING: nothing to do, see --help"
+	warning "nothing to do, see --help"
 	exit 0
 fi
 
