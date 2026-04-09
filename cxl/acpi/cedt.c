@@ -8,33 +8,9 @@
 #include <malloc.h>
 #include <errno.h>
 #include <unistd.h>
+#include "cedt.h"
 #include "chbs.h"
 #include "cfmws.h"
-
-#define FILE_CEDT	"/sys/firmware/acpi/tables/CEDT"
-
-#define CEDT_STRUCTURE_TYPE_CHBS	0
-/* CXL 3.0 added */
-#define CEDT_STRUCTURE_TYPE_CFMWS	1
-#define CEDT_STRUCTURE_TYPE_CXIMS	2
-#define CEDT_STRUCTURE_TYPE_RDPAS	3
-
-
-/**
- * CXL 2.0 Specification, Section 9.14.1
- */
-struct cedt_hdr {
-	uint8_t signature[4]; /* CEDT */
-	uint32_t length;
-	uint8_t revision;
-	uint8_t checksum;
-	uint8_t oem_id[6];
-	uint8_t oem_table_id[8];
-	uint32_t oem_revision;
-	uint32_t creator_id;
-	uint32_t creator_revision;
-	uint8_t cedt_structure[];
-} __attribute__((packed));
 
 void display_cedt_hdr(struct cedt_hdr *hdr)
 {
@@ -46,15 +22,13 @@ void display_cedt_hdr(struct cedt_hdr *hdr)
 	printf("CEDT length %d\n", hdr->length);
 	printf("Revision 0x%x\n", hdr->revision);
 	printf("Checksum 0x%x\n", hdr->checksum);
-	printf("OEM ID %02x%02x%02x%02x%02x%02x\n",
-		hdr->oem_id[0], hdr->oem_id[1],
-		hdr->oem_id[2], hdr->oem_id[3],
-		hdr->oem_id[4], hdr->oem_id[5]);
+	printf("OEM ID %02x%02x%02x%02x%02x%02x\n", hdr->oem_id[0],
+	       hdr->oem_id[1], hdr->oem_id[2], hdr->oem_id[3], hdr->oem_id[4],
+	       hdr->oem_id[5]);
 	printf("OEM Table ID %02x%02x%02x%02x%02x%02x%02x%02x\n",
-		hdr->oem_table_id[0], hdr->oem_table_id[1],
-		hdr->oem_table_id[2], hdr->oem_table_id[3],
-		hdr->oem_table_id[4], hdr->oem_table_id[5],
-		hdr->oem_table_id[6], hdr->oem_table_id[7]);
+	       hdr->oem_table_id[0], hdr->oem_table_id[1], hdr->oem_table_id[2],
+	       hdr->oem_table_id[3], hdr->oem_table_id[4], hdr->oem_table_id[5],
+	       hdr->oem_table_id[6], hdr->oem_table_id[7]);
 	printf("OEM revision 0x%x\n", hdr->oem_revision);
 	printf("Creator ID 0x%x\n", hdr->creator_id);
 	printf("Creator revision 0x%x\n", hdr->creator_revision);
@@ -115,7 +89,8 @@ int main(void)
 			break;
 		}
 		default:
-			fprintf(stderr, "Unknown CEDT structure type %d\n", type);
+			fprintf(stderr, "Unknown CEDT structure type %d\n",
+				type);
 			goto done;
 		}
 	}

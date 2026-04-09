@@ -1,2 +1,2 @@
-target-y := CEDT
-CEDT-objs := ${OUTPUT}chbs.o ${OUTPUT}cfmws.o
+target-y := cedt
+cedt-objs := ${OUTPUT}chbs.o ${OUTPUT}cfmws.o
