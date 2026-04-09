@@ -180,6 +180,52 @@ check_qemu_format_and_exit() {
 	fi
 }
 
+# Format: type=TYPE,file=FILE,ro,rw
+handle_rootfs_arg() {
+	local arg args
+
+	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
+		args=( $(echo $1 | tr ',' ' ') )
+		for arg in ${args[@]}
+		do
+			case ${arg%%=*} in
+			type)
+				f_rootfs_disk_type=${arg:5}
+				if ! [[ " ${DISK_TYPES[@]} " =~ " ${f_rootfs_disk_type} " ]]; then
+					error "rootfs unsupport ${arg}"
+				fi
+				;;
+			file)
+				f_rootfs=${arg:5}
+				;;
+			rw | ro)
+				if [[ ${arg} != ro ]] && [[ ${arg} != rw ]]; then
+					error "rootfs unknown ${arg}"
+				fi
+				k_rw=${arg}
+				;;
+			*)
+				error "rootfs unknown ${arg}"
+				;;
+			esac
+		done
+		if [[ -z ${f_rootfs} ]]; then
+			error "not found file= for rootfs"
+		fi
+	else
+		f_rootfs=$1
+	fi
+
+	if [[ -z ${f_rootfs_disk_type} ]]; then
+		f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
+	fi
+
+	check_file_exist_and_exit ${f_rootfs}
+	check_qemu_format_and_exit ${f_rootfs}
+
+	f_rootfs=$(realpath ${f_rootfs})
+}
+
 TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
 	--long name: \
 	--long memory: \
@@ -243,46 +289,7 @@ while true; do
 		;;
 	-r | --rootfs)
 		shift
-		# type=TYPE,file=FILE
-		if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
-			args=( $(echo $1 | tr ',' ' ') )
-			for arg in ${args[@]}
-			do
-				case ${arg%%=*} in
-				type)
-					f_rootfs_disk_type=${arg:5}
-					if ! [[ " ${DISK_TYPES[@]} " =~ " ${f_rootfs_disk_type} " ]]; then
-						error "rootfs unsupport ${arg}"
-					fi
-					;;
-				file)
-					f_rootfs=${arg:5}
-					;;
-				rw | ro)
-					if [[ ${arg} != ro ]] && [[ ${arg} != rw ]]; then
-						error "rootfs unknown ${arg}"
-					fi
-					k_rw=${arg}
-					;;
-				*)
-					error "rootfs unknown ${arg}"
-					;;
-				esac
-			done
-			if [[ -z ${f_rootfs} ]]; then
-				error "not found file= for rootfs"
-			fi
-		else
-			f_rootfs=$1
-		fi
-
-		if [[ -z ${f_rootfs_disk_type} ]]; then
-			f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
-		fi
-
-		check_file_exist_and_exit ${f_rootfs}
-		check_qemu_format_and_exit ${f_rootfs}
-		f_rootfs=$(realpath ${f_rootfs})
+		handle_rootfs_arg ${1}
 		shift
 		;;
 	--rdinit)
