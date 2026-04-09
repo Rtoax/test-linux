@@ -8,6 +8,9 @@
 struct cfmws {
 	uint8_t type;
 	uint8_t reserved;
+	/**
+	 * ::record_length = 0x24 + 4 * NIW
+	 */
 	uint16_t record_length;
 	uint32_t reserved2;
 	uint8_t base_hpa;
@@ -25,6 +28,9 @@ struct cfmws {
 	uint16_t window_restrictions;
 	/* QTAG ID */
 	uint16_t qtag_id;
+	/**
+	 * Number of Interleave Ways (NIW)
+	 */
 	uint32_t interleave_target_list[];
 };
 
