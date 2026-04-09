@@ -27,6 +27,7 @@ scripts_install()
 	ln -s ${SCRIPTS_DIR}/termplot.sh /usr/bin/termplot
 	ln -s ${SCRIPTS_DIR}/kconfig_compare.sh /usr/bin/kconfig_compare
 	ln -s ${SCRIPTS_DIR}/kcompile.sh /usr/bin/kcompile
+	ln -s ${SCRIPTS_DIR}/qemu-compile.sh /usr/bin/qemu-compile
 	ln -s ${SCRIPTS_DIR}/qemu-vm.sh /usr/bin/qemu-vm
 }
 
@@ -44,6 +45,7 @@ scripts_uninstall()
 		/usr/bin/termplot \
 		/usr/bin/kconfig_compare \
 		/usr/bin/kcompile \
+		/usr/bin/qemu-compile \
 		/usr/bin/qemu-vm
 }
 
