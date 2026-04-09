@@ -23,7 +23,7 @@ readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 readonly prog=qemu-vm
 readonly arch=$(uname -m)
-readonly qemu=$(get_qemu_kvm_emulator)
+QEMU_KVM=$(get_qemu_kvm_emulator)
 
 readonly bus_pcie0=pcie.0 # q35 default root bus
 pcie_root_port_num=2
@@ -126,12 +126,13 @@ ${BOLD}OPTIONS${RST}
 
     -u, --dry-run           only show commands
 
+    -Q, --qemu [qemu-kvm]   specify qemu emulator binary.
     -D, --debug             enable debug mode.
     -v, --verbose           enable verbose mode.
     -h, --help              show this help information
 
 ${BOLD}EXAMPLES${RST}
-    $ sudo ./qemu.sh --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${arch}${RST} \\
+    $ sudo ${prog} --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${arch}${RST} \\
         --initrd ${GRAY}${ITALIC}/boot/initramfs-${arch}.img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
         ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
 
@@ -168,7 +169,7 @@ check_qemu_format_and_exit() {
 	fi
 }
 
-TEMP_ARGS=$(getopt --options n:m:k:i:r:huDv \
+TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
 	--long name: \
 	--long memory: \
 	--long kernel: \
@@ -184,6 +185,7 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:huDv \
 	--long virtio-fs-sock: \
 	--long virtio-fs-tag: \
 	--long dry-run \
+	--long qemu: \
 	--long debug \
 	--long verbose \
 	--long help \
@@ -315,6 +317,14 @@ while true; do
 	--stdio)
 		shift
 		q_stdio=YES
+		;;
+	-Q | --qemu)
+		shift
+		QEMU_KVM=$1
+		if [[ ! -f ${QEMU_KVM} ]]; then
+			error "Not found qemu ${QEMU_KVM}"
+		fi
+		shift
 		;;
 	-h | --help)
 		shift
@@ -883,4 +893,4 @@ config_virtiofs
 qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
-_eval ${qemu} ${qargs[@]} -append \"${kcmds[@]}\"
+_eval ${QEMU_KVM} ${qargs[@]} -append \"${kcmds[@]}\"
