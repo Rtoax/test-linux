@@ -1140,6 +1140,7 @@ apt_add_packages()
 
 	pkgs_bench+=( iperf3 )
 
+	pkgs_boot+=( initramfs-tools )
 	pkgs_boot+=( shim-signed )
 	if ! [[ $(is_os ubuntu) ]]; then
 		pkgs_boot+=( shim-signed-common )

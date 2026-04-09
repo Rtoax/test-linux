@@ -12,6 +12,10 @@ set -e
 
 . /etc/os-release
 
+readonly KCOMPILE_ROOT=$(dirname $(realpath $0))
+
+. ${KCOMPILE_ROOT}/liblog.sh
+
 readonly prog=kcompile
 ARGS=$@
 
@@ -21,19 +25,6 @@ kver=
 readonly DISTS_RHEL_LIKE=( fedora centos rhel almalinux openEuler cclinux
 			opencloudos kylin tencentos )
 readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
-
-error() {
-	echo -en >&2 "\033[31m"
-	echo -e >&2 "ERROR: ${@}"
-	echo -en >&2 "\033[m"
-	exit 1
-}
-
-warning() {
-	echo -en >&2 "\033[34m"
-	echo -e >&2 "WARNING: ${@}"
-	echo -en >&2 "\033[m"
-}
 
 check_root() {
 	if [[ $(id -u) -ne 0 ]]; then
@@ -86,6 +77,12 @@ config_kernel()
 
 	# Or use TUI
 	make menuconfig
+
+	# CONFIG
+	scripts/config --disable CONFIG_MODULE_SIG
+	scripts/config --disable CONFIG_MODULE_SIG_ALL
+	scripts/config --set-str CONFIG_SYSTEM_TRUSTED_KEYS ""
+	scripts/config --set-str CONFIG_MODULE_SIG_KEY ""
 }
 
 compile()
@@ -95,6 +92,8 @@ compile()
 
 install_from_source()
 {
+	kver=$(make kernelversion)
+
 	check_root
 	check_kver
 
@@ -102,6 +101,11 @@ install_from_source()
 	make ${INSTALL_MOD_PATH:+INSTALL_MOD_PATH=${INSTALL_MOD_PATH}} modules_install
 	make ${INSTALL_HDR_PATH:+INSTALL_HDR_PATH=${INSTALL_HDR_PATH}} headers_install
 	make ${INSTALL_PATH:+INSTALL_PATH=${INSTALL_PATH}} install
+
+	# Generate initramfs if need
+	if [[ " ${DISTS_DEBIAN_LIKE[@]} " =~ " ${ID} " ]]; then
+		warning "TODO: Generate initramfs.img"
+	fi
 
 	# Update grub
 	# If RHEL like OS:
