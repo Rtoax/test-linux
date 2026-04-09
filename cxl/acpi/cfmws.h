@@ -1,6 +1,6 @@
 /**
  * CXL Fixed Memory Window Structure (CFMWS)
- * Since CXL 3.0
+ * CXL 3.0 Specification, Section 9.17.1.3
  */
 #pragma once
 #include <stdint.h>

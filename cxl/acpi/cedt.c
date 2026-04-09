@@ -19,7 +19,10 @@ void display_cedt_hdr(struct cedt_hdr *hdr)
 		fprintf(stderr, "Header is not CEDT.\n");
 		return;
 	}
+
 	printf("CEDT length %d\n", hdr->length);
+	printf("Signature: %c%c%c%c\n", hdr->signature[0], hdr->signature[1],
+	       hdr->signature[2], hdr->signature[3]);
 	printf("Revision 0x%x\n", hdr->revision);
 	printf("Checksum 0x%x\n", hdr->checksum);
 	printf("OEM ID %02x%02x%02x%02x%02x%02x\n", hdr->oem_id[0],
