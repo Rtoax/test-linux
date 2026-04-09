@@ -45,10 +45,10 @@ $(foreach t, ${target-y}, \
 
 $(foreach t, ${target-y}, \
   $(if $(shell test -f ${OUTPUT}${t}.o.d && echo yes), \
-    $(if ${DEBUG}, $(info Found target dep ${OUTPUT}${t}.o.d)) \
+    $(if ${DEBUG}, $(info Found ${t}'s dep ${OUTPUT}${t}.o.d)) \
     $(foreach tobj, ${${t}-objs}, \
       $(if $(shell test -f ${tobj}.d && echo yes), \
-        $(if ${DEBUG}, $(info Found obj dep ${tobj}.d)) \
+        $(if ${DEBUG}, $(info Found ${t}'s obj dep ${tobj}.d)) \
         $(eval include ${tobj}.d) \
       ) \
     ) \
