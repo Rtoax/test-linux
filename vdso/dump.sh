@@ -9,7 +9,7 @@ set -e
 # sudo passwords. If so, it is necessary to add the "sudo" prefix to the
 # required bpftool command execution.
 if sudo --non-interactive true 2>/dev/null; then
-	_sudo=sudo
+	MAYBE_SUDO=sudo
 fi
 
 exec >&2
@@ -65,10 +65,10 @@ if [[ -z ${silence} ]]; then
 	echo "pid ${pid} [vdso] 0x${addr_range[0]}-0x${addr_range[1]}, size = ${vdso_sz}"
 fi
 
-${_sudo} dd if=/proc/${pid}/mem of=${vdso_so} \
+${MAYBE_SUDO} dd if=/proc/${pid}/mem of=${vdso_so} \
 		ibs=1 skip=$(printf %ld 0x${addr_range[0]}) \
 		count=${vdso_sz} 2>/dev/null
-${_sudo} chmod +x,a+r ${vdso_so}
+${MAYBE_SUDO} chmod +x,a+r ${vdso_so}
 
 echo ${vdso_so}
 
