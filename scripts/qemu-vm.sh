@@ -128,7 +128,7 @@ ${BOLD}OPTIONS${RST}
     -u, --dry-run           only show commands
 
     -Q, --qemu [qemu-kvm]   specify qemu emulator binary.
-        --gdb               enable qemu debugging and debug mode, usage:${GRAY}
+        --gdb               enable qemu debugging, usage:${GRAY}
                             $ gdb -q kernel.elf
                             (gdb) target remote :1234
                             (gdb) hbreak start_kernel
@@ -339,7 +339,6 @@ while true; do
 	--gdb)
 		shift
 		q_gdb=ON
-		debug=ON
 		;;
 	-h | --help)
 		shift
