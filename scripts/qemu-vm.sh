@@ -53,17 +53,17 @@ debug=
 # - CXL fmw: Fixed Memory Window
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
-readonly CXL_VOLATILE_MEM=cxl-vmem
-readonly CXL_VOLATILE_MEM_LSA=cxl-vmem-lsa
-readonly CXL_VOLATILE_MEM_4WAY=cxl-vmem-4way
-readonly CXL_VOLATILE_MEM_4WAY_SWITCH=cxl-vmem-4way-switch
-readonly CXL_PMEM=cxl-pmem
-readonly CXL_PMEM_4WAY=cxl-pmem-4way
-readonly CXL_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
-readonly CXL_TYPES=( ${CXL_VOLATILE_MEM} ${CXL_VOLATILE_MEM_LSA}
-			${CXL_VOLATILE_MEM_4WAY} ${CXL_VOLATILE_MEM_4WAY_SWITCH}
-			${CXL_PMEM} ${CXL_PMEM_4WAY} ${CXL_PMEM_4WAY_SWITCH})
-cxl_type=
+readonly CXL_DEV_VOLATILE_MEM=cxl-vmem
+readonly CXL_DEV_VOLATILE_MEM_LSA=cxl-vmem-lsa
+readonly CXL_DEV_VOLATILE_MEM_4WAY=cxl-vmem-4way
+readonly CXL_DEV_VOLATILE_MEM_4WAY_SWITCH=cxl-vmem-4way-switch
+readonly CXL_DEV_PMEM=cxl-pmem
+readonly CXL_DEV_PMEM_4WAY=cxl-pmem-4way
+readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
+readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
+			${CXL_DEV_VOLATILE_MEM_4WAY} ${CXL_DEV_VOLATILE_MEM_4WAY_SWITCH}
+			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
+cxl_device=
 cxl_size=1024M
 
 readonly DISK_TYPE_VIRTIO=virtio
@@ -130,7 +130,7 @@ ${BOLD}OPTIONS${RST}
                             $ objcopy --only-keep-debug vmlinux kernel.elf${RST}
 
   ${BOLD}CXL OPTIONS${RST}
-    --cxl [TYPE]            test CXL, support: ${GRAY}${CXL_TYPES[@]}${RST}
+    --cxl [TYPE]            test CXL, support: ${GRAY}${CXL_DEVICES[@]}${RST}
                             debug with debug mode.
 
                             CXL require Qemu >= ${UL}9.0${RST} on aarch64,
@@ -227,9 +227,9 @@ handle_rootfs_arg() {
 }
 
 handle_cxl_arg() {
-	cxl_type=$1
-	if ! [[ " ${CXL_TYPES[@]} " =~ " ${cxl_type} " ]]; then
-		error "cxl type only support <${CXL_TYPES[@]}>"
+	cxl_device=$1
+	if ! [[ " ${CXL_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
+		error "cxl type only support <${CXL_DEVICES[@]}>"
 	fi
 }
 
@@ -862,37 +862,37 @@ cxl_debug() {
 }
 
 config_cxl() {
-	if [[ ${cxl_type} ]] && [[ ${debug} ]]; then
+	if [[ ${cxl_device} ]] && [[ ${debug} ]]; then
 		cxl_debug
 	fi
 
-	if [[ ${cxl_type} ]]; then
+	if [[ ${cxl_device} ]]; then
 		qmachine+=( cxl=on )
 		# Disable ACPI CXL enumeration at boot
 		# kcmds+=( acpi=off )
 		kcmds+=( cxl.mem=disable cxl.acpi=0 )
 	fi
 
-	case ${cxl_type} in
-	${CXL_PMEM})
+	case ${cxl_device} in
+	${CXL_DEV_PMEM})
 		cxl_pmem
 		;;
-	${CXL_PMEM_4WAY})
+	${CXL_DEV_PMEM_4WAY})
 		cxl_pmem_4way
 		;;
-	${CXL_PMEM_4WAY_SWITCH})
+	${CXL_DEV_PMEM_4WAY_SWITCH})
 		cxl_pmem_4way_switch
 		;;
-	${CXL_VOLATILE_MEM})
+	${CXL_DEV_VOLATILE_MEM})
 		cxl_volatile_mem
 		;;
-	${CXL_VOLATILE_MEM_LSA})
+	${CXL_DEV_VOLATILE_MEM_LSA})
 		cxl_volatile_mem_lsa
 		;;
-	${CXL_VOLATILE_MEM_4WAY})
+	${CXL_DEV_VOLATILE_MEM_4WAY})
 		cxl_volatile_mem_4way
 		;;
-	${CXL_VOLATILE_MEM_4WAY_SWITCH})
+	${CXL_DEV_VOLATILE_MEM_4WAY_SWITCH})
 		cxl_volatile_mem_4way_switch
 		;;
 	esac
