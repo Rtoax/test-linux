@@ -1,6 +1,7 @@
 Linux Kernel Reference
 ======================
 
+* 6.19.11 (fedora43)
 * 6.19.10 (fedora43)
 * 6.19.9 (fedora43)
 * 6.19.8 (fedora42,fedora43)
