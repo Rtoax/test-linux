@@ -602,6 +602,8 @@ rpm_deps+=("zlib-devel")
 rpm_deps+=("zlib-static")
 
 deb_deps+=( libpulse-dev )
+deb_deps+=( libspice-protocol-dev )
+deb_deps+=( resource-agents-extra )
 
 install_deps()
 {
