@@ -701,65 +701,74 @@ config_nvdimm() {
 	add_nvdimm_blk ${f_nvdimm}
 }
 
-cxl_pmem() {
-	_eval qemu-img create -f raw cxltest.raw ${cxl_size}
-	_eval qemu-img create -f raw lsa.raw ${cxl_size}
-	cleanup_files+=( cxltest.raw lsa.raw )
-	qargs+=(
-		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest.raw,size=${cxl_size}
-		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=pxbcxl.1
-		-device cxl-rp,port=0,bus=pxbcxl.1,id=root_port13,chassis=0,slot=2
-		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
-	)
-	qmachine+=( cxl-fmw.0.targets.0=pxbcxl.1 )
-	qmachine+=( cxl-fmw.0.size=4G )
-}
-
-# A setup suitable for 4 way interleave. Only one fixed window provided, to
-# enable 2 way interleave across 2 CXL host bridges. Each host bridge has 2
+# A setup suitable for multi ways interleave. Only one fixed window provided, to
+# enable multi ways interleave across 2 CXL host bridges. Each host bridge has 2
 # CXL Root Ports, with the CXL Type3 device directly attached (no switches).
-cxl_pmem_4way() {
-	local i ways=4
+__cxl_pmem_ways() {
+	local i ways=${1}
 
-	# TODO: Why cxl pmem 4way need 4G+ ram memory??
-	min_memory_required 5G
-
-	for ((i = 0; i < ${ways}; i++))
-	do
-		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
-		_eval qemu-img create -f raw lsa${i}.raw ${cxl_size}
-		cleanup_files+=( cxltest${i}.raw lsa${i}.raw )
-	done
+	# TODO: Why cxl pmem 4way need higher ram memory than CXL Type3?
+	min_memory_required $((${ways} + 1))G
 
 	qargs+=(
 		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=pxbcxl.1
 		-device pxb-cxl,bus_nr=22,bus=${bus_pcie0},id=pxbcxl.2
 	)
 
-	qargs+=(
-		-object memory-backend-file,id=cxl-mem1,share=on,mem-path=$PWD/cxltest1.raw,size=${cxl_size}
-		-object memory-backend-file,id=cxl-mem2,share=on,mem-path=$PWD/cxltest2.raw,size=${cxl_size}
-		-object memory-backend-file,id=cxl-mem3,share=on,mem-path=$PWD/cxltest3.raw,size=${cxl_size}
-		-object memory-backend-file,id=cxl-mem4,share=on,mem-path=$PWD/cxltest4.raw,size=${cxl_size}
-		-object memory-backend-file,id=cxl-lsa1,share=on,mem-path=$PWD/lsa1.raw,size=${cxl_size}
-		-object memory-backend-file,id=cxl-lsa2,share=on,mem-path=$PWD/lsa2.raw,size=${cxl_size}
-		-object memory-backend-file,id=cxl-lsa3,share=on,mem-path=$PWD/lsa3.raw,size=${cxl_size}
-		-object memory-backend-file,id=cxl-lsa4,share=on,mem-path=$PWD/lsa4.raw,size=${cxl_size}
-		-device cxl-rp,port=0,bus=pxbcxl.1,id=root_port13,chassis=0,slot=2
-		-device cxl-type3,bus=root_port13,persistent-memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0,sn=0x1
-		-device cxl-rp,port=1,bus=pxbcxl.1,id=root_port14,chassis=0,slot=3
-		-device cxl-type3,bus=root_port14,persistent-memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1,sn=0x2
-		-device cxl-rp,port=0,bus=pxbcxl.2,id=root_port15,chassis=0,slot=5
-		-device cxl-type3,bus=root_port15,persistent-memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2,sn=0x3
-		-device cxl-rp,port=1,bus=pxbcxl.2,id=root_port16,chassis=0,slot=6
-		-device cxl-type3,bus=root_port16,persistent-memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3,sn=0x4
-	)
+	for ((i = 1; i <= ${ways}; i++))
+	do
+		local tmparg lsa mem
+
+		mem=cxl-mem${i}
+		lsa=cxl-lsa${i}
+
+		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
+		_eval qemu-img create -f raw lsa${i}.raw ${cxl_size}
+		cleanup_files+=( cxltest${i}.raw lsa${i}.raw )
+
+		tmparg+=( memory-backend-file,id=${mem} )
+		tmparg+=( share=on )
+		tmparg+=( mem-path=$PWD/cxltest${i}.raw )
+		tmparg+=( size=${cxl_size} )
+		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
+		unset tmparg
+
+		tmparg+=( memory-backend-file,id=${lsa} )
+		tmparg+=( share=on )
+		tmparg+=( mem-path=$PWD/lsa${i}.raw )
+		tmparg+=( size=${cxl_size} )
+		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
+		unset tmparg
+
+		tmparg+=( cxl-rp,port=${i} )
+		tmparg+=( bus=pxbcxl.1 )
+		tmparg+=( id=root_portcxl${i} )
+		tmparg+=( chassis=0 )
+		tmparg+=( slot=${i} )
+		qargs+=( -device $(IFS=,; echo "${tmparg[*]}") )
+		unset tmparg
+
+		tmparg+=( cxl-type3,bus=root_portcxl${i} )
+		tmparg+=( persistent-memdev=${mem} )
+		tmparg+=( lsa=${lsa} )
+		tmparg+=( id=cxl-pmem${i} )
+		tmparg+=( sn=0x${i} )
+		qargs+=( -device $(IFS=,; echo "${tmparg[*]}") )
+		unset tmparg
+	done
 
 	qmachine+=( cxl-fmw.0.targets.0=pxbcxl.1 )
 	qmachine+=( cxl-fmw.0.targets.1=pxbcxl.2 )
 	qmachine+=( cxl-fmw.0.size=4G )
 	qmachine+=( cxl-fmw.0.interleave-granularity=8k )
+}
+
+cxl_pmem() {
+	__cxl_pmem_ways 1
+}
+
+cxl_pmem_4way() {
+	__cxl_pmem_ways 4
 }
 
 # An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave:
