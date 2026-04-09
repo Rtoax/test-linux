@@ -44,6 +44,7 @@ and this project adheres to
 #### Tools
 - add ffmpeg subdir;
 #### Template
+- add cxl.mk;
 - add qemu.mk;
 - bpf/libbpf.mk: add `HAVE_LIBBPF_H`;
 - helpers.mk: rename `C_HELPERS` to `TLC_HELPERS`;
