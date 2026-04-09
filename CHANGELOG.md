@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cxl: add info.sh;
 - scripts/rootfs/fedora.sh: support build fedora rootfs on ubuntu;
 - libstring.sh: add sizeceilfmt();
 - scripts: add libstring.sh, liblog.sh;
