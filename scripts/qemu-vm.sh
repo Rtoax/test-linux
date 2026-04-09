@@ -373,28 +373,30 @@ _eval()
 image2uuid() {
 	if [[ ${dry_run} ]]; then
 		uuid
-	else
-		local img=$1
-		local img_type=${img##*.}
-		check_qemu_format_and_exit ${img}
-
-		# only raw could use this, qcow2 don't
-		case ${img_type} in
-		raw)
-			local dev_loop=$(sudo losetup --find --show ${img})
-			sudo lsblk -o uuid ${dev_loop} | grep -v UUID
-			sudo losetup --detach ${dev_loop}
-			;;
-		qcow2)
-			local dev_nbd=/dev/nbd0
-			sudo modprobe nbd max_part=16 || true >/dev/null
-			sudo qemu-nbd --connect ${dev_nbd} ${img} -f ${img_type} >/dev/null && sleep 1
-			sudo lsblk -o uuid ${dev_nbd} | grep -v UUID
-			sudo qemu-nbd --disconnect ${dev_nbd} >/dev/null
-			sudo rmmod nbd || true >/dev/null
-			;;
-		esac
+		return
 	fi
+
+	local img=$1
+	local img_type=${img##*.}
+
+	check_qemu_format_and_exit ${img}
+
+	# only raw could use this, qcow2 don't
+	case ${img_type} in
+	raw)
+		local dev_loop=$(sudo losetup --find --show ${img})
+		sudo lsblk -o uuid ${dev_loop} | grep -v UUID
+		sudo losetup --detach ${dev_loop}
+		;;
+	qcow2)
+		local dev_nbd=/dev/nbd0
+		sudo modprobe nbd max_part=16 || true >/dev/null
+		sudo qemu-nbd --connect ${dev_nbd} ${img} -f ${img_type} >/dev/null && sleep 1
+		sudo lsblk -o uuid ${dev_nbd} | grep -v UUID
+		sudo qemu-nbd --disconnect ${dev_nbd} >/dev/null
+		sudo rmmod nbd || true >/dev/null
+		;;
+	esac
 }
 
 cleanup_files+=( $PWD/qmp-${q_vm_name}.sock ${q_vm_name}.pid )
