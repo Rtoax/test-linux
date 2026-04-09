@@ -1,7 +1,7 @@
 #!/bin/bash
 # ref: https://github.com/pmem/run_qemu
 #
-# usage: [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+# usage: [GDB=1] [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
 set -e
 . /etc/os-release
@@ -52,6 +52,7 @@ if [[ ${GITFS} ]]; then
 fi
 
 qargs+=( --rootfs ${qcow2} )
+[[ ${GDB} ]] && qargs+=( --gdb )
 
 sudo ../scripts/qemu-vm.sh ${QEMU:+--qemu ${QEMU}} \
 	--name vm-test-cxl --memory 5GiB \

@@ -48,6 +48,7 @@ f_virtiofs_sock=
 q_virtiofs_tag=
 
 q_stdio=
+q_gdb=
 
 dry_run=
 verbose=
@@ -127,6 +128,14 @@ ${BOLD}OPTIONS${RST}
     -u, --dry-run           only show commands
 
     -Q, --qemu [qemu-kvm]   specify qemu emulator binary.
+        --gdb               enable qemu debugging and debug mode, usage:${GRAY}
+                            $ gdb -q kernel.elf
+                            (gdb) target remote :1234
+                            (gdb) hbreak start_kernel
+                            (gdb) continue${RST}
+                            the ${UL}kernel.elf${RST} also could get:${GRAY}
+                            $ objcopy --only-keep-debug vmlinux kernel.elf
+
     -D, --debug             enable debug mode.
     -v, --verbose           enable verbose mode.
     -h, --help              show this help information
@@ -186,6 +195,7 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
 	--long virtio-fs-tag: \
 	--long dry-run \
 	--long qemu: \
+	--long gdb \
 	--long debug \
 	--long verbose \
 	--long help \
@@ -316,7 +326,7 @@ while true; do
 		;;
 	--stdio)
 		shift
-		q_stdio=YES
+		q_stdio=ON
 		;;
 	-Q | --qemu)
 		shift
@@ -326,21 +336,26 @@ while true; do
 		fi
 		shift
 		;;
+	--gdb)
+		shift
+		q_gdb=ON
+		debug=ON
+		;;
 	-h | --help)
 		shift
 		__usage__
 		;;
 	-u | --dry-run)
 		shift
-		dry_run=YES
+		dry_run=ON
 		;;
 	-v | --verbose)
 		shift
-		verbose=YES
+		verbose=ON
 		;;
 	-D | --debug)
 		shift
-		debug=YES
+		debug=ON
 		;;
 	--)
 		shift
@@ -432,6 +447,12 @@ config_basic() {
 	if [[ ${debug} ]]; then
 		kcmds+=( rd.debug )
 		kcmds+=( systemd.log_level=debug )
+	fi
+
+	if [[ ${q_gdb} ]]; then
+		# -s: makes gdb be able to attach through localhost:1234
+		# -S: stops qemu waiting gdb
+		qargs+=( -s -S )
 	fi
 }
 
