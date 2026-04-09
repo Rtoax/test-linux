@@ -99,9 +99,9 @@ install_from_source()
 	check_kver
 
 	# install
-	make modules_install
-	make headers_install
-	make install
+	make ${INSTALL_MOD_PATH:+INSTALL_MOD_PATH=${INSTALL_MOD_PATH}} modules_install
+	make ${INSTALL_HDR_PATH:+INSTALL_HDR_PATH=${INSTALL_HDR_PATH}} headers_install
+	make ${INSTALL_PATH:+INSTALL_PATH=${INSTALL_PATH}} install
 
 	# Update grub
 	# If RHEL like OS:
