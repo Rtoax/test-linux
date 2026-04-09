@@ -3,20 +3,6 @@
 #include <malloc.h>
 #include "cfmws.h"
 
-struct cfmws *read_and_alloc_cfmws(FILE *fp)
-{
-	struct cfmws cfmws, *ptr;
-	fpos_t old_pos;
-
-	fgetpos(fp, &old_pos);
-	fread(&cfmws, sizeof(struct cfmws), 1, fp);
-	ptr = malloc(cfmws.record_length);
-	fsetpos(fp, &old_pos);
-	fread(ptr, cfmws.record_length, 1, fp);
-
-	return ptr;
-}
-
 void display_cfmws(struct cfmws *cfmws)
 {
 	printf("CFMWS type %d, len %d, hpa %x, winsize %d, ENIW %d",

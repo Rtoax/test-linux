@@ -102,11 +102,18 @@ int main(void)
 			fread(&chbs, sizeof(chbs), 1, fp);
 			display_chbs(&chbs);
 			break;
-		case CEDT_STRUCTURE_TYPE_CFMWS:
-			cfmws = read_and_alloc_cfmws(fp);
+		case CEDT_STRUCTURE_TYPE_CFMWS: {
+			struct cfmws tmp;
+			fpos_t old_pos;
+			fgetpos(fp, &old_pos);
+			fread(&tmp, sizeof(struct cfmws), 1, fp);
+			cfmws = malloc(tmp.record_length);
+			fsetpos(fp, &old_pos);
+			fread(cfmws, tmp.record_length, 1, fp);
 			display_cfmws(cfmws);
 			free(cfmws);
 			break;
+		}
 		default:
 			fprintf(stderr, "Unknown CEDT structure type %d\n", type);
 			goto done;

@@ -28,5 +28,4 @@ struct cfmws {
 	uint32_t interleave_target_list[];
 };
 
-struct cfmws *read_and_alloc_cfmws(FILE *fp);
 void display_cfmws(struct cfmws *cfmws);
