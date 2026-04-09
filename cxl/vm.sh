@@ -57,7 +57,7 @@ qargs+=( --initrd ${initramfs} )
 [[ ${QEMU} ]] && qargs+=( --qemu ${QEMU} )
 [[ ${GDB} ]] && qargs+=( --gdb )
 qargs+=( --rootfs ${qcow2} )
-qargs+=( --cxl cxl-pmem-4way )
+qargs+=( --cxl device=cxl-pmem-4way )
 qargs+=( --stdio )
 
 sudo ../scripts/qemu-vm.sh ${qargs[@]} "${@}"

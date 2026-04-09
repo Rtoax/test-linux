@@ -226,9 +226,29 @@ handle_rootfs_arg() {
 	f_rootfs=$(realpath ${f_rootfs})
 }
 
+# Formats: device=<name>
 handle_cxl_arg() {
-	cxl_device=$1
-	if ! [[ " ${CXL_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
+	local arg args
+
+	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
+		args=( $(echo $1 | tr ',' ' ') )
+		for arg in ${args[@]}
+		do
+			case ${arg%%=*} in
+			device)
+				cxl_device=${arg:7}
+				;;
+			*)
+				error "cxl unknown arg ${arg}"
+				;;
+			esac
+		done
+	else
+		cxl_device=$1
+	fi
+
+	# 2 spaces for empty cxl_device.
+	if ! [[ "  ${CXL_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
 		error "cxl type only support <${CXL_DEVICES[@]}>"
 	fi
 }
