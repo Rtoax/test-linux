@@ -10,6 +10,8 @@ initramfs=${HOME}/cxl/initramfs.img
 vmlinuz=${HOME}/cxl/vmlinuz
 qcow2=${HOME}/cxl/vm.qcow2
 
+declare -a qargs
+
 case ${ID} in
 fedora|rhel)
 	sudo dnf install -y cxl-cli dracut edk2-ovmf
@@ -46,13 +48,16 @@ fi
 # $ sudo mount -t virtiofs Git /mnt
 if [[ ${GITFS} ]]; then
 	sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-git.sock -o source=/home/rongtao/Git/ &
-	gitfs_arg=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
+	qargs+=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
 fi
+
+qargs+=( --rootfs ${qcow2} )
 
 sudo ../scripts/qemu-vm.sh ${QEMU:+--qemu ${QEMU}} \
 	--name vm-test-cxl --memory 5GiB \
-	--kernel ${vmlinuz} --initrd ${initramfs} --rootfs ${qcow2} \
-	${gitfs_arg[@]} \
-	--cxl cxl-pmem-4way --stdio "${@}"
+	--kernel ${vmlinuz} --initrd ${initramfs} \
+	--cxl cxl-pmem-4way \
+	${qargs[@]} \
+	--stdio "${@}"
 
 wait
