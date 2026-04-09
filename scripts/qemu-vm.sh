@@ -4,15 +4,6 @@
 #
 # Copyright (C) 2025-2026 Rong Tao
 #
-# CXL
-# ===
-# - CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
-#   pxb: PCIe eXpander Bridge
-#   rp: Root Port
-# - CXL fmw: Fixed Memory Window
-# - Refs:
-#   https://www.qemu.org/docs/master/system/devices/cxl.html
-#
 set -e
 
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
@@ -54,6 +45,14 @@ dry_run=
 verbose=
 debug=
 
+# CXL
+# ===
+# - CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
+#   pxb: PCIe eXpander Bridge
+#   rp: Root Port
+# - CXL fmw: Fixed Memory Window
+# - Refs:
+#   https://www.qemu.org/docs/master/system/devices/cxl.html
 readonly CXL_VOLATILE_MEM=cxl-vmem
 readonly CXL_VOLATILE_MEM_LSA=cxl-vmem-lsa
 readonly CXL_VOLATILE_MEM_4WAY=cxl-vmem-4way
