@@ -51,14 +51,15 @@ if [[ ${GITFS} ]]; then
 	qargs+=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
 fi
 
-qargs+=( --rootfs ${qcow2} )
+qargs+=( --name vm-test-cxl --memory 5GiB )
+qargs+=( --kernel ${vmlinuz} )
+qargs+=( --initrd ${initramfs} )
+[[ ${QEMU} ]] && qargs+=( --qemu ${QEMU} )
 [[ ${GDB} ]] && qargs+=( --gdb )
+qargs+=( --rootfs ${qcow2} )
+qargs+=( --cxl cxl-pmem-4way )
+qargs+=( --stdio )
 
-sudo ../scripts/qemu-vm.sh ${QEMU:+--qemu ${QEMU}} \
-	--name vm-test-cxl --memory 5GiB \
-	--kernel ${vmlinuz} --initrd ${initramfs} \
-	--cxl cxl-pmem-4way \
-	${qargs[@]} \
-	--stdio "${@}"
+sudo ../scripts/qemu-vm.sh ${qargs[@]} "${@}"
 
 wait
