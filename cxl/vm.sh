@@ -1,7 +1,7 @@
 #!/bin/bash
 # ref: https://github.com/pmem/run_qemu
 #
-# usage: [GITFS=1] vm.sh
+# usage: [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
 set -e
 . /etc/os-release
@@ -49,7 +49,8 @@ if [[ ${GITFS} ]]; then
 	gitfs_arg=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
 fi
 
-sudo ../scripts/qemu-vm.sh --name vm-test-cxl --memory 5GiB \
+sudo ../scripts/qemu-vm.sh ${QEMU:+--qemu ${QEMU}} \
+	--name vm-test-cxl --memory 5GiB \
 	--kernel ${vmlinuz} --initrd ${initramfs} --rootfs ${qcow2} \
 	${gitfs_arg[@]} \
 	--cxl cxl-pmem-4way --stdio "${@}"
