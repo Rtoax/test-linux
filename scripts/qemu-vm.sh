@@ -446,7 +446,6 @@ image2uuid() {
 	esac
 }
 
-cleanup_files+=( $PWD/qmp-${q_vm_name}.sock ${q_vm_name}.pid )
 cleanup() {
 	_eval sudo rm -rf ${cleanup_files[@]}
 }
@@ -456,8 +455,10 @@ config_basic() {
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid $(uuid) )
 	qargs+=( -enable-kvm )
+
 	qargs+=( -qmp unix:$PWD/qmp-${q_vm_name}.sock,server=on,wait=off )
 	qargs+=( -pidfile ${q_vm_name}.pid)
+	cleanup_files+=( $PWD/qmp-${q_vm_name}.sock ${q_vm_name}.pid )
 
 	if [[ ${q_stdio} ]]; then
 		# Default TERM=vt220 if stdio, you could specify
@@ -701,6 +702,17 @@ config_nvdimm() {
 	add_nvdimm_blk ${f_nvdimm}
 }
 
+__pxb_cxl_id_file=$(mktemp -u)
+cleanup_files+=( ${__pxb_cxl_id_file} )
+next_pxb_cxl_id() {
+	local num=1
+	if [[ -f ${__pxb_cxl_id_file} ]]; then
+		num=$(cat ${__pxb_cxl_id_file})
+	fi
+	echo "pxbcxl.${num}"
+	echo $((++num)) > ${__pxb_cxl_id_file}
+}
+
 # A setup suitable for multi ways interleave. Only one fixed window provided, to
 # enable multi ways interleave across 2 CXL host bridges. Each host bridge has 2
 # CXL Root Ports, with the CXL Type3 device directly attached (no switches).
@@ -710,9 +722,12 @@ __cxl_pmem_ways() {
 	# TODO: Why cxl pmem 4way need higher ram memory than CXL Type3?
 	min_memory_required $((${ways} + 1))G
 
+	local pxb_cxl_id1=$(next_pxb_cxl_id)
+	local pxb_cxl_id2=$(next_pxb_cxl_id)
+
 	qargs+=(
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=pxbcxl.1
-		-device pxb-cxl,bus_nr=22,bus=${bus_pcie0},id=pxbcxl.2
+		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=${pxb_cxl_id1}
+		-device pxb-cxl,bus_nr=22,bus=${bus_pcie0},id=${pxb_cxl_id2}
 	)
 
 	for ((i = 1; i <= ${ways}; i++))
@@ -741,7 +756,7 @@ __cxl_pmem_ways() {
 		unset tmparg
 
 		tmparg+=( cxl-rp,port=${i} )
-		tmparg+=( bus=pxbcxl.1 )
+		tmparg+=( bus=${pxb_cxl_id1} )
 		tmparg+=( id=root_portcxl${i} )
 		tmparg+=( chassis=0 )
 		tmparg+=( slot=${i} )
@@ -757,8 +772,8 @@ __cxl_pmem_ways() {
 		unset tmparg
 	done
 
-	qmachine+=( cxl-fmw.0.targets.0=pxbcxl.1 )
-	qmachine+=( cxl-fmw.0.targets.1=pxbcxl.2 )
+	qmachine+=( cxl-fmw.0.targets.0=${pxb_cxl_id1} )
+	qmachine+=( cxl-fmw.0.targets.1=${pxb_cxl_id2} )
 	qmachine+=( cxl-fmw.0.size=4G )
 	qmachine+=( cxl-fmw.0.interleave-granularity=8k )
 }
