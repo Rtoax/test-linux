@@ -63,8 +63,8 @@ readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
 readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
 			${CXL_DEV_VOLATILE_MEM_4WAY} ${CXL_DEV_VOLATILE_MEM_4WAY_SWITCH}
 			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
-cxl_device=
-cxl_size=1024M
+declare cxl_device
+declare cxl_size=1024M
 
 readonly DISK_TYPE_VIRTIO=virtio
 readonly DISK_TYPE_SATA=sata
@@ -130,8 +130,7 @@ ${BOLD}OPTIONS${RST}
                             $ objcopy --only-keep-debug vmlinux kernel.elf${RST}
 
   ${BOLD}CXL OPTIONS${RST}
-    --cxl [ARGS]            test CXL, support: ${GRAY}${CXL_DEVICES[@]}${RST}
-                            debug with debug mode. please see ${BOLD}--cxl help${RST}
+    --cxl [ARGS]            CXL by Qemu. please see ${BOLD}--cxl help${RST}
 
                             CXL require Qemu >= ${UL}9.0${RST} on aarch64,
                             Qemu >= ${UL}7.2${RST} on x86_64.
@@ -232,7 +231,10 @@ ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 
 ${BOLD}--cxl [DEV]${RST}
 ${BOLD}--cxl device=[DEV]${RST}
-	"
+
+${BOLD}[DEV]${RST}
+${GRAY}${CXL_DEVICES[@]}${RST}
+"
 	exit 0
 }
 
@@ -785,7 +787,10 @@ __cxl_pmem_ways() {
 		qargs+=( -device $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
 
-		tmparg+=( cxl-type3,bus=root_portcxl${i} )
+		# Or could add it to CXL switch
+		local cxl_dev_bus=root_portcxl${i}
+
+		tmparg+=( cxl-type3,bus=${cxl_dev_bus} )
 		tmparg+=( persistent-memdev=${mem} )
 		tmparg+=( lsa=${lsa} )
 		tmparg+=( id=cxl-pmem${i} )
