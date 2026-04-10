@@ -63,6 +63,8 @@ readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
 readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
 			${CXL_DEV_VOLATILE_MEM_4WAY} ${CXL_DEV_VOLATILE_MEM_4WAY_SWITCH}
 			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
+# cxl-pxb id=
+declare -a cxl_pxb_ids
 declare cxl_device
 declare cxl_size=1024M
 
@@ -231,6 +233,7 @@ ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 
 ${BOLD}--cxl [DEV]${RST}
 ${BOLD}--cxl device=[DEV]${RST}
+${BOLD}--cxl pxb=<name>${RST}: create CXL PXB
 
 ${BOLD}[DEV]${RST}
 ${GRAY}${CXL_DEVICES[@]}${RST}
@@ -261,6 +264,9 @@ handle_cxl_arg() {
 			case ${arg%%=*} in
 			device)
 				cxl_device=${arg:7}
+				;;
+			pxb)
+				cxl_pxb_ids+=( ${arg:4} )
 				;;
 			*)
 				error "cxl unknown arg ${arg}"
@@ -737,6 +743,23 @@ next_pxb_cxl_id() {
 	echo $((++num)) > ${__pxb_cxl_id_file}
 }
 
+# bus_nr=11,21,31,41,...
+__pxb_cxl_bus_nr_file=$(mktemp -u)
+cleanup_files+=( ${__pxb_cxl_bus_nr_file} )
+next_pxb_cxl_bus_nr() {
+	local num=11
+	if [[ -f ${__pxb_cxl_bus_nr_file} ]]; then
+		num=$(cat ${__pxb_cxl_bus_nr_file})
+	fi
+	echo "${num}"
+	echo $((num + 10)) > ${__pxb_cxl_bus_nr_file}
+}
+
+add_cxl_pxb() {
+	local id=$1
+	qargs+=( -device pxb-cxl,bus_nr=$(next_pxb_cxl_bus_nr),bus=${bus_pcie0},id=${id} )
+}
+
 # A setup suitable for multi ways interleave. Only one fixed window provided, to
 # enable multi ways interleave across 2 CXL host bridges. Each host bridge has 2
 # CXL Root Ports, with the CXL Type3 device directly attached (no switches).
@@ -749,10 +772,8 @@ __cxl_pmem_ways() {
 	local pxb_cxl_id1=$(next_pxb_cxl_id)
 	local pxb_cxl_id2=$(next_pxb_cxl_id)
 
-	qargs+=(
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=${pxb_cxl_id1}
-		-device pxb-cxl,bus_nr=22,bus=${bus_pcie0},id=${pxb_cxl_id2}
-	)
+	add_cxl_pxb ${pxb_cxl_id1}
+	add_cxl_pxb ${pxb_cxl_id2}
 
 	for ((i = 1; i <= ${ways}; i++))
 	do
@@ -825,8 +846,9 @@ cxl_pmem_4way_switch() {
 			-object memory-backend-file,id=cxl-lsa${i},share=on,mem-path=$PWD/lsa${i}.raw,size=${cxl_size}
 			)
 	done
+
+	add_cxl_pxb cxl.1
 	qargs+=(
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
 		-device cxl-upstream,bus=root_port0,id=us0
@@ -856,8 +878,8 @@ __cxl_volatile_mem_lsa() {
 		qargs+=(-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size})
 	fi
 
-	qargs+=(-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
-		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
+	add_cxl_pxb cxl.1
+	qargs+=(-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,${LSA}id=cxl-vmem0 )
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
@@ -873,12 +895,13 @@ cxl_volatile_mem_lsa() {
 }
 
 cxl_volatile_mem_4way() {
+	add_cxl_pxb cxl.1
+
 	qargs+=(
 		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
 		-object memory-backend-ram,id=vmem1,share=on,size=${cxl_size}
 		-object memory-backend-ram,id=vmem2,share=on,size=${cxl_size}
 		-object memory-backend-ram,id=vmem3,share=on,size=${cxl_size}
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3
 		-device cxl-rp,port=2,bus=cxl.1,id=root_port15,chassis=0,slot=4
@@ -898,8 +921,9 @@ cxl_volatile_mem_4way_switch() {
 		qargs+=( -object memory-backend-ram,id=vmem${i},share=on,size=${cxl_size}
 			)
 	done
+
+	add_cxl_pxb cxl.1
 	qargs+=(
-		-device pxb-cxl,bus_nr=12,bus=${bus_pcie0},id=cxl.1
 		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
 		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
 		-device cxl-upstream,bus=root_port0,id=us0
@@ -933,16 +957,24 @@ cxl_debug() {
 }
 
 config_cxl() {
-	if [[ ${cxl_device} ]] && [[ ${debug} ]]; then
+	local i
+
+	if [[ ! -z "${cxl_device}${cxl_pxb_ids}" ]] && [[ ${debug} ]]; then
 		cxl_debug
 	fi
 
-	if [[ ${cxl_device} ]]; then
+	if [[ ! -z "${cxl_device}${cxl_pxb_ids}" ]]; then
 		qmachine+=( cxl=on )
 		# Disable ACPI CXL enumeration at boot
 		# kcmds+=( acpi=off )
 		kcmds+=( cxl.mem=disable cxl.acpi=0 )
 	fi
+
+	# Create CXL PXB
+	for i in ${cxl_pxb_ids[@]}
+	do
+		add_cxl_pxb $i
+	done
 
 	case ${cxl_device} in
 	${CXL_DEV_PMEM})
