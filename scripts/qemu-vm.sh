@@ -856,7 +856,7 @@ add_cxl_rp() {
 # --bus <name>: set bus
 # --lsa <name>: set lsa
 add_cxl_type3_dev() {
-	local arg
+	local arg tmparg
 	local pmem vmem
 	local bus lsa
 
@@ -922,7 +922,20 @@ add_cxl_type3_dev() {
 		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${cxl_size} )
 		arg+=( volatile-memdev=${vmem} )
 	fi
-	[[ ${lsa} ]] && arg+=( lsa=${lsa} )
+	if [[ ${lsa} ]]; then
+		arg+=( lsa=${lsa} )
+
+		local lsa_file=${PWD}/${lsa}.raw
+		_eval qemu-img create -f raw ${lsa_file} ${cxl_size}
+		cleanup_files+=( ${lsa_file} )
+
+		tmparg+=( memory-backend-file,id=${lsa} )
+		tmparg+=( share=on )
+		tmparg+=( mem-path=${lsa_file} )
+		tmparg+=( size=${cxl_size} )
+		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
+		unset tmparg
+	fi
 
 	arg+=( id=$(next_cxl_type3_id) )
 	# Hope it will not conflict
@@ -948,14 +961,12 @@ __cxl_pmem_ways() {
 
 	for ((i = 1; i <= ${ways}; i++))
 	do
-		local tmparg lsa mem
+		local tmparg mem
 
 		mem=$(next_cxl_pmem_id)
-		lsa=cxl-lsa${i}
 
 		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
-		_eval qemu-img create -f raw lsa${i}.raw ${cxl_size}
-		cleanup_files+=( cxltest${i}.raw lsa${i}.raw )
+		cleanup_files+=( cxltest${i}.raw )
 
 		tmparg+=( memory-backend-file,id=${mem} )
 		tmparg+=( share=on )
@@ -964,18 +975,11 @@ __cxl_pmem_ways() {
 		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
 
-		tmparg+=( memory-backend-file,id=${lsa} )
-		tmparg+=( share=on )
-		tmparg+=( mem-path=$PWD/lsa${i}.raw )
-		tmparg+=( size=${cxl_size} )
-		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
-		unset tmparg
-
 		local rp_id=$(next_cxl_rp_id)
 		add_cxl_rp ${pxb_cxl_id1} ${rp_id} ${i}
 
 		# Or could add it to CXL switch
-		add_cxl_type3_dev --pmem=${mem} --bus=${rp_id} --lsa=${lsa}
+		add_cxl_type3_dev --pmem=${mem} --bus=${rp_id} --lsa=cxl-lsa${i}
 	done
 
 	qmachine+=( cxl-fmw.0.targets.0=${pxb_cxl_id1} )
@@ -1013,12 +1017,9 @@ cxl_pmem_4way_switch() {
 		local pmem_id=$(next_cxl_pmem_id)
 
 		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
-		_eval qemu-img create -f raw lsa${i}.raw ${cxl_size}
-		cleanup_files+=( cxltest${i}.raw lsa${i}.raw )
+		cleanup_files+=( cxltest${i}.raw )
 
-		qargs+=( -object memory-backend-file,id=${pmem_id},share=on,mem-path=$PWD/cxltest${i}.raw,size=${cxl_size}
-			-object memory-backend-file,id=cxl-lsa${i},share=on,mem-path=$PWD/lsa${i}.raw,size=${cxl_size}
-			)
+		qargs+=( -object memory-backend-file,id=${pmem_id},share=on,mem-path=$PWD/cxltest${i}.raw,size=${cxl_size} )
 
 		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2)) )
 
@@ -1030,10 +1031,7 @@ __cxl_volatile_mem_lsa() {
 	local LSA
 
 	if [[ ${1} == lsa ]]; then
-		_eval qemu-img create -f raw lsa.raw ${cxl_size}
-		cleanup_files+=( lsa.raw )
 		LSA="--lsa=cxl-lsa0"
-		qargs+=(-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size})
 	fi
 
 	add_cxl_pxb cxl.1
