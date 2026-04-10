@@ -848,6 +848,17 @@ next_cxl_rp_id() {
 	echo $((++num)) > ${__cxl_rp_id_file}
 }
 
+__cxl_slot_file=$(mktemp -u)
+cleanup_files+=( ${__cxl_slot_file} )
+next_cxl_slot() {
+	local num=1
+	if [[ -f ${__cxl_slot_file} ]]; then
+		num=$(cat ${__cxl_slot_file})
+	fi
+	echo "${num}"
+	echo $((++num)) > ${__cxl_slot_file}
+}
+
 next_cxl_type3_id() {
 	echo $(mktemp -u cxl.type3.XXXX)
 }
@@ -878,7 +889,7 @@ add_cxl_rp() {
 	local bus=$1
 	local id=$2
 	local port=$3
-	local slot=${4-${port}}
+	local slot=${4-$(next_cxl_slot)}
 	local arg
 
 	arg+=( cxl-rp )
@@ -945,9 +956,9 @@ add_cxl_switch() {
 		dsarg+=( cxl-downstream )
 		dsarg+=( port=${i} )
 		dsarg+=( bus=${sw_id} )
-		dsarg+=( id=${portprefix}${i} )
+		dsarg+=( id=${portprefix}.${i} )
 		dsarg+=( chassis=0 )
-		dsarg+=( slot=$((${i} + 10)) )
+		dsarg+=( slot=$(next_cxl_slot) )
 
 		qargs+=( -device $(IFS=,; echo "${dsarg[*]}") )
 		unset dsarg
@@ -1109,17 +1120,15 @@ cxl_pmem_4way_switch() {
 	add_cxl_rp cxl.1 ${rp_id1} 0
 	add_cxl_rp cxl.1 ${rp_id2} 1
 
-	qargs+=( -device cxl-upstream,bus=${rp_id1},id=us0 )
+	add_cxl_switch --bus=${rp_id1} --nport=4 --port-prefix=swport
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
 	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
 
-	for i in $(seq 0 1 3)
+	for i in $(seq 1 1 4)
 	do
-		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2)) )
-
-		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=swport${i} --lsa=cxl-lsa${i}
+		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=swport.${i} --lsa=cxl-lsa${i}
 	done
 }
 
@@ -1177,19 +1186,15 @@ cxl_volatile_mem_4way_switch() {
 	add_cxl_rp cxl.1 ${rp_id1} 0
 	add_cxl_rp cxl.1 ${rp_id2} 1
 
-	qargs+=( -device cxl-upstream,bus=${rp_id1},id=us0 )
+	add_cxl_switch --bus=${rp_id1} --nport=4 --port-prefix swport
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
 	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
 
-	for i in $(seq 0 1 3)
+	for i in $(seq 1 1 4)
 	do
-		local vmem_id=$(next_cxl_vmem_id)
-
-		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2)) )
-
-		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=swport${i}
+		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=swport.${i}
 	done
 }
 
