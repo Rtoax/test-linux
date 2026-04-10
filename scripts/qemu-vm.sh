@@ -923,11 +923,11 @@ cxl_pmem_4way_switch() {
 
 	local rp_id1=$(next_cxl_rp_id)
 	local rp_id2=$(next_cxl_rp_id)
-	qargs+=(
-		-device cxl-rp,port=0,bus=cxl.1,id=${rp_id1},chassis=0,slot=0
-		-device cxl-rp,port=1,bus=cxl.1,id=${rp_id2},chassis=0,slot=1
-		-device cxl-upstream,bus=${rp_id1},id=us0
-	)
+
+	add_cxl_rp cxl.1 ${rp_id1} 0
+	add_cxl_rp cxl.1 ${rp_id2} 1
+
+	qargs+=( -device cxl-upstream,bus=${rp_id1},id=us0 )
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
@@ -956,8 +956,10 @@ __cxl_volatile_mem_lsa() {
 	add_cxl_pxb cxl.1
 
 	local rp_id=$(next_cxl_rp_id)
-	qargs+=(-device cxl-rp,port=0,bus=cxl.1,id=${rp_id},chassis=0,slot=2
-		-device cxl-type3,bus=${rp_id},volatile-memdev=vmem0,${LSA}id=cxl-vmem0 )
+
+	add_cxl_rp cxl.1 ${rp_id} 2
+
+	qargs+=( -device cxl-type3,bus=${rp_id},volatile-memdev=vmem0,${LSA}id=cxl-vmem0 )
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
@@ -980,10 +982,10 @@ cxl_volatile_mem_4way() {
 	do
 		local rp_id=$(next_cxl_rp_id)
 
+		add_cxl_rp cxl.1 ${rp_id} ${i}
+
 		qargs+=( -object memory-backend-ram,id=vmem${i},share=on,size=${cxl_size}
-			-device cxl-rp,port=${i},bus=cxl.1,id=${rp_id},chassis=0,slot=${i}
-			-device cxl-type3,bus=${rp_id},volatile-memdev=vmem${i},id=cxl-vmem${i}
-			)
+			-device cxl-type3,bus=${rp_id},volatile-memdev=vmem${i},id=cxl-vmem${i} )
 	done
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
@@ -1001,11 +1003,10 @@ cxl_volatile_mem_4way_switch() {
 
 	local rp_id1=$(next_cxl_rp_id)
 	local rp_id2=$(next_cxl_rp_id)
-	qargs+=(
-		-device cxl-rp,port=0,bus=cxl.1,id=${rp_id1},chassis=0,slot=0
-		-device cxl-rp,port=1,bus=cxl.1,id=${rp_id2},chassis=0,slot=1
-		-device cxl-upstream,bus=${rp_id1},id=us0
-	)
+	add_cxl_rp cxl.1 ${rp_id1} 0
+	add_cxl_rp cxl.1 ${rp_id2} 1
+
+	qargs+=( -device cxl-upstream,bus=${rp_id1},id=us0 )
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
