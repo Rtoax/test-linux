@@ -234,6 +234,7 @@ ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 
 ${BOLD}--cxl [DEV]${RST}
 ${BOLD}--cxl device=[DEV]${RST}
+
 ${BOLD}--cxl pxb=<name>${RST}: create CXL PXB
 ${BOLD}--cxl rp=<name>,bus=<name>,port=<n>,slot=<n>${RST}: create CXL RootPort
 
@@ -810,6 +811,10 @@ next_cxl_rp_id() {
 	echo $((++num)) > ${__cxl_rp_id_file}
 }
 
+next_cxl_type3_id() {
+	echo $(mktemp -u cxl.type3.XXXX)
+}
+
 add_cxl_pxb() {
 	local id=$1
 	qargs+=( -device pxb-cxl,bus_nr=$(next_pxb_cxl_bus_nr),bus=${bus_pcie0},id=${id} )
@@ -886,7 +891,7 @@ __cxl_pmem_ways() {
 		tmparg+=( cxl-type3,bus=${cxl_dev_bus} )
 		tmparg+=( persistent-memdev=${mem} )
 		tmparg+=( lsa=${lsa} )
-		tmparg+=( id=cxl-pmem${i} )
+		tmparg+=( id=$(next_cxl_type3_id) )
 		tmparg+=( sn=0x${i} )
 		qargs+=( -device $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
@@ -936,7 +941,7 @@ cxl_pmem_4way_switch() {
 	for i in $(seq 0 1 3)
 	do
 		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2))
-			-device cxl-type3,bus=swport${i},persistent-memdev=cxl-mem${i},lsa=cxl-lsa${i},id=cxl-pmem${i},sn=0x1
+			-device cxl-type3,bus=swport${i},persistent-memdev=cxl-mem${i},lsa=cxl-lsa${i},id=$(next_cxl_type3_id),sn=0x1
 			)
 	done
 }
@@ -959,7 +964,7 @@ __cxl_volatile_mem_lsa() {
 
 	add_cxl_rp cxl.1 ${rp_id} 2
 
-	qargs+=( -device cxl-type3,bus=${rp_id},volatile-memdev=vmem0,${LSA}id=cxl-vmem0 )
+	qargs+=( -device cxl-type3,bus=${rp_id},volatile-memdev=vmem0,${LSA}id=$(next_cxl_type3_id) )
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
@@ -985,7 +990,7 @@ cxl_volatile_mem_4way() {
 		add_cxl_rp cxl.1 ${rp_id} ${i}
 
 		qargs+=( -object memory-backend-ram,id=vmem${i},share=on,size=${cxl_size}
-			-device cxl-type3,bus=${rp_id},volatile-memdev=vmem${i},id=cxl-vmem${i} )
+			-device cxl-type3,bus=${rp_id},volatile-memdev=vmem${i},id=$(next_cxl_type3_id) )
 	done
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
@@ -1016,7 +1021,7 @@ cxl_volatile_mem_4way_switch() {
 	do
 		qargs+=(
 			-device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2))
-			-device cxl-type3,bus=swport${i},volatile-memdev=vmem${i},id=cxl-vmem${i},sn=0x1
+			-device cxl-type3,bus=swport${i},volatile-memdev=vmem${i},id=$(next_cxl_type3_id),sn=0x1
 			)
 	done
 }
