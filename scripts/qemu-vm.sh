@@ -67,6 +67,8 @@ readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
 declare -a cxl_pxb_ids
 declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
 declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
+declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas
+declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas
 
 declare cxl_device
 declare cxl_size=1024M
@@ -240,6 +242,8 @@ ${BOLD}--cxl device=[DEV]${RST}
 ${BOLD}--cxl pxb=<name>${RST}: create CXL PXB
 ${BOLD}--cxl rp=<name>,bus=<name>,port=<n>${RST}: create CXL RootPort
 ${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Switch
+${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>${RST}: create CXL Persistent Memory device
+${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>]${RST}: create CXL Volatile Memory device
 
 ${BOLD}[DEV]${RST}
 ${GRAY}${CXL_DEVICES[@]}${RST}
@@ -255,6 +259,7 @@ handle_cxl_arg() {
 	local bus port
 	local rp_id
 	local switch nport portprefix
+	local pmem vmem lsa
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -301,6 +306,21 @@ handle_cxl_arg() {
 				[[ -z ${portprefix} ]] && \
 					error "cxl switch portprefix= syntax error"
 				;;
+			pmem)
+				pmem=${arg:5}
+				[[ -z ${pmem} ]] && \
+					error "cxl pmem= syntax error"
+				;;
+			vmem)
+				vmem=${arg:5}
+				[[ -z ${vmem} ]] && \
+					error "cxl vmem= syntax error"
+				;;
+			lsa)
+				lsa=${arg:4}
+				[[ -z ${lsa} ]] && \
+					error "cxl lsa= syntax error"
+				;;
 			*)
 				error "cxl unknown arg ${arg}"
 				;;
@@ -322,10 +342,14 @@ handle_cxl_arg() {
 		error "--cxl not allow specify switch for device"
 	fi
 
-	local types=( ${pxb_id} ${rp_id} ${switch} )
+	if [[ ${device} ]] && [[ ${pmem}${vmem} ]]; then
+		error "--cxl not allow specify pmem or vmem for device"
+	fi
+
+	local types=( ${pxb_id} ${rp_id} ${switch} ${vmem} ${pmem} )
 
 	if [[ ${#types[@]} -gt 1 ]]; then
-		error "--cxl not allow specify pxb,rp,switch at the same time"
+		error "--cxl not allow specify pxb,rp,switch,vmem,pmem at the same time"
 	fi
 
 	if [[ ${rp_id} ]]; then
@@ -337,6 +361,18 @@ handle_cxl_arg() {
 	if [[ ${switch} ]]; then
 		if [[ -z ${bus} ]] || [[ -z ${nport} ]] || [[ -z ${portprefix} ]]; then
 			error "--cxl switch need bus= nport= portprefix= at the same time"
+		fi
+	fi
+
+	if [[ ${pmem} ]]; then
+		if [[ -z ${bus} ]] || [[ -z ${lsa} ]]; then
+			error "--cxl pmem/vmem need bus= and lsa= parameter"
+		fi
+	fi
+
+	if [[ ${vmem} ]]; then
+		if [[ -z ${bus} ]]; then
+			error "--cxl vmem need bus= parameter"
 		fi
 	fi
 
@@ -353,6 +389,20 @@ handle_cxl_arg() {
 		cxl_switches_buss+=( ${bus} )
 		cxl_switches_nports+=( ${nport} )
 		cxl_switches_portpfxs+=( ${portprefix} )
+	fi
+
+	if [[ ${pmem} ]]; then
+		cxl_pmem_names+=( ${pmem} )
+		cxl_pmem_buss+=( ${bus} )
+		[[ -z ${lsa} ]] && lsa=SKIP
+		cxl_pmem_lsas+=( ${lsa} )
+	fi
+
+	if [[ ${vmem} ]]; then
+		cxl_vmem_names+=( ${vmem} )
+		cxl_vmem_buss+=( ${bus} )
+		[[ -z ${lsa} ]] && lsa=SKIP
+		cxl_vmem_lsas+=( ${lsa} )
 	fi
 
 	# 2 spaces for empty cxl_device.
@@ -963,7 +1013,7 @@ add_cxl_switch() {
 # --pmem <name>: set pmem name
 # --vmem <name>: set vmem name
 # --bus <name>: set bus
-# --lsa <name>: set lsa
+# --lsa <name>: set lsa, skip if SKIP
 add_cxl_type3_dev() {
 	local arg tmparg
 	local pmem vmem
@@ -1025,6 +1075,10 @@ add_cxl_type3_dev() {
 
 
 	if [[ ${pmem} ]]; then
+		if [[ -z ${lsa} ]] || [[ ${lsa} == SKIP ]]; then
+			error "lsa property must be set for persistent devices"
+		fi
+
 		arg+=( persistent-memdev=${pmem} )
 
 		local pmem_file=${PWD}/${pmem}.raw
@@ -1038,11 +1092,13 @@ add_cxl_type3_dev() {
 		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
 	fi
+
 	if [[ ${vmem} ]]; then
 		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${cxl_size} )
 		arg+=( volatile-memdev=${vmem} )
 	fi
-	if [[ ${lsa} ]]; then
+
+	if [[ ${lsa} ]] && [[ ${lsa} != SKIP ]]; then
 		arg+=( lsa=${lsa} )
 
 		local lsa_file=${PWD}/${lsa}.raw
@@ -1229,6 +1285,20 @@ config_cxl() {
 		add_cxl_switch --bus=${cxl_switches_buss[i]} \
 			--nport=${cxl_switches_nports[i]} \
 			--port-prefix=${cxl_switches_portpfxs[i]}
+	done
+
+	for ((i = 0; i < ${#cxl_pmem_names[@]}; i++))
+	do
+		add_cxl_type3_dev --pmem=${cxl_pmem_names[i]} \
+			--bus=${cxl_pmem_buss[i]} \
+			--lsa=${cxl_pmem_lsas[i]}
+	done
+
+	for ((i = 0; i < ${#cxl_vmem_names[@]}; i++))
+	do
+		add_cxl_type3_dev --vmem=${cxl_vmem_names[i]} \
+			--bus=${cxl_vmem_buss[i]} \
+			--lsa=${cxl_vmem_lsas[i]}
 	done
 
 	case ${cxl_device} in

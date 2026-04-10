@@ -65,7 +65,12 @@ qargs+=( --cxl pxb=pxb.1 )
 qargs+=( --cxl pxb=pxb.2 )
 qargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
 qargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
-qargs+=( --cxl switch,bus=rp.1,nport=2,portprefix=swx )
+qargs+=( --cxl switch,bus=rp.1,nport=2,portprefix=sw1 )
+qargs+=( --cxl switch,bus=rp.2,nport=2,portprefix=sw2 )
+qargs+=( --cxl pmem=pmem.1,bus=sw1.1,lsa=pmem.1.lsa )
+qargs+=( --cxl pmem=pmem.2,bus=sw1.2,lsa=pmem.2.lsa )
+qargs+=( --cxl vmem=vmem.1,bus=sw2.1,lsa=vmem.1.lsa )
+qargs+=( --cxl vmem=vmem.2,bus=sw2.2,lsa=vmem.2.lsa )
 
 qargs+=( --cxl device=cxl-vmem-4way )
 
