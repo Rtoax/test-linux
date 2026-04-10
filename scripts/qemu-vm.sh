@@ -244,6 +244,7 @@ ${GRAY}${CXL_DEVICES[@]}${RST}
 # Formats: device=<name>
 handle_cxl_arg() {
 	local arg args
+	local device pxb_ids
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -263,10 +264,10 @@ handle_cxl_arg() {
 		do
 			case ${arg%%=*} in
 			device)
-				cxl_device=${arg:7}
+				device=${arg:7}
 				;;
 			pxb)
-				cxl_pxb_ids+=( ${arg:4} )
+				pxb_ids+=( ${arg:4} )
 				;;
 			*)
 				error "cxl unknown arg ${arg}"
@@ -274,8 +275,16 @@ handle_cxl_arg() {
 			esac
 		done
 	else
-		cxl_device=$1
+		device=$1
 	fi
+
+	if [[ ${device} ]] && [[ ${pxb_ids} ]]; then
+		error "--cxl not allow specify device and pxb at the same time"
+	fi
+
+	# set global
+	cxl_device=${device}
+	cxl_pxb_ids+=( ${pxb_ids[@]} )
 
 	# 2 spaces for empty cxl_device.
 	if ! [[ "  ${CXL_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
