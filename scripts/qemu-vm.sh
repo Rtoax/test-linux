@@ -900,7 +900,7 @@ __cxl_pmem_ways() {
 		tmparg+=( persistent-memdev=${mem} )
 		tmparg+=( lsa=${lsa} )
 		tmparg+=( id=$(next_cxl_type3_id) )
-		tmparg+=( sn=0x${i} )
+		tmparg+=( sn=$RANDOM )
 		qargs+=( -device $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
 	done
@@ -949,7 +949,7 @@ cxl_pmem_4way_switch() {
 	for i in $(seq 0 1 3)
 	do
 		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2))
-			-device cxl-type3,bus=swport${i},persistent-memdev=$(next_cxl_pmem_id),lsa=cxl-lsa${i},id=$(next_cxl_type3_id),sn=0x1
+			-device cxl-type3,bus=swport${i},persistent-memdev=$(next_cxl_pmem_id),lsa=cxl-lsa${i},id=$(next_cxl_type3_id),sn=$RANDOM
 			)
 	done
 }
@@ -1031,7 +1031,7 @@ cxl_volatile_mem_4way_switch() {
 	do
 		qargs+=(
 			-device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2))
-			-device cxl-type3,bus=swport${i},volatile-memdev=$(next_cxl_vmem_id),id=$(next_cxl_type3_id),sn=0x1
+			-device cxl-type3,bus=swport${i},volatile-memdev=$(next_cxl_vmem_id),id=$(next_cxl_type3_id),sn=$RANDOM
 			)
 	done
 }
