@@ -130,8 +130,8 @@ ${BOLD}OPTIONS${RST}
                             $ objcopy --only-keep-debug vmlinux kernel.elf${RST}
 
   ${BOLD}CXL OPTIONS${RST}
-    --cxl [TYPE]            test CXL, support: ${GRAY}${CXL_DEVICES[@]}${RST}
-                            debug with debug mode.
+    --cxl [ARGS]            test CXL, support: ${GRAY}${CXL_DEVICES[@]}${RST}
+                            debug with debug mode. please see ${BOLD}--cxl help${RST}
 
                             CXL require Qemu >= ${UL}9.0${RST} on aarch64,
                             Qemu >= ${UL}7.2${RST} on x86_64.
@@ -226,9 +226,31 @@ handle_rootfs_arg() {
 	f_rootfs=$(realpath ${f_rootfs})
 }
 
+cxl_arg_help() {
+	echo -e "
+${BOLD}CXL ARGUMENTS SYNTAX${RST}
+
+${BOLD}--cxl [DEV]${RST}
+${BOLD}--cxl device=[DEV]${RST}
+	"
+	exit 0
+}
+
 # Formats: device=<name>
 handle_cxl_arg() {
 	local arg args
+
+	# Pre handle
+	args=( $(echo $1 | tr ',' ' ') )
+	for arg in ${args[@]}
+	do
+		case ${arg%%=*} in
+		help)
+			cxl_arg_help
+			;;
+		esac
+	done
+	unset args
 
 	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
 		args=( $(echo $1 | tr ',' ' ') )
@@ -249,7 +271,7 @@ handle_cxl_arg() {
 
 	# 2 spaces for empty cxl_device.
 	if ! [[ "  ${CXL_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
-		error "cxl type only support <${CXL_DEVICES[@]}>"
+		error "Bad '${cxl_device}', cxl type only support <${CXL_DEVICES[@]}>"
 	fi
 }
 
