@@ -913,27 +913,20 @@ cxl_volatile_mem_lsa() {
 }
 
 cxl_volatile_mem_4way() {
+	local i
+
 	add_cxl_pxb cxl.1
 
-	local rp_id1=$(next_cxl_rp_id)
-	local rp_id2=$(next_cxl_rp_id)
-	local rp_id3=$(next_cxl_rp_id)
-	local rp_id4=$(next_cxl_rp_id)
+	for i in {1..4}
+	do
+		local rp_id=$(next_cxl_rp_id)
 
-	qargs+=(
-		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
-		-object memory-backend-ram,id=vmem1,share=on,size=${cxl_size}
-		-object memory-backend-ram,id=vmem2,share=on,size=${cxl_size}
-		-object memory-backend-ram,id=vmem3,share=on,size=${cxl_size}
-		-device cxl-rp,port=0,bus=cxl.1,id=${rp_id1},chassis=0,slot=2
-		-device cxl-rp,port=1,bus=cxl.1,id=${rp_id2},chassis=0,slot=3
-		-device cxl-rp,port=2,bus=cxl.1,id=${rp_id3},chassis=0,slot=4
-		-device cxl-rp,port=3,bus=cxl.1,id=${rp_id4},chassis=0,slot=5
-		-device cxl-type3,bus=${rp_id1},volatile-memdev=vmem0,id=cxl-vmem0
-		-device cxl-type3,bus=${rp_id2},volatile-memdev=vmem1,id=cxl-vmem1
-		-device cxl-type3,bus=${rp_id3},volatile-memdev=vmem2,id=cxl-vmem2
-		-device cxl-type3,bus=${rp_id4},volatile-memdev=vmem3,id=cxl-vmem3
-	)
+		qargs+=( -object memory-backend-ram,id=vmem${i},share=on,size=${cxl_size}
+			-device cxl-rp,port=${i},bus=cxl.1,id=${rp_id},chassis=0,slot=${i}
+			-device cxl-type3,bus=${rp_id},volatile-memdev=vmem${i},id=cxl-vmem${i}
+			)
+	done
+
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
 }
