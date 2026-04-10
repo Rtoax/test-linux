@@ -63,7 +63,8 @@ qargs+=( --stdio )
 
 qargs+=( --cxl pxb=pxb.1 )
 qargs+=( --cxl pxb=pxb.2 )
-qargs+=( --cxl rp=rp.1,bus=pxb.1,port=1,slot=9 )
+qargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
+qargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
 qargs+=( --cxl switch,bus=rp.1,nport=2,portprefix=swx )
 
 qargs+=( --cxl device=cxl-vmem-4way )

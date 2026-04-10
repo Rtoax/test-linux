@@ -65,7 +65,7 @@ readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
 			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
 # cxl-pxb id=
 declare -a cxl_pxb_ids
-declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports cxl_rp_slots
+declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
 declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
 
 declare cxl_device
@@ -238,7 +238,7 @@ ${BOLD}--cxl [DEV]${RST}
 ${BOLD}--cxl device=[DEV]${RST}
 
 ${BOLD}--cxl pxb=<name>${RST}: create CXL PXB
-${BOLD}--cxl rp=<name>,bus=<name>,port=<n>,slot=<n>${RST}: create CXL RootPort
+${BOLD}--cxl rp=<name>,bus=<name>,port=<n>${RST}: create CXL RootPort
 ${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Switch
 
 ${BOLD}[DEV]${RST}
@@ -252,7 +252,7 @@ handle_cxl_arg() {
 	local arg args
 	local device
 	local pxb_id
-	local bus port slot
+	local bus port
 	local rp_id
 	local switch nport portprefix
 
@@ -287,9 +287,6 @@ handle_cxl_arg() {
 				;;
 			port)
 				port=${arg:5}
-				;;
-			slot)
-				slot=${arg:5}
 				;;
 			switch)
 				switch=ON
@@ -332,8 +329,8 @@ handle_cxl_arg() {
 	fi
 
 	if [[ ${rp_id} ]]; then
-		if [[ -z ${bus} ]] || [[ -z ${port} ]] || [[ -z ${slot} ]]; then
-			error "--cxl rp need bus= port= slot= at the same time"
+		if [[ -z ${bus} ]] || [[ -z ${port} ]]; then
+			error "--cxl rp need bus= port= at the same time"
 		fi
 	fi
 
@@ -350,7 +347,6 @@ handle_cxl_arg() {
 		cxl_rp_ids+=( ${rp_id} )
 		[[ ${bus} ]] && cxl_rp_buss+=( ${bus} )
 		[[ ${port} ]] && cxl_rp_ports+=( ${port} )
-		[[ ${slot} ]] && cxl_rp_slots+=( ${slot} )
 	fi
 
 	if [[ ${switch} ]]; then
@@ -883,13 +879,11 @@ add_cxl_pxb() {
 # root port
 # $1: bus
 # $2: id
-# $3: port (slot if $4 is empty)
-# $4: slot
+# $3: port
 add_cxl_rp() {
 	local bus=$1
 	local id=$2
 	local port=$3
-	local slot=${4-$(next_cxl_slot)}
 	local arg
 
 	arg+=( cxl-rp )
@@ -897,7 +891,7 @@ add_cxl_rp() {
 	arg+=( bus=${bus} )
 	arg+=( id=${id} )
 	arg+=( chassis=0 )
-	arg+=( slot=${slot} )
+	arg+=( slot=$(next_cxl_slot) )
 
 	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
 }
@@ -1227,7 +1221,7 @@ config_cxl() {
 	for ((i = 0; i < ${#cxl_rp_ids[@]}; i++))
 	do
 		add_cxl_rp ${cxl_rp_buss[i]} ${cxl_rp_ids[i]} \
-			   ${cxl_rp_ports[i]} ${cxl_rp_slots[i]}
+			   ${cxl_rp_ports[i]}
 	done
 
 	for ((i = 0; i < ${#cxl_switches_nports[@]}; i++))
