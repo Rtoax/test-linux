@@ -755,6 +755,17 @@ next_pxb_cxl_bus_nr() {
 	echo $((num + 10)) > ${__pxb_cxl_bus_nr_file}
 }
 
+__cxl_rp_id_file=$(mktemp -u)
+cleanup_files+=( ${__cxl_rp_id_file} )
+next_cxl_rp_id() {
+	local num=1
+	if [[ -f ${__cxl_rp_id_file} ]]; then
+		num=$(cat ${__cxl_rp_id_file})
+	fi
+	echo "cxl.rp.${num}"
+	echo $((++num)) > ${__cxl_rp_id_file}
+}
+
 add_cxl_pxb() {
 	local id=$1
 	qargs+=( -device pxb-cxl,bus_nr=$(next_pxb_cxl_bus_nr),bus=${bus_pcie0},id=${id} )
@@ -800,16 +811,18 @@ __cxl_pmem_ways() {
 		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
 
+		local cxl_rp_id=$(next_cxl_rp_id)
+
 		tmparg+=( cxl-rp,port=${i} )
 		tmparg+=( bus=${pxb_cxl_id1} )
-		tmparg+=( id=root_portcxl${i} )
+		tmparg+=( id=${cxl_rp_id} )
 		tmparg+=( chassis=0 )
 		tmparg+=( slot=${i} )
 		qargs+=( -device $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
 
 		# Or could add it to CXL switch
-		local cxl_dev_bus=root_portcxl${i}
+		local cxl_dev_bus=${cxl_rp_id}
 
 		tmparg+=( cxl-type3,bus=${cxl_dev_bus} )
 		tmparg+=( persistent-memdev=${mem} )
@@ -848,10 +861,13 @@ cxl_pmem_4way_switch() {
 	done
 
 	add_cxl_pxb cxl.1
+
+	local rp_id1=$(next_cxl_rp_id)
+	local rp_id2=$(next_cxl_rp_id)
 	qargs+=(
-		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
-		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
-		-device cxl-upstream,bus=root_port0,id=us0
+		-device cxl-rp,port=0,bus=cxl.1,id=${rp_id1},chassis=0,slot=0
+		-device cxl-rp,port=1,bus=cxl.1,id=${rp_id2},chassis=0,slot=1
+		-device cxl-upstream,bus=${rp_id1},id=us0
 	)
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
@@ -879,8 +895,10 @@ __cxl_volatile_mem_lsa() {
 	fi
 
 	add_cxl_pxb cxl.1
-	qargs+=(-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
-		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,${LSA}id=cxl-vmem0 )
+
+	local rp_id=$(next_cxl_rp_id)
+	qargs+=(-device cxl-rp,port=0,bus=cxl.1,id=${rp_id},chassis=0,slot=2
+		-device cxl-type3,bus=${rp_id},volatile-memdev=vmem0,${LSA}id=cxl-vmem0 )
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
@@ -897,19 +915,24 @@ cxl_volatile_mem_lsa() {
 cxl_volatile_mem_4way() {
 	add_cxl_pxb cxl.1
 
+	local rp_id1=$(next_cxl_rp_id)
+	local rp_id2=$(next_cxl_rp_id)
+	local rp_id3=$(next_cxl_rp_id)
+	local rp_id4=$(next_cxl_rp_id)
+
 	qargs+=(
 		-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size}
 		-object memory-backend-ram,id=vmem1,share=on,size=${cxl_size}
 		-object memory-backend-ram,id=vmem2,share=on,size=${cxl_size}
 		-object memory-backend-ram,id=vmem3,share=on,size=${cxl_size}
-		-device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2
-		-device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3
-		-device cxl-rp,port=2,bus=cxl.1,id=root_port15,chassis=0,slot=4
-		-device cxl-rp,port=3,bus=cxl.1,id=root_port16,chassis=0,slot=5
-		-device cxl-type3,bus=root_port13,volatile-memdev=vmem0,id=cxl-vmem0
-		-device cxl-type3,bus=root_port14,volatile-memdev=vmem1,id=cxl-vmem1
-		-device cxl-type3,bus=root_port15,volatile-memdev=vmem2,id=cxl-vmem2
-		-device cxl-type3,bus=root_port16,volatile-memdev=vmem3,id=cxl-vmem3
+		-device cxl-rp,port=0,bus=cxl.1,id=${rp_id1},chassis=0,slot=2
+		-device cxl-rp,port=1,bus=cxl.1,id=${rp_id2},chassis=0,slot=3
+		-device cxl-rp,port=2,bus=cxl.1,id=${rp_id3},chassis=0,slot=4
+		-device cxl-rp,port=3,bus=cxl.1,id=${rp_id4},chassis=0,slot=5
+		-device cxl-type3,bus=${rp_id1},volatile-memdev=vmem0,id=cxl-vmem0
+		-device cxl-type3,bus=${rp_id2},volatile-memdev=vmem1,id=cxl-vmem1
+		-device cxl-type3,bus=${rp_id3},volatile-memdev=vmem2,id=cxl-vmem2
+		-device cxl-type3,bus=${rp_id4},volatile-memdev=vmem3,id=cxl-vmem3
 	)
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
@@ -923,10 +946,13 @@ cxl_volatile_mem_4way_switch() {
 	done
 
 	add_cxl_pxb cxl.1
+
+	local rp_id1=$(next_cxl_rp_id)
+	local rp_id2=$(next_cxl_rp_id)
 	qargs+=(
-		-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0
-		-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1
-		-device cxl-upstream,bus=root_port0,id=us0
+		-device cxl-rp,port=0,bus=cxl.1,id=${rp_id1},chassis=0,slot=0
+		-device cxl-rp,port=1,bus=cxl.1,id=${rp_id2},chassis=0,slot=1
+		-device cxl-upstream,bus=${rp_id1},id=us0
 	)
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
