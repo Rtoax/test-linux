@@ -1133,48 +1133,39 @@ cxl_pmem_4way_switch() {
 }
 
 __cxl_volatile_mem_lsa() {
+	local ways=${1}
+	local lsa=${2}
 	local LSA
 
-	if [[ ${1} == lsa ]]; then
+	if [[ ${lsa} == lsa ]]; then
 		LSA="--lsa=cxl-lsa0"
 	fi
 
 	add_cxl_pxb cxl.1
 
-	local rp_id=$(next_cxl_rp_id)
+	for i in $(seq 1 1 ${ways})
+	do
+		local rp_id=$(next_cxl_rp_id)
 
-	add_cxl_rp cxl.1 ${rp_id} 2
+		add_cxl_rp cxl.1 ${rp_id} ${i}
 
-	add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id} ${LSA}
+		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id} ${LSA}
+	done
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
 }
 
 cxl_volatile_mem() {
-	__cxl_volatile_mem_lsa
+	__cxl_volatile_mem_lsa 1
 }
 
 cxl_volatile_mem_lsa() {
-	__cxl_volatile_mem_lsa lsa
+	__cxl_volatile_mem_lsa 1 lsa
 }
 
 cxl_volatile_mem_4way() {
-	local i
-
-	add_cxl_pxb cxl.1
-
-	for i in {1..4}
-	do
-		local rp_id=$(next_cxl_rp_id)
-
-		add_cxl_rp cxl.1 ${rp_id} ${i}
-
-		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id}
-	done
-
-	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
-	qmachine+=( cxl-fmw.0.size=4G )
+	__cxl_volatile_mem_lsa 4
 }
 
 cxl_volatile_mem_4way_switch() {
