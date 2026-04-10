@@ -62,7 +62,9 @@ qargs+=( --stdio )
 qargs+=( --cxl pxb=pxb.1 )
 qargs+=( --cxl pxb=pxb.2 )
 qargs+=( --cxl rp=rp.1,bus=pxb.1,port=1,slot=6 )
-qargs+=( --cxl device=cxl-pmem-4way )
+qargs+=( --cxl switch,bus=rp.1,nport=2,portprefix=swx )
+
+qargs+=( --cxl device=cxl-pmem-4way-switch )
 
 sudo ../scripts/qemu-vm.sh ${qargs[@]} "${@}"
 

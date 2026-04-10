@@ -66,6 +66,8 @@ readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
 # cxl-pxb id=
 declare -a cxl_pxb_ids
 declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports cxl_rp_slots
+declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
+
 declare cxl_device
 declare cxl_size=1024M
 
@@ -237,6 +239,7 @@ ${BOLD}--cxl device=[DEV]${RST}
 
 ${BOLD}--cxl pxb=<name>${RST}: create CXL PXB
 ${BOLD}--cxl rp=<name>,bus=<name>,port=<n>,slot=<n>${RST}: create CXL RootPort
+${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Switch
 
 ${BOLD}[DEV]${RST}
 ${GRAY}${CXL_DEVICES[@]}${RST}
@@ -251,6 +254,7 @@ handle_cxl_arg() {
 	local pxb_id
 	local bus port slot
 	local rp_id
+	local switch nport portprefix
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -287,6 +291,19 @@ handle_cxl_arg() {
 			slot)
 				slot=${arg:5}
 				;;
+			switch)
+				switch=ON
+				;;
+			nport)
+				nport=${arg:6}
+				[[ -z ${nport} ]] && \
+					error "cxl switch nport= syntax error"
+				;;
+			portprefix)
+				portprefix=${arg:11}
+				[[ -z ${portprefix} ]] && \
+					error "cxl switch portprefix= syntax error"
+				;;
 			*)
 				error "cxl unknown arg ${arg}"
 				;;
@@ -304,8 +321,14 @@ handle_cxl_arg() {
 		error "--cxl not allow specify rp= for device"
 	fi
 
-	if [[ ${pxb_id} ]] && [[ ${rp_id} ]]; then
-		error "--cxl not allow specify pxb and rp at the save time"
+	if [[ ${device} ]] && [[ ${switch} ]]; then
+		error "--cxl not allow specify switch for device"
+	fi
+
+	local types=( ${pxb_id} ${rp_id} ${switch} )
+
+	if [[ ${#types[@]} -gt 1 ]]; then
+		error "--cxl not allow specify pxb,rp,switch at the same time"
 	fi
 
 	if [[ ${rp_id} ]]; then
@@ -314,13 +337,27 @@ handle_cxl_arg() {
 		fi
 	fi
 
+	if [[ ${switch} ]]; then
+		if [[ -z ${bus} ]] || [[ -z ${nport} ]] || [[ -z ${portprefix} ]]; then
+			error "--cxl switch need bus= nport= portprefix= at the same time"
+		fi
+	fi
+
 	# set global
-	cxl_device=${device}
-	cxl_pxb_ids+=( ${pxb_id} )
-	cxl_rp_ids+=( ${rp_id} )
-	cxl_rp_buss+=( ${bus} )
-	cxl_rp_ports+=( ${port} )
-	cxl_rp_slots+=( ${slot} )
+	[[ ${device} ]] && cxl_device=${device}
+	[[ ${pxb_id} ]] && cxl_pxb_ids+=( ${pxb_id} )
+	if [[ ${rp_id} ]]; then
+		cxl_rp_ids+=( ${rp_id} )
+		[[ ${bus} ]] && cxl_rp_buss+=( ${bus} )
+		[[ ${port} ]] && cxl_rp_ports+=( ${port} )
+		[[ ${slot} ]] && cxl_rp_slots+=( ${slot} )
+	fi
+
+	if [[ ${switch} ]]; then
+		cxl_switches_buss+=( ${bus} )
+		cxl_switches_nports+=( ${nport} )
+		cxl_switches_portpfxs+=( ${portprefix} )
+	fi
 
 	# 2 spaces for empty cxl_device.
 	if ! [[ "  ${CXL_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
@@ -823,6 +860,10 @@ next_cxl_pmem_id() {
 	echo $(mktemp -u cxl.pmem.XXXX)
 }
 
+next_cxl_switch_upstream_id() {
+	echo $(mktemp -u cxl.switch.upstream.XXXX)
+}
+
 add_cxl_pxb() {
 	local id=$1
 	qargs+=( -device pxb-cxl,bus_nr=$(next_pxb_cxl_bus_nr),bus=${bus_pcie0},id=${id} )
@@ -848,6 +889,69 @@ add_cxl_rp() {
 	arg+=( slot=${slot} )
 
 	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
+}
+
+# cxl switch
+# --bus=<name>: set bus
+# --nport=<num>: set number of downstream ports
+# --port-prefix=<prefix>: prefix name of port id, the <nport> will append to it.
+#                         ${prefix}.${1 ~ nport}
+add_cxl_switch() {
+	local i
+	local bus nport portprefix
+	local dsarg # downstream arguments
+
+	local TEMP=$(getopt \
+		--options B: \
+		--long bus: \
+		--long nport: \
+		--long port-prefix: \
+		-n $0 -- "$@")
+
+	test $? != 0 && error "$0 parse arguments failed, ${@}"
+
+	eval set -- "$TEMP"
+
+	while true; do
+		case $1 in
+		-B | --bus)
+			shift
+			bus=$1
+			shift
+			;;
+		--nport)
+			shift
+			nport=$1
+			shift
+			;;
+		--port-prefix)
+			shift
+			portprefix=$1
+			shift
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+
+	local sw_id=$(next_cxl_switch_upstream_id)
+
+	qargs+=( -device cxl-upstream,bus=${bus},id=${sw_id} )
+
+	for i in $(seq 1 1 ${nport})
+	do
+		dsarg+=( cxl-downstream )
+		dsarg+=( port=${i} )
+		dsarg+=( bus=${sw_id} )
+		dsarg+=( id=${portprefix}${i} )
+		dsarg+=( chassis=0 )
+		dsarg+=( slot=$((${i} + 10)) )
+
+		qargs+=( -device $(IFS=,; echo "${dsarg[*]}") )
+		unset dsarg
+	done
 }
 
 # cxl type3 device
@@ -1128,6 +1232,13 @@ config_cxl() {
 	do
 		add_cxl_rp ${cxl_rp_buss[i]} ${cxl_rp_ids[i]} \
 			   ${cxl_rp_ports[i]} ${cxl_rp_slots[i]}
+	done
+
+	for ((i = 0; i < ${#cxl_switches_nports[@]}; i++))
+	do
+		add_cxl_switch --bus=${cxl_switches_buss[i]} \
+			--nport=${cxl_switches_nports[i]} \
+			--port-prefix=${cxl_switches_portpfxs[i]}
 	done
 
 	case ${cxl_device} in
