@@ -850,6 +850,87 @@ add_cxl_rp() {
 	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
 }
 
+# cxl type3 device
+# --pmem <name>: set pmem name
+# --vmem <name>: set vmem name
+# --bus <name>: set bus
+# --lsa <name>: set lsa
+add_cxl_type3_dev() {
+	local arg
+	local pmem vmem
+	local bus lsa
+
+	local TEMP=$(getopt \
+		--options t: \
+		--long pmem: \
+		--long vmem: \
+		--long bus: \
+		--long lsa: \
+		-n $0 -- "$@")
+
+	test $? != 0 && error "$0 parse arguments failed, ${@}"
+
+	eval set -- "$TEMP"
+
+	while true; do
+		case $1 in
+		--pmem)
+			shift
+			pmem=$1
+			shift
+			;;
+		--vmem)
+			shift
+			vmem=$1
+			shift
+			;;
+		--bus)
+			shift
+			bus=$1
+			shift
+			;;
+		--lsa)
+			shift
+			lsa=$1
+			shift
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+
+	if [[ ${pmem} ]] && [[ ${vmem} ]]; then
+		error "cxl-type3 not allow pmem and vmem at the same time"
+	fi
+
+	if [[ -z ${pmem} ]] && [[ -z ${vmem} ]]; then
+		error "cxl-type3 must specify one of pmem vmem"
+	fi
+
+	[[ -z ${bus} ]] && error "cxl-type3 need bus="
+
+	arg+=( cxl-type3 )
+	arg+=( bus=${bus} )
+
+
+	if [[ ${pmem} ]]; then
+		arg+=( persistent-memdev=${pmem} )
+	fi
+	if [[ ${vmem} ]]; then
+		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${cxl_size} )
+		arg+=( volatile-memdev=${vmem} )
+	fi
+	[[ ${lsa} ]] && arg+=( lsa=${lsa} )
+
+	arg+=( id=$(next_cxl_type3_id) )
+	# Hope it will not conflict
+	arg+=( sn=$RANDOM )
+
+	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
+}
+
 # A setup suitable for multi ways interleave. Only one fixed window provided, to
 # enable multi ways interleave across 2 CXL host bridges. Each host bridge has 2
 # CXL Root Ports, with the CXL Type3 device directly attached (no switches).
@@ -894,15 +975,7 @@ __cxl_pmem_ways() {
 		add_cxl_rp ${pxb_cxl_id1} ${rp_id} ${i}
 
 		# Or could add it to CXL switch
-		local cxl_dev_bus=${rp_id}
-
-		tmparg+=( cxl-type3,bus=${cxl_dev_bus} )
-		tmparg+=( persistent-memdev=${mem} )
-		tmparg+=( lsa=${lsa} )
-		tmparg+=( id=$(next_cxl_type3_id) )
-		tmparg+=( sn=$RANDOM )
-		qargs+=( -device $(IFS=,; echo "${tmparg[*]}") )
-		unset tmparg
+		add_cxl_type3_dev --pmem=${mem} --bus=${rp_id} --lsa=${lsa}
 	done
 
 	qmachine+=( cxl-fmw.0.targets.0=${pxb_cxl_id1} )
@@ -921,21 +994,10 @@ cxl_pmem_4way() {
 
 # An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave:
 cxl_pmem_4way_switch() {
-	for i in $(seq 0 1 3)
-	do
-		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
-		_eval qemu-img create -f raw lsa${i}.raw ${cxl_size}
-		cleanup_files+=( cxltest${i}.raw lsa${i}.raw )
-
-		qargs+=( -object memory-backend-file,id=cxl-mem${i},share=on,mem-path=$PWD/cxltest${i}.raw,size=${cxl_size}
-			-object memory-backend-file,id=cxl-lsa${i},share=on,mem-path=$PWD/lsa${i}.raw,size=${cxl_size}
-			)
-	done
-
-	add_cxl_pxb cxl.1
-
 	local rp_id1=$(next_cxl_rp_id)
 	local rp_id2=$(next_cxl_rp_id)
+
+	add_cxl_pxb cxl.1
 
 	add_cxl_rp cxl.1 ${rp_id1} 0
 	add_cxl_rp cxl.1 ${rp_id2} 1
@@ -948,21 +1010,29 @@ cxl_pmem_4way_switch() {
 
 	for i in $(seq 0 1 3)
 	do
-		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2))
-			-device cxl-type3,bus=swport${i},persistent-memdev=$(next_cxl_pmem_id),lsa=cxl-lsa${i},id=$(next_cxl_type3_id),sn=$RANDOM
+		local pmem_id=$(next_cxl_pmem_id)
+
+		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
+		_eval qemu-img create -f raw lsa${i}.raw ${cxl_size}
+		cleanup_files+=( cxltest${i}.raw lsa${i}.raw )
+
+		qargs+=( -object memory-backend-file,id=${pmem_id},share=on,mem-path=$PWD/cxltest${i}.raw,size=${cxl_size}
+			-object memory-backend-file,id=cxl-lsa${i},share=on,mem-path=$PWD/lsa${i}.raw,size=${cxl_size}
 			)
+
+		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2)) )
+
+		add_cxl_type3_dev --pmem=${pmem_id} --bus=swport${i} --lsa=cxl-lsa${i}
 	done
 }
 
 __cxl_volatile_mem_lsa() {
 	local LSA
 
-	qargs+=(-object memory-backend-ram,id=vmem0,share=on,size=${cxl_size})
-
 	if [[ ${1} == lsa ]]; then
 		_eval qemu-img create -f raw lsa.raw ${cxl_size}
 		cleanup_files+=( lsa.raw )
-		LSA="lsa=cxl-lsa0,"
+		LSA="--lsa=cxl-lsa0"
 		qargs+=(-object memory-backend-file,id=cxl-lsa0,share=on,mem-path=$PWD/lsa.raw,size=${cxl_size})
 	fi
 
@@ -972,7 +1042,7 @@ __cxl_volatile_mem_lsa() {
 
 	add_cxl_rp cxl.1 ${rp_id} 2
 
-	qargs+=( -device cxl-type3,bus=${rp_id},volatile-memdev=$(next_cxl_vmem_id),${LSA}id=$(next_cxl_type3_id) )
+	add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id} ${LSA}
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
 	qmachine+=( cxl-fmw.0.size=4G )
@@ -997,10 +1067,7 @@ cxl_volatile_mem_4way() {
 
 		add_cxl_rp cxl.1 ${rp_id} ${i}
 
-		local vmem_id=$(next_cxl_vmem_id)
-
-		qargs+=( -object memory-backend-ram,id=${vmem_id},share=on,size=${cxl_size}
-			-device cxl-type3,bus=${rp_id},volatile-memdev=${vmem_id},id=$(next_cxl_type3_id) )
+		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id}
 	done
 
 	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
@@ -1008,16 +1075,11 @@ cxl_volatile_mem_4way() {
 }
 
 cxl_volatile_mem_4way_switch() {
-	for i in $(seq 0 1 3)
-	do
-		qargs+=( -object memory-backend-ram,id=vmem${i},share=on,size=${cxl_size}
-			)
-	done
+	local rp_id1=$(next_cxl_rp_id)
+	local rp_id2=$(next_cxl_rp_id)
 
 	add_cxl_pxb cxl.1
 
-	local rp_id1=$(next_cxl_rp_id)
-	local rp_id2=$(next_cxl_rp_id)
 	add_cxl_rp cxl.1 ${rp_id1} 0
 	add_cxl_rp cxl.1 ${rp_id2} 1
 
@@ -1029,10 +1091,11 @@ cxl_volatile_mem_4way_switch() {
 
 	for i in $(seq 0 1 3)
 	do
-		qargs+=(
-			-device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2))
-			-device cxl-type3,bus=swport${i},volatile-memdev=$(next_cxl_vmem_id),id=$(next_cxl_type3_id),sn=$RANDOM
-			)
+		local vmem_id=$(next_cxl_vmem_id)
+
+		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2)) )
+
+		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=swport${i}
 	done
 }
 
