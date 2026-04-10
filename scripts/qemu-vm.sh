@@ -65,6 +65,7 @@ readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
 			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
 # cxl-pxb id=
 declare -a cxl_pxb_ids
+declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports cxl_rp_slots
 declare cxl_device
 declare cxl_size=1024M
 
@@ -234,6 +235,7 @@ ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 ${BOLD}--cxl [DEV]${RST}
 ${BOLD}--cxl device=[DEV]${RST}
 ${BOLD}--cxl pxb=<name>${RST}: create CXL PXB
+${BOLD}--cxl rp=<name>,bus=<name>,port=<n>,slot=<n>${RST}: create CXL RootPort
 
 ${BOLD}[DEV]${RST}
 ${GRAY}${CXL_DEVICES[@]}${RST}
@@ -244,7 +246,10 @@ ${GRAY}${CXL_DEVICES[@]}${RST}
 # Formats: device=<name>
 handle_cxl_arg() {
 	local arg args
-	local device pxb_ids
+	local device
+	local pxb_id
+	local bus port slot
+	local rp_id
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -267,7 +272,19 @@ handle_cxl_arg() {
 				device=${arg:7}
 				;;
 			pxb)
-				pxb_ids+=( ${arg:4} )
+				pxb_id=${arg:4}
+				;;
+			rp)
+				rp_id=${arg:3}
+				;;
+			bus)
+				bus=${arg:4}
+				;;
+			port)
+				port=${arg:5}
+				;;
+			slot)
+				slot=${arg:5}
 				;;
 			*)
 				error "cxl unknown arg ${arg}"
@@ -278,13 +295,31 @@ handle_cxl_arg() {
 		device=$1
 	fi
 
-	if [[ ${device} ]] && [[ ${pxb_ids} ]]; then
-		error "--cxl not allow specify device and pxb at the same time"
+	if [[ ${device} ]] && [[ ${pxb_id} ]]; then
+		error "--cxl not allow specify pxb= for device"
+	fi
+
+	if [[ ${device} ]] && [[ ${rp_id} ]]; then
+		error "--cxl not allow specify rp= for device"
+	fi
+
+	if [[ ${pxb_id} ]] && [[ ${rp_id} ]]; then
+		error "--cxl not allow specify pxb and rp at the save time"
+	fi
+
+	if [[ ${rp_id} ]]; then
+		if [[ -z ${bus} ]] || [[ -z ${port} ]] || [[ -z ${slot} ]]; then
+			error "--cxl rp need bus= port= slot= at the same time"
+		fi
 	fi
 
 	# set global
 	cxl_device=${device}
-	cxl_pxb_ids+=( ${pxb_ids[@]} )
+	cxl_pxb_ids+=( ${pxb_id} )
+	cxl_rp_ids+=( ${rp_id} )
+	cxl_rp_buss+=( ${bus} )
+	cxl_rp_ports+=( ${port} )
+	cxl_rp_slots+=( ${slot} )
 
 	# 2 spaces for empty cxl_device.
 	if ! [[ "  ${CXL_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
@@ -783,12 +818,13 @@ add_cxl_pxb() {
 # root port
 # $1: bus
 # $2: id
-# $3: port and slot
+# $3: port (slot if $4 is empty)
+# $4: slot
 add_cxl_rp() {
 	local bus=$1
 	local id=$2
 	local port=$3
-	local slot=$3
+	local slot=${4-${port}}
 	local arg
 
 	arg+=( cxl-rp )
@@ -1016,6 +1052,13 @@ config_cxl() {
 	for i in ${cxl_pxb_ids[@]}
 	do
 		add_cxl_pxb $i
+	done
+
+	# Create CXL RootPort
+	for ((i = 0; i < ${#cxl_rp_ids[@]}; i++))
+	do
+		add_cxl_rp ${cxl_rp_buss[i]} ${cxl_rp_ids[i]} \
+			   ${cxl_rp_ports[i]} ${cxl_rp_slots[i]}
 	done
 
 	case ${cxl_device} in
