@@ -1,7 +1,7 @@
 #!/bin/bash
 # ref: https://github.com/pmem/run_qemu
 #
-# usage: [GDB=1] [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+# usage: [DEP=1] [GDB=1] [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
 set -e
 . /etc/os-release
@@ -12,17 +12,19 @@ qcow2=${HOME}/cxl/vm.qcow2
 
 declare -a qargs
 
-case ${ID} in
-fedora|rhel)
-	sudo dnf install -y cxl-cli dracut edk2-ovmf
-	;;
-debian|ubuntu)
-	sudo apt install -u ndctl dracut ovmf
-	;;
-*)
-	echo >&2 "ERROR: not support ${ID}"
-	;;
-esac
+if [[ ${DEP} ]]; then
+	case ${ID} in
+	fedora|rhel)
+		sudo dnf install -y cxl-cli dracut edk2-ovmf
+		;;
+	debian|ubuntu)
+		sudo apt install -u ndctl dracut ovmf
+		;;
+	*)
+		echo >&2 "ERROR: not support ${ID}"
+		;;
+	esac
+fi
 
 [[ ! -e ${vmlinuz} ]] && sudo cp /boot/vmlinuz-$(uname -r) ${vmlinuz}
 
