@@ -61,7 +61,7 @@ qargs+=( --stdio )
 
 qargs+=( --cxl pxb=pxb.1 )
 qargs+=( --cxl pxb=pxb.2 )
-qargs+=( --cxl device=cxl-vmem-4way )
+qargs+=( --cxl device=cxl-pmem-4way )
 
 sudo ../scripts/qemu-vm.sh ${qargs[@]} "${@}"
 

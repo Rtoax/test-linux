@@ -771,6 +771,27 @@ add_cxl_pxb() {
 	qargs+=( -device pxb-cxl,bus_nr=$(next_pxb_cxl_bus_nr),bus=${bus_pcie0},id=${id} )
 }
 
+# root port
+# $1: bus
+# $2: id
+# $3: port and slot
+add_cxl_rp() {
+	local bus=$1
+	local id=$2
+	local port=$3
+	local slot=$3
+	local arg
+
+	arg+=( cxl-rp )
+	arg+=( port=${port} )
+	arg+=( bus=${bus} )
+	arg+=( id=${id} )
+	arg+=( chassis=0 )
+	arg+=( slot=${slot} )
+
+	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
+}
+
 # A setup suitable for multi ways interleave. Only one fixed window provided, to
 # enable multi ways interleave across 2 CXL host bridges. Each host bridge has 2
 # CXL Root Ports, with the CXL Type3 device directly attached (no switches).
@@ -811,18 +832,11 @@ __cxl_pmem_ways() {
 		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
 
-		local cxl_rp_id=$(next_cxl_rp_id)
-
-		tmparg+=( cxl-rp,port=${i} )
-		tmparg+=( bus=${pxb_cxl_id1} )
-		tmparg+=( id=${cxl_rp_id} )
-		tmparg+=( chassis=0 )
-		tmparg+=( slot=${i} )
-		qargs+=( -device $(IFS=,; echo "${tmparg[*]}") )
-		unset tmparg
+		local rp_id=$(next_cxl_rp_id)
+		add_cxl_rp ${pxb_cxl_id1} ${rp_id} ${i}
 
 		# Or could add it to CXL switch
-		local cxl_dev_bus=${cxl_rp_id}
+		local cxl_dev_bus=${rp_id}
 
 		tmparg+=( cxl-type3,bus=${cxl_dev_bus} )
 		tmparg+=( persistent-memdev=${mem} )
