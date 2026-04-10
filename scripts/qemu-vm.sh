@@ -917,6 +917,17 @@ add_cxl_type3_dev() {
 
 	if [[ ${pmem} ]]; then
 		arg+=( persistent-memdev=${pmem} )
+
+		local pmem_file=${PWD}/${pmem}.raw
+		_eval qemu-img create -f raw ${pmem_file} ${cxl_size}
+		cleanup_files+=( ${pmem_file} )
+
+		tmparg+=( memory-backend-file,id=${pmem} )
+		tmparg+=( share=on )
+		tmparg+=( mem-path=${pmem_file} )
+		tmparg+=( size=${cxl_size} )
+		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
+		unset tmparg
 	fi
 	if [[ ${vmem} ]]; then
 		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${cxl_size} )
@@ -961,25 +972,13 @@ __cxl_pmem_ways() {
 
 	for ((i = 1; i <= ${ways}; i++))
 	do
-		local tmparg mem
-
-		mem=$(next_cxl_pmem_id)
-
-		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
-		cleanup_files+=( cxltest${i}.raw )
-
-		tmparg+=( memory-backend-file,id=${mem} )
-		tmparg+=( share=on )
-		tmparg+=( mem-path=$PWD/cxltest${i}.raw )
-		tmparg+=( size=${cxl_size} )
-		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
-		unset tmparg
-
+		local tmparg
 		local rp_id=$(next_cxl_rp_id)
+
 		add_cxl_rp ${pxb_cxl_id1} ${rp_id} ${i}
 
 		# Or could add it to CXL switch
-		add_cxl_type3_dev --pmem=${mem} --bus=${rp_id} --lsa=cxl-lsa${i}
+		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=${rp_id} --lsa=cxl-lsa${i}
 	done
 
 	qmachine+=( cxl-fmw.0.targets.0=${pxb_cxl_id1} )
@@ -1014,16 +1013,9 @@ cxl_pmem_4way_switch() {
 
 	for i in $(seq 0 1 3)
 	do
-		local pmem_id=$(next_cxl_pmem_id)
-
-		_eval qemu-img create -f raw cxltest${i}.raw ${cxl_size}
-		cleanup_files+=( cxltest${i}.raw )
-
-		qargs+=( -object memory-backend-file,id=${pmem_id},share=on,mem-path=$PWD/cxltest${i}.raw,size=${cxl_size} )
-
 		qargs+=( -device cxl-downstream,port=${i},bus=us0,id=swport${i},chassis=0,slot=$((${i}+2)) )
 
-		add_cxl_type3_dev --pmem=${pmem_id} --bus=swport${i} --lsa=cxl-lsa${i}
+		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=swport${i} --lsa=cxl-lsa${i}
 	done
 }
 
