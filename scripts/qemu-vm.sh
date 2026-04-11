@@ -449,7 +449,7 @@ while true; do
 		shift
 		q_memory=$(sizeceilfmt $1)
 		if [[ -z ${q_memory} ]]; then
-			error "Bad memory parameter ${q_memory}"
+			error "Bad memory parameter $1(${q_memory})"
 		fi
 		shift
 		;;
@@ -522,9 +522,6 @@ while true; do
 	-Q | --qemu)
 		shift
 		QEMU_KVM=$1
-		if [[ ! -f ${QEMU_KVM} ]]; then
-			error "Not found qemu ${QEMU_KVM}"
-		fi
 		shift
 		;;
 	--gdb)
@@ -553,6 +550,10 @@ while true; do
 		;;
 	esac
 done
+
+if [[ ! -f ${QEMU_KVM} ]] && [[ -z ${dry_run} ]]; then
+	error "Not found qemu ${QEMU_KVM}"
+fi
 
 if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]]; then
 	__usage__
