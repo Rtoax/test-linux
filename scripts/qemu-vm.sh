@@ -165,7 +165,7 @@ ${BOLD}SEE ALSO${RST}
 
 check_file_exist_and_exit() {
 	local f=$1
-	if [[ ! -e ${f} ]]; then
+	if [[ ! -e ${f} ]] && [[ -z ${dry_run} ]]; then
 		error "${f} is not exist."
 	fi
 }
@@ -181,7 +181,7 @@ is_qemu_format() {
 }
 
 check_qemu_format_and_exit() {
-	if [[ $(is_qemu_format ${f_rootfs}) != yes ]]; then
+	if [[ $(is_qemu_format ${f_rootfs}) != yes ]] && [[ -z ${dry_run} ]]; then
 		error "${f_rootfs} is not raw or qcow2."
 	fi
 }
@@ -698,7 +698,7 @@ config_uefi() {
 		fi
 	done
 
-	if [[ -z ${code} ]]; then
+	if [[ -z ${code} ]] && [[ -z ${dry_run} ]]; then
 		error "not found ovmf code: ${codes[@]}"
 	fi
 
