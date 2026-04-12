@@ -113,7 +113,6 @@ Frontier and Future Technology
 
    AI <ai/index>
    Big Data <bigdata/index>
-   Ruan Kao <ruankao/index>
 
 
 Relative Projects
