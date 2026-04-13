@@ -229,6 +229,7 @@ readonly CXL_DEVICES=( ${CXL_DEV_VMEM} ${CXL_DEV_VMEM_LSA}
 # cxl-pxb specify id=, this is CHBS(CXL Host Bridge Structure)
 # and use to -machine cxl-fmw.0.targets.M
 declare -a cxl_pxb_ids
+declare -A cxl_pxb_sizes # arr[pxb-id]=2G
 declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
 
 # cxl root port
@@ -1419,6 +1420,8 @@ cxl_topolopy() {
 
 		pxb=${cxl_rp2pxb[$rp]}
 		[[ -z ${pxb} ]] && error "not found pxb"
+
+		# TODO: update cxl_pxb_sizes[$pxb]
 
 		pcxltopo "${pxb}->${bus_pcie0}\n"
 	done
