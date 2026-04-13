@@ -20,7 +20,7 @@ size2bytes() {
 			sed 's/GiB$//g;s/GB$//g;s/G$//g' | \
 			sed 's/MiB$//g;s/MB$//g;s/M$//g' | \
 			sed 's/KiB$//g;s/KB$//g;s/K$//g' | \
-			sed 's/$B//g')
+			sed 's/B$//g')
 
 	if [[ ${value} != ${v2} ]]; then
 		error "size2bytes(): Bad format ${size}"
@@ -73,4 +73,19 @@ sizeceilfmt() {
 		echo "$(( (size + ${GiB} - 1) / ${GiB} ))G"
 		return
 	fi
+}
+
+# sizesum - calculate size sum
+# $@: each one is 1KiB, 1KB
+# return: echo Bytes of size, empty if failed
+sizesum() {
+	local sumB=0
+
+	for s in ${@}
+	do
+		local b=$(size2bytes ${s})
+		sumB=$(( sumB + b ))
+	done
+
+	echo ${sumB:+${sumB}B}
 }

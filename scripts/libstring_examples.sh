@@ -53,3 +53,10 @@ if [[ $(sizeceilfmt 0) != 0B ]] || \
 	echo >&2 "ERROR: test sizeceilfmt() failed"
 	exit 1
 fi
+
+if [[ $(sizesum 0 1 2 3) != 6B ]] ||
+   [[ $(sizesum 1K 2B) != 1026B ]] ||
+   [[ $(sizesum 1GiB 2MB 3K 4B) != $((${GiB} + 2 * MiB + 3 * KiB + 4))B ]]; then
+	echo >&2 "ERROR: test sizesum() failed"
+	exit 1
+fi
