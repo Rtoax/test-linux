@@ -71,7 +71,7 @@ declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas cxl_pmem_sizes
 declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas cxl_vmem_sizes
 
 declare cxl_device
-declare cxl_default_memsize=1024M
+readonly CXL_DEFAULT_MSIZE=1024M
 
 readonly DISK_TYPE_VIRTIO=virtio
 readonly DISK_TYPE_SATA=sata
@@ -407,7 +407,7 @@ handle_cxl_arg() {
 		cxl_pmem_buss+=( ${bus} )
 		[[ -z ${lsa} ]] && lsa=SKIP
 		cxl_pmem_lsas+=( ${lsa} )
-		[[ -z ${size} ]] && size=${cxl_default_memsize}
+		[[ -z ${size} ]] && size=${CXL_DEFAULT_MSIZE}
 		cxl_pmem_sizes+=( ${size} )
 	fi
 
@@ -416,7 +416,7 @@ handle_cxl_arg() {
 		cxl_vmem_buss+=( ${bus} )
 		[[ -z ${lsa} ]] && lsa=SKIP
 		cxl_vmem_lsas+=( ${lsa} )
-		[[ -z ${size} ]] && size=${cxl_default_memsize}
+		[[ -z ${size} ]] && size=${CXL_DEFAULT_MSIZE}
 		cxl_vmem_sizes+=( ${size} )
 	fi
 
@@ -1088,7 +1088,7 @@ add_cxl_type3_dev() {
 	done
 
 	if [[ -z ${size} ]]; then
-		size=${cxl_default_memsize}
+		size=${CXL_DEFAULT_MSIZE}
 	fi
 
 	if [[ ${pmem} ]] && [[ ${vmem} ]]; then
