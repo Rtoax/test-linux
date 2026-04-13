@@ -7,7 +7,9 @@ readonly LIBSTRING_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBSTRING_ROOT}/liblog.sh
 
+# size2bytes - swap size to bytes
 # $1: size string, format: 123KiB, 123MB, 123B, 124KB, 123
+# return: echo Bytes size, empty if failed
 size2bytes() {
 	local size=$1
 
@@ -47,6 +49,7 @@ size2bytes() {
 
 # sizealignfmt - swap size to aligned size with size KiB
 # $1: size string, support format: 1KiB, 1KB, 2K, so does MB,GB
+# return: echo format size, empty if failed
 sizeceilfmt() {
 	local size=${1}
 
