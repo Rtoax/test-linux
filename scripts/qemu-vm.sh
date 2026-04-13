@@ -390,6 +390,7 @@ handle_cxl_arg() {
 	# set global
 	[[ ${device} ]] && cxl_device=${device}
 	[[ ${pxb_id} ]] && cxl_pxb_ids+=( ${pxb_id} )
+
 	if [[ ${rp_id} ]]; then
 		cxl_rp_ids+=( ${rp_id} )
 		[[ ${bus} ]] && cxl_rp_buss+=( ${bus} )
@@ -939,7 +940,19 @@ next_cxl_switch_upstream_id() {
 
 add_cxl_pxb() {
 	local id=$1
-	qargs+=( -device pxb-cxl,bus_nr=$(next_pxb_cxl_bus_nr),bus=${bus_pcie0},id=${id} )
+	local arg
+
+	arg+=( pxb-cxl )
+	arg+=( bus_nr=$(next_pxb_cxl_bus_nr) )
+	arg+=( bus=${bus_pcie0} )
+	arg+=( id=${id} )
+
+	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
+
+	# add to global list, maybe use to -machine
+	if ! [[ " ${cxl_pxb_ids[@]} " =~ " ${id} " ]]; then
+		cxl_pxb_ids+=( ${id} )
+	fi
 }
 
 # root port
