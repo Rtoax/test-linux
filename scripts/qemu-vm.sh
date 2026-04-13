@@ -1270,32 +1270,28 @@ cxl_volatile_mem_4way_switch() {
 	done
 }
 
-cxl_debug() {
-	kcmds+=( "cxl_acpi.dyndbg=+fplm"
-		"cxl_pci.dyndbg=+fplm"
-		"cxl_core.dyndbg=+fplm"
-		"cxl_mem.dyndbg=+fplm"
-		"cxl_pmem.dyndbg=+fplm"
-		"cxl_port.dyndbg=+fplm"
-		"cxl_region.dyndbg=+fplm"
-		"cxl_test.dyndbg=+fplm"
-		"cxl_mock.dyndbg=+fplm"
-		"cxl_mock_mem.dyndbg=+fplm"
-		)
-}
-
 config_cxl() {
 	local i
 
 	if [[ ! -z "${cxl_device}${cxl_pxb_ids}" ]] && [[ ${debug} ]]; then
-		cxl_debug
+		kcmds+=( "cxl_acpi.dyndbg=+fplm"
+			"cxl_pci.dyndbg=+fplm"
+			"cxl_core.dyndbg=+fplm"
+			"cxl_mem.dyndbg=+fplm"
+			"cxl_pmem.dyndbg=+fplm"
+			"cxl_port.dyndbg=+fplm"
+			"cxl_region.dyndbg=+fplm"
+			"cxl_test.dyndbg=+fplm"
+			"cxl_mock.dyndbg=+fplm"
+			"cxl_mock_mem.dyndbg=+fplm" )
 	fi
 
 	if [[ ! -z "${cxl_device}${cxl_pxb_ids}" ]]; then
 		qmachine+=( cxl=on )
 		# Disable ACPI CXL enumeration at boot
 		# kcmds+=( acpi=off )
-		kcmds+=( cxl.mem=disable cxl.acpi=0 )
+		kcmds+=( cxl.mem=disable )
+		kcmds+=( cxl.acpi=0 )
 	fi
 
 	# Create CXL PXB
