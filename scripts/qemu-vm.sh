@@ -91,7 +91,10 @@ declare -A cxl_pvmem2bus # arr[name]=[rp-id|switch-downstream-id]
 
 declare cxl_device
 readonly CXL_DEFAULT_MSIZE=1024M
+# display cxl device topology before vm startup
+declare cxl_show_topology
 
+# Disk configuratios
 readonly DISK_TYPE_VIRTIO=virtio
 readonly DISK_TYPE_SATA=sata
 readonly DISK_TYPE_NVME=nvme
@@ -257,7 +260,9 @@ cxl_arg_help() {
 	echo -e "
 ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 
-${BOLD}--cxl [DEV]${RST}
+${BOLD}--cxl help${RST}: show this information
+
+${BOLD}--cxl [DEV]${RST}: see ${BOLD}[DEV]${RST} below
 ${BOLD}--cxl device=[DEV]${RST}
 
 ${BOLD}--cxl pxb=<name>${RST}: create CXL PXB
@@ -265,6 +270,8 @@ ${BOLD}--cxl rp=<name>,bus=<name>,port=<n>${RST}: create CXL RootPort
 ${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Switch
 ${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
 ${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>][size=<SIZE>]${RST}: create CXL Volatile Memory device
+
+${BOLD}--cxl show=[topo]${RST}: display CXL information before vm startup
 
 ${BOLD}[DEV]${RST}
 ${GRAY}${CXL_DEVICES[@]}${RST}
@@ -350,6 +357,16 @@ handle_cxl_arg() {
 				size=${arg:5}
 				[[ -z ${size} ]] && \
 					error "cxl size= syntax error"
+				;;
+			show)
+				case ${arg:5} in
+				topo)
+					cxl_show_topology=ON
+					;;
+				*)
+					error "--cxl show= syntax"
+					;;
+				esac
 				;;
 			*)
 				error "cxl unknown arg ${arg}"
@@ -442,7 +459,7 @@ handle_cxl_arg() {
 
 	# 2 spaces for empty cxl_device.
 	if ! [[ "  ${CXL_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
-		error "Bad '${cxl_device}', cxl type only support <${CXL_DEVICES[@]}>"
+		error "CXL not support device '${cxl_device}', support <${CXL_DEVICES[@]}>"
 	fi
 }
 
@@ -1319,6 +1336,10 @@ cxl_volatile_mem_4way_switch() {
 	done
 }
 
+cxl_topolopy() {
+	warning "TODO: display CXL device topology"
+}
+
 config_cxl() {
 	local i
 
@@ -1413,6 +1434,8 @@ config_cxl() {
 	qmachine+=( cxl-fmw.0.size=4G )
 	# 256, 512, 1k, 2k, 4k, 8k, 16k, default 256
 	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
+
+	cxl_topolopy
 }
 
 config_virtiofs() {
