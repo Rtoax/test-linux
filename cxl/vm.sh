@@ -64,6 +64,8 @@ qargs+=( --stdio )
 
 qargs+=( --cxl pxb=pxb.1 )
 qargs+=( --cxl pxb=pxb.2 )
+qargs+=( --cxl pxb=pxb.3 )
+qargs+=( --cxl pxb=pxb.4 )
 qargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
 qargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
 qargs+=( --cxl switch,bus=rp.1,nport=2,portprefix=sw1 )
@@ -74,7 +76,7 @@ qargs+=( --cxl vmem=vmem.1,bus=sw2.1,lsa=vmem.1.lsa )
 qargs+=( --cxl vmem=vmem.2,bus=sw2.2 ) # vmem could not set lsa
 qargs+=( --cxl vmem=vmem.3,bus=sw2.3,size=2G )
 
-qargs+=( --cxl device=cxl-vmem-4way )
+qargs+=( --cxl device=cxl-pmem-4way )
 
 sudo ../scripts/qemu-vm.sh ${qargs[@]} "${@}"
 

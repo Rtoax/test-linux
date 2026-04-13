@@ -63,7 +63,11 @@ readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
 readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
 			${CXL_DEV_VOLATILE_MEM_4WAY} ${CXL_DEV_VOLATILE_MEM_4WAY_SWITCH}
 			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
-# cxl-pxb id=
+
+# cxl-fmw.0.targets.M
+declare -a cxl_fmw0_pxbs
+
+# cxl-pxb specify id=, this is CHBS(CXL Host Bridge Structure)
 declare -a cxl_pxb_ids
 declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
 declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
@@ -956,6 +960,11 @@ add_cxl_pxb() {
 	if ! [[ " ${cxl_pxb_ids[@]} " =~ " ${id} " ]]; then
 		cxl_pxb_ids+=( ${id} )
 	fi
+
+	# add to fmw0 list for -machine
+	if ! [[ " ${cxl_fmw0_pxbs[@]} " =~ " ${id} " ]]; then
+		cxl_fmw0_pxbs+=( ${id} )
+	fi
 }
 
 # root port
@@ -1176,27 +1185,22 @@ __cxl_pmem_ways() {
 	# TODO: Why cxl pmem 4way need higher ram memory than CXL Type3?
 	min_memory_required $((${ways} + 1))G
 
-	local pxb_cxl_id1=$(next_pxb_cxl_id)
-	local pxb_cxl_id2=$(next_pxb_cxl_id)
+	local pxb_id1=$(next_pxb_cxl_id)
+	local pxb_id2=$(next_pxb_cxl_id)
 
-	add_cxl_pxb ${pxb_cxl_id1}
-	add_cxl_pxb ${pxb_cxl_id2}
+	add_cxl_pxb ${pxb_id1}
+	add_cxl_pxb ${pxb_id2}
 
 	for ((i = 1; i <= ${ways}; i++))
 	do
 		local tmparg
 		local rp_id=$(next_cxl_rp_id)
 
-		add_cxl_rp ${pxb_cxl_id1} ${rp_id} ${i}
+		add_cxl_rp ${pxb_id1} ${rp_id} ${i}
 
 		# Or could add it to CXL switch
 		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=${rp_id} --lsa=cxl-lsa${i}
 	done
-
-	qmachine+=( cxl-fmw.0.targets.0=${pxb_cxl_id1} )
-	qmachine+=( cxl-fmw.0.targets.1=${pxb_cxl_id2} )
-	qmachine+=( cxl-fmw.0.size=4G )
-	qmachine+=( cxl-fmw.0.interleave-granularity=8k )
 }
 
 cxl_pmem() {
@@ -1223,10 +1227,6 @@ cxl_pmem_4way_switch() {
 	do
 		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=swport.${i} --lsa=cxl-lsa${i}
 	done
-
-	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
-	qmachine+=( cxl-fmw.0.size=4G )
-	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
 }
 
 __cxl_volatile_mem_lsa() {
@@ -1248,9 +1248,6 @@ __cxl_volatile_mem_lsa() {
 
 		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id} ${LSA}
 	done
-
-	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
-	qmachine+=( cxl-fmw.0.size=4G )
 }
 
 cxl_volatile_mem() {
@@ -1280,10 +1277,6 @@ cxl_volatile_mem_4way_switch() {
 	do
 		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=swport.${i}
 	done
-
-	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
-	qmachine+=( cxl-fmw.0.size=4G )
-	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
 }
 
 config_cxl() {
@@ -1371,7 +1364,15 @@ config_cxl() {
 	esac
 
 	# Config CFMW (CXL Fixed Memory Window)
-	# qmachine+=( cxl-fmw.0. ...)
+	for ((i = 0; i < ${#cxl_fmw0_pxbs[@]}; i++))
+	do
+		qmachine+=( cxl-fmw.0.targets.${i}=${cxl_fmw0_pxbs[i]} )
+	done
+
+	# align 256MiB
+	qmachine+=( cxl-fmw.0.size=4G )
+	# 256, 512, 1k, 2k, 4k, 8k, 16k, default 256
+	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
 }
 
 config_virtiofs() {

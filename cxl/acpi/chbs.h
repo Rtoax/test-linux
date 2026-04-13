@@ -5,6 +5,9 @@
  * CXL Host Bridge Structure (CHBS)
  * CXL 2.0 Specification, Section 9.14.1.2
  * CXL 3.0 Specification, Section 9.17.1.2
+ *
+ * see also:
+ * $ qemu -device pxb-cxl ...
  */
 struct chbs {
 	uint8_t type;
