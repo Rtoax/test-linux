@@ -1374,38 +1374,41 @@ cxl_volatile_mem_4way_switch() {
 	done
 }
 
-cxl_topolopy() {
-	local pxb rp swup swdown pvmem
-
+pcxltopo() {
 	if [[ -z ${cxl_show_topology} ]]; then
 		return
 	fi
+	printf "${@}"
+}
 
-	echo "cxl_pxb_ids: ${cxl_pxb_ids[@]}"
+cxl_topolopy() {
+	local pxb rp swup swdown pvmem
+
+	pcxltopo "cxl_pxb_ids: ${cxl_pxb_ids[@]}\n"
 	for pxb in ${cxl_pxb_ids[@]}
 	do
-		echo "cxl_pxb2rps[${pxb}]: ${cxl_pxb2rps[$pxb]}"
+		pcxltopo "cxl_pxb2rps[${pxb}]: ${cxl_pxb2rps[$pxb]}\n"
 		for rp in ${cxl_pxb2rps[$pxb]}
 		do
 			if [[ "${cxl_rp2switchup[$rp]}" ]]; then
-				echo "cxl_rp2switchup[$rp]: ${cxl_rp2switchup[$rp]}"
+				pcxltopo "cxl_rp2switchup[$rp]: ${cxl_rp2switchup[$rp]}\n"
 				for swup in ${cxl_rp2switchup[$rp]}
 				do
-					echo "cxl_switch_up2downs[$swup]: ${cxl_switch_up2downs[$swup]}"
+					pcxltopo "cxl_switch_up2downs[$swup]: ${cxl_switch_up2downs[$swup]}\n"
 					for swdown in ${cxl_switch_up2downs[$swup]}
 					do
-						echo "cxl_switch_down2pvmem[$swdown] = ${cxl_switch_down2pvmem[$swdown]}"
+						pcxltopo "cxl_switch_down2pvmem[$swdown] = ${cxl_switch_down2pvmem[$swdown]}\n"
 					done
 				done
 			elif [[ "${cxl_rp2pvmem[$rp]}" ]]; then
-				echo "cxl_rp2pvmem[$rp]: ${cxl_rp2pvmem[$rp]}"
+				pcxltopo "cxl_rp2pvmem[$rp]: ${cxl_rp2pvmem[$rp]}\n"
 			fi
 		done
 	done
 
 	for pvmem in ${cxl_pvmem_ids[@]}
 	do
-		printf "${pvmem}->"
+		pcxltopo "${pvmem}->"
 
 		local bus=${cxl_pvmem2bus[$pvmem]}
 		[[ -z ${bus} ]] && error "not found bus"
@@ -1414,19 +1417,19 @@ cxl_topolopy() {
 		swup=${cxl_switch_down2up[$swdown]}
 
 		if [[ ${swup} ]]; then
-			printf "${swdown}->${swup}->"
+			pcxltopo "${swdown}->${swup}->"
 			rp=${cxl_switch_up2rp[$swup]}
 		else
 			rp=${bus}
 		fi
 
 		[[ -z ${rp} ]] && error "not found rp"
-		printf "${rp}->"
+		pcxltopo "${rp}->"
 
 		pxb=${cxl_rp2pxb[$rp]}
 		[[ -z ${pxb} ]] && error "not found pxb"
 
-		printf "${pxb}->${bus_pcie0}\n"
+		pcxltopo "${pxb}->${bus_pcie0}\n"
 	done
 
 	exit 0
