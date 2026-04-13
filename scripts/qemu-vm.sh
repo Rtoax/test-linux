@@ -83,8 +83,11 @@ declare -A cxl_switch_rps # arr[switch-id]=rp-id
 # cxl switch downstream id to upstream id
 declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
 
+# cxl type3 devices
 declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas cxl_pmem_sizes
 declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas cxl_vmem_sizes
+# use to find root port id or switch downstream id of cxl-type3
+declare -A cxl_pvmem2bus # arr[name]=[rp-id|switch-downstream-id]
 
 declare cxl_device
 readonly CXL_DEFAULT_MSIZE=1024M
@@ -1157,7 +1160,6 @@ add_cxl_type3_dev() {
 	arg+=( cxl-type3 )
 	arg+=( bus=${bus} )
 
-
 	if [[ ${pmem} ]]; then
 		if [[ -z ${lsa} ]] || [[ ${lsa} == SKIP ]]; then
 			error "lsa property must be set for persistent devices"
@@ -1169,7 +1171,8 @@ add_cxl_type3_dev() {
 		_eval qemu-img create -f raw ${pmem_file} ${size}
 		cleanup_files+=( ${pmem_file} )
 
-		tmparg+=( memory-backend-file,id=${pmem} )
+		tmparg+=( memory-backend-file )
+		tmparg+=( id=${pmem} )
 		tmparg+=( share=on )
 		tmparg+=( mem-path=${pmem_file} )
 		tmparg+=( size=${size} )
@@ -1197,7 +1200,12 @@ add_cxl_type3_dev() {
 		unset tmparg
 	fi
 
-	arg+=( id=$(next_cxl_type3_id) )
+	local type3_id=$(next_cxl_type3_id)
+
+	# cxl type3 device belongs to a rootport or a switch
+	cxl_pvmem2bus[${type3_id}]="${bus}"
+
+	arg+=( id=${type3_id} )
 	# Hope it will not conflict
 	arg+=( sn=$RANDOM )
 
