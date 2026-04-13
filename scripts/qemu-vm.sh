@@ -45,60 +45,6 @@ dry_run=
 verbose=
 debug=
 
-# CXL
-# ===
-# - CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
-#   pxb: PCIe eXpander Bridge
-#   rp: Root Port
-# - CXL fmw: Fixed Memory Window
-# - Refs:
-#   https://www.qemu.org/docs/master/system/devices/cxl.html
-readonly CXL_DEV_VOLATILE_MEM=cxl-vmem
-readonly CXL_DEV_VOLATILE_MEM_LSA=cxl-vmem-lsa
-readonly CXL_DEV_VOLATILE_MEM_4WAY=cxl-vmem-4way
-readonly CXL_DEV_VOLATILE_MEM_4WAY_SWITCH=cxl-vmem-4way-switch
-readonly CXL_DEV_PMEM=cxl-pmem
-readonly CXL_DEV_PMEM_4WAY=cxl-pmem-4way
-readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
-readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
-			${CXL_DEV_VOLATILE_MEM_4WAY} ${CXL_DEV_VOLATILE_MEM_4WAY_SWITCH}
-			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
-
-# cxl-fmw.0.targets.M
-declare -a cxl_fmw0_pxbs
-
-# cxl-pxb specify id=, this is CHBS(CXL Host Bridge Structure)
-declare -a cxl_pxb_ids
-declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
-
-# cxl root port
-declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
-# use to find root port's pxb with rp-id
-declare -A cxl_rp2pxb # arr[rp-id1]=pxb-id1
-declare -A cxl_rp2switchup # arr[rp-id]=switch-upstream-id
-declare -A cxl_rp2pvmem # arr[rp-id]=pmem-id|vmem-id
-
-# cxl switch
-declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
-# cxl switch upstream id to root port id
-declare -A cxl_switch_up2rp # arr[switch-upstream-id]=rp-id
-declare -A cxl_switch_up2downs # arr[up-id]="down-id id2 id3 ..."
-# cxl switch downstream id to upstream id
-declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
-declare -A cxl_switch_down2pvmem # arr[downstream-id]=type3-id
-
-# cxl type3 devices
-declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas cxl_pmem_sizes
-declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas cxl_vmem_sizes
-# use to find root port id or switch downstream id of cxl-type3
-declare -A cxl_pvmem2bus # arr[name]=[rp-id|switch-downstream-id]
-declare -a cxl_pvmem_ids
-
-declare cxl_device
-readonly CXL_DEFAULT_MSIZE=1024M
-# display cxl device topology before vm startup
-declare cxl_show_topology
-
 # Disk configuratios
 readonly DISK_TYPE_VIRTIO=virtio
 readonly DISK_TYPE_SATA=sata
@@ -260,6 +206,60 @@ handle_rootfs_arg() {
 
 	f_rootfs=$(realpath ${f_rootfs})
 }
+
+# CXL
+# ===
+# - CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
+#   pxb: PCIe eXpander Bridge
+#   rp: Root Port
+# - CXL fmw: Fixed Memory Window
+# - Refs:
+#   https://www.qemu.org/docs/master/system/devices/cxl.html
+readonly CXL_DEV_VMEM=cxl-vmem
+readonly CXL_DEV_VMEM_LSA=cxl-vmem-lsa
+readonly CXL_DEV_VMEM_4WAY=cxl-vmem-4way
+readonly CXL_DEV_VMEM_4WAY_SWITCH=cxl-vmem-4way-switch
+readonly CXL_DEV_PMEM=cxl-pmem
+readonly CXL_DEV_PMEM_4WAY=cxl-pmem-4way
+readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
+readonly CXL_DEVICES=( ${CXL_DEV_VMEM} ${CXL_DEV_VMEM_LSA}
+			${CXL_DEV_VMEM_4WAY} ${CXL_DEV_VMEM_4WAY_SWITCH}
+			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
+
+# cxl-fmw.0.targets.M
+declare -a cxl_fmw0_pxbs
+
+# cxl-pxb specify id=, this is CHBS(CXL Host Bridge Structure)
+declare -a cxl_pxb_ids
+declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
+
+# cxl root port
+declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
+# use to find root port's pxb with rp-id
+declare -A cxl_rp2pxb # arr[rp-id1]=pxb-id1
+declare -A cxl_rp2switchup # arr[rp-id]=switch-upstream-id
+declare -A cxl_rp2pvmem # arr[rp-id]=pmem-id|vmem-id
+
+# cxl switch
+declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
+# cxl switch upstream id to root port id
+declare -A cxl_switch_up2rp # arr[switch-upstream-id]=rp-id
+declare -A cxl_switch_up2downs # arr[up-id]="down-id id2 id3 ..."
+# cxl switch downstream id to upstream id
+declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
+declare -A cxl_switch_down2pvmem # arr[downstream-id]=type3-id
+
+# cxl type3 devices
+declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas cxl_pmem_sizes
+declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas cxl_vmem_sizes
+# use to find root port id or switch downstream id of cxl-type3
+declare -A cxl_pvmem2bus # arr[name]=[rp-id|switch-downstream-id]
+declare -a cxl_pvmem_ids
+
+declare cxl_device
+readonly CXL_DEFAULT_MSIZE=1024M
+# display cxl device topology before vm startup
+declare cxl_show_topology
 
 cxl_arg_help() {
 	echo -e "
@@ -1497,16 +1497,16 @@ config_cxl() {
 	${CXL_DEV_PMEM_4WAY_SWITCH})
 		cxl_pmem_4way_switch
 		;;
-	${CXL_DEV_VOLATILE_MEM})
+	${CXL_DEV_VMEM})
 		cxl_volatile_mem
 		;;
-	${CXL_DEV_VOLATILE_MEM_LSA})
+	${CXL_DEV_VMEM_LSA})
 		cxl_volatile_mem_lsa
 		;;
-	${CXL_DEV_VOLATILE_MEM_4WAY})
+	${CXL_DEV_VMEM_4WAY})
 		cxl_volatile_mem_4way
 		;;
-	${CXL_DEV_VOLATILE_MEM_4WAY_SWITCH})
+	${CXL_DEV_VMEM_4WAY_SWITCH})
 		cxl_volatile_mem_4way_switch
 		;;
 	esac
