@@ -884,21 +884,14 @@ config_nvdimm() {
 	add_nvdimm_blk ${f_nvdimm}
 }
 
-__pxb_cxl_id_file=$(mktemp -u)
-cleanup_files+=( ${__pxb_cxl_id_file} )
 next_pxb_cxl_id() {
-	local num=1
-	if [[ -f ${__pxb_cxl_id_file} ]]; then
-		num=$(cat ${__pxb_cxl_id_file})
-	fi
-	echo "pxbcxl.${num}"
-	echo $((++num)) > ${__pxb_cxl_id_file}
+	echo $(mktemp -u cxl.pxb.XXXX)
 }
 
 # bus_nr=11,21,31,41,...
 __pxb_cxl_bus_nr_file=$(mktemp -u)
 cleanup_files+=( ${__pxb_cxl_bus_nr_file} )
-next_pxb_cxl_bus_nr() {
+next_cxl_pxb_bus_nr() {
 	local num=11
 	if [[ -f ${__pxb_cxl_bus_nr_file} ]]; then
 		num=$(cat ${__pxb_cxl_bus_nr_file})
@@ -907,15 +900,8 @@ next_pxb_cxl_bus_nr() {
 	echo $((num + 10)) > ${__pxb_cxl_bus_nr_file}
 }
 
-__cxl_rp_id_file=$(mktemp -u)
-cleanup_files+=( ${__cxl_rp_id_file} )
 next_cxl_rp_id() {
-	local num=1
-	if [[ -f ${__cxl_rp_id_file} ]]; then
-		num=$(cat ${__cxl_rp_id_file})
-	fi
-	echo "cxl.rp.${num}"
-	echo $((++num)) > ${__cxl_rp_id_file}
+	echo $(mktemp -u cxl.rp.XXXX)
 }
 
 __cxl_slot_file=$(mktemp -u)
@@ -952,7 +938,7 @@ add_cxl_pxb() {
 	local arg
 
 	arg+=( pxb-cxl )
-	arg+=( bus_nr=$(next_pxb_cxl_bus_nr) )
+	arg+=( bus_nr=$(next_cxl_pxb_bus_nr) )
 	arg+=( bus=${bus_pcie0} )
 	arg+=( id=${id} )
 
