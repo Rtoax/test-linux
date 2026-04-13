@@ -53,7 +53,8 @@ if [[ ${GITFS} ]]; then
 	qargs+=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
 fi
 
-qargs+=( --name vm-test-cxl --memory 8GiB )
+qargs+=( --name vm-test-cxl )
+qargs+=( --memory 8192MiB )
 qargs+=( --kernel ${vmlinuz} )
 qargs+=( --initrd ${initramfs} )
 [[ ${QEMU} ]] && qargs+=( --qemu ${QEMU} )

@@ -467,6 +467,9 @@ while true; do
 		if [[ -z ${q_memory} ]]; then
 			error "Bad memory size parameter $1(${q_memory})"
 		fi
+		if [[ $(sizechkalign ${q_memory} 256MiB) != y ]]; then
+			error "Memory size must align 256MiB"
+		fi
 		shift
 		;;
 	-k | --kernel)
@@ -1216,14 +1219,14 @@ cxl_pmem_4way_switch() {
 
 	add_cxl_switch --bus=${rp_id1} --nport=4 --port-prefix=swport
 
-	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
-	qmachine+=( cxl-fmw.0.size=4G )
-	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
-
 	for i in $(seq 1 1 4)
 	do
 		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=swport.${i} --lsa=cxl-lsa${i}
 	done
+
+	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
+	qmachine+=( cxl-fmw.0.size=4G )
+	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
 }
 
 __cxl_volatile_mem_lsa() {
@@ -1273,14 +1276,14 @@ cxl_volatile_mem_4way_switch() {
 
 	add_cxl_switch --bus=${rp_id1} --nport=4 --port-prefix swport
 
-	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
-	qmachine+=( cxl-fmw.0.size=4G )
-	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
-
 	for i in $(seq 1 1 4)
 	do
 		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=swport.${i}
 	done
+
+	qmachine+=( cxl-fmw.0.targets.0=cxl.1 )
+	qmachine+=( cxl-fmw.0.size=4G )
+	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
 }
 
 config_cxl() {
@@ -1366,6 +1369,9 @@ config_cxl() {
 		cxl_volatile_mem_4way_switch
 		;;
 	esac
+
+	# Config CFMW (CXL Fixed Memory Window)
+	# qmachine+=( cxl-fmw.0. ...)
 }
 
 config_virtiofs() {

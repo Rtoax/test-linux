@@ -1,10 +1,11 @@
 #!/bin/bash
 set -e
 
+. liblog.sh
 . libstring.sh
 
 # Test size2bytes()
-if [[ $(size2bytes 8GiB) -ne $((8 * 1024 * 1024 * 1024)) ]] || \
+if [[ $(size2bytes 8GiB) -ne $((8 * ${GiB})) ]] || \
    [[ $(size2bytes 1GB) -ne $((1 * 1024 * 1024 * 1024)) ]] || \
    [[ $(size2bytes 8G) -ne $((8 * 1024 * 1024 * 1024)) ]] || \
    [[ $(size2bytes 9MiB) -ne $((9 * 1024 * 1024)) ]] || \
@@ -15,8 +16,20 @@ if [[ $(size2bytes 8GiB) -ne $((8 * 1024 * 1024 * 1024)) ]] || \
    [[ $(size2bytes 0) -ne 0 ]] || \
    [[ $(size2bytes 123) -ne 123 ]] || \
    [[ $(size2bytes 12300111) -ne 12300111 ]]; then
-	echo >&2 "ERROR: test size2bytes() failed"
-	exit 1
+	error "test size2bytes() failed"
+fi
+
+if [[ $(sizechkalign 1 0) != "" ]] ||
+   [[ $(sizechkalign 1 1) != y ]] ||
+   [[ $(sizechkalign 1024 1024) != y ]] ||
+   [[ $(sizechkalign 1024 1021) != n ]] ||
+   [[ $(sizechkalign 1K 1024) != y ]] ||
+   [[ $(sizechkalign 1K 1) != y ]] ||
+   [[ $(sizechkalign 1MiB 1KiB) != y ]] ||
+   [[ $(sizechkalign 6MiB 3M) != y ]] ||
+   [[ $(sizechkalign 6MiB 3) != y ]] ||
+   [[ $(sizechkalign 1GiB 1K) != y ]]; then
+	error "test sizechkalign() failed"
 fi
 
 # Test sizeceilfmt()
@@ -50,13 +63,11 @@ if [[ $(sizeceilfmt 0) != 0B ]] || \
    [[ $(sizeceilfmt 1GiB) != 1G ]] || \
    [[ $(sizeceilfmt 1023GiB) != 1023G ]] || \
    [[ $(sizeceilfmt 1025GiB) != 1025G ]]; then
-	echo >&2 "ERROR: test sizeceilfmt() failed"
-	exit 1
+	error "test sizeceilfmt() failed"
 fi
 
 if [[ $(sizesum 0 1 2 3) != 6B ]] ||
    [[ $(sizesum 1K 2B) != 1026B ]] ||
    [[ $(sizesum 1GiB 2MB 3K 4B) != $((${GiB} + 2 * MiB + 3 * KiB + 4))B ]]; then
-	echo >&2 "ERROR: test sizesum() failed"
-	exit 1
+	error "test sizesum() failed"
 fi

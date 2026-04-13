@@ -1,15 +1,19 @@
 #!/bin/bash
-readonly KiB=1024
-readonly MiB=$((KiB * 1024))
-readonly GiB=$((MiB * 1024))
+if [[ -z ${KiB} ]]; then
+	readonly KiB=1024
+	readonly MiB=$((KiB * 1024))
+	readonly GiB=$((MiB * 1024))
+fi
 
-readonly LIBSTRING_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
+if [[ -z ${LIBSTRING_ROOT} ]]; then
+	readonly LIBSTRING_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
+fi
 
 . ${LIBSTRING_ROOT}/liblog.sh
 
 # size2bytes - swap size to bytes
 # $1: size string, format: 123KiB, 123MB, 123B, 124KB, 123
-# return: echo Bytes size, empty if failed
+# return: echo Bytes size without 'B' suffix, empty if failed
 size2bytes() {
 	local size=$1
 
@@ -47,7 +51,35 @@ size2bytes() {
 	esac
 }
 
-# sizealignfmt - swap size to aligned size with size KiB
+# sizechkalign - check size alignement
+# $1: input size
+# $2: align size
+# return: echo 'y' if align, 'n' if not align, empty if failed
+sizechkalign() {
+	local input=$1
+	local align=$2
+
+	[[ -z ${input} ]] && error "sizechkalign(): need input on 1st arg"
+	[[ -z ${align} ]] && error "sizechkalign(): need align on 2nd arg"
+
+	local s_input=$(size2bytes ${input})
+	local s_align=$(size2bytes ${align})
+
+	if [[ ${s_align} -eq 0 ]]; then
+		error "sizechkalign(): division by 0 in ${align}"
+	fi
+
+	local mod_remainder=$((s_input % s_align))
+	if [[ ${mod_remainder} -eq 0 ]]; then
+		echo 'y'
+		return
+	else
+		echo 'n'
+		return
+	fi
+}
+
+# sizeceilfmt - swap size to aligned size with size KiB
 # $1: size string, support format: 1KiB, 1KB, 2K, so does MB,GB
 # return: echo format size, empty if failed
 sizeceilfmt() {
