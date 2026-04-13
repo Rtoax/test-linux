@@ -92,6 +92,7 @@ declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas cxl_pmem_sizes
 declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas cxl_vmem_sizes
 # use to find root port id or switch downstream id of cxl-type3
 declare -A cxl_pvmem2bus # arr[name]=[rp-id|switch-downstream-id]
+declare -a cxl_pvmem_ids
 
 declare cxl_device
 readonly CXL_DEFAULT_MSIZE=1024M
@@ -1236,6 +1237,7 @@ add_cxl_type3_dev() {
 
 	# cxl type3 device belongs to a rootport or a switch
 	cxl_pvmem2bus[${type3_id}]="${bus}"
+	cxl_pvmem_ids+=( ${type3_id} )
 
 	# This cxl type2 device bus is root port
 	if [[ " ${cxl_rp_ids[@]} " =~ " ${bus} " ]]; then
@@ -1368,7 +1370,7 @@ cxl_volatile_mem_4way_switch() {
 }
 
 cxl_topolopy() {
-	local pxb rp swup swdown
+	local pxb rp swup swdown pvmem
 
 	if [[ -z ${cxl_show_topology} ]]; then
 		return
@@ -1394,6 +1396,32 @@ cxl_topolopy() {
 				echo "cxl_rp2pvmem[$rp]: ${cxl_rp2pvmem[$rp]}"
 			fi
 		done
+	done
+
+	for pvmem in ${cxl_pvmem_ids[@]}
+	do
+		printf "${pvmem}->"
+
+		local bus=${cxl_pvmem2bus[$pvmem]}
+		[[ -z ${bus} ]] && error "not found bus"
+
+		swdown=${bus}
+		swup=${cxl_switch_down2up[$swdown]}
+
+		if [[ ${swup} ]]; then
+			printf "${swdown}->${swup}->"
+			rp=${cxl_switch2rp[$swup]}
+		else
+			rp=${bus}
+		fi
+
+		[[ -z ${rp} ]] && error "not found rp"
+		printf "${rp}->"
+
+		pxb=${cxl_rp2pxb[$rp]}
+		[[ -z ${pxb} ]] && error "not found pxb"
+
+		printf "${pxb}->${bus_pcie0}\n"
 	done
 
 	exit 0
