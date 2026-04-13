@@ -241,7 +241,12 @@ declare -A cxl_rp2switchup # arr[rp-id]=switch-upstream-id
 declare -A cxl_rp2pvmem # arr[rp-id]=pmem-id|vmem-id
 
 # cxl switch
-declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
+# cxl switch bus (rootport)
+declare -a cxl_switches_bus # =( rp-id1 rp-id2 ... )
+# cxl switch downstream port number
+declare -a cxl_switches_ndport # =( 2 3 ... )
+# cxl switch downstream port id prefix
+declare -a cxl_switches_dportpfx # =( name1 name2 ... )
 # cxl switch upstream id to root port id
 declare -A cxl_switch_up2rp # arr[switch-upstream-id]=rp-id
 declare -A cxl_switch_up2downs # arr[up-id]="down-id id2 id3 ..."
@@ -439,9 +444,9 @@ handle_cxl_arg() {
 	fi
 
 	if [[ ${switch} ]]; then
-		cxl_switches_buss+=( ${bus} )
-		cxl_switches_nports+=( ${nport} )
-		cxl_switches_portpfxs+=( ${portprefix} )
+		cxl_switches_bus+=( ${bus} )
+		cxl_switches_ndport+=( ${nport} )
+		cxl_switches_dportpfx+=( ${portprefix} )
 	fi
 
 	if [[ ${pmem} ]]; then
@@ -1464,11 +1469,11 @@ config_cxl() {
 			   ${cxl_rp_ports[i]}
 	done
 
-	for ((i = 0; i < ${#cxl_switches_nports[@]}; i++))
+	for ((i = 0; i < ${#cxl_switches_ndport[@]}; i++))
 	do
-		add_cxl_switch --bus=${cxl_switches_buss[i]} \
-			--nport=${cxl_switches_nports[i]} \
-			--port-prefix=${cxl_switches_portpfxs[i]}
+		add_cxl_switch --bus=${cxl_switches_bus[i]} \
+			--nport=${cxl_switches_ndport[i]} \
+			--port-prefix=${cxl_switches_dportpfx[i]}
 	done
 
 	for ((i = 0; i < ${#cxl_pmem_names[@]}; i++))
