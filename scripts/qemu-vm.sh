@@ -67,11 +67,11 @@ readonly CXL_DEVICES=( ${CXL_DEV_VOLATILE_MEM} ${CXL_DEV_VOLATILE_MEM_LSA}
 declare -a cxl_pxb_ids
 declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
 declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
-declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas
-declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas
+declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas cxl_pmem_sizes
+declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas cxl_vmem_sizes
 
 declare cxl_device
-declare cxl_size=1024M
+declare cxl_default_memsize=1024M
 
 readonly DISK_TYPE_VIRTIO=virtio
 readonly DISK_TYPE_SATA=sata
@@ -83,6 +83,8 @@ readonly DISK_TYPES=( ${DISK_TYPE_VIRTIO} ${DISK_TYPE_SATA} ${DISK_TYPE_NVME}
 
 declare -a qargs qmachine kcmds
 declare -a cleanup_files
+
+readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 
 __usage__() {
 	echo -e "
@@ -155,7 +157,7 @@ ${BOLD}EXAMPLES${RST}
 
 ${BOLD}FORMAT${RST}
 
-  ${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB
+  ${FORMAT_SIZE}
 
 ${BOLD}SEE ALSO${RST}
     qemu(1), qemu-kvm(1), etc.
@@ -242,11 +244,15 @@ ${BOLD}--cxl device=[DEV]${RST}
 ${BOLD}--cxl pxb=<name>${RST}: create CXL PXB
 ${BOLD}--cxl rp=<name>,bus=<name>,port=<n>${RST}: create CXL RootPort
 ${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Switch
-${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>${RST}: create CXL Persistent Memory device
-${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>]${RST}: create CXL Volatile Memory device
+${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
+${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>][size=<SIZE>]${RST}: create CXL Volatile Memory device
 
 ${BOLD}[DEV]${RST}
 ${GRAY}${CXL_DEVICES[@]}${RST}
+
+${BOLD}FORMAT${RST}
+
+  ${FORMAT_SIZE}
 "
 	exit 0
 }
@@ -259,7 +265,7 @@ handle_cxl_arg() {
 	local bus port
 	local rp_id
 	local switch nport portprefix
-	local pmem vmem lsa
+	local pmem vmem lsa size
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -320,6 +326,11 @@ handle_cxl_arg() {
 				lsa=${arg:4}
 				[[ -z ${lsa} ]] && \
 					error "cxl lsa= syntax error"
+				;;
+			size)
+				size=${arg:5}
+				[[ -z ${size} ]] && \
+					error "cxl size= syntax error"
 				;;
 			*)
 				error "cxl unknown arg ${arg}"
@@ -396,6 +407,8 @@ handle_cxl_arg() {
 		cxl_pmem_buss+=( ${bus} )
 		[[ -z ${lsa} ]] && lsa=SKIP
 		cxl_pmem_lsas+=( ${lsa} )
+		[[ -z ${size} ]] && size=${cxl_default_memsize}
+		cxl_pmem_sizes+=( ${size} )
 	fi
 
 	if [[ ${vmem} ]]; then
@@ -403,6 +416,8 @@ handle_cxl_arg() {
 		cxl_vmem_buss+=( ${bus} )
 		[[ -z ${lsa} ]] && lsa=SKIP
 		cxl_vmem_lsas+=( ${lsa} )
+		[[ -z ${size} ]] && size=${cxl_default_memsize}
+		cxl_vmem_sizes+=( ${size} )
 	fi
 
 	# 2 spaces for empty cxl_device.
@@ -449,7 +464,7 @@ while true; do
 		shift
 		q_memory=$(sizeceilfmt $1)
 		if [[ -z ${q_memory} ]]; then
-			error "Bad memory parameter $1(${q_memory})"
+			error "Bad memory size parameter $1(${q_memory})"
 		fi
 		shift
 		;;
@@ -1019,6 +1034,7 @@ add_cxl_type3_dev() {
 	local arg tmparg
 	local pmem vmem
 	local bus lsa
+	local size
 
 	local TEMP=$(getopt \
 		--options t: \
@@ -1026,6 +1042,7 @@ add_cxl_type3_dev() {
 		--long vmem: \
 		--long bus: \
 		--long lsa: \
+		--long size: \
 		-n $0 -- "$@")
 
 	test $? != 0 && error "$0 parse arguments failed, ${@}"
@@ -1054,12 +1071,25 @@ add_cxl_type3_dev() {
 			lsa=$1
 			shift
 			;;
+		--size)
+			shift
+			size=$1
+			size=$(sizeceilfmt ${size})
+			if [[ -z ${size} ]]; then
+				error "Bad cxl type3 memory size parameter: ${1}"
+			fi
+			shift
+			;;
 		--)
 			shift
 			break
 			;;
 		esac
 	done
+
+	if [[ -z ${size} ]]; then
+		size=${cxl_default_memsize}
+	fi
 
 	if [[ ${pmem} ]] && [[ ${vmem} ]]; then
 		error "cxl-type3 not allow pmem and vmem at the same time"
@@ -1083,19 +1113,19 @@ add_cxl_type3_dev() {
 		arg+=( persistent-memdev=${pmem} )
 
 		local pmem_file=${PWD}/${pmem}.raw
-		_eval qemu-img create -f raw ${pmem_file} ${cxl_size}
+		_eval qemu-img create -f raw ${pmem_file} ${size}
 		cleanup_files+=( ${pmem_file} )
 
 		tmparg+=( memory-backend-file,id=${pmem} )
 		tmparg+=( share=on )
 		tmparg+=( mem-path=${pmem_file} )
-		tmparg+=( size=${cxl_size} )
+		tmparg+=( size=${size} )
 		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
 	fi
 
 	if [[ ${vmem} ]]; then
-		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${cxl_size} )
+		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${size} )
 		arg+=( volatile-memdev=${vmem} )
 	fi
 
@@ -1103,13 +1133,13 @@ add_cxl_type3_dev() {
 		arg+=( lsa=${lsa} )
 
 		local lsa_file=${PWD}/${lsa}.raw
-		_eval qemu-img create -f raw ${lsa_file} ${cxl_size}
+		_eval qemu-img create -f raw ${lsa_file} ${size}
 		cleanup_files+=( ${lsa_file} )
 
 		tmparg+=( memory-backend-file,id=${lsa} )
 		tmparg+=( share=on )
 		tmparg+=( mem-path=${lsa_file} )
-		tmparg+=( size=${cxl_size} )
+		tmparg+=( size=${size} )
 		qargs+=( -object $(IFS=,; echo "${tmparg[*]}") )
 		unset tmparg
 	fi
@@ -1292,14 +1322,16 @@ config_cxl() {
 	do
 		add_cxl_type3_dev --pmem=${cxl_pmem_names[i]} \
 			--bus=${cxl_pmem_buss[i]} \
-			--lsa=${cxl_pmem_lsas[i]}
+			--lsa=${cxl_pmem_lsas[i]} \
+			--size=${cxl_pmem_sizes[i]}
 	done
 
 	for ((i = 0; i < ${#cxl_vmem_names[@]}; i++))
 	do
 		add_cxl_type3_dev --vmem=${cxl_vmem_names[i]} \
 			--bus=${cxl_vmem_buss[i]} \
-			--lsa=${cxl_vmem_lsas[i]}
+			--lsa=${cxl_vmem_lsas[i]} \
+			--size=${cxl_vmem_sizes[i]}
 	done
 
 	case ${cxl_device} in
