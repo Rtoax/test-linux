@@ -76,7 +76,13 @@ declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
 # use to find root port's pxb with rp-id
 declare -A cxl_rp_pxbs # arr[rp-id1]=pxb-id1
 
+# cxl switch
 declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
+# cxl switch upstream id to root port id
+declare -A cxl_switch_rps # arr[switch-id]=rp-id
+# cxl switch downstream id to upstream id
+declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
+
 declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas cxl_pmem_sizes
 declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas cxl_vmem_sizes
 
@@ -992,6 +998,16 @@ add_cxl_rp() {
 }
 
 # cxl switch
+#
+#              UP             upsteam
+# ┌───────────┬─┬───────────┐
+# │CXL Switch │ │           │
+# │           └─┘           │
+# │ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ │
+# │ │ │ │ │ │ │ │ │ │ │ │ │ │
+# └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
+#    D1  D2  D3  D4  D5  D6   downstream
+#
 # --bus=<name>: set bus
 # --nport=<num>: set number of downstream ports
 # --port-prefix=<prefix>: prefix name of port id, the <nport> will append to it.
@@ -1036,18 +1052,26 @@ add_cxl_switch() {
 		esac
 	done
 
-	local sw_id=$(next_cxl_switch_upstream_id)
+	local up_id=$(next_cxl_switch_upstream_id)
 
-	qargs+=( -device cxl-upstream,bus=${bus},id=${sw_id} )
+	qargs+=( -device cxl-upstream,bus=${bus},id=${up_id} )
+
+	# switch upstream has a root port
+	cxl_switch_rps[${up_id}]="${bus}"
 
 	for i in $(seq 1 1 ${nport})
 	do
+		local down_id="${portprefix}.${i}"
+
 		dsarg+=( cxl-downstream )
 		dsarg+=( port=${i} )
-		dsarg+=( bus=${sw_id} )
-		dsarg+=( id=${portprefix}.${i} )
+		dsarg+=( bus=${up_id} )
+		dsarg+=( id=${down_id} )
 		dsarg+=( chassis=0 )
 		dsarg+=( slot=$(next_cxl_slot) )
+
+		# Each cxl switch downstream has a upstream.
+		cxl_switch_down2up[${down_id}]="${up_id}"
 
 		qargs+=( -device $(IFS=,; echo "${dsarg[*]}") )
 		unset dsarg
