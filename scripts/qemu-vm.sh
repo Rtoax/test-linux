@@ -945,6 +945,8 @@ next_cxl_switch_upstream_id() {
 	echo $(mktemp -u cxl.switch.upstream.XXXX)
 }
 
+# cxl pcie eXpander bridge
+# $1: specify pxb id, could use next_pxb_cxl_id() get a random id
 add_cxl_pxb() {
 	local id=$1
 	local arg
@@ -1213,13 +1215,14 @@ cxl_pmem_4way() {
 
 # An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave:
 cxl_pmem_4way_switch() {
+	local pxb_id=$(next_pxb_cxl_id)
 	local rp_id1=$(next_cxl_rp_id)
 	local rp_id2=$(next_cxl_rp_id)
 
-	add_cxl_pxb cxl.1
+	add_cxl_pxb ${pxb_id}
 
-	add_cxl_rp cxl.1 ${rp_id1} 0
-	add_cxl_rp cxl.1 ${rp_id2} 1
+	add_cxl_rp ${pxb_id} ${rp_id1} 0
+	add_cxl_rp ${pxb_id} ${rp_id2} 1
 
 	add_cxl_switch --bus=${rp_id1} --nport=4 --port-prefix=swport
 
@@ -1238,13 +1241,15 @@ __cxl_volatile_mem_lsa() {
 		LSA="--lsa=cxl-lsa0"
 	fi
 
-	add_cxl_pxb cxl.1
+	local pxb_id=$(next_pxb_cxl_id)
+
+	add_cxl_pxb ${pxb_id}
 
 	for i in $(seq 1 1 ${ways})
 	do
 		local rp_id=$(next_cxl_rp_id)
 
-		add_cxl_rp cxl.1 ${rp_id} ${i}
+		add_cxl_rp ${pxb_id} ${rp_id} ${i}
 
 		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id} ${LSA}
 	done
@@ -1263,13 +1268,14 @@ cxl_volatile_mem_4way() {
 }
 
 cxl_volatile_mem_4way_switch() {
+	local pxb_id=$(next_pxb_cxl_id)
 	local rp_id1=$(next_cxl_rp_id)
 	local rp_id2=$(next_cxl_rp_id)
 
-	add_cxl_pxb cxl.1
+	add_cxl_pxb ${pxb_id}
 
-	add_cxl_rp cxl.1 ${rp_id1} 0
-	add_cxl_rp cxl.1 ${rp_id2} 1
+	add_cxl_rp ${pxb_id} ${rp_id1} 0
+	add_cxl_rp ${pxb_id} ${rp_id2} 1
 
 	add_cxl_switch --bus=${rp_id1} --nport=4 --port-prefix swport
 
