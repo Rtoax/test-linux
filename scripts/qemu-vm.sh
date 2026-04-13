@@ -226,10 +226,8 @@ readonly CXL_DEVICES=( ${CXL_DEV_VMEM} ${CXL_DEV_VMEM_LSA}
 			${CXL_DEV_VMEM_4WAY} ${CXL_DEV_VMEM_4WAY_SWITCH}
 			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
 
-# cxl-fmw.0.targets.M
-declare -a cxl_fmw0_pxbs
-
 # cxl-pxb specify id=, this is CHBS(CXL Host Bridge Structure)
+# and use to -machine cxl-fmw.0.targets.M
 declare -a cxl_pxb_ids
 declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
 
@@ -990,11 +988,6 @@ add_cxl_pxb() {
 	if ! [[ " ${cxl_pxb_ids[@]} " =~ " ${id} " ]]; then
 		cxl_pxb_ids+=( ${id} )
 	fi
-
-	# add to fmw0 list for -machine
-	if ! [[ " ${cxl_fmw0_pxbs[@]} " =~ " ${id} " ]]; then
-		cxl_fmw0_pxbs+=( ${id} )
-	fi
 }
 
 # root port
@@ -1431,8 +1424,6 @@ cxl_topolopy() {
 
 		pcxltopo "${pxb}->${bus_pcie0}\n"
 	done
-
-	exit 0
 }
 
 config_cxl() {
@@ -1519,18 +1510,18 @@ config_cxl() {
 		;;
 	esac
 
+	cxl_topolopy
+
 	# Config CFMW (CXL Fixed Memory Window)
-	for ((i = 0; i < ${#cxl_fmw0_pxbs[@]}; i++))
+	for ((i = 0; i < ${#cxl_pxb_ids[@]}; i++))
 	do
-		qmachine+=( cxl-fmw.0.targets.${i}=${cxl_fmw0_pxbs[i]} )
+		qmachine+=( cxl-fmw.0.targets.${i}=${cxl_pxb_ids[i]} )
 	done
 
 	# align 256MiB
 	qmachine+=( cxl-fmw.0.size=4G )
 	# 256, 512, 1k, 2k, 4k, 8k, 16k, default 256
 	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
-
-	cxl_topolopy
 }
 
 config_virtiofs() {
