@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 pairs=(
 util-linux	https://github.com/util-linux/util-linux.git
