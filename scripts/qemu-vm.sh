@@ -75,11 +75,13 @@ declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
 declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
 # use to find root port's pxb with rp-id
 declare -A cxl_rp2pxb # arr[rp-id1]=pxb-id1
+declare -A cxl_rp2switchup # arr[rp-id]=" switch-upstream-id1, id2, id3, ..."
+declare -A cxl_rp2pvmem # arr[rp-id]="pmem-id|vmem-id, id2, id3, ..."
 
 # cxl switch
 declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
 # cxl switch upstream id to root port id
-declare -A cxl_switch2rp # arr[switch-id]=rp-id
+declare -A cxl_switch2rp # arr[switch-upstream-id]=rp-id
 # cxl switch downstream id to upstream id
 declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
 
@@ -1008,6 +1010,10 @@ add_cxl_rp() {
 		error "cxl root port can't use a non-exist bus pxb"
 	fi
 
+	if ! [[ " ${cxl_rp_ids[@]} " =~ " ${id} " ]]; then
+		cxl_rp_ids+=( ${id} )
+	fi
+
 	# Each root port belongs to one single pxb, and pxb has many root port.
 	cxl_pxb2rps[${bus}]+=" ${id}"
 	[[ ${cxl_rp2pxb[${id}]} ]] && \
@@ -1078,6 +1084,11 @@ add_cxl_switch() {
 
 	# switch upstream has a root port
 	cxl_switch2rp[${up_id}]="${bus}"
+
+	if [[ " ${cxl_rp2switchup[${bus}]} " =~ " ${up_id} " ]]; then
+		error "rootport ${bus} already has switch upstream ${up_ud}"
+	fi
+	cxl_rp2switchup[${bus}]+=" ${up_id}"
 
 	for i in $(seq 1 1 ${nport})
 	do
@@ -1221,6 +1232,16 @@ add_cxl_type3_dev() {
 
 	# cxl type3 device belongs to a rootport or a switch
 	cxl_pvmem2bus[${type3_id}]="${bus}"
+
+	# This cxl type2 device bus is root port
+	if [[ " ${cxl_rp_ids[@]} " =~ " ${bus} " ]]; then
+		cxl_rp2pvmem[${bus}]+=" ${type3_id}"
+	# This cxl type2 device bus is cxl switch downstream
+	elif [[ ${cxl_switch_down2up[$bus]} ]]; then
+		cxl_rp2switchup[${bus}]+=" ${type3_id}"
+	else
+		error "add cxl type3 device to non exist rootport or switch"
+	fi
 
 	arg+=( id=${type3_id} )
 	# Hope it will not conflict
