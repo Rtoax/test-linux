@@ -75,15 +75,17 @@ declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
 declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
 # use to find root port's pxb with rp-id
 declare -A cxl_rp2pxb # arr[rp-id1]=pxb-id1
-declare -A cxl_rp2switchup # arr[rp-id]=" switch-upstream-id1, id2, id3, ..."
-declare -A cxl_rp2pvmem # arr[rp-id]="pmem-id|vmem-id, id2, id3, ..."
+declare -A cxl_rp2switchup # arr[rp-id]=switch-upstream-id
+declare -A cxl_rp2pvmem # arr[rp-id]=pmem-id|vmem-id
 
 # cxl switch
 declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
 # cxl switch upstream id to root port id
 declare -A cxl_switch2rp # arr[switch-upstream-id]=rp-id
+declare -A cxl_switch_up2downs # arr[up-id]="down-id id2 id3 ..."
 # cxl switch downstream id to upstream id
 declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
+declare -A cxl_switch_down2pvmem # arr[downstream-id]=type3-id
 
 # cxl type3 devices
 declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas cxl_pmem_sizes
@@ -1085,10 +1087,10 @@ add_cxl_switch() {
 	# switch upstream has a root port
 	cxl_switch2rp[${up_id}]="${bus}"
 
-	if [[ " ${cxl_rp2switchup[${bus}]} " =~ " ${up_id} " ]]; then
-		error "rootport ${bus} already has switch upstream ${up_ud}"
+	if [[ "${cxl_rp2switchup[${bus}]}" ]]; then
+		error "cxl rootport ${bus} already has switch upstream ${cxl_rp2switchup[${bus}]}"
 	fi
-	cxl_rp2switchup[${bus}]+=" ${up_id}"
+	cxl_rp2switchup[${bus}]="${up_id}"
 
 	for i in $(seq 1 1 ${nport})
 	do
@@ -1101,8 +1103,10 @@ add_cxl_switch() {
 		dsarg+=( chassis=0 )
 		dsarg+=( slot=$(next_cxl_slot) )
 
-		# Each cxl switch downstream has a upstream.
+		# Each cxl switch downstream has a upstream, on upstream has
+		# not only one downstream.
 		cxl_switch_down2up[${down_id}]="${up_id}"
+		cxl_switch_up2downs[${up_id}]+=" ${down_id}"
 
 		qargs+=( -device $(IFS=,; echo "${dsarg[*]}") )
 		unset dsarg
@@ -1235,10 +1239,16 @@ add_cxl_type3_dev() {
 
 	# This cxl type2 device bus is root port
 	if [[ " ${cxl_rp_ids[@]} " =~ " ${bus} " ]]; then
-		cxl_rp2pvmem[${bus}]+=" ${type3_id}"
+		if [[ "${cxl_rp2pvmem[$bus]}" ]]; then
+			error "cxl rootport ${bus} already have device ${cxl_rp2pvmem[$bus]}"
+		fi
+		cxl_rp2pvmem[${bus}]=${type3_id}
 	# This cxl type2 device bus is cxl switch downstream
 	elif [[ ${cxl_switch_down2up[$bus]} ]]; then
-		cxl_rp2switchup[${bus}]+=" ${type3_id}"
+		if [[ "${cxl_switch_down2pvmem[$bus]}" ]]; then
+			error "cxl switch downstream already have device ${cxl_switch_down2pvmem[$bus]}"
+		fi
+		cxl_switch_down2pvmem[${bus}]+=" ${type3_id}"
 	else
 		error "add cxl type3 device to non exist rootport or switch"
 	fi
