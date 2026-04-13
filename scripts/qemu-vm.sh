@@ -81,7 +81,7 @@ declare -A cxl_rp2pvmem # arr[rp-id]=pmem-id|vmem-id
 # cxl switch
 declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
 # cxl switch upstream id to root port id
-declare -A cxl_switch2rp # arr[switch-upstream-id]=rp-id
+declare -A cxl_switch_up2rp # arr[switch-upstream-id]=rp-id
 declare -A cxl_switch_up2downs # arr[up-id]="down-id id2 id3 ..."
 # cxl switch downstream id to upstream id
 declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
@@ -1086,7 +1086,7 @@ add_cxl_switch() {
 	qargs+=( -device cxl-upstream,bus=${bus},id=${up_id} )
 
 	# switch upstream has a root port
-	cxl_switch2rp[${up_id}]="${bus}"
+	cxl_switch_up2rp[${up_id}]="${bus}"
 
 	if [[ "${cxl_rp2switchup[${bus}]}" ]]; then
 		error "cxl rootport ${bus} already has switch upstream ${cxl_rp2switchup[${bus}]}"
@@ -1410,7 +1410,7 @@ cxl_topolopy() {
 
 		if [[ ${swup} ]]; then
 			printf "${swdown}->${swup}->"
-			rp=${cxl_switch2rp[$swup]}
+			rp=${cxl_switch_up2rp[$swup]}
 		else
 			rp=${bus}
 		fi
