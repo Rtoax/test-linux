@@ -275,7 +275,7 @@ ${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Swi
 ${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
 ${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>][size=<SIZE>]${RST}: create CXL Volatile Memory device
 
-${BOLD}--cxl show=[topo]${RST}: display CXL information before vm startup
+${BOLD}--cxl show=[topo]${RST}: display CXL information before vm startup, will not startup vm
 
 ${BOLD}[DEV]${RST}
 ${GRAY}${CXL_DEVICES[@]}${RST}
@@ -1368,7 +1368,35 @@ cxl_volatile_mem_4way_switch() {
 }
 
 cxl_topolopy() {
-	warning "TODO: display CXL device topology"
+	local pxb rp swup swdown
+
+	if [[ -z ${cxl_show_topology} ]]; then
+		return
+	fi
+
+	echo "cxl_pxb_ids: ${cxl_pxb_ids[@]}"
+	for pxb in ${cxl_pxb_ids[@]}
+	do
+		echo "cxl_pxb2rps[${pxb}]: ${cxl_pxb2rps[$pxb]}"
+		for rp in ${cxl_pxb2rps[$pxb]}
+		do
+			if [[ "${cxl_rp2switchup[$rp]}" ]]; then
+				echo "cxl_rp2switchup[$rp]: ${cxl_rp2switchup[$rp]}"
+				for swup in ${cxl_rp2switchup[$rp]}
+				do
+					echo "cxl_switch_up2downs[$swup]: ${cxl_switch_up2downs[$swup]}"
+					for swdown in ${cxl_switch_up2downs[$swup]}
+					do
+						echo "cxl_switch_down2pvmem[$swdown] = ${cxl_switch_down2pvmem[$swdown]}"
+					done
+				done
+			elif [[ "${cxl_rp2pvmem[$rp]}" ]]; then
+				echo "cxl_rp2pvmem[$rp]: ${cxl_rp2pvmem[$rp]}"
+			fi
+		done
+	done
+
+	exit 0
 }
 
 config_cxl() {
