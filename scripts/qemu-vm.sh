@@ -69,17 +69,17 @@ declare -a cxl_fmw0_pxbs
 
 # cxl-pxb specify id=, this is CHBS(CXL Host Bridge Structure)
 declare -a cxl_pxb_ids
-declare -A cxl_pxb_rps # arr[pxb-id]="rp-id1 rp-id2 ..."
+declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
 
 # cxl root port
 declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
 # use to find root port's pxb with rp-id
-declare -A cxl_rp_pxbs # arr[rp-id1]=pxb-id1
+declare -A cxl_rp2pxb # arr[rp-id1]=pxb-id1
 
 # cxl switch
 declare -a cxl_switches_buss cxl_switches_nports cxl_switches_portpfxs
 # cxl switch upstream id to root port id
-declare -A cxl_switch_rps # arr[switch-id]=rp-id
+declare -A cxl_switch2rp # arr[switch-id]=rp-id
 # cxl switch downstream id to upstream id
 declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
 
@@ -992,10 +992,10 @@ add_cxl_rp() {
 	fi
 
 	# Each root port belongs to one single pxb, and pxb has many root port.
-	cxl_pxb_rps[${bus}]+=" ${id}"
-	[[ ${cxl_rp_pxbs[${id}]} ]] && \
-		error "cxl rp ${id} already has pxb ${${cxl_rp_pxbs[${id}]}}"
-	cxl_rp_pxbs[${id}]="${bus}"
+	cxl_pxb2rps[${bus}]+=" ${id}"
+	[[ ${cxl_rp2pxb[${id}]} ]] && \
+		error "cxl rp ${id} already has pxb ${${cxl_rp2pxb[${id}]}}"
+	cxl_rp2pxb[${id}]="${bus}"
 
 	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
 }
@@ -1060,7 +1060,7 @@ add_cxl_switch() {
 	qargs+=( -device cxl-upstream,bus=${bus},id=${up_id} )
 
 	# switch upstream has a root port
-	cxl_switch_rps[${up_id}]="${bus}"
+	cxl_switch2rp[${up_id}]="${bus}"
 
 	for i in $(seq 1 1 ${nport})
 	do
