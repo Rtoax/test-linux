@@ -236,16 +236,16 @@ declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
 declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
 # use to find root port's pxb with rp-id
 declare -A cxl_rp2pxb # arr[rp-id1]=pxb-id1
-declare -A cxl_rp2switchup # arr[rp-id]=switch-upstream-id
+declare -A cxl_rp2swup # arr[rp-id]=switch-upstream-id
 declare -A cxl_rp2pvmem # arr[rp-id]=pmem-id|vmem-id
 
 # cxl switch
 # cxl switch bus (rootport)
-declare -a cxl_switches_bus # =( rp-id1 rp-id2 ... )
+declare -a cxl_switches_bus # ( rp-id1 rp-id2 ... )
 # cxl switch downstream port number
-declare -a cxl_switches_ndport # =( 2 3 ... )
+declare -a cxl_switches_ndport # ( 2 3 ... )
 # cxl switch downstream port id prefix
-declare -a cxl_switches_dportpfx # =( name1 name2 ... )
+declare -a cxl_switches_dportpfx # ( name1 name2 ... )
 # cxl switch upstream id to root port id
 declare -A cxl_switch_up2rp # arr[switch-upstream-id]=rp-id
 declare -A cxl_switch_up2downs # arr[up-id]="down-id id2 id3 ..."
@@ -1091,10 +1091,10 @@ add_cxl_switch() {
 	# switch upstream has a root port
 	cxl_switch_up2rp[${up_id}]="${bus}"
 
-	if [[ "${cxl_rp2switchup[${bus}]}" ]]; then
-		error "cxl rootport ${bus} already has switch upstream ${cxl_rp2switchup[${bus}]}"
+	if [[ "${cxl_rp2swup[${bus}]}" ]]; then
+		error "cxl rootport ${bus} already has switch upstream ${cxl_rp2swup[${bus}]}"
 	fi
-	cxl_rp2switchup[${bus}]="${up_id}"
+	cxl_rp2swup[${bus}]="${up_id}"
 
 	for i in $(seq 1 1 ${nport})
 	do
@@ -1388,9 +1388,9 @@ cxl_topolopy() {
 		pcxltopo "cxl_pxb2rps[${pxb}]: ${cxl_pxb2rps[$pxb]}\n"
 		for rp in ${cxl_pxb2rps[$pxb]}
 		do
-			if [[ "${cxl_rp2switchup[$rp]}" ]]; then
-				pcxltopo "cxl_rp2switchup[$rp]: ${cxl_rp2switchup[$rp]}\n"
-				for swup in ${cxl_rp2switchup[$rp]}
+			if [[ "${cxl_rp2swup[$rp]}" ]]; then
+				pcxltopo "cxl_rp2swup[$rp]: ${cxl_rp2swup[$rp]}\n"
+				for swup in ${cxl_rp2swup[$rp]}
 				do
 					pcxltopo "cxl_switch_up2downs[$swup]: ${cxl_switch_up2downs[$swup]}\n"
 					for swdown in ${cxl_switch_up2downs[$swup]}
