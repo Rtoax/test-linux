@@ -254,7 +254,10 @@ declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
 declare -A cxl_switch_down2pvmem # arr[downstream-id]=type3-id
 
 # cxl type3 devices
-declare -a cxl_pmem_names cxl_pmem_buss cxl_pmem_lsas cxl_pmem_sizes
+declare -a cxl_pmem_names
+declare -A cxl_pmem_bus # arr[name]=BUS
+declare -A cxl_pmem_lsa # arr[name]=LSA
+declare -A cxl_pmem_size # arr[name]=SIZE
 declare -a cxl_vmem_names cxl_vmem_buss cxl_vmem_lsas cxl_vmem_sizes
 # use to find root port id or switch downstream id of cxl-type3
 declare -A cxl_pvmem2bus # arr[name]=[rp-id|switch-downstream-id]
@@ -450,11 +453,11 @@ handle_cxl_arg() {
 
 	if [[ ${pmem} ]]; then
 		cxl_pmem_names+=( ${pmem} )
-		cxl_pmem_buss+=( ${bus} )
+		cxl_pmem_bus[$pmem]=${bus}
 		[[ -z ${lsa} ]] && lsa=SKIP
-		cxl_pmem_lsas+=( ${lsa} )
+		cxl_pmem_lsa[$pmem]=${lsa}
 		[[ -z ${size} ]] && size=${CXL_DEFAULT_MSIZE}
-		cxl_pmem_sizes+=( ${size} )
+		cxl_pmem_size[$pmem]=${size}
 	fi
 
 	if [[ ${vmem} ]]; then
@@ -1473,10 +1476,11 @@ config_cxl() {
 
 	for ((i = 0; i < ${#cxl_pmem_names[@]}; i++))
 	do
-		add_cxl_type3_dev --pmem=${cxl_pmem_names[i]} \
-			--bus=${cxl_pmem_buss[i]} \
-			--lsa=${cxl_pmem_lsas[i]} \
-			--size=${cxl_pmem_sizes[i]}
+		local pmem=${cxl_pmem_names[i]}
+		add_cxl_type3_dev --pmem=${pmem} \
+			--bus=${cxl_pmem_bus[$pmem]} \
+			--lsa=${cxl_pmem_lsa[$pmem]} \
+			--size=${cxl_pmem_size[$pmem]}
 	done
 
 	for ((i = 0; i < ${#cxl_vmem_names[@]}; i++))
