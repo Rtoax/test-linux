@@ -119,6 +119,10 @@ install_from_source()
 	# If Debian like OS:
 	elif [[ " ${DISTS_DEBIAN_LIKE[@]} " =~ " ${ID} " ]]; then
 		update-grub
+		# $ sudo grub-set-default <N>
+		# $ sudo grub-editenv list
+		# or use
+		# $ sudo grub-reboot 1 && sudo reboot
 	fi
 
 	cp .config /boot/config-${kver}
