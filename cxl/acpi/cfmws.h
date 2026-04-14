@@ -23,6 +23,10 @@ struct cfmws {
 	uint8_t reserved3[2];
 	/**
 	 * Host Bridge Interleave Granularity (HBIG)
+	 *
+	 * The number of consecutive bytes within the interleave that are
+	 * decoded by each target in the Interleave Target List represented in
+	 * an encoded format.
 	 */
 	uint32_t hbig;
 	uint16_t window_restrictions;

@@ -85,11 +85,11 @@ unsigned long str2size(const char *str)
 		size = strtoull(str, NULL, 10);
 
 	if (strstr(str, "G") || strstr(str, "GB") || strstr(str, "GiB"))
-		size *= GB;
+		size *= GiB;
 	else if (strstr(str, "M") || strstr(str, "MB") || strstr(str, "MiB"))
-		size *= MB;
+		size *= MiB;
 	else if (strstr(str, "K") || strstr(str, "KB") || strstr(str, "KiB"))
-		size *= KB;
+		size *= KiB;
 
 	return size;
 }
