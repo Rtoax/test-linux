@@ -226,9 +226,12 @@ readonly CXL_DEVICES=( ${CXL_DEV_VMEM} ${CXL_DEV_VMEM_LSA}
 			${CXL_DEV_VMEM_4WAY} ${CXL_DEV_VMEM_4WAY_SWITCH}
 			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
 
+declare -a cxl_fmw=( 0 ) # (0 1 2 3)
+
 # cxl-pxb specify id=, this is CHBS(CXL Host Bridge Structure)
 # and use to -machine cxl-fmw.0.targets.M
-declare -a cxl_pxb_ids
+declare -a cxl_pxb_ids # ( pxb-id1 pxb-id2 ... )
+declare -A cxl_pxb_fmw # arr[pxb-id]=0, default is 0
 declare -A cxl_pxb_sizes # arr[pxb-id]=2G
 declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
 
@@ -281,7 +284,7 @@ ${BOLD}--cxl help${RST}: show this information
 ${BOLD}--cxl [DEV]${RST}: see ${BOLD}[DEV]${RST} below
 ${BOLD}--cxl device=[DEV]${RST}
 
-${BOLD}--cxl pxb=<name>${RST}: create CXL PXB
+${BOLD}--cxl pxb=<name>,[fmw=<N>]${RST}: create CXL PXB, fmw default 0
 ${BOLD}--cxl rp=<name>,bus=<name>,port=<n>${RST}: create CXL RootPort
 ${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Switch
 ${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
@@ -303,7 +306,7 @@ ${BOLD}FORMAT${RST}
 handle_cxl_arg() {
 	local arg args
 	local device
-	local pxb_id
+	local pxb_id pxbfmw=0
 	local bus port
 	local rp_id
 	local switch nport portprefix
@@ -331,6 +334,12 @@ handle_cxl_arg() {
 				;;
 			pxb)
 				pxb_id=${arg:4}
+				;;
+			fmw)
+				pxbfmw=${arg:4}
+				if ! [[ " 0 1 2 3 4 5 " =~ " ${pxbfmw} " ]]; then
+					error "bad cxl pxb ${arg} only support 0 1 2 3 4 5"
+				fi
 				;;
 			rp)
 				rp_id=${arg:3}
@@ -441,7 +450,10 @@ handle_cxl_arg() {
 
 	# set global
 	[[ ${device} ]] && cxl_device=${device}
-	[[ ${pxb_id} ]] && cxl_pxb_ids+=( ${pxb_id} )
+	if [[ ${pxb_id} ]]; then
+		cxl_pxb_ids+=( ${pxb_id} )
+		cxl_pxb_fmw[$pxb_id]=${pxbfmw}
+	fi
 
 	if [[ ${rp_id} ]]; then
 		cxl_rp_ids+=( ${rp_id} )
@@ -979,10 +991,20 @@ next_cxl_switch_upstream_id() {
 	echo $(mktemp -u cxl.switch.upstream.XXXX)
 }
 
+# $1: 0 1 2 3
+add_cxl_fmw() {
+	if ! [[ " ${cxl_fmw[@]} " =~ " $1 " ]]; then
+		cxl_fmw+=( $1 )
+	fi
+	return 0
+}
+
 # cxl pcie eXpander bridge
 # $1: specify pxb id, could use next_pxb_cxl_id() get a random id
+# $2: specify fmw id, default is 0
 add_cxl_pxb() {
 	local id=$1
+	local fmw=${2-0}
 	local arg
 
 	arg+=( pxb-cxl )
@@ -996,6 +1018,15 @@ add_cxl_pxb() {
 	if ! [[ " ${cxl_pxb_ids[@]} " =~ " ${id} " ]]; then
 		cxl_pxb_ids+=( ${id} )
 	fi
+
+	# set cxl fmw for pxb
+	if [[ ${cxl_pxb_fmw[$id]} ]] && [[ ${cxl_pxb_fmw[$id]} != ${fmw} ]]; then
+		error "cxl: try to set different fmw for pxb ${id} (old ${cxl_pxb_fmw[$id]}, new ${fmw})"
+	fi
+	[[ -z ${cxl_pxb_fmw[$id]} ]] && cxl_pxb_fmw[$id]=${fmw}
+	add_cxl_fmw ${fmw}
+
+	return 0
 }
 
 # root port
@@ -1391,6 +1422,7 @@ cxl_topolopy() {
 	pcxltopo "cxl_pxb_ids: [${cxl_pxb_ids[*]}]\n"
 	for pxb in ${cxl_pxb_ids[@]}
 	do
+		pcxltopo "cxl_pxb_fmw[$pxb]: ${cxl_pxb_fmw[$pxb]}\n"
 		pcxltopo "cxl_pxb2rps[${pxb}]: ${cxl_pxb2rps[$pxb]}\n"
 		for rp in ${cxl_pxb2rps[$pxb]}
 		do
@@ -1453,7 +1485,7 @@ cxl_topolopy() {
 		prevsz=$(sizeceilfmt $(( prevsz + memsz )))
 		cxl_pxb_sizes[$pxb]=${prevsz}
 
-		pcxltopo "${pxb}->${BUS_PCIE0}\n"
+		pcxltopo "${pxb}(fmw=${cxl_pxb_fmw[$pxb]})->${BUS_PCIE0}\n"
 	done
 
 	for pxb in ${!cxl_pxb_sizes[@]}
@@ -1463,7 +1495,7 @@ cxl_topolopy() {
 }
 
 config_cxl() {
-	local i
+	local i j k
 
 	if [[ ! -z "${cxl_device}${cxl_pxb_ids}" ]] && [[ ${debug} ]]; then
 		kcmds+=( "cxl_acpi.dyndbg=+fplm"
@@ -1489,7 +1521,7 @@ config_cxl() {
 	# Create CXL PXB
 	for i in ${cxl_pxb_ids[@]}
 	do
-		add_cxl_pxb ${i}
+		add_cxl_pxb ${i} ${cxl_pxb_fmw[$i]}
 	done
 
 	# Create CXL RootPort
@@ -1551,19 +1583,29 @@ config_cxl() {
 	cxl_topolopy
 
 	# Config CFMW (CXL Fixed Memory Window)
-	for ((i = 0; i < ${#cxl_pxb_ids[@]}; i++))
+	for j in ${cxl_fmw[@]}
 	do
-		qmachine+=( cxl-fmw.0.targets.${i}=${cxl_pxb_ids[i]} )
+		local fmwsz=0
+
+		for ((i = 0, k = 0; i < ${#cxl_pxb_ids[@]}; i++))
+		do
+			local pxb_id=${cxl_pxb_ids[i]}
+			if [[ ${cxl_pxb_fmw[$pxb_id]} == ${j} ]]; then
+				qmachine+=( cxl-fmw.${j}.targets.${k}=${pxb_id} )
+				k=$(expr $k + 1)
+				# calulate fmw size
+				fmwsz=$(sizesum ${fmwsz} ${cxl_pxb_sizes[$pxb_id]})
+			fi
+		done
+
+		# align 256MiB
+		fmwsz=$(sizeceilfmt ${fmwsz})
+		[[ -z ${fmwsz} ]] && error "cxl: failed to get pxb size sum"
+		qmachine+=( cxl-fmw.${j}.size=${fmwsz} )
+
+		# 256, 512, 1k, 2k, 4k, 8k, 16k, default 256
+		qmachine+=( cxl-fmw.${j}.interleave-granularity=4k )
 	done
-
-	# align 256MiB
-	local fmw0sz=$(sizesum ${cxl_pxb_sizes[@]})
-	fmw0sz=$(sizeceilfmt ${fmw0sz})
-	[[ -z ${fmw0sz} ]] && error "cxl: failed to get pxb size sum"
-	qmachine+=( cxl-fmw.0.size=${fmw0sz} )
-
-	# 256, 512, 1k, 2k, 4k, 8k, 16k, default 256
-	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
 }
 
 config_virtiofs() {

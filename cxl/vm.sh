@@ -62,15 +62,17 @@ qargs+=( --initrd ${initramfs} )
 qargs+=( --rootfs ${qcow2} )
 qargs+=( --stdio )
 
-qargs+=( --cxl pxb=pxb.1 )
-qargs+=( --cxl pxb=pxb.2 )
-qargs+=( --cxl pxb=pxb.3 )
-qargs+=( --cxl pxb=pxb.4 )
+qargs+=( --cxl pxb=pxb.1 ) # fmw default 0
+qargs+=( --cxl pxb=pxb.2,fmw=1 )
+qargs+=( --cxl pxb=pxb.3,fmw=1 )
+qargs+=( --cxl pxb=pxb.4,fmw=2 )
+qargs+=( --cxl pxb=pxb.5,fmw=3 )
+qargs+=( --cxl pxb=pxb.6,fmw=4 )
 
 qargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
 qargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
 qargs+=( --cxl rp=rp.3,bus=pxb.2,port=1 )
-qargs+=( --cxl rp=rp.4,bus=pxb.2,port=1 )
+qargs+=( --cxl rp=rp.4,bus=pxb.3,port=1 )
 
 qargs+=( --cxl switch,bus=rp.1,nport=2,portprefix=sw1 )
 qargs+=( --cxl switch,bus=rp.2,nport=3,portprefix=sw2 )
