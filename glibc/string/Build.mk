@@ -45,6 +45,10 @@ target-y += strspn
 
 target-cpp-y := strstr-cpp
 
+target-prep-y := sig.h
+
+strstr-cpp-objs := ${OUTPUT}strstr.cpp.o
+
 CFLAGS += -I../../../
 LDFLAGS += -lm
 
@@ -92,10 +96,3 @@ CFLAGS___memcpy_aarch64_simd-stress := -DARM_SOFTWARE___memcpy_aarch64_simd=1
 CFLAGS___memcpy_aarch64_sve-stress := -DARM_SOFTWARE___memcpy_aarch64_sve=1
 
 LDFLAGS += ${PROC_HELPERS}
-
-target-prep-y := sig.h
-
-strstr-cpp-objs := ${OUTPUT}strstr.cpp.o
-
-sig.h:
-	$(shell bash signo.sh)
