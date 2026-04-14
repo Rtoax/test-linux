@@ -1025,7 +1025,7 @@ add_cxl_rp() {
 	# Each root port belongs to one single pxb, and pxb has many root port.
 	cxl_pxb2rps[${bus}]+=" ${id}"
 	[[ ${cxl_rp2pxb[${id}]} ]] && \
-		error "cxl rp ${id} already has pxb ${${cxl_rp2pxb[${id}]}}"
+		error "cxl rp ${id} already has pxb ${cxl_rp2pxb[${id}]}"
 	cxl_rp2pxb[${id}]="${bus}"
 
 	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
