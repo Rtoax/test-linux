@@ -10,6 +10,14 @@ initramfs=${HOME}/cxl/initramfs.img
 vmlinuz=${HOME}/cxl/vmlinuz
 qcow2=${HOME}/cxl/vm.qcow2
 
+_dry_run=
+for a in ${@}
+do
+	if [[ " -u --dry --dry-run " =~ " ${a} " ]]; then
+		_dry_run=ON
+	fi
+done
+
 declare -a qargs
 
 if [[ ${DEP} ]]; then
@@ -26,9 +34,11 @@ if [[ ${DEP} ]]; then
 	esac
 fi
 
-[[ ! -e ${vmlinuz} ]] && sudo cp /boot/vmlinuz-$(uname -r) ${vmlinuz}
+if [[ ! -e ${vmlinuz} ]] && [[ -z ${_dry_run} ]]; then
+	sudo cp /boot/vmlinuz-$(uname -r) ${vmlinuz}
+fi
 
-if ! [[ -e ${initramfs} ]]; then
+if ! [[ -e ${initramfs} ]] && [[ -z ${_dry_run} ]]; then
 	sudo dracut --kver $(uname -r) --no-hostonly --verbose --force \
 		--install 'insmod rmmod modprobe lspci ndctl cxl lsblk dmidecode tree' \
 		--add 'bash systemd kernel-modules fs-lib' \
@@ -36,7 +46,7 @@ if ! [[ -e ${initramfs} ]]; then
 		${initramfs}
 fi
 
-if ! [[ -e ${qcow2} ]]; then
+if ! [[ -e ${qcow2} ]] && [[ -z ${_dry_run} ]]; then
 	sudo ../scripts/rootfs/fedora.sh --rootfs vm.rootfs/ --image ${qcow2} \
 		-i cxl-cli -i cxl-libs -i ndctl -i daxctl \
 		-i dmidecode -i kmod -i util-linux -i pciutils \

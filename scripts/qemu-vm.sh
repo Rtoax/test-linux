@@ -200,11 +200,6 @@ handle_rootfs_arg() {
 	if [[ -z ${f_rootfs_disk_type} ]]; then
 		f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
 	fi
-
-	check_file_exist_and_exit ${f_rootfs}
-	check_qemu_format_and_exit ${f_rootfs}
-
-	f_rootfs=$(realpath ${f_rootfs})
 }
 
 # CXL
@@ -539,8 +534,6 @@ while true; do
 	-k | --kernel)
 		shift
 		f_kernel=$1
-		check_file_exist_and_exit ${f_kernel}
-		f_kernel=$(realpath ${f_kernel})
 		shift
 		;;
 	--karg)
@@ -551,8 +544,6 @@ while true; do
 	-i | --initrd)
 		shift
 		f_initrd=$1
-		check_file_exist_and_exit ${f_initrd}
-		f_initrd=$(realpath ${f_initrd})
 		shift
 		;;
 	-r | --rootfs)
@@ -578,8 +569,6 @@ while true; do
 	--nvdimm)
 		shift
 		f_nvdimm=$1
-		check_file_exist_and_exit ${f_nvdimm}
-		f_nvdimm=$(realpath ${f_nvdimm})
 		shift
 		;;
 	--cxl)
@@ -590,7 +579,6 @@ while true; do
 	--virtio-fs-sock)
 		shift
 		f_virtiofs_sock=$1
-		check_file_exist_and_exit ${f_virtiofs_sock}
 		shift
 		;;
 	--virtio-fs-tag)
@@ -634,6 +622,29 @@ while true; do
 	esac
 done
 
+if [[ ${f_kernel} ]]; then
+	check_file_exist_and_exit ${f_kernel}
+	[[ -e ${f_kernel} ]] && f_kernel=$(realpath ${f_kernel})
+fi
+
+if [[ ${f_initrd} ]]; then
+	check_file_exist_and_exit ${f_initrd}
+	[[ -e ${f_initrd} ]] && f_initrd=$(realpath ${f_initrd})
+fi
+
+if [[ ${f_rootfs} ]]; then
+	check_file_exist_and_exit ${f_rootfs}
+	check_qemu_format_and_exit ${f_rootfs}
+	[[ -e ${f_rootfs} ]] && f_rootfs=$(realpath ${f_rootfs})
+fi
+
+if [[ ${f_nvdimm} ]]; then
+	check_file_exist_and_exit ${f_nvdimm}
+	[[ -e ${f_nvdimm} ]] && f_nvdimm=$(realpath ${f_nvdimm})
+fi
+
+[[ ${f_virtiofs_sock} ]] && check_file_exist_and_exit ${f_virtiofs_sock}
+
 if [[ ! -f ${QEMU_KVM} ]] && [[ -z ${dry_run} ]]; then
 	error "Not found qemu ${QEMU_KVM}"
 fi
@@ -659,9 +670,17 @@ _eval()
 	fi
 }
 
+gen_uuid() {
+	if [[ -e /proc/sys/kernel/random/uuid ]]; then
+		cat /proc/sys/kernel/random/uuid
+	else
+		uuid
+	fi
+}
+
 image2uuid() {
 	if [[ ${dry_run} ]]; then
-		uuid
+		gen_uuid
 		return
 	fi
 
@@ -695,7 +714,7 @@ trap cleanup EXIT
 
 config_basic() {
 	qargs+=( -name ${q_vm_name} )
-	qargs+=( -uuid $(uuid) )
+	qargs+=( -uuid $(gen_uuid) )
 	qargs+=( -enable-kvm )
 
 	qargs+=( -qmp unix:$PWD/qmp-${q_vm_name}.sock,server=on,wait=off )
