@@ -14,9 +14,9 @@
 #include <getopt.h>
 #include <libgen.h>
 
-#define VERSION_MAJOR	1
-#define VERSION_MINOR	0
-#define VERSION_PATCH	1
+#define VERSION_MAJOR 1
+#define VERSION_MINOR 1
+#define VERSION_PATCH 0
 
 #define KB (sizeof(uint8_t) * 1024UL)
 #define MB (KB * 1024UL)
@@ -77,7 +77,7 @@ void test_register_write(void)
 		if (!numa_mems_1[i] || !numa_mems_2[i])
 			continue;
 
-		printf("Test write on numa %d\n", i);
+		printf("Test memory write on numa %d\n", i);
 
 		start = usecs();
 		for (j = 0; j < nloop; j++)
@@ -105,7 +105,7 @@ void test_register_read(void)
 		if (!numa_mems_1[i] || !numa_mems_2[i])
 			continue;
 
-		printf("Test write on numa %d\n", i);
+		printf("Test memory write on numa %d\n", i);
 
 		start = usecs();
 		for (j = 0; j < nloop; j++)
@@ -247,7 +247,8 @@ int main(int argc, char *argv[])
 		/* Get each NUMA node memory size */
 		node_sizes[i] = numa_node_size(i, NULL);
 		if (node_sizes[i] >= blk_size * 2) {
-			printf("Alloc memory on numa %d.\n", i);
+			printf("Allocate memory %ld bytes on numa %d.\n",
+			       blk_size, i);
 			numa_mems_1[i] = numa_alloc_onnode(blk_size, i);
 			numa_mems_2[i] = numa_alloc_onnode(blk_size, i);
 			if (!numa_mems_1[i] || !numa_mems_2[i]) {
@@ -283,27 +284,25 @@ int main(int argc, char *argv[])
 	}
 
 	/* Test memcpy
-	 * +--------------+     +--------------+
-	 * |    NUMA0     |     |    NUMA1     |
-	 * | +--+    +--+ |     | +--+    +--+ |
-	 * | |  |    |  | +------>|  |    |  | |
-	 * | +--+    +--+ |     | +--+    +-++ |
-	 * +-------------++     +-----------|--+
-	 *               |                  |
-	 *               +------------------+
+	 * +--------------+
+	 * |    NUMA0     |
+	 * | +--+    +--+ |
+	 * | |  |--->|  | |
+	 * | +--+    +--+ |
+	 * +-------------++
 	 */
 	for (i = 0; i < nr_numa_node; i++) {
 		if (!numa_mems_1[i] || !numa_mems_2[i])
 			continue;
 
-		printf("Memory copy on numa %d\n", i);
+		printf("Memory copy %ld bytes from numa %d to numa %d\n",
+		       blk_size * nloop, i, i);
 
 		start = usecs();
 		for (j = 0; j < nloop; j++)
 			memcpy(numa_mems_1[i], numa_mems_2[i], blk_size);
 		numa_latencies[i] = usecs() - start;
 	}
-	printf("Memcpy %ld bytes.\n", blk_size * nloop);
 
 	/* Test cross read numa memcpy
 	 * +--------------+     +--------------+
@@ -317,7 +316,8 @@ int main(int argc, char *argv[])
 		if (!numa_mems_1[base_numa_node] || !numa_mems_2[i])
 			continue;
 
-		printf("Cross memory copy on numa %d\n", i);
+		printf("Memory copy %ld bytes from numa %d to numa %d\n",
+		       blk_size * nloop, i, base_numa_node);
 
 		start = usecs();
 		for (j = 0; j < nloop; j++)
@@ -325,7 +325,6 @@ int main(int argc, char *argv[])
 				blk_size);
 		cross_read_numa_latencies[i] = usecs() - start;
 	}
-	printf("Cross read NUMA memcpy %ld bytes.\n", blk_size * nloop);
 
 	/* Test cross write numa memcpy
 	 * +--------------+     +--------------+
@@ -339,7 +338,8 @@ int main(int argc, char *argv[])
 		if (!numa_mems_1[i] || !numa_mems_2[base_numa_node])
 			continue;
 
-		printf("Cross memory copy on numa %d\n", i);
+		printf("Memory copy %ld bytes from numa %d to numa %d\n",
+		       blk_size * nloop, base_numa_node, i);
 
 		start = usecs();
 		for (j = 0; j < nloop; j++)
@@ -347,7 +347,6 @@ int main(int argc, char *argv[])
 				blk_size);
 		cross_write_numa_latencies[i] = usecs() - start;
 	}
-	printf("Cross write NUMA memcpy %ld bytes.\n", blk_size * nloop);
 
 	test_register_read();
 	test_register_write();
