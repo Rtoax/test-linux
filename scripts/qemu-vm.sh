@@ -16,7 +16,7 @@ readonly prog=qemu-vm
 readonly arch=$(uname -m)
 QEMU_KVM=$(get_qemu_kvm_emulator)
 
-readonly bus_pcie0=pcie.0 # q35 default root bus
+readonly BUS_PCIE0=pcie.0 # q35 default root bus
 pcie_root_port_num=2
 
 q_vm_name=$(mktemp -u vm-XXXXXX)
@@ -785,7 +785,7 @@ config_pci() {
 	# Config pcie-root-port
 	for i in $(seq 1 ${pcie_root_port_num}); do
 		unset args
-		args+=( bus=${bus_pcie0} )
+		args+=( bus=${BUS_PCIE0} )
 		args+=( id=pcie.${i} )
 		args+=( chassis=${i} )
 		args+=( port=${i} )
@@ -795,7 +795,7 @@ config_pci() {
 
 add_net_nic_user() {
 	qargs+=(-netdev type=user,id=net0
-		-device virtio-net-pci,bus=${bus_pcie0},netdev=net0,addr=6.0 )
+		-device virtio-net-pci,bus=${BUS_PCIE0},netdev=net0,addr=6.0 )
 }
 
 # Create tap0 with:
@@ -985,9 +985,9 @@ add_cxl_pxb() {
 	local arg
 
 	arg+=( pxb-cxl )
-	arg+=( bus_nr=$(next_cxl_pxb_bus_nr) )
-	arg+=( bus=${bus_pcie0} )
 	arg+=( id=${id} )
+	arg+=( bus=${BUS_PCIE0} )
+	arg+=( bus_nr=$(next_cxl_pxb_bus_nr) )
 
 	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
 
@@ -1430,7 +1430,7 @@ cxl_topolopy() {
 
 		# TODO: update cxl_pxb_sizes[$pxb]
 
-		pcxltopo "${pxb}->${bus_pcie0}\n"
+		pcxltopo "${pxb}->${BUS_PCIE0}\n"
 	done
 }
 
@@ -1545,7 +1545,7 @@ config_virtiofs() {
 
 	# ref: https://qemu-stsquad.readthedocs.io/en/doc-updates/tools/virtiofsd.html
 	qargs+=(-chardev socket,id=char0,path=${f_virtiofs_sock}
-		-device vhost-user-fs-pci,chardev=char0,bus=${bus_pcie0},tag=${q_virtiofs_tag}
+		-device vhost-user-fs-pci,chardev=char0,bus=${BUS_PCIE0},tag=${q_virtiofs_tag}
 		-object memory-backend-memfd,id=mem,size=${q_memory},share=on
 		-numa node,memdev=mem )
 }
