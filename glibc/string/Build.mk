@@ -7,6 +7,7 @@ define add_glibc_obj
   SYMADDR_${1} := $(call libc_sym_addr,${1})
   ifneq ($$(SYMADDR_${1}),)
     target-y += ${1}-stress
+    ${1}-stress-objs := ${PROC_HELPERS}
     CFLAGS_${1}-stress += -DSYMADDR_${1}=$${SYMADDR_${1}}
   else
     $$(warning Not found ${1}())
@@ -47,6 +48,7 @@ target-cpp-y := strstr-cpp
 
 target-prep-y := sig.h
 
+memcpy-stress-objs := ${PROC_HELPERS}
 strstr-cpp-objs := ${OUTPUT}strstr.cpp.o
 
 CFLAGS += -I../../../
@@ -79,6 +81,10 @@ ifneq ($(wildcard $(ARM_SOFTWARE_OPTIMIZED_ROUTINES_LIBSTRINGLIB_A)),)
   target-y += __memcpy_aarch64_simd-stress
   target-y += __memcpy_aarch64_sve-stress
 
+  __memcpy_aarch64-stress-objs := ${PROC_HELPERS}
+  __memcpy_aarch64_simd-stress-objs := ${PROC_HELPERS}
+  __memcpy_aarch64_sve-stress-objs := ${PROC_HELPERS}
+
   LDFLAGS += /usr/lib/libstringlib.a
 else
   $(warning "WARNING: Not found ARM-software/optimized-routines in your system")
@@ -94,5 +100,3 @@ CFLAGS_memset-stress := -DSTRESS=1
 CFLAGS___memcpy_aarch64-stress := -DARM_SOFTWARE___memcpy_aarch64=1
 CFLAGS___memcpy_aarch64_simd-stress := -DARM_SOFTWARE___memcpy_aarch64_simd=1
 CFLAGS___memcpy_aarch64_sve-stress := -DARM_SOFTWARE___memcpy_aarch64_sve=1
-
-LDFLAGS += ${PROC_HELPERS}
