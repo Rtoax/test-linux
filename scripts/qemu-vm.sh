@@ -263,8 +263,9 @@ declare -A cxl_vmem_bus # arr[name]=BUS
 declare -A cxl_vmem_lsa # arr[name]=LSA
 declare -A cxl_vmem_size # arr[name]=SIZE
 # use to find root port id or switch downstream id of cxl-type3
-declare -A cxl_pvmem2bus # arr[name]=[rp-id|switch-downstream-id]
-declare -a cxl_pvmem_ids
+declare -A cxl_pvmem_id2bus # arr[type3-id]=[rp-id|switch-downstream-id]
+declare -A cxl_pvmem_id2name # arr[type3-id]=NAME in cxl_pmem_names[]
+declare -a cxl_pvmem_ids # ( id1 id2 ... )
 
 declare cxl_device
 readonly CXL_DEFAULT_MSIZE=1024M
@@ -1125,7 +1126,7 @@ add_cxl_switch() {
 # --lsa <name>: set lsa, skip if SKIP
 add_cxl_type3_dev() {
 	local arg tmparg
-	local pmem vmem
+	local pmem vmem name
 	local bus lsa
 	local size
 
@@ -1208,6 +1209,8 @@ add_cxl_type3_dev() {
 		_eval qemu-img create -f raw ${pmem_file} ${size}
 		cleanup_files+=( ${pmem_file} )
 
+		name=${pmem}
+
 		tmparg+=( memory-backend-file )
 		tmparg+=( id=${pmem} )
 		tmparg+=( share=on )
@@ -1218,6 +1221,7 @@ add_cxl_type3_dev() {
 	fi
 
 	if [[ ${vmem} ]]; then
+		name=${vmem}
 		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${size} )
 		arg+=( volatile-memdev=${vmem} )
 	fi
@@ -1240,7 +1244,8 @@ add_cxl_type3_dev() {
 	local type3_id=$(next_cxl_type3_id)
 
 	# cxl type3 device belongs to a rootport or a switch
-	cxl_pvmem2bus[${type3_id}]="${bus}"
+	cxl_pvmem_id2bus[${type3_id}]="${bus}"
+	cxl_pvmem_id2name[${type3_id}]="${name}"
 	cxl_pvmem_ids+=( ${type3_id} )
 
 	# This cxl type2 device bus is root port
@@ -1383,7 +1388,7 @@ pcxltopo() {
 cxl_topolopy() {
 	local pxb rp swup swdown pvmem
 
-	pcxltopo "cxl_pxb_ids: ${cxl_pxb_ids[@]}\n"
+	pcxltopo "cxl_pxb_ids: [${cxl_pxb_ids[*]}]\n"
 	for pxb in ${cxl_pxb_ids[@]}
 	do
 		pcxltopo "cxl_pxb2rps[${pxb}]: ${cxl_pxb2rps[$pxb]}\n"
@@ -1405,12 +1410,26 @@ cxl_topolopy() {
 		done
 	done
 
-	for pvmem in ${cxl_pvmem_ids[@]}
+	for mem_id in ${cxl_pvmem_ids[@]}
 	do
-		pcxltopo "${pvmem}->"
+		local bus=${cxl_pvmem_id2bus[$mem_id]}
+		local memname=${cxl_pvmem_id2name[$mem_id]}
+		[[ -z ${bus} ]] && error "not found bus of cxl device ${mem_id}"
+		[[ -z ${memname} ]] && error "not found name of cxl device ${mem_id}"
 
-		local bus=${cxl_pvmem2bus[$pvmem]}
-		[[ -z ${bus} ]] && error "not found bus"
+		local pmemsz=${cxl_pmem_size[$memname]}
+		local vmemsz=${cxl_vmem_size[$memname]}
+		local memsz=0
+		if [[ -z ${pmemsz} ]] && [[ -z ${vmemsz} ]]; then
+			error "not found size of cxl type3 device"
+		fi
+		if [[ ${pmemsz} ]] && [[ ${vmemsz} ]]; then
+			error "cxl type3 device ${memname} mistake, pmem or vmem?"
+		fi
+		[[ ${pmemsz} ]] && memsz=${pmemsz}
+		[[ ${vmemsz} ]] && memsz=${vmemsz}
+
+		pcxltopo "${mem_id}(${memname},size=${memsz})->"
 
 		swdown=${bus}
 		swup=${cxl_switch_down2up[$swdown]}
@@ -1428,9 +1447,18 @@ cxl_topolopy() {
 		pxb=${cxl_rp2pxb[$rp]}
 		[[ -z ${pxb} ]] && error "not found pxb"
 
-		# TODO: update cxl_pxb_sizes[$pxb]
+		# update pxb size
+		memsz=$(size2bytes ${memsz})
+		local prevsz=$(size2bytes ${cxl_pxb_sizes[$pxb]})
+		prevsz=$(sizeceilfmt $(( prevsz + memsz )))
+		cxl_pxb_sizes[$pxb]=${prevsz}
 
 		pcxltopo "${pxb}->${BUS_PCIE0}\n"
+	done
+
+	for pxb in ${!cxl_pxb_sizes[@]}
+	do
+		pcxltopo "pxb ${pxb} total size ${cxl_pxb_sizes[$pxb]}\n"
 	done
 }
 

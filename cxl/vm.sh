@@ -64,19 +64,27 @@ qargs+=( --stdio )
 
 qargs+=( --cxl pxb=pxb.1 )
 qargs+=( --cxl pxb=pxb.2 )
-#qargs+=( --cxl pxb=pxb.3 )
-#qargs+=( --cxl pxb=pxb.4 )
+qargs+=( --cxl pxb=pxb.3 )
+qargs+=( --cxl pxb=pxb.4 )
+
 qargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
 qargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
+qargs+=( --cxl rp=rp.3,bus=pxb.2,port=1 )
+qargs+=( --cxl rp=rp.4,bus=pxb.2,port=1 )
+
 qargs+=( --cxl switch,bus=rp.1,nport=2,portprefix=sw1 )
 qargs+=( --cxl switch,bus=rp.2,nport=3,portprefix=sw2 )
+
 qargs+=( --cxl pmem=pmem.1,bus=sw1.1,lsa=pmem.1.lsa,size=2G )
 qargs+=( --cxl pmem=pmem.2,bus=sw1.2,lsa=pmem.2.lsa )
+
 qargs+=( --cxl vmem=vmem.1,bus=sw2.1,lsa=vmem.1.lsa )
 qargs+=( --cxl vmem=vmem.2,bus=sw2.2 ) # vmem could not set lsa
 qargs+=( --cxl vmem=vmem.3,bus=sw2.3,size=2G )
+qargs+=( --cxl vmem=vmem.4,bus=rp.3,size=1G )
+qargs+=( --cxl vmem=vmem.5,bus=rp.4,size=1G )
 
-qargs+=( --cxl device=cxl-pmem-4way )
+#qargs+=( --cxl device=cxl-pmem-4way )
 
 sudo ../scripts/qemu-vm.sh ${qargs[@]} "${@}"
 

@@ -14,6 +14,7 @@ if [[ $(size2bytes 8GiB) -ne $((8 * ${GiB})) ]] || \
    [[ $(size2bytes 8KB) -ne $((8 * 1024)) ]] || \
    [[ $(size2bytes 8K) -ne $((8 * 1024)) ]] || \
    [[ $(size2bytes 0) -ne 0 ]] || \
+   [[ $(size2bytes) -ne 0 ]] || \
    [[ $(size2bytes 123) -ne 123 ]] || \
    [[ $(size2bytes 12300111) -ne 12300111 ]]; then
 	error "test size2bytes() failed"

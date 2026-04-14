@@ -13,12 +13,14 @@ fi
 
 # size2bytes - swap size to bytes
 # $1: size string, format: 123KiB, 123MB, 123B, 124KB, 123
-# return: echo Bytes size without 'B' suffix, empty if failed
+# return: echo Bytes size without 'B' suffix
+#         empty if failed, 0 if nothing input
 size2bytes() {
 	local size=$1
 
 	if [[ -z ${size} ]]; then
-		error "size2bytes(): Input can't be empty"
+		echo 0
+		return
 	fi
 
 	local value=$(echo ${size} | grep -Eo '[0-9]+')
