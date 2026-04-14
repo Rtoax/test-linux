@@ -302,6 +302,6 @@ cmd_git_statistic()
 	return 0
 }
 
-if [[ $0 == /usr/bin/git-statistic ]] || [[ $0 == ./git-statistic.sh ]]; then
+if [[ $0 == /usr/bin/git-statistic ]] || [[ $0 == ./statistic.sh ]]; then
 	cmd_git_statistic "$@"
 fi
