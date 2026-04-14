@@ -1033,12 +1033,13 @@ add_cxl_rp() {
 
 # cxl switch
 #
-#              UP             upsteam
+#              UP    upstream
 # ┌───────────┬─┬───────────┐
 # │CXL Switch └─┘           │
 # │ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ │
 # └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
-#    D1  D2  D3  D4  D5  D6   downstream
+#    D1  D2  D3  D4  D5  D6
+#                  downstream
 #
 # --bus=<name>: set bus
 # --nport=<num>: set number of downstream ports
