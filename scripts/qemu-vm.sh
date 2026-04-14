@@ -1557,7 +1557,11 @@ config_cxl() {
 	done
 
 	# align 256MiB
-	qmachine+=( cxl-fmw.0.size=4G )
+	local fmw0sz=$(sizesum ${cxl_pxb_sizes[@]})
+	fmw0sz=$(sizeceilfmt ${fmw0sz})
+	[[ -z ${fmw0sz} ]] && error "cxl: failed to get pxb size sum"
+	qmachine+=( cxl-fmw.0.size=${fmw0sz} )
+
 	# 256, 512, 1k, 2k, 4k, 8k, 16k, default 256
 	qmachine+=( cxl-fmw.0.interleave-granularity=4k )
 }
