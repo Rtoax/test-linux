@@ -11,6 +11,7 @@ check=
 show_list=
 show_keys=
 show_exts=
+show_version=
 
 readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
 readonly common_vargs=( $(jq -r '.common.version.argument[]' ${CONFIG}) )
@@ -143,6 +144,7 @@ __version_usage__()
 -L, --list               show software list
 -K, --keys               show software keys
 -E, --ext                show software extensions
+-V, --version            show software version
 
 --check                  check versions
 
@@ -153,10 +155,11 @@ __version_usage__()
 }
 
 TEMP_ARGS=$(getopt \
-	--options n:LKEvh \
+	--options n:LKEVvh \
 	--long name: \
 	--long keys \
 	--long ext \
+	--long version \
 	--long check \
 	--long list \
 	--long verbose \
@@ -185,6 +188,10 @@ while true; do
 	-E|--ext)
 		shift
 		show_exts=ON
+		;;
+	-V|--version)
+		shift
+		show_version=ON
 		;;
 	--check)
 		shift
@@ -219,6 +226,12 @@ fi
 if [[ ${show_exts} ]]; then
 	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
 		jq -r --arg s "${name}" '.software[$s].extension[]' ${CONFIG} 2>/dev/null
+	fi
+fi
+
+if [[ ${show_version} ]]; then
+	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
+		getversion ${name}
 	fi
 fi
 
