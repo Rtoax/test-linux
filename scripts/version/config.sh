@@ -88,13 +88,14 @@ getversion() {
 			version_filter "$(dpkg-query -W -f='${Version}\n' ${deb} 2>/dev/null)"
 			[[ ${version} ]] && break
 		done
-		[[ ${version} ]] && break
-		local rpms=( $(jq -r --arg s "${sw}" '.software[$s].package.rpm[]' config.json 2>/dev/null) )
-		for rpm in ${rpms}
-		do
-			version_filter "$(rpm -q --queryformat='%{VERSION}-%{release}\n' ${rpm} 2>/dev/null)"
-			[[ ${version} ]] && break
-		done
+		if [[ -z ${version} ]]; then
+			local rpms=( $(jq -r --arg s "${sw}" '.software[$s].package.rpm[]' config.json 2>/dev/null) )
+			for rpm in ${rpms}
+			do
+				version_filter "$(rpm -q --queryformat='%{VERSION}-%{release}\n' ${rpm} 2>/dev/null)"
+				[[ ${version} ]] && break
+			done
+		fi
 	fi
 
 	#echo "${sw}: ${cmds[@]}, ${vargs[@]}, ${vlens[@]}, ${vseps[@]}, ${version}"
