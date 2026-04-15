@@ -24,7 +24,7 @@ getversion() {
 
 	for cmd in ${cmds[@]};
 	do
-		if ! which ${cmd} 2>&1 >/dev/null; then
+		if [[ -z "$(which ${cmd} 2>/dev/null)" ]]; then
 			continue
 		fi
 		local arg
@@ -51,6 +51,7 @@ getversion() {
 						;;
 					esac
 					version=$( ${cmd} ${arg} | grep -Eo "${greparg}" 2>/dev/null | head -1 || true )
+					#${cmd} ${arg} | grep -Eo "${greparg}" 2>/dev/null | head -1 || true >&2
 					[[ ${version} ]] && break
 				done # length
 				[[ ${version} ]] && break
@@ -69,7 +70,8 @@ do
 	versionfromjson=$(getversion ${sw})
 	versionfromsh=$(./${sw}.sh)
 	if [[ ${versionfromjson} != ${versionfromsh} ]]; then
-		echo >&2 "ERROR: ${sw} failed to get version"
+		echo >&2 "ERROR: ${sw} failed to get version (<${versionfromjson}> != <${versionfromsh}>)"
+		exit 1
 	fi
 	printf "%-10s %-10s %-10s\n" "${sw}" "${versionfromjson}" "${versionfromsh}"
 done
