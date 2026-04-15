@@ -109,7 +109,12 @@
 		"NetworkManager": {
 			"command": [ "nmcli" ]
 		},
-		"numactl": {},
+		"numactl": {
+			"package": {
+				"deb": [ "numactl" ],
+				"rpm": [ "numactl" ]
+			}
+		},
 		"openssl": {
 			"version": {
 				"argument": [ "--version", "version" ]
