@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-target-prog-y += version.sh
+target-prog-y += version.sh version.sh.1
 target-prog-y += linux.sh
 target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
@@ -30,7 +30,9 @@ $(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
   $(eval $(call test_mmp,${software})) \
 )
 
-PROG_ARGS_version.sh := --name ALL
+PROG_ARGS_version.sh.1 := --name util-linux --check
+PROG_ARGS_version.sh := --name ALL --check
+
 PROG_ARGS_distro.sh.1 := short
 
 PROG_ARGS_redis.sh.4 := --name

@@ -6,6 +6,7 @@ source ${ROOTDIR}/libversion.sh
 readonly CONFIG=${ROOTDIR}/config.json
 
 name=
+check=
 
 readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
 readonly common_vargs=( $(jq -r '.common.version.argument[]' ${CONFIG}) )
@@ -133,7 +134,9 @@ check_all() {
 __version_usage__()
 {
 	echo -e "
--n, --name [NAME]        specify software to test
+-n, --name [NAME]        specify software name, like qemu
+
+--check                  check versions
 
 -h, --help               show this help information
 -v, --verbose            show detail during running
@@ -144,6 +147,7 @@ __version_usage__()
 TEMP_ARGS=$(getopt \
 	--options n:vh \
 	--long name: \
+	--long check \
 	--long verbose \
 	--long help \
 	-n version -- "$@")
@@ -158,6 +162,10 @@ while true; do
 		shift
 		name=$1
 		shift
+		;;
+	--check)
+		shift
+		check=ON
 		;;
 	-h|--help)
 		shift
@@ -175,10 +183,10 @@ while true; do
 	esac
 done
 
-if [[ ${name} ]]; then
-	if [[ ${name} == ALL ]]; then
-		check_all
-	else
+if [[ ${check} ]]; then
+	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
 		check_one ${name}
+	else
+		check_all
 	fi
 fi
