@@ -25,7 +25,7 @@ $(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
 			ndctl numactl openssl \
 			ostree pahole pciutils podman procps-ng psmisc python \
 			qemu redis rocm rpm rust shell sphinx strace systemd \
-			vim, \
+			util-linux vim, \
   $(eval $(call test_mmp,${software})) \
 )
 

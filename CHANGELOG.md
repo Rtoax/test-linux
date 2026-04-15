@@ -25,7 +25,7 @@ and this project adheres to
 - cuda/samples: add oom.cu;
 - kmod: add alias.sh, scripts/version/kmod.sh;
 - cestc: add gpuinfo.sh;
-- scripts/version: add capstone.sh, ffmpeg.sh, dracut.sh, ethtool.sh, sed.sh;
+- scripts/version: add capstone.sh, ffmpeg.sh, dracut.sh, ethtool.sh, sed.sh, util-linux.sh;
 #### Changed
 - move `cgroup_helpers`, `qcow2_helpers`, `cuda_helpers`, `btf_helpers`, `bpf_helpers`, `oom_helpers`, `trace_helpers`, `mmap_helpers`, `sched_helpers`, `pthread_helpers`, `socket_helpers`, `proc_helpers`, `ksym_helpers`, `syscall_helpers` to libs;
 - kvm/playground: rename common.c to `kvm_helpers.c`;

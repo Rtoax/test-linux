@@ -229,6 +229,7 @@ sphinx_ver() { add_ver "Sphinx $(${VERDIR}/sphinx.sh)"; }
 strace_ver() { add_ver "Strace $(${VERDIR}/strace.sh)"; }
 systemd_ver() { add_ver "Systemd $(${VERDIR}/systemd.sh)"; }
 uefi_ver() { add_ver "UEFI Spec $(${VERDIR}/uefi.sh)"; }
+util_linux_ver() { add_ver "Util-linux $(${VERDIR}/util-linux.sh)"; }
 vim_ver() { add_ver "Vim $(${VERDIR}/vim.sh)"; }
 
 cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
@@ -353,6 +354,10 @@ fi
 
 if [[ "$(has_type sed)$(has_key sed)$(has_content sed)" ]]; then
 	sed_ver
+fi
+
+if [[ "$(has_content util-linux)$(has_key util-linux)" ]]; then
+	util_linux_ver
 fi
 
 if [[ "$(has_type vim)$(has_key vim)" ]]; then
