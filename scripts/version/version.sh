@@ -8,6 +8,8 @@ readonly CONFIG=${ROOTDIR}/config.json
 name=
 check=
 
+show_list=
+
 readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
 readonly common_vargs=( $(jq -r '.common.version.argument[]' ${CONFIG}) )
 readonly common_vseps=( $(jq -r '.common.version.seperator[]' ${CONFIG}) )
@@ -134,7 +136,9 @@ check_all() {
 __version_usage__()
 {
 	echo -e "
--n, --name [NAME]        specify software name, like qemu
+-n, --name [NAME]        specify software name, like 'qemu', see --list
+
+-L, --list               show software list
 
 --check                  check versions
 
@@ -145,9 +149,10 @@ __version_usage__()
 }
 
 TEMP_ARGS=$(getopt \
-	--options n:vh \
+	--options n:Lvh \
 	--long name: \
 	--long check \
+	--long list \
 	--long verbose \
 	--long help \
 	-n version -- "$@")
@@ -162,6 +167,10 @@ while true; do
 		shift
 		name=$1
 		shift
+		;;
+	-L|--list)
+		shift
+		show_list=ON
 		;;
 	--check)
 		shift
@@ -182,6 +191,10 @@ while true; do
 		;;
 	esac
 done
+
+if [[ ${show_list} ]]; then
+	echo "${softwares[@]}"
+fi
 
 if [[ ${check} ]]; then
 	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
