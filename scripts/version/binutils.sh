@@ -6,7 +6,7 @@ if [[ -z ${ldbfd} ]]; then
 	exit 0
 fi
 
-version=$( ${ldbfd} --version | grep -Eo '[0-9]+\.[0-9]+' 2>/dev/null || true )
+version=$( ${ldbfd} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true )
 
 source $(dirname $(realpath $0))/libversion.sh
 

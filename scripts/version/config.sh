@@ -12,7 +12,7 @@ getversion() {
 	local cmd version
 	local cmds=( $(jq -r ".software.${sw}.command[]" config.json 2>/dev/null) )
 	if [[ ${#cmds[@]} -lt 1 ]]; then
-		exit 0
+		cmds=( ${sw} )
 	fi
 	local vargs=( $(jq -r ".software.${sw}.version.argument[]" config.json 2>/dev/null || true) )
 	local vlens=( $(jq -r ".software.${sw}.version.length[]" config.json 2>/dev/null || true) )
@@ -24,6 +24,9 @@ getversion() {
 
 	for cmd in ${cmds[@]};
 	do
+		if ! which ${cmd} 2>&1 >/dev/null; then
+			continue
+		fi
 		local arg
 		for arg in ${vargs[@]};
 		do

@@ -8,6 +8,15 @@
 		}
 	},
 	"software": {
+		"binutils": {
+			"command": [ "ld.bfd" ]
+		},
+		"bpftool": {},
+		"bpftrace": {},
+		"capstone": {
+			"command": [ "cstool" ]
+		},
+		"cmake": {},
 		"dracut": {
 			"command": [ "dracut" ],
 			"version": {
