@@ -71,6 +71,7 @@ qargs+=( --initrd ${initramfs} )
 [[ ${GDB} ]] && qargs+=( --gdb )
 qargs+=( --rootfs ${qcow2} )
 qargs+=( --stdio )
+qargs+=( --monitor )
 
 qargs+=( --cxl pxb=pxb.1 ) # fmw default 0
 qargs+=( --cxl pxb=pxb.2,fmw=1 )
@@ -98,6 +99,6 @@ qargs+=( --cxl vmem=vmem.5,bus=rp.4,size=1G )
 
 #qargs+=( --cxl device=cxl-pmem-4way )
 
-sudo ../scripts/qemu-vm.sh ${qargs[@]} "${@}"
+sudo ../scripts/qemu-vm.sh "${qargs[@]}" "${@}"
 
 wait

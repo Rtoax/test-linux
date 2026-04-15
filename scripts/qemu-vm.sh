@@ -39,6 +39,8 @@ f_virtiofs_sock=
 q_virtiofs_tag=
 
 q_stdio=
+q_monitor=
+readonly q_monitor_telnet_port=8087
 q_gdb=
 
 dry_run=
@@ -65,7 +67,7 @@ ${BOLD}NAME${RST}
     ${PROG} - Running a virtual machine with Qemu-KVM
 
 ${BOLD}SYNOPSIS${RST}
-    ${PROG} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
+    ${PROG} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio] [--monitor]
 
 ${BOLD}DESCRIPTION${RST}
     Running a virtual machine with Qemu-KVM, support flexable arguments.
@@ -95,6 +97,8 @@ ${BOLD}OPTIONS${RST}
     --stdio                 input/output from/to stdio. Default ${GRAY}TERM=${RST}${UL}vt220${RST}
                             if stdio, you could set ${UL}TERM=xterm-256color${RST}
                             or ${UL}TERM=linux${RST} in your virtual machine.
+
+    --monitor               enable monitor, link with ${GRAY}$ telnet localhost ${q_monitor_telnet_port}${RST}
 
   ${BOLD}VirtIO OPTIONS${RST}
     --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
@@ -540,6 +544,7 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
 	--long root: \
 	--long nvdimm: \
 	--long stdio \
+	--long monitor \
 	--long cxl: \
 	--long virtio-fs-sock: \
 	--long virtio-fs-tag: \
@@ -632,6 +637,10 @@ while true; do
 	--stdio)
 		shift
 		q_stdio=ON
+		;;
+	--monitor)
+		shift
+		q_monitor=ON
 		;;
 	-Q | --qemu)
 		shift
@@ -769,10 +778,22 @@ config_basic() {
 	qargs+=( -pidfile ${q_vm_name}.pid)
 	cleanup_files+=( $PWD/qmp-${q_vm_name}.sock ${q_vm_name}.pid )
 
+	# Qemu monitor
+	if [[ ${q_monitor} ]]; then
+		# $ telnet localhost PORT
+		qargs+=( -monitor tcp:localhost:${q_monitor_telnet_port},server,nowait )
+
+		# Or could use:
+		# $ sudo socat - UNIX-CONNECT:/tmp/qemu-monitor-${q_vm_name}.sock
+		#qargs+=( -monitor unix:/tmp/qemu-monitor-${q_vm_name}.sock,server,nowait )
+		#cleanup_files+=( /tmp/qemu-monitor-${q_vm_name}.sock )
+	fi
+
 	if [[ ${q_stdio} ]]; then
 		# Default TERM=vt220 if stdio, you could specify
 		# TERM=xterm-256color or TERM=linux in your virtual machine.
-		qargs+=( -serial mon:stdio -nographic )
+		qargs+=( -serial mon:stdio )
+		qargs+=( -nographic )
 	fi
 
 	case ${arch} in
@@ -893,8 +914,8 @@ add_net_nic_tap() {
 # Make sure port was not used, check with:
 # $ sudo netstat -tulpn | grep 8086
 add_net_nic_user_tap() {
-	qargs+=( -net user,hostfwd=tcp::8086-:22
-		-net nic,model=virtio
+	qargs+=( -net user,hostfwd=tcp::8086-:22 )
+	qargs+=( -net nic,model=virtio
 		-device virtio-net,netdev=network0
 		-netdev tap,id=network0,ifname=tap0,script=no,downscript=no )
 }

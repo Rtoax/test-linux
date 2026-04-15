@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- qemu-vm.sh: support monitor;
 - cxl: add info.sh;
 - scripts/rootfs/fedora.sh: support build fedora rootfs on ubuntu;
 - libstring.sh: add sizeceilfmt();
