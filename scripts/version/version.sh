@@ -8,6 +8,7 @@ readonly CONFIG=${ROOTDIR}/config.json
 name=
 check=
 
+show_keys=
 show_list=
 
 readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
@@ -139,6 +140,7 @@ __version_usage__()
 -n, --name [NAME]        specify software name, like 'qemu', see --list
 
 -L, --list               show software list
+-K, --keys               show software keys
 
 --check                  check versions
 
@@ -149,7 +151,7 @@ __version_usage__()
 }
 
 TEMP_ARGS=$(getopt \
-	--options n:Lvh \
+	--options n:LKvh \
 	--long name: \
 	--long check \
 	--long list \
@@ -171,6 +173,10 @@ while true; do
 	-L|--list)
 		shift
 		show_list=ON
+		;;
+	-K|--keys)
+		shift
+		show_keys=ON
 		;;
 	--check)
 		shift
@@ -194,6 +200,12 @@ done
 
 if [[ ${show_list} ]]; then
 	echo "${softwares[@]}"
+fi
+
+if [[ ${show_keys} ]]; then
+	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
+		jq -r --arg s "${name}" '.software[$s].keys[]' ${CONFIG} 2>/dev/null
+	fi
 fi
 
 if [[ ${check} ]]; then

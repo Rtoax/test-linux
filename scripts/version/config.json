@@ -9,7 +9,8 @@
 	},
 	"software": {
 		"bcc": {
-			"library": [ "libbcc.so", "libbcc_bpf.so" ]
+			"library": [ "libbcc.so", "libbcc_bpf.so" ],
+			"keys": [ "bcc", "bpfcc" ]
 		},
 		"binutils": {
 			"command": [ "ld.bfd" ]
@@ -198,7 +199,8 @@
 			}
 		},
 		"util-linux": {
-			"command": [ "getopt", "lscpu" ]
+			"command": [ "getopt", "lscpu" ],
+			"keys": [ "util-linux", "lscpu" ]
 		},
 		"vim": {
 			"command": [ "vim" ],

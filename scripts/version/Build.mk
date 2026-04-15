@@ -31,7 +31,7 @@ $(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
 )
 
 PROG_ARGS_version.sh := --name ALL --check
-PROG_ARGS_version.sh.1 := --name util-linux --check -L
+PROG_ARGS_version.sh.1 := --name util-linux --check -L -K
 
 PROG_ARGS_distro.sh.1 := short
 
