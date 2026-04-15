@@ -12,7 +12,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 . ${QEMU_VM_ROOT}/libqemu.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 
-readonly prog=qemu-vm
+readonly PROG=qemu-vm
 readonly arch=$(uname -m)
 QEMU_KVM=$(get_qemu_kvm_emulator)
 
@@ -62,10 +62,10 @@ readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 __usage__() {
 	echo -e "
 ${BOLD}NAME${RST}
-    ${prog} - Running a virtual machine with Qemu-KVM
+    ${PROG} - Running a virtual machine with Qemu-KVM
 
 ${BOLD}SYNOPSIS${RST}
-    ${prog} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
+    ${PROG} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
 
 ${BOLD}DESCRIPTION${RST}
     Running a virtual machine with Qemu-KVM, support flexable arguments.
@@ -111,6 +111,15 @@ ${BOLD}OPTIONS${RST}
                             the ${UL}kernel.elf${RST} also could get:${GRAY}
                             $ objcopy --only-keep-debug vmlinux kernel.elf${RST}
 
+    --qarg [ARG]            append ARG to qemu arguments, for example:
+                            pass ${BOLD}-fw_cfg${RST} to qemu:
+                              ${GRAY}-fw_cfg [name=]<name>,file=<file>${RST}
+                              ${GRAY}-fw_cfg [name=]<name>,[name=]<name>,string=<str>${RST}
+                            you could:
+                              ${GRAY}$ ${PROG} --qarg \"-fw_cfg name=${USER},file=/etc/os-release\"${RST}
+                            in guest, check ${BOLD}/sys/firmware/qemu_fw_cfg/${RST}
+                            (may be listed multiple times)
+
   ${BOLD}CXL OPTIONS${RST}
     --cxl [ARGS]            CXL by Qemu. please see ${BOLD}--cxl help${RST}
 
@@ -124,7 +133,7 @@ ${BOLD}OPTIONS${RST}
     -h, --help              show this help information
 
 ${BOLD}EXAMPLES${RST}
-    $ sudo ${prog} --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${arch}${RST} \\
+    $ sudo ${PROG} --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${arch}${RST} \\
         --initrd ${GRAY}${ITALIC}/boot/initramfs-${arch}.img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
         ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
 
@@ -536,11 +545,12 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
 	--long virtio-fs-tag: \
 	--long dry-run \
 	--long qemu: \
+	--long qarg: \
 	--long gdb \
 	--long debug \
 	--long verbose \
 	--long help \
-	--name ${prog} -- "$@")
+	--name ${PROG} -- "$@")
 
 test $? != 0 && __usage__ 1
 
@@ -626,6 +636,11 @@ while true; do
 	-Q | --qemu)
 		shift
 		QEMU_KVM=$1
+		shift
+		;;
+	--qarg)
+		shift
+		qargs+=( "${1}" )
 		shift
 		;;
 	--gdb)
