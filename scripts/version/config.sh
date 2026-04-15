@@ -83,13 +83,27 @@ getversion() {
 	echo ${version}
 }
 
-for sw in ${softwares[@]}
-do
-	versionfromjson=$(getversion ${sw})
-	versionfromsh=$(./${sw}.sh)
+check_one() {
+	local sw=$1
+	local versionfromjson=$(getversion ${sw})
+	local versionfromsh=$(./${sw}.sh)
 	if [[ ${versionfromjson} != ${versionfromsh} ]]; then
 		echo >&2 "ERROR: ${sw} failed to get version (<${versionfromjson}> != <${versionfromsh}>)"
 		exit 1
 	fi
 	printf "%-16s %-10s %-10s\n" "${sw}" "${versionfromjson}" "${versionfromsh}"
-done
+}
+
+check_all() {
+	local sw
+	for sw in ${softwares[@]}
+	do
+		check_one ${sw}
+	done
+}
+
+if [[ -z $1 ]]; then
+	check_all
+else
+	check_one $1
+fi
