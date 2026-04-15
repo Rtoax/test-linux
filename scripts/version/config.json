@@ -119,6 +119,19 @@
 		"pciutils": {
 			"command": [ "lspci" ]
 		},
+		"podman": {},
+		"procps-ng": {
+			"command": [ "ps" ]
+		},
+		"psmisc": {
+			"command": [ "pstree" ],
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"python": {
+			"command": [ "python", "python3" ]
+		},
 		"shell": {
 			"command": [ "bash", "sh" ],
 			"keys": [ "shell", "bash", "sh" ]

@@ -10,7 +10,7 @@ readonly softwares=( $(jq -r '.software' config.json  | jq -r 'keys[]') )
 getversion() {
 	local sw=$1
 	local cmd version
-	local cmds=( $(jq -r ".software.${sw}.command[]" config.json 2>/dev/null) )
+	local cmds=( $(jq -r --arg sw "${sw}" ".software[\"${sw}\"].command[]" config.json 2>/dev/null) )
 	if [[ ${#cmds[@]} -lt 1 ]]; then
 		cmds=( ${sw} )
 	fi
@@ -53,6 +53,7 @@ getversion() {
 						exit 1
 						;;
 					esac
+					#echo >&2 "${cmd} ${arg} 2>&1 | grep -Eo "${greparg}" 2>/dev/null | head -1"
 					version=$( ${cmd} ${arg} 2>&1 | \
 							grep -Eo "${greparg}" 2>/dev/null | \
 							head -1 )
