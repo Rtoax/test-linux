@@ -132,9 +132,41 @@
 		"python": {
 			"command": [ "python", "python3" ]
 		},
+		"redis": {
+			"command": [ "redis-server", "redis-cli" ]
+		},
+		"rocm": {
+			"command": [ "hipcc" ]
+		},
+		"rpm": {},
+		"rust": {
+			"command": [ "rustc" ]
+		},
+		"sed": {
+			"version": {
+				"length": [ 2 ]
+			}
+		},
 		"shell": {
 			"command": [ "bash", "sh" ],
 			"keys": [ "shell", "bash", "sh" ]
+		},
+		"sphinx": {
+			"command": [ "sphinx-build" ]
+		},
+		"strace": {
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"systemd": {
+			"command": [ "systemctl" ],
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"util-linux": {
+			"command": [ "getopt", "lscpu" ]
 		},
 		"vim": {
 			"command": [ "vim" ],
