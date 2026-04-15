@@ -12,15 +12,15 @@ readonly softwares=( $(jq -r '.software' config.json  | jq -r 'keys[]') )
 getversion() {
 	local sw=$1
 	local cmd lib version
-	local cmds=( $(jq -r --arg sw "${sw}" ".software[\"${sw}\"].command[]" config.json 2>/dev/null) )
+	local cmds=( $(jq -r --arg s "${sw}" '.software[$s].command[]' config.json 2>/dev/null) )
 	if [[ ${#cmds[@]} -lt 1 ]]; then
 		cmds=( ${sw} )
 	fi
-	local libs=( $(jq -r --arg sw "${sw}" ".software[\"${sw}\"].library[]" config.json 2>/dev/null) )
+	local libs=( $(jq -r --arg s "${sw}" '.software[$s].library[]' config.json 2>/dev/null) )
 
-	local vargs=( $(jq -r --arg sw "${sw}" ".software[\"${sw}\"].version.argument[]" config.json 2>/dev/null || true) )
-	local vlens=( $(jq -r --arg sw "${sw}" ".software[\"${sw}\"].version.length[]" config.json 2>/dev/null || true) )
-	local vseps=( $(jq -r --arg sw "${sw}" ".software[\"${sw}\"].version.seperator[]" config.json 2>/dev/null || true) )
+	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.argument[]' config.json 2>/dev/null || true) )
+	local vlens=( $(jq -r --arg s "${sw}" '.software[$s].version.length[]' config.json 2>/dev/null || true) )
+	local vseps=( $(jq -r --arg s "${sw}" '.software[$s].version.seperator[]' config.json 2>/dev/null || true) )
 
 	[[ ${#vargs} -eq 0 ]] && vargs=( ${common_vargs[@]} )
 	[[ ${#vlens} -eq 0 ]] && vlens=( ${common_vlens[@]} )
@@ -78,7 +78,6 @@ getversion() {
 		version_filter "$(ldconfig_libver ${lib})"
 		[[ ${version} ]] && break
 	done # library
-
 
 	#echo "${sw}: ${cmds[@]}, ${vargs[@]}, ${vlens[@]}, ${vseps[@]}, ${version}"
 	echo ${version}
