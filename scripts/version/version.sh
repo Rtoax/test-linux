@@ -3,6 +3,8 @@ set -e
 
 source $(dirname $(realpath $0))/libversion.sh
 
+name=
+
 readonly common_vlens=( $(jq -r '.common.version.length[]' config.json) )
 readonly common_vargs=( $(jq -r '.common.version.argument[]' config.json) )
 readonly common_vseps=( $(jq -r '.common.version.seperator[]' config.json) )
@@ -126,8 +128,51 @@ check_all() {
 	done
 }
 
-if [[ -z $1 ]]; then
+__version_usage__()
+{
+	echo -e "
+-h, --help               show this help information
+-v, --verbose            show detail during running
+" | more
+	exit ${1-0}
+}
+
+TEMP_ARGS=$(getopt \
+	--options n:vh \
+	--long name: \
+	--long verbose \
+	--long help \
+	-n version -- "$@")
+
+test $? != 0 && __version_usage__ 1
+
+eval set -- "$TEMP_ARGS"
+
+while true; do
+	case $1 in
+	-n|--name)
+		shift
+		name=$1
+		shift
+		;;
+	-h|--help)
+		shift
+		__version_usage__
+		;;
+	-v|--verbose)
+		shift
+		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+		set -x
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+if [[ -z ${name} ]]; then
 	check_all
 else
-	check_one $1
+	check_one ${name}
 fi
