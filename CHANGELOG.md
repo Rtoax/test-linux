@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- scripts/version: add config.json;
 - qemu-vm.sh: support monitor;
 - cxl: add info.sh;
 - scripts/rootfs/fedora.sh: support build fedora rootfs on ubuntu;

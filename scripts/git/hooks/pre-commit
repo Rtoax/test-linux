@@ -107,8 +107,8 @@ do
 	if [[ $(basename $f) == vmlinux.h ]]; then
 		fatal "vmlinux.h is too big, generate it with bpftool command!!!"
 	fi
-	if [[ $(file $f | awk '{print $NF}') == data ]] && [[ -z ${FC} ]]; then
-		fatal "$f is considered a data file!!!"
+	if [[ "$(file $f) " =~ ": data " ]] && [[ -z ${FC} ]]; then
+		fatal "$f is considered a data file, forbidden to commit!!!"
 	fi
 done
 

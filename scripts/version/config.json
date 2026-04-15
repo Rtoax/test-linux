@@ -1,0 +1,31 @@
+{
+	"version": "0.0.1",
+	"common": {
+		"version": {
+			"length": [ 3 ],
+			"argument": [ "--version", "-V" ],
+			"seperator": [ "." ]
+		}
+	},
+	"software": {
+		"dracut": {
+			"command": [ "dracut" ],
+			"version": {
+				"length": [ 2 ],
+				"seperator": [ "-" ]
+			},
+			"keys": [ "dracut", "initramfs", "initrd" ]
+		},
+		"shell": {
+			"command": [ "bash", "sh" ],
+			"keys": [ "shell", "bash", "sh" ]
+		},
+		"vim": {
+			"command": [ "vim" ],
+			"version": {
+				"length": [ 2 ]
+			},
+			"keys": [ "vim" ]
+		}
+	}
+}
