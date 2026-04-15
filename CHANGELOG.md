@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- shell: add pipe.sh test;
 - scripts/version: add config.json;
 - qemu-vm.sh: support monitor;
 - cxl: add info.sh;

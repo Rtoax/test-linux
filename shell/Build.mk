@@ -17,6 +17,7 @@ target-shell-y += nested-func.sh
 target-shell-y += num.sh
 target-shell-y += open-fd.sh
 target-shell-y += parallel.sh
+target-shell-y += pipe.sh
 target-shell-y += replace.sh
 target-shell-y += ret.sh
 target-shell-y += root-chk.sh

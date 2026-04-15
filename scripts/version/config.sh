@@ -26,53 +26,8 @@ getversion() {
 	[[ ${#vlens} -eq 0 ]] && vlens=( ${common_vlens[@]} )
 	[[ ${#vseps} -eq 0 ]] && vseps=( ${common_vseps[@]} )
 
-	for cmd in ${cmds[@]};
-	do
-		if [[ -z "$(which ${cmd} 2>/dev/null)" ]]; then
-			continue
-		fi
-		local arg
-		for arg in ${vargs[@]};
-		do
-			local sep
-			for sep in ${vseps[@]}
-			do
-				[[ "${sep}" == "." ]] && sep="\\${sep}"
-				local vlen
-				for vlen in ${vlens[@]}
-				do
-					local greparg
-					case ${vlen} in
-					3)
-						greparg="[0-9]+${sep}[0-9]+${sep}[0-9]+"
-						;;
-					2)
-						greparg="[0-9]+${sep}[0-9]+"
-						;;
-					1)
-						greparg="[0-9]+"
-						;;
-					*)
-						echo >&2 "ERROR: version length only 1,2,3"
-						exit 1
-						;;
-					esac
-					#echo >&2 "${cmd} ${arg} 2>&1 | grep -Eo "${greparg}" 2>/dev/null | head -1"
-					version=$( ${cmd} ${arg} 2>&1 | \
-							grep -Eo "${greparg}" 2>/dev/null | \
-							head -1 )
-					[[ ${version} ]] && break
-				done # length
-				[[ ${version} ]] && break
-			done # seperator
-			[[ ${version} ]] && break
-		done # argument
-		[[ ${version} ]] && break
-	done # command
-
-	for lib in ${libs[@]};
-	do
-		local libpath=$(ldconfig_libver ${lib})
+	version_filter() {
+		local greparg
 		local sep
 		for sep in ${vseps[@]}
 		do
@@ -80,7 +35,6 @@ getversion() {
 			local vlen
 			for vlen in ${vlens[@]}
 			do
-				local greparg
 				case ${vlen} in
 				3)
 					greparg="[0-9]+${sep}[0-9]+${sep}[0-9]+"
@@ -96,13 +50,32 @@ getversion() {
 					exit 1
 					;;
 				esac
-				version=$( echo ${libpath} 2>&1 | \
+				version=$( echo "${@}" 2>&1 | \
 						grep -Eo "${greparg}" 2>/dev/null | \
 						head -1 )
 				[[ ${version} ]] && break
 			done # length
 			[[ ${version} ]] && break
 		done # seperator
+	}
+
+	for cmd in ${cmds[@]};
+	do
+		if [[ -z "$(which ${cmd} 2>/dev/null)" ]]; then
+			continue
+		fi
+		local arg
+		for arg in ${vargs[@]};
+		do
+			version_filter "$( ${cmd} ${arg} 2>&1 )"
+			[[ ${version} ]] && break
+		done # argument
+		[[ ${version} ]] && break
+	done # command
+
+	for lib in ${libs[@]};
+	do
+		version_filter "$(ldconfig_libver ${lib})"
 		[[ ${version} ]] && break
 	done # library
 
