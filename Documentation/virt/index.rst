@@ -6,6 +6,7 @@ Virtualization
    :maxdepth: 1
 
    abbrev
+   qemu
    sr-iov
    virtio
    vhost
