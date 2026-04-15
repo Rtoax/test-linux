@@ -157,7 +157,7 @@
 			"command": [ "python", "python3" ]
 		},
 		"qemu": {
-			"command": [ "qemu-kvm" ]
+			"command": [ "qemu-kvm", "/usr/libexec/qemu-kvm" ]
 		},
 		"redis": {
 			"command": [ "redis-server", "redis-cli" ]

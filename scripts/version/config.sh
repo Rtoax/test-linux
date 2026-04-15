@@ -62,6 +62,7 @@ getversion() {
 	for cmd in ${cmds[@]};
 	do
 		if [[ -z "$(which ${cmd} 2>/dev/null)" ]]; then
+			echo >&2 "WARNING: ${sw} not found ${cmd}"
 			continue
 		fi
 		local arg
