@@ -59,8 +59,13 @@ getversion() {
 		done # seperator
 	}
 
+	replace_keys() {
+		echo ${@} | sed "s|@ARCH@|$(uname -m)|g"
+	}
+
 	for cmd in ${cmds[@]};
 	do
+		cmd=$(replace_keys ${cmd})
 		if [[ -z "$(which ${cmd} 2>/dev/null)" ]]; then
 			echo >&2 "WARNING: ${sw} not found ${cmd}"
 			continue

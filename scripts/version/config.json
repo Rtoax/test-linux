@@ -157,7 +157,12 @@
 			"command": [ "python", "python3" ]
 		},
 		"qemu": {
-			"command": [ "qemu-kvm", "/usr/libexec/qemu-kvm" ]
+			"command": [
+				"qemu-kvm",
+				"/usr/libexec/qemu-kvm",
+				"/usr/bin/qemu-system-@ARCH@",
+				"/usr/libexec/qemu-system-@ARCH@"
+			]
 		},
 		"redis": {
 			"command": [ "redis-server", "redis-cli" ]
