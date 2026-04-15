@@ -60,6 +60,26 @@
 				"argument": [ "version" ]
 			}
 		},
+		"java": {
+			"command": [ "javac" ]
+		},
+		"kmod": {
+			"command": [ "insmod", "modprobe" ],
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"latexmk": {
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"libvirt": {
+			"command": [ "virsh" ]
+		},
+		"llvm": {
+			"command": [ "llvm-config", "llvm-objdump" ]
+		},
 		"shell": {
 			"command": [ "bash", "sh" ],
 			"keys": [ "shell", "bash", "sh" ]
