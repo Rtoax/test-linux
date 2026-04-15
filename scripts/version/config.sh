@@ -33,6 +33,7 @@ getversion() {
 			local sep
 			for sep in ${vseps[@]}
 			do
+				[[ "${sep}" == "." ]] && sep="\\${sep}"
 				local vlen
 				for vlen in ${vlens[@]}
 				do
@@ -59,10 +60,16 @@ getversion() {
 		[[ ${version} ]] && break
 	done # command
 
-	echo "${sw}: ${cmds[@]}, ${vargs[@]}, ${vlens[@]}, ${vseps[@]}, ${version}"
+	#echo "${sw}: ${cmds[@]}, ${vargs[@]}, ${vlens[@]}, ${vseps[@]}, ${version}"
+	echo ${version}
 }
 
 for sw in ${softwares[@]}
 do
-	getversion ${sw}
+	versionfromjson=$(getversion ${sw})
+	versionfromsh=$(./${sw}.sh)
+	if [[ ${versionfromjson} != ${versionfromsh} ]]; then
+		echo >&2 "ERROR: ${sw} failed to get version"
+	fi
+	printf "%-10s %-10s %-10s\n" "${sw}" "${versionfromjson}" "${versionfromsh}"
 done

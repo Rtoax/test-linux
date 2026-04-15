@@ -16,6 +16,9 @@
 		"capstone": {
 			"command": [ "cstool" ]
 		},
+		"cuda": {
+			"command": [ "nvcc", "/usr/local/cuda/bin/nvcc" ]
+		},
 		"cmake": {},
 		"dracut": {
 			"command": [ "dracut" ],
@@ -24,6 +27,38 @@
 				"seperator": [ "-" ]
 			},
 			"keys": [ "dracut", "initramfs", "initrd" ]
+		},
+		"ethtool": {
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"ffmpeg": {
+			"version": {
+				"argument": [ "-version" ]
+			}
+		},
+		"findutils": {
+			"command": [ "find" ]
+		},
+		"gcc": {},
+		"gdb": {
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"git": {},
+		"gnome": {
+			"command": [ "gnome-shell" ],
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"gnuplot": {},
+		"go": {
+			"version": {
+				"argument": [ "version" ]
+			}
 		},
 		"shell": {
 			"command": [ "bash", "sh" ],
