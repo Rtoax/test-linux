@@ -12,17 +12,22 @@
 			"command": [ "dracut" ],
 			"version": {
 				"length": [ 2 ],
+				"argument": [ "--version" ],
 				"seperator": [ "-" ]
 			},
 			"keys": [ "dracut", "initramfs", "initrd" ]
 		},
 		"shell": {
 			"command": [ "bash", "sh" ],
+			"version": {
+				"argument": [ "--version" ]
+			},
 			"keys": [ "shell", "bash", "sh" ]
 		},
 		"vim": {
 			"command": [ "vim" ],
 			"version": {
+				"argument": [ "--version" ],
 				"length": [ 2 ]
 			},
 			"keys": [ "vim" ]
