@@ -158,7 +158,9 @@
 			}
 		},
 		"python": {
-			"command": [ "python", "python3" ]
+			"command": [ "python", "python3" ],
+			"keys": [ "python", "pytorch" ],
+			"extension": [ "py" ]
 		},
 		"qemu": {
 			"command": [

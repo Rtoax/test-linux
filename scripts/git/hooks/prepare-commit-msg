@@ -17,6 +17,7 @@ readonly COMMIT_SHA1=$3
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
 readonly TOPDIR=$(realpath ${MY_DIRECTORY}/../../../)
 readonly VERDIR=${TOPDIR}/scripts/version
+readonly VERSH=${TOPDIR}/scripts/version/version.sh
 readonly first_nonempyline=$(sed -n '/[^[:space:]]/ { =; q }' ${COMMIT_MSG_FILE})
 readonly first_commentline=$(sed -n '/^#/ { =; q }' ${COMMIT_MSG_FILE})
 readonly signed_off_by_line=$(awk '/^Signed-off-by:/{print NR; exit}' ${COMMIT_MSG_FILE})
@@ -480,7 +481,7 @@ if [[ "$(has_key binutils bfd)" ]]; then
 	binutils_ver
 fi
 
-if [[ "$(has_key ai pytorch python py)" ]]; then
+if [[ "$(has_content $(${VERSH} -n python -K))$(has_key $(${VERSH} -n python -K))" ]]; then
 	py_ver
 fi
 
