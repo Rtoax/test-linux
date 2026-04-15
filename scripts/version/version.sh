@@ -119,7 +119,7 @@ getversion() {
 check_one() {
 	local sw=$1
 	local versionfromjson=$(getversion ${sw})
-	local versionfromsh=$(./${sw}.sh)
+	local versionfromsh=$(${ROOTDIR}/${sw}.sh)
 	if [[ ${versionfromjson} != ${versionfromsh} ]]; then
 		echo >&2 "ERROR: ${sw} failed to get version (<${versionfromjson}> != <${versionfromsh}>)"
 		exit 1
