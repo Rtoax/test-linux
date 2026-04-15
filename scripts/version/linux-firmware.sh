@@ -18,4 +18,4 @@ rpmver() {
 		grep -v 'is not installed'
 }
 
-debver || rpmver
+( debver || rpmver ) | grep -Eo '[0-9]+-[0-9]+'

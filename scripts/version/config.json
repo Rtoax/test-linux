@@ -86,6 +86,16 @@
 		"libxdp": {
 			"library": [ "libxdp.so" ]
 		},
+		"linux-firmware": {
+			"package": {
+				"deb": [ "firmware-linux-free", "linux-firmware" ],
+				"rpm": [ "linux-firmware" ]
+			},
+			"version": {
+				"length": [ 2 ],
+				"seperator": [ "-" ]
+			}
+		},
 		"llvm": {
 			"command": [ "llvm-config", "llvm-objdump" ]
 		},
