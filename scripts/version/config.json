@@ -80,6 +80,45 @@
 		"llvm": {
 			"command": [ "llvm-config", "llvm-objdump" ]
 		},
+		"lsof": {
+			"version": {
+				"argument": [ "-v" ]
+			}
+		},
+		"make": {
+			"version": {
+				"length": [ 3, 2 ]
+			}
+		},
+		"memcached": {},
+		"nasm": {},
+		"ndctl": {
+			"version": {
+				"length": [ 1 ]
+			}
+		},
+		"NetworkManager": {
+			"command": [ "nmcli" ]
+		},
+		"numactl": {},
+		"openssl": {
+			"version": {
+				"argument": [ "--version", "version" ]
+			}
+		},
+		"ostree": {
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"pahole": {
+			"version": {
+				"length": [ 2 ]
+			}
+		},
+		"pciutils": {
+			"command": [ "lspci" ]
+		},
 		"shell": {
 			"command": [ "bash", "sh" ],
 			"keys": [ "shell", "bash", "sh" ]

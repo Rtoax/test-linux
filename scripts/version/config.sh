@@ -45,13 +45,17 @@ getversion() {
 					2)
 						greparg="[0-9]+${sep}[0-9]+"
 						;;
+					1)
+						greparg="[0-9]+"
+						;;
 					*)
-						echo >&2 "ERROR: version length only 2,3"
+						echo >&2 "ERROR: version length only 1,2,3"
 						exit 1
 						;;
 					esac
-					version=$( ${cmd} ${arg} | grep -Eo "${greparg}" 2>/dev/null | head -1 || true )
-					#${cmd} ${arg} | grep -Eo "${greparg}" 2>/dev/null | head -1 || true >&2
+					version=$( ${cmd} ${arg} 2>&1 | \
+							grep -Eo "${greparg}" 2>/dev/null | \
+							head -1 )
 					[[ ${version} ]] && break
 				done # length
 				[[ ${version} ]] && break
@@ -73,5 +77,5 @@ do
 		echo >&2 "ERROR: ${sw} failed to get version (<${versionfromjson}> != <${versionfromsh}>)"
 		exit 1
 	fi
-	printf "%-10s %-10s %-10s\n" "${sw}" "${versionfromjson}" "${versionfromsh}"
+	printf "%-16s %-10s %-10s\n" "${sw}" "${versionfromjson}" "${versionfromsh}"
 done

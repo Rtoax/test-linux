@@ -22,7 +22,7 @@ $(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
 			gcc gdb git gnome gnuplot go hpcc java kmod latexmk \
 			libbpf \
 			libvirt libxdp \
-			llvm lsof luca make memcached nasm NetworkManater \
+			llvm lsof luca make memcached nasm NetworkManager \
 			ndctl numactl openssl \
 			ostree pahole pciutils podman procps-ng psmisc python \
 			qemu redis rocm rpm rust shell sphinx strace systemd \

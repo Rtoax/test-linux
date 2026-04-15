@@ -6,7 +6,7 @@ if [[ -z ${nasm} ]]; then
 	exit 0
 fi
 
-version=$( ${nasm} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]' 2>/dev/null || true )
+version=$( ${nasm} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true )
 
 source $(dirname $(realpath $0))/libversion.sh
 
