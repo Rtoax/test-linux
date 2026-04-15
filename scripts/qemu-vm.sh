@@ -774,9 +774,19 @@ config_basic() {
 	qargs+=( -uuid $(gen_uuid) )
 	qargs+=( -enable-kvm )
 
+	# -qmp <protocol>:<path>[,server][,nowait]
+	# -qmp unix:/tmp/qmp-sock,server,nowait
+	# $ sudo socat - UNIX-CONNECT:/tmp/qmp-sock
+	# Or use:
+	# -qmp tcp:0.0.0.0:4444,server,nowait
+	# $ telnet localhost 4444
+	# Or use:
+	# -qmp stdio
 	qargs+=( -qmp unix:$PWD/qmp-${q_vm_name}.sock,server=on,wait=off )
+	cleanup_files+=( $PWD/qmp-${q_vm_name}.sock )
+
 	qargs+=( -pidfile ${q_vm_name}.pid)
-	cleanup_files+=( $PWD/qmp-${q_vm_name}.sock ${q_vm_name}.pid )
+	cleanup_files+=( ${q_vm_name}.pid )
 
 	# Qemu monitor
 	if [[ ${q_monitor} ]]; then
