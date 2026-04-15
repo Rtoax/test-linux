@@ -84,14 +84,14 @@ getversion() {
 		local debs=( $(jq -r --arg s "${sw}" '.software[$s].package.deb[]' config.json 2>/dev/null) )
 		for deb in ${debs}
 		do
-			version_filter "$(dpkg-query -W -f='${Version}\n' numactl 2>/dev/null)"
+			version_filter "$(dpkg-query -W -f='${Version}\n' ${deb} 2>/dev/null)"
 			[[ ${version} ]] && break
 		done
 		[[ ${version} ]] && break
 		local rpms=( $(jq -r --arg s "${sw}" '.software[$s].package.rpm[]' config.json 2>/dev/null) )
 		for rpm in ${rpms}
 		do
-			version_filter "$(rpm -q --queryformat='%{VERSION}\n' numactl 2>/dev/null)"
+			version_filter "$(rpm -q --queryformat='%{VERSION}-%{release}\n' ${rpm} 2>/dev/null)"
 			[[ ${version} ]] && break
 		done
 	fi
