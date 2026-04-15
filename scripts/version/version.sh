@@ -1,28 +1,30 @@
 #!/bin/bash
 set -e
 
-source $(dirname $(realpath $0))/libversion.sh
+readonly ROOTDIR=$(dirname $(realpath $0))
+source ${ROOTDIR}/libversion.sh
+readonly CONFIG=${ROOTDIR}/config.json
 
 name=
 
-readonly common_vlens=( $(jq -r '.common.version.length[]' config.json) )
-readonly common_vargs=( $(jq -r '.common.version.argument[]' config.json) )
-readonly common_vseps=( $(jq -r '.common.version.seperator[]' config.json) )
+readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
+readonly common_vargs=( $(jq -r '.common.version.argument[]' ${CONFIG}) )
+readonly common_vseps=( $(jq -r '.common.version.seperator[]' ${CONFIG}) )
 
-readonly softwares=( $(jq -r '.software' config.json  | jq -r 'keys[]') )
+readonly softwares=( $(jq -r '.software' ${CONFIG}  | jq -r 'keys[]') )
 
 getversion() {
 	local sw=$1
 	local cmd lib version
-	local cmds=( $(jq -r --arg s "${sw}" '.software[$s].command[]' config.json 2>/dev/null) )
+	local cmds=( $(jq -r --arg s "${sw}" '.software[$s].command[]' ${CONFIG} 2>/dev/null) )
 	if [[ ${#cmds[@]} -lt 1 ]]; then
 		cmds=( ${sw} )
 	fi
-	local libs=( $(jq -r --arg s "${sw}" '.software[$s].library[]' config.json 2>/dev/null) )
+	local libs=( $(jq -r --arg s "${sw}" '.software[$s].library[]' ${CONFIG} 2>/dev/null) )
 
-	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.argument[]' config.json 2>/dev/null || true) )
-	local vlens=( $(jq -r --arg s "${sw}" '.software[$s].version.length[]' config.json 2>/dev/null || true) )
-	local vseps=( $(jq -r --arg s "${sw}" '.software[$s].version.seperator[]' config.json 2>/dev/null || true) )
+	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.argument[]' ${CONFIG} 2>/dev/null || true) )
+	local vlens=( $(jq -r --arg s "${sw}" '.software[$s].version.length[]' ${CONFIG} 2>/dev/null || true) )
+	local vseps=( $(jq -r --arg s "${sw}" '.software[$s].version.seperator[]' ${CONFIG} 2>/dev/null || true) )
 
 	[[ ${#vargs} -eq 0 ]] && vargs=( ${common_vargs[@]} )
 	[[ ${#vlens} -eq 0 ]] && vlens=( ${common_vlens[@]} )
@@ -89,14 +91,14 @@ getversion() {
 
 	if [[ -z ${version} ]]; then
 		local deb rpm
-		local debs=( $(jq -r --arg s "${sw}" '.software[$s].package.deb[]' config.json 2>/dev/null) )
+		local debs=( $(jq -r --arg s "${sw}" '.software[$s].package.deb[]' ${CONFIG} 2>/dev/null) )
 		for deb in ${debs}
 		do
 			version_filter "$(dpkg-query -W -f='${Version}\n' ${deb} 2>/dev/null)"
 			[[ ${version} ]] && break
 		done
 		if [[ -z ${version} ]]; then
-			local rpms=( $(jq -r --arg s "${sw}" '.software[$s].package.rpm[]' config.json 2>/dev/null) )
+			local rpms=( $(jq -r --arg s "${sw}" '.software[$s].package.rpm[]' ${CONFIG} 2>/dev/null) )
 			for rpm in ${rpms}
 			do
 				version_filter "$(rpm -q --queryformat='%{VERSION}-%{release}\n' ${rpm} 2>/dev/null)"
@@ -131,6 +133,8 @@ check_all() {
 __version_usage__()
 {
 	echo -e "
+-n, --name [NAME]        specify software to test
+
 -h, --help               show this help information
 -v, --verbose            show detail during running
 " | more
@@ -171,8 +175,10 @@ while true; do
 	esac
 done
 
-if [[ -z ${name} ]]; then
-	check_all
-else
-	check_one ${name}
+if [[ ${name} ]]; then
+	if [[ ${name} == ALL ]]; then
+		check_all
+	else
+		check_one ${name}
+	fi
 fi

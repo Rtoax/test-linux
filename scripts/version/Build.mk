@@ -30,6 +30,7 @@ $(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
   $(eval $(call test_mmp,${software})) \
 )
 
+PROG_ARGS_version.sh := --name ALL
 PROG_ARGS_distro.sh.1 := short
 
 PROG_ARGS_redis.sh.4 := --name
