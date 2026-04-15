@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-target-prog-y += config.sh
+target-prog-y += version.sh
 target-prog-y += linux.sh
 target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
