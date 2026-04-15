@@ -8,8 +8,9 @@ readonly CONFIG=${ROOTDIR}/config.json
 name=
 check=
 
-show_keys=
 show_list=
+show_keys=
+show_exts=
 
 readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
 readonly common_vargs=( $(jq -r '.common.version.argument[]' ${CONFIG}) )
@@ -141,6 +142,7 @@ __version_usage__()
 
 -L, --list               show software list
 -K, --keys               show software keys
+-E, --ext                show software extensions
 
 --check                  check versions
 
@@ -151,8 +153,10 @@ __version_usage__()
 }
 
 TEMP_ARGS=$(getopt \
-	--options n:LKvh \
+	--options n:LKEvh \
 	--long name: \
+	--long keys \
+	--long ext \
 	--long check \
 	--long list \
 	--long verbose \
@@ -177,6 +181,10 @@ while true; do
 	-K|--keys)
 		shift
 		show_keys=ON
+		;;
+	-E|--ext)
+		shift
+		show_exts=ON
 		;;
 	--check)
 		shift
@@ -205,6 +213,12 @@ fi
 if [[ ${show_keys} ]]; then
 	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
 		jq -r --arg s "${name}" '.software[$s].keys[]' ${CONFIG} 2>/dev/null
+	fi
+fi
+
+if [[ ${show_exts} ]]; then
+	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
+		jq -r --arg s "${name}" '.software[$s].extension[]' ${CONFIG} 2>/dev/null
 	fi
 fi
 

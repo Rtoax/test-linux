@@ -16,7 +16,10 @@
 			"command": [ "ld.bfd" ]
 		},
 		"bpftool": {},
-		"bpftrace": {},
+		"bpftrace": {
+			"extension": [ "bt" ],
+			"keys": [ "bpftrace" ]
+		},
 		"capstone": {
 			"command": [ "cstool" ]
 		},
