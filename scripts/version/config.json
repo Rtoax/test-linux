@@ -8,6 +8,9 @@
 		}
 	},
 	"software": {
+		"bcc": {
+			"library": [ "libbcc.so", "libbcc_bpf.so" ]
+		},
 		"binutils": {
 			"command": [ "ld.bfd" ]
 		},
@@ -74,8 +77,14 @@
 				"length": [ 2 ]
 			}
 		},
+		"libbpf": {
+			"library": [ "libbpf.so" ]
+		},
 		"libvirt": {
 			"command": [ "virsh" ]
+		},
+		"libxdp": {
+			"library": [ "libxdp.so" ]
 		},
 		"llvm": {
 			"command": [ "llvm-config", "llvm-objdump" ]

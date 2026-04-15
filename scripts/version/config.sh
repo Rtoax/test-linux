@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+source $(dirname $(realpath $0))/libversion.sh
+
 readonly common_vlens=( $(jq -r '.common.version.length[]' config.json) )
 readonly common_vargs=( $(jq -r '.common.version.argument[]' config.json) )
 readonly common_vseps=( $(jq -r '.common.version.seperator[]' config.json) )
@@ -9,11 +11,13 @@ readonly softwares=( $(jq -r '.software' config.json  | jq -r 'keys[]') )
 
 getversion() {
 	local sw=$1
-	local cmd version
+	local cmd lib version
 	local cmds=( $(jq -r --arg sw "${sw}" ".software[\"${sw}\"].command[]" config.json 2>/dev/null) )
 	if [[ ${#cmds[@]} -lt 1 ]]; then
 		cmds=( ${sw} )
 	fi
+	local libs=( $(jq -r --arg sw "${sw}" ".software[\"${sw}\"].library[]" config.json 2>/dev/null) )
+
 	local vargs=( $(jq -r ".software.${sw}.version.argument[]" config.json 2>/dev/null || true) )
 	local vlens=( $(jq -r ".software.${sw}.version.length[]" config.json 2>/dev/null || true) )
 	local vseps=( $(jq -r ".software.${sw}.version.seperator[]" config.json 2>/dev/null || true) )
@@ -65,6 +69,42 @@ getversion() {
 		done # argument
 		[[ ${version} ]] && break
 	done # command
+
+	for lib in ${libs[@]};
+	do
+		local libpath=$(ldconfig_libver ${lib})
+		local sep
+		for sep in ${vseps[@]}
+		do
+			[[ "${sep}" == "." ]] && sep="\\${sep}"
+			local vlen
+			for vlen in ${vlens[@]}
+			do
+				local greparg
+				case ${vlen} in
+				3)
+					greparg="[0-9]+${sep}[0-9]+${sep}[0-9]+"
+					;;
+				2)
+					greparg="[0-9]+${sep}[0-9]+"
+					;;
+				1)
+					greparg="[0-9]+"
+					;;
+				*)
+					echo >&2 "ERROR: version length only 1,2,3"
+					exit 1
+					;;
+				esac
+				version=$( echo ${libpath} 2>&1 | \
+						grep -Eo "${greparg}" 2>/dev/null | \
+						head -1 )
+				[[ ${version} ]] && break
+			done # length
+			[[ ${version} ]] && break
+		done # seperator
+		[[ ${version} ]] && break
+	done # library
 
 	#echo "${sw}: ${cmds[@]}, ${vargs[@]}, ${vlens[@]}, ${vseps[@]}, ${version}"
 	echo ${version}
