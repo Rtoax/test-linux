@@ -481,7 +481,7 @@ if [[ "$(has_key binutils bfd)" ]]; then
 fi
 
 if [[ "$(has_content $(${VERSH} -n python -K))$(has_key $(${VERSH} -n python -K))" ]]; then
-	add_ver "Python $(${VERSH} -n python -V)"
+	add_ver "$(${VERSH} -n python) $(${VERSH} -n python -V)"
 fi
 
 # Add lines

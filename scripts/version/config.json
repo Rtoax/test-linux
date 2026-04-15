@@ -9,25 +9,35 @@
 	},
 	"software": {
 		"bcc": {
+			"name": "BCC",
 			"library": [ "libbcc.so", "libbcc_bpf.so" ],
 			"keys": [ "bcc", "bpfcc" ]
 		},
 		"binutils": {
+			"name": "Binutils",
 			"command": [ "ld.bfd" ]
 		},
-		"bpftool": {},
+		"bpftool": {
+			"name": "BPFTool"
+		},
 		"bpftrace": {
+			"name": "BPFTrace",
 			"extension": [ "bt" ],
 			"keys": [ "bpftrace" ]
 		},
 		"capstone": {
+			"name": "Capstone",
 			"command": [ "cstool" ]
 		},
 		"cuda": {
+			"name": "CUDA",
 			"command": [ "nvcc", "/usr/local/cuda/bin/nvcc" ]
 		},
-		"cmake": {},
+		"cmake": {
+			"name": "CMake"
+		},
 		"dracut": {
+			"name": "Dracut",
 			"command": [ "dracut" ],
 			"version": {
 				"length": [ 2 ],
@@ -36,61 +46,80 @@
 			"keys": [ "dracut", "initramfs", "initrd" ]
 		},
 		"ethtool": {
+			"name": "ETHTool",
 			"version": {
 				"length": [ 2 ]
 			}
 		},
 		"ffmpeg": {
+			"name": "FFmeg",
 			"version": {
 				"argument": [ "-version" ]
 			}
 		},
 		"findutils": {
+			"name": "Findutils",
 			"command": [ "find" ]
 		},
-		"gcc": {},
+		"gcc": {
+			"name": "GCC"
+		},
 		"gdb": {
+			"name": "GDB",
 			"version": {
 				"length": [ 2 ]
 			}
 		},
-		"git": {},
+		"git": {
+			"name": "Git"
+		},
 		"gnome": {
+			"name": "GNOME",
 			"command": [ "gnome-shell" ],
 			"version": {
 				"length": [ 2 ]
 			}
 		},
-		"gnuplot": {},
+		"gnuplot": {
+			"name": "GNUPlot"
+		},
 		"go": {
+			"name": "GOLang",
 			"version": {
 				"argument": [ "version" ]
 			}
 		},
 		"java": {
+			"name": "Java",
 			"command": [ "javac" ]
 		},
 		"kmod": {
+			"name": "KMod",
 			"command": [ "insmod", "modprobe" ],
 			"version": {
 				"length": [ 2 ]
 			}
 		},
 		"latexmk": {
+			"name": "LateXmk",
 			"version": {
 				"length": [ 2 ]
 			}
 		},
 		"libbpf": {
+			"name": "LibBpf",
 			"library": [ "libbpf.so" ]
 		},
 		"libvirt": {
+			"name": "LibVirt",
 			"command": [ "virsh" ]
 		},
 		"libxdp": {
+			"name": "LibXDP",
 			"library": [ "libxdp.so" ]
 		},
 		"linux-firmware": {
+			"name": "Linux-FirmWare",
 			"package": {
 				"deb": [ "firmware-linux-free", "linux-firmware" ],
 				"rpm": [ "linux-firmware" ]
@@ -101,68 +130,88 @@
 			}
 		},
 		"llvm": {
+			"name": "LLVM",
 			"command": [ "llvm-config", "llvm-objdump" ]
 		},
 		"lsof": {
+			"name": "Lsof",
 			"version": {
 				"argument": [ "-v" ]
 			}
 		},
 		"make": {
+			"name": "Make",
 			"version": {
 				"length": [ 3, 2 ]
 			}
 		},
-		"memcached": {},
-		"nasm": {},
+		"memcached": {
+			"name": "Memcached"
+		},
+		"nasm": {
+			"name": "Nasm"
+		},
 		"ndctl": {
+			"name": "NDCtl",
 			"version": {
 				"length": [ 1 ]
 			}
 		},
 		"NetworkManager": {
+			"name": "NetworkManager",
 			"command": [ "nmcli" ]
 		},
 		"numactl": {
+			"name": "NumaCTL",
 			"package": {
 				"deb": [ "numactl" ],
 				"rpm": [ "numactl" ]
 			}
 		},
 		"openssl": {
+			"name": "OpenSSL",
 			"version": {
 				"argument": [ "--version", "version" ]
 			}
 		},
 		"ostree": {
+			"name": "OSTree",
 			"version": {
 				"length": [ 2 ]
 			}
 		},
 		"pahole": {
+			"name": "Pahole",
 			"version": {
 				"length": [ 2 ]
 			}
 		},
 		"pciutils": {
+			"name": "PCIUtils",
 			"command": [ "lspci" ]
 		},
-		"podman": {},
+		"podman": {
+			"name": "Podman"
+		},
 		"procps-ng": {
+			"name": "ProcPS-ng",
 			"command": [ "ps" ]
 		},
 		"psmisc": {
+			"name": "PSMisc",
 			"command": [ "pstree" ],
 			"version": {
 				"length": [ 2 ]
 			}
 		},
 		"python": {
+			"name": "Python",
 			"command": [ "python", "python3" ],
 			"keys": [ "python", "pytorch" ],
 			"extension": [ "py" ]
 		},
 		"qemu": {
+			"name": "Qemu",
 			"command": [
 				"qemu-kvm",
 				"/usr/libexec/qemu-kvm",
@@ -171,43 +220,55 @@
 			]
 		},
 		"redis": {
+			"name": "Redis",
 			"command": [ "redis-server", "redis-cli" ]
 		},
 		"rocm": {
+			"name": "ROCm",
 			"command": [ "hipcc" ]
 		},
-		"rpm": {},
+		"rpm": {
+			"name": "RPM"
+		},
 		"rust": {
+			"name": "Rust",
 			"command": [ "rustc" ]
 		},
 		"sed": {
+			"name": "Sed",
 			"version": {
 				"length": [ 2 ]
 			}
 		},
 		"shell": {
+			"name": "SHELL",
 			"command": [ "bash", "sh" ],
 			"keys": [ "shell", "bash", "sh" ]
 		},
 		"sphinx": {
+			"name": "Sphinx",
 			"command": [ "sphinx-build" ]
 		},
 		"strace": {
+			"name": "STrace",
 			"version": {
 				"length": [ 2 ]
 			}
 		},
 		"systemd": {
+			"name": "Systemd",
 			"command": [ "systemctl" ],
 			"version": {
 				"length": [ 2 ]
 			}
 		},
 		"util-linux": {
+			"name": "Util-Linux",
 			"command": [ "getopt", "lscpu" ],
 			"keys": [ "util-linux", "lscpu" ]
 		},
 		"vim": {
+			"name": "VIM",
 			"command": [ "vim" ],
 			"version": {
 				"length": [ 2 ]

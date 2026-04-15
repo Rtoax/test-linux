@@ -136,6 +136,16 @@ check_all() {
 	done
 }
 
+name_one() {
+	local sw=$1
+	local Name=$(jq -r --arg s "${sw}" '.software[$s].name' ${CONFIG} 2>/dev/null)
+	if [[ ${Name} == null ]]; then
+		echo >&2 "WARNING: not found name for ${sw}"
+		Name=${sw}
+	fi
+	echo ${Name}
+}
+
 __version_usage__()
 {
 	echo -e "
@@ -232,6 +242,18 @@ fi
 if [[ ${show_version} ]]; then
 	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
 		getversion ${name}
+	fi
+fi
+
+if [[ ${name} ]] &&
+   [[ -z "${show_list}${show_keys}${show_exts}${show_version}${check}" ]]; then
+	if [[ ${name} == ALL ]]; then
+		for sw in ${softwares[@]}
+		do
+			name_one ${sw}
+		done
+	else
+		name_one ${name}
 	fi
 fi
 
