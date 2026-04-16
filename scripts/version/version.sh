@@ -129,12 +129,12 @@ getversion() {
 
 check_one() {
 	local sw=$1
-	local versionfromjson=$(getversion ${sw})
-	local versionfromsh=$(${ROOTDIR}/${sw}.sh)
-	if [[ ${versionfromjson} != ${versionfromsh} ]]; then
-		error "${sw} failed to get version (<${versionfromjson}> != <${versionfromsh}>)"
+	local versionfromjson=( $(getversion ${sw}) )
+	local versionfromsh=( $(${ROOTDIR}/${sw}.sh) )
+	if [[ "${versionfromjson[@]}" != "${versionfromsh[@]}" ]]; then
+		error "${sw} failed to get version (<${versionfromjson[@]}> != <${versionfromsh[@]}>)"
 	fi
-	printf "%-16s %-10s %-10s\n" "${sw}" "${versionfromjson}" "${versionfromsh}"
+	printf "%-16s %-10s %-10s\n" "${sw}" "${versionfromjson[@]}" "${versionfromsh[@]}"
 }
 
 check_all() {
