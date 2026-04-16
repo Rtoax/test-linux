@@ -174,7 +174,6 @@ has_content() {
 	return 0
 }
 
-bpftrace_ver() { add_ver "BPFTrace $(${VERDIR}/bpftrace.sh)"; }
 capstone_ver() { add_ver "capstone $(${VERDIR}/capstone.sh)"; }
 cmake_ver() { add_ver "CMake $(${VERDIR}/cmake.sh)"; }
 cuda_ver() { add_ver "CUDA $(${VERDIR}/cuda.sh)"; }
@@ -401,10 +400,6 @@ if [[ "$(has_key numa numactl)" ]]; then
 	numactl_ver
 fi
 
-if [[ "$(has_type bt)$(has_key bpftrace)$(has_content bpftrace)" ]]; then
-	bpftrace_ver
-fi
-
 if [[ "$(has_type pem)$(has_key ssl openssl)" ]]; then
 	openssl_ver
 fi
@@ -463,7 +458,7 @@ if [[ "$(has_key libbpf bpf)" ]]; then
 	libbpf_ver
 fi
 
-for sw in bcc binutils bpftool python
+for sw in bcc binutils bpftool bpftrace python
 do
 	if [[ "$(has_content $(${VERSH} -n ${sw} -K))$(has_key $(${VERSH} -n ${sw} -K))" ]]; then
 		add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"
