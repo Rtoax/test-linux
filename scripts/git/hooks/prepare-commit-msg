@@ -174,9 +174,6 @@ has_content() {
 	return 0
 }
 
-as_ver() { add_ver "As $(${VERDIR}/binutils.sh)"; }
-bcc_ver() { add_ver "BCC $(${VERDIR}/bcc.sh)"; }
-binutils_ver() { add_ver "Binutils $(${VERDIR}/binutils.sh)"; }
 bpftool_ver() { add_ver "bpftool $(${VERDIR}/bpftool.sh)"; }
 bpftrace_ver() { add_ver "BPFTrace $(${VERDIR}/bpftrace.sh)"; }
 capstone_ver() { add_ver "capstone $(${VERDIR}/capstone.sh)"; }
@@ -467,22 +464,16 @@ if [[ "$(has_key kmod module)" ]]; then
 	kmod_ver
 fi
 
-if [[ "$(has_type s)$(has_key asm)" ]]; then
-	as_ver
-fi
-
-if [[ "$(has_key libbpf bcc bpf)" ]]; then
-	bcc_ver
+if [[ "$(has_key libbpf bpf)" ]]; then
 	libbpf_ver
 fi
 
-if [[ "$(has_key binutils bfd)" ]]; then
-	binutils_ver
-fi
-
-if [[ "$(has_content $(${VERSH} -n python -K))$(has_key $(${VERSH} -n python -K))" ]]; then
-	add_ver "$(${VERSH} -n python) $(${VERSH} -n python -V)"
-fi
+for sw in bcc binutils python
+do
+	if [[ "$(has_content $(${VERSH} -n ${sw} -K))$(has_key $(${VERSH} -n ${sw} -K))" ]]; then
+		add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"
+	fi
+done
 
 # Add lines
 if [[ ${Versions} ]]; then
