@@ -7,7 +7,7 @@
 				"argument": [ "--version", "-V" ]
 			},
 			"format": {
-				"seperator": [ "." ],
+				"seperator": ".",
 				"major": "major",
 				"minor": "minor",
 				"patch": "patchlevel"
@@ -56,7 +56,7 @@
 			"version": {
 				"length": [ 2 ],
 				"format": {
-					"seperator": [ "-" ]
+					"seperator": "-"
 				}
 			},
 			"keys": [ "dracut", "initramfs", "initrd" ]
@@ -169,7 +169,7 @@
 			"version": {
 				"length": [ 2 ],
 				"format": {
-					"seperator": [ "-" ]
+					"seperator": "-"
 				}
 			},
 			"keys": [ "firmware" ]

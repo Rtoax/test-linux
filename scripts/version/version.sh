@@ -18,7 +18,7 @@ declare -a version_parser_args
 
 readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
 readonly common_vargs=( $(jq -r '.common.version.command.argument[]' ${CONFIG}) )
-readonly common_vseps=( $(jq -r '.common.version.format.seperator[]' ${CONFIG}) )
+readonly common_vsep=$(jq -r '.common.version.format.seperator' ${CONFIG})
 readonly common_major=$(jq -r '.common.version.format.major' ${CONFIG})
 readonly common_minor=$(jq -r '.common.version.format.minor' ${CONFIG})
 readonly common_patch=$(jq -r '.common.version.format.patch' ${CONFIG})
@@ -36,42 +36,39 @@ getversion() {
 
 	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.command.argument[]' ${CONFIG} 2>/dev/null || true) )
 	local vlens=( $(jq -r --arg s "${sw}" '.software[$s].version.length[]' ${CONFIG} 2>/dev/null || true) )
-	local vseps=( $(jq -r --arg s "${sw}" '.software[$s].version.format.seperator[]' ${CONFIG} 2>/dev/null || true) )
+	local vsep=$(jq -r --arg s "${sw}" '.software[$s].version.format.seperator' ${CONFIG} 2>/dev/null || true)
 
 	[[ ${#vargs} -eq 0 ]] && vargs=( ${common_vargs[@]} )
 	[[ ${#vlens} -eq 0 ]] && vlens=( ${common_vlens[@]} )
-	[[ ${#vseps} -eq 0 ]] && vseps=( ${common_vseps[@]} )
+	[[ -z ${vsep} || ${vsep} == null ]] && vsep=${common_vsep}
 
 	version_filter() {
 		local greparg
-		local sep
-		for sep in ${vseps[@]}
+		local sep=${vsep}
+		[[ "${sep}" == "." ]] && sep="\\${sep}"
+		local vlen
+		for vlen in ${vlens[@]}
 		do
-			[[ "${sep}" == "." ]] && sep="\\${sep}"
-			local vlen
-			for vlen in ${vlens[@]}
-			do
-				case ${vlen} in
-				3)
-					greparg="[0-9]+${sep}[0-9]+${sep}[0-9]+"
-					;;
-				2)
-					greparg="[0-9]+${sep}[0-9]+"
-					;;
-				1)
-					greparg="[0-9]+"
-					;;
-				*)
-					error "version length only 1,2,3"
-					;;
-				esac
-				version=$( echo "${@}" 2>&1 | \
-						grep -Eo "${greparg}" 2>/dev/null | \
-						head -1 )
-				[[ ${version} ]] && break
-			done # length
+			case ${vlen} in
+			3)
+				greparg="[0-9]+${sep}[0-9]+${sep}[0-9]+"
+				;;
+			2)
+				greparg="[0-9]+${sep}[0-9]+"
+				;;
+			1)
+				greparg="[0-9]+"
+				;;
+			*)
+				error "version length only 1,2,3"
+				;;
+			esac
+			version=$( echo "${@}" 2>&1 | \
+					grep -Eo "${greparg}" 2>/dev/null | \
+					head -1 )
 			[[ ${version} ]] && break
-		done # seperator
+		done # length
+		[[ ${version} ]] && return
 	}
 
 	replace_keys() {
@@ -118,7 +115,7 @@ getversion() {
 		fi
 	fi
 
-	#echo "${sw}: ${cmds[@]}, ${vargs[@]}, ${vlens[@]}, ${vseps[@]}, ${version}"
+	#echo "${sw}: ${cmds[@]}, ${vargs[@]}, ${vlens[@]}, ${vsep[@]}, ${version}"
 	echo ${version}
 }
 
