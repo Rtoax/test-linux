@@ -7,12 +7,13 @@ if [[ ! -d /sys/firmware/efi/ ]]; then
 fi
 
 # UEFI Specification Version
-spec_version=$(sudo dmesg | grep -i "EFI v" | grep -Eo 'v[0-9]+\.[0-9]+' || :)
+spec_version=$(sudo dmesg | grep -i "EFI v" | grep -Eo 'v[0-9]+\.[0-9]+' || \
+		cat /sys/firmware/efi/fw_platform_size)
 
 # Motherboard vendor
-bios_vendor=$(cat /sys/class/dmi/id/bios_vendor)
-bios_release=$(cat /sys/class/dmi/id/bios_release)
-bios_version=$(cat /sys/class/dmi/id/bios_version)
+bios_vendor=$(cat /sys/class/dmi/id/bios_vendor 2>/dev/null || echo)
+bios_release=$(cat /sys/class/dmi/id/bios_release 2>/dev/null || echo)
+bios_version=$(cat /sys/class/dmi/id/bios_version 2>/dev/null || sudo dmidecode -s bios-version)
 
 case $1 in
 --specmajor)
