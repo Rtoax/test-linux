@@ -97,11 +97,13 @@ getversion() {
 		[[ ${version} ]] && break
 	done # command
 
-	for lib in ${libs[@]};
-	do
-		version_filter "$(ldconfig_libver ${lib})"
-		[[ ${version} ]] && break
-	done # library
+	if [[ -z ${version} ]]; then
+		for lib in ${libs[@]};
+		do
+			version_filter "$(ldconfig_libver ${lib})"
+			[[ ${version} ]] && break
+		done # library
+	fi
 
 	if [[ -z ${version} ]]; then
 		local deb rpm
@@ -189,10 +191,11 @@ version_format_parser() {
 	local ver_arr=( $(echo ${version} | tr "${vsep}" ' ') )
 
 	local TEMP=$(getopt \
-		--options S \
+		--options V \
 		--long ${major} \
 		--long ${minor} \
 		--long ${patch} \
+		--long verbose \
 		-n version-format-parser -- "$@")
 
 	test $? != 0 && error "$0 parser args error"
@@ -212,6 +215,11 @@ version_format_parser() {
 		--${patch})
 			shift
 			echo ${ver_arr[2]}
+			;;
+		-V|--verbose)
+			shift
+			export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+			set -x
 			;;
 		--)
 			shift
@@ -333,7 +341,7 @@ if [[ ${show_exts} ]]; then
 	fi
 fi
 
-if [[ ${show_version} ]]; then
+if [[ ${show_version} ]] && [[ -z ${version_parser_args} ]]; then
 	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
 		getversion ${name}
 	fi
