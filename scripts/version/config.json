@@ -42,6 +42,7 @@
 		},
 		"cuda": {
 			"name": "CUDA",
+			"path": [ "/usr/local/cuda" ],
 			"command": [ "nvcc", "/usr/local/cuda/bin/nvcc" ],
 			"extension": [ "cu" ],
 			"keys": [ "cuda", "nvcc", "nvidia" ]
@@ -123,6 +124,12 @@
 			"extension": [ "go" ],
 			"keys": [ "golang" ]
 		},
+		"hpcc": {
+			"name": "HPCC",
+			"path": [ "/opt/hpcc/" ],
+			"extension": [ "cu", "lc" ],
+			"keys": [ "hpcc", "htcc", "mars", "cuda" ]
+		},
 		"java": {
 			"name": "Java",
 			"command": [ "javac" ],
@@ -189,6 +196,12 @@
 				}
 			},
 			"keys": [ "lsof" ]
+		},
+		"luca": {
+			"name": "LUCA",
+			"path": [ "/opt/luca/" ],
+			"extension": [ "cu", "lc" ],
+			"keys": [ "luca", "lscc", "lingspeed", "cuda" ]
 		},
 		"make": {
 			"name": "Make",

@@ -184,7 +184,6 @@ go_ver() { add_ver "Golang $(${VERDIR}/go.sh)"; }
 git_ver() { add_ver "Git $(${VERDIR}/git.sh)"; }
 glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 gnome_ver() { add_ver "GNOME $(${VERDIR}/gnome.sh)"; }
-hpcc_ver() { add_ver_weak "HPCC $(${VERDIR}/hpcc.sh)"; }
 java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
 kmod_ver() { add_ver "kmod $(${VERDIR}/kmod.sh)"; }
 latexmk_ver() { add_ver_weak "LaTeXmk $(${VERDIR}/latexmk.sh)"; }
@@ -195,7 +194,6 @@ linux_ver() { add_ver "Linux $(uname -r)"; }
 linux_fw_ver() { add_ver "Linux-Firmware $(${VERDIR}/linux-firmware.sh)"; }
 llvm_ver() { add_ver "LLVM $(${VERDIR}/llvm.sh)"; }
 lsof_ver() { add_ver "lsof $(${VERDIR}/lsof.sh)"; }
-luca_ver() { add_ver_weak "LUCA $(${VERDIR}/luca.sh)"; }
 make_ver() { add_ver "Make $(${VERDIR}/make.sh)"; }
 memcached_ver() { add_ver "Memcached $(${VERDIR}/memcached.sh)"; }
 nasm_ver() { add_ver "Nasm $(${VERDIR}/nasm.sh)"; }
@@ -410,19 +408,17 @@ if [[ "$(has_key cuda nvidia rocm amd ROCm AMD)" ]]; then
 	llvm_ver
 fi
 
-if [[ "$(has_key cuda nvidia luca LUCA cestc CESTC)" ]]; then
+if [[ "$(has_key cuda nvidia LUCA cestc CESTC)" ]]; then
 	name=$(${TOPDIR}/hpc/cestc/lingspeed/gpuname.sh)
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
 	fi
-	luca_ver
 	llvm_ver
 fi
 
 [[ "$(has_key lsof)" ]] && lsof_ver
 
-if [[ "$(has_key cuda nvidia hpcc HPCC metax MetaX)" ]]; then
-	hpcc_ver
+if [[ "$(has_key cuda nvidia metax MetaX)" ]]; then
 	llvm_ver
 fi
 
@@ -447,6 +443,8 @@ if [[ "$(has_key libbpf bpf)" ]]; then
 fi
 
 for sw in bcc binutils bpftool bpftrace capstone cmake cuda \
+	hpcc \
+	luca \
 	python
 do
 	if [[ "$(has_content $(${VERSH} -n ${sw} -K))$(has_key $(${VERSH} -n ${sw} -K))" ]]; then

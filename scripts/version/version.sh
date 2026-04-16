@@ -25,6 +25,11 @@ readonly common_patch=$(jq -r '.common.version.format.patch' ${CONFIG})
 
 readonly softwares=( $(jq -r '.software' ${CONFIG}  | jq -r 'keys[]') )
 
+getswpaths() {
+	local sw=$1
+	jq -r --arg s "${sw}" '.software[$s].path[]' ${CONFIG} 2>/dev/null || true
+}
+
 getswsep() {
 	local sw=$1
 	local sep=$(jq -r --arg s "${sw}" '.software[$s].version.format.seperator' ${CONFIG} 2>/dev/null || true)
@@ -49,8 +54,6 @@ getswlibs() {
 getversion() {
 	local sw=$1
 	local cmd lib version
-	local cmds=( $(getswcmds ${sw}) )
-	local libs=( $(getswlibs ${sw}) )
 
 	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.command.argument[]' ${CONFIG} 2>/dev/null || true) )
 	local vlens=( $(jq -r --arg s "${sw}" '.software[$s].version.length[]' ${CONFIG} 2>/dev/null || true) )
@@ -92,6 +95,7 @@ getversion() {
 		echo ${@} | sed "s|@ARCH@|$(uname -m)|g"
 	}
 
+	local cmds=( $(getswcmds ${sw}) )
 	for cmd in ${cmds[@]};
 	do
 		cmd=$(replace_keys ${cmd})
@@ -109,11 +113,21 @@ getversion() {
 	done # command
 
 	if [[ -z ${version} ]]; then
+		local libs=( $(getswlibs ${sw}) )
 		for lib in ${libs[@]};
 		do
 			version_filter "$(ldconfig_libver ${lib})"
 			[[ ${version} ]] && break
 		done # library
+	fi
+
+	if [[ -z ${version} ]]; then
+		local paths=( $(getswpaths ${sw}) )
+		local path
+		for path in ${paths[@]}
+		do
+			version_filter "$(realpath ${path})"
+		done
 	fi
 
 	if [[ -z ${version} ]]; then

@@ -1,12 +1,3 @@
 #!/bin/bash
 set -e
-HPCC_PATH=$(readlink /opt/hpcc || :)
-if [[ -z ${HPCC_PATH} ]]; then
-	echo >&2 "ERROR: not found HPCC in your system"
-	exit 0
-fi
-version=$(echo ${HPCC_PATH} | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
-
-source $(dirname $(realpath $0))/libversion.sh
-
-version_parser ${@} -- ${version}
+$(dirname $(realpath $0))/version.sh -n hpcc -V -- ${@}
