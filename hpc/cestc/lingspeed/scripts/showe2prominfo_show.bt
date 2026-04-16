@@ -6,12 +6,12 @@ BEGIN
 	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
 }
 
-kprobe:ls_smi_attr_show
+kprobe:showe2prominfo_show
 {
 	@buf[tid] = arg2;
 }
 
-kretprobe:ls_smi_attr_show
+kretprobe:showe2prominfo_show
 / @buf[tid] /
 {
 	printf("buf = %s\n", str(@buf[tid]));
