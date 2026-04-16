@@ -146,6 +146,15 @@ name_one() {
 	echo ${Name}
 }
 
+extension_one() {
+	local sw=$1
+	local exts=( $(jq -r --arg s "${sw}" '.software[$s].extension[]' ${CONFIG} 2>/dev/null) )
+	if [[ ${exts} == null ]]; then
+		echo >&2 "WARNING: not found extensions for ${sw}"
+	fi
+	echo ${exts[@]}
+}
+
 __version_usage__()
 {
 	echo -e "
@@ -234,8 +243,13 @@ if [[ ${show_keys} ]]; then
 fi
 
 if [[ ${show_exts} ]]; then
-	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
-		jq -r --arg s "${name}" '.software[$s].extension[]' ${CONFIG} 2>/dev/null
+	if [[ ${name} == ALL ]]; then
+		for sw in ${softwares[@]}
+		do
+			extension_one ${sw}
+		done
+	elif [[ ${name} ]]; then
+		extension_one ${name}
 	fi
 fi
 
