@@ -186,6 +186,7 @@ version_format_parser() {
 
 	local version=$(getversion ${sw})
 	local vsep=$(getswsep ${sw})
+	local ver_arr=( $(echo ${version} | tr "${vsep}" ' ') )
 
 	local TEMP=$(getopt \
 		--options S \
@@ -202,15 +203,15 @@ version_format_parser() {
 		case $1 in
 		--${major})
 			shift
-			warning "TODO: need support --${major}"
+			echo ${ver_arr[0]}
 			;;
 		--${minor})
 			shift
-			warning "TODO: need support --${minor}"
+			echo ${ver_arr[1]}
 			;;
 		--${patch})
 			shift
-			warning "TODO: need support --${patch}"
+			echo ${ver_arr[2]}
 			;;
 		--)
 			shift
