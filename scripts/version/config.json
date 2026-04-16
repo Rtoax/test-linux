@@ -3,7 +3,9 @@
 	"common": {
 		"version": {
 			"length": [ 3 ],
-			"argument": [ "--version", "-V" ],
+			"command": {
+				"argument": [ "--version", "-V" ]
+			},
 			"seperator": [ "." ]
 		}
 	},
@@ -62,7 +64,9 @@
 		"ffmpeg": {
 			"name": "FFmeg",
 			"version": {
-				"argument": [ "-version" ]
+				"command": {
+					"argument": [ "-version" ]
+				}
 			},
 			"keys": [ "ffmpeg" ]
 		},
@@ -104,7 +108,9 @@
 		"go": {
 			"name": "GOLang",
 			"version": {
-				"argument": [ "version" ]
+				"command": {
+					"argument": [ "version" ]
+				}
 			},
 			"extension": [ "go" ],
 			"keys": [ "golang" ]
@@ -168,7 +174,9 @@
 		"lsof": {
 			"name": "Lsof",
 			"version": {
-				"argument": [ "-v" ]
+				"command": {
+					"argument": [ "-v" ]
+				}
 			},
 			"keys": [ "lsof" ]
 		},
@@ -212,7 +220,9 @@
 		"openssl": {
 			"name": "OpenSSL",
 			"version": {
-				"argument": [ "--version", "version" ]
+				"command": {
+					"argument": [ "--version", "version" ]
+				}
 			},
 			"extension": [ "pem" ],
 			"keys": [ "ssl", "openssl" ]
