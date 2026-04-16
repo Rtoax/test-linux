@@ -7,7 +7,10 @@
 				"argument": [ "--version", "-V" ]
 			},
 			"format": {
-				"seperator": [ "." ]
+				"seperator": [ "." ],
+				"major": "major",
+				"minor": "minor",
+				"patch": "patchlevel"
 			}
 		}
 	},

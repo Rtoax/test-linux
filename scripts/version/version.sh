@@ -14,9 +14,14 @@ show_keys=
 show_exts=
 show_version=
 
+declare -a version_parser_args
+
 readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
 readonly common_vargs=( $(jq -r '.common.version.command.argument[]' ${CONFIG}) )
 readonly common_vseps=( $(jq -r '.common.version.format.seperator[]' ${CONFIG}) )
+readonly common_major=$(jq -r '.common.version.format.major' ${CONFIG})
+readonly common_minor=$(jq -r '.common.version.format.minor' ${CONFIG})
+readonly common_patch=$(jq -r '.common.version.format.patch' ${CONFIG})
 
 readonly softwares=( $(jq -r '.software' ${CONFIG}  | jq -r 'keys[]') )
 
@@ -163,6 +168,59 @@ key_one() {
 	echo ${keys[@]}
 }
 
+# $1: software name
+version_format_parser() {
+	local sw=$1
+	shift
+
+	local major=$(jq -r --arg s "${sw}" '.software[$s].version.format.major' ${CONFIG} 2>/dev/null)
+	local minor=$(jq -r --arg s "${sw}" '.software[$s].version.format.minor' ${CONFIG} 2>/dev/null)
+	local patch=$(jq -r --arg s "${sw}" '.software[$s].version.format.patch' ${CONFIG} 2>/dev/null)
+
+	[[ -z ${major} || ${major} == null ]] && major=${common_major}
+	[[ -z ${minor} || ${minor} == null ]] && minor=${common_minor}
+	[[ -z ${patch} || ${patch} == null ]] && patch=${common_patch}
+
+	local version=$(getversion ${sw})
+
+	local TEMP=$(getopt \
+		--options S \
+		--long ${major} \
+		--long ${minor} \
+		--long ${patch} \
+		-n version-format-parser -- "$@")
+
+	test $? != 0 && error "$0 parser args error"
+
+	eval set -- "$TEMP"
+
+	while true; do
+		case $1 in
+		--${major})
+			shift
+			warning "TODO: need support --${major}"
+			;;
+		--${minor})
+			shift
+			warning "TODO: need support --${minor}"
+			;;
+		--${patch})
+			shift
+			warning "TODO: need support --${patch}"
+			;;
+		--)
+			shift
+			break
+			;;
+		*)
+			error "unknown ${1}"
+			;;
+		esac
+	done
+
+	return 0
+}
+
 __version_usage__()
 {
 	echo -e "
@@ -238,6 +296,7 @@ while true; do
 		;;
 	--)
 		shift
+		version_parser_args=( ${@} )
 		break
 		;;
 	esac
@@ -276,7 +335,7 @@ if [[ ${show_version} ]]; then
 fi
 
 if [[ ${name} ]] &&
-   [[ -z "${show_list}${show_keys}${show_exts}${show_version}${check}" ]]; then
+   [[ -z "${show_list}${show_keys}${show_exts}${show_version}${check}${version_parser_args}" ]]; then
 	if [[ ${name} == ALL ]]; then
 		for sw in ${softwares[@]}
 		do
@@ -293,4 +352,8 @@ if [[ ${check} ]]; then
 	else
 		check_all
 	fi
+fi
+
+if [[ ${name} ]] && [[ ${version_parser_args} ]]; then
+	version_format_parser ${name} ${version_parser_args[@]}
 fi
