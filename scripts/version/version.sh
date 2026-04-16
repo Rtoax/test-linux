@@ -2,6 +2,7 @@
 set -e
 
 readonly ROOTDIR=$(dirname $(realpath $0))
+source ${ROOTDIR}/../liblog.sh
 source ${ROOTDIR}/libversion.sh
 readonly CONFIG=${ROOTDIR}/config.json
 
@@ -56,8 +57,7 @@ getversion() {
 					greparg="[0-9]+"
 					;;
 				*)
-					echo >&2 "ERROR: version length only 1,2,3"
-					exit 1
+					error "version length only 1,2,3"
 					;;
 				esac
 				version=$( echo "${@}" 2>&1 | \
@@ -122,8 +122,7 @@ check_one() {
 	local versionfromjson=$(getversion ${sw})
 	local versionfromsh=$(${ROOTDIR}/${sw}.sh)
 	if [[ ${versionfromjson} != ${versionfromsh} ]]; then
-		echo >&2 "ERROR: ${sw} failed to get version (<${versionfromjson}> != <${versionfromsh}>)"
-		exit 1
+		error "${sw} failed to get version (<${versionfromjson}> != <${versionfromsh}>)"
 	fi
 	printf "%-16s %-10s %-10s\n" "${sw}" "${versionfromjson}" "${versionfromsh}"
 }
@@ -203,6 +202,9 @@ while true; do
 	-n|--name)
 		shift
 		name=$1
+		if ! [[ " ${softwares[@]} ALL " =~ " ${name} " ]]; then
+			error "unknown name ${name}"
+		fi
 		shift
 		;;
 	-L|--list)
