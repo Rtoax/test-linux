@@ -155,6 +155,15 @@ extension_one() {
 	echo ${exts[@]}
 }
 
+key_one() {
+	local sw=$1
+	local keys=( $(jq -r --arg s "${sw}" '.software[$s].keys[]' ${CONFIG} 2>/dev/null) )
+	if [[ ${keys} == null ]]; then
+		echo >&2 "WARNING: not found keys for ${sw}"
+	fi
+	echo ${keys[@]}
+}
+
 __version_usage__()
 {
 	echo -e "
@@ -237,8 +246,13 @@ if [[ ${show_list} ]]; then
 fi
 
 if [[ ${show_keys} ]]; then
-	if [[ ${name} ]] && [[ ${name} != ALL ]]; then
-		jq -r --arg s "${name}" '.software[$s].keys[]' ${CONFIG} 2>/dev/null
+	if [[ ${name} == ALL ]]; then
+		for sw in ${softwares[@]}
+		do
+			key_one ${sw}
+		done
+	elif [[ ${name} ]]; then
+		key_one ${name}
 	fi
 fi
 
