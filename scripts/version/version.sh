@@ -16,7 +16,7 @@ show_version=
 
 readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
 readonly common_vargs=( $(jq -r '.common.version.command.argument[]' ${CONFIG}) )
-readonly common_vseps=( $(jq -r '.common.version.seperator[]' ${CONFIG}) )
+readonly common_vseps=( $(jq -r '.common.version.format.seperator[]' ${CONFIG}) )
 
 readonly softwares=( $(jq -r '.software' ${CONFIG}  | jq -r 'keys[]') )
 
@@ -31,7 +31,7 @@ getversion() {
 
 	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.command.argument[]' ${CONFIG} 2>/dev/null || true) )
 	local vlens=( $(jq -r --arg s "${sw}" '.software[$s].version.length[]' ${CONFIG} 2>/dev/null || true) )
-	local vseps=( $(jq -r --arg s "${sw}" '.software[$s].version.seperator[]' ${CONFIG} 2>/dev/null || true) )
+	local vseps=( $(jq -r --arg s "${sw}" '.software[$s].version.format.seperator[]' ${CONFIG} 2>/dev/null || true) )
 
 	[[ ${#vargs} -eq 0 ]] && vargs=( ${common_vargs[@]} )
 	[[ ${#vlens} -eq 0 ]] && vlens=( ${common_vlens[@]} )

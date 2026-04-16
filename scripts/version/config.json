@@ -6,7 +6,9 @@
 			"command": {
 				"argument": [ "--version", "-V" ]
 			},
-			"seperator": [ "." ]
+			"format": {
+				"seperator": [ "." ]
+			}
 		}
 	},
 	"software": {
@@ -50,7 +52,9 @@
 			"command": [ "dracut" ],
 			"version": {
 				"length": [ 2 ],
-				"seperator": [ "-" ]
+				"format": {
+					"seperator": [ "-" ]
+				}
 			},
 			"keys": [ "dracut", "initramfs", "initrd" ]
 		},
@@ -161,7 +165,9 @@
 			},
 			"version": {
 				"length": [ 2 ],
-				"seperator": [ "-" ]
+				"format": {
+					"seperator": [ "-" ]
+				}
 			},
 			"keys": [ "firmware" ]
 		},
