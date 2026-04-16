@@ -286,7 +286,8 @@
 				"qemu-kvm",
 				"/usr/libexec/qemu-kvm",
 				"/usr/bin/qemu-system-@ARCH@",
-				"/usr/libexec/qemu-system-@ARCH@"
+				"/usr/libexec/qemu-system-@ARCH@",
+				"qemu-ga"
 			],
 			"extension": [ "qcow2" ],
 			"keys": [ "qcow2", "qcow", "qcow3", "qemu" ]
