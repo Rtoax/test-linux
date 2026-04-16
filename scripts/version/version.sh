@@ -25,6 +25,13 @@ readonly common_patch=$(jq -r '.common.version.format.patch' ${CONFIG})
 
 readonly softwares=( $(jq -r '.software' ${CONFIG}  | jq -r 'keys[]') )
 
+getswsep() {
+	local sw=$1
+	local sep=$(jq -r --arg s "${sw}" '.software[$s].version.format.seperator' ${CONFIG} 2>/dev/null || true)
+	[[ -z ${sep} || ${sep} == null ]] && sep=${common_vsep}
+	echo ${sep}
+}
+
 getversion() {
 	local sw=$1
 	local cmd lib version
@@ -36,11 +43,10 @@ getversion() {
 
 	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.command.argument[]' ${CONFIG} 2>/dev/null || true) )
 	local vlens=( $(jq -r --arg s "${sw}" '.software[$s].version.length[]' ${CONFIG} 2>/dev/null || true) )
-	local vsep=$(jq -r --arg s "${sw}" '.software[$s].version.format.seperator' ${CONFIG} 2>/dev/null || true)
+	local vsep=$(getswsep ${sw})
 
 	[[ ${#vargs} -eq 0 ]] && vargs=( ${common_vargs[@]} )
 	[[ ${#vlens} -eq 0 ]] && vlens=( ${common_vlens[@]} )
-	[[ -z ${vsep} || ${vsep} == null ]] && vsep=${common_vsep}
 
 	version_filter() {
 		local greparg
@@ -179,6 +185,7 @@ version_format_parser() {
 	[[ -z ${patch} || ${patch} == null ]] && patch=${common_patch}
 
 	local version=$(getversion ${sw})
+	local vsep=$(getswsep ${sw})
 
 	local TEMP=$(getopt \
 		--options S \
