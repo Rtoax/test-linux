@@ -174,7 +174,6 @@ has_content() {
 	return 0
 }
 
-cuda_ver() { add_ver "CUDA $(${VERDIR}/cuda.sh)"; }
 dracut_ver() { add_ver "Dracut $(${VERDIR}/dracut.sh)"; }
 ethtool_ver() { add_ver "Ethtool $(${VERDIR}/ethtool.sh)"; }
 ffmpeg_ver() { add_ver "ffmpeg $(${VERDIR}/ffmpeg.sh)"; }
@@ -403,7 +402,6 @@ if [[ "$(has_key cuda nvidia)" ]]; then
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
 	fi
-	cuda_ver
 	llvm_ver
 fi
 
@@ -448,7 +446,7 @@ if [[ "$(has_key libbpf bpf)" ]]; then
 	libbpf_ver
 fi
 
-for sw in bcc binutils bpftool bpftrace capstone cmake \
+for sw in bcc binutils bpftool bpftrace capstone cmake cuda \
 	python
 do
 	if [[ "$(has_content $(${VERSH} -n ${sw} -K))$(has_key $(${VERSH} -n ${sw} -K))" ]]; then
