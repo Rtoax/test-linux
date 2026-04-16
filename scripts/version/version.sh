@@ -41,11 +41,16 @@ getswcmds() {
 	echo ${cmds[@]}
 }
 
+getswlibs() {
+	local sw=$1
+	jq -r --arg s "${sw}" '.software[$s].library[]' ${CONFIG} 2>/dev/null || true
+}
+
 getversion() {
 	local sw=$1
 	local cmd lib version
 	local cmds=( $(getswcmds ${sw}) )
-	local libs=( $(jq -r --arg s "${sw}" '.software[$s].library[]' ${CONFIG} 2>/dev/null) )
+	local libs=( $(getswlibs ${sw}) )
 
 	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.command.argument[]' ${CONFIG} 2>/dev/null || true) )
 	local vlens=( $(jq -r --arg s "${sw}" '.software[$s].version.length[]' ${CONFIG} 2>/dev/null || true) )
