@@ -1,5 +1,6 @@
-subdir-y := block
+subdir-y += block
 subdir-y += udev
+subdir-y += i2c
 subdir-y += input
 
 target-y += cpu_dma_latency

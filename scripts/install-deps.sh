@@ -678,6 +678,7 @@ if [[ $(is_os fedora:43) ]]; then
 fi
 
 pkgs_devel+=( patchelf ) # https://github.com/NixOS/patchelf
+pkgs_devel+=( i2c-tools )
 
 add_cross_compiler()
 {
