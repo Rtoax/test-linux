@@ -4,8 +4,8 @@
 # Output defintions:
 # - HAVE_BPFTOOL=[y]
 # - BPFTOOL=[/usr/sbin/bpftool]
-# - BPFTOOL_VERSION_MAJOR=
-# - BPFTOOL_VERSION_MINOR=
+# - BPFTOOL_MAJOR=
+# - BPFTOOL_MINOR=
 #
 ifndef _BPF_BPFTOOL_MK
 _BPF_BPFTOOL_MK = 1
@@ -18,16 +18,23 @@ ifeq ($(BPFTOOL),)
   export HAVE_BPFTOOL := n
 else
 
-BPFTOOL_VERSION := $(shell ${TOPDIR}/scripts/version/bpftool.sh)
-BPFTOOL_VERSION_MAJOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$1}')
-BPFTOOL_VERSION_MINOR := $(shell echo ${BPFTOOL_VERSION} | awk -F '.' '{print $$2}')
+versh := ${TOPDIR}/scripts/version/bpftool.sh
+
+BPFTOOL_VERSION := $(shell ${versh})
+BPFTOOL_MAJOR := $(shell ${versh} --major)
+BPFTOOL_MINOR := $(shell ${versh} --minor)
+BPFTOOL_PATCHLEVEL := $(shell ${versh} --patchlevel)
 
 ifdef DEBUG
-  $(info BPFTOOL: ${BPFTOOL} version ${BPFTOOL_VERSION_MAJOR}.${BPFTOOL_VERSION_MINOR})
+  $(info BPFTOOL: ${BPFTOOL} version ${BPFTOOL_MAJOR}.${BPFTOOL_MINOR}.${BPFTOOL_PATCHLEVEL})
+  $(info BPFTOOL_VERSION = ${BPFTOOL_VERSION})
+  $(info BPFTOOL_MAJOR = ${BPFTOOL_MAJOR})
+  $(info BPFTOOL_MINOR = ${BPFTOOL_MINOR})
+  $(info BPFTOOL_PATCHLEVEL = ${BPFTOOL_PATCHLEVEL})
 endif
 
 export HAVE_BPFTOOL := y
-export BPFTOOL BPFTOOL_VERSION_MAJOR BPFTOOL_VERSION_MINOR
+export BPFTOOL BPFTOOL_MAJOR BPFTOOL_MINOR
 
 endif # end of Found BPFTOOL
 
