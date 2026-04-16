@@ -32,13 +32,19 @@ getswsep() {
 	echo ${sep}
 }
 
-getversion() {
+getswcmds() {
 	local sw=$1
-	local cmd lib version
 	local cmds=( $(jq -r --arg s "${sw}" '.software[$s].command[]' ${CONFIG} 2>/dev/null) )
 	if [[ ${#cmds[@]} -lt 1 ]]; then
 		cmds=( ${sw} )
 	fi
+	echo ${cmds[@]}
+}
+
+getversion() {
+	local sw=$1
+	local cmd lib version
+	local cmds=( $(getswcmds ${sw}) )
 	local libs=( $(jq -r --arg s "${sw}" '.software[$s].library[]' ${CONFIG} 2>/dev/null) )
 
 	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.command.argument[]' ${CONFIG} 2>/dev/null || true) )
