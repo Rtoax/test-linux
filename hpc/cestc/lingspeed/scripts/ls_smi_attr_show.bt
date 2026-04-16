@@ -1,0 +1,25 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("Tracing lingspeed sched, hit ctrl-c to end.\n");
+	printf("%-8s %-8s %-16s\n", "TIME", "PID", "COMM");
+}
+
+kprobe:ls_smi_attr_show
+{
+	@buf[tid] = arg2;
+}
+
+kretprobe:ls_smi_attr_show
+/ @buf[tid] /
+{
+	printf("buf = %s\n", str(@buf[tid]));
+	delete(@buf[tid]);
+}
+
+END
+{
+	clear(@buf);
+	printf("Bye.\n");
+}
