@@ -77,7 +77,7 @@ getversion() {
 	do
 		cmd=$(replace_keys ${cmd})
 		if [[ -z "$(which ${cmd} 2>/dev/null)" ]]; then
-			echo >&2 "WARNING: ${sw} not found ${cmd}"
+			warning "${sw} not found ${cmd}"
 			continue
 		fi
 		local arg
@@ -139,7 +139,7 @@ name_one() {
 	local sw=$1
 	local Name=$(jq -r --arg s "${sw}" '.software[$s].name' ${CONFIG} 2>/dev/null)
 	if [[ ${Name} == null ]]; then
-		echo >&2 "WARNING: not found name for ${sw}"
+		warning "not found name for ${sw}"
 		Name=${sw}
 	fi
 	echo ${Name}
@@ -149,7 +149,7 @@ extension_one() {
 	local sw=$1
 	local exts=( $(jq -r --arg s "${sw}" '.software[$s].extension[]' ${CONFIG} 2>/dev/null) )
 	if [[ ${exts} == null ]]; then
-		echo >&2 "WARNING: not found extensions for ${sw}"
+		warning "not found extensions for ${sw}"
 	fi
 	echo ${exts[@]}
 }
@@ -158,7 +158,7 @@ key_one() {
 	local sw=$1
 	local keys=( $(jq -r --arg s "${sw}" '.software[$s].keys[]' ${CONFIG} 2>/dev/null) )
 	if [[ ${keys} == null ]]; then
-		echo >&2 "WARNING: not found keys for ${sw}"
+		warning "not found keys for ${sw}"
 	fi
 	echo ${keys[@]}
 }
