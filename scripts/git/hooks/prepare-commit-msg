@@ -178,7 +178,6 @@ glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
-linux_fw_ver() { add_ver "Linux-Firmware $(${VERDIR}/linux-firmware.sh)"; }
 llvm_ver() { add_ver "LLVM $(${VERDIR}/llvm.sh)"; }
 lsof_ver() { add_ver "lsof $(${VERDIR}/lsof.sh)"; }
 make_ver() { add_ver "Make $(${VERDIR}/make.sh)"; }
@@ -229,10 +228,6 @@ fi
 
 os_ver
 linux_ver
-
-if [[ "$(has_key firmware)" ]]; then
-	linux_fw_ver
-fi
 
 if [[ "$(has_type c cpp c++ h hpp)$(has_key glibc ipc socket)" ]]; then
 	glibc_ver
@@ -377,7 +372,7 @@ fi
 
 for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
 	ffmpeg findutils gcc gdb git gnome gnuplot go \
-	hpcc kmod latexmk libbpf libvirt libxdp \
+	hpcc kmod latexmk libbpf libvirt libxdp linux-firmware \
 	luca \
 	python \
 	sphinx

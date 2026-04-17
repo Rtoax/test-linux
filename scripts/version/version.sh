@@ -95,7 +95,8 @@ getversion() {
 					head -1 )
 			[[ ${version} ]] && break
 		done # length
-		[[ ${version} ]] && return
+		[[ ${version} ]] && return 0
+		return 0
 	}
 
 	replace_keys() {
