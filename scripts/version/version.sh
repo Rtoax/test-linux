@@ -3,7 +3,6 @@ set -e
 
 readonly ROOTDIR=$(dirname $(realpath $0))
 source ${ROOTDIR}/../liblog.sh
-source ${ROOTDIR}/libversion.sh
 readonly CONFIG=${ROOTDIR}/config.json
 
 # If symlink, just run actual command.
@@ -223,6 +222,15 @@ key_one() {
 		warning "not found keys for ${sw}"
 	fi
 	echo ${keys[@]}
+}
+
+# $1: library name, like libbpf.so, libxdp.so
+ldconfig_libver() {
+	# Opensuse has /sbin/ldconfig.
+	local LDCONFIG=$(which ldconfig 2>/dev/null || ls /sbin/ldconfig 2>/dev/null)
+	realpath $(${LDCONFIG} -p | grep ${1} 2>/dev/null | \
+			awk '{print $NF}' | \
+			head -1 || :) 2>/dev/null || :
 }
 
 # $1: software name
