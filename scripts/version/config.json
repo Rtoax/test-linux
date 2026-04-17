@@ -157,7 +157,7 @@
 			"name": "KMod",
 			"command": [ "insmod", "modprobe" ],
 			"version": {
-				"length": [ 2 ]
+				"length": [ 2, 1 ]
 			},
 			"keys": [ "kmod", "insmod", "modprobe", "module" ]
 		},
