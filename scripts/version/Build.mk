@@ -19,9 +19,8 @@ endef
 
 $(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
 			ethtool findutils ffmpeg \
-			gcc gdb git gnome gnuplot go hpcc java kmod latexmk \
-			libbpf \
-			libvirt libxdp \
+			gcc gdb git glibc gnome gnuplot go hpcc java kmod \
+			latexmk libbpf libvirt libxdp \
 			llvm lsof luca make memcached nasm NetworkManager \
 			ndctl numactl openssl \
 			ostree pahole pciutils podman procps-ng psmisc python \
