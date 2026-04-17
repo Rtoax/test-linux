@@ -18,7 +18,7 @@ ifeq ($(BPFTOOL),)
   export HAVE_BPFTOOL := n
 else
 
-versh := ${TOPDIR}/scripts/version/bpftool.sh
+versh := ${TOPDIR}/scripts/version/bpftool
 
 BPFTOOL_VERSION := $(shell ${versh})
 BPFTOOL_MAJOR := $(shell ${versh} --major)
