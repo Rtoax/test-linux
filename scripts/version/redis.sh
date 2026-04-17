@@ -7,7 +7,7 @@ if [[ -z ${REDIS_CLI} ]]; then
 	exit 0
 fi
 
-if [[ $1 == --name ]]; then
+if [[ $1 == --name ]] || [[ $1 == --pretty-name ]]; then
 	if [[ "$(${REDIS_SERVER} --version | grep -wo Valkey)" ]]; then
 		echo "Redis(Valkey)"
 	else

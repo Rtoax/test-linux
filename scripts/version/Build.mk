@@ -11,10 +11,12 @@ target-prog-y += distro.sh distro.sh.1
 
 # $1: script name without ext
 define test_mmp
-target-prog-y += ${1}.sh ${1}.sh.1 ${1}.sh.2 ${1}.sh.3
+target-prog-y += ${1}.sh ${1}.sh.1 ${1}.sh.2 ${1}.sh.3 ${1}.sh.4 ${1}.sh.5
 PROG_ARGS_${1}.sh.1 := --major
 PROG_ARGS_${1}.sh.2 := --minor
 PROG_ARGS_${1}.sh.3 := --patchlevel
+PROG_ARGS_${1}.sh.4 := --name
+PROG_ARGS_${1}.sh.5 := --pretty-name
 endef
 
 $(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
