@@ -174,7 +174,6 @@ has_content() {
 	return 0
 }
 
-gcc_ver() { add_ver "GCC $(${VERDIR}/gcc.sh)"; }
 gdb_ver() { add_ver "GDB $(${VERDIR}/gdb.sh)"; }
 go_ver() { add_ver "Golang $(${VERDIR}/go.sh)"; }
 git_ver() { add_ver "Git $(${VERDIR}/git.sh)"; }
@@ -244,9 +243,6 @@ if [[ "$(has_key firmware)" ]]; then
 	linux_fw_ver
 fi
 
-if [[ "$(has_type c cpp c++ h hpp)$(has_key cpp gcc compiler)" ]]; then
-	gcc_ver
-fi
 
 if [[ "$(has_type gdb)$(has_key gdb)" ]]; then
 	gdb_ver
@@ -423,7 +419,7 @@ if [[ "$(has_key libbpf bpf)" ]]; then
 fi
 
 for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
-	ffmpeg findutils \
+	ffmpeg findutils gcc \
 	hpcc \
 	luca \
 	python

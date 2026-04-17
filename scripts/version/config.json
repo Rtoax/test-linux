@@ -86,6 +86,11 @@
 		},
 		"gcc": {
 			"name": "GCC",
+			"version": {
+				"command": {
+					"argument": [ "-dumpfullversion" ]
+				}
+			},
 			"extension": [ "c", "cpp", "h", "hpp", "c++" ],
 			"keys": [ "gcc", "compiler" ]
 		},
