@@ -5,8 +5,6 @@ target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
 target-prog-y += linux-firmware.sh
 target-prog-y += uefi.sh uefi.sh.1 uefi.sh.2 uefi.sh.3
-target-prog-y += shell.sh.4 shell.sh.5
-target-prog-y += redis.sh.4
 target-prog-y += distro.sh distro.sh.1
 
 # $1: script name without ext
@@ -23,8 +21,8 @@ $(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
 			ethtool findutils ffmpeg \
 			gcc gdb git glibc gnome gnuplot go hpcc java kmod \
 			latexmk libbpf libvirt libxdp \
-			llvm lsof luca make memcached nasm NetworkManager \
-			ndctl numactl openssl \
+			linux-firmware llvm lsof luca make memcached \
+			nasm NetworkManager ndctl numactl openssl \
 			ostree pahole pciutils podman procps-ng psmisc python \
 			qemu redis rocm rpm rust shell sphinx strace systemd \
 			util-linux vim, \
@@ -38,11 +36,6 @@ PROG_ARGS_version.sh.3 := --name bpftrace --check -L -K -E -V
 PROG_ARGS_version.sh.4 := --name bpftrace
 
 PROG_ARGS_distro.sh.1 := short
-
-PROG_ARGS_redis.sh.4 := --name
-
-PROG_ARGS_shell.sh.4 := --name
-PROG_ARGS_shell.sh.5 := --pretty-name
 
 PROG_ARGS_uefi.sh.1 := --specmajor
 PROG_ARGS_uefi.sh.2 := --specminor
