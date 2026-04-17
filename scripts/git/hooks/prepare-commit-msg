@@ -179,18 +179,9 @@ java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
 os_ver() { add_ver "$(${VERDIR}/distro.sh)"; }
-qemu_ver() { add_ver "Qemu $(${VERDIR}/qemu.sh)"; }
 redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
-rocm_ver() { add_ver_weak "ROCm $(${VERDIR}/rocm.sh)"; }
-rpm_ver() { add_ver "RPM $(${VERDIR}/rpm.sh)"; }
-rust_ver() { add_ver "Rust $(${VERDIR}/rust.sh)"; }
-sed_ver() { add_ver "sed $(${VERDIR}/sed.sh)"; }
 shell_ver() { add_ver "$(${VERDIR}/shell.sh --pretty-name) $(${VERDIR}/shell.sh)"; }
-strace_ver() { add_ver "Strace $(${VERDIR}/strace.sh)"; }
-systemd_ver() { add_ver "Systemd $(${VERDIR}/systemd.sh)"; }
 uefi_ver() { add_ver "UEFI Spec $(${VERDIR}/uefi.sh)"; }
-util_linux_ver() { add_ver "Util-linux $(${VERDIR}/util-linux.sh)"; }
-vim_ver() { add_ver "Vim $(${VERDIR}/vim.sh)"; }
 
 cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
 pid1_env() { add_env "pid1=$(cat /proc/1/comm)"; }
@@ -222,41 +213,12 @@ if [[ "$(has_type sh bash)$(has_key bash shell)" ]]; then
 	shell_ver
 fi
 
-if [[ "$(has_type service)$(has_key systemd)$(has_content systemd journal)" ]]; then
-	systemd_ver
-fi
-
-if [[ "$(has_key strace)" ]]; then
-	strace_ver
-fi
-
 if [[ "$(has_type qcow2 raw)$(has_key qcow qcow2 qcow3 qemu)" ]]; then
 	virt_env
-	qemu_ver
 fi
 
 if [[ "$(has_key redis)" ]]; then
 	redis_ver
-fi
-
-if [[ "$(has_type rpm)$(has_key rpm dnf)" ]]; then
-	rpm_ver
-fi
-
-if [[ "$(has_type rs)$(has_key rust)" ]]; then
-	rust_ver
-fi
-
-if [[ "$(has_type sed)$(has_key sed)$(has_content sed)" ]]; then
-	sed_ver
-fi
-
-if [[ "$(has_content util-linux)$(has_key util-linux)" ]]; then
-	util_linux_ver
-fi
-
-if [[ "$(has_type vim)$(has_key vim)" ]]; then
-	vim_ver
 fi
 
 if [[ "$(has_type efi)$(has_key uefi UEFI efi EFI)" ]]; then
@@ -268,10 +230,6 @@ if [[ "$(has_key cuda nvidia)" ]]; then
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
 	fi
-fi
-
-if [[ "$(has_key cuda nvidia rocm amd ROCm AMD)" ]]; then
-	rocm_ver
 fi
 
 if [[ "$(has_key cuda nvidia LUCA cestc CESTC)" ]]; then
@@ -297,7 +255,10 @@ for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
 	nasm ndctl NetworkManater numactl \
 	openssl ostree \
 	pahole pciutils podman procps-ng psmisc python \
-	sphinx
+	qemu \
+	rocm rpm rust \
+	sed sphinx strace systemd \
+	util-linux vim
 do
 	if [[ "$(has_content $(${VERSH} -n ${sw} -K))$(has_key $(${VERSH} -n ${sw} -K))" ]]; then
 		add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"
