@@ -133,7 +133,9 @@ getversion() {
 		local path
 		for path in ${paths[@]}
 		do
+			[[ ! -e ${path} ]] && continue
 			version_filter "$(realpath ${path})"
+			[[ ${version} ]] && break
 		done
 	fi
 
