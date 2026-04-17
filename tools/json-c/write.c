@@ -1,8 +1,9 @@
+#include <stdio.h>
 #include <json-c/json.h>
 
 int main(void)
 {
-	json_object *root, *header, *footer;
+	json_object *root, *header, *footer, *array;
 
 	root = json_object_new_object();
 	header = json_object_new_object();
@@ -10,6 +11,20 @@ int main(void)
 
 	json_object_object_add(root, "header", header);
 	json_object_object_add(root, "footer", footer);
+
+	json_object_object_add(header, "author",
+			       json_object_new_string("Rong Tao"));
+	json_object_object_add(header, "age", json_object_new_int(18));
+
+	array = json_object_new_array();
+	json_object_array_add(array, json_object_new_int(1));
+	json_object_array_add(array, json_object_new_int(2));
+	json_object_array_add(array, json_object_new_string("3"));
+
+	json_object_object_add(header, "array", array);
+
+	printf("%s\n",
+	       json_object_to_json_string_ext(header, JSON_C_TO_STRING_PRETTY));
 
 	json_object_to_file_ext("tmp.json", root, JSON_C_TO_STRING_PRETTY);
 
