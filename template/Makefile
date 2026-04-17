@@ -11,6 +11,7 @@ V ?= 1
 ifdef MK
   MK_ALL := ${MK}
   NOSUBDIR := 1
+  DEBUG := 1
 else
   MK_ALL := $(shell find -name '*.mk')
 endif

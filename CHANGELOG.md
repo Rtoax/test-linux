@@ -53,6 +53,7 @@ and this project adheres to
 - add json-c subdir;
 - add ffmpeg subdir;
 #### Template
+- add json-c.mk;
 - add cxl.mk;
 - add qemu.mk;
 - bpf/libbpf.mk: add `HAVE_LIBBPF_H`;
