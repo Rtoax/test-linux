@@ -185,6 +185,16 @@
 			"library": [ "libxdp.so" ],
 			"keys": [ "libxdp", "xdp" ]
 		},
+		"linux": {
+			"name": "Linux",
+			"command": [ "uname" ],
+			"version": {
+				"command": {
+					"argument": [ "-r" ]
+				}
+			},
+			"keys": [ "linux", "kernel", "kmod" ]
+		},
 		"linux-firmware": {
 			"name": "Linux-FirmWare",
 			"package": {
