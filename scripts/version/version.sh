@@ -94,6 +94,8 @@ getversion() {
 	[[ ${#vargs} -eq 0 ]] && vargs=( ${common_vargs[@]} )
 	[[ ${#vlens} -eq 0 ]] && vlens=( ${common_vlens[@]} )
 
+	debug "get version of ${sw}"
+
 	version_filter() {
 		local greparg
 		local sep=${vsep}
@@ -120,6 +122,7 @@ getversion() {
 					head -1 )
 			[[ ${version} ]] && break
 		done # length
+
 		[[ ${version} ]] && return 0
 		return 0
 	}

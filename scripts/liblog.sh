@@ -26,6 +26,13 @@ warning() {
 	echo -e >&2 "${RED}WARNING: ${@}${RST}"
 }
 
+debug() {
+	if [[ -z ${DEBUG} ]]; then
+		return 0
+	fi
+	echo -e >&2 "${GRAY}DEBUG: ${@}${RST}"
+}
+
 backlog() {
 	tput el # clean whole line
 	tput sc # store old curse
