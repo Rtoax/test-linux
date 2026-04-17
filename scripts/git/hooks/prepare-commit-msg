@@ -177,7 +177,6 @@ has_content() {
 linux_ver() { add_ver "Linux $(uname -r)"; }
 os_ver() { add_ver "$(${VERDIR}/distro.sh)"; }
 redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
-shell_ver() { add_ver "$(${VERDIR}/shell.sh --pretty-name) $(${VERDIR}/shell.sh)"; }
 uefi_ver() { add_ver "UEFI Spec $(${VERDIR}/uefi.sh)"; }
 
 cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
@@ -201,10 +200,6 @@ fi
 
 os_ver
 linux_ver
-
-if [[ "$(has_type sh bash)$(has_key bash shell)" ]]; then
-	shell_ver
-fi
 
 if [[ "$(has_type qcow2 raw)$(has_key qcow qcow2 qcow3 qemu)" ]]; then
 	virt_env
@@ -232,18 +227,7 @@ if [[ "$(has_key cuda nvidia LUCA cestc CESTC)" ]]; then
 	fi
 fi
 
-for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
-	ffmpeg findutils gcc gdb glibc git gnome gnuplot go \
-	hpcc java kmod latexmk libbpf libvirt libxdp linux-firmware llvm lsof \
-	luca \
-	make memcached \
-	nasm ndctl NetworkManater numactl \
-	openssl ostree \
-	pahole pciutils podman procps-ng psmisc python \
-	qemu \
-	rocm rpm rust \
-	sed sphinx strace systemd \
-	util-linux vim
+for sw in $(${VERSH} -L)
 do
 	if [[ "$(has_content $(${VERSH} -n ${sw} -K))$(has_key $(${VERSH} -n ${sw} -K))" ]]; then
 		add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"

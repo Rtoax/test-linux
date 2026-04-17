@@ -238,12 +238,15 @@ version_format_parser() {
 	[[ -z ${minor} || ${minor} == null ]] && minor=${common_minor}
 	[[ -z ${patch} || ${patch} == null ]] && patch=${common_patch}
 
+	local name=$(getswname ${sw})
 	local version=$(getversion ${sw})
 	local vsep=$(getswsep ${sw})
 	local ver_arr=( $(echo ${version} | tr "${vsep}" ' ') )
 
 	local TEMP=$(getopt \
 		--options V \
+		--long name \
+		--long pretty-name \
 		--long ${major} \
 		--long ${minor} \
 		--long ${patch} \
@@ -256,6 +259,15 @@ version_format_parser() {
 
 	while true; do
 		case $1 in
+		--name)
+			shift
+			echo ${name}
+			;;
+		--pretty-name)
+			shift
+			# First letter uppercase
+			echo ${name^}
+			;;
 		--${major})
 			shift
 			echo ${ver_arr[0]}
