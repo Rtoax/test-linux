@@ -10,4 +10,4 @@ target-y += EAFNOSUPPORT
 target-clean-y := clean-more
 
 LDFLAGS := -pthread
-CFLAGS___errno_location := -DLIBC___ERRNO_LOCATION_SYMADDR=$(call libc_sym_addr,__errno_location)
+CFLAGS___errno_location := -DLIBC___ERRNO_LOCATION_SYMADDR=$(call glibc_sym_addr,__errno_location)

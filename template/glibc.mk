@@ -6,8 +6,8 @@
 # - LIBC_SO_PATH=
 #
 # Functions:
-# - probe_libc_printf()
-# - libc_sym_addr()
+# - glibc_probe_printf()
+# - glibc_sym_addr()
 #
 ifndef _GLIBC_MK
 _GLIBC_MK = 1
@@ -25,7 +25,7 @@ LIBC_PRINTF_PROBE += 'int main(void) {\n'
 LIBC_PRINTF_PROBE += '	printf("hello\\n");\n'
 LIBC_PRINTF_PROBE += '}'
 
-define probe_libc_printf
+define glibc_probe_printf
   $(shell printf '%b\n' $(LIBC_PRINTF_PROBE) | \
     $(CC) -x c -Wall - $(1) -S -o - >/dev/null 2>&1 \
       && echo 1)
@@ -36,7 +36,7 @@ endef
 # 2611: 0000000000035a80   204 FUNC    GLOBAL DEFAULT    3 printf@@GLIBC_2.2.5
 #
 # $1 - symbol
-define libc_sym_addr
+define glibc_sym_addr
 $(shell readelf --syms --wide ${LIBC_SO_PATH} \
 		| grep -w $(1) | grep -e GLOBAL -e LOCAL | head -1 \
 		| awk '{printf "0x"$$2}')
@@ -45,7 +45,7 @@ endef
 ifdef DEBUG
   $(info GLIBC_VERSION = ${GLIBC_VERSION})
   $(info LIBC_SO_PATH = ${LIBC_SO_PATH})
-  $(info printf = <$(call libc_sym_addr,printf)>)
+  $(info printf = <$(call glibc_sym_addr,printf)>)
 endif
 
 export GLIBC_VERSION LIBC_SO_PATH

@@ -4,7 +4,7 @@ include helpers.mk
 
 # $1: memcpy name, like __memcpy_ssse3
 define add_glibc_obj
-  SYMADDR_${1} := $(call libc_sym_addr,${1})
+  SYMADDR_${1} := $(call glibc_sym_addr,${1})
   ifneq ($$(SYMADDR_${1}),)
     target-y += ${1}-stress
     ${1}-stress-objs := ${PROC_HELPERS}
