@@ -178,16 +178,7 @@ glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
-nasm_ver() { add_ver "Nasm $(${VERDIR}/nasm.sh)"; }
-NetworkManater_ver() { add_ver "NetworkManater $(${VERDIR}/NetworkManater.sh)"; }
-ndctl_ver() { add_ver "ndctl $(${VERDIR}/ndctl.sh)"; }
-numactl_ver() { add_ver "NUMACTL $(${VERDIR}/numactl.sh)"; }
-openssl_ver() { add_ver "OpenSSL $(${VERDIR}/openssl.sh)"; }
 os_ver() { add_ver "$(${VERDIR}/distro.sh)"; }
-ostree_ver() { add_ver "RPM $(${VERDIR}/ostree.sh)"; }
-pahole_ver() { add_ver "Pahole $(${VERDIR}/pahole.sh)"; }
-pciutils_ver() { add_ver "PCIUtils $(${VERDIR}/pciutils.sh)"; }
-podman_ver() { add_ver "Podman $(${VERDIR}/podman.sh)"; }
 procps_ver() { add_ver "Procps-ng $(${VERDIR}/procps-ng.sh)"; }
 psmisc_ver() { add_ver "Psmisc $(${VERDIR}/psmisc.sh)"; }
 qemu_ver() { add_ver "Qemu $(${VERDIR}/qemu.sh)"; }
@@ -258,14 +249,6 @@ if [[ "$(has_type rs)$(has_key rust)" ]]; then
 	rust_ver
 fi
 
-if [[ "$(has_key ostree)" ]]; then
-	ostree_ver
-fi
-
-if [[ "$(has_key podman Dockerfile)" ]]; then
-	podman_ver
-fi
-
 if [[ "$(has_key procps ps pgrep)" ]]; then
 	procps_ver
 fi
@@ -288,35 +271,6 @@ fi
 
 if [[ "$(has_type efi)$(has_key uefi UEFI efi EFI)" ]]; then
 	uefi_ver
-fi
-
-if [[ "$(has_key libbpf pahole)" ]]; then
-	pahole_ver
-fi
-
-if [[ "$(has_key pci pcie)" ]]; then
-	pciutils_ver
-fi
-
-# .asm is nasm in test-linux.
-if [[ "$(has_type asm)$(has_key nasm)" ]]; then
-	nasm_ver
-fi
-
-if [[ "$(has_key nmcli NetworkManater)" ]]; then
-	NetworkManater_ver
-fi
-
-if [[ "$(has_key ndctl daxctl cxl)$(has_content cxl)" ]]; then
-	ndctl_ver
-fi
-
-if [[ "$(has_key numa numactl)" ]]; then
-	numactl_ver
-fi
-
-if [[ "$(has_type pem)$(has_key ssl openssl)" ]]; then
-	openssl_ver
 fi
 
 if [[ "$(has_key cuda nvidia)" ]]; then
@@ -350,7 +304,9 @@ for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
 	hpcc kmod latexmk libbpf libvirt libxdp linux-firmware llvm lsof \
 	luca \
 	make memcached \
-	python \
+	nasm ndctl NetworkManater numactl \
+	openssl ostree \
+	pahole pciutils podman python \
 	sphinx
 do
 	if [[ "$(has_content $(${VERSH} -n ${sw} -K))$(has_key $(${VERSH} -n ${sw} -K))" ]]; then
