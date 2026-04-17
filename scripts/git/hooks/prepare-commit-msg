@@ -179,8 +179,6 @@ java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
 os_ver() { add_ver "$(${VERDIR}/distro.sh)"; }
-procps_ver() { add_ver "Procps-ng $(${VERDIR}/procps-ng.sh)"; }
-psmisc_ver() { add_ver "Psmisc $(${VERDIR}/psmisc.sh)"; }
 qemu_ver() { add_ver "Qemu $(${VERDIR}/qemu.sh)"; }
 redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
 rocm_ver() { add_ver_weak "ROCm $(${VERDIR}/rocm.sh)"; }
@@ -249,14 +247,6 @@ if [[ "$(has_type rs)$(has_key rust)" ]]; then
 	rust_ver
 fi
 
-if [[ "$(has_key procps ps pgrep)" ]]; then
-	procps_ver
-fi
-
-if [[ "$(has_key psmisc killall prtstat pstree fuser)" ]]; then
-	psmisc_ver
-fi
-
 if [[ "$(has_type sed)$(has_key sed)$(has_content sed)" ]]; then
 	sed_ver
 fi
@@ -306,7 +296,7 @@ for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
 	make memcached \
 	nasm ndctl NetworkManater numactl \
 	openssl ostree \
-	pahole pciutils podman python \
+	pahole pciutils podman procps-ng psmisc python \
 	sphinx
 do
 	if [[ "$(has_content $(${VERSH} -n ${sw} -K))$(has_key $(${VERSH} -n ${sw} -K))" ]]; then
