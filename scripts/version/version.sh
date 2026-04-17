@@ -168,14 +168,14 @@ getversion() {
 	if [[ -z ${version} ]]; then
 		local deb rpm
 		local debs=( $(jq -r --arg s "${sw}" '.software[$s].package.deb[]' ${CONFIG} 2>/dev/null) )
-		for deb in ${debs}
+		for deb in ${debs[@]}
 		do
 			version_filter "$(dpkg-query -W -f='${Version}\n' ${deb} 2>/dev/null)"
 			[[ ${version} ]] && break
 		done
 		if [[ -z ${version} ]]; then
 			local rpms=( $(jq -r --arg s "${sw}" '.software[$s].package.rpm[]' ${CONFIG} 2>/dev/null) )
-			for rpm in ${rpms}
+			for rpm in ${rpms[@]}
 			do
 				version_filter "$(rpm -q --queryformat='%{VERSION}-%{release}\n' ${rpm} 2>/dev/null)"
 				[[ ${version} ]] && break

@@ -389,8 +389,12 @@
 		"systemd": {
 			"name": "Systemd",
 			"command": [ "systemctl" ],
+			"package": {
+				"rpm": [ "systemd" ],
+				"deb": [ "systemd" ]
+			},
 			"version": {
-				"length": [ 2 ]
+				"length": [ 2, 1 ]
 			},
 			"extension": [ "service", "mount" ],
 			"keys": [ "systemd", "journalctl" ]
