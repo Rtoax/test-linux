@@ -178,8 +178,6 @@ glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
-make_ver() { add_ver "Make $(${VERDIR}/make.sh)"; }
-memcached_ver() { add_ver "Memcached $(${VERDIR}/memcached.sh)"; }
 nasm_ver() { add_ver "Nasm $(${VERDIR}/nasm.sh)"; }
 NetworkManater_ver() { add_ver "NetworkManater $(${VERDIR}/NetworkManater.sh)"; }
 ndctl_ver() { add_ver "ndctl $(${VERDIR}/ndctl.sh)"; }
@@ -248,16 +246,8 @@ if [[ "$(has_type qcow2 raw)$(has_key qcow qcow2 qcow3 qemu)" ]]; then
 	qemu_ver
 fi
 
-if [[ "$(has_type mk mak make)$(has_key make Makefile)" ]]; then
-	make_ver
-fi
-
 if [[ "$(has_key redis)" ]]; then
 	redis_ver
-fi
-
-if [[ "$(has_key memcache memcached)" ]]; then
-	memcached_ver
 fi
 
 if [[ "$(has_type rpm)$(has_key rpm dnf)" ]]; then
@@ -359,6 +349,7 @@ for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
 	ffmpeg findutils gcc gdb git gnome gnuplot go \
 	hpcc kmod latexmk libbpf libvirt libxdp linux-firmware llvm lsof \
 	luca \
+	make memcached \
 	python \
 	sphinx
 do
