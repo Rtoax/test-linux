@@ -174,12 +174,8 @@ has_content() {
 	return 0
 }
 
-go_ver() { add_ver "Golang $(${VERDIR}/go.sh)"; }
-git_ver() { add_ver "Git $(${VERDIR}/git.sh)"; }
 glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
-gnome_ver() { add_ver "GNOME $(${VERDIR}/gnome.sh)"; }
 java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
-kmod_ver() { add_ver "kmod $(${VERDIR}/kmod.sh)"; }
 latexmk_ver() { add_ver_weak "LaTeXmk $(${VERDIR}/latexmk.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 libvirt_ver() { add_ver "Libvirt $(${VERDIR}/libvirt.sh)"; }
@@ -240,10 +236,6 @@ linux_ver
 
 if [[ "$(has_key firmware)" ]]; then
 	linux_fw_ver
-fi
-
-if [[ "$(has_type go)$(has_key go golang)" ]]; then
-	go_ver
 fi
 
 if [[ "$(has_type c cpp c++ h hpp)$(has_key glibc ipc socket)" ]]; then
@@ -308,10 +300,6 @@ if [[ "$(has_key psmisc killall prtstat pstree fuser)" ]]; then
 	psmisc_ver
 fi
 
-if [[ "$(has_key gnome)" ]]; then
-	gnome_ver
-fi
-
 if [[ "$(has_type sed)$(has_key sed)$(has_content sed)" ]]; then
 	sed_ver
 fi
@@ -342,10 +330,6 @@ fi
 
 if [[ "$(has_key pci pcie)" ]]; then
 	pciutils_ver
-fi
-
-if [[ "$(has_key git)" ]]; then
-	git_ver
 fi
 
 # .asm is nasm in test-linux.
@@ -404,17 +388,13 @@ if [[ "$(has_key java jdk)" ]]; then
 	java_ver
 fi
 
-if [[ "$(has_key kmod module)" ]]; then
-	kmod_ver
-fi
-
 if [[ "$(has_key libbpf bpf)" ]]; then
 	libbpf_ver
 fi
 
 for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
-	ffmpeg findutils gcc gdb \
-	hpcc \
+	ffmpeg findutils gcc gdb git gnome gnuplot go \
+	hpcc kmod \
 	luca \
 	python
 do
