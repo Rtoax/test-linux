@@ -50,6 +50,7 @@ and this project adheres to
 - superpod: add history.rst;
 - add pxe.rst;
 #### Tools
+- add json-c subdir;
 - add ffmpeg subdir;
 #### Template
 - add cxl.mk;

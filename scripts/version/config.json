@@ -156,6 +156,11 @@
 			"extension": [ "java" ],
 			"keys": [ "java", "jdk" ]
 		},
+		"json-c": {
+			"name": "json-c",
+			"library": [ "libjson-c.so" ],
+			"keys": [ "json" ]
+		},
 		"kmod": {
 			"name": "KMod",
 			"command": [ "insmod", "modprobe" ],
