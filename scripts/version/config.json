@@ -353,7 +353,7 @@
 			"keys": [ "sed" ]
 		},
 		"shell": {
-			"name": "SHELL",
+			"name": "$SHELL",
 			"command": [ "$SHELL" ],
 			"extension": [ "bash", "sh", "zsh" ],
 			"keys": [ "shell", "bash", "sh" ]

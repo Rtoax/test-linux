@@ -32,6 +32,21 @@ readonly common_patch=$(jq -r '.common.version.format.patch' ${CONFIG})
 
 readonly softwares=( $(jq -r '.software' ${CONFIG}  | jq -r 'keys[]') )
 
+getswname() {
+	local sw=$1
+	local _name=$(jq -r --arg s "${sw}" '.software[$s].name' ${CONFIG} 2>/dev/null)
+	if [[ ${_name} == null ]]; then
+		warning "not found name for ${sw}"
+		_name=${sw}
+	fi
+	# name start with '$' will be replace to shell variable, such as $SHELL
+	# will be replaced.
+	if [[ ${_name:0:1} == $ ]]; then
+		_name=$(eval "echo $_name")
+	fi
+	echo $(basename ${_name})
+}
+
 getswpaths() {
 	local sw=$1
 	jq -r --arg s "${sw}" '.software[$s].path[]' ${CONFIG} 2>/dev/null || true
@@ -190,16 +205,6 @@ check_all() {
 	do
 		check_one ${sw}
 	done
-}
-
-name_one() {
-	local sw=$1
-	local Name=$(jq -r --arg s "${sw}" '.software[$s].name' ${CONFIG} 2>/dev/null)
-	if [[ ${Name} == null ]]; then
-		warning "not found name for ${sw}"
-		Name=${sw}
-	fi
-	echo ${Name}
 }
 
 extension_one() {
@@ -399,10 +404,10 @@ if [[ ${name} ]] &&
 	if [[ ${name} == ALL ]]; then
 		for sw in ${softwares[@]}
 		do
-			name_one ${sw}
+			getswname ${sw}
 		done
 	else
-		name_one ${name}
+		getswname ${name}
 	fi
 fi
 
