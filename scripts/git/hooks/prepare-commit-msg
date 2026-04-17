@@ -174,10 +174,6 @@ has_content() {
 	return 0
 }
 
-dracut_ver() { add_ver "Dracut $(${VERDIR}/dracut.sh)"; }
-ethtool_ver() { add_ver "Ethtool $(${VERDIR}/ethtool.sh)"; }
-ffmpeg_ver() { add_ver "ffmpeg $(${VERDIR}/ffmpeg.sh)"; }
-findutils_ver() { add_ver "Findutils $(${VERDIR}/findutils.sh)"; }
 gcc_ver() { add_ver "GCC $(${VERDIR}/gcc.sh)"; }
 gdb_ver() { add_ver "GDB $(${VERDIR}/gdb.sh)"; }
 go_ver() { add_ver "Golang $(${VERDIR}/go.sh)"; }
@@ -258,14 +254,6 @@ fi
 
 if [[ "$(has_type go)$(has_key go golang)" ]]; then
 	go_ver
-fi
-
-if [[ "$(has_key ffmpeg)$(has_content ffmpeg)" ]]; then
-	ffmpeg_ver
-fi
-
-if [[ "$(has_key find findutils)" ]]; then
-	findutils_ver
 fi
 
 if [[ "$(has_type c cpp c++ h hpp)$(has_key glibc ipc socket)" ]]; then
@@ -422,14 +410,6 @@ if [[ "$(has_key cuda nvidia metax MetaX)" ]]; then
 	llvm_ver
 fi
 
-if [[ "$(has_key dracut initramfs initrd)" ]]; then
-	dracut_ver
-fi
-
-if [[ "$(has_key ethtool)" ]]; then
-	ethtool_ver
-fi
-
 if [[ "$(has_key java jdk)" ]]; then
 	java_ver
 fi
@@ -442,7 +422,8 @@ if [[ "$(has_key libbpf bpf)" ]]; then
 	libbpf_ver
 fi
 
-for sw in bcc binutils bpftool bpftrace capstone cmake cuda \
+for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
+	ffmpeg findutils \
 	hpcc \
 	luca \
 	python
