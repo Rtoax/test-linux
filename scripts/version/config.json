@@ -191,6 +191,11 @@
 			"version": {
 				"command": {
 					"argument": [ "-r" ]
+				},
+				"format": {
+					"major": "major",
+					"minor": "patchlevel",
+					"patch": "sublevel"
 				}
 			},
 			"keys": [ "linux", "kernel", "kmod" ]
