@@ -44,7 +44,7 @@ static int dis_fprintf(void *stream, const char *fmt, ...)
 	return 0;
 }
 
-#if BINUTILS_VERSION_MINOR >= 39
+#if BINUTILS_MINOR >= 39
 int styled_fprintf(void *stream, enum disassembler_style style,
 		   const char *format, ...)
 {
@@ -101,7 +101,7 @@ char *disassemble_raw(uint8_t *input_buffer, size_t input_buffer_size)
 	stream_state ss = {};
 	disassemble_info disasm_info = {};
 
-#if BINUTILS_VERSION_MINOR >= 39
+#if BINUTILS_MINOR >= 39
 	init_disassemble_info(&disasm_info, &ss, dis_fprintf, styled_fprintf);
 #else
 	init_disassemble_info(&disasm_info, &ss, dis_fprintf);

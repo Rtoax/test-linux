@@ -65,9 +65,7 @@ ifdef BFD
 endif
 
 # Get GNU assembler version
-CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
-CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
-
+CFLAGS += ${binutils-cflags}
 CFLAGS += -g -ggdb
 CFLAGS += -O0
 CFLAGS += -pthread

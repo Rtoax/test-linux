@@ -5,7 +5,6 @@ target-y := disassemble_init_for_target
 
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable
-CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
-CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
+CFLAGS += ${binutils-cflags}
 
 LDFLAGS += -lopcodes -lbfd

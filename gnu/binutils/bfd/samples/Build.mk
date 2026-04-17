@@ -103,8 +103,7 @@ ifeq ($(has-bfd_get_symbol_version_string),1)
   CFLAGS += -DBFD_HAS_BFD_GET_SYMBOL_VERSION_STRING=1
 endif
 
-CFLAGS += -DBINUTILS_VERSION_MAJOR=${BINUTILS_VERSION_MAJOR}
-CFLAGS += -DBINUTILS_VERSION_MINOR=${BINUTILS_VERSION_MINOR}
+CFLAGS += ${binutils-cflags}
 
 CFLAGS_bfd_print_symbol_vandf := -DTEST_bfd_print_symbol_vandf=1
 CFLAGS_symbol-value := -DTEST_SYMBOL_VALUE=1
