@@ -9,7 +9,7 @@ readonly CONFIG=${ROOTDIR}/config.json
 # If symlink, just run actual command.
 readonly symlink=$(basename $0)
 if [[ ${symlink} != version.sh ]]; then
-	${ROOTDIR}/version.sh -n ${symlink} -V -- ${@}
+	${ROOTDIR}/version.sh -n ${symlink%.*} -V -- ${@}
 	exit 0
 fi
 
@@ -164,9 +164,7 @@ getversion() {
 check_one() {
 	local sw=$1
 	local versionfromjson=( $(getversion ${sw}) )
-	local versionfromsh
-	[[ -e ${ROOTDIR}/${sw}.sh ]] && versionfromsh+=( $(${ROOTDIR}/${sw}.sh) )
-	[[ -e ${ROOTDIR}/${sw} ]] && versionfromsh+=( $(${ROOTDIR}/${sw}) )
+	local versionfromsh=( $(${ROOTDIR}/${sw}.sh) )
 
 	if [[ "${versionfromjson[@]}" != "${versionfromsh[@]}" ]]; then
 		error "${sw} failed to get version (<${versionfromjson[@]}> != <${versionfromsh[@]}>)"

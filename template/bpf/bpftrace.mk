@@ -23,7 +23,7 @@ else
 include dir.mk
 include version.mk
 
-bpftraceversh = ${TOPDIR}/scripts/version/bpftrace
+bpftraceversh = ${TOPDIR}/scripts/version/bpftrace.sh
 
 BPFTRACE_VERSION := $(shell ${bpftraceversh})
 BPFTRACE_MAJOR := $(shell ${bpftraceversh} --major)
