@@ -178,8 +178,6 @@ glibc_ver() { add_ver "$(getconf GNU_LIBC_VERSION 2>/dev/null)"; }
 java_ver() { add_ver "Java $(${VERDIR}/java.sh)"; }
 libbpf_ver() { add_ver "LibBpf $(${VERDIR}/libbpf.sh)"; }
 linux_ver() { add_ver "Linux $(uname -r)"; }
-llvm_ver() { add_ver "LLVM $(${VERDIR}/llvm.sh)"; }
-lsof_ver() { add_ver "lsof $(${VERDIR}/lsof.sh)"; }
 make_ver() { add_ver "Make $(${VERDIR}/make.sh)"; }
 memcached_ver() { add_ver "Memcached $(${VERDIR}/memcached.sh)"; }
 nasm_ver() { add_ver "Nasm $(${VERDIR}/nasm.sh)"; }
@@ -331,21 +329,15 @@ if [[ "$(has_type pem)$(has_key ssl openssl)" ]]; then
 	openssl_ver
 fi
 
-if [[ "$(has_key llvm bt)" ]]; then
-	llvm_ver
-fi
-
 if [[ "$(has_key cuda nvidia)" ]]; then
 	name=$(${TOPDIR}/hpc/nvidia/gpuname.sh)
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
 	fi
-	llvm_ver
 fi
 
 if [[ "$(has_key cuda nvidia rocm amd ROCm AMD)" ]]; then
 	rocm_ver
-	llvm_ver
 fi
 
 if [[ "$(has_key cuda nvidia LUCA cestc CESTC)" ]]; then
@@ -353,13 +345,6 @@ if [[ "$(has_key cuda nvidia LUCA cestc CESTC)" ]]; then
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
 	fi
-	llvm_ver
-fi
-
-[[ "$(has_key lsof)" ]] && lsof_ver
-
-if [[ "$(has_key cuda nvidia metax MetaX)" ]]; then
-	llvm_ver
 fi
 
 if [[ "$(has_key java jdk)" ]]; then
@@ -372,7 +357,7 @@ fi
 
 for sw in bcc binutils bpftool bpftrace capstone cmake cuda dracut ethtool \
 	ffmpeg findutils gcc gdb git gnome gnuplot go \
-	hpcc kmod latexmk libbpf libvirt libxdp linux-firmware \
+	hpcc kmod latexmk libbpf libvirt libxdp linux-firmware llvm lsof \
 	luca \
 	python \
 	sphinx
