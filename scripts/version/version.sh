@@ -9,7 +9,7 @@ readonly CONFIG=${ROOTDIR}/config.json
 # If symlink, just run actual command.
 readonly symlink=$(basename $0)
 if [[ ${symlink} != version.sh ]]; then
-	${ROOTDIR}/version.sh -n bcc -V -- ${@}
+	${ROOTDIR}/version.sh -n ${symlink} -V -- ${@}
 	exit 0
 fi
 

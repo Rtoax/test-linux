@@ -24,7 +24,7 @@
 			"name": "Binutils",
 			"command": [ "ld.bfd" ],
 			"extension": [ "s" ],
-			"keys": [ "asm", "bfd" ]
+			"keys": [ "asm", "bfd", "binutils" ]
 		},
 		"bpftool": {
 			"name": "BPFTool",

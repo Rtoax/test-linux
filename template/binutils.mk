@@ -11,7 +11,7 @@ ifeq ($(LD_BFD),)
   $(warning "Not found linker ld.bfd, install binutils first")
 endif
 
-binutilsversh = ${TOPDIR}/scripts/version/binutils.sh
+binutilsversh = ${TOPDIR}/scripts/version/binutils
 
 # Get binutils version
 BINUTILS_VERSION := $(shell ${binutilsversh})
@@ -24,6 +24,7 @@ endif
 
 ifdef DEBUG
   $(info LD_BFD = ${LD_BFD})
+  $(info BINUTILS_VERSION = ${BINUTILS_VERSION})
   $(info Binutils version ${BINUTILS_VERSION_MAJOR}.${BINUTILS_VERSION_MINOR})
 endif
 
