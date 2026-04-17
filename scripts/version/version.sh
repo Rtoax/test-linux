@@ -46,10 +46,21 @@ getswsep() {
 
 getswcmds() {
 	local sw=$1
-	local cmds=( $(jq -r --arg s "${sw}" '.software[$s].command[]' ${CONFIG} 2>/dev/null) )
-	if [[ ${#cmds[@]} -lt 1 ]]; then
-		cmds=( ${sw} )
+	local orig_cmds=( $(jq -r --arg s "${sw}" '.software[$s].command[]' ${CONFIG} 2>/dev/null) )
+	if [[ ${#orig_cmds[@]} -lt 1 ]]; then
+		orig_cmds=( ${sw} )
 	fi
+	local cmd cmds
+	for cmd in ${orig_cmds[@]}
+	do
+		# command start with '$' will be replace to shell variable,
+		# such as $SHELL will be replaced.
+		if [[ ${cmd:0:1} == $ ]]; then
+			cmds+=( $(eval "echo $cmd") )
+		else
+			cmds+=( ${cmd} )
+		fi
+	done
 	echo ${cmds[@]}
 }
 
