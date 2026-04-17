@@ -6,6 +6,13 @@ source ${ROOTDIR}/../liblog.sh
 source ${ROOTDIR}/libversion.sh
 readonly CONFIG=${ROOTDIR}/config.json
 
+# If symlink, just run actual command.
+readonly symlink=$(basename $0)
+if [[ ${symlink} != version.sh ]]; then
+	${ROOTDIR}/version.sh -n bcc -V -- ${@}
+	exit 0
+fi
+
 name=
 check=
 
@@ -155,7 +162,10 @@ getversion() {
 check_one() {
 	local sw=$1
 	local versionfromjson=( $(getversion ${sw}) )
-	local versionfromsh=( $(${ROOTDIR}/${sw}.sh) )
+	local versionfromsh
+	[[ -e ${ROOTDIR}/${sw}.sh ]] && versionfromsh+=( $(${ROOTDIR}/${sw}.sh) )
+	[[ -e ${ROOTDIR}/${sw} ]] && versionfromsh+=( $(${ROOTDIR}/${sw}) )
+
 	if [[ "${versionfromjson[@]}" != "${versionfromsh[@]}" ]]; then
 		error "${sw} failed to get version (<${versionfromjson[@]}> != <${versionfromsh[@]}>)"
 	fi
