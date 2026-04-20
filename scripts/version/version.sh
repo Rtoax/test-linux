@@ -35,7 +35,7 @@ getswname() {
 	local sw=$1
 	local _name=$(jq -r --arg s "${sw}" '.software[$s].name' ${CONFIG} 2>/dev/null)
 	if [[ ${_name} == null ]]; then
-		warning "not found name for ${sw}"
+		warning "not found name for ${sw}, use ${sw} directly"
 		_name=${sw}
 	fi
 	# name start with '$' will be replace to shell variable, such as $SHELL
@@ -136,7 +136,7 @@ getversion() {
 	do
 		cmd=$(replace_keys ${cmd})
 		if [[ -z "$(which ${cmd} 2>/dev/null)" ]]; then
-			warning "${sw} not found ${cmd}"
+			warning "${sw}: not found command ${cmd}, skipping"
 			continue
 		fi
 		local arg
@@ -213,7 +213,7 @@ extension_one() {
 	local sw=$1
 	local exts=( $(jq -r --arg s "${sw}" '.software[$s].extension[]' ${CONFIG} 2>/dev/null) )
 	if [[ ${exts} == null ]]; then
-		warning "not found extensions for ${sw}"
+		warning "not found extensions for ${sw}, skipping"
 	fi
 	echo ${exts[@]}
 }
@@ -222,7 +222,7 @@ key_one() {
 	local sw=$1
 	local keys=( $(jq -r --arg s "${sw}" '.software[$s].keys[]' ${CONFIG} 2>/dev/null) )
 	if [[ ${keys} == null ]]; then
-		warning "not found keys for ${sw}"
+		warning "not found keys for ${sw}, skipping"
 	fi
 	echo ${keys[@]}
 }
@@ -315,7 +315,7 @@ version_format_parser() {
 			break
 			;;
 		*)
-			error "unknown ${1}"
+			error "unknown ${1} of ${name}"
 			;;
 		esac
 	done
@@ -363,7 +363,7 @@ while true; do
 		shift
 		name=$1
 		if ! [[ " ${softwares[@]} ALL " =~ " ${name} " ]]; then
-			error "unknown name ${name}"
+			error "unknown name ${name}, see --list"
 		fi
 		shift
 		;;
