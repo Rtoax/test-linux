@@ -1601,7 +1601,11 @@ cxl_topolopy() {
 config_cxl() {
 	local i j k
 
-	if [[ ! -z "${cxl_device}${cxl_pxb_ids}" ]] && [[ ${debug} ]]; then
+	if [[ -z "${cxl_device}${cxl_pxb_ids}" ]]; then
+		return 0
+	fi
+
+	if [[ ${debug} ]]; then
 		kcmds+=( "cxl_acpi.dyndbg=+fplm"
 			"cxl_pci.dyndbg=+fplm"
 			"cxl_core.dyndbg=+fplm"
@@ -1614,13 +1618,11 @@ config_cxl() {
 			"cxl_mock_mem.dyndbg=+fplm" )
 	fi
 
-	if [[ ! -z "${cxl_device}${cxl_pxb_ids}" ]]; then
-		qmachine+=( cxl=on )
-		# Disable ACPI CXL enumeration at boot
-		# kcmds+=( acpi=off )
-		kcmds+=( cxl.mem=disable )
-		kcmds+=( cxl.acpi=0 )
-	fi
+	qmachine+=( cxl=on )
+	# Disable ACPI CXL enumeration at boot
+	# kcmds+=( acpi=off )
+	kcmds+=( cxl.mem=disable )
+	kcmds+=( cxl.acpi=0 )
 
 	# Create CXL PXB
 	for i in ${cxl_pxb_ids[@]}
