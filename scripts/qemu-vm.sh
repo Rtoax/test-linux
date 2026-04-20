@@ -791,7 +791,6 @@ if [[ ! -f ${QEMU_KVM} ]] && [[ -z ${dry_run} ]]; then
 fi
 
 if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]]; then
-	__usage__
 	error "must specify kernel and initrd"
 fi
 
@@ -900,11 +899,6 @@ config_basic() {
 	esac
 
 	qmachine+=( accel=kvm )
-
-	if [[ ${debug} ]]; then
-		kcmds+=( rd.debug )
-		kcmds+=( systemd.log_level=debug )
-	fi
 
 	if [[ ${q_gdb} ]]; then
 		# -s: makes gdb be able to attach through localhost:1234
@@ -1025,8 +1019,17 @@ config_net() {
 }
 
 config_kernel() {
-	qargs+=( -kernel ${f_kernel} )
-	qargs+=( -initrd ${f_initrd} )
+	[[ ${f_kernel} ]] && qargs+=( -kernel ${f_kernel} )
+	[[ ${f_initrd} ]] && qargs+=( -initrd ${f_initrd} )
+
+	if [[ -z ${f_kernel} ]]; then
+		return 0
+	fi
+
+	if [[ ${debug} ]]; then
+		kcmds+=( rd.debug )
+		kcmds+=( systemd.log_level=debug )
+	fi
 
 	kcmds+=( earlyprintk=serial )
 	kcmds+=( net.ifnames=0 )
@@ -1045,6 +1048,38 @@ config_kernel() {
 	fi
 	if [[ ${k_init} ]]; then
 		kcmds+=( init=${k_init} )
+	fi
+	if [[ -z ${f_rootfs} ]]; then
+		# if not rootfs, we should break in initrd.
+		kcmds+=( rd.break ) # dracut.cmdline(7)
+		return 0
+	else
+		kcmds+=( ${k_rw} )
+
+		if [[ ${k_root} ]]; then
+			kcmds+=( root=${k_root} )
+		else
+			kcmds+=( root=UUID=$(image2uuid ${f_rootfs}) )
+		fi
+	fi
+
+	if [[ -z "${cxl_device}${cxl_pxb_ids}" ]]; then
+		if [[ ${debug} ]]; then
+			kcmds+=( "cxl_acpi.dyndbg=+fplm"
+				"cxl_pci.dyndbg=+fplm"
+				"cxl_core.dyndbg=+fplm"
+				"cxl_mem.dyndbg=+fplm"
+				"cxl_pmem.dyndbg=+fplm"
+				"cxl_port.dyndbg=+fplm"
+				"cxl_region.dyndbg=+fplm"
+				"cxl_test.dyndbg=+fplm"
+				"cxl_mock.dyndbg=+fplm"
+				"cxl_mock_mem.dyndbg=+fplm" )
+		fi
+		# Disable ACPI CXL enumeration at boot
+		# kcmds+=( acpi=off )
+		kcmds+=( cxl.mem=disable )
+		kcmds+=( cxl.acpi=0 )
 	fi
 }
 
@@ -1101,8 +1136,6 @@ add_nvdimm_blk() {
 
 config_rootfs() {
 	if [[ -z ${f_rootfs} ]]; then
-		# if not rootfs, we should break in initrd.
-		kcmds+=( rd.break ) # dracut.cmdline(7)
 		return 0
 	fi
 
@@ -1113,22 +1146,12 @@ config_rootfs() {
 	${DISK_TYPE_NVDIMM}) add_nvdimm_blk ${f_rootfs} ;;
 	${DISK_TYPE_SCSI}) add_scsi_disk ${f_rootfs} ;;
 	esac
-
-	kcmds+=( ${k_rw} )
-
-	if [[ ${k_root} ]]; then
-		kcmds+=( root=${k_root} )
-	else
-		kcmds+=( root=UUID=$(image2uuid ${f_rootfs}) )
-	fi
 }
 
 config_nvdimm() {
-
 	if [[ -z ${f_nvdimm} ]]; then
 		return 0
 	fi
-
 	add_nvdimm_blk ${f_nvdimm}
 }
 
@@ -1689,24 +1712,7 @@ config_cxl() {
 		return 0
 	fi
 
-	if [[ ${debug} ]]; then
-		kcmds+=( "cxl_acpi.dyndbg=+fplm"
-			"cxl_pci.dyndbg=+fplm"
-			"cxl_core.dyndbg=+fplm"
-			"cxl_mem.dyndbg=+fplm"
-			"cxl_pmem.dyndbg=+fplm"
-			"cxl_port.dyndbg=+fplm"
-			"cxl_region.dyndbg=+fplm"
-			"cxl_test.dyndbg=+fplm"
-			"cxl_mock.dyndbg=+fplm"
-			"cxl_mock_mem.dyndbg=+fplm" )
-	fi
-
 	qmachine+=( cxl=on )
-	# Disable ACPI CXL enumeration at boot
-	# kcmds+=( acpi=off )
-	kcmds+=( cxl.mem=disable )
-	kcmds+=( cxl.acpi=0 )
 
 	# Create CXL PXB
 	for i in ${cxl_pxb_ids[@]}
@@ -1829,4 +1835,4 @@ config_virtiofs
 qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
-_eval ${QEMU_KVM} ${qargs[@]} -append \"${kcmds[@]}\"
+_eval ${QEMU_KVM} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}
