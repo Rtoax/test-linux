@@ -29,8 +29,17 @@ fatal() {
 	fi
 }
 
-${MY_DIRECTORY}/scripts/clang-format.sh
-${MY_DIRECTORY}/scripts/docs/linux-reference.sh
+readonly pre_scripts=(
+	${MY_DIRECTORY}/scripts/clang-format.sh
+	${MY_DIRECTORY}/scripts/docs/linux-reference.sh
+)
+
+for script in ${pre_scripts[@]}
+do
+	if [[ -e ${script} ]]; then
+		${script}
+	fi
+done
 
 try_add=( $(git status --short | grep ^A | awk '{print $2}' || true) )
 try_del=( $(git status --short | grep ^D | awk '{print $2}' || true) )
