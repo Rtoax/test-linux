@@ -11,3 +11,4 @@ Standard
    iso/index
    posix/index
    svr/index
+   uefi/index
