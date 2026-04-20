@@ -177,17 +177,39 @@ check_qemu_format_and_exit() {
 	fi
 }
 
+declare -a UEFI_CODES=(
+	/usr/share/OVMF/OVMF_CODE.fd
+	/usr/share/AAVMF/AAVMF_CODE.fd
+)
+
+declare -a UEFI_VARS=(
+	/usr/share/OVMF/OVMF_VARS.fd
+	/usr/share/AAVMF/AAVMF_VARS.fd
+)
+
+case ${arch} in
+aarch64)
+	UEFI_CODES+=( /usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw )
+	UEFI_VARS+=( /usr/share/edk2/aarch64/QEMU_VARS.fd )
+	;;
+esac
+
+declare uefi_code uefi_var
+
 uefi_arg_help() {
 	echo -e "
 ${BOLD}UEFI ARGUMENTS SYNTAX${RST}
 
 ${BOLD}--uefi help${RST}: show this information
+
+${BOLD}--uefi code=<FILE>${RST}: specify code, such as: ${UEFI_CODES[@]}
+${BOLD}--uefi var=<FILE>${RST}: specify var, such as: ${UEFI_VARS[@]}, only specify if 'code' specified.
 "
 	exit 0
 }
 
 handle_uefi_arg() {
-	local arg args
+	local arg args code var
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -200,6 +222,34 @@ handle_uefi_arg() {
 		esac
 	done
 	unset args
+
+	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
+		args=( $(echo $1 | tr ',' ' ') )
+		for arg in ${args[@]}
+		do
+			case ${arg%%=*} in
+			code)
+				code=${arg:5}
+				;;
+			var)
+				var=${arg:4}
+				;;
+			*)
+				error "uefi unknown ${arg}"
+				;;
+			esac
+		done
+	fi
+
+	if [[ ${var} ]] && [[ ${code} ]]; then
+		error "--uefi could not specify code and var at the same time."
+	fi
+
+	[[ ${code} ]] && check_file_exist_and_exit ${code}
+	[[ ${var} ]] && check_file_exist_and_exit ${var}
+
+	[[ ${code} ]] && uefi_code=${code}
+	[[ ${var} ]] && uefi_var=${var}
 }
 
 # Format: type=TYPE,file=FILE,ro,rw
@@ -884,21 +934,6 @@ config_cpu() {
 
 auto_uefi_pflash() {
 	local i code var
-	local codes=(
-		/usr/share/OVMF/OVMF_CODE.fd
-		/usr/share/AAVMF/AAVMF_CODE.fd
-	)
-	local vars=(
-		/usr/share/OVMF/OVMF_VARS.fd
-		/usr/share/AAVMF/AAVMF_VARS.fd
-	)
-
-	case ${arch} in
-	aarch64)
-		codes+=( /usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw )
-		vars+=( /usr/share/edk2/aarch64/QEMU_VARS.fd )
-		;;
-	esac
 
 	# FIXME: aarch64 default UEFI, skip error:
 	# qemu-kvm: device requires 67108864 bytes, block backend provides 786432 bytes
@@ -906,14 +941,14 @@ auto_uefi_pflash() {
 		return 0
 	fi
 
-	for i in ${codes[@]}; do
+	for i in ${UEFI_CODES[@]}; do
 		if [[ -e ${i} ]]; then
 			code=${i}
 			break
 		fi
 	done
 
-	for i in ${vars[@]}; do
+	for i in ${UEFI_VARS[@]}; do
 		if [[ -e ${i} ]]; then
 			var=${i}
 			break
@@ -921,7 +956,7 @@ auto_uefi_pflash() {
 	done
 
 	if [[ -z ${code} ]] && [[ -z ${dry_run} ]]; then
-		error "not found ovmf code: ${codes[@]}"
+		error "not found ovmf code: ${UEFI_CODES[@]}"
 	fi
 
 	qargs+=( -drive if=pflash,format=raw,readonly=on,file=${code} )
@@ -930,8 +965,19 @@ auto_uefi_pflash() {
 	fi
 }
 
+set_uefi_pflash() {
+	if [[ ${uefi_code} ]]; then
+		qargs+=( -drive if=pflash,format=raw,readonly=on,file=${uefi_code} )
+		if [[ ${uefi_var} ]]; then
+			qargs+=( -drive if=pflash,format=raw,file=${uefi_var} )
+		fi
+	else
+		auto_uefi_pflash
+	fi
+}
+
 config_uefi() {
-	auto_uefi_pflash
+	set_uefi_pflash
 }
 
 config_pci() {
