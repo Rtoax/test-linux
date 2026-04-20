@@ -1267,6 +1267,9 @@ apt_add_packages()
 	pkgs_virt+=( qemu-system-misc )
 	pkgs_virt+=( qemu-user )
 	pkgs_virt+=( qemu-user-static )
+	if [[ $(is_arch aarch64) ]]; then
+		pkgs_virt+=( qemu-efi-aarch64 )
+	fi
 
 	pkgs_desktop+=( libgtk-3-dev )
 	pkgs_desktop+=( tigervnc-common )

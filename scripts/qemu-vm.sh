@@ -850,8 +850,14 @@ config_cpu() {
 
 config_uefi() {
 	local i code var
-	local codes=( /usr/share/OVMF/OVMF_CODE.fd )
-	local vars=( /usr/share/OVMF/OVMF_VARS.fd )
+	local codes=(
+		/usr/share/OVMF/OVMF_CODE.fd
+		/usr/share/AAVMF/AAVMF_CODE.fd
+	)
+	local vars=(
+		/usr/share/OVMF/OVMF_VARS.fd
+		/usr/share/AAVMF/AAVMF_VARS.fd
+	)
 
 	case ${arch} in
 	aarch64)
