@@ -258,7 +258,11 @@ sudo sed -i "s|@BOOTFLOW@|${BOOTFLOW}|g" ${MNT_BOOT}/grub2/grub.cfg
 sudo sed -i "s|@VENDOR@|${VENDOR_ID}|g" ${MNT_BOOT}/grub2/grub.cfg
 
 sudo cp /boot/vmlinuz-$(uname -r) ${MNT_BOOT}/vmlinuz
-sudo cp /boot/initramfs-$(uname -r).img ${MNT_BOOT}/initrd.img
+if [[ -e /boot/initramfs-$(uname -r).img ]]; then
+	sudo cp /boot/initramfs-$(uname -r).img ${MNT_BOOT}/initrd.img
+elif [[ -e /boot/initrd.img-$(uname -r) ]]; then
+	sudo cp /boot/initrd.img-$(uname -r) ${MNT_BOOT}/initrd.img
+fi
 sudo tree ${MNT_BOOT}
 
 [[ ${DEV_LOOP} ]] && sudo fdisk -l ${DEV_LOOP}
@@ -269,4 +273,3 @@ sudo umount ${MNT_BOOT_EFI}
 sudo umount ${MNT_BOOT}
 [[ ${DEV_LOOP} ]] && sudo losetup --detach ${DEV_LOOP}
 rmdir ${MNT_BOOT_EFI} ${MNT_BOOT}
-
