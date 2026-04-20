@@ -79,8 +79,8 @@ ${BOLD}OPTIONS${RST}
                             format see ${UL}SIZE${RST} section.
 
     -k, --kernel [KERNEL]   specify vmlinuz, bzImage
-        --karg [ARG]        add kernel argument, (may be listed multiple times)
-                            example: --karg=${GRAY}rdinit=/usr/bin/bash${RST}
+        --kcmd [ARG]        add kernel cmdline (may be listed multiple times)
+                            example: --kcmd=${GRAY}rdinit=/usr/bin/bash${RST}
 
     -i, --initrd [INITRD]   specify initrd image
         --rdinit [PATH]     specify initrd's init process.
@@ -615,7 +615,7 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
 	--long memory: \
 	--long uefi: \
 	--long kernel: \
-	--long karg: \
+	--long kcmd: \
 	--long initrd: \
 	--long rdinit: \
 	--long rootfs: \
@@ -668,7 +668,7 @@ while true; do
 		f_kernel=$1
 		shift
 		;;
-	--karg)
+	--kcmd)
 		shift
 		kcmds+=( $1 )
 		shift
