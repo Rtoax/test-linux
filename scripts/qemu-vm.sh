@@ -105,6 +105,9 @@ ${BOLD}OPTIONS${RST}
                             by ${GRAY}$ virtiofsd --socket-path=/var/run/vhost-fs.sock -o source=/path/to/host/${RST}
     --virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}myfs${RST}
 
+  ${BOLD}UEFI OPTIONS${RST}
+    --uefi [ARGS]           UEFI by Qemu. please see ${BOLD}--uefi help${RST}
+
   ${BOLD}QEMU OPTIONS${RST}
     -Q, --qemu [qemu-kvm]   specify qemu emulator binary.
         --gdb               enable qemu debugging, usage:${GRAY}
@@ -172,6 +175,31 @@ check_qemu_format_and_exit() {
 	if [[ $(is_qemu_format ${f_rootfs}) != yes ]] && [[ -z ${dry_run} ]]; then
 		error "${f_rootfs} is not raw or qcow2."
 	fi
+}
+
+uefi_arg_help() {
+	echo -e "
+${BOLD}UEFI ARGUMENTS SYNTAX${RST}
+
+${BOLD}--uefi help${RST}: show this information
+"
+	exit 0
+}
+
+handle_uefi_arg() {
+	local arg args
+
+	# Pre handle
+	args=( $(echo $1 | tr ',' ' ') )
+	for arg in ${args[@]}
+	do
+		case ${arg%%=*} in
+		help)
+			uefi_arg_help
+			;;
+		esac
+	done
+	unset args
 }
 
 # Format: type=TYPE,file=FILE,ro,rw
@@ -535,6 +563,7 @@ handle_cxl_arg() {
 TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
 	--long name: \
 	--long memory: \
+	--long uefi: \
 	--long kernel: \
 	--long karg: \
 	--long initrd: \
@@ -577,6 +606,11 @@ while true; do
 		if [[ $(sizechkalign ${q_memory} 256MiB) != y ]]; then
 			error "Memory size must align 256MiB"
 		fi
+		shift
+		;;
+	--uefi)
+		shift
+		handle_uefi_arg ${1}
 		shift
 		;;
 	-k | --kernel)
@@ -848,7 +882,7 @@ config_cpu() {
 	qargs+=( -cpu host -smp cpus=4 )
 }
 
-config_uefi() {
+auto_uefi_pflash() {
 	local i code var
 	local codes=(
 		/usr/share/OVMF/OVMF_CODE.fd
@@ -894,6 +928,10 @@ config_uefi() {
 	if [[ ${var} ]]; then
 		qargs+=( -drive if=pflash,format=raw,file=${var} )
 	fi
+}
+
+config_uefi() {
+	auto_uefi_pflash
 }
 
 config_pci() {
