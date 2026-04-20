@@ -12,3 +12,4 @@ Standard
    posix/index
    svr/index
    uefi/index
+   pxe
