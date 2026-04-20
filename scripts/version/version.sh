@@ -255,13 +255,14 @@ version_format_parser() {
 	local ver_arr=( $(echo ${version} | tr "${vsep}" ' ') )
 
 	local TEMP=$(getopt \
-		--options V \
+		--options Vh \
 		--long name \
 		--long pretty-name \
 		--long ${major} \
 		--long ${minor} \
 		--long ${patch} \
 		--long verbose \
+		--long help \
 		-n version-format-parser -- "$@")
 
 	test $? != 0 && error "$0 parser args error"
@@ -295,6 +296,19 @@ version_format_parser() {
 			shift
 			export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 			set -x
+			;;
+		-h|--help)
+			shift
+			cat >&2 <<-EOF
+			${name} help info:
+			--name            show software name
+			--pretty-name     show pretty name
+			--${major}        show ${major} of version
+			--${minor}        show ${minor} of version
+			--${patch}        show ${patch} of version
+			-V, --verbose     verbose mode
+			-h, --help        show this information
+			EOF
 			;;
 		--)
 			shift
