@@ -10,4 +10,5 @@ Linux
    bmc
    freebsd
    PXE <pxe>
+   uefi
    Util Linux <util-linux>
