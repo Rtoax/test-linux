@@ -33,7 +33,7 @@ k_root=
 # root mount attr: ro, rw. default: rw
 k_rw=rw
 
-f_nvdimm=
+declare -a f_nvdimms
 
 f_virtiofs_sock=
 q_virtiofs_tag=
@@ -92,7 +92,7 @@ ${BOLD}OPTIONS${RST}
         --root [ROOT]       specify root= in kernel cmdline, default use UUID
                             of rootfs image.
 
-    --nvdimm [FILE]         add a nvdimm pmem
+    --nvdimm [FILE]         add a nvdimm pmem (may be listed multiple times)
 
     --stdio                 input/output from/to stdio. Default ${GRAY}TERM=${RST}${UL}vt220${RST}
                             if stdio, you could set ${UL}TERM=xterm-256color${RST}
@@ -700,7 +700,7 @@ while true; do
 		;;
 	--nvdimm)
 		shift
-		f_nvdimm=$1
+		f_nvdimms+=( $1 )
 		shift
 		;;
 	--cxl)
@@ -777,11 +777,6 @@ if [[ ${f_rootfs} ]]; then
 	check_file_exist_and_exit ${f_rootfs}
 	check_qemu_format_and_exit ${f_rootfs}
 	[[ -e ${f_rootfs} ]] && f_rootfs=$(realpath ${f_rootfs})
-fi
-
-if [[ ${f_nvdimm} ]]; then
-	check_file_exist_and_exit ${f_nvdimm}
-	[[ -e ${f_nvdimm} ]] && f_nvdimm=$(realpath ${f_nvdimm})
 fi
 
 [[ ${f_virtiofs_sock} ]] && check_file_exist_and_exit ${f_virtiofs_sock}
@@ -1149,10 +1144,12 @@ config_rootfs() {
 }
 
 config_nvdimm() {
-	if [[ -z ${f_nvdimm} ]]; then
-		return 0
-	fi
-	add_nvdimm_blk ${f_nvdimm}
+	local nvdimm
+	for nvdimm in ${f_nvdimms[@]}
+	do
+		check_file_exist_and_exit ${nvdimm}
+		add_nvdimm_blk $(realpath ${nvdimm})
+	done
 }
 
 next_pxb_cxl_id() {
