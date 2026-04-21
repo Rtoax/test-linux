@@ -29,6 +29,10 @@
 #include "mbr.h"
 #include "gpt.h"
 
+#ifdef HAVE_TLC_HELPERS
+#include "memshow.h"
+#endif
+
 enum part_table_type {
 	PTAB_TYPE_UNKNOWN,
 	PTAB_TYPE_MBR_CLASSIC,
@@ -36,6 +40,7 @@ enum part_table_type {
 	PTAB_TYPE_GPT,
 };
 
+static int debug = 0;
 static int verbose = 0;
 
 /**
@@ -205,10 +210,19 @@ void parse_gpt_hdr(int blkfd, struct classical_generic_mbr *protective_mbr,
 	free(part_entries);
 }
 
+void parse_gpt_protective_mbr(struct classical_generic_mbr *protective_mbr)
+{
+	/* TODO: print more */
+	printf("MBR Signature: 0x%x, 0x%x\n", protective_mbr->boot_signature[0],
+	       protective_mbr->boot_signature[1]);
+}
+
 void parse_gpt(int blkfd, struct classical_generic_mbr *protective_mbr,
 	       struct gpt_hdr *hdr)
 {
 	struct gpt_hdr secondary_gpt_hdr;
+	printf("\033[1;32m----- Protective MBR -----\033[m\n");
+	parse_gpt_protective_mbr(protective_mbr);
 	printf("\033[1;32m----- Primary GPT -----\033[m\n");
 	parse_gpt_hdr(blkfd, protective_mbr, hdr);
 	read_off(blkfd, GPT_SECTOR_SIZE * hdr->backup_lba, &secondary_gpt_hdr,
@@ -247,6 +261,7 @@ void usage(char *prog)
 	printf(" -b, --blk [BLK|FILE]  specify lock or file to check, for example: /dev/vda\n");
 	printf(" -h, --help            show this information.\n");
 	printf(" -v, --verbose         show verbose information.\n");
+	printf(" -d, --debug           show debug information.\n");
 	printf("\n");
 	printf(" like:\n");
 	printf("  $ fdisk --blk blk.bin\n");
@@ -267,16 +282,24 @@ int main(int argc, char *argv[])
 	struct mbr_entry *mbr_entry;
 	enum part_table_type tab_type = PTAB_TYPE_UNKNOWN;
 
-	struct option options[] = {
-		{"blk",     required_argument, 0, 'b'},
-		{"help",    no_argument,       0, 'h'},
-		{"verbose", no_argument,       0, 'v'},
-		{0, 0, 0, 0}
-	};
+	assert(sizeof(struct gpt_hdr) == GPT_SECTOR_SIZE && "GPT hdr != 512");
+	assert(sizeof(struct classical_generic_mbr) == MBR_SECTOR_SIZE &&
+	       "MBR classical generic hdr != 512");
+	assert(sizeof(struct modern_standard_mbr) == MBR_SECTOR_SIZE &&
+	       "MBR modern standard hdr != 512");
+	assert(sizeof(struct aap_mbr) == MBR_SECTOR_SIZE &&
+	       "MBR aap hdr != 512");
+
+	struct option options[] = { { "blk", required_argument, 0, 'b' },
+				    { "help", no_argument, 0, 'h' },
+				    { "debug", no_argument, 0, 'd' },
+				    { "verbose", no_argument, 0, 'v' },
+				    { 0, 0, 0, 0 } };
 
 	while (1) {
 		int option_index = 0;
-		int c = getopt_long(argc, argv, "b:hv", options, &option_index);
+		int c = getopt_long(argc, argv, "b:hdv", options,
+				    &option_index);
 		if (c == -1)
 			break;
 		switch (c) {
@@ -289,6 +312,9 @@ int main(int argc, char *argv[])
 		case 'v':
 			verbose = 1;
 			break;
+		case 'd':
+			debug = 1;
+			break;
 		case '?':
 			fprintf(stderr, "Unknown option or requires an argument.\n");
 			exit(1);
@@ -300,11 +326,6 @@ int main(int argc, char *argv[])
 #ifdef DEBUG
 	printf("sizeof struct modern_standard_mbr %ld\n", sizeof(struct modern_standard_mbr));
 #endif
-
-	assert(sizeof(struct gpt_hdr) == GPT_SECTOR_SIZE && "GPT hdr != 512");
-	assert(sizeof(struct classical_generic_mbr) == MBR_SECTOR_SIZE && "MBR classical generic hdr != 512");
-	assert(sizeof(struct modern_standard_mbr) == MBR_SECTOR_SIZE && "MBR modern standard hdr != 512");
-	assert(sizeof(struct aap_mbr) == MBR_SECTOR_SIZE && "MBR aap hdr != 512");
 
 	if (!path) {
 		usage(argv[0]);
@@ -330,11 +351,6 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	if (fd == -1) {
-		printf("open(%s) %s\n", path, strerror(errno));
-		return 1;
-	}
-
 #ifdef DEBUG
 	printf("size of struct mbr_entry %d\n", sizeof(struct mbr_entry));
 #endif
@@ -342,8 +358,8 @@ int main(int argc, char *argv[])
 	printf("Disk: %s\n", path);
 
 	/* MBR: 512 bytes */
-	mbr = malloc(sizeof(*mbr));
-	read_off(fd, 0, mbr, sizeof(*mbr));
+	mbr = malloc(MBR_SECTOR_SIZE);
+	read_off(fd, 0, mbr, MBR_SECTOR_SIZE);
 
 	cg_mbr = (void *)mbr;
 	ms_mbr = (void *)mbr;
@@ -395,6 +411,12 @@ int main(int argc, char *argv[])
 	} else {
 		printf("No GPT found in %s.\n", path);
 	}
+
+#if defined(HAVE_TLC_HELPERS)
+	if (debug) {
+		hexdump(mbr, MBR_SECTOR_SIZE + sizeof(*gpt_hdr));
+	}
+#endif
 
 	switch (tab_type) {
 	case PTAB_TYPE_GPT:
