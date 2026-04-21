@@ -202,6 +202,7 @@ aarch64)
 esac
 
 declare uefi_code uefi_var
+declare uefi_novar
 
 uefi_arg_help() {
 	echo -e "
@@ -211,6 +212,7 @@ ${BOLD}--uefi help${RST}: show this information
 
 ${BOLD}--uefi code=<FILE>${RST}: specify code, such as: ${UEFI_CODES[@]}
 ${BOLD}--uefi var=<FILE>${RST}: specify var, such as: ${UEFI_VARS[@]}, only specify if 'code' specified.
+${BOLD}--uefi novar${RST}: disable VARS
 "
 	exit 0
 }
@@ -230,7 +232,7 @@ handle_uefi_arg() {
 	done
 	unset args
 
-	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
+	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -ge 1 ]]; then
 		args=( $(echo $1 | tr ',' ' ') )
 		for arg in ${args[@]}
 		do
@@ -240,6 +242,9 @@ handle_uefi_arg() {
 				;;
 			var)
 				var=${arg:4}
+				;;
+			novar)
+				uefi_novar=ON
 				;;
 			*)
 				error "uefi unknown ${arg}"
@@ -257,6 +262,10 @@ handle_uefi_arg() {
 
 	[[ ${code} ]] && uefi_code=${code}
 	[[ ${var} ]] && uefi_var=${var}
+
+	if [[ ${uefi_novar} ]] && [[ ${uefi_var} ]]; then
+		error "--uefi could not specify var and novar at the same time"
+	fi
 }
 
 # Format: type=TYPE,file=FILE,ro,rw
@@ -1002,7 +1011,7 @@ __uefi_add_pflash() {
 	qargs+=( -blockdev node-name=pflash0,driver=file,read-only=on,filename=${code} )
 	qmachine+=( pflash0=pflash0 )
 
-	if [[ ${var} ]]; then
+	if [[ -z ${uefi_novar} ]] && [[ ${var} ]]; then
 		qargs+=( -blockdev node-name=pflash1,driver=file,filename=${var} )
 		qmachine+=( pflash1=pflash1 )
 	fi
