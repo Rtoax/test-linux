@@ -52,13 +52,13 @@ verbose=
 debug=
 
 # Disk configuratios
-readonly DISK_TYPE_VIRTIO=virtio
-readonly DISK_TYPE_SATA=sata
-readonly DISK_TYPE_NVME=nvme
-readonly DISK_TYPE_NVDIMM=nvdimm
-readonly DISK_TYPE_SCSI=scsi
-readonly DISK_TYPES=( ${DISK_TYPE_VIRTIO} ${DISK_TYPE_SATA} ${DISK_TYPE_NVME}
-			${DISK_TYPE_SCSI} ${DISK_TYPE_NVDIMM} )
+readonly DISK_VIRTIO=virtio
+readonly DISK_SATA=sata
+readonly DISK_NVME=nvme
+readonly DISK_NVDIMM=nvdimm
+readonly DISK_SCSI=scsi
+readonly DISK_TYPES=( ${DISK_VIRTIO} ${DISK_SATA} ${DISK_NVME} ${DISK_SCSI}
+		      ${DISK_NVDIMM} )
 
 declare -a qargs qmachine kcmds
 declare -a cleanup_files
@@ -305,7 +305,7 @@ handle_rootfs_arg() {
 	fi
 
 	if [[ -z ${f_rootfs_type} ]]; then
-		f_rootfs_type=${DISK_TYPE_VIRTIO}
+		f_rootfs_type=${DISK_VIRTIO}
 	fi
 }
 
@@ -1239,11 +1239,11 @@ config_rootfs() {
 	fi
 
 	case ${f_rootfs_type} in
-	${DISK_TYPE_VIRTIO}) add_virtio_disk ${f_rootfs} ;;
-	${DISK_TYPE_SATA}) add_sata_disk ${f_rootfs} ;;
-	${DISK_TYPE_NVME}) add_nvme_disk ${f_rootfs} ;;
-	${DISK_TYPE_SCSI}) add_scsi_disk ${f_rootfs} ;;
-	${DISK_TYPE_NVDIMM}) add_nvdimm_blk ${f_rootfs} ;;
+	${DISK_VIRTIO}) add_virtio_disk ${f_rootfs} ;;
+	${DISK_SATA}) add_sata_disk ${f_rootfs} ;;
+	${DISK_NVME}) add_nvme_disk ${f_rootfs} ;;
+	${DISK_SCSI}) add_scsi_disk ${f_rootfs} ;;
+	${DISK_NVDIMM}) add_nvdimm_blk ${f_rootfs} ;;
 	esac
 }
 
