@@ -122,7 +122,7 @@ dd if=/dev/zero of=${IMG_NAME} bs=1M count=512
 # Pass -drive file=./${IMG_NAME},format=raw to qemu
 mk_multi_partitions_with_fdisk()
 {
-	local fdisk_script=fdisk.txt
+	local fdisk_script=fdisk.out
 	# g: Created a new GPT disklabel
 	# n: add a new partition
 	# 1: partition number 1
