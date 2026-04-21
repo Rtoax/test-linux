@@ -28,6 +28,13 @@ ftype() {
 		error "ftype: file ${file} is not exist."
 	fi
 
+	local bin
+	read -r -N 8 bin < ${file}
+	if [[ ${bin} == $'\x7f'ELF* ]]; then
+		echo elf
+		return 0
+	fi
+
 	if [[ "$(file ${file})" =~ "QCOW2" ]]; then
 		echo qcow2
 	fi
