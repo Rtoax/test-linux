@@ -172,11 +172,11 @@ void parse_gpt_hdr(int blkfd, struct classical_generic_mbr *protective_mbr,
 	/* protective mbr + primary gpt header */
 	read_off(blkfd, GPT_SECTOR_SIZE * hdr->start_lba, part_entries, size);
 
-	printf("\033[7m%-6s %-16s %-16s %-16s %-36s",
-		"ENTRY", "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS", "NAME");
+	printf("\033[7m%-6s %-16s %-16s %-16s %-36s\033[m\n", "ENTRY",
+	       "FIRST_LBA", "LAST_LBA", "ATTR_FLAGS", "NAME");
 	if (verbose)
-		printf(" %-36s %-36s", "Partition_type_GUID", "Unique_partition_GUID");
-	printf("\033[m\n");
+		printf("\033[7m%-6s %-43s %-43s\033[m\n", "",
+		       "Partition_type_GUID", "Unique_partition_GUID");
 
 	for (i = 0; i < hdr->nr_partition_entries; i++) {
 		struct gpt_partition_entry *e = &part_entries[i];
@@ -185,18 +185,19 @@ void parse_gpt_hdr(int blkfd, struct classical_generic_mbr *protective_mbr,
 		if (e->first_lba == 0 || e->last_lba == 0)
 			continue;
 
-		printf("%-6d %#016lx %#016lx %#016lx %-36s",
-			i, e->first_lba, e->last_lba, e->attr_flags,
-			utf16le_to_utf8((char *)e->utf16le_name, sizeof(e->utf16le_name),
-					utf8buf, sizeof(utf8buf)));
+		printf("%-6d %#016lx %#016lx %#016lx %-36s\n", i, e->first_lba,
+		       e->last_lba, e->attr_flags,
+		       utf16le_to_utf8((char *)e->utf16le_name,
+				       sizeof(e->utf16le_name), utf8buf,
+				       sizeof(utf8buf)));
 
 		if (verbose) {
-			printf(" ");
+			printf("%-6s ", "");
 			print_guid(e->partition_type_guid, sizeof(e->partition_type_guid));
-			printf(" ");
+			printf("        ");
 			print_guid(e->unique_partition_guid, sizeof(e->unique_partition_guid));
+			printf("\n");
 		}
-		printf("\n");
 		/**
 		 * TODO: print entries
 		 */
