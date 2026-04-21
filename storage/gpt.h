@@ -6,17 +6,17 @@
  *          GUID Partition Table Scheme
  *         +---------------------------+
  *         |      Protective MBR       | LBA 0
- *         +---------------------------+
- *         |    Primary GPT Header     | LBA 1
- *         +---------------------------+
- *         |Entry1|Entry2|Entry3|Entry4| LBA 2
- *         +---------------------------+
- *         |                           |
- *         .                           .
- *         .      Entries 5-128        .
- *         .                           .
- *         |                           | LBA 33
- *         +---------------------------+
+ *         +---------------------------+        -.
+ *         |    Primary GPT Header     | LBA 1    \
+ *         +---------------------------+          |
+ *         |Entry1|Entry2|Entry3|Entry4| LBA 2    |
+ *         +---------------------------+          |
+ *         |                           |          +- Primary GPT
+ *         .                           .          |
+ *         .      Entries 5-128        .          |
+ *         .                           .          |
+ *         |                           | LBA 33   /
+ *         +---------------------------+        -`
  *         |                           | LBA 34
  *         |        Partition 1        |
  *         |                           |
@@ -30,17 +30,17 @@
  *         .    Remaining Partitions   .
  *         .                           .
  *         |                           | LBA -34
- *         +---------------------------+
- *         |Entry1|Entry2|Entry3|Entry4| LBA -33
- *         +---------------------------+
- *         |                           |
- *         .                           .
- *         .      Entries 5-128        .
- *         .                           .
- *         |                           | LBA -2
- *         +---------------------------+
- *         |   Secondary GPT Header    | LBA -1
- *         +---------------------------+
+ *         +---------------------------+        -.
+ *         |Entry1|Entry2|Entry3|Entry4| LBA -33  \
+ *         +---------------------------+          |
+ *         |                           |          |
+ *         .                           .          |
+ *         .      Entries 5-128        .          +- Secondary GPT
+ *         .                           .          |
+ *         |                           | LBA -2   |
+ *         +---------------------------+          |
+ *         |   Secondary GPT Header    | LBA -1   /
+ *         +---------------------------+        -`
  *
  * refs:
  * - https://en.wikipedia.org/wiki/GUID_Partition_Table
