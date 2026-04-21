@@ -30,14 +30,19 @@ ftype() {
 
 	local bin
 	read -r -N 8 bin < ${file}
-	if [[ ${bin} == $'\x7f'ELF* ]]; then
+
+	warning "${file} is ${bin}"
+
+	case ${bin} in
+	$'\x7f'ELF*)
 		echo elf
 		return 0
-	fi
-
-	if [[ "$(file ${file})" =~ "QCOW2" ]]; then
+		;;
+	QFI$'\xfb'*)
 		echo qcow2
-	fi
+		return 0
+		;;
+	esac
 
 	# TODO: add more
 
