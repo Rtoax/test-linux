@@ -1,34 +1,10 @@
 #include <stdio.h>
 #include <json-c/json.h>
-
-char *read_file(const char *filename)
-{
-	FILE *fp = fopen(filename, "rb");
-	if (!fp) {
-		perror("fopen");
-		return NULL;
-	}
-
-	fseek(fp, 0, SEEK_END);
-	long size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-
-	char *buffer = (char *)malloc(size + 1);
-	if (!buffer) {
-		perror("malloc");
-		fclose(fp);
-		return NULL;
-	}
-
-	fread(buffer, 1, size, fp);
-	buffer[size] = '\0';
-	fclose(fp);
-	return buffer;
-}
+#include "file.h"
 
 int main(void)
 {
-	char *json = read_file("tmp.json");
+	char *json = alloc_buf_read_file("tmp.json");
 	json_object *root, *header;
 
 	root = json_tokener_parse(json);
