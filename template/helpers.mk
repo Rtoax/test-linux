@@ -35,6 +35,7 @@
 # - add_helpers_cflags()
 # - add_helpers_ldflags()
 # - add_helper_target()
+# - target_link_helper()
 #
 ifndef _HELPERS_MK
 _HELPERS_MK = 1
@@ -118,6 +119,15 @@ ${1}:
 	${Q}${MAKE} --no-print-directory --silent ${SUBMKFLAGS} -C $$(shell dirname ${1}) $$(shell basename ${1})
 endef
 
+# $1: target name, like: a.out
+# $2: helper library name without '${}' like: TLC_HELPERS
+# $3: cflags to append, like: CFLAGS, CFLAGS_SO, default: CFLAGS
+define target_link_helper
+$(if ${DEBUG}, $(info ${1} link helper ${2}))
+$(eval ${1}-objs += ${${2}})
+$(if ${3},$(eval ${3}_${1} += -DHAVE_${2}=1),$(eval CFLAGS_${1} += -DHAVE_${2}=1))
+endef
+
 ifdef DEBUG
   $(info ALL_HELPERS = ${ALL_HELPERS})
   $(info TLC_HELPERS = ${TLC_HELPERS})
@@ -145,5 +155,14 @@ endif
 
 export helpers-cflags
 export helpers-ldflags
+
+$(call target_link_helper,XXX_helper,TLC_HELPERS)
+$(call target_link_helper,XXX_helper1,TLC_HELPERS,xxxflags)
+ifneq (${CFLAGS_XXX_helper},-DHAVE_TLC_HELPERS=1)
+  $(error call target_link_helper failed)
+endif
+ifneq (${xxxflags_XXX_helper1},-DHAVE_TLC_HELPERS=1)
+  $(error call target_link_helper failed)
+endif
 
 endif

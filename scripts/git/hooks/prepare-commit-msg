@@ -227,9 +227,14 @@ if [[ "$(has_key cuda nvidia LUCA cestc CESTC)" ]]; then
 	fi
 fi
 
-for sw in $(${VERSH} -L)
+swlist=( $(${VERSH} -L) )
+for sw in ${swlist[@]}
 do
-	if [[ "$(has_content $(${VERSH} -n ${sw} -K))$(has_key $(${VERSH} -n ${sw} -K))" ]]; then
+	keys=( $(${VERSH} -n ${sw} -K) )
+	exts=( $(${VERSH} -n ${sw} -E) )
+	if [[ "$(has_content ${keys[@]})" ]] ||
+	   [[ "$(has_key ${keys[@]})" ]] ||
+	   [[ "$(has_type ${exts[@]})" ]]; then
 		add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"
 	fi
 done
