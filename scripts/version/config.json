@@ -67,7 +67,7 @@
 			"keys": [ "dracut", "initramfs", "initrd" ]
 		},
 		"edk2": {
-			"name": "EDK2",
+			"name": "EDK-II",
 			"package": {
 				"deb": [ "ovmf" ],
 				"rpm": [ "edk2-tools" ]

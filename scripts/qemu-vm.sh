@@ -35,6 +35,9 @@ k_rw=rw
 
 declare -a f_nvdimms
 
+# Disk shoud contains boot(EFI) partition, kernel, initramfs, etc.
+declare -a f_disks
+
 f_virtiofs_sock=
 q_virtiofs_tag=
 
@@ -91,6 +94,8 @@ ${BOLD}OPTIONS${RST}
         --init [PATH]       specify rootfs's init process.
         --root [ROOT]       specify root= in kernel cmdline, default use UUID
                             of rootfs image.
+
+    -d, --disk [ARGS]       add a disk. please see ${BOLD}--disk help${RST}
 
     --nvdimm [FILE]         add a nvdimm pmem (may be listed multiple times)
 
@@ -292,6 +297,61 @@ handle_rootfs_arg() {
 	if [[ -z ${f_rootfs_disk_type} ]]; then
 		f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
 	fi
+}
+
+disk_arg_help() {
+	echo -e "
+${BOLD}DISK ARGUMENTS SYNTAX: -d, --disk <ARGS>${RST}
+
+${BOLD}ARGS${RST}
+  ${BOLD}help${RST}: show this information
+
+  ${BOLD}[FILE]${RST}: specify disk file, see ${BOLD}[FILE]${RST}
+  ${BOLD}file=<FILE>${RST}: specify disk file, see ${BOLD}[FILE]${RST}
+
+${BOLD}FILE${RST}: disk file, should be one of qcow2, raw, MBR
+"
+	exit 0
+}
+
+handle_disk_arg() {
+	local arg args
+	local file
+
+	# Pre handle
+	args=( $(echo $1 | tr ',' ' ') )
+	for arg in ${args[@]}
+	do
+		case ${arg%%=*} in
+		help)
+			disk_arg_help
+			;;
+		esac
+	done
+	unset args
+
+	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
+		args=( $(echo $1 | tr ',' ' ') )
+		for arg in ${args[@]}
+		do
+			case ${arg%%=*} in
+			file)
+				file=${arg:5}
+				;;
+			*)
+				error "--disk unknown arg ${arg}"
+				;;
+			esac
+		done
+	else
+		file=$1
+	fi
+
+	if [[ -z ${file} ]]; then
+		error "--disk must specify disk file"
+	fi
+
+	f_disks+=( ${file} )
 }
 
 # CXL
@@ -611,7 +671,7 @@ handle_cxl_arg() {
 	fi
 }
 
-TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
+TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDv \
 	--long name: \
 	--long memory: \
 	--long uefi: \
@@ -622,6 +682,7 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:Q:huDv \
 	--long rootfs: \
 	--long init: \
 	--long root: \
+	--long disk: \
 	--long nvdimm: \
 	--long stdio \
 	--long monitor \
@@ -697,6 +758,11 @@ while true; do
 	--root)
 		shift
 		k_root=$1
+		shift
+		;;
+	-d | --disk)
+		shift
+		handle_disk_arg ${1}
 		shift
 		;;
 	--nvdimm)
@@ -786,8 +852,8 @@ if [[ ! -f ${QEMU_KVM} ]] && [[ -z ${dry_run} ]]; then
 	error "Not found qemu ${QEMU_KVM}"
 fi
 
-if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]]; then
-	error "must specify kernel and initrd"
+if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]] && [[ -z ${f_disks} ]]; then
+	error "must specify kernel and initrd, or specify one disk at least"
 fi
 
 if [[ ${verbose} ]]; then
@@ -1142,6 +1208,19 @@ config_rootfs() {
 	${DISK_TYPE_NVDIMM}) add_nvdimm_blk ${f_rootfs} ;;
 	${DISK_TYPE_SCSI}) add_scsi_disk ${f_rootfs} ;;
 	esac
+}
+
+config_disk() {
+	if [[ -z ${f_disks} ]]; then
+		return 0
+	fi
+
+	local disk
+	for disk in ${f_disks[@]}
+	do
+		#qargs+=( -drive file=$(realpath ${disk}),format=raw )
+		add_virtio_disk ${disk}
+	done
 }
 
 config_nvdimm() {
@@ -1826,6 +1905,7 @@ config_pci
 config_net
 config_kernel
 config_rootfs
+config_disk
 config_nvdimm
 config_cxl
 config_virtiofs
