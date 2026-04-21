@@ -22,9 +22,13 @@ target-prog-y += termplot_examples.sh
 target-prog-y += kconfig_compare.sh
 target-prog-y += kversion.sh kversion.sh.1
 target-prog-y += patchset_examples.sh
-target-prog-y += qemu-vm.sh
+target-prog-y += qemu-vm.sh qemu-vm.sh.1 qemu-vm.sh.2
 target-prog-y += runprog_examples.sh
 
 PROG_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display all
 PROG_ARGS_kversion.sh := short
 PROG_ARGS_kversion.sh.1 := full
+
+PROG_ARGS_qemu-vm.sh := --help
+PROG_ARGS_qemu-vm.sh.1 := --cxl help
+PROG_ARGS_qemu-vm.sh.2 := --disk help
