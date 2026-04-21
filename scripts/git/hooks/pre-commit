@@ -92,6 +92,11 @@ docs_check() {
 	   [[ " ${try_add[@]} " =~ "README.md" ]]; then
 		fatal "Don't modify/add README.md, please move it to Documentation!"
 	fi
+
+	if [[ " ${try_modify[@]} " =~ "abbrev.md" ]] ||
+	   [[ " ${try_add[@]} " =~ "abbrev.md" ]]; then
+		fatal "Don't modify/add abbrev.md, please move it to Documentation!"
+	fi
 }
 
 broken_symlinks=( $(find ${GIT_TOPDIR} -xtype l) )
