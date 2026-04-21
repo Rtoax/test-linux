@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
+include json-c.mk
+
+target-${HAVE_JSON_C} += config
+
 target-prog-y += version.sh version.sh.1 version.sh.2 version.sh.3 version.sh.4
 target-prog-y += linux.sh
 target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
@@ -49,3 +53,5 @@ PROG_ARGS_linux.sh.5 := --uapimajor
 PROG_ARGS_linux.sh.6 := --uapipatchlevel
 PROG_ARGS_linux.sh.7 := --uapisublevel
 PROG_ARGS_linux.sh.8 := --uapicode
+
+LDFLAGS += -ljson-c
