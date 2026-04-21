@@ -12,7 +12,9 @@
  *         |Entry1|Entry2|Entry3|Entry4| LBA 2
  *         +---------------------------+
  *         |                           |
- *         |      Entries 5-128        |
+ *         .                           .
+ *         .      Entries 5-128        .
+ *         .                           .
  *         |                           | LBA 33
  *         +---------------------------+
  *         |                           | LBA 34
@@ -24,16 +26,20 @@
  *         |                           |
  *         +---------------------------+
  *         |                           |
- *         |    Remaining Partitions   |
+ *         .                           .
+ *         .    Remaining Partitions   .
+ *         .                           .
  *         |                           | LBA -34
  *         +---------------------------+
  *         |Entry1|Entry2|Entry3|Entry4| LBA -33
  *         +---------------------------+
  *         |                           |
- *         |      Entries 5-128        |
+ *         .                           .
+ *         .      Entries 5-128        .
+ *         .                           .
  *         |                           | LBA -2
  *         +---------------------------+
- *         |    Primary GPT Header     | LBA -1
+ *         |   Secondary GPT Header    | LBA -1
  *         +---------------------------+
  *
  * refs:
@@ -138,4 +144,3 @@ struct gpt_partition_entry {
 	/* Partition name (36 UTF-16LE code units) */
 	uint8_t utf16le_name[72];
 } __attribute__((packed));
-

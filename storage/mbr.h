@@ -205,4 +205,3 @@ struct mbr_entry {
 	uint32_t first_abs_sector;
 	uint32_t nr_sectors;
 } __attribute__((packed));
-
