@@ -33,6 +33,7 @@ ftype() {
 
 	warning "${file} is ${bin}"
 
+	# see also pre-commit
 	case ${bin} in
 	$'\x7f'ELF*)
 		echo elf

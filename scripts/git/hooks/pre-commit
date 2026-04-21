@@ -109,14 +109,23 @@ do
 
 	# true: for empty file
 	read -r -N 8 bin < $f || true
-	if [[ $bin == $'\x7f'ELF* ]]; then
+	# see also scripts/libfile.sh
+	case ${bin} in
+	$'\x7f'ELF*)
 		fatal "You are trying to add <$f> ELF file to git-tree, see git status."
+		;;
 	# ar file start from "!<arch>\n", see /usr/include/ar.h
-	elif [[ $bin == $'!<arch>\n' ]]; then
+	$'!<arch>\n')
 		fatal "You are trying to add <$f> ar file to git-tree, see git status."
-	elif [[ $bin == $'gmon'* ]]; then
+		;;
+	$'gmon'*)
 		fatal "You are trying to add <$f> GNU prof performance file to git-tree, see git status."
-	fi
+		;;
+	QFI$'\xfb'*)
+		fatal "You are trying to add <$f> qcow2 to git-tree, see git status."
+		;;
+	esac
+
 	if [[ $(basename $f) == vmlinux.h ]]; then
 		fatal "vmlinux.h is too big, generate it with bpftool command!!!"
 	fi
