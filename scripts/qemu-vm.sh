@@ -8,6 +8,7 @@ set -e
 
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
+. ${QEMU_VM_ROOT}/libfile.sh
 . ${QEMU_VM_ROOT}/liblog.sh
 . ${QEMU_VM_ROOT}/libqemu.sh
 . ${QEMU_VM_ROOT}/libstring.sh
@@ -27,7 +28,7 @@ f_initrd=
 k_rdinit=
 
 f_rootfs=
-f_rootfs_disk_type=
+f_rootfs_type=
 k_init=
 k_root=
 # root mount attr: ro, rw. default: rw
@@ -268,8 +269,8 @@ handle_rootfs_arg() {
 		do
 			case ${arg%%=*} in
 			type)
-				f_rootfs_disk_type=${arg:5}
-				if ! [[ " ${DISK_TYPES[@]} " =~ " ${f_rootfs_disk_type} " ]]; then
+				f_rootfs_type=${arg:5}
+				if ! [[ " ${DISK_TYPES[@]} " =~ " ${f_rootfs_type} " ]]; then
 					error "rootfs unsupport ${arg}"
 				fi
 				;;
@@ -294,8 +295,8 @@ handle_rootfs_arg() {
 		f_rootfs=$1
 	fi
 
-	if [[ -z ${f_rootfs_disk_type} ]]; then
-		f_rootfs_disk_type=${DISK_TYPE_VIRTIO}
+	if [[ -z ${f_rootfs_type} ]]; then
+		f_rootfs_type=${DISK_TYPE_VIRTIO}
 	fi
 }
 
@@ -1145,16 +1146,23 @@ config_kernel() {
 	fi
 }
 
+__disk_file_type() {
+	local file=$1
+	local type=$(ftype ${file})
+	[[ ${type} != qcow2 ]] && type=raw
+	echo ${type}
+}
+
 add_virtio_disk() {
 	local f_img=$1
-	local f_type=${f_img##*.}
+	local f_type=$(__disk_file_type ${f_img})
 	local virtio_id=$(mktemp -u virtio-XXXXXX)
 	qargs+=( -drive file=${f_img},format=${f_type},if=none,id=${virtio_id}
 		-device virtio-blk,drive=${virtio_id} )
 }
 add_sata_disk() {
 	local f_img=$1
-	local f_type=${f_img##*.}
+	local f_type=$(__disk_file_type ${f_img})
 	local sata_id=$(mktemp -u sata-XXXXXX)
 	qargs+=( -device ahci,id=ahci0
 		-drive if=none,file=${f_img},format=${f_type},id=${sata_id}
@@ -1162,7 +1170,7 @@ add_sata_disk() {
 }
 add_nvme_disk() {
 	local f_img=$1
-	local f_type=${f_img##*.}
+	local f_type=$(__disk_file_type ${f_img})
 	local drive_id=$(mktemp -u nvme-XXXXXX)
 	qargs+=( -drive if=none,file=${f_img},format=${f_type},id=${drive_id}
 		-device nvme,drive=${drive_id},serial=sn-${drive_id} )
@@ -1170,7 +1178,7 @@ add_nvme_disk() {
 
 add_scsi_disk() {
 	local f_img=$1
-	local f_type=${f_img##*.}
+	local f_type=$(__disk_file_type ${f_img})
 	local hd_id=$(mktemp -u hd-XXXXXX)
 	qargs+=( -device virtio-scsi-pci,id=scsi0
 		-device scsi-hd,drive=${hd_id}
@@ -1201,12 +1209,12 @@ config_rootfs() {
 		return 0
 	fi
 
-	case ${f_rootfs_disk_type} in
+	case ${f_rootfs_type} in
 	${DISK_TYPE_VIRTIO}) add_virtio_disk ${f_rootfs} ;;
 	${DISK_TYPE_SATA}) add_sata_disk ${f_rootfs} ;;
 	${DISK_TYPE_NVME}) add_nvme_disk ${f_rootfs} ;;
-	${DISK_TYPE_NVDIMM}) add_nvdimm_blk ${f_rootfs} ;;
 	${DISK_TYPE_SCSI}) add_scsi_disk ${f_rootfs} ;;
+	${DISK_TYPE_NVDIMM}) add_nvdimm_blk ${f_rootfs} ;;
 	esac
 }
 
