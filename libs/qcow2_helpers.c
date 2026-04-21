@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <byteswap.h>
-
 #include "qcow2_helpers.h"
 
 int qcowhdr_check_magic(QCowHeader *hdr)

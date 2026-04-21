@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #include <stdio.h>
 #include <stdint.h>
-#include "byteswap.h"
+#include "byte.h"
 
 #ifdef TEST_MAIN
 int main(void)

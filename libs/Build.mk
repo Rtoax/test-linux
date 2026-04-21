@@ -6,7 +6,7 @@ include amd/rocm.mk
 include metax/hpcc.mk
 include cestc/luca.mk
 
-target-y += byteswap
+target-y += byte
 target-y += endian
 target-y += file
 target-y += fd
@@ -68,7 +68,7 @@ target-lscc-liba-${HAVE_LUCA} := libluca_helpers.a
 
 target-test-y += test1
 
-objs-dynamic += ${OUTPUT}byteswap.so.o
+objs-dynamic += ${OUTPUT}byte.so.o
 objs-dynamic += ${OUTPUT}endian.so.o
 objs-dynamic += ${OUTPUT}fd.so.o
 objs-dynamic += ${OUTPUT}file.so.o
