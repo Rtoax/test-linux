@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- scripts: add libfile.sh;
 - scripts/version: add symlink edk2.sh, add config.c for parse json;
 - git/hooks: add pre-push;
 - i2c: add info.sh;

@@ -5,9 +5,7 @@
 #include <unistd.h>
 #include <argp.h>
 #include <errno.h>
-
 #include "qcow2_helpers.h"
-
 
 static char *qcow2_name;
 static int verbose = 0;
