@@ -919,6 +919,7 @@ config_basic() {
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid $(gen_uuid) )
 	qargs+=( -enable-kvm )
+	qargs+=( -boot menu=on )
 
 	# -qmp <protocol>:<path>[,server][,nowait]
 	# -qmp unix:/tmp/qmp-sock,server,nowait
