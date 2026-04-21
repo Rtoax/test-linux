@@ -88,15 +88,14 @@ docs_check() {
 		fi
 	fi
 
-	if [[ " ${try_modify[@]} " =~ "README.md" ]] ||
-	   [[ " ${try_add[@]} " =~ "README.md" ]]; then
-		fatal "Don't modify/add README.md, please move it to Documentation!"
-	fi
-
-	if [[ " ${try_modify[@]} " =~ "abbrev.md" ]] ||
-	   [[ " ${try_add[@]} " =~ "abbrev.md" ]]; then
-		fatal "Don't modify/add abbrev.md, please move it to Documentation!"
-	fi
+	local f
+	for f in README.md abbrev.md history.md
+	do
+		if [[ " ${try_modify[@]} " =~ "${f}" ]] ||
+		   [[ " ${try_add[@]} " =~ "${f}" ]]; then
+			fatal "Don't modify/add ${f}, please move it to Documentation!"
+		fi
+	done
 }
 
 broken_symlinks=( $(find ${GIT_TOPDIR} -xtype l) )
