@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
-./qemu-vm.sh --help
-./qemu-vm.sh --cxl help
-./qemu-vm.sh --disk help
+qemu() {
+	./qemu-vm.sh "${@}"
+}
+
+dryrun() {
+	qemu --dry-run "${@}"
+}
+
+qemu --help
+qemu --cxl help
+qemu --disk help
+qemu --uefi help
