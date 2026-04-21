@@ -45,7 +45,7 @@ interval:s:1
 	}
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s\n", pid, comm);
+	printf("%-8x %-8X %-8d %-#08d %-16s\n", pid, pid, pid, pid, comm);
 
 	/**
 	 * This is comment, TODO:

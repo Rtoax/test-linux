@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:	bpftrace
 " Maintainer:	Rong Tao <rongtao@cestc.cn>
-" Last Change:	2026 Feb 20
+" Last Change:	2026 Apr 21
 
 " Quit when a syntax file was already loaded
 if exists("b:current_syntax")
@@ -39,7 +39,9 @@ syntax keyword btType		bool int int8 int16 int32 int64 uint8 uint16 uint32 uint6
 syntax keyword btType		signed unsigned
 syntax keyword btStructure	union struct
 
-syntax region btString		start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=@Spell extend
+syntax match btFormat		display "%\%(\d\+\$\)\=[-+' #0*]*\%(\d*\|\*\|\*\d\+\$\)\%(\.\%(\d*\|\*\|\*\d\+\$\)\)\=\%([hlLjzt]\|ll\|hh\)\=\%([dxXs]\|\[\^\=.[^]]*\]\)" contained
+
+syntax region btString		start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=btFormat,@Spell extend
 
 " Arithmetic operators: +, and - take care of ++, and --
 syntax match btOperator		"+\|-\|\*\|/\|%\|="
@@ -90,3 +92,4 @@ highlight def link btInclude		Include
 highlight def link btPreCondit		PreCondit
 highlight def link btPreConditMatch	btPreCondit
 highlight def link btNumber		Number
+highlight def link btFormat		SpecialChar
