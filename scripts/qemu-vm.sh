@@ -990,6 +990,24 @@ config_cpu() {
 	qargs+=( -cpu host -smp cpus=4 )
 }
 
+# $1: code
+# $2: var, could be empty
+__uefi_add_pflash() {
+	local code=$1
+	local var=$2
+
+	# Other pflash command line:
+	#   qargs+=( -drive if=pflash,format=raw,readonly=on,file=${code} )
+	#   qargs+=( -drive if=pflash,format=raw,file=${var} )
+	qargs+=( -blockdev node-name=pflash0,driver=file,read-only=on,filename=${code} )
+	qmachine+=( pflash0=pflash0 )
+
+	if [[ ${var} ]]; then
+		qargs+=( -blockdev node-name=pflash1,driver=file,filename=${var} )
+		qmachine+=( pflash1=pflash1 )
+	fi
+}
+
 auto_uefi_pflash() {
 	local i code var
 
@@ -1007,28 +1025,29 @@ auto_uefi_pflash() {
 	done
 
 	for i in ${UEFI_VARS[@]}; do
-		if [[ -e ${i} ]]; then
-			var=${i}
-			break
+		if [[ ! -e ${i} ]]; then
+			continue
 		fi
+
+		# Copy a new VAR from system OS.
+		var=${i}
+		local newvar=${q_vm_name}_$(basename ${var})
+		cp ${var} ${newvar}
+		cleanup_files+=( ${newvar} )
+		var=${newvar}
+		break
 	done
 
 	if [[ -z ${code} ]] && [[ -z ${dry_run} ]]; then
 		error "not found uefi code: ${UEFI_CODES[@]}"
 	fi
 
-	qargs+=( -drive if=pflash,format=raw,readonly=on,file=${code} )
-	if [[ ${var} ]]; then
-		qargs+=( -drive if=pflash,format=raw,file=${var} )
-	fi
+	__uefi_add_pflash ${code} ${var}
 }
 
 set_uefi_pflash() {
 	if [[ ${uefi_code} ]]; then
-		qargs+=( -drive if=pflash,format=raw,readonly=on,file=${uefi_code} )
-		if [[ ${uefi_var} ]]; then
-			qargs+=( -drive if=pflash,format=raw,file=${uefi_var} )
-		fi
+		__uefi_add_pflash ${uefi_code} ${uefi_var}
 	else
 		auto_uefi_pflash
 	fi
