@@ -178,6 +178,7 @@ check_qemu_format_and_exit() {
 }
 
 declare -a UEFI_CODES=(
+	# OVMF: Open Virtual Machine Firmware
 	/usr/share/OVMF/OVMF_CODE.fd
 	/usr/share/AAVMF/AAVMF_CODE.fd
 )
@@ -945,7 +946,7 @@ auto_uefi_pflash() {
 	done
 
 	if [[ -z ${code} ]] && [[ -z ${dry_run} ]]; then
-		error "not found ovmf code: ${UEFI_CODES[@]}"
+		error "not found uefi code: ${UEFI_CODES[@]}"
 	fi
 
 	qargs+=( -drive if=pflash,format=raw,readonly=on,file=${code} )

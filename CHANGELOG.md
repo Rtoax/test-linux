@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- scripts/version: add symlink edk2.sh;
 - git/hooks: add pre-push;
 - i2c: add info.sh;
 - lingspeed: add bmc subdir;

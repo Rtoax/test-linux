@@ -1,6 +1,12 @@
 Qemu - Quick Emulator
 =====================
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+
+
 A generic and open source machine emulator and virtualizer.
 
 

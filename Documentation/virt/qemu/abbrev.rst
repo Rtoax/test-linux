@@ -1,7 +1,12 @@
+Abbrev
+======
+
+- AAVMF: ARM Architecture Virtual Machine Firmware (Arm虚拟机固件) @OVMF
 - BT: Binary Translation (二进制转译) @SBT @DBT
 - DBT: Dynamic Binary Translation (动态二进制转译) @BT @SBT @JIT
 - HMP: Human Monitor Protocol
 - MTTCG: Multi-Thread Tiny Code Generator () @TCG
+- OVMF: Open Virtual Machine Firmware (开放虚拟机固件) @AAVMF
 - QCOW: QEMU Copy On Write (Qemu 写时复制) @QCOW2 @QCOW3
 - QCOW2: QEMU Copy On Write 2 (Qemu 写时复制 2) @QCOW3 @QCOW
 - QCOW3: QEMU Copy On Write 3 (Qemu 写时复制 3) @QCOW2 @QCOW
