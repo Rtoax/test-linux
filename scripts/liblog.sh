@@ -23,7 +23,7 @@ error() {
 }
 
 warning() {
-	echo -e >&2 "${RED}WARNING: ${@}${RST}"
+	echo -e >&2 "${PURPLE}WARNING: ${@}${RST}"
 }
 
 debug() {
