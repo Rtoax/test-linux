@@ -411,11 +411,12 @@ if [[ ${show_list} ]]; then
 fi
 
 if [[ ${show_keys} ]]; then
-	if [[ ${name} == ALL ]]; then
+	# Show all keys if name is ALL or empty
+	if [[ ${name} == ALL ]] || [[ -z ${name} ]]; then
 		for sw in ${softwares[@]}
 		do
 			key_one ${sw}
-		done
+		done | tr ' ' '\n' | sort -u
 	elif [[ ${name} ]]; then
 		key_one ${name}
 	fi
