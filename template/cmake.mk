@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
 #
+# Export:
+# - CMAKE=[cmake]
+#
 # Functions:
 # - cmake_{gt,ge,eq,lt,le}()=[y|n]
 #
@@ -9,6 +12,8 @@ _CMAKE_MK = 1
 
 include dir.mk
 include version.mk
+
+CMAKE := cmake
 
 cmakeversh = ${TOPDIR}/scripts/version/cmake.sh
 

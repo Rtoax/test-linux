@@ -174,6 +174,23 @@ has_content() {
 	return 0
 }
 
+# has content in patch, return the matched inputs words
+match_content() {
+	local str=( ${@} )
+
+	[[ ${AV} ]] && echo "${str[@]}" && return 0
+
+	local matches=( $(git status --verbose | \
+				grep -e '^+' -e '^-' | \
+				grep -o -w -E "$(echo ${str[@]} | tr ' ' '|')") )
+	matches+=( $(git diff --staged | \
+			grep -e '^+' -e '^-' | \
+			grep -o -w -E "$(echo ${str[@]} | tr ' ' '|')") )
+
+	echo ${matches[@]} | tr ' ' '\n' | sort -u
+	return 0
+}
+
 linux_ver() { add_ver "Linux $(uname -r)"; }
 os_ver() { add_ver "$(${VERDIR}/distro.sh)"; }
 redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
@@ -233,13 +250,7 @@ __new_ver() {
 	local swlist swkeys swexts
 	local key ext sw
 
-	for key in ${allkeys[@]}
-	do
-		if [[ "$(has_content ${key})" ]] ||
-		   [[ "$(has_key ${key})" ]]; then
-			swkeys+=( ${key} )
-		fi
-	done
+	swkeys+=( $(match_content ${allkeys[@]}) )
 
 	for ext in ${allexts[@]}
 	do
@@ -255,19 +266,6 @@ __new_ver() {
 	for sw in ${swlist[@]}
 	do
 		add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"
-	done
-}
-
-__old_ver() {
-	for sw in ${swlist[@]}
-	do
-		local keys=( $(${VERSH} -n ${sw} -K) )
-		local exts=( $(${VERSH} -n ${sw} -E) )
-		if [[ "$(has_content ${keys[@]})" ]] ||
-		   [[ "$(has_key ${keys[@]})" ]] ||
-		   [[ "$(has_type ${exts[@]})" ]]; then
-			add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"
-		fi
 	done
 }
 
