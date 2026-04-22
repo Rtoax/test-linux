@@ -53,7 +53,7 @@
 		"cmake": {
 			"name": "CMake",
 			"extension": [ "cmake" ],
-			"keys": [ "cmake" ]
+			"keys": [ "cmake", "CMakeLists.txt" ]
 		},
 		"dracut": {
 			"name": "Dracut",
@@ -170,6 +170,7 @@
 		"json-c": {
 			"name": "json-c",
 			"library": [ "libjson-c.so" ],
+			"extension": [ "json" ],
 			"keys": [ "json" ]
 		},
 		"kmod": {

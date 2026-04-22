@@ -136,21 +136,18 @@ has_key() {
 	return 0
 }
 
-# input some key words, such as c, cpp, sh, cu
-# echo "YES" if any file type matched.
-has_type() {
-	local ext
+# input some extension words, such as c, cpp, sh, cu, bt
+# echo matched input words
+match_type() {
+	local exts=( ${@} )
 
-	[[ ${AV} ]] && echo "YES" && return 0
+	[[ ${AV} ]] && echo "${exts[@]}" && return 0
 
-	for ext in ${@}
-	do
-		# a.c b.sh -> c sh
-		if [[ " ${CHANGED_FILES_RO[@]##*.} " =~ " ${ext} " ]]; then
-			echo "YES"
-			return 0
-		fi
-	done
+	# a.c b.sh -> c sh
+	local matched=( $(echo "${CHANGED_FILES_RO[@]##*.}" | \
+				grep -o -w -E "$(echo ${exts[@]} | tr ' ' '|')") )
+
+	echo ${matched[@]} | tr ' ' '\n' | sort -u
 	return 0
 }
 
@@ -210,7 +207,7 @@ if [[ -z ${signed_off_by_line} ]]; then
 fi
 
 # __main__
-if [[ "$(has_type asm S)$(has_key asm arch insn cpu)" ]]; then
+if [[ "$(match_type asm S)$(has_key asm arch insn cpu)" ]]; then
 	cpu_env
 	virt_env
 fi
@@ -218,7 +215,7 @@ fi
 os_ver
 linux_ver
 
-if [[ "$(has_type qcow2 raw)$(has_key qcow qcow2 qcow3 qemu)" ]]; then
+if [[ "$(match_type qcow2 raw)$(has_key qcow qcow2 qcow3 qemu)" ]]; then
 	virt_env
 fi
 
@@ -226,7 +223,7 @@ if [[ "$(has_key redis)" ]]; then
 	redis_ver
 fi
 
-if [[ "$(has_type efi)$(has_key uefi UEFI efi EFI)" ]]; then
+if [[ "$(match_type efi)$(has_key uefi UEFI efi EFI)" ]]; then
 	uefi_ver
 fi
 
@@ -251,13 +248,7 @@ __new_ver() {
 	local key ext sw
 
 	swkeys+=( $(match_content ${allkeys[@]}) )
-
-	for ext in ${allexts[@]}
-	do
-		if [[ "$(has_type ${ext})" ]]; then
-			swexts+=( ${ext} )
-		fi
-	done
+	swexts+=( $(match_type ${allexts[@]}) )
 
 	[[ ${swkeys} ]] && swlist+=( $(${VERSH} --k2n "${swkeys[*]}") )
 	[[ ${swexts} ]] && swlist+=( $(${VERSH} --e2n "${swexts[*]}") )

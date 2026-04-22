@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
+#
+# Functions:
+# - wow()
+#
 ifndef _WOW_MK
 _WOW_MK = 1
 
