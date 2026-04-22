@@ -116,7 +116,7 @@ add_env() {
 
 # input some key words.
 # echo "YES" if any key matched.
-has_key() {
+has_changed_file() {
 	local key
 
 	[[ ${AV} ]] && echo "YES" && return 0
@@ -207,7 +207,7 @@ if [[ -z ${signed_off_by_line} ]]; then
 fi
 
 # __main__
-if [[ "$(match_type asm S)$(has_key asm arch insn cpu)" ]]; then
+if [[ "$(match_type asm S)$(has_changed_file asm arch insn cpu)" ]]; then
 	cpu_env
 	virt_env
 fi
@@ -215,26 +215,26 @@ fi
 os_ver
 linux_ver
 
-if [[ "$(match_type qcow2 raw)$(has_key qcow qcow2 qcow3 qemu)" ]]; then
+if [[ "$(match_type qcow2 raw)$(has_changed_file qcow qcow2 qcow3 qemu)" ]]; then
 	virt_env
 fi
 
-if [[ "$(has_key redis)" ]]; then
+if [[ "$(has_changed_file redis)" ]]; then
 	redis_ver
 fi
 
-if [[ "$(match_type efi)$(has_key uefi UEFI efi EFI)" ]]; then
+if [[ "$(match_type efi)$(has_changed_file uefi UEFI efi EFI)" ]]; then
 	uefi_ver
 fi
 
-if [[ "$(has_key cuda nvidia)" ]]; then
+if [[ "$(has_changed_file cuda nvidia)" ]]; then
 	name=$(${TOPDIR}/hpc/nvidia/gpuname.sh)
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
 	fi
 fi
 
-if [[ "$(has_key cuda nvidia LUCA cestc CESTC)" ]]; then
+if [[ "$(has_changed_file cuda nvidia LUCA cestc CESTC)" ]]; then
 	name=$(${TOPDIR}/hpc/cestc/lingspeed/gpuname.sh)
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
