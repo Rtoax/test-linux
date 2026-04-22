@@ -19,7 +19,7 @@ check=
 
 show_list=
 show_keys=
-declare -a show_k2n
+declare -a show_k2n # key to name
 show_exts=
 show_version=
 
@@ -444,11 +444,11 @@ if [[ ${show_k2n} ]]; then
 fi
 
 if [[ ${show_exts} ]]; then
-	if [[ ${name} == ALL ]]; then
+	if [[ ${name} == ALL ]] || [[ -z ${name} ]]; then
 		for sw in ${softwares[@]}
 		do
 			extension_one ${sw}
-		done
+		done | tr ' ' '\n' | sort -u
 	elif [[ ${name} ]]; then
 		extension_one ${name}
 	fi
