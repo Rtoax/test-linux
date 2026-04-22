@@ -46,7 +46,12 @@ struct json {
 };
 
 static char *json = NULL;
-static bool verbose = false;
+
+struct {
+	bool verbose;
+} env = {
+	.verbose = false,
+};
 
 const char argp_prog_doc[] = "USAGE: [-j <JSON>] [-v|--verbose]\n";
 
@@ -63,7 +68,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		json = arg;
 		break;
 	case 'v':
-		verbose = true;
+		env.verbose = true;
 		break;
 	case ARGP_KEY_ARG:
 		break;
@@ -194,7 +199,7 @@ int link_software(struct json *j, struct software *s)
 			      (unsigned long)s);
 	/* brand new software */
 	if (!node) {
-		if (verbose) {
+		if (env.verbose) {
 			fprintf(stderr, "insert %s\n", s->software);
 		}
 		return 0;
@@ -333,7 +338,7 @@ int main(int argc, char *argv[])
 	json_object_object_get_ex(root, "software", &software);
 	json_software(j, software);
 
-	if (verbose) {
+	if (env.verbose) {
 		fprintf(stderr, "version %s\n", j->version);
 
 		print_version("j->common.version.", &j->common.version);
