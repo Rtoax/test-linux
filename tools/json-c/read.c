@@ -5,10 +5,11 @@
 int main(void)
 {
 	char *json = alloc_buf_read_file("tmp.json");
-	json_object *root, *header;
+	json_object *root, *header, *body;
 
 	root = json_tokener_parse(json);
 	json_object_object_get_ex(root, "header", &header);
+	json_object_object_get_ex(root, "body", &body);
 
 	json_object *author_obj;
 	if (json_object_object_get_ex(header, "author", &author_obj)) {
@@ -49,6 +50,15 @@ int main(void)
 		}
 	} else {
 		printf("array field not found or not an array\n");
+	}
+
+	json_object_object_foreach(body, key, val)
+	{
+		json_object_object_foreach(val, keyinner, valinner)
+		{
+			printf("body: %s->%s->%s\n", key, keyinner,
+			       json_object_get_string(valinner));
+		}
 	}
 
 	json_object *footer;

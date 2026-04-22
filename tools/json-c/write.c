@@ -3,13 +3,15 @@
 
 int main(void)
 {
-	json_object *root, *header, *footer, *array;
+	json_object *root, *header, *footer, *array, *body, *item;
 
 	root = json_object_new_object();
 	header = json_object_new_object();
+	body = json_object_new_object();
 	footer = json_object_new_object();
 
 	json_object_object_add(root, "header", header);
+	json_object_object_add(root, "body", body);
 	json_object_object_add(root, "footer", footer);
 
 	json_object_object_add(header, "author",
@@ -23,8 +25,16 @@ int main(void)
 
 	json_object_object_add(header, "array", array);
 
+	item = json_object_new_object();
+	json_object_object_add(item, "type", json_object_new_string("ball"));
+	json_object_object_add(body, "item1", item);
+
+	item = json_object_new_object();
+	json_object_object_add(item, "type", json_object_new_string("cook"));
+	json_object_object_add(body, "item2", item);
+
 	printf("%s\n",
-	       json_object_to_json_string_ext(header, JSON_C_TO_STRING_PRETTY));
+	       json_object_to_json_string_ext(root, JSON_C_TO_STRING_PRETTY));
 
 	json_object_to_file_ext("tmp.json", root, JSON_C_TO_STRING_PRETTY);
 
