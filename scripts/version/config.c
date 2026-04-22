@@ -42,32 +42,34 @@ static const struct argp argp = {
 	.doc = argp_prog_doc,
 };
 
+struct version_command {
+	const char *argument[16];
+};
+
 struct version_format {
 	const char *seperator;
 	const char *major, *minor, *patch;
 };
 
+struct version {
+	char length[16];
+	struct version_command command;
+	struct version_format format;
+};
+
 struct json {
 	const char *version;
 	struct {
-		struct {
-			char length[16];
-			struct {
-				const char *argument[16];
-			} command;
-			struct version_format format;
-		} version;
+		struct version version;
 	} common;
 };
 
-int json_common(struct json *j, json_object *c)
+int json_version(json_object *jv, struct version *v)
 {
 	int len;
-	json_object *version, *length, *command, *format;
+	json_object *length, *command, *format;
 
-	json_object_object_get_ex(c, "version", &version);
-
-	json_object_object_get_ex(version, "length", &length);
+	json_object_object_get_ex(jv, "length", &length);
 	assert(json_object_get_type(length) == json_type_array);
 
 	len = json_object_array_length(length);
@@ -76,10 +78,10 @@ int json_common(struct json *j, json_object *c)
 		assert(json_object_get_type(elem) == json_type_int);
 
 		int val = json_object_get_int(elem);
-		j->common.version.length[i] = val;
+		v->length[i] = val;
 	}
 
-	json_object_object_get_ex(version, "command", &command);
+	json_object_object_get_ex(jv, "command", &command);
 	json_object *argument;
 	json_object_object_get_ex(command, "argument", &argument);
 	len = json_object_array_length(argument);
@@ -87,21 +89,29 @@ int json_common(struct json *j, json_object *c)
 		json_object *elem = json_object_array_get_idx(argument, i);
 		assert(json_object_get_type(elem) == json_type_string);
 
-		j->common.version.command.argument[i] =
-			json_object_get_string(elem);
+		v->command.argument[i] = json_object_get_string(elem);
 	}
 
-	json_object_object_get_ex(version, "format", &format);
+	json_object_object_get_ex(jv, "format", &format);
 	json_object *seperator, *major, *minor, *patch;
 	json_object_object_get_ex(format, "seperator", &seperator);
-	j->common.version.format.seperator = json_object_get_string(seperator);
+	v->format.seperator = json_object_get_string(seperator);
 	json_object_object_get_ex(format, "major", &major);
-	j->common.version.format.major = json_object_get_string(major);
+	v->format.major = json_object_get_string(major);
 	json_object_object_get_ex(format, "minor", &minor);
-	j->common.version.format.minor = json_object_get_string(minor);
+	v->format.minor = json_object_get_string(minor);
 	json_object_object_get_ex(format, "patch", &patch);
-	j->common.version.format.patch = json_object_get_string(patch);
+	v->format.patch = json_object_get_string(patch);
 
+	return 0;
+}
+
+int json_common(struct json *j, json_object *c)
+{
+	json_object *version;
+
+	json_object_object_get_ex(c, "version", &version);
+	json_version(version, &j->common.version);
 	return 0;
 }
 
