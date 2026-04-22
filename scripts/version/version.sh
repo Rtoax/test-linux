@@ -4,6 +4,14 @@ set -e
 readonly ROOTDIR=$(dirname $(realpath $0))
 source ${ROOTDIR}/../liblog.sh
 readonly CONFIG=${ROOTDIR}/config.json
+readonly MAKE=${ROOTDIR}/../make_tl.sh
+
+make_config() {
+	pushd ${ROOTDIR} >/dev/null
+	${MAKE} config
+	popd >/dev/null
+}
+make_config
 
 # If symlink, just run actual command.
 readonly symlink=$(basename $0)

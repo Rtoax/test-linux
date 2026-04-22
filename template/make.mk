@@ -2,7 +2,7 @@
 # Copyright (C) 2026 Rong Tao
 #
 # Export:
-# - MAKE=
+# - MAKE=make_tl.sh
 #
 # Functions:
 # - make_{gt,ge,eq,lt,le}()=[y|n]
