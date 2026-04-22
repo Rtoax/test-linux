@@ -132,8 +132,8 @@ int json_software(struct json *j, json_object *s)
 	{
 		struct software *sw = &j->software[i];
 
-		json_object *name, *command;
-		//json_object *library, *keys, *extension, *version;
+		json_object *name, *command, *library, *keys, *extension;
+		//json_object *version;
 
 		json_object_object_get_ex(val, "name", &name);
 		sw->software = key;
@@ -149,6 +149,45 @@ int json_software(struct json *j, json_object *s)
 				       json_type_string);
 
 				sw->command[j] = json_object_get_string(elem);
+			}
+		}
+
+		json_object_object_get_ex(val, "library", &library);
+		if (library) {
+			int len = json_object_array_length(library);
+			for (int j = 0; j < len; j++) {
+				json_object *elem =
+					json_object_array_get_idx(library, j);
+				assert(json_object_get_type(elem) ==
+				       json_type_string);
+
+				sw->library[j] = json_object_get_string(elem);
+			}
+		}
+
+		json_object_object_get_ex(val, "keys", &keys);
+		if (keys) {
+			int len = json_object_array_length(keys);
+			for (int j = 0; j < len; j++) {
+				json_object *elem =
+					json_object_array_get_idx(keys, j);
+				assert(json_object_get_type(elem) ==
+				       json_type_string);
+
+				sw->keys[j] = json_object_get_string(elem);
+			}
+		}
+
+		json_object_object_get_ex(val, "extension", &extension);
+		if (extension) {
+			int len = json_object_array_length(extension);
+			for (int j = 0; j < len; j++) {
+				json_object *elem =
+					json_object_array_get_idx(extension, j);
+				assert(json_object_get_type(elem) ==
+				       json_type_string);
+
+				sw->extension[j] = json_object_get_string(elem);
 			}
 		}
 
@@ -218,6 +257,19 @@ int main(int argc, char *argv[])
 			for (int k = 0; j->software[i].command[k]; k++) {
 				fprintf(stderr, "software[%d].command[%d] %s\n",
 					i, k, j->software[i].command[k]);
+			}
+			for (int k = 0; j->software[i].library[k]; k++) {
+				fprintf(stderr, "software[%d].library[%d] %s\n",
+					i, k, j->software[i].library[k]);
+			}
+			for (int k = 0; j->software[i].keys[k]; k++) {
+				fprintf(stderr, "software[%d].keys[%d] %s\n", i,
+					k, j->software[i].keys[k]);
+			}
+			for (int k = 0; j->software[i].extension[k]; k++) {
+				fprintf(stderr,
+					"software[%d].extension[%d] %s\n", i, k,
+					j->software[i].extension[k]);
 			}
 		}
 	}
