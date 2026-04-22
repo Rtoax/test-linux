@@ -132,12 +132,25 @@ int json_software(struct json *j, json_object *s)
 	{
 		struct software *sw = &j->software[i];
 
-		json_object *name;
-		//json_object *command, *library, *keys, *extension, *version;
+		json_object *name, *command;
+		//json_object *library, *keys, *extension, *version;
 
 		json_object_object_get_ex(val, "name", &name);
 		sw->software = key;
 		sw->name = json_object_get_string(name);
+
+		json_object_object_get_ex(val, "command", &command);
+		if (command) {
+			int len = json_object_array_length(command);
+			for (int j = 0; j < len; j++) {
+				json_object *elem =
+					json_object_array_get_idx(command, j);
+				assert(json_object_get_type(elem) ==
+				       json_type_string);
+
+				sw->command[j] = json_object_get_string(elem);
+			}
+		}
 
 		i++;
 	}
@@ -202,6 +215,10 @@ int main(int argc, char *argv[])
 				j->software[i].software);
 			fprintf(stderr, "software[%d].name %s\n", i,
 				j->software[i].name);
+			for (int k = 0; j->software[i].command[k]; k++) {
+				fprintf(stderr, "software[%d].command[%d] %s\n",
+					i, k, j->software[i].command[k]);
+			}
 		}
 	}
 
