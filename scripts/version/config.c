@@ -6,6 +6,39 @@
 #include <json-c/json.h>
 #include "file.h"
 
+struct version_command {
+	const char *argument[16];
+};
+
+struct version_format {
+	const char *seperator;
+	const char *major, *minor, *patch;
+};
+
+struct version {
+	int length[16];
+	struct version_command command;
+	struct version_format format;
+};
+
+struct software {
+	const char *software; /* glibc */
+	const char *name; /* GLibc */
+	const char *command[16];
+	const char *library[16];
+	const char *keys[16];
+	const char *extension[16];
+	struct version version;
+};
+
+struct json {
+	const char *version;
+	struct {
+		struct version version;
+	} common;
+	struct software software[1024];
+};
+
 static char *json = NULL;
 static bool verbose = false;
 
@@ -40,39 +73,6 @@ static const struct argp argp = {
 	.options = opts,
 	.parser = parse_arg,
 	.doc = argp_prog_doc,
-};
-
-struct version_command {
-	const char *argument[16];
-};
-
-struct version_format {
-	const char *seperator;
-	const char *major, *minor, *patch;
-};
-
-struct version {
-	int length[16];
-	struct version_command command;
-	struct version_format format;
-};
-
-struct software {
-	const char *software; /* glibc */
-	const char *name; /* GLibc */
-	const char *command[16];
-	const char *library[16];
-	const char *keys[16];
-	const char *extension[16];
-	struct version version;
-};
-
-struct json {
-	const char *version;
-	struct {
-		struct version version;
-	} common;
-	struct software software[1024];
 };
 
 int json_version(json_object *jv, struct version *v)
