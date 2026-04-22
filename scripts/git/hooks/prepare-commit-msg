@@ -227,17 +227,51 @@ if [[ "$(has_key cuda nvidia LUCA cestc CESTC)" ]]; then
 	fi
 fi
 
-swlist=( $(${VERSH} -L) )
-for sw in ${swlist[@]}
-do
-	keys=( $(${VERSH} -n ${sw} -K) )
-	exts=( $(${VERSH} -n ${sw} -E) )
-	if [[ "$(has_content ${keys[@]})" ]] ||
-	   [[ "$(has_key ${keys[@]})" ]] ||
-	   [[ "$(has_type ${exts[@]})" ]]; then
+__new_ver() {
+	local allkeys=( $(${VERSH} -K) )
+	local allexts=( $(${VERSH} -E) )
+	local swlist swkeys swexts
+	local key ext sw
+
+	for key in ${allkeys[@]}
+	do
+		if [[ "$(has_content ${key})" ]] ||
+		   [[ "$(has_key ${key})" ]]; then
+			swkeys+=( ${key} )
+		fi
+	done
+
+	for ext in ${allexts[@]}
+	do
+		if [[ "$(has_type ${ext})" ]]; then
+			swexts+=( ${ext} )
+		fi
+	done
+
+	[[ ${swkeys} ]] && swlist+=( $(${VERSH} --k2n "${swkeys[*]}") )
+	[[ ${swexts} ]] && swlist+=( $(${VERSH} --e2n "${swexts[*]}") )
+	swlist=( $(echo ${swlist[@]} | tr ' ' '\n' | sort -u) )
+
+	for sw in ${swlist[@]}
+	do
 		add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"
-	fi
-done
+	done
+}
+
+__old_ver() {
+	for sw in ${swlist[@]}
+	do
+		local keys=( $(${VERSH} -n ${sw} -K) )
+		local exts=( $(${VERSH} -n ${sw} -E) )
+		if [[ "$(has_content ${keys[@]})" ]] ||
+		   [[ "$(has_key ${keys[@]})" ]] ||
+		   [[ "$(has_type ${exts[@]})" ]]; then
+			add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"
+		fi
+	done
+}
+
+__new_ver
 
 # Add lines
 if [[ ${Versions} ]]; then
