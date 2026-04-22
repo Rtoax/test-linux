@@ -24,12 +24,16 @@ struct version {
 	struct version_format format;
 };
 
+struct software_key {
+	const char *key;
+};
+
 struct software {
 	const char *software; /* glibc */
 	const char *name; /* GLibc */
 	const char *command[16];
 	const char *library[16];
-	const char *keys[16];
+	struct software_key keys[16];
 	const char *extension[16];
 	struct version version;
 
@@ -276,7 +280,7 @@ int json_software(struct json *j, json_object *s)
 				assert(json_object_get_type(elem) ==
 				       json_type_string);
 
-				sw->keys[j] = json_object_get_string(elem);
+				sw->keys[j].key = json_object_get_string(elem);
 			}
 		}
 
@@ -356,9 +360,9 @@ int main(int argc, char *argv[])
 				fprintf(stderr, "\tlibrary[%d] %s\n", k,
 					sw->library[k]);
 			}
-			for (int k = 0; sw->keys[k]; k++) {
-				fprintf(stderr, "\tkeys[%d] %s\n", k,
-					sw->keys[k]);
+			for (int k = 0; sw->keys[k].key; k++) {
+				fprintf(stderr, "\tkeys[%d].key %s\n", k,
+					sw->keys[k].key);
 			}
 			for (int k = 0; sw->extension[k]; k++) {
 				fprintf(stderr, "\textension[%d] %s\n", k,
