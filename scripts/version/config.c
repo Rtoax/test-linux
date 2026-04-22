@@ -36,7 +36,7 @@ struct json {
 	struct {
 		struct version version;
 	} common;
-	struct software software[1024];
+	struct software *softwares[1024];
 };
 
 static char *json = NULL;
@@ -165,12 +165,20 @@ int json_common(struct json *j, json_object *c)
 	return 0;
 }
 
+struct software *alloc_software(void)
+{
+	struct software *new = malloc(sizeof(struct software));
+	memset(new, 0, sizeof(struct software));
+	return new;
+}
+
 int json_software(struct json *j, json_object *s)
 {
 	int i = 0;
 	json_object_object_foreach(s, key, val)
 	{
-		struct software *sw = &j->software[i];
+		struct software *sw = alloc_software();
+		j->softwares[i] = sw;
 
 		json_object *name, *command, *library, *keys, *extension;
 		json_object *version;
@@ -280,31 +288,33 @@ int main(int argc, char *argv[])
 
 		print_version("j->common.version.", &j->common.version);
 
-		for (int i = 0; j->software[i].software; i++) {
-			fprintf(stderr, "software[%d].software %s\n", i,
-				j->software[i].software);
-			fprintf(stderr, "software[%d].name %s\n", i,
-				j->software[i].name);
-			for (int k = 0; j->software[i].command[k]; k++) {
-				fprintf(stderr, "software[%d].command[%d] %s\n",
-					i, k, j->software[i].command[k]);
-			}
-			for (int k = 0; j->software[i].library[k]; k++) {
-				fprintf(stderr, "software[%d].library[%d] %s\n",
-					i, k, j->software[i].library[k]);
-			}
-			for (int k = 0; j->software[i].keys[k]; k++) {
-				fprintf(stderr, "software[%d].keys[%d] %s\n", i,
-					k, j->software[i].keys[k]);
-			}
-			for (int k = 0; j->software[i].extension[k]; k++) {
+		for (int i = 0; j->softwares[i]; i++) {
+			fprintf(stderr, "softwares[%d].software %s\n", i,
+				j->softwares[i]->software);
+			fprintf(stderr, "softwares[%d].name %s\n", i,
+				j->softwares[i]->name);
+			for (int k = 0; j->softwares[i]->command[k]; k++) {
 				fprintf(stderr,
-					"software[%d].extension[%d] %s\n", i, k,
-					j->software[i].extension[k]);
+					"softwares[%d].command[%d] %s\n", i, k,
+					j->softwares[i]->command[k]);
+			}
+			for (int k = 0; j->softwares[i]->library[k]; k++) {
+				fprintf(stderr,
+					"softwares[%d].library[%d] %s\n", i, k,
+					j->softwares[i]->library[k]);
+			}
+			for (int k = 0; j->softwares[i]->keys[k]; k++) {
+				fprintf(stderr, "softwares[%d].keys[%d] %s\n",
+					i, k, j->softwares[i]->keys[k]);
+			}
+			for (int k = 0; j->softwares[i]->extension[k]; k++) {
+				fprintf(stderr,
+					"softwares[%d].extension[%d] %s\n", i,
+					k, j->softwares[i]->extension[k]);
 			}
 			char buff[64];
-			snprintf(buff, 64, "software[%d].version.", i);
-			print_version(buff, &j->software[i].version);
+			snprintf(buff, 64, "softwares[%d].version.", i);
+			print_version(buff, &j->softwares[i]->version);
 		}
 	}
 
