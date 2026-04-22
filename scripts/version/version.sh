@@ -20,6 +20,7 @@ check=
 show_list=
 show_keys=
 declare -a show_k2n # key to name
+declare -a show_e2n # extension to name
 show_exts=
 show_version=
 
@@ -333,8 +334,9 @@ __version_usage__()
 
 -L, --list               show software list
 -K, --keys               show software keys
-    --k2n               search softwares from key
+    --k2n                search softwares from key
 -E, --ext                show software extensions
+    --e2n                search softwares from key
 -V, --version            show software version
 
 --check                  check versions
@@ -351,6 +353,7 @@ TEMP_ARGS=$(getopt \
 	--long keys \
 	--long k2n: \
 	--long ext \
+	--long e2n: \
 	--long version \
 	--long check \
 	--long list \
@@ -383,6 +386,11 @@ while true; do
 	--k2n)
 		shift
 		show_k2n+=( ${1} )
+		shift
+		;;
+	--e2n)
+		shift
+		show_e2n+=( ${1} )
 		shift
 		;;
 	-E|--ext)
@@ -452,6 +460,19 @@ if [[ ${show_exts} ]]; then
 	elif [[ ${name} ]]; then
 		extension_one ${name}
 	fi
+fi
+
+ext2name() {
+	local ext=$1
+	jq -r --arg t "${ext}" \
+		'.software | to_entries[] | select(.value.extension | index($t)) | .key' ${CONFIG}
+}
+
+if [[ ${show_e2n} ]]; then
+	for ext in ${show_e2n[@]}
+	do
+		ext2name ${ext}
+	done | sort -u
 fi
 
 if [[ ${show_version} ]] && [[ -z ${version_parser_args} ]]; then

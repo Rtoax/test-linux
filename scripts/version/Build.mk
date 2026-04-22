@@ -5,7 +5,7 @@ include helpers.mk
 target-${HAVE_JSON_C} += config
 
 target-prog-y += version.sh version.sh.1 version.sh.2 version.sh.3 version.sh.4
-target-prog-y += version.sh.5
+target-prog-y += version.sh.5 version.sh.6
 target-prog-y += linux.sh
 target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
@@ -41,6 +41,7 @@ PROG_ARGS_version.sh.2 := --name util-linux --check -L -K V
 PROG_ARGS_version.sh.3 := --name bpftrace --check -L -K -E -V
 PROG_ARGS_version.sh.4 := --name bpftrace
 PROG_ARGS_version.sh.5 := --k2n sphinx --k2n bcc
+PROG_ARGS_version.sh.6 := --e2n bt --e2n c
 
 PROG_ARGS_distro.sh.1 := short
 
