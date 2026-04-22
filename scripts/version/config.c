@@ -39,10 +39,9 @@ struct json {
 	struct {
 		struct version version;
 	} common;
-	struct software *softwares[1024];
-};
 
-struct rb_root rb_softwares = RB_ROOT;
+	struct rb_root rb_softwares;
+};
 
 static char *json = NULL;
 static bool verbose = false;
@@ -184,9 +183,9 @@ int rb_cmp_software(struct rb_node *n1, unsigned long key)
 	return strcmp(s1->software, s2->software);
 }
 
-int link_software(struct software *s)
+int link_software(struct json *j, struct software *s)
 {
-	struct rb_root *root = &rb_softwares;
+	struct rb_root *root = &j->rb_softwares;
 	struct rb_node *node;
 
 	node = rb_insert_node(root, &s->sw_node, rb_cmp_software,
@@ -202,9 +201,9 @@ int link_software(struct software *s)
 	return 0;
 }
 
-struct software *search_software(const char *name)
+struct software *search_software(struct json *j, const char *name)
 {
-	struct rb_root *root = &rb_softwares;
+	struct rb_root *root = &j->rb_softwares;
 	struct rb_node *node;
 	struct software sw = {
 		.software = name,
@@ -213,9 +212,9 @@ struct software *search_software(const char *name)
 	return node ? rb_entry(node, struct software, sw_node) : NULL;
 }
 
-struct software *next_software(struct software *prev)
+struct software *next_software(struct json *j, struct software *prev)
 {
-	struct rb_root *root = &rb_softwares;
+	struct rb_root *root = &j->rb_softwares;
 	struct rb_node *next;
 	next = prev ? rb_next(&prev->sw_node) : rb_first(root);
 	return next ? rb_entry(next, struct software, sw_node) : NULL;
@@ -227,7 +226,6 @@ int json_software(struct json *j, json_object *s)
 	json_object_object_foreach(s, key, val)
 	{
 		struct software *sw = alloc_software();
-		j->softwares[i] = sw;
 
 		json_object *name, *command, *library, *keys, *extension;
 		json_object *version;
@@ -293,7 +291,7 @@ int json_software(struct json *j, json_object *s)
 			json_version(version, &sw->version);
 		}
 
-		link_software(sw);
+		link_software(j, sw);
 		i++;
 	}
 	return 0;
@@ -338,33 +336,28 @@ int main(int argc, char *argv[])
 
 		print_version("j->common.version.", &j->common.version);
 
-		for (int i = 0; j->softwares[i]; i++) {
-			fprintf(stderr, "softwares[%d].software %s\n", i,
-				j->softwares[i]->software);
-			fprintf(stderr, "softwares[%d].name %s\n", i,
-				j->softwares[i]->name);
-			for (int k = 0; j->softwares[i]->command[k]; k++) {
-				fprintf(stderr,
-					"softwares[%d].command[%d] %s\n", i, k,
-					j->softwares[i]->command[k]);
+		struct software *sw;
+		for (sw = next_software(j, NULL); sw;
+		     sw = next_software(j, sw)) {
+			fprintf(stderr, "%s\n", sw->software);
+			fprintf(stderr, "\tname %s\n", sw->name);
+			for (int k = 0; sw->command[k]; k++) {
+				fprintf(stderr, "\tcommand[%d] %s\n", k,
+					sw->command[k]);
 			}
-			for (int k = 0; j->softwares[i]->library[k]; k++) {
-				fprintf(stderr,
-					"softwares[%d].library[%d] %s\n", i, k,
-					j->softwares[i]->library[k]);
+			for (int k = 0; sw->library[k]; k++) {
+				fprintf(stderr, "\tlibrary[%d] %s\n", k,
+					sw->library[k]);
 			}
-			for (int k = 0; j->softwares[i]->keys[k]; k++) {
-				fprintf(stderr, "softwares[%d].keys[%d] %s\n",
-					i, k, j->softwares[i]->keys[k]);
+			for (int k = 0; sw->keys[k]; k++) {
+				fprintf(stderr, "\tkeys[%d] %s\n", k,
+					sw->keys[k]);
 			}
-			for (int k = 0; j->softwares[i]->extension[k]; k++) {
-				fprintf(stderr,
-					"softwares[%d].extension[%d] %s\n", i,
-					k, j->softwares[i]->extension[k]);
+			for (int k = 0; sw->extension[k]; k++) {
+				fprintf(stderr, "\textension[%d] %s\n", k,
+					sw->extension[k]);
 			}
-			char buff[64];
-			snprintf(buff, 64, "softwares[%d].version.", i);
-			print_version(buff, &j->softwares[i]->version);
+			print_version("\tversion.", &sw->version);
 		}
 	}
 
