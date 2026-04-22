@@ -42,7 +42,7 @@ struct json {
 		struct version version;
 	} common;
 
-	struct rb_root rb_softwares;
+	struct rb_root sw_tree;
 };
 
 static char *json = NULL;
@@ -192,7 +192,7 @@ int rb_cmp_software(struct rb_node *n1, unsigned long key)
 
 int link_software(struct json *j, struct software *s)
 {
-	struct rb_root *root = &j->rb_softwares;
+	struct rb_root *root = &j->sw_tree;
 	struct rb_node *node;
 
 	node = rb_insert_node(root, &s->sw_node, rb_cmp_software,
@@ -204,13 +204,13 @@ int link_software(struct json *j, struct software *s)
 		}
 		return 0;
 	}
-	assert(0 && "Insert twice");
+	assert(0 && "Insert software twice");
 	return 0;
 }
 
 struct software *search_software(struct json *j, const char *name)
 {
-	struct rb_root *root = &j->rb_softwares;
+	struct rb_root *root = &j->sw_tree;
 	struct rb_node *node;
 	struct software sw = {
 		.software = name,
@@ -221,7 +221,7 @@ struct software *search_software(struct json *j, const char *name)
 
 struct software *next_software(struct json *j, struct software *prev)
 {
-	struct rb_root *root = &j->rb_softwares;
+	struct rb_root *root = &j->sw_tree;
 	struct rb_node *next;
 	next = prev ? rb_next(&prev->sw_node) : rb_first(root);
 	return next ? rb_entry(next, struct software, sw_node) : NULL;
