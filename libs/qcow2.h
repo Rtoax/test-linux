@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /**
  * see qemu/block/qcow2.h
  * https://github.com/qemu/qemu/blob/master/docs/interop/qcow2.txt

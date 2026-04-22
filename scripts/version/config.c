@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (C) 2026 Rong Tao */
 #include <argp.h>
 #include <assert.h>
 #include <stdbool.h>
