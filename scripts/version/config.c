@@ -53,14 +53,17 @@ static char *json = NULL;
 
 struct {
 	bool verbose;
+	bool list_software;
 } env = {
 	.verbose = false,
+	.list_software = false,
 };
 
 const char argp_prog_doc[] = "USAGE: [-j <JSON>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "json", 'j', "JSON", 0, "Input json config file" },
+	{ "list", 'L', NULL, 1, "list all software" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{},
 };
@@ -73,6 +76,9 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'v':
 		env.verbose = true;
+		break;
+	case 'L':
+		env.list_software = true;
 		break;
 	case ARGP_KEY_ARG:
 		break;
@@ -369,6 +375,14 @@ int main(int argc, char *argv[])
 					sw->extension[k]);
 			}
 			print_version("\tversion.", &sw->version);
+		}
+	}
+
+	if (env.list_software) {
+		struct software *sw;
+		for (sw = next_software(j, NULL); sw;
+		     sw = next_software(j, sw)) {
+			printf("%s\n", sw->software);
 		}
 	}
 
