@@ -80,10 +80,12 @@ int json_version(json_object *jv, struct version *v)
 	int len;
 	json_object *length, *command, *format;
 
+	len = 0;
 	json_object_object_get_ex(jv, "length", &length);
-	assert(json_object_get_type(length) == json_type_array);
-
-	len = json_object_array_length(length);
+	if (length) {
+		assert(json_object_get_type(length) == json_type_array);
+		len = json_object_array_length(length);
+	}
 	for (int i = 0; i < len; i++) {
 		json_object *elem = json_object_array_get_idx(length, i);
 		assert(json_object_get_type(elem) == json_type_int);
@@ -92,10 +94,13 @@ int json_version(json_object *jv, struct version *v)
 		v->length[i] = val;
 	}
 
+	len = 0;
 	json_object_object_get_ex(jv, "command", &command);
-	json_object *argument;
-	json_object_object_get_ex(command, "argument", &argument);
-	len = json_object_array_length(argument);
+	json_object *argument = NULL;
+	if (command) {
+		json_object_object_get_ex(command, "argument", &argument);
+		len = json_object_array_length(argument);
+	}
 	for (int i = 0; i < len; i++) {
 		json_object *elem = json_object_array_get_idx(argument, i);
 		assert(json_object_get_type(elem) == json_type_string);
@@ -104,17 +109,52 @@ int json_version(json_object *jv, struct version *v)
 	}
 
 	json_object_object_get_ex(jv, "format", &format);
-	json_object *seperator, *major, *minor, *patch;
-	json_object_object_get_ex(format, "seperator", &seperator);
-	v->format.seperator = json_object_get_string(seperator);
-	json_object_object_get_ex(format, "major", &major);
-	v->format.major = json_object_get_string(major);
-	json_object_object_get_ex(format, "minor", &minor);
-	v->format.minor = json_object_get_string(minor);
-	json_object_object_get_ex(format, "patch", &patch);
-	v->format.patch = json_object_get_string(patch);
+	if (format) {
+		json_object *seperator, *major, *minor, *patch;
+
+		json_object_object_get_ex(format, "seperator", &seperator);
+		if (seperator)
+			v->format.seperator = json_object_get_string(seperator);
+
+		json_object_object_get_ex(format, "major", &major);
+		if (major)
+			v->format.major = json_object_get_string(major);
+
+		json_object_object_get_ex(format, "minor", &minor);
+		if (minor)
+			v->format.minor = json_object_get_string(minor);
+
+		json_object_object_get_ex(format, "patch", &patch);
+		if (patch)
+			v->format.patch = json_object_get_string(patch);
+	}
 
 	return 0;
+}
+
+void print_version(const char *pfx, struct version *v)
+{
+	pfx = pfx ?: "";
+	for (int i = 0; v->length[i]; i++) {
+		fprintf(stderr, "%scommon.version.length[%d] %d\n", pfx, i,
+			v->length[i]);
+	}
+	for (int i = 0; v->command.argument[i]; i++) {
+		fprintf(stderr, "%scommon.version.command.argument[%d] %s\n",
+			pfx, i, v->command.argument[i]);
+	}
+	if (v->format.seperator)
+		fprintf(stderr, "%scommon.version.format.seperator %s\n", pfx,
+			v->format.seperator);
+	if (v->format.major)
+		fprintf(stderr, "%scommon.version.format.major %s\n", pfx,
+			v->format.major);
+	if (v->format.minor)
+		fprintf(stderr, "%scommon.version.format.minor %s\n", pfx,
+			v->format.minor);
+	if (v->format.patch)
+		fprintf(stderr, "%scommon.version.format.patch %s\n", pfx,
+			v->format.patch);
 }
 
 int json_common(struct json *j, json_object *c)
@@ -133,7 +173,7 @@ int json_software(struct json *j, json_object *s)
 		struct software *sw = &j->software[i];
 
 		json_object *name, *command, *library, *keys, *extension;
-		//json_object *version;
+		json_object *version;
 
 		json_object_object_get_ex(val, "name", &name);
 		sw->software = key;
@@ -191,6 +231,11 @@ int json_software(struct json *j, json_object *s)
 			}
 		}
 
+		json_object_object_get_ex(val, "version", &version);
+		if (version) {
+			json_version(version, &sw->version);
+		}
+
 		i++;
 	}
 	return 0;
@@ -232,23 +277,9 @@ int main(int argc, char *argv[])
 
 	if (verbose) {
 		fprintf(stderr, "version %s\n", j->version);
-		for (int i = 0; j->common.version.length[i]; i++) {
-			fprintf(stderr, "common.version.length[%d] %d\n", i,
-				j->common.version.length[i]);
-		}
-		for (int i = 0; j->common.version.command.argument[i]; i++) {
-			fprintf(stderr,
-				"common.version.command.argument[%d] %s\n", i,
-				j->common.version.command.argument[i]);
-		}
-		fprintf(stderr, "common.version.format.seperator %s\n",
-			j->common.version.format.seperator);
-		fprintf(stderr, "common.version.format.major %s\n",
-			j->common.version.format.major);
-		fprintf(stderr, "common.version.format.minor %s\n",
-			j->common.version.format.minor);
-		fprintf(stderr, "common.version.format.patch %s\n",
-			j->common.version.format.patch);
+
+		print_version("j->common.version.", &j->common.version);
+
 		for (int i = 0; j->software[i].software; i++) {
 			fprintf(stderr, "software[%d].software %s\n", i,
 				j->software[i].software);
@@ -271,6 +302,9 @@ int main(int argc, char *argv[])
 					"software[%d].extension[%d] %s\n", i, k,
 					j->software[i].extension[k]);
 			}
+			char buff[64];
+			snprintf(buff, 64, "software[%d].version.", i);
+			print_version(buff, &j->software[i].version);
 		}
 	}
 
