@@ -52,9 +52,19 @@ struct version_format {
 };
 
 struct version {
-	char length[16];
+	int length[16];
 	struct version_command command;
 	struct version_format format;
+};
+
+struct software {
+	const char *software; /* glibc */
+	const char *name; /* GLibc */
+	const char *command[16];
+	const char *library[16];
+	const char *keys[16];
+	const char *extension[16];
+	struct version version;
 };
 
 struct json {
@@ -62,6 +72,7 @@ struct json {
 	struct {
 		struct version version;
 	} common;
+	struct software software[1024];
 };
 
 int json_version(json_object *jv, struct version *v)
@@ -109,9 +120,27 @@ int json_version(json_object *jv, struct version *v)
 int json_common(struct json *j, json_object *c)
 {
 	json_object *version;
-
 	json_object_object_get_ex(c, "version", &version);
 	json_version(version, &j->common.version);
+	return 0;
+}
+
+int json_software(struct json *j, json_object *s)
+{
+	int i = 0;
+	json_object_object_foreach(s, key, val)
+	{
+		struct software *sw = &j->software[i];
+
+		json_object *name;
+		//json_object *command, *library, *keys, *extension, *version;
+
+		json_object_object_get_ex(val, "name", &name);
+		sw->software = key;
+		sw->name = json_object_get_string(name);
+
+		i++;
+	}
 	return 0;
 }
 
@@ -147,6 +176,7 @@ int main(int argc, char *argv[])
 
 	/* software */
 	json_object_object_get_ex(root, "software", &software);
+	json_software(j, software);
 
 	if (verbose) {
 		fprintf(stderr, "version %s\n", j->version);
@@ -167,6 +197,12 @@ int main(int argc, char *argv[])
 			j->common.version.format.minor);
 		fprintf(stderr, "common.version.format.patch %s\n",
 			j->common.version.format.patch);
+		for (int i = 0; j->software[i].software; i++) {
+			fprintf(stderr, "software[%d].software %s\n", i,
+				j->software[i].software);
+			fprintf(stderr, "software[%d].name %s\n", i,
+				j->software[i].name);
+		}
 	}
 
 	free(j);
