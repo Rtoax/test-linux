@@ -5,6 +5,7 @@
 #include <string.h>
 #include <json-c/json.h>
 #include "file.h"
+#include "rbtree.h"
 
 struct version_command {
 	const char *argument[16];
@@ -29,6 +30,8 @@ struct software {
 	const char *keys[16];
 	const char *extension[16];
 	struct version version;
+
+	struct rb_node sw_node;
 };
 
 struct json {
@@ -38,6 +41,8 @@ struct json {
 	} common;
 	struct software *softwares[1024];
 };
+
+struct rb_root rb_softwares = RB_ROOT;
 
 static char *json = NULL;
 static bool verbose = false;
@@ -172,6 +177,50 @@ struct software *alloc_software(void)
 	return new;
 }
 
+int rb_cmp_software(struct rb_node *n1, unsigned long key)
+{
+	struct software *s1 = rb_entry(n1, struct software, sw_node);
+	struct software *s2 = (void *)key;
+	return strcmp(s1->software, s2->software);
+}
+
+int link_software(struct software *s)
+{
+	struct rb_root *root = &rb_softwares;
+	struct rb_node *node;
+
+	node = rb_insert_node(root, &s->sw_node, rb_cmp_software,
+			      (unsigned long)s);
+	/* brand new software */
+	if (!node) {
+		if (verbose) {
+			fprintf(stderr, "insert %s\n", s->software);
+		}
+		return 0;
+	}
+	assert(0 && "Insert twice");
+	return 0;
+}
+
+struct software *search_software(const char *name)
+{
+	struct rb_root *root = &rb_softwares;
+	struct rb_node *node;
+	struct software sw = {
+		.software = name,
+	};
+	node = rb_search_node(root, rb_cmp_software, (unsigned long)&sw);
+	return node ? rb_entry(node, struct software, sw_node) : NULL;
+}
+
+struct software *next_software(struct software *prev)
+{
+	struct rb_root *root = &rb_softwares;
+	struct rb_node *next;
+	next = prev ? rb_next(&prev->sw_node) : rb_first(root);
+	return next ? rb_entry(next, struct software, sw_node) : NULL;
+}
+
 int json_software(struct json *j, json_object *s)
 {
 	int i = 0;
@@ -244,6 +293,7 @@ int json_software(struct json *j, json_object *s)
 			json_version(version, &sw->version);
 		}
 
+		link_software(sw);
 		i++;
 	}
 	return 0;
