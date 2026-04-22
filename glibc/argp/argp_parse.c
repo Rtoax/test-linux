@@ -10,8 +10,7 @@ struct extra_args {
 	char **argv;
 };
 
-const char argp_prog_doc[] =
-	"USAGE: [-i <interface>] [-v|--verbose]\n";
+const char argp_prog_doc[] = "USAGE: [-i <interface>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "interface", 'i', "INTERFACE", 0, "Network interface to attach" },

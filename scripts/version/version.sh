@@ -11,7 +11,7 @@ make_config() {
 	${MAKE} config
 	popd >/dev/null
 }
-make_config
+make_config 1>&2
 
 # If symlink, just run actual command.
 readonly symlink=$(basename $0)
