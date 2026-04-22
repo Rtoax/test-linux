@@ -20,6 +20,7 @@ target-y += ipaddr
 target-y += ksym_examples
 target-y += proc_examples
 target-y += cgroup_examples
+target-y += rbtree_test
 
 libtest-linux-c := libtest-linux-c.so.0.1
 libproc-helpers := libproc_helpers.so.0.1.0
@@ -74,6 +75,7 @@ objs-dynamic += ${OUTPUT}fd.so.o
 objs-dynamic += ${OUTPUT}file.so.o
 objs-dynamic += ${OUTPUT}log.so.o
 objs-dynamic += ${OUTPUT}ipaddr.so.o
+objs-dynamic += ${OUTPUT}rbtree.so.o
 objs-dynamic += ${OUTPUT}readline.so.o
 objs-dynamic += ${OUTPUT}mac.so.o
 objs-dynamic += ${OUTPUT}memshow.so.o
@@ -124,6 +126,7 @@ libcgroup_helpers.so-objs := ${OUTPUT}cgroup_helpers.so.o
 ksym_examples-objs := ${OUTPUT}ksym_helpers.o
 proc_examples-objs := ${OUTPUT}proc_helpers.o
 cgroup_examples-objs := ${OUTPUT}cgroup_helpers.o
+rbtree_test-objs := ${OUTPUT}rbtree.o
 
 CFLAGS += -DTEST_MAIN=1
 ifeq (${CONFIG_ANON_VMA_NAME},y)
