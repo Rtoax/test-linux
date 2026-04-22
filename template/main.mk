@@ -112,7 +112,7 @@ build-targets += $(target-lscc-liba-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 
-SRC_SFX_LIST := 1 2 3 4 5 6 7 8 9 10
+SRC_SFX_LIST := $(shell seq 1 1 10)
 # %.1 %.2 ...
 MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 

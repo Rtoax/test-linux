@@ -19,6 +19,7 @@ check=
 
 show_list=
 show_keys=
+declare -a show_k2n
 show_exts=
 show_version=
 
@@ -332,6 +333,7 @@ __version_usage__()
 
 -L, --list               show software list
 -K, --keys               show software keys
+    --k2n               search softwares from key
 -E, --ext                show software extensions
 -V, --version            show software version
 
@@ -347,6 +349,7 @@ TEMP_ARGS=$(getopt \
 	--options n:LKEVvh \
 	--long name: \
 	--long keys \
+	--long k2n: \
 	--long ext \
 	--long version \
 	--long check \
@@ -376,6 +379,11 @@ while true; do
 	-K|--keys)
 		shift
 		show_keys=ON
+		;;
+	--k2n)
+		shift
+		show_k2n+=( ${1} )
+		shift
 		;;
 	-E|--ext)
 		shift
@@ -420,6 +428,19 @@ if [[ ${show_keys} ]]; then
 	elif [[ ${name} ]]; then
 		key_one ${name}
 	fi
+fi
+
+key2name() {
+	local key=$1
+	jq -r --arg t "${key}" \
+		'.software | to_entries[] | select(.value.keys | index($t)) | .key' ${CONFIG}
+}
+
+if [[ ${show_k2n} ]]; then
+	for key in ${show_k2n[@]}
+	do
+		key2name ${key}
+	done | sort -u
 fi
 
 if [[ ${show_exts} ]]; then
