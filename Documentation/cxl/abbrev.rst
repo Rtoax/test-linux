@@ -17,7 +17,7 @@ CXL Abbrev
 - ISP: Interleave set position (交错set位置)
 - LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
-- MHD: Muiltple Headed Device ()
+- MHD: Muiltple Headed Device (多头设备)
 - MLD: Muiltple Logical Device (多逻辑设备)
 - OMI: Open Memory Interface (开放内存接口)
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM

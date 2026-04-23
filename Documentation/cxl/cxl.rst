@@ -51,3 +51,4 @@ Links
 - https://github.com/computexpresslink/
 - https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/
 - https://github.com/pmem/ndctl
+- For CI testing of CXL emulation work and other things I might want to do in the future. https://gitlab.com/jic23/qemu
