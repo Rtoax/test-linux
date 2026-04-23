@@ -4,9 +4,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <unistd.h>
-
 #include "libbpf_wrapper.h"
-
 
 int libbpf_bpf_xdp_attach(int ifindex, int prog_fd, int xdp_flags)
 {
@@ -65,8 +63,8 @@ struct perf_buffer *libbpf_perf_buffer__new(int map_fd,
 }
 
 int libbpf_bpf_map_update_elem(const struct bpf_map *map, const void *key,
-			       size_t key_sz, const void *value, size_t value_sz,
-			       __u64 flags)
+			       size_t key_sz, const void *value,
+			       size_t value_sz, __u64 flags)
 {
 	int err = 0;
 /**
