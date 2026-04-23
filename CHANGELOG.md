@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpftrace: add sigsnoop.bt;
 #### Changed
 #### Deprecated
 #### Removed

@@ -8,13 +8,13 @@ void handler(int signum)
 	exit(1);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	signal(SIGINT, handler);
 
 	while (1) {
 		printf("main loop\n");
-		raise(SIGINT);
+		raise(SIGKILL);
 	}
 
 	return 0;
