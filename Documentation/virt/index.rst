@@ -6,8 +6,14 @@ Virtualization
    :maxdepth: 1
 
    abbrev
-   Qemu <qemu/index>
    sr-iov
    virtio
    vhost
    xen
+
+
+.. toctree::
+   :maxdepth: 1
+
+   Qemu <qemu/index>
+   libvirt
