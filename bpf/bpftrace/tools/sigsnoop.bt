@@ -63,13 +63,14 @@ tracepoint:syscalls:sys_enter_tgkill
 
 macro print_sig($pid, $sig, @SIG_STR)
 {
+	$pcomm = curtask->real_parent->comm;
 	time("%H:%M:%S ");
 	if (@SIG_STR[(uint32)$sig] == "") {
 		printf("%-8d %-16s %-8d %-16s %-8d %-16s %-8d\n",
-			 ppid, pcomm, pid, comm, $pid, comm($pid), $sig);
+			 ppid, $pcomm, pid, comm, $pid, comm($pid), $sig);
 	} else {
 		printf("%-8s %-16s %-8d %-16s %-8d %-16s %-8s\n",
-			ppid, pcomm, pid, comm, $pid, comm($pid), @SIG_STR[(uint32)$sig]);
+			ppid, $pcomm, pid, comm, $pid, comm($pid), @SIG_STR[(uint32)$sig]);
 	}
 }
 

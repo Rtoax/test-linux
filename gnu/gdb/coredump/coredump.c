@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <string.h>
+#include <pthread.h>
+#include <unistd.h>
 
 void sig_handler(int sig)
 {
@@ -12,13 +14,23 @@ void sig_handler(int sig)
 int overflow(void)
 {
 	char *s = NULL;
+	/* Segvfault here */
 	char c = s[1024];
 	return c;
+}
+
+void *sleep_routine(void *arg)
+{
+	for (;;) {
+		sleep(1);
+	}
 }
 
 int main(int argc, char *argv[])
 {
 	int i;
+#define NR_THREAD 10
+	pthread_t child[NR_THREAD];
 
 	fprintf(stderr, "usage: %s [catch=<segv>]\n", argv[0]);
 
@@ -35,6 +47,14 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	for (i = 0; i < NR_THREAD; i++)
+		pthread_create(&child[i], NULL, sleep_routine, NULL);
+
+	sleep(2);
+
 	overflow();
+
+	for (i = 0; i < NR_THREAD; i++)
+		pthread_join(child[i], NULL);
 	return 0;
 }
