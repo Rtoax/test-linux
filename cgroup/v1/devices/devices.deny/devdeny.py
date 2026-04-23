@@ -2,7 +2,7 @@
 #
 # devdeny.py - check cgroup-v1 devices.deny
 #
-# Copyright (C) Rong Tao 2022-2025
+# Copyright (C) 2022-2026 Rong Tao
 #
 # 2023-08-17    Rong Tao    Create this.
 # 2023-08-18    Rong Tao    Apply log level for journal.

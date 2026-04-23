@@ -2,7 +2,7 @@
 /**
  * tty_write.bt
  *
- * Copyright (C) Rong Tao 2023
+ * Copyright (C) 2023-2026 Rong Tao
  */
 BEGIN
 {

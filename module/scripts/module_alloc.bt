@@ -2,7 +2,7 @@
 /**
  * module_alloc.bt - Tracing module_alloc() on aarch64
  *
- * Copyright (C) Rong Tao 2022-2025
+ * Copyright (C) 2022-2026 Rong Tao
  *
  * 2024-04-17	Rong Tao	Create this.
  * 2025-04-07	Rong Tao	Display size.

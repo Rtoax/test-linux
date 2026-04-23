@@ -46,7 +46,7 @@ gen_copyright() {
 }
 
 # $1: file path
-# $2: old copyright, format: "Copyright (C) Y-Y AUTHOR"
+# $2: old copyright, format: "Copyright (C) Y-Y AUTHOR", etc.
 # $3: new copyright, format: "Copyright (C) Y-Y AUTHOR"
 replace_copyright() {
 	local file=$1
@@ -134,21 +134,33 @@ do
 
 	backlog "Handling ${f}"
 
+	# Update copyright
 	old=$(grep -o 'Copyright (C) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
-
 	old=$(grep -o 'Copyright (c) [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
-
 	old=$(grep -o 'Copyright (C) [0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
-
 	old=$(grep -o 'Copyright (c) [0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
-
 	old=$(grep -o 'Copyright [0-9]\{4\}-[0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
-
 	old=$(grep -o 'Copyright [0-9]\{4\} '"${AUTHOR}"'' ${f} || :)
 	__replace
+
+	# FIXME: remove this matches
+	old=$(grep -o 'Copyright (C) '"${AUTHOR}"' [0-9]\{4\}-[0-9]\{4\}' ${f} || :)
+	__replace
+	old=$(grep -o 'Copyright (c) '"${AUTHOR}"' [0-9]\{4\}-[0-9]\{4\}' ${f} || :)
+	__replace
+	old=$(grep -o 'Copyright (C) '"${AUTHOR}"' [0-9]\{4\}' ${f} || :)
+	__replace
+	old=$(grep -o 'Copyright (c) '"${AUTHOR}"' [0-9]\{4\}' ${f} || :)
+	__replace
+	old=$(grep -o 'Copyright '"${AUTHOR}"' [0-9]\{4\}-[0-9]\{4\}' ${f} || :)
+	__replace
+	old=$(grep -o 'Copyright '"${AUTHOR}"' [0-9]\{4\}' ${f} || :)
+	__replace
 done
+
+echo

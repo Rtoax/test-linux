@@ -2,7 +2,7 @@
 /**
  * check_cpu_stall.bt
  *
- * Copyright (C) Rong Tao 2025
+ * Copyright (C) 2025-2026 Rong Tao
  */
 #ifndef BPFTRACE_HAVE_BTF
 #endif
