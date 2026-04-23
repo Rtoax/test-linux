@@ -69,7 +69,7 @@ macro print_sig($pid, $sig, @SIG_STR)
 		printf("%-8d %-16s %-8d %-16s %-8d %-16s %-8d\n",
 			 ppid, $pcomm, pid, comm, $pid, comm($pid), $sig);
 	} else {
-		printf("%-8s %-16s %-8d %-16s %-8d %-16s %-8s\n",
+		printf("%-8d %-16s %-8d %-16s %-8d %-16s %-8s\n",
 			ppid, $pcomm, pid, comm, $pid, comm($pid), @SIG_STR[(uint32)$sig]);
 	}
 }
