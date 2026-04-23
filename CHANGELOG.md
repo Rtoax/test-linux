@@ -11,6 +11,20 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+#### Template
+
+
+## [v2.4.3] 2026-04-23
+
+#### Breaking Changes
+#### Added
 - scripts: add libfile.sh, `qemu-vm_examples.sh`;
 - scripts/version: add symlink edk2.sh, add config.c for parse json;
 - git/hooks: add pre-push;
