@@ -11,9 +11,7 @@
 #include <unistd.h>
 #include <syscall.h>
 #include <sys/syscall.h>
-
-#include "fork_helpers.h"
-
+#include "helpers.h"
 
 void try_fork(int is_vfork, char *argv[])
 {
@@ -26,7 +24,7 @@ void try_fork(int is_vfork, char *argv[])
 	}
 
 	if (pid == 0) {
-		char *_argv[] = {"echo", "child", NULL};
+		char *_argv[] = { "echo", "child", NULL };
 		if (argv)
 			execvp(argv[0], argv);
 		else
@@ -38,7 +36,7 @@ void try_fork(int is_vfork, char *argv[])
 void try_popen(char *cmd_buf)
 {
 	char buf[128] = "uname -rm";
-	char line[256] = {0};
+	char line[256] = { 0 };
 	FILE *fp = popen(cmd_buf ?: buf, "r");
 	if (fp == NULL) {
 		fprintf(stderr, "popen(%s) %m\n", cmd_buf ?: buf);
@@ -69,15 +67,3 @@ int load_pid(const char *filename)
 	fclose(fp);
 	return pid;
 }
-
-#if !defined(__aarch64__)
-int sys_fork(void)
-{
-	return syscall(__NR_fork);
-}
-
-int sys_vfork(void)
-{
-	return syscall(__NR_vfork);
-}
-#endif

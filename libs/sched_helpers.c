@@ -182,3 +182,15 @@ int sys_sched_getattr(pid_t pid, struct sched_attr *attr, unsigned int size,
 		errno = -err;
 	return err;
 }
+
+#if !defined(__aarch64__)
+int sys_fork(void)
+{
+	return syscall(__NR_fork);
+}
+
+int sys_vfork(void)
+{
+	return syscall(__NR_vfork);
+}
+#endif

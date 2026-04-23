@@ -4,9 +4,9 @@
 #include <sys/prctl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
 #ifdef SYSCALL
-#include "fork_helpers.h"
+#include <sched_helpers.h>
+#include "helpers.h"
 #define fork() sys_fork()
 #define vfork() sys_vfork()
 #endif

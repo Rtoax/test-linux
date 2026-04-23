@@ -26,3 +26,8 @@ int sys_sched_getattr(pid_t pid, struct sched_attr *attr, unsigned int size,
 		      unsigned int flags);
 int sys_sched_setattr(pid_t pid, const struct sched_attr *attr,
 		      unsigned int flags);
+
+#if !defined(__aarch64__)
+int sys_fork(void);
+int sys_vfork(void);
+#endif

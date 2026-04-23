@@ -4,9 +4,9 @@ target-y += unshare unshare-execve
 
 target-post-y := post0
 
-dummy-fork-objs := fork_helpers.o
-dummy-vfork-objs := fork_helpers.o
-dummy-popen-objs := fork_helpers.o
+dummy-fork-objs := helpers.o
+dummy-vfork-objs := helpers.o
+dummy-popen-objs := helpers.o
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -pthread

@@ -6,8 +6,3 @@ void try_popen(char *cmd_buf);
 
 void save_pid(const char *filename, pid_t pid);
 int load_pid(const char *filename);
-
-#if !defined(__aarch64__)
-int sys_fork(void);
-int sys_vfork(void);
-#endif

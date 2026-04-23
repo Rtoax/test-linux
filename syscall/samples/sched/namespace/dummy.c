@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
-
-#include "fork_helpers.h"
+#include "helpers.h"
 
 #if defined(TRY_FORK) || defined(TRY_VFORK)
 void test_try_fork(void)

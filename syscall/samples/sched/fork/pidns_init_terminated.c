@@ -20,9 +20,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
-#include "fork_helpers.h"
-
+#include "helpers.h"
 
 /**
  * Save all PIDs to file, because process could see others PID.
