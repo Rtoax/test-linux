@@ -11,7 +11,7 @@ readonly UPDATE_COPYRIGHT_ROOT=$(dirname $(realpath $0))
 
 AUTHOR='Rong Tao'
 declare -a FILES
-YEAR=$(date +%Y)
+THISYEAR=$(date +%Y)
 
 # $1: file path
 # $2: format: "Copyright (C) Y-Y AUTHOR"
@@ -32,15 +32,15 @@ gen_copyright() {
 		exit 1
 	fi
 
-	if [[ ${endyear} -gt ${YEAR} ]]; then
-		echo >&2 "WARNING: Bad year '${endyear}' in ${file}, correct it to ${YEAR}"
-		endyear=${YEAR}
+	if [[ ${endyear} -gt ${THISYEAR} ]]; then
+		echo >&2 "WARNING: Bad year '${endyear}' in ${file}, correct it to ${THISYEAR}"
+		endyear=${THISYEAR}
 	fi
 
-	if [[ ${startyear} -eq ${YEAR} ]]; then
-		to="Copyright (C) ${YEAR} ${AUTHOR}"
+	if [[ ${startyear} -eq ${THISYEAR} ]]; then
+		to="Copyright (C) ${THISYEAR} ${AUTHOR}"
 	else
-		to="Copyright (C) ${startyear}-${YEAR} ${AUTHOR}"
+		to="Copyright (C) ${startyear}-${THISYEAR} ${AUTHOR}"
 	fi
 	echo "${to}"
 }
@@ -66,7 +66,7 @@ __usage__()
 {
 	echo -e "
 -A, --author [AUTHOR]    specify author name
--Y, --year [New Year]    specify year, default: ${YEAR}
+-Y, --year [New Year]    specify year, default: ${THISYEAR}
 -h, --help               show this help information
 -v, --verbose            show detail during running
 " | more
@@ -94,7 +94,7 @@ while true; do
 		;;
 	-Y|--year)
 		shift
-		YEAR="$1"
+		THISYEAR="$1"
 		shift
 		;;
 	-h|--help)
