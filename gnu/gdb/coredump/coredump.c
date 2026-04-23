@@ -19,7 +19,7 @@ int overflow(void)
 	return c;
 }
 
-void *sleep_routine(void *arg)
+void *sleep_thread(void *arg)
 {
 	for (;;) {
 		sleep(1);
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	}
 
 	for (i = 0; i < NR_THREAD; i++)
-		pthread_create(&child[i], NULL, sleep_routine, NULL);
+		pthread_create(&child[i], NULL, sleep_thread, NULL);
 
 	sleep(2);
 
