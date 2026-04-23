@@ -9,9 +9,9 @@ target-y += testcase
 target-y += testcase-now
 target-y += relocs
 
-relocation-truncated-to-fit-objs := ${OUTPUT}relocation-truncated-to-fit-obj.o
-reloc-types-objs := ${OUTPUT}reloc-types-libs.o ${OUTPUT}reloc-types-vars.o
-nostdlib-objs := ${OUTPUT}nostdlib-libs.o
+relocation-truncated-to-fit-objs := relocation-truncated-to-fit-obj.o
+reloc-types-objs := reloc-types-libs.o reloc-types-vars.o
+nostdlib-objs := nostdlib-libs.o
 
 CFLAGS_reloc-types := -Wno-error=unused-variable
 CFLAGS_reloc-types += -Wno-error=unused-function

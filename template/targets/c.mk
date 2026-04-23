@@ -37,10 +37,13 @@ $(target-y): %:
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 $(foreach t, ${target-y}, \
+  $(eval ${t}-objs := $(call append_output_prefix,${${t}-objs})) \
+  $(if ${DEBUG},$(info ${t}-objs = ${${t}-objs})) \
   $(if $(shell test -f ${t}.c && echo yes), \
     $(eval ${t}: ${OUTPUT}${t}.o $${${t}-objs}), \
     $(eval ${t}: $${${t}-objs}) \
   ) \
+  $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
 )
 
 $(foreach t, ${target-y}, \

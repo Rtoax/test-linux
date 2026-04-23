@@ -13,6 +13,12 @@ ifdef DEBUG
   $(info CFLAGS_A = ${CFLAGS_A})
 endif
 
+# append ${OUTPUT} for each object
+$(foreach a, ${target-liba-y} ${target-liba-cpp-y}, \
+  $(eval ${a}-objs := $(call append_output_prefix,${${a}-objs})) \
+  $(if ${DEBUG},$(info ${a}-objs = ${${a}-objs})) \
+)
+
 $(foreach lib, ${target-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
@@ -31,6 +37,7 @@ $(foreach a, ${target-liba-y}, \
       $(if ${DEBUG}, $(info Not found ${obj}.d)) \
     ) \
   ) \
+  $(if ${${a}-deps}, $(eval ${a}: ${${a}-deps})) \
 )
 
 endif

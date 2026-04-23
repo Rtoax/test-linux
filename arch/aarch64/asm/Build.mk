@@ -46,12 +46,12 @@ else ifeq ($(shell uname -m),aarch64)
   ASMLDFLAGS += -lc
 endif
 
-add-c-objs := ${OUTPUT}add.o
-exit-c-objs := ${OUTPUT}exit.o
-puts-c-objs := ${OUTPUT}puts.o
-paciasp-c-objs := ${OUTPUT}paciasp.o
-nanosleep-c-objs := ${OUTPUT}nanosleep.o
-daxpy-objs := ${OUTPUT}daxpy.s.o ${OUTPUT}daxpy_sve.s.o
+add-c-objs := add.o
+exit-c-objs := exit.o
+puts-c-objs := puts.o
+paciasp-c-objs := paciasp.o
+nanosleep-c-objs := nanosleep.o
+daxpy-objs := daxpy.s.o daxpy_sve.s.o
 
 ifdef STATIC
   CFLAGS += -static

@@ -3,7 +3,7 @@ include kconfig.mk
 target-y := main
 target-libso-y := libnvdso.so
 
-libnvdso.so-objs := ${OUTPUT}nvdso.so.o
+libnvdso.so-objs := nvdso.so.o
 
 ifdef DEBUG
   CFLAGS += -DNVDSO_DEBUG=1

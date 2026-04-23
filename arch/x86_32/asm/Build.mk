@@ -13,5 +13,5 @@ target-asm-std-y += power
 target-y += factorial_call
 target-y += maxofthree_call
 
-factorial_call-objs := ${OUTPUT}factorial.asm.o
-maxofthree_call-objs := ${OUTPUT}maxofthree.asm.o
+factorial_call-objs := factorial.asm.o
+maxofthree_call-objs := maxofthree.asm.o

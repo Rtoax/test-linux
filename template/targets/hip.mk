@@ -136,6 +136,12 @@ $(target-hipcc-liba-y): %:
 	$(call log_tgt,HIPCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+# append ${OUTPUT} for each object
+$(foreach lib, ${target-hipcc-libso-y} ${target-hipcc-liba-y}, \
+  $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
+  $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
+)
+
 $(foreach lib, ${target-hipcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
 $(foreach lib, ${target-hipcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 

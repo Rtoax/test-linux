@@ -190,6 +190,12 @@ $(target-lscc-liba-y): %:
 	$(call log_tgt,LSCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+# append ${OUTPUT} for each object
+$(foreach lib, ${target-lscc-libso-y} ${target-lscc-liba-y}, \
+  $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
+  $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
+)
+
 $(foreach lib, ${target-lscc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
 $(foreach lib, ${target-lscc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 

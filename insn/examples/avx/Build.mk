@@ -20,7 +20,7 @@ target-asm-y := vperm2i128
 target-asm-y += vfmadd231ps
 target-asm-y += kxord
 
-test-asm-objs := ${OUTPUT}test.s.o ${OUTPUT}test.o
+test-asm-objs := test.s.o test.o
 
 CFLAGS += -g -ggdb
 CFLAGS += -O0

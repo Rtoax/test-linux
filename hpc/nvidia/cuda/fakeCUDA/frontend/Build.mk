@@ -8,9 +8,9 @@ target-libso-cpp-y += fakecuda_plugin.so
 
 target-y := hello
 
-plugin-objs := ${OUTPUT}attribute-global.cpp.so.o
-plugin-objs += ${OUTPUT}attribute-device.cpp.so.o
-plugin-objs += ${OUTPUT}lexerExtension.cpp.so.o
+plugin-objs := attribute-global.cpp.so.o
+plugin-objs += attribute-device.cpp.so.o
+plugin-objs += lexerExtension.cpp.so.o
 fakecuda_plugin.so-objs := ${plugin-objs}
 
 CFLAGS += -fplugin=./fakecuda_plugin.so

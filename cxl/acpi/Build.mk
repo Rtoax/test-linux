@@ -1,4 +1,4 @@
 target-y := cedt
-cedt-objs := ${OUTPUT}chbs.o ${OUTPUT}cfmws.o
+cedt-objs := chbs.o cfmws.o
 
 CFLAGS := -I ../../libs/

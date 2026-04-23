@@ -19,10 +19,13 @@ ${target-cpp-y}: %:
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
 $(foreach t, ${target-cpp-y}, \
+  $(eval ${t}-objs := $(call append_output_prefix,${${t}-objs})) \
+  $(if ${DEBUG},$(info ${t}-objs = ${${t}-objs})) \
   $(if $(shell test -f ${t}.cpp && echo yes), \
     $(eval ${t}: ${OUTPUT}${t}.cpp.o $${${t}-objs}), \
     $(eval ${t}: $${${t}-objs}) \
   ) \
+  $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
 )
 
 # TODO: need include ${t}-objs .d file

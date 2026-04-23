@@ -20,6 +20,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- add output.mk and `append_output_prefix()`;
 
 
 ## [v2.4.3] 2026-04-23

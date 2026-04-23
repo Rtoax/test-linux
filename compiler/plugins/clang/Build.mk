@@ -22,7 +22,7 @@ target-libso-cpp-y += pid.so
 
 target-prog-y := test-plugins.sh
 
-PrintFunctionNames.so-objs := ${OUTPUT}PrintFunctionNames.cpp.so.o
-AnnotateFunctions.so-objs := ${OUTPUT}AnnotateFunctions.cpp.so.o
-Attribute.so-objs := ${OUTPUT}Attribute.cpp.so.o
-pid.so-objs := ${OUTPUT}pid.cpp.so.o
+PrintFunctionNames.so-objs := PrintFunctionNames.cpp.so.o
+AnnotateFunctions.so-objs := AnnotateFunctions.cpp.so.o
+Attribute.so-objs := Attribute.cpp.so.o
+pid.so-objs := pid.cpp.so.o

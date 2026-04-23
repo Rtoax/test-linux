@@ -19,25 +19,25 @@ target-liba-y += libthread.a
 target-liba-y += libadd.a
 target-liba-y += libcall0.a
 
-libfoo.a-objs := ${OUTPUT}foo.a.o ${OUTPUT}ctors.a.o
-libthread.a-objs := ${OUTPUT}thread.a.o
-libadd.a-objs := ${OUTPUT}add.a.o
-libcall0.a-objs := ${OUTPUT}call0.a.o
+libfoo.a-objs := foo.a.o ctors.a.o
+libthread.a-objs := thread.a.o
+libadd.a-objs := add.a.o
+libcall0.a-objs := call0.a.o
 
-libfoo.so.1.10-objs := ${OUTPUT}foo.so.o ${OUTPUT}ctors.so.o
-libadd.so-objs := ${OUTPUT}add.so.o
-libadd_cpp.so.0.1-objs := ${OUTPUT}add.cpp.so.o
-libthread.so-objs := ${OUTPUT}thread.so.o
-libcall0.so-objs := ${OUTPUT}call0.so.o
+libfoo.so.1.10-objs := foo.so.o ctors.so.o
+libadd.so-objs := add.so.o
+libadd_cpp.so.0.1-objs := add.cpp.so.o
+libthread.so-objs := thread.so.o
+libcall0.so-objs := call0.so.o
 
-main-objs := libfoo.so.1.10
-main-a-objs := libfoo.a libthread.a
-main-a-ctors-objs := libfoo.a libthread.a
-latency-objs := libcall0.so
-latency-got-objs := libcall0.so
-latency-got-llc-objs := libcall0.so
-latency-a-objs := libcall0.a
-latency-a-llc-objs := libcall0.a
+main-deps := libfoo.so.1.10
+main-a-deps := libfoo.a libthread.a
+main-a-ctors-deps := libfoo.a libthread.a
+latency-deps := libcall0.so
+latency-got-deps := libcall0.so
+latency-got-llc-deps := libcall0.so
+latency-a-deps := libcall0.a
+latency-a-llc-deps := libcall0.a
 
 ifdef VERBOSE
   CFLAGS += -Q

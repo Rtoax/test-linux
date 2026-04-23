@@ -22,8 +22,8 @@ helpers-y += iter_task_vma_new
 
 $(info helpers-y = ${helpers-y})
 
-static-objs := $(patsubst %,${OUTPUT}%.a.o,${helpers-y})
-dynamic-objs := $(patsubst %,${OUTPUT}%.so.o,${helpers-y})
+static-objs := $(patsubst %,%.a.o,${helpers-y})
+dynamic-objs := $(patsubst %,%.so.o,${helpers-y})
 
-libbpf_insn_samples.a-objs := ${static-objs} ${OUTPUT}bpf_insn_samples.a.o
-libbpf_insn_samples.so-objs := ${dynamic-objs} ${OUTPUT}bpf_insn_samples.so.o
+libbpf_insn_samples.a-objs := ${static-objs} bpf_insn_samples.a.o
+libbpf_insn_samples.so-objs := ${dynamic-objs} bpf_insn_samples.so.o

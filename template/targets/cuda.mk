@@ -156,6 +156,12 @@ $(target-nvcc-liba-y): %:
 	$(call log_tgt,NVCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+# append ${OUTPUT} for each object
+$(foreach lib, ${target-nvcc-libso-y} ${target-nvcc-liba-y}, \
+  $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
+  $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
+)
+
 $(foreach lib, ${target-nvcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
 $(foreach lib, ${target-nvcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 

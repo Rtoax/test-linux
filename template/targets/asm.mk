@@ -78,13 +78,18 @@ ${target-as-y}: %:
 	${Q}$(LD) -lc -o $(@) $(^) $(ASLDFLAGS) $(ASLDFLAGS_$(*))
 
 $(foreach t, ${target-asm-y} ${target-asm-std-y}, \
+  $(eval ${t}-objs := $(call append_output_prefix,${${t}-objs})) \
+  $(if ${DEBUG},$(info ${t}-objs = ${${t}-objs})) \
   $(if $(shell test -f ${t}.asm && echo yes), \
     $(eval ${t}: ${OUTPUT}${t}.asm.o $${${t}-objs}), \
     $(eval ${t}: $${${t}-objs}) \
   ) \
+  $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
 )
 
 $(foreach t, ${target-as-y}, \
+  $(eval ${t}-objs := $(call append_output_prefix,${${t}-objs})) \
+  $(if ${DEBUG},$(info ${t}-objs = ${${t}-objs})) \
   $(if $(shell test -f ${t}.S && test -f ${t}.s && echo yes), \
     $(error Not allow ${t}.S and ${t}.s exist at the same time) \
   ) \
@@ -96,6 +101,7 @@ $(foreach t, ${target-as-y}, \
     $(eval ${t}: ${OUTPUT}${t}.S.o $${${t}-objs}), \
     $(eval ${t}: $${${t}-objs}) \
   ) \
+  $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
 )
 
 endif

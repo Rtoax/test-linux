@@ -49,7 +49,7 @@ target-cpp-y := strstr-cpp
 target-prep-y := sig.h
 
 memcpy-stress-objs := ${PROC_HELPERS}
-strstr-cpp-objs := ${OUTPUT}strstr.cpp.o
+strstr-cpp-objs := strstr.cpp.o
 
 CFLAGS += -I../../../
 LDFLAGS += -lm

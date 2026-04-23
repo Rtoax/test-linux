@@ -30,18 +30,18 @@ target-y += atomic_forced_read
 target-y += time
 target-y += cr3
 
-read-objs := ${OUTPUT}syscall.S.o
-exit-c-objs := ${OUTPUT}exit.o
-hello-c-objs := ${OUTPUT}hello.o
-nanosleep-c-objs := ${OUTPUT}nanosleep.o
-write-c-objs := ${OUTPUT}write.o
-write-c-loop-objs := ${OUTPUT}write-loop.o
-out-c-objs := ${OUTPUT}out.o
-puts-c-objs := ${OUTPUT}puts.o
-puts-c-loop-objs := ${OUTPUT}puts-loop.o
-factorial_call-objs := ${OUTPUT}factorial.asm.o
-maxofthree_call-objs := ${OUTPUT}maxofthree.asm.o
-sum_call-objs := ${OUTPUT}sum.asm.o
+read-objs := syscall.S.o
+exit-c-objs := exit.o
+hello-c-objs := hello.o
+nanosleep-c-objs := nanosleep.o
+write-c-objs := write.o
+write-c-loop-objs := write-loop.o
+out-c-objs := out.o
+puts-c-objs := puts.o
+puts-c-loop-objs := puts-loop.o
+factorial_call-objs := factorial.asm.o
+maxofthree_call-objs := maxofthree.asm.o
+sum_call-objs := sum.asm.o
 
 ifneq ($(shell uname -m),x86_64)
   CC = x86_64-linux-gnu-gcc

@@ -3,7 +3,7 @@ target-y += sum
 
 $(foreach i, 1 2 3 4 5 6 7, \
   $(eval target-y += sum.${i}) \
-  $(eval sum.${i}-objs := ${OUTPUT}sum.${i}.o) \
+  $(eval sum.${i}-objs := sum.${i}.o) \
 )
 
 CFLAGS_sum.1 := -msse

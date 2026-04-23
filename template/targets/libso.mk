@@ -23,6 +23,12 @@ ifdef DEBUG
   $(info target-libso-cpp-y = ${target-libso-cpp-y})
 endif
 
+# append ${OUTPUT} for each object
+$(foreach so, ${target-libso-y} ${target-libso-cpp-y}, \
+  $(eval ${so}-objs := $(call append_output_prefix,${${so}-objs})) \
+  $(if ${DEBUG},$(info ${so}-objs = ${${so}-objs})) \
+)
+
 $(foreach lib, ${target-libso-y} ${target-libso-cpp-y}, $(eval ${lib}: $${${lib}-objs}))
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
@@ -61,6 +67,7 @@ $(foreach so, ${target-libso-y} ${target-libso-cpp-y}, \
       $(if ${DEBUG}, $(info Not found ${obj}.d)) \
     ) \
   ) \
+  $(if ${${so}-deps}, $(eval ${so}: ${${so}-deps})) \
 )
 
 endif

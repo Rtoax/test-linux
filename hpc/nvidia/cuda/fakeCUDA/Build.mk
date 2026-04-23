@@ -217,82 +217,82 @@ LDXXFLAGS_SO_libhipblaslt.so.0 := -Wl,--version-script=libhipblaslt.map
 LDXXFLAGS_SO_libhipsolver.so.0 := -Wl,--version-script=libhipsolver.map
 LDXXFLAGS_SO_librccl.so.1 := -Wl,--version-script=librccl.map
 
-common-objs := ${OUTPUT}common.cpp.so.o
-common-objs += ${OUTPUT}utils.cpp.so.o
-common-objs += ${OUTPUT}device.cpp.so.o
+common-objs := common.cpp.so.o
+common-objs += utils.cpp.so.o
+common-objs += device.cpp.so.o
 
-rt-objs := ${OUTPUT}runtime.cpp.so.o
-rt-objs += ${OUTPUT}runtime_event.cpp.so.o
-rt-objs += ${OUTPUT}runtime_memory.cpp.so.o
-rt-objs += ${OUTPUT}runtime_internal.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
+rt-objs := runtime.cpp.so.o
+rt-objs += runtime_event.cpp.so.o
+rt-objs += runtime_memory.cpp.so.o
+rt-objs += runtime_internal.cpp.so.o fatbin.cpp.so.o
 
-rt-hpcc-objs := ${OUTPUT}runtime-hpcc.cpp.so.o
-rt-hpcc-objs += ${OUTPUT}runtime_event-hpcc.cpp.so.o
-rt-hpcc-objs += ${OUTPUT}runtime_memory-hpcc.cpp.so.o
-rt-hpcc-objs += ${OUTPUT}runtime_internal-hpcc.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
+rt-hpcc-objs := runtime-hpcc.cpp.so.o
+rt-hpcc-objs += runtime_event-hpcc.cpp.so.o
+rt-hpcc-objs += runtime_memory-hpcc.cpp.so.o
+rt-hpcc-objs += runtime_internal-hpcc.cpp.so.o fatbin.cpp.so.o
 
-rt-luca-objs := ${OUTPUT}runtime-luca.cpp.so.o
-rt-luca-objs += ${OUTPUT}runtime_event-luca.cpp.so.o
-rt-luca-objs += ${OUTPUT}runtime_memory-luca.cpp.so.o
-rt-luca-objs += ${OUTPUT}runtime_internal-luca.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
+rt-luca-objs := runtime-luca.cpp.so.o
+rt-luca-objs += runtime_event-luca.cpp.so.o
+rt-luca-objs += runtime_memory-luca.cpp.so.o
+rt-luca-objs += runtime_internal-luca.cpp.so.o fatbin.cpp.so.o
 
-rt-hip-objs := ${OUTPUT}runtime-hip.cpp.so.o
-rt-hip-objs += ${OUTPUT}runtime_event-hip.cpp.so.o
-rt-hip-objs += ${OUTPUT}runtime_memory-hip.cpp.so.o
-rt-hip-objs += ${OUTPUT}runtime_internal-hip.cpp.so.o ${OUTPUT}fatbin.cpp.so.o
+rt-hip-objs := runtime-hip.cpp.so.o
+rt-hip-objs += runtime_event-hip.cpp.so.o
+rt-hip-objs += runtime_memory-hip.cpp.so.o
+rt-hip-objs += runtime_internal-hip.cpp.so.o fatbin.cpp.so.o
 
 # HPCC
 libhccompiler.so-objs := ${common-objs} ${rt-hpcc-objs}
-libhcruntime.so-objs := ${common-objs} ${rt-hpcc-objs} ${OUTPUT}cuda-hpcc.cpp.so.o ${OUTPUT}cuda-module-mgmt-hpcc.cpp.so.o
-libhcblas.so-objs := ${common-objs} ${OUTPUT}blas-hpcc.cpp.so.o
-libhcblasLt.so-objs := ${common-objs} ${OUTPUT}blasLt-hpcc.cpp.so.o
-libhcfft.so-objs := ${common-objs} ${OUTPUT}fft-hpcc.cpp.so.o
-libhcrand.so-objs := ${common-objs} ${OUTPUT}rand-hpcc.cpp.so.o
-libhcsparse.so-objs := ${common-objs} ${OUTPUT}sparse-hpcc.cpp.so.o
-libhcsolver.so-objs := ${common-objs} ${OUTPUT}solver-hpcc.cpp.so.o
-libhccl.so-objs := ${common-objs} ${OUTPUT}nccl-hpcc.cpp.so.o
+libhcruntime.so-objs := ${common-objs} ${rt-hpcc-objs} cuda-hpcc.cpp.so.o cuda-module-mgmt-hpcc.cpp.so.o
+libhcblas.so-objs := ${common-objs} blas-hpcc.cpp.so.o
+libhcblasLt.so-objs := ${common-objs} blasLt-hpcc.cpp.so.o
+libhcfft.so-objs := ${common-objs} fft-hpcc.cpp.so.o
+libhcrand.so-objs := ${common-objs} rand-hpcc.cpp.so.o
+libhcsparse.so-objs := ${common-objs} sparse-hpcc.cpp.so.o
+libhcsolver.so-objs := ${common-objs} solver-hpcc.cpp.so.o
+libhccl.so-objs := ${common-objs} nccl-hpcc.cpp.so.o
 
 # LUCA
 liblccompiler.so-objs := ${common-objs} ${rt-luca-objs}
-liblcruntime.so-objs := ${common-objs} ${rt-luca-objs} ${OUTPUT}cuda-luca.cpp.so.o ${OUTPUT}cuda-module-mgmt-luca.cpp.so.o
-liblcblas.so-objs := ${common-objs} ${OUTPUT}blas-luca.cpp.so.o
-liblcblasLt.so-objs := ${common-objs} ${OUTPUT}blasLt-luca.cpp.so.o
-liblcfft.so-objs := ${common-objs} ${OUTPUT}fft-luca.cpp.so.o
-liblcrand.so-objs := ${common-objs} ${OUTPUT}rand-luca.cpp.so.o
-liblcsparse.so-objs := ${common-objs} ${OUTPUT}sparse-luca.cpp.so.o
-liblcsolver.so-objs := ${common-objs} ${OUTPUT}solver-luca.cpp.so.o
-liblccl.so-objs := ${common-objs} ${OUTPUT}nccl-luca.cpp.so.o
+liblcruntime.so-objs := ${common-objs} ${rt-luca-objs} cuda-luca.cpp.so.o cuda-module-mgmt-luca.cpp.so.o
+liblcblas.so-objs := ${common-objs} blas-luca.cpp.so.o
+liblcblasLt.so-objs := ${common-objs} blasLt-luca.cpp.so.o
+liblcfft.so-objs := ${common-objs} fft-luca.cpp.so.o
+liblcrand.so-objs := ${common-objs} rand-luca.cpp.so.o
+liblcsparse.so-objs := ${common-objs} sparse-luca.cpp.so.o
+liblcsolver.so-objs := ${common-objs} solver-luca.cpp.so.o
+liblccl.so-objs := ${common-objs} nccl-luca.cpp.so.o
 
 # CUDA
-libcuda.so.1-objs := ${common-objs} ${OUTPUT}cuda.cpp.so.o ${OUTPUT}cuda-module-mgmt.cpp.so.o
+libcuda.so.1-objs := ${common-objs} cuda.cpp.so.o cuda-module-mgmt.cpp.so.o
 libcudart.so.12-objs := ${common-objs} ${rt-objs}
 libcudart.so.13-objs := ${common-objs} ${rt-objs}
-libcublas.so.12-objs := ${common-objs} ${OUTPUT}blas.cpp.so.o
-libcublas.so.13-objs := ${common-objs} ${OUTPUT}blas.cpp.so.o
-libcublasLt.so.12-objs := ${common-objs} ${OUTPUT}blasLt.cpp.so.o
-libcublasLt.so.13-objs := ${common-objs} ${OUTPUT}blasLt.cpp.so.o
-libcusolver.so.12-objs := ${common-objs} ${OUTPUT}solver.cpp.so.o
-libcufft.so.11-objs := ${common-objs} ${OUTPUT}fft.cpp.so.o
-libcufft.so.12-objs := ${common-objs} ${OUTPUT}fft.cpp.so.o
-libcurand.so.10-objs := ${common-objs} ${OUTPUT}rand.cpp.so.o
-libcusparse.so.12-objs := ${common-objs} ${OUTPUT}sparse.cpp.so.o
-libnccl.so.2-objs := ${common-objs} ${OUTPUT}nccl.cpp.so.o
+libcublas.so.12-objs := ${common-objs} blas.cpp.so.o
+libcublas.so.13-objs := ${common-objs} blas.cpp.so.o
+libcublasLt.so.12-objs := ${common-objs} blasLt.cpp.so.o
+libcublasLt.so.13-objs := ${common-objs} blasLt.cpp.so.o
+libcusolver.so.12-objs := ${common-objs} solver.cpp.so.o
+libcufft.so.11-objs := ${common-objs} fft.cpp.so.o
+libcufft.so.12-objs := ${common-objs} fft.cpp.so.o
+libcurand.so.10-objs := ${common-objs} rand.cpp.so.o
+libcusparse.so.12-objs := ${common-objs} sparse.cpp.so.o
+libnccl.so.2-objs := ${common-objs} nccl.cpp.so.o
 
 # ROCm HIP
 amdhip64-objs := ${common-objs}
 amdhip64-objs += ${rt-hip-objs}
-amdhip64-objs += ${OUTPUT}cuda.cpp.so.o
-amdhip64-objs += ${OUTPUT}cuda-hip.cpp.so.o
-amdhip64-objs += ${OUTPUT}cuda-module-mgmt-hip.cpp.so.o
-amdhip64-objs += ${OUTPUT}cuda-module-mgmt-hip-private.cpp.so.o
+amdhip64-objs += cuda.cpp.so.o
+amdhip64-objs += cuda-hip.cpp.so.o
+amdhip64-objs += cuda-module-mgmt-hip.cpp.so.o
+amdhip64-objs += cuda-module-mgmt-hip-private.cpp.so.o
 libamdhip64.so.5-objs := ${amdhip64-objs}
 libamdhip64.so.6-objs := ${amdhip64-objs}
-librocfft.so.0-objs := ${common-objs} ${OUTPUT}fft-hip.cpp.so.o
-libhipfft.so.0-objs := ${common-objs} ${OUTPUT}fft-hip.cpp.so.o
-librocsparse.so.1-objs := ${common-objs} ${OUTPUT}sparse-hip.cpp.so.o
-libhipsparse.so.1-objs := ${common-objs} ${OUTPUT}sparse-hip.cpp.so.o
-libhipsolver.so.0-objs := ${common-objs} ${OUTPUT}solver-hip.cpp.so.o
-libhiprand.so.1-objs := ${common-objs} ${OUTPUT}rand-hip.cpp.so.o
-libhipblas.so.2-objs := ${common-objs} ${OUTPUT}blas-hip.cpp.so.o
-libhipblaslt.so.0-objs := ${common-objs} ${OUTPUT}blasLt-hip.cpp.so.o
-librccl.so.1-objs := ${common-objs} ${OUTPUT}nccl-hip.cpp.so.o
+librocfft.so.0-objs := ${common-objs} fft-hip.cpp.so.o
+libhipfft.so.0-objs := ${common-objs} fft-hip.cpp.so.o
+librocsparse.so.1-objs := ${common-objs} sparse-hip.cpp.so.o
+libhipsparse.so.1-objs := ${common-objs} sparse-hip.cpp.so.o
+libhipsolver.so.0-objs := ${common-objs} solver-hip.cpp.so.o
+libhiprand.so.1-objs := ${common-objs} rand-hip.cpp.so.o
+libhipblas.so.2-objs := ${common-objs} blas-hip.cpp.so.o
+libhipblaslt.so.0-objs := ${common-objs} blasLt-hip.cpp.so.o
+librccl.so.1-objs := ${common-objs} nccl-hip.cpp.so.o

@@ -18,9 +18,9 @@ target-y += pvalloc
 
 target-prog-y := list-tunables.sh
 
-mallinfo-objs := ${OUTPUT}malloc_helpers.o
-malloc_trim-objs := ${OUTPUT}malloc_helpers.o
-corrupted-size-vs.prev_size-objs := ${OUTPUT}malloc_helpers.o
+mallinfo-objs := malloc_helpers.o
+malloc_trim-objs := malloc_helpers.o
+corrupted-size-vs.prev_size-objs := malloc_helpers.o
 
 CFLAGS_mallinfo := -Wno-error=deprecated-declarations
 CFLAGS_malloc_helpers := -Wno-error=deprecated-declarations

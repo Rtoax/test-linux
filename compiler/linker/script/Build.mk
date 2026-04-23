@@ -15,5 +15,5 @@ ifdef PIE
   LDS_PIE := PIE
 endif
 
-libhello.so-objs := ${OUTPUT}foo.so.o ${OUTPUT}bar.so.o
-main-objs := ${OUTPUT}foo.o ${OUTPUT}bar.o
+libhello.so-objs := foo.so.o bar.so.o
+main-objs := foo.o bar.o

@@ -59,7 +59,7 @@ target-y += typeof
 target-prep-y := $(patsubst %,${OUTPUT}%.E.c,$(target-y))
 target-prep-y += ${OUTPUT}return.o.bin
 
-ptr-dim-objs := ${OUTPUT}c_helpers.o
+ptr-dim-objs := c_helpers.o
 
 define arch_strip
   ${Q}${STRIP} $(1) -o $(1).strip

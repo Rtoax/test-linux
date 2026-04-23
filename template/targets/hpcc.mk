@@ -161,6 +161,12 @@ $(target-htcc-liba-y): %:
 	$(call log_tgt,HTCC AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+# append ${OUTPUT} for each object
+$(foreach lib, ${target-htcc-libso-y} ${target-htcc-liba-y}, \
+  $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
+  $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
+)
+
 $(foreach lib, ${target-htcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
 $(foreach lib, ${target-htcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 

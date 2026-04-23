@@ -17,12 +17,12 @@ target-y += reloc
 target-y += reloc-name
 target-y += bfd_print_symbol_vandf
 
-bfd_init-objs := ${OUTPUT}bfd_helpers.o
-build_id-objs := ${OUTPUT}bfd_helpers.o
-bfd_symbol_info-objs := ${OUTPUT}bfd_helpers.o ${PROC_HELPERS}
-symbol-objs := ${OUTPUT}bfd_helpers.o ${PROC_HELPERS}
-symbol-value-objs := ${OUTPUT}bfd_helpers.o ${PROC_HELPERS}
-bfd_print_symbol_vandf-objs := ${OUTPUT}bfd_helpers.o ${PROC_HELPERS}
+bfd_init-objs := bfd_helpers.o
+build_id-objs := bfd_helpers.o
+bfd_symbol_info-objs := bfd_helpers.o ${PROC_HELPERS}
+symbol-objs := bfd_helpers.o ${PROC_HELPERS}
+symbol-value-objs := bfd_helpers.o ${PROC_HELPERS}
+bfd_print_symbol_vandf-objs := bfd_helpers.o ${PROC_HELPERS}
 
 CFLAGS += -Wno-unused-label
 CFLAGS += -Wno-unused-variable

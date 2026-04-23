@@ -1,8 +1,7 @@
 # Use template to default support some definitions, and include main.mk is not
 # necessacy.
 #
-OUTPUT := .output/
-
+include output.mk
 include arch.mk
 include ansi.mk
 

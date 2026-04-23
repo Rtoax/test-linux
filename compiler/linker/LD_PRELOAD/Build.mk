@@ -10,8 +10,8 @@ target-libso-y += libconstructor-obj.so
 target-post-y := post0
 target-post-${feature-mfentry} += post0
 
-libmcount-nop.so-objs := ${OUTPUT}mcount-nop.so.o
-libconstructor-obj.so-objs := ${OUTPUT}constructor-obj.so.o
+libmcount-nop.so-objs := mcount-nop.so.o
+libconstructor-obj.so-objs := constructor-obj.so.o
 
 # Compile to dynamic library.
 CFLAGS_PIC := -fPIC

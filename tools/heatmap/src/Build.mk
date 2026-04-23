@@ -1,7 +1,7 @@
 target-y += heatmap
 
-heatmap-objs := ${OUTPUT}main.o
-heatmap-objs += ${OUTPUT}heatmap.o
+heatmap-objs := main.o
+heatmap-objs += heatmap.o
 
 CFLAGS += -I../../../libs/
 LDFLAGS += -lm

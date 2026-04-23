@@ -12,8 +12,10 @@ ifdef DEBUG
   $(info OUTPUT = ${OUTPUT})
 endif
 
+ifneq (${OUTPUT},)
 ${OUTPUT}:
 	$(call log_tgt,MKDIR,$(@))
 	${Q}${MKDIR} -p $(@)
+endif
 
 endif
