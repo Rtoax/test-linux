@@ -197,7 +197,11 @@ getversion() {
 check_one() {
 	local sw=$1
 	local versionfromjson=( $(getversion ${sw}) )
-	local versionfromsh=( $(${ROOTDIR}/${sw}.sh) )
+	if [[ -e ${ROOTDIR}/${sw}.sh ]]; then
+		local versionfromsh=( $(${ROOTDIR}/${sw}.sh) )
+	else
+		local versionfromsh=( $(${ROOTDIR}/version.sh -n ${sw} -V) )
+	fi
 
 	if [[ "${versionfromjson[@]}" != "${versionfromsh[@]}" ]]; then
 		error "${sw} failed to get version (<${versionfromjson[@]}> != <${versionfromsh[@]}>)"

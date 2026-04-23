@@ -9,7 +9,6 @@ target-prog-y += version.sh.5 version.sh.6
 target-prog-y += linux.sh
 target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
-target-prog-y += linux-firmware.sh
 target-prog-y += uefi.sh uefi.sh.1 uefi.sh.2 uefi.sh.3
 target-prog-y += distro.sh distro.sh.1
 
@@ -23,15 +22,8 @@ PROG_ARGS_${1}.sh.4 := --name
 PROG_ARGS_${1}.sh.5 := --pretty-name
 endef
 
-$(foreach software, bcc binutils bpftool bpftrace capstone cmake cuda dracut \
-			ethtool findutils ffmpeg \
-			gcc gdb git glibc gnome gnuplot go hpcc java kmod \
-			latexmk libbpf libvirt libxdp \
-			linux-firmware llvm lsof luca make memcached \
-			nasm NetworkManager ndctl numactl openssl \
-			ostree pahole pciutils podman procps-ng psmisc python \
-			qemu redis rocm rpm rust shell sphinx strace systemd \
-			util-linux vim, \
+$(foreach software, binutils bpftool bpftrace cmake dracut gcc libbpf make \
+			numactl openssl pahole redis, \
   $(eval $(call test_mmp,${software})) \
 )
 

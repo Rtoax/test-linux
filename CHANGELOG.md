@@ -39,6 +39,7 @@ and this project adheres to
 - kvm/playground: rename common.c to `kvm_helpers.c`;
 #### Deprecated
 #### Removed
+- scripts/version: remove useless symlinks;
 - remove libversion.sh;
 - remove qemu/gdb.sh;
 - remove init/initrd/mkfs.sh;
