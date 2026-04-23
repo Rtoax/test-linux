@@ -1,6 +1,8 @@
 /fork
+/sys_fork
 /fork_twice
 /fork-share
 /vfork
+/sys_vfork
 /fork-ENOMEM
 /fork-ENOMEM-2
