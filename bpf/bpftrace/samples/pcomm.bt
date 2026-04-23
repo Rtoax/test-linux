@@ -1,0 +1,22 @@
+#!/bin/env bpftrace
+
+macro xpcomm(task)
+{
+  let $ppid = task.group_leader.pid;
+  if ($ppid == pid) {
+    task.real_parent.comm
+  } else {
+    task.group_leader.comm
+  }
+}
+
+macro xpcomm()
+{
+  xpcomm(curtask)
+}
+
+BEGIN
+{
+	printf("%s %s\n", xpcomm, comm);
+	exit();
+}
