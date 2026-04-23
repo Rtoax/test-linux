@@ -99,36 +99,34 @@ endif
 target-$(call kver_gt,5,0,0) += spin_lock
 
 # _if_ there are no user mode code, append to bpf target only
-obj-bpf.o := ${target-y:=.bpf.o}
-obj-bpf.o += cgroup_skb.bpf.o
-obj-bpf.o += cgroup_sock.bpf.o
-obj-bpf.o += cgroup_sock_addr.bpf.o
-obj-bpf.o += cgroup_sockopt.bpf.o
-obj-bpf.o += lwt_in.bpf.o
-obj-bpf.o += lwt_out.bpf.o
-obj-bpf.o += lwt_xmit.bpf.o
-obj-bpf.o += sk_lookup.bpf.o
-obj-bpf.o += flow_dissector.bpf.o
-obj-bpf.o += sk_reuseport.bpf.o
-obj-bpf.o += netfilter.bpf.o
-obj-bpf.o += syscall.bpf.o
-obj-bpf.o += map_queue.bpf.o
-obj-bpf.o += map_stack.bpf.o
-obj-bpf.o += map_lpm_trie.bpf.o
-obj-bpf.o += map_in_map.bpf.o
-obj-bpf.o += map_ringbuf.bpf.o
-obj-bpf.o += map_devmap.bpf.o
-obj-bpf.o += map_arena.bpf.o
-obj-bpf.o += map_bloom_filter.bpf.o
-obj-bpf.o += sched_cls.bpf.o
-obj-bpf.o += sched_act.bpf.o
-
-target-bpf-y := $(addprefix ${OUTPUT},${obj-bpf.o})
+target-bpf-y := ${target-y:=.bpf.o}
+target-bpf-y += cgroup_skb.bpf.o
+target-bpf-y += cgroup_sock.bpf.o
+target-bpf-y += cgroup_sock_addr.bpf.o
+target-bpf-y += cgroup_sockopt.bpf.o
+target-bpf-y += lwt_in.bpf.o
+target-bpf-y += lwt_out.bpf.o
+target-bpf-y += lwt_xmit.bpf.o
+target-bpf-y += sk_lookup.bpf.o
+target-bpf-y += flow_dissector.bpf.o
+target-bpf-y += sk_reuseport.bpf.o
+target-bpf-y += netfilter.bpf.o
+target-bpf-y += syscall.bpf.o
+target-bpf-y += map_queue.bpf.o
+target-bpf-y += map_stack.bpf.o
+target-bpf-y += map_lpm_trie.bpf.o
+target-bpf-y += map_in_map.bpf.o
+target-bpf-y += map_ringbuf.bpf.o
+target-bpf-y += map_devmap.bpf.o
+target-bpf-y += map_arena.bpf.o
+target-bpf-y += map_bloom_filter.bpf.o
+target-bpf-y += sched_cls.bpf.o
+target-bpf-y += sched_act.bpf.o
 
 target-prep-y += ${HELPERS}
-target-post-y += $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
-target-post-y += $(patsubst %.bpf.o,%.bpf.s,$(target-bpf-y))
-target-post-y += $(patsubst %.bpf.o,%.bpf.bc,$(target-bpf-y))
+target-post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.disasm,$(target-bpf-y))
+target-post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.s,$(target-bpf-y))
+target-post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.bc,$(target-bpf-y))
 
 $(foreach t, ${target-y}, $(eval ${t}-objs := ${HELPERS}))
 
