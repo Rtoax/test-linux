@@ -1,6 +1,0 @@
-Network Algorithm
-=================
-
-# Nagle
-
-
