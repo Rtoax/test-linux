@@ -1,7 +1,10 @@
 OSI vs TCP/IP
 ==============
 
-# OSI vs Tcp/IP model
+OSI vs Tcp/IP model
+-------------------
+
+.. code-block:: text
 
                   OSI model               TCP/IP
              +--------------------+  +-------------------+
@@ -21,7 +24,8 @@ OSI vs TCP/IP
              +--------------------+  +-------------------+
 
 
-# Links
+Links
+-----
 
 - https://www.firewall.cx/downloads/cheat-sheets/network-protocol-map.html
 - https://commons.wikimedia.org/wiki/Category:Internet_protocols
