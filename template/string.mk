@@ -43,11 +43,17 @@ define strip_tail
 $(shell echo ${1} | sed "s|${2}$$||g")
 endef
 
-ifneq ($(call toupper_shell,abcDEF),ABCDEF)
-  $(error "ERROR: toupper failed, $(call toupper_shell,abcDEF)")
+ifneq ($(call toupper_shell,abcDEFgh),ABCDEFGH)
+  $(error "ERROR: toupper failed, $(call toupper_shell,abcDEFgh)")
 endif
-ifneq ($(call tolower_shell,abcDEF),abcdef)
-  $(error "ERROR: toupper failed, $(call tolower_shell,abcDEF)")
+ifneq ($(call tolower_shell,abcDEFgh),abcdefgh)
+  $(error "ERROR: toupper failed, $(call tolower_shell,abcDEFgh)")
+endif
+ifneq ($(call uniq_repeat,xxxxxxxxxxxxxx),x)
+  $(error "ERROR: uniq_repeat(xxxxxxxxxxxxxx) failed")
+endif
+ifneq ($(call uniq_repeat,yyyyyyyyyyyyyyy),y)
+  $(error "ERROR: uniq_repeat(yyyyyyyyyyyyyyy) failed")
 endif
 ifneq ($(call uniq_repeat,xxxyyy),xy)
   $(error "ERROR: uniq_repeat(xxxyyy) failed")
