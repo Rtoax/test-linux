@@ -25,16 +25,23 @@
 #endif
 #endif
 
+void set_pname(const char *name, int n)
+{
+	char buf[64];
+	snprintf(buf, sizeof(buf) - 1, "%s/%d", name, n);
+	prctl(PR_SET_NAME, buf, 0, 0, 0);
+}
+
 int main(int argc, char *argv[])
 {
 	int val = 0;
 	pid_t pid;
 
-	prctl(PR_SET_NAME, NAME "-parent", 0, 0, 0);
+	set_pname(NAME, 1);
 
 	pid = myfork();
 	if (pid == 0) {
-		prctl(PR_SET_NAME, NAME "-child", 0, 0, 0);
+		set_pname(NAME, 1);
 		val = 1;
 		printf("Child %d, val %d.\n", getpid(), val);
 		exit(0);
