@@ -21,6 +21,7 @@ target-prog-y += libstring_examples.sh
 target-prog-y += termplot_examples.sh
 target-prog-y += kconfig_compare.sh
 target-prog-y += kversion.sh kversion.sh.1
+target-prog-y += kcompile.sh kcompile.sh.1
 target-prog-y += patchset_examples.sh
 target-prog-y += qemu-vm_examples.sh
 target-prog-y += runprog_examples.sh
@@ -28,3 +29,5 @@ target-prog-y += runprog_examples.sh
 PROG_ARGS_kconfig_compare.sh := --base ../kconfig --config ../kconfig --display all
 PROG_ARGS_kversion.sh := short
 PROG_ARGS_kversion.sh.1 := full
+
+PROG_ARGS_kcompile.sh.1 := --help
