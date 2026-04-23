@@ -95,6 +95,8 @@ tracepoint:signal:signal_generate
 	print_sig($pid, $sig, @SIG_STR);
 	delete(@pids[tid]);
 	delete(@sigs[tid]);
+
+	@kstaks[kstack] = count();
 }
 
 END
