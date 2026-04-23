@@ -15,10 +15,12 @@ BEGIN
 	printf("   %-8s %-8s %-16s\n", "PID", "TID", "COMM");
 	$current = curtask;
 	$parent = $current->real_parent;
+	$grpleader = $current->group_leader;
 
 	printf("1. %-8d %-8d %s\n", pid, tid, comm);
 	printf("2. %-8d %-8d %s\n", $current->pid, $current->tgid, $current->comm);
 	printf("3. %-8d %-8d %s\n", $parent->pid, $parent->tgid, $parent->comm);
+	printf("4. %-8d %-8d %s\n", $grpleader->pid, $grpleader->tgid, $grpleader->comm);
 
 	exit();
 }
