@@ -4,6 +4,7 @@ subdir-y += criu
 subdir-y += ffmpeg
 subdir-y += fstabd
 subdir-y += heatmap
+subdir-y += io_uring
 subdir-y += json-c
 subdir-y += libguestfs
 subdir-y += libosinfo

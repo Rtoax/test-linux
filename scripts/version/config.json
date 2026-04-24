@@ -195,6 +195,14 @@
 			"extension": [ "bpf.c", "bpf.h" ],
 			"keys": [ "libbpf", "ebpf", "bpf" ]
 		},
+		"liburing": {
+			"name": "Liburing",
+			"version": {
+				"length": [ 2 ]
+			},
+			"library": [ "liburing.so" ],
+			"keys": [ "io_uring", "liburing" ]
+		},
 		"libvirt": {
 			"name": "LibVirt",
 			"command": [ "virsh" ],

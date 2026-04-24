@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - bpftrace: add sigsnoop.bt;
 #### Changed
+- move `io_uring` into tools;
 #### Deprecated
 #### Removed
 #### Fixed
