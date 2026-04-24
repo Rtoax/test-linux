@@ -3,6 +3,7 @@
 /**
  * ref: https://github.com/bpftrace/bpftrace/issues/782
  * ref: commit d4acdce4bf0e ("{pthread/create.c,clone(2),fork.c}: Recursive creation")
+ * ref: https://github.com/bpftrace/bpftrace/pull/5132
  */
 macro xpcomm(task)
 {
