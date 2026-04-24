@@ -3,7 +3,8 @@
 /**
  * Pthread create test
  *
- * Support recursive creation, that is to say, son thread create grandson.
+ * - Support recursive creation, that is to say, son thread create grandson.
+ *   ref: commit d4acdce4bf0e ("{pthread/create.c,clone(2),fork.c}: Recursive creation")
  */
 #include <assert.h>
 #include <stdio.h>

@@ -1,6 +1,9 @@
 #!/bin/env bpftrace
 
-/* ref: https://github.com/bpftrace/bpftrace/issues/782 */
+/**
+ * ref: https://github.com/bpftrace/bpftrace/issues/782
+ * ref: commit d4acdce4bf0e ("{pthread/create.c,clone(2),fork.c}: Recursive creation")
+ */
 macro xpcomm(task)
 {
   if (pid == tid) {
