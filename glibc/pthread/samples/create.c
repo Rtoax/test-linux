@@ -1,16 +1,13 @@
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE
-#endif
 #include <assert.h>
-#include <pthread.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <signal.h>
 #include <unistd.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include <string.h>
-
+#include <sys/time.h>
 
 enum op {
 	OP_PRINT,
@@ -25,7 +22,10 @@ struct test_routine {
 static int nr_threads = 1;
 static int verbose = 0;
 static sig_atomic_t loop = true;
-static int us = 100000;
+/* print interval */
+static int print_interval_us = 100000;
+/* control threads to exit normally */
+static int timeout_s = 9999999;
 
 void *thread_print_xs(void *unused);
 void parent_print_xs(void);
@@ -36,11 +36,17 @@ struct test_routine default_print = {
 	.parent = parent_print_xs,
 };
 
-
 void sig_handler(int signum)
 {
 	printf("Catch signal.\n");
 	loop = false;
+}
+
+unsigned long usecs(void)
+{
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return tv.tv_sec * 1E6 + tv.tv_usec;
 }
 
 /**
@@ -54,17 +60,24 @@ void print_ansi(char *msg, size_t us, int color)
 
 void *thread_print_xs(void *unused)
 {
+	int elapsed_s = 0;
+	unsigned long start = usecs();
 	pthread_setname_np(pthread_self(), "pthread-child");
 
-	while (loop)
-		print_ansi("x", us, 0);
+	while (elapsed_s < timeout_s && loop) {
+		elapsed_s = (usecs() - start) / 1E6;
+		print_ansi("x", print_interval_us, 0);
+	}
 	return NULL;
 }
 
 void parent_print_xs(void)
 {
-	while (loop) {
-		print_ansi("o", us, 1);
+	int elapsed_s = 0;
+	unsigned long start = usecs();
+	while (elapsed_s < timeout_s && loop) {
+		elapsed_s = (usecs() - start) / 1E6;
+		print_ansi("o", print_interval_us, 1);
 	}
 }
 
@@ -79,13 +92,15 @@ void parse_args(int argc, char *argv[])
 				exit(1);
 			}
 		} else if (!strncmp(argv[i], "t=", 2)) {
-			us = atoi(argv[i] + 2);
-			if (us <= 1000) {
+			print_interval_us = atoi(argv[i] + 2);
+			if (print_interval_us <= 1000) {
 				fprintf(stderr,
 					"ERROR: bad us %s, must bigger than 1000\n",
 					argv[i]);
 				exit(1);
 			}
+		} else if (!strncmp(argv[i], "tout=", 5)) {
+			timeout_s = atoi(argv[i] + 5);
 		} else if (!strcmp(argv[i], "verbose")) {
 			verbose = 1;
 		} else {
@@ -101,7 +116,8 @@ int main(int argc, char *argv[])
 	pthread_t *threads;
 	struct test_routine *routine = &default_print;
 
-	fprintf(stderr, "%s [nr=<Nthreads>] [t=<Rate(us)>] [verbose]\n",
+	fprintf(stderr,
+		"%s [nr=<nthreads>] [t=<interval us)>] [tout=<timeout us>] [verbose]\n",
 		argv[0]);
 
 	signal(SIGINT, sig_handler);
@@ -120,7 +136,8 @@ int main(int argc, char *argv[])
 		pthread_create(&threads[i], NULL, routine->child, NULL);
 
 	pthread_setname_np(pthread_self(), "pthread-parent");
-	routine->parent();
+	if (routine->parent)
+		routine->parent();
 
 	for (i = 0; i < nr_threads; i++)
 		pthread_join(threads[i], NULL);
