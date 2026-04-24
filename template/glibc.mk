@@ -75,7 +75,8 @@ ifdef DEBUG
   $(info printf = <$(call glibc_sym_addr,printf)>)
 endif
 
-export GLIBC_VERSION LIBC_SO_PATH
+export GLIBC_VERSION GLIBC_MAJOR GLIBC_MINOR
+export LIBC_SO_PATH
 
 ifneq ($(call glibc_eq,${GLIBC_MAJOR},${GLIBC_MINOR}),y)
   $(error glibc_eq failed)
