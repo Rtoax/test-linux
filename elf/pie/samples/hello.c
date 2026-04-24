@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #include "proc_helpers.h"
 
 /**
@@ -36,6 +35,9 @@ void print_addresses(void)
 	P(static_i_bss);
 	P(static_i_data);
 	P(readline);
+
+	int main(int argc, char *argv[]);
+	P(main);
 }
 
 int main(int argc, char *argv[])
