@@ -6,8 +6,8 @@
 BEGIN
 {
 	printf("Tracing pthread_create, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %s\n", "TIME", "PID", "COMM", "LAT(us)",
-		"FN");
+	printf("%-8s %-8s %-8s %-16s %-8s %s\n", "TIME", "PID", "TID", "COMM",
+		"LAT(us)", "FN");
 }
 
 uprobe:libc:pthread_create
@@ -24,10 +24,27 @@ uretprobe:libc:pthread_create
 	@latency_us = hist($us);
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8d %s\n", pid, @comm[tid], $us, @usym[tid]);
+	printf("%-8d %-8d %-16s %-8d %s\n", pid, tid, @comm[tid], $us,
+		@usym[tid]);
 	delete(@start[tid]);
 	delete(@comm[tid]);
 	delete(@usym[tid]);
+}
+
+uprobe:./create:stub
+{
+	$current = curtask;
+	$parent = $current->real_parent;
+	$grpleader = $current->group_leader;
+
+	time("%H:%M:%S ");
+	printf("%-8d %-8d %-16s %-8s %-8s %-8d %-16s %-8d %-16s",
+		pid, tid, comm, "", "stub()",
+		$parent->pid, $parent->comm,
+		$grpleader->pid, $grpleader->comm);
+	/* WARNING: maybe not support ppid/pcomm here */
+	printf(" %-8d %-16s", ppid, pcomm);
+	printf("\n");
 }
 
 END

@@ -75,6 +75,11 @@ unsigned long usecs(void)
 	return tv.tv_sec * 1E6 + tv.tv_usec;
 }
 
+/* could be probed */
+void stub(void)
+{
+}
+
 /**
  * color: 0-red
  */
@@ -108,6 +113,8 @@ void *thread_print_xs(void *arg)
 			       &tasks[i].arg);
 	}
 
+	stub();
+
 	while (elapsed_s < timeout_s && loop) {
 		elapsed_s = (usecs() - start) / 1E6;
 		print_ansi("x", print_interval_us, 0);
@@ -119,6 +126,9 @@ void parent_print_xs(void)
 {
 	int elapsed_s = 0;
 	unsigned long start = usecs();
+
+	stub();
+
 	while (elapsed_s < timeout_s && loop) {
 		elapsed_s = (usecs() - start) / 1E6;
 		print_ansi("o", print_interval_us, 1);
@@ -179,6 +189,9 @@ int main(int argc, char *argv[])
 	tasks = malloc(sizeof(struct task) * nr_threads);
 	assert(tasks && "malloc failed.");
 
+	/* Set parent name as early as possible */
+	pthread_setname_np(pthread_self(), "pthread-parent");
+
 	for (i = 0; i < nr_threads; i++) {
 		tasks[i].arg.id = i;
 		tasks[i].arg.recursive_depth = 0;
@@ -191,7 +204,6 @@ int main(int argc, char *argv[])
 			break;
 	}
 
-	pthread_setname_np(pthread_self(), "pthread-parent");
 	if (routine->parent)
 		routine->parent();
 
