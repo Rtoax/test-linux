@@ -2,5 +2,9 @@
 
 BEGIN
 {
+}
+
+BEGIN
+{
 	exit();
 }
