@@ -13,6 +13,7 @@ syntax clear
 syntax sync minlines=1000
 
 syntax keyword btStatement	break comptime config continue let macro return
+syntax keyword btStatement	unstable_import
 syntax keyword btConditional	if else
 syntax keyword btRepeat		for unroll while
 syntax keyword btTodo		contained TODO
@@ -35,7 +36,7 @@ syntax keyword btFunction	warnf zero avg count
 syntax keyword btFunction	hist lhist max min stats sum tseries
 syntax keyword btPatterns	BEGIN END begin end
 
-syntax keyword btConstant	true false warn
+syntax keyword btConstant	enable err false true warn
 syntax keyword btType		bool int int8 int16 int32 int64 uint8 uint16 uint32 uint64 string
 syntax keyword btType		signed unsigned
 syntax keyword btStructure	union struct

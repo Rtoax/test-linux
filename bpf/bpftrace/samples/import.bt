@@ -1,3 +1,9 @@
 #!/bin/env bpftrace
 
+config = {
+	unstable_import=enable;
+}
+
+import "include/stdbool.h";
+
 import "begin.bt";
