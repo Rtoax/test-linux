@@ -1,0 +1,10 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+}
+
+BEGIN
+{
+	exit();
+}

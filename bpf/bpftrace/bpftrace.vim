@@ -73,6 +73,7 @@ syntax match btShebang		/\%^#![^[].*/
 syntax region btIncluded	display contained start=+"+ skip=+\\\\\|\\"+ end=+"+
 syntax match btIncluded		display contained "<[^>]*>"
 syntax match btInclude		display "^\s*\zs\%(%:\|#\)\s*include\>\s*["<]" contains=btIncluded
+syntax keyword btInclude	import
 
 " Define the default highlighting.
 highlight def link btConditional	Conditional
