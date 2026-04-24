@@ -13,7 +13,7 @@ syntax clear
 syntax sync minlines=1000
 
 syntax keyword btStatement	break comptime config continue let macro return
-syntax keyword btStatement	unstable_import
+syntax keyword btStatement	missing_probes unstable_import unstable_macro
 syntax keyword btConditional	if else
 syntax keyword btRepeat		for unroll while
 syntax keyword btTodo		contained TODO

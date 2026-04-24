@@ -1,5 +1,5 @@
 #!/bin/env bpftrace
-# see bpftrace keyword `probetype`
+// see bpftrace keyword `probetype`
 
 config = {
 	missing_probes=warn;
