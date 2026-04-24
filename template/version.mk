@@ -3,11 +3,11 @@
 #
 # Functions:
 # - version3_code1688()
-# - version3_code1688_cmp()
+# - version3_code1688_cmp()=[y|n]
 # - version2_code100010()
-# - version2_code100010_cmp()
+# - version2_code100010_cmp()=[y|n]
 # - version2_code1616()
-# - version2_code1616_cmp()
+# - version2_code1616_cmp()=[y|n]
 #
 ifndef _VERSION_MK
 _VERSION_MK = 1
