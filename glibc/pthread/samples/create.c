@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+/* Copyright (C) 2023-2026 Rong Tao */
 #include <assert.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -19,6 +21,20 @@ struct test_routine {
 	void (*parent)(void);
 };
 
+struct test_routine;
+
+struct task_arg {
+	int id;
+	/* child thread create thread depth */
+	int recursive_depth;
+	struct test_routine *routine;
+};
+
+struct task {
+	pthread_t thread;
+	struct task_arg arg;
+};
+
 static int nr_threads = 1;
 static int verbose = 0;
 static sig_atomic_t loop = true;
@@ -27,7 +43,7 @@ static int print_interval_us = 100000;
 /* control threads to exit normally */
 static int timeout_s = 9999999;
 
-void *thread_print_xs(void *unused);
+void *thread_print_xs(void *);
 void parent_print_xs(void);
 
 struct test_routine default_print = {
@@ -58,11 +74,20 @@ void print_ansi(char *msg, size_t us, int color)
 	usleep(us);
 }
 
-void *thread_print_xs(void *unused)
+void *thread_print_xs(void *arg)
 {
 	int elapsed_s = 0;
 	unsigned long start = usecs();
-	pthread_setname_np(pthread_self(), "pthread-child");
+	struct task_arg *targ = arg;
+
+	char buf[64] = { 0 };
+	snprintf(buf, sizeof(buf), "child/%d/%d", targ->id,
+		 targ->recursive_depth);
+	pthread_setname_np(pthread_self(), buf);
+
+	if (verbose)
+		fprintf(stderr, "create thread %s, id %ld, arg %d/%d\n", buf,
+			pthread_self(), targ->id, targ->recursive_depth);
 
 	while (elapsed_s < timeout_s && loop) {
 		elapsed_s = (usecs() - start) / 1E6;
@@ -113,7 +138,7 @@ void parse_args(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
 	int i;
-	pthread_t *threads;
+	struct task *tasks;
 	struct test_routine *routine = &default_print;
 
 	fprintf(stderr,
@@ -125,24 +150,28 @@ int main(int argc, char *argv[])
 	parse_args(argc - 1, argv + 1);
 
 	if (verbose) {
-		printf("parent_print_xs %p\n", parent_print_xs);
-		printf("thread_print_xs %p\n", thread_print_xs);
+		fprintf(stderr, "parent_print_xs %p\n", parent_print_xs);
+		fprintf(stderr, "thread_print_xs %p\n", thread_print_xs);
 	}
 
-	threads = malloc(sizeof(pthread_t) * nr_threads);
-	assert(threads && "malloc failed.");
+	tasks = malloc(sizeof(struct task) * nr_threads);
+	assert(tasks && "malloc failed.");
 
-	for (i = 0; i < nr_threads; i++)
-		pthread_create(&threads[i], NULL, routine->child, NULL);
+	for (i = 0; i < nr_threads; i++) {
+		tasks[i].arg.id = i + 1;
+		tasks[i].arg.recursive_depth = 0;
+		tasks[i].arg.routine = routine;
+		pthread_create(&tasks[i].thread, NULL, routine->child,
+			       &tasks[i].arg);
+	}
 
 	pthread_setname_np(pthread_self(), "pthread-parent");
 	if (routine->parent)
 		routine->parent();
 
 	for (i = 0; i < nr_threads; i++)
-		pthread_join(threads[i], NULL);
+		pthread_join(tasks[i].thread, NULL);
 
-	free(threads);
-
+	free(tasks);
 	return 0;
 }
