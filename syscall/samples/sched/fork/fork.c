@@ -32,22 +32,35 @@ void set_pname(const char *name, int n)
 	prctl(PR_SET_NAME, buf, 0, 0, 0);
 }
 
-int main(int argc, char *argv[])
+void __loop_fork(int cnt, int nfork)
 {
-	int val = 0;
 	pid_t pid;
+	int val = 0;
 
-	set_pname(NAME, 1);
+	if (cnt >= nfork)
+		return;
+
+	set_pname(NAME, cnt * 2);
 
 	pid = myfork();
 	if (pid == 0) {
-		set_pname(NAME, 1);
-		val = 1;
-		printf("Child %d, val %d.\n", getpid(), val);
+		set_pname(NAME, cnt * 2 + 1);
+		printf("Child %d, val = %d.\n", getpid(), ++val);
+		__loop_fork(++cnt, nfork);
 		exit(0);
 	}
 
-	printf("Parent %d, val %d.\n", getpid(), val);
+	printf("Parent %d, val = %d.\n", getpid(), ++val);
 	waitpid(pid, NULL, 0);
+}
+
+void loop_fork(int nfork)
+{
+	__loop_fork(0, nfork);
+}
+
+int main(int argc, char *argv[])
+{
+	loop_fork(5);
 	return 0;
 }
