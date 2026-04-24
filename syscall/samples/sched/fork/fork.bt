@@ -3,6 +3,33 @@
  * fork.bt - Tracing fork(2), vfork(2)
  *
  * Copyright (C) 2022-2026 Rong Tao
+ *
+ *                      group_leader
+ *                        ┌──────┐
+ *                        │      │
+ *                        ▼      │
+ * ┏━━━━━━━━━━┓        ┏━━━━━━━━━┷┓           fork
+ * ┃   bash   ┃═══════▶┃  parent  ┃═════════════╦════════════════════════════▶
+ * ┗━━━━━━━━━━┛        ┗━━┯━━━━━━━┛             ║
+ *      ▲                 │    ▲                ║
+ *      │                 │    │                ║
+ *      │  real_parent    │    │                ║
+ *      └─────────────────┘    │                ║
+ *                             │                ▼
+ *                             │           ┏━━━━━━━━━┓       fork
+ *                             └───────────┃   son   ┃═════════╦═════════════▶
+ *                            real_parent  ┗━━━━━┯━━━┛         ║
+ *                                           ▲   │  ▲          ║
+ *                                           └───┘  │          ║
+ *                                   group_leader   │          ║
+ *                                                  │          ║
+ *                                                  │          ▼
+ *                                                  │       ┏━━━━━━━━━━┓
+ *                                                  └───────┃ grandson ┃═════▶
+ *                                           real_parent    ┗━━━━━━━━━┯┛
+ *                                                            ▲       │
+ *                                                            └───────┘
+ *                                                          group_leader
  */
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
@@ -11,8 +38,8 @@
 BEGIN
 {
 	printf("Tracing fork, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-8s %-8s %-8s %-8s %-16s %-8s %-16s\n",
-		"TIME", "PID", "COMM", "OPS", "RET/PID", "ROLE",
+	printf("%-8s %-8s %-8s %-16s %-8s %-8s %-8s %-8s %-16s %-8s %-16s\n",
+		"TIME", "PID", "TID", "COMM", "OPS", "RET/PID", "ROLE",
 		"ParPID", "ParCOMM", "GrpLePID", "GrpLeCOMM");
 }
 
@@ -20,7 +47,7 @@ tracepoint:syscalls:sys_enter_fork,
 tracepoint:syscalls:sys_enter_vfork
 {
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s\n", pid, comm, "ENTER");
+	printf("%-8d %-8d %-16s %-8s\n", pid, tid, comm, "ENTER");
 }
 
 tracepoint:syscalls:sys_exit_fork,
@@ -31,8 +58,8 @@ tracepoint:syscalls:sys_exit_vfork
 	$grpleader = $current->group_leader;
 
 	time("%H:%M:%S ");
-	printf("%-8d %-16s %-8s %-8d %-8s %-8d %-16s %-8d %-16s\n",
-		pid, comm, "EXIT", args->ret,
+	printf("%-8d %-8d %-16s %-8s %-8d %-8s %-8d %-16s %-8d %-16s\n",
+		pid, tid, comm, "EXIT", args->ret,
 		args->ret == 0 ? "CHILD" : "PARENT",
 		$parent->pid, $parent->comm,
 		$grpleader->pid, $grpleader->comm);

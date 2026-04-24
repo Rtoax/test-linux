@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
 /* Copyright (C) 2023-2026 Rong Tao */
+/**
+ * Pthread create test
+ *
+ * Support recursive creation, that is to say, son thread create grandson.
+ */
 #include <assert.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -36,12 +41,16 @@ struct task {
 };
 
 static int nr_threads = 1;
-static int verbose = 0;
+static bool verbose = 0;
 static sig_atomic_t loop = true;
 /* print interval */
 static int print_interval_us = 100000;
 /* control threads to exit normally */
 static int timeout_s = 9999999;
+/* son thread create grandson thread instead of parent create all threads */
+static bool recursive = false;
+
+struct task *tasks = NULL;
 
 void *thread_print_xs(void *);
 void parent_print_xs(void);
@@ -89,6 +98,15 @@ void *thread_print_xs(void *arg)
 		fprintf(stderr, "create thread %s, id %ld, arg %d/%d\n", buf,
 			pthread_self(), targ->id, targ->recursive_depth);
 
+	if (recursive && targ->id + 1 < nr_threads) {
+		int i = targ->id + 1;
+		tasks[i].arg.id = i;
+		tasks[i].arg.recursive_depth = targ->recursive_depth + 1;
+		tasks[i].arg.routine = targ->routine;
+		pthread_create(&tasks[i].thread, NULL, targ->routine->child,
+			       &tasks[i].arg);
+	}
+
 	while (elapsed_s < timeout_s && loop) {
 		elapsed_s = (usecs() - start) / 1E6;
 		print_ansi("x", print_interval_us, 0);
@@ -128,6 +146,8 @@ void parse_args(int argc, char *argv[])
 			timeout_s = atoi(argv[i] + 5);
 		} else if (!strcmp(argv[i], "verbose")) {
 			verbose = 1;
+		} else if (!strcmp(argv[i], "recursive")) {
+			recursive = true;
 		} else {
 			fprintf(stderr, "ERROR: unknown %s\n", argv[i]);
 			exit(1);
@@ -138,11 +158,11 @@ void parse_args(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
 	int i;
-	struct task *tasks;
 	struct test_routine *routine = &default_print;
 
 	fprintf(stderr,
-		"%s [nr=<nthreads>] [t=<interval us)>] [tout=<timeout us>] [verbose]\n",
+		"%s [nr=<nthreads>] [t=<interval us)>] [tout=<timeout us>] "
+		"[verbose] [recursive]\n",
 		argv[0]);
 
 	signal(SIGINT, sig_handler);
@@ -152,17 +172,22 @@ int main(int argc, char *argv[])
 	if (verbose) {
 		fprintf(stderr, "parent_print_xs %p\n", parent_print_xs);
 		fprintf(stderr, "thread_print_xs %p\n", thread_print_xs);
+		fprintf(stderr, "recursive %d\n", recursive);
 	}
 
 	tasks = malloc(sizeof(struct task) * nr_threads);
 	assert(tasks && "malloc failed.");
 
 	for (i = 0; i < nr_threads; i++) {
-		tasks[i].arg.id = i + 1;
+		tasks[i].arg.id = i;
 		tasks[i].arg.recursive_depth = 0;
 		tasks[i].arg.routine = routine;
 		pthread_create(&tasks[i].thread, NULL, routine->child,
 			       &tasks[i].arg);
+
+		/* Only create one child thread if recursive */
+		if (recursive)
+			break;
 	}
 
 	pthread_setname_np(pthread_self(), "pthread-parent");

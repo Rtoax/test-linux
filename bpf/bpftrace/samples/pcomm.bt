@@ -1,9 +1,9 @@
 #!/bin/env bpftrace
 
+/* ref: https://github.com/bpftrace/bpftrace/issues/782 */
 macro xpcomm(task)
 {
-  let $ppid = task.group_leader.pid;
-  if ($ppid == pid) {
+  if (pid == tid) {
     task.real_parent.comm
   } else {
     task.group_leader.comm
@@ -17,6 +17,6 @@ macro xpcomm()
 
 BEGIN
 {
-	printf("%s %s\n", xpcomm, comm);
-	exit();
+  printf("%s %s\n", xpcomm, comm);
+  exit();
 }
