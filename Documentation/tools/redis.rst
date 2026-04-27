@@ -41,6 +41,7 @@ Benchmark
 Links
 -----
 
-- Redis 官网：https://redis.io/
-- Redis 源码地址：https://github.com/redis/redis
+- Redis 官网: https://redis.io/
+- Redis 源码地址: https://github.com/redis/redis
+- Redis 命令参考: http://doc.redisfans.com/
 - https://www.runoob.com/redis/redis-tutorial.html
