@@ -15,7 +15,6 @@
 # - NVDISASM=
 #
 # - SYS_CUDA_VERSION=[13000]
-# - CUDA_VERSION_CODE=[13000]
 # - CUDA_VERSION_MAJOR=[0]
 # - CUDA_VERSION_MINOR=[0]
 # - CUDA_VERSION_PATCH=[0]
@@ -24,7 +23,7 @@
 # - cuda-ldflags=...
 #
 # Functions:
-# - cuda_{ge,gt,eq,lt,le}()
+# - cuda_{ge,gt,eq,lt,le}()=[y|n]
 #
 ifndef _NVIDIA_CUDA_MK
 _NVIDIA_CUDA_MK = 1
@@ -122,23 +121,7 @@ ifneq (${CUDA_ROOT},)
   endif
 endif
 
-CUDA_VERSION_CODE := $(call version2_code100010,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR})
-
-define cuda_gt
-$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-gt,${1},${2})
-endef
-define cuda_ge
-$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-ge,${1},${2})
-endef
-define cuda_eq
-$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-eq,${1},${2})
-endef
-define cuda_lt
-$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-lt,${1},${2})
-endef
-define cuda_le
-$(call version2_code100010_cmp,${CUDA_VERSION_CODE},-le,${1},${2})
-endef
+$(eval $(call define_version,cuda,version2_code100010,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR}))
 
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
 $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
@@ -166,7 +149,6 @@ ifdef DEBUG
   endif
   $(info NVCC = ${NVCC})
   $(info SYS_CUDA_VERSION = ${SYS_CUDA_VERSION})
-  $(info CUDA_VERSION_CODE = ${CUDA_VERSION_CODE})
   $(info CUDA_VERSION_MAJOR = ${CUDA_VERSION_MAJOR})
   $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
   $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
@@ -174,15 +156,15 @@ ifdef DEBUG
   $(info cuda-ldflags = ${cuda-ldflags})
 endif
 
-# When use cu-bridge, NVCC is cu-bridge symlink, CUDA_VERSION_CODE is not zero.
+# When use cu-bridge, NVCC is cu-bridge symlink, cuda_VERSION_CODE is not zero.
 ifneq (${SYS_CUDA_VERSION},0)
-  ifneq (${SYS_CUDA_VERSION},${CUDA_VERSION_CODE})
-    $(error "SYS_CUDA_VERSION(${SYS_CUDA_VERSION}) != CUDA_VERSION_CODE(${CUDA_VERSION_CODE})")
+  ifneq (${SYS_CUDA_VERSION},${cuda_VERSION_CODE})
+    $(error "SYS_CUDA_VERSION(${SYS_CUDA_VERSION}) != cuda_VERSION_CODE(${cuda_VERSION_CODE})")
   endif
 endif
 
 ifneq ($(call cuda_eq,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR}),y)
-  $(error "Bad cuda_eq parse CUDA_VERSION_CODE=${CUDA_VERSION_CODE}")
+  $(error "Bad cuda_eq parse cuda_VERSION_CODE=${cuda_VERSION_CODE}")
 endif
 ifeq ($(call cuda_ge,14,0),y)
   $(error "Bad cuda_ge, does CUDA V14 released??????")
