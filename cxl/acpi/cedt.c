@@ -25,18 +25,22 @@ void display_cedt_hdr(struct cedt_hdr *hdr)
 	       hdr->signature[2], hdr->signature[3]);
 	printf("Revision 0x%x\n", hdr->revision);
 	printf("Checksum 0x%x\n", hdr->checksum);
-	printf("OEM ID %02x%02x%02x%02x%02x%02x\n", hdr->oem_id[0],
-	       hdr->oem_id[1], hdr->oem_id[2], hdr->oem_id[3], hdr->oem_id[4],
-	       hdr->oem_id[5]);
-	printf("OEM Table ID %02x%02x%02x%02x%02x%02x%02x%02x\n",
+	printf("OEM ID '%c%c%c%c%c%c'(raw:%02x%02x%02x%02x%02x%02x)\n",
+	       hdr->oem_id[0], hdr->oem_id[1], hdr->oem_id[2], hdr->oem_id[3],
+	       hdr->oem_id[4], hdr->oem_id[5], hdr->oem_id[0], hdr->oem_id[1],
+	       hdr->oem_id[2], hdr->oem_id[3], hdr->oem_id[4], hdr->oem_id[5]);
+	printf("OEM Table ID '%c%c%c%c%c%c%c%c'(raw:%02x%02x%02x%02x%02x%02x%02x%02x)\n",
 	       hdr->oem_table_id[0], hdr->oem_table_id[1], hdr->oem_table_id[2],
 	       hdr->oem_table_id[3], hdr->oem_table_id[4], hdr->oem_table_id[5],
-	       hdr->oem_table_id[6], hdr->oem_table_id[7]);
-	printf("OEM revision 0x%x\n", hdr->oem_revision);
+	       hdr->oem_table_id[6], hdr->oem_table_id[7], hdr->oem_table_id[0],
+	       hdr->oem_table_id[1], hdr->oem_table_id[2], hdr->oem_table_id[3],
+	       hdr->oem_table_id[4], hdr->oem_table_id[5], hdr->oem_table_id[6],
+	       hdr->oem_table_id[7]);
+	printf("OEM Revision 0x%x\n", hdr->oem_revision);
 	printf("Creator ID 0x%x\n", hdr->creator_id);
-	printf("Creator revision 0x%x\n", hdr->creator_revision);
+	printf("Creator Revision 0x%x\n", hdr->creator_revision);
 	printf("CEDT structure size %ld\n", hdr->length - sizeof(*hdr));
-	printf("struct cedt_hdr size %ld\n", sizeof(struct cedt_hdr));
+	printf("struct cedt header size %ld\n", sizeof(struct cedt_hdr));
 	printf("struct chbs size %ld\n", sizeof(struct chbs));
 	printf("struct cfmws size %ld\n", sizeof(struct cfmws));
 }
@@ -58,8 +62,6 @@ int main(void)
 {
 	FILE *fp;
 	struct cedt_hdr hdr;
-	struct chbs chbs;
-	struct cfmws *cfmws;
 
 	fp = fopen(FILE_CEDT, "r");
 	if (!fp) {
@@ -75,12 +77,14 @@ int main(void)
 		if (type == -1)
 			break;
 		switch (type) {
-		case CEDT_STRUCTURE_TYPE_CHBS:
+		case CEDT_STRUCTURE_TYPE_CHBS: {
+			struct chbs chbs;
 			fread(&chbs, sizeof(chbs), 1, fp);
 			display_chbs(&chbs);
 			break;
+		}
 		case CEDT_STRUCTURE_TYPE_CFMWS: {
-			struct cfmws tmp;
+			struct cfmws tmp, *cfmws;
 			fpos_t old_pos;
 			fgetpos(fp, &old_pos);
 			fread(&tmp, sizeof(struct cfmws), 1, fp);

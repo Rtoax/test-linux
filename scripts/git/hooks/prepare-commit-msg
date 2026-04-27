@@ -177,12 +177,17 @@ match_content() {
 
 	[[ ${AV} ]] && echo "${str[@]}" && return 0
 
-	local matches=( $(git status --verbose | \
+	get_content() {
+		git status --verbose | cat
+		git diff --staged | cat
+		if [[ ${is_commit_amend} ]]; then
+			git log -1 --patch --oneline | cat
+		fi
+	}
+
+	local matches=( $(get_content | \
 				grep -e '^+' -e '^-' | \
 				grep -o -w -E "$(echo ${str[@]} | tr ' ' '|')") )
-	matches+=( $(git diff --staged | \
-			grep -e '^+' -e '^-' | \
-			grep -o -w -E "$(echo ${str[@]} | tr ' ' '|')") )
 
 	echo ${matches[@]} | tr ' ' '\n' | sort -u
 	return 0

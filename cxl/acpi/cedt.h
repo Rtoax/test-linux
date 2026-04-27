@@ -24,5 +24,6 @@ struct cedt_hdr {
 	uint32_t oem_revision;
 	uint32_t creator_id;
 	uint32_t creator_revision;
+	/* structure: CHBS, CFMWS, CXIMS, RDPAS, ... */
 	uint8_t cedt_structure[];
 } __attribute__((packed));
