@@ -21,30 +21,17 @@ MAKE_VERSION := $(shell ${makeversh})
 MAKE_MAJOR := $(shell ${makeversh} --major)
 MAKE_MINOR := $(shell ${makeversh} --minor)
 
-MAKE_VERSION_CODE := $(call version2_code100010,${MAKE_MAJOR},${MAKE_MINOR})
+$(eval $(call define_version,make,version2_code100010,${MAKE_MAJOR},${MAKE_MINOR}))
 
-define make_gt
-$(call version2_code100010_cmp,${MAKE_VERSION_CODE},-gt,${1},${2})
-endef
-define make_ge
-$(call version2_code100010_cmp,${MAKE_VERSION_CODE},-ge,${1},${2})
-endef
-define make_eq
-$(call version2_code100010_cmp,${MAKE_VERSION_CODE},-eq,${1},${2})
-endef
-define make_lt
-$(call version2_code100010_cmp,${MAKE_VERSION_CODE},-lt,${1},${2})
-endef
-define make_le
-$(call version2_code100010_cmp,${MAKE_VERSION_CODE},-le,${1},${2})
-endef
+ifneq ($(call make_ge,4,5), n)
+  $(error make_ge failed, $(call make_ge,4,4))
+endif
 
 ifdef DEBUG
   $(info MAKE = ${MAKE})
   $(info MAKE_VERSION = ${MAKE_VERSION})
   $(info MAKE_MAJOR = ${MAKE_MAJOR})
   $(info MAKE_MINOR = ${MAKE_MINOR})
-  $(info MAKE_VERSION_CODE = ${MAKE_VERSION_CODE})
 endif
 
 endif
