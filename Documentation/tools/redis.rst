@@ -15,15 +15,30 @@ Licenses
    * - 7.2.4
      - BSD
 
+
 Data Types
 ----------
 
-1. Key/Value
-2. list
-3. set
-4. hash
-5. sorted
+.. list-table::
+   :widths: 15 15
+   :header-rows: 1
+
+   * - Type
+     - Operations
+   * - list
+     -
+   * - hash
+     -
+   * - set
+     -
+   * - zset
+     - ZADD, ZRANGE
 
 
 Benchmark
 ---------
+
+Links
+-----
+
+- https://www.runoob.com/redis/redis-tutorial.html
