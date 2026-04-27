@@ -105,6 +105,15 @@ Benchmark System
    Benchmark <benchmark/index>
 
 
+Tools
+=====
+
+.. toctree::
+   :maxdepth: 1
+
+   Tools <tools/index>
+
+
 Frontier and Future Technology
 ==============================
 

@@ -19,6 +19,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add redis.rst;
 #### Tools
 #### Template
 - add output.mk and `append_output_prefix()`;
