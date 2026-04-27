@@ -27,12 +27,18 @@ define outer_def
   define inner_def2${1}
     $$(info called inner_def2${1} $${1})
   endef
+  define inner_tst${1}
+$$(shell echo "$${1}")
+  endef
 endef
 $(eval $(call outer_def,x))
 $(call inner_def1x,aaaa)
 $(call inner_def1x,bbbb)
 $(call inner_def2x,cccc)
 $(call inner_def2x,dddd)
+ifneq ($(call inner_tstx,xxxxx),xxxxx)
+  $(error outer_def->inner_tst failed)
+endif
 
 # Test target define
 define add_compile_target

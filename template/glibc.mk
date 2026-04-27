@@ -50,7 +50,6 @@ $(shell readelf --syms --wide ${LIBC_SO_PATH} \
 		| awk '{printf "0x"$$2}')
 endef
 
-
 define glibc_gt
 $(call version2_code1616_cmp,${GLIBC_VERSION_CODE},-gt,${1},${2})
 endef
