@@ -2,6 +2,8 @@
 NVIDIA GPU
 ==========
 
+Hardware
+--------
 
 .. toctree::
    :maxdepth: 1
@@ -12,3 +14,12 @@ NVIDIA GPU
    streaming-multiprocessors
    cuda-core
    precisions
+
+
+Software
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   cuda
