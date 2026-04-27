@@ -1,0 +1,5 @@
+===========
+NVIDIA CUDA
+===========
+
+- https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/
