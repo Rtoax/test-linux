@@ -29,8 +29,20 @@ Linux Kernel
 ACPI: /sys/firmware/acpi/
 -------------------------
 
-- ACPI0017: CXL Root Object, CEDT
-- ACPI0016: CXL Host Bridge Object, CXL root complex
+ACPI0017: CXL Root Object, CEDT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: text
+
+    { "ACPI0017", (unsigned long) &native_acpi0017 },
+
+.. code-block:: text
+
+    $ sudo dmesg | grep ACPI0017
+
+
+ACPI0016: CXL Host Bridge Object, CXL root complex
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 EDSFF

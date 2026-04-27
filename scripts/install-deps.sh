@@ -579,6 +579,7 @@ fedora)
 esac
 
 pkgs_base+=( acpi )
+pkgs_base+=( acpitool )
 pkgs_base+=( aha )
 pkgs_base+=( autoconf-archive )
 pkgs_base+=( bash-completion )

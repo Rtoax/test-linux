@@ -15,6 +15,18 @@
 		}
 	},
 	"software": {
+		"acpica-tools": {
+			"name": "acpica-tools",
+			"command": [ "acpidump", "acpiexec" ],
+			"version": {
+				"length": [ 1 ]
+			},
+			"keys": [ "acpi", "acpidump" ]
+		},
+		"acpitool": {
+			"name": "ACPITool",
+			"keys": [ "acpi", "acpitool" ]
+		},
 		"bcc": {
 			"name": "BCC",
 			"library": [ "libbcc.so", "libbcc_bpf.so" ],
