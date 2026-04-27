@@ -13,10 +13,6 @@ target-y += migrate_pages
 
 LDFLAGS += -lnuma
 
-CFLAGS += -DNUMACTL_VERSION_MAJOR=${NUMACTL_VERSION_MAJOR}
-CFLAGS += -DNUMACTL_VERSION_MINOR=${NUMACTL_VERSION_MINOR}
-CFLAGS += -DNUMACTL_VERSION_PATCH=${NUMACTL_VERSION_PATCH}
-
 # FIXME:
 CFLAGS_numa_node_size := -Wno-incompatible-pointer-types
 CFLAGS_numa_node_size64 := -Wno-incompatible-pointer-types

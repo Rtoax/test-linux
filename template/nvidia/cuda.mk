@@ -15,9 +15,9 @@
 # - NVDISASM=
 #
 # - SYS_CUDA_VERSION=[13000]
-# - CUDA_VERSION_MAJOR=[0]
-# - CUDA_VERSION_MINOR=[0]
-# - CUDA_VERSION_PATCH=[0]
+# - CUDA_MAJOR=[0]
+# - CUDA_MINOR=[0]
+# - CUDA_PATCH=[0]
 #
 # - cuda-cflags=-DHAVE_CUDA=1 ...
 # - cuda-ldflags=...
@@ -37,9 +37,9 @@ CUOBJDUMP := $(shell which cuobjdump 2>/dev/null)
 NVDISASM := $(shell which nvdisasm 2>/dev/null)
 
 SYS_CUDA_VERSION := 0
-CUDA_VERSION_MAJOR := 0
-CUDA_VERSION_MINOR := 0
-CUDA_VERSION_PATCH := 0
+CUDA_MAJOR := 0
+CUDA_MINOR := 0
+CUDA_PATCH := 0
 
 # After install CUDA, the /usr/local/cuda/ is symlink.
 # refs
@@ -102,14 +102,14 @@ else
     $(error Not found CUDA Version in ${NVCC} --version)
   endif
 
-  CUDA_VERSION_MAJOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$1}')
-  CUDA_VERSION_MINOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$2}')
-  CUDA_VERSION_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
+  CUDA_MAJOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$1}')
+  CUDA_MINOR := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$2}')
+  CUDA_PATCH := $(shell echo ${CUDA_VERSION_RAW} | awk -F '.' '{print $$3}')
 
   export HAVE_CUDA := y
-  cuda-cflags += -DCUDA_VERSION_MAJOR=${CUDA_VERSION_MAJOR}
-  cuda-cflags += -DCUDA_VERSION_MINOR=${CUDA_VERSION_MINOR}
-  cuda-cflags += -DCUDA_VERSION_PATCH=${CUDA_VERSION_PATCH}
+  cuda-cflags += -DCUDA_MAJOR=${CUDA_MAJOR}
+  cuda-cflags += -DCUDA_MINOR=${CUDA_MINOR}
+  cuda-cflags += -DCUDA_PATCH=${CUDA_PATCH}
   cuda-cflags += -I${CUDA_ROOT}/include/
   cuda-cflags += -DHAVE_CUDA=1
 endif
@@ -121,7 +121,7 @@ ifneq (${CUDA_ROOT},)
   endif
 endif
 
-$(eval $(call define_version,cuda,version2_code100010,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR}))
+$(eval $(call define_version,cuda,version2_code100010,${CUDA_MAJOR},${CUDA_MINOR}))
 
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
 $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
@@ -149,9 +149,9 @@ ifdef DEBUG
   endif
   $(info NVCC = ${NVCC})
   $(info SYS_CUDA_VERSION = ${SYS_CUDA_VERSION})
-  $(info CUDA_VERSION_MAJOR = ${CUDA_VERSION_MAJOR})
-  $(info CUDA_VERSION_MINOR = ${CUDA_VERSION_MINOR})
-  $(info CUDA_VERSION_PATCH = ${CUDA_VERSION_PATCH})
+  $(info CUDA_MAJOR = ${CUDA_MAJOR})
+  $(info CUDA_MINOR = ${CUDA_MINOR})
+  $(info CUDA_PATCH = ${CUDA_PATCH})
   $(info cuda-cflags = ${cuda-cflags})
   $(info cuda-ldflags = ${cuda-ldflags})
 endif
@@ -163,7 +163,7 @@ ifneq (${SYS_CUDA_VERSION},0)
   endif
 endif
 
-ifneq ($(call cuda_eq,${CUDA_VERSION_MAJOR},${CUDA_VERSION_MINOR}),y)
+ifneq ($(call cuda_eq,${CUDA_MAJOR},${CUDA_MINOR}),y)
   $(error "Bad cuda_eq parse cuda_VERSION_CODE=${cuda_VERSION_CODE}")
 endif
 ifeq ($(call cuda_ge,14,0),y)
@@ -174,9 +174,7 @@ export CUDA_ROOT
 export NVCC
 export CUOBJDUMP
 export NVDISASM
-export CUDA_VERSION_MAJOR
-export CUDA_VERSION_MINOR
-export CUDA_VERSION_PATCH
+export CUDA_MAJOR CUDA_MINOR CUDA_PATCH
 export cuda-cflags
 
 endif

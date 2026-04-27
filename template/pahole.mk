@@ -6,8 +6,8 @@
 # Output definitions:
 # - HAVE_PAHOLE=[y|n]
 # - PAHOLE=
-# - PAHOLE_VERSION_MAJOR=DWARVES_MINOR_VERSION=
-# - PAHOLE_VERSION_MINOR=DWARVES_MINOR_VERSION=
+# - PAHOLE_MAJOR=DWARVES_MAJOR=
+# - PAHOLE_MINOR=DWARVES_MINOR=
 # - pahole-cflags=
 #
 # Funtions:
@@ -28,23 +28,23 @@ else
 export HAVE_PAHOLE := y
 
 PAHOLE_VERSION := 0.0
-PAHOLE_VERSION_MAJOR := 0
-PAHOLE_VERSION_MINOR := 0
-DWARVES_MAJOR_VERSION := 0
-DWARVES_MINOR_VERSION := 0
+PAHOLE_MAJOR := 0
+PAHOLE_MINOR := 0
+DWARVES_MAJOR := 0
+DWARVES_MINOR := 0
 
 paholeversh = ${TOPDIR}/scripts/version/pahole.sh
 
 PAHOLE_VERSION := $(shell ${paholeversh})
-PAHOLE_VERSION_MAJOR := $(shell ${paholeversh} --major)
-PAHOLE_VERSION_MINOR := $(shell ${paholeversh} --minor)
+PAHOLE_MAJOR := $(shell ${paholeversh} --major)
+PAHOLE_MINOR := $(shell ${paholeversh} --minor)
 
 ifdef DEBUG
-  $(info ${PAHOLE} version ${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
+  $(info ${PAHOLE} version ${PAHOLE_MAJOR}.${PAHOLE_MINOR})
 endif
 
-ifneq (${PAHOLE_VERSION},${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
-  $(error FATAL: parse ${PAHOLE} version failed, ${PAHOLE_VERSION} != ${PAHOLE_VERSION_MAJOR}.${PAHOLE_VERSION_MINOR})
+ifneq (${PAHOLE_VERSION},${PAHOLE_MAJOR}.${PAHOLE_MINOR})
+  $(error FATAL: parse ${PAHOLE} version failed, ${PAHOLE_VERSION} != ${PAHOLE_MAJOR}.${PAHOLE_MINOR})
 endif
 
 # see linux:scripts/pahole-version.sh,scripts/Makefile.btf
@@ -54,21 +54,21 @@ ifdef DEBUG
 endif
 
 # https://git.kernel.org/pub/scm/devel/pahole/pahole.git use dwarves cmake macros
-DWARVES_MAJOR_VERSION := ${PAHOLE_VERSION_MAJOR}
-DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
+DWARVES_MAJOR := ${PAHOLE_MAJOR}
+DWARVES_MINOR := ${PAHOLE_MINOR}
 
-pahole-cflags += -DPAHOLE_VERSION_MAJOR=${PAHOLE_VERSION_MAJOR}
-pahole-cflags += -DPAHOLE_VERSION_MINOR=${PAHOLE_VERSION_MINOR}
+pahole-cflags += -DPAHOLE_MAJOR=${PAHOLE_MAJOR}
+pahole-cflags += -DPAHOLE_MINOR=${PAHOLE_MINOR}
 
-$(eval $(call define_version,pahole,version2_code1616,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR}))
+$(eval $(call define_version,pahole,version2_code1616,${PAHOLE_MAJOR},${PAHOLE_MINOR}))
 
 ifdef DEBUG
   $(info PAHOLE = ${PAHOLE})
   $(info HAVE_PAHOLE = ${HAVE_PAHOLE})
-  $(info PAHOLE_VERSION_MAJOR = ${PAHOLE_VERSION_MAJOR})
-  $(info PAHOLE_VERSION_MINOR = ${PAHOLE_VERSION_MINOR})
-  $(info DWARVES_MAJOR_VERSION = ${DWARVES_MAJOR_VERSION})
-  $(info DWARVES_MINOR_VERSION = ${DWARVES_MINOR_VERSION})
+  $(info PAHOLE_MAJOR = ${PAHOLE_MAJOR})
+  $(info PAHOLE_MINOR = ${PAHOLE_MINOR})
+  $(info DWARVES_MAJOR = ${DWARVES_MAJOR})
+  $(info DWARVES_MINOR = ${DWARVES_MINOR})
   $(info pahole-cflags = ${pahole-cflags})
 endif
 
@@ -77,8 +77,8 @@ ifneq ($(call pahole_lt,1,32),y)
   $(error "Call pahole_lt failed, $(call pahole_lt,1,32)")
 endif
 
-export PAHOLE PAHOLE_VERSION_MAJOR PAHOLE_VERSION_MINOR
-export DWARVES_MAJOR_VERSION DWARVES_MINOR_VERSION
+export PAHOLE PAHOLE_MAJOR PAHOLE_MINOR
+export DWARVES_MAJOR DWARVES_MINOR
 export pahole-cflags
 
 endif # end of pahole is found

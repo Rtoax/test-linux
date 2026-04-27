@@ -66,7 +66,7 @@ __global__ void checkIndex(int it)
 	 * could fix it.
 	 */
 	#if defined(HAVE_HPCC)
-	# if HPCC_VERSION_MAJOR < 3
+	# if HPCC_MAJOR < 3
 	LOG_GLOBAL("");
 	# endif
 	#endif
