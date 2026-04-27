@@ -5,7 +5,7 @@
 # - log_obj()
 # - log_tgt()
 # - log_info()
-# - log_failed()
+# - log_fail()
 # - log_success()
 # - log_reset_files()
 # - log_display_failed()
@@ -36,7 +36,7 @@ define log_info
 printf "$(call TS) $1\n" | tee --append ${LOG_FILE_INFO}
 endef
 
-define log_failed
+define log_fail
 printf "$(call TS) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
 endef
 define log_success

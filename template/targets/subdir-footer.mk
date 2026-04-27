@@ -23,7 +23,7 @@ define make_sub_dir
   end_ms=$$(date +%s%3N); \
   cost_ms=$$((end_ms - start_ms)); \
   if [ $${makeret} -ne 0 ]; then \
-    $(call log_failed,${EMOJI_CROSS} Failed ${1} $(call strip_topdir_prefix,$(2)) cost $${cost_ms} ms); \
+    $(call log_fail,${EMOJI_CROSS} Failed ${1} $(call strip_topdir_prefix,$(2)) cost $${cost_ms} ms); \
     ${CHECK_ERROR_EXIT} \
   else  \
     $(call log_success,${EMOJI_CHECK} Success ${1} $(call strip_topdir_prefix,$(2)) cost $${cost_ms} ms); \
