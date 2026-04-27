@@ -6,3 +6,4 @@ set -e
 # - if on virtual machine, from nvram like /var/lib/libvirt/qemu/nvram/fedora.qcow2
 sudo efibootmgr
 
+sudo efibootmgr -v
