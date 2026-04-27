@@ -6,6 +6,7 @@ CXL (Compute Express Link)
    :maxdepth: 1
 
    abbrev
+   acpi
    cxl
    qemu
    history
