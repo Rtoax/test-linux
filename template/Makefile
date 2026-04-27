@@ -57,7 +57,7 @@ $(foreach mk, ${MK_TGT}, $(eval $(call include_stat,${mk})))
 
 .PHONY: log
 log:
-	$(call log_failed,Test log_failed)
+	$(call log_info,Test log_info)
 
 .PHONY: logo
 logo:
