@@ -95,4 +95,44 @@ ifneq ($(call version2_code1616_cmp,65538,-eq,1,2),y)
   $(error version2_code1616_cmp failed)
 endif
 
+# $1: name, like glibc
+# $2: version function, like version3_code1688
+# $3: major of version
+# $4: minor of version
+# $5: patchlevel of version, could be empty
+define define_version
+$(eval ${1}_VERSION_CODE := $$(call ${2},${3},${4},${5}))
+
+define ${1}_gt
+$(call ${2}_cmp,${${1}_VERSION_CODE},-gt,${3},${4},${5})
+endef
+define ${1}_ge
+$(call ${2}_cmp,${${1}_VERSION_CODE},-ge,${3},${4},${5})
+endef
+define ${1}_eq
+$(call ${2}_cmp,${${1}_VERSION_CODE},-eq,${3},${4},${5})
+endef
+define ${1}_lt
+$(call ${2}_cmp,${${1}_VERSION_CODE},-lt,${3},${4},${5})
+endef
+define ${1}_le
+$(call ${2}_cmp,${${1}_VERSION_CODE},-le,${3},${4},${5})
+endef
+
+ifneq ($$(call ${1}_eq,${3},${4},${5}),y)
+  $$(error ${1}_eq failed, $$(call ${1}_eq,${3},${4},${5}))
+endif
+ifneq ($$(call ${1}_le,${3},${4},${5}),y)
+  $$(error ${1}_le failed, $(call ${1}_le,${3},${4},${5}))
+endif
+ifneq ($$(call ${1}_ge,${3},${4},${5}),y)
+  $$(error ${1}_ge failed)
+endif
+$$(if $${DEBUG}, $$(info ${1}_VERSION_CODE = ${${1}_VERSION_CODE}))
+endef # define_version
+
+$(eval $(call define_version,rtoax1,version2_code1616,1,2))
+$(eval $(call define_version,rtoax2,version2_code100010,1,2))
+$(eval $(call define_version,rtoax3,version3_code1688,1,2,3))
+
 endif

@@ -22,7 +22,8 @@ glibcversh = ${TOPDIR}/scripts/version/glibc.sh
 GLIBC_VERSION := $(shell ${glibcversh})
 GLIBC_MAJOR := $(shell ${glibcversh} --major)
 GLIBC_MINOR := $(shell ${glibcversh} --minor)
-GLIBC_VERSION_CODE := $(call version2_code1616,${GLIBC_MAJOR},${GLIBC_MINOR})
+
+$(eval $(call define_version,glibc,version2_code1616,${GLIBC_MAJOR},${GLIBC_MINOR}))
 
 # Get libc.so.6 abs-path
 LIBC_SO_PATH := $(shell ${LDCONFIG} -p | grep libc.so.6 | awk '{printf $$NF"\n"}' | head -1)
@@ -50,22 +51,6 @@ $(shell readelf --syms --wide ${LIBC_SO_PATH} \
 		| awk '{printf "0x"$$2}')
 endef
 
-define glibc_gt
-$(call version2_code1616_cmp,${GLIBC_VERSION_CODE},-gt,${1},${2})
-endef
-define glibc_ge
-$(call version2_code1616_cmp,${GLIBC_VERSION_CODE},-ge,${1},${2})
-endef
-define glibc_eq
-$(call version2_code1616_cmp,${GLIBC_VERSION_CODE},-eq,${1},${2})
-endef
-define glibc_lt
-$(call version2_code1616_cmp,${GLIBC_VERSION_CODE},-lt,${1},${2})
-endef
-define glibc_le
-$(call version2_code1616_cmp,${GLIBC_VERSION_CODE},-le,${1},${2})
-endef
-
 ifdef DEBUG
   $(info GLIBC_VERSION = ${GLIBC_VERSION})
   $(info GLIBC_MAJOR = ${GLIBC_MAJOR})
@@ -76,15 +61,5 @@ endif
 
 export GLIBC_VERSION GLIBC_MAJOR GLIBC_MINOR
 export LIBC_SO_PATH
-
-ifneq ($(call glibc_eq,${GLIBC_MAJOR},${GLIBC_MINOR}),y)
-  $(error glibc_eq failed)
-endif
-ifneq ($(call glibc_le,${GLIBC_MAJOR},${GLIBC_MINOR}),y)
-  $(error glibc_le failed)
-endif
-ifneq ($(call glibc_ge,${GLIBC_MAJOR},${GLIBC_MINOR}),y)
-  $(error glibc_ge failed)
-endif
 
 endif
