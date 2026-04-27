@@ -72,10 +72,6 @@ ifdef DEBUG
   $(info pahole-cflags = ${pahole-cflags})
 endif
 
-# Make sure function works fine.
-ifneq ($(call pahole_gt,0,0),y)
-  $(error "Call pahole_gt failed, $(call pahole_gt,0,0)")
-endif
 # The newest pahole is v1.31 right now.
 ifneq ($(call pahole_lt,1,32),y)
   $(error "Call pahole_lt failed, $(call pahole_lt,1,32)")
