@@ -11,11 +11,7 @@
 # - pahole-cflags=
 #
 # Funtions:
-# - pahole_gt()=[y|n]
-# - pahole_ge()=[y|n]
-# - pahole_eq()=[y|n]
-# - pahole_lt()=[y|n]
-# - pahole_le()=[y|n]
+# - pahole_{gt,ge,eq,lt,le}()=[y|n]
 #
 ifndef _PAHOLE_MK
 _PAHOLE_MK = 1
@@ -64,23 +60,7 @@ DWARVES_MINOR_VERSION := ${PAHOLE_VERSION_MINOR}
 pahole-cflags += -DPAHOLE_VERSION_MAJOR=${PAHOLE_VERSION_MAJOR}
 pahole-cflags += -DPAHOLE_VERSION_MINOR=${PAHOLE_VERSION_MINOR}
 
-PAHOLE_VERSION_CODE := $(call version3_code1688,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR},0)
-
-define pahole_gt
-$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-gt,${1},${2},0)
-endef
-define pahole_ge
-$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-ge,${1},${2},0)
-endef
-define pahole_eq
-$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-eq,${1},${2},0)
-endef
-define pahole_lt
-$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-lt,${1},${2},0)
-endef
-define pahole_le
-$(call version3_code1688_cmp,${PAHOLE_VERSION_CODE},-le,${1},${2},0)
-endef
+$(eval $(call define_version,pahole,version2_code1616,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR}))
 
 ifdef DEBUG
   $(info PAHOLE = ${PAHOLE})
@@ -93,15 +73,12 @@ ifdef DEBUG
 endif
 
 # Make sure function works fine.
-ifneq ($(call pahole_eq,${PAHOLE_VERSION_MAJOR},${PAHOLE_VERSION_MINOR}),y)
-  $(error "Call pahole_eq failed")
-endif
 ifneq ($(call pahole_gt,0,0),y)
-  $(error "Call pahole_gt failed")
+  $(error "Call pahole_gt failed, $(call pahole_gt,0,0)")
 endif
 # The newest pahole is v1.31 right now.
 ifneq ($(call pahole_lt,1,32),y)
-  $(error "Call pahole_lt failed")
+  $(error "Call pahole_lt failed, $(call pahole_lt,1,32)")
 endif
 
 export PAHOLE PAHOLE_VERSION_MAJOR PAHOLE_VERSION_MINOR

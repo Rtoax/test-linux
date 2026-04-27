@@ -104,19 +104,19 @@ define define_version
 $(eval ${1}_VERSION_CODE := $$(call ${2},${3},${4},${5}))
 
 define ${1}_gt
-$(call ${2}_cmp,${${1}_VERSION_CODE},-gt,${3},${4},${5})
+$$(call ${2}_cmp,$${${1}_VERSION_CODE},-gt,$${1},$${2},$${3})
 endef
 define ${1}_ge
-$(call ${2}_cmp,${${1}_VERSION_CODE},-ge,${3},${4},${5})
+$$(call ${2}_cmp,$${${1}_VERSION_CODE},-ge,$${1},$${2},$${3})
 endef
 define ${1}_eq
-$(call ${2}_cmp,${${1}_VERSION_CODE},-eq,${3},${4},${5})
+$$(call ${2}_cmp,$${${1}_VERSION_CODE},-eq,$${1},$${2},$${3})
 endef
 define ${1}_lt
-$(call ${2}_cmp,${${1}_VERSION_CODE},-lt,${3},${4},${5})
+$$(call ${2}_cmp,$${${1}_VERSION_CODE},-lt,$${1},$${2},$${3})
 endef
 define ${1}_le
-$(call ${2}_cmp,${${1}_VERSION_CODE},-le,${3},${4},${5})
+$$(call ${2}_cmp,$${${1}_VERSION_CODE},-le,$${1},$${2},$${3})
 endef
 
 ifneq ($$(call ${1}_eq,${3},${4},${5}),y)
