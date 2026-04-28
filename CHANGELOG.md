@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 - cxl: add bus subdir;
+- binutils: add addr2line subdir;
 - bpftrace: add tools/sigsnoop.bt, samples/import.bt;
 - version/config.json: add libcap-ng;
 #### Changed

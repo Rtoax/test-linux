@@ -39,7 +39,7 @@
 				"length": [ 3, 2 ]
 			},
 			"extension": [ "s" ],
-			"keys": [ "asm", "bfd", "binutils" ]
+			"keys": [ "addr2line", "asm", "bfd", "binutils" ]
 		},
 		"bpftool": {
 			"name": "BPFTool",
