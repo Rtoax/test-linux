@@ -1,7 +1,14 @@
 #!/bin/env bpftrace
 
+struct kernel_siginfo {
+	int si_signo;
+	/* ... */
+};
+
 kprobe:force_sig_info_to_task
 {
+	$info = (struct kernel_siginfo *)arg0;
+
 	$leader_pid = curtask->group_leader->pid;
 	$leader_comm = curtask->group_leader->comm;
 
@@ -10,6 +17,6 @@ kprobe:force_sig_info_to_task
 		printf("QEMU: ");
 	}
 
-	printf("[%s:%d] (leader: [%s:%d]) %s\n", comm, pid,
-	       $leader_comm, $leader_pid, ustack);
+	printf("[%s:%d] (leader: [%s:%d]) sig %d, %s\n", comm, pid,
+	       $leader_comm, $leader_pid, $info->si_signo, ustack);
 }
