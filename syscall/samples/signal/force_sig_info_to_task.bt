@@ -1,0 +1,15 @@
+#!/bin/env bpftrace
+
+kprobe:force_sig_info_to_task
+{
+	$leader_pid = curtask->group_leader->pid;
+	$leader_comm = curtask->group_leader->comm;
+
+	if (comm == "qemu-system-aarch64" || $leader_comm == "qemu-system-aarch64" ||
+	    comm == "qemu-system-x86_64" || $leader_comm == "qemu-system-x86_64") {
+		printf("QEMU: ");
+	}
+
+	printf("[%s:%d] (leader: [%s:%d]) %s\n", comm, pid,
+	       $leader_comm, $leader_pid, ustack);
+}
