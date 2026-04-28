@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# Usage: source this script: $ source coredump.sh
+# Warning: do not use `set -x` here
 bytes=unlimited
 
 # run with it, generate a core.XXXX file.
@@ -11,6 +12,9 @@ function coredump() {
 	echo 0 | sudo tee /proc/sys/kernel/nmi_watchdog
 	echo 1 | sudo tee /sys/module/rcupdate/parameters/rcu_cpu_stall_suppress
 
+	# or /etc/security/limits.conf add two lines:
+	#   * soft core unlimited
+	#   * hard core unlimited
 	ulimit -c
 	cat /proc/sys/kernel/core_pattern
 }
