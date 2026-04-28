@@ -1,7 +1,6 @@
 #!/bin/env bpftrace
 BEGIN
 {
-	/* TODO: how to get thread ustack?? */
 	print(ustack);
 	exit();
 }

@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -5,10 +6,21 @@
 #include <pthread.h>
 #include <unistd.h>
 
+/* parent process coredump by default */
+bool childcore = false;
+
 void sig_handler(int sig)
 {
 	psignal(sig, "Catch");
 	exit(1);
+}
+
+void set_thread_name(const char *name)
+{
+	if (pthread_setname_np(pthread_self(), name)) {
+		perror("pthread_setname_np");
+		exit(EXIT_FAILURE);
+	}
 }
 
 int overflow(void)
@@ -19,10 +31,14 @@ int overflow(void)
 	return c;
 }
 
-void *sleep_thread(void *arg)
+void *child_work(void *arg)
 {
+	set_thread_name("child-thread");
 	for (;;) {
-		sleep(1);
+		if (childcore)
+			overflow();
+		else
+			sleep(1);
 	}
 }
 
@@ -32,7 +48,7 @@ int main(int argc, char *argv[])
 #define NR_THREAD 10
 	pthread_t child[NR_THREAD];
 
-	fprintf(stderr, "usage: %s [catch=<segv>]\n", argv[0]);
+	fprintf(stderr, "usage: %s [catch=<segv>] [childcore]\n", argv[0]);
 
 	for (i = 1; i < argc; i++) {
 		if (!strncmp("catch=", argv[i], strlen("catch="))) {
@@ -44,15 +60,21 @@ int main(int argc, char *argv[])
 				 */
 				signal(SIGSEGV, sig_handler);
 			}
+		} else if (!strcmp("childcore", argv[i])) {
+			childcore = true;
+		} else {
+			fprintf(stderr, "ERROR: Unknown arg %s\n", argv[i]);
+			exit(EXIT_FAILURE);
 		}
 	}
 
+	set_thread_name("parent-thread");
+
 	for (i = 0; i < NR_THREAD; i++)
-		pthread_create(&child[i], NULL, sleep_thread, NULL);
+		pthread_create(&child[i], NULL, child_work, NULL);
 
-	sleep(2);
-
-	overflow();
+	if (!childcore)
+		overflow();
 
 	for (i = 0; i < NR_THREAD; i++)
 		pthread_join(child[i], NULL);
