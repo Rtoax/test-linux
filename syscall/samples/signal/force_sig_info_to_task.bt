@@ -5,6 +5,9 @@ struct kernel_siginfo {
 	/* ... */
 };
 
+/**
+ * Could use tracepoint:signal:signal_generate also
+ */
 kprobe:force_sig_info_to_task
 {
 	$info = (struct kernel_siginfo *)arg0;
@@ -13,7 +16,8 @@ kprobe:force_sig_info_to_task
 	$leader_comm = curtask->group_leader->comm;
 
 	if (comm == "qemu-system-aarch64" || $leader_comm == "qemu-system-aarch64" ||
-	    comm == "qemu-system-x86_64" || $leader_comm == "qemu-system-x86_64") {
+	    comm == "qemu-system-x86_64" || $leader_comm == "qemu-system-x86_64" ||
+	    comm == "qemu-kvm" || $leader_comm == "qemu-kvm") {
 		printf("QEMU: ");
 	}
 
