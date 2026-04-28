@@ -1,3 +1,4 @@
+subdir-y += capability
 subdir-y += cmake
 subdir-y += code-formatter
 subdir-y += criu

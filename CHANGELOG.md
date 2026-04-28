@@ -13,7 +13,9 @@ and this project adheres to
 #### Added
 - cxl: add bus subdir;
 - bpftrace: add tools/sigsnoop.bt, samples/import.bt;
+- version/config.json: add libcap-ng;
 #### Changed
+- move capability into tools;
 - move `io_uring` into tools;
 #### Deprecated
 #### Removed

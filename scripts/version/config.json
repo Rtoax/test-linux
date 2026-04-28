@@ -201,6 +201,14 @@
 			"extension": [ "rst" ],
 			"keys": [ "latexmk", "sphinx", "Documentation" ]
 		},
+		"libcap-ng": {
+			"name": "LibCap-ng",
+			"package": {
+				"deb": [ "libcap-ng0", "libcap-ng-utils" ],
+				"rpm": [ "libcap-ng", "libcap-ng-utils" ]
+			},
+			"keys": [ "capability", "libcap" ]
+		},
 		"libbpf": {
 			"name": "LibBpf",
 			"library": [ "libbpf.so" ],

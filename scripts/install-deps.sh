@@ -901,7 +901,7 @@ dnf_add_packages()
 	pkgs_base+=( kernel-modules )       # modules
 	pkgs_base+=( kernel-modules-extra ) # modules, ocfs2, etc.
 	pkgs_base+=( libattr-devel )
-	pkgs_base+=( libcap-ng-devel )
+	pkgs_base+=( libcap-ng )
 	pkgs_base+=( libcap-ng-utils )
 	pkgs_base+=( libdwarf-tools )       # dwarfdump
 	pkgs_base+=( libedit-devel )
@@ -1108,6 +1108,7 @@ apt_add_packages()
 	pkgs_base+=( libaio-dev )           # aio
 	pkgs_base+=( libbpfcc )
 	pkgs_base+=( libbpfcc-dev )
+	pkgs_base+=( libcap-ng0 )
 	pkgs_base+=( libcapstone-dev )
 	pkgs_base+=( libc6-dev )
 	pkgs_base+=( libc-bin )
