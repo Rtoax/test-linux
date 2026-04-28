@@ -9,6 +9,7 @@ target-bt-y += parent.bt
 target-bt-$(call bpftrace_gt,0,20,2) += pcomm.bt
 target-bt-$(call bpftrace_gt,0,20,2) += stack-limit-is-exceeded.bt
 target-bt-$(call bpftrace_gt,0,20,2) += return.bt
+target-bt-y += ustack.bt
 target-bt-y += unroll.bt
 
 ARGS_getopt.bt.1 := -- --num=1
