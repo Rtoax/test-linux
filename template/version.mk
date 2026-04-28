@@ -129,7 +129,7 @@ endif
 ifneq ($$(call ${1}_ge,${3},${4},${5}),y)
   $$(error ${1}_ge failed)
 endif
-ifneq ($$(call ${1}_gt,0,0,0),y)
+ifneq ($$(call ${1}_ge,0,0,0),y)
   $$(error "Call ${1}_gt failed, $$(call ${1}_gt,0,0,0)")
 endif
 $$(if $${DEBUG}, $$(info ${1}_VERSION_CODE = ${${1}_VERSION_CODE}))
