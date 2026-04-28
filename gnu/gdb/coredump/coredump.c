@@ -6,6 +6,8 @@
 #include <pthread.h>
 #include <unistd.h>
 
+/* rename all threads */
+bool renaming = true;
 /* parent process coredump by default */
 bool childcore = false;
 
@@ -33,12 +35,13 @@ int overflow(void)
 
 void *child_work(void *arg)
 {
-	set_thread_name("child-thread");
+	if (renaming)
+		set_thread_name("child-thread");
+
 	for (;;) {
 		if (childcore)
 			overflow();
-		else
-			sleep(1);
+		sleep(1);
 	}
 }
 
@@ -48,7 +51,8 @@ int main(int argc, char *argv[])
 #define NR_THREAD 10
 	pthread_t child[NR_THREAD];
 
-	fprintf(stderr, "usage: %s [catch=<segv>] [childcore]\n", argv[0]);
+	fprintf(stderr, "usage: %s [catch=<segv>] [childcore] [norename]\n",
+		argv[0]);
 
 	for (i = 1; i < argc; i++) {
 		if (!strncmp("catch=", argv[i], strlen("catch="))) {
@@ -62,13 +66,16 @@ int main(int argc, char *argv[])
 			}
 		} else if (!strcmp("childcore", argv[i])) {
 			childcore = true;
+		} else if (!strcmp("norename", argv[i])) {
+			renaming = false;
 		} else {
 			fprintf(stderr, "ERROR: Unknown arg %s\n", argv[i]);
 			exit(EXIT_FAILURE);
 		}
 	}
 
-	set_thread_name("parent-thread");
+	if (renaming)
+		set_thread_name("parent-thread");
 
 	for (i = 0; i < NR_THREAD; i++)
 		pthread_create(&child[i], NULL, child_work, NULL);

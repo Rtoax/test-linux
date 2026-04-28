@@ -126,7 +126,7 @@
 				"length": [ 2 ]
 			},
 			"extension": [ "gdb" ],
-			"keys": [ "gdb" ]
+			"keys": [ "coredump", "gdb" ]
 		},
 		"glibc": {
 			"name": "GLibc",
