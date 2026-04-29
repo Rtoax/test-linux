@@ -37,6 +37,7 @@ else ifeq ($(shell uname -m),aarch64)
   target-as-y += read
   target-as-y += hello-puts
   target-as-y += hello-puts-infinite-loop
+  target-as-y += paciasp
   target-as-y += puts
   target-as-y += main
   target-as-y += printf
