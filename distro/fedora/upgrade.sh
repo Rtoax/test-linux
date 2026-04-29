@@ -31,7 +31,7 @@ if [[ $(systemd-detect-virt) == none ]] ||
 	echo "WARNING: sudo dnf system-upgrade reboot -y"
 	exit 0
 
-	# Login
+	# After rebooting, login again, and do the following:
 
 	# Post Upgrade Cleanup
 	sudo dnf system-upgrade clean
