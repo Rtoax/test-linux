@@ -32,6 +32,7 @@ else ifeq ($(shell uname -m),aarch64)
 
   target-asm-y += branch
 
+  target-as-y += adrp
   target-as-y += add
   target-as-y += say_hello
   target-as-y += read
