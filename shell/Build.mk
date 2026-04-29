@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 subdir-y += alias
 subdir-y += array
+subdir-y += bash-completion
 subdir-y += commands
 subdir-y += env-passing
 subdir-y += math

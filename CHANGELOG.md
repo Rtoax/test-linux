@@ -15,6 +15,7 @@ and this project adheres to
 - cxl: add bus subdir;
 - binutils: add addr2line subdir;
 - bpftrace: add tools/sigsnoop.bt, samples/import.bt, samples/`dw_ustack.bt`;
+- shell: add bash-completion subdir;
 - version/config.json: add libcap-ng;
 #### Changed
 - move capability into tools;
