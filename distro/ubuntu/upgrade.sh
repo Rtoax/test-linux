@@ -1,6 +1,8 @@
 #!/bin/bash
 # Upgrade Ubuntu
 # ref: https://ubuntu.com/server/docs/upgrade-introduction
+# newest: 26.04
+# - https://mirrors.aliyun.com/ubuntu-releases/26.04/ubuntu-26.04-desktop-amd64.iso
 
 sudo apt install -y update-manager-core
 sudo apt update -y
