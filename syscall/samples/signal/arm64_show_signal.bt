@@ -4,13 +4,13 @@ qemu-kvm[1104774]: unhandled exception: IABT (lower EL), ESR 0x0000000082000030,
 */
 
 #define SIGKILL 9
-#define SIG SIGKILL
+#define TRACK_SIGNAL SIGKILL
 
 /* void arm64_show_signal(int signo, const char *str) */
 kprobe:arm64_show_signal
 {
 	$signo = arg0;
-	if ($signo == SIG) {
+	if ($signo == TRACK_SIGNAL) {
 		@start[tid] = nsecs;
 		@str1[tid] = str(arg1);
 	}
