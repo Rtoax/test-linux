@@ -28,17 +28,17 @@ struct {
 	__type(value, sizeof(unsigned long) * STACK_MAX_DEPTH);
 } stackmap SEC(".maps");
 
-void __get_stack(void *ctx)
+static void __get_stack(void *ctx)
 {
-	int user_stack_id;
-	int kern_stack_id;
+	int ustack_id;
+	int kstack_id;
 
 	/* Walk a kernel stack and return its id. */
-	kern_stack_id = bpf_get_stackid(ctx, &stackmap, 0);
+	kstack_id = bpf_get_stackid(ctx, &stackmap, 0);
 	/* Collect a user space stack instead of a kernel stack. */
-	user_stack_id = bpf_get_stackid(ctx, &stackmap, BPF_F_USER_STACK);
+	ustack_id = bpf_get_stackid(ctx, &stackmap, BPF_F_USER_STACK);
 
-	if (kern_stack_id >= 0 && user_stack_id >= 0) {
-		bpf_printk("Stack kernel %d, user %d", kern_stack_id, user_stack_id);
+	if (kstack_id >= 0 && ustack_id >= 0) {
+		bpf_printk("Stack kernel %d, user %d", kstack_id, ustack_id);
 	}
 }

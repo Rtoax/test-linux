@@ -10,7 +10,6 @@
 #define __USER__
 #include "stack_helpers.h"
 
-
 /* init stackmap */
 void init_stackmap(struct bpf_map *stackmap, size_t size)
 {
@@ -21,14 +20,14 @@ void init_stackmap(struct bpf_map *stackmap, size_t size)
 
 void print_stack(int stack_map_fd, struct ksyms *ksyms)
 {
-	int kern_stack_id, next_kern_stack_id, i;
+	int id, next_id, i;
 	unsigned long *IPs;
 
-	kern_stack_id = 0;
+	id = 0;
 	IPs = malloc(sizeof(unsigned long) * STACK_MAX_DEPTH);
 
-	while (bpf_map_get_next_key(stack_map_fd, &kern_stack_id, &next_kern_stack_id) == 0) {
-		bpf_map_lookup_elem(stack_map_fd, &next_kern_stack_id, IPs);
+	while (bpf_map_get_next_key(stack_map_fd, &id, &next_id) == 0) {
+		bpf_map_lookup_elem(stack_map_fd, &next_id, IPs);
 		printf("-----------\n");
 		for (i = 0; i < STACK_MAX_DEPTH && IPs[i]; i++) {
 			unsigned long off = 0;
@@ -41,7 +40,7 @@ void print_stack(int stack_map_fd, struct ksyms *ksyms)
 			else
 				printf("\n");
 		}
-		kern_stack_id = next_kern_stack_id;
+		id = next_id;
 	}
 
 	free(IPs);
