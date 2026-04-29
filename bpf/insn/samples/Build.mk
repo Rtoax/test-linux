@@ -6,13 +6,14 @@ include bpf/helper.mk
 target-liba-y := libbpf_insn_samples.a
 target-libso-y := libbpf_insn_samples.so
 
-helpers-y := trace_printk
+helpers-y += get_stackid
 helpers-y += get_current_cgroup_id
 helpers-y += get_current_task_btf
 helpers-$(SUPPORT_BPF_STRNCMP) += strncmp
 helpers-y += cgroup_acquire cgroup_from_id
 helpers-y += task_from_pid
 helpers-y += task_acquire
+helpers-y += trace_printk
 helpers-$(SUPPORT_BPF_CGRP_STORAGE_GET) += cgrp_storage_get
 helpers-y += get_func_ip
 helpers-$(SUPPORT_BPF_LOOP) += loop
