@@ -12,3 +12,4 @@ Links
 * `Fedora dl <https://dl.fedoraproject.org/pub/fedora/linux/releases/>`_
 * `Fedora Source rpms <https://src.fedoraproject.org/projects/rpms/>`_
 * `Fedora Atomic Archives <https://archives.fedoraproject.org/pub/archive/fedora/linux/atomic/>`_
+* `Fedora Workstation Download <https://fedoraproject.org/workstation/download/>`_
