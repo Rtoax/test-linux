@@ -1,0 +1,37 @@
+#!/bin/env bpftrace
+/*
+qemu-kvm[1104774]: unhandled exception: IABT (lower EL), ESR 0x0000000082000030, TLB conflict abort in qemu-system-aarch64[aaaabde40000+a70000]
+*/
+
+#define SIGKILL 9
+#define SIG SIGKILL
+
+/* void arm64_show_signal(int signo, const char *str) */
+kprobe:arm64_show_signal
+{
+	$signo = arg0;
+	if ($signo == SIG) {
+		@start[tid] = nsecs;
+		@str1[tid] = str(arg1);
+	}
+}
+
+/* void print_vma_addr(char *prefix, unsigned long ip) */
+kprobe:print_vma_addr
+/ @start[tid] /
+{
+	$ip = arg1;
+	$esr = curtask->thread.fault_code;
+
+	printf("%s[%d] unhandled exception: ESR 0x%lx, %s in ip 0x%lx, ustack %s",
+		comm, pid, $esr, @str1[tid], $ip, ustack);
+
+	delete(@str1[tid]);
+	delete(@start[tid]);
+}
+
+END
+{
+	clear(@str1);
+	clear(@start);
+}
