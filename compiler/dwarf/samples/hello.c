@@ -18,4 +18,3 @@ int main(int argc, char *argv[])
 	printf("%d\n", foo(1024));
 	return 0;
 }
-

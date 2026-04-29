@@ -78,6 +78,14 @@
 			},
 			"keys": [ "dracut", "initramfs", "initrd" ]
 		},
+		"dwz": {
+			"name": "DWARF-dwz",
+			"version": {
+				"length": [ 2 ]
+			},
+			"extension": [ "dwz" ],
+			"keys": [ "dwarf", "dwz" ]
+		},
 		"edk2": {
 			"name": "EDK-II",
 			"package": {

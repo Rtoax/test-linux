@@ -9,7 +9,7 @@ include runprog.mk
 
 ${OUTPUT}%.bt.log: %.bt
 	$(call log_tgt,BPFTRACE,$(@))
-	$(Q)${SUDO} $(RUNPROG) --log $(@) -- $(BPFTRACE) $(<) $(ARGS_$(*))
+	$(Q)${SUDO} $(RUNPROG) --log $(@) -- $(BPFTRACE) $(<) $(ARGS_$(<))
 
 # $1: 1, 2, 3, ...
 define bt_target

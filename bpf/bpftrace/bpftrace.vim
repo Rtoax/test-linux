@@ -13,7 +13,7 @@ syntax clear
 syntax sync minlines=1000
 
 syntax keyword btStatement	break comptime config continue let macro return
-syntax keyword btStatement	missing_probes unstable_import unstable_macro
+syntax keyword btStatement	missing_probes unstable_dw_ustack unstable_import unstable_macro
 syntax keyword btConditional	if else
 syntax keyword btRepeat		for unroll while
 syntax keyword btTodo		contained TODO
@@ -31,7 +31,8 @@ syntax keyword btFunction	probe probetype pton rand reg retval signal signal_thr
 syntax keyword btFunction	sizeof skboutput socket_cookie static_assert str strcap
 syntax keyword btFunction	strcontains strerror strftime strlen strstr
 syntax keyword btFunction	syscall_name system
-syntax keyword btFunction	tid time uaddr uid unwatch uptr usermode username ustack usym
+syntax keyword btFunction	tid time uaddr uid unwatch uptr usermode username usym
+syntax keyword btFunction	dw_ustack ustack
 syntax keyword btFunction	warnf zero avg count
 syntax keyword btFunction	hist lhist max min stats sum tseries
 syntax keyword btPatterns	BEGIN END begin end

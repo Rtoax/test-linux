@@ -14,7 +14,7 @@ and this project adheres to
 - aarch64/asm: add adrp.s test;
 - cxl: add bus subdir;
 - binutils: add addr2line subdir;
-- bpftrace: add tools/sigsnoop.bt, samples/import.bt;
+- bpftrace: add tools/sigsnoop.bt, samples/import.bt, samples/`dw_ustack.bt`;
 - version/config.json: add libcap-ng;
 #### Changed
 - move capability into tools;

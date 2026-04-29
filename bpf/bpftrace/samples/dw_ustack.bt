@@ -1,0 +1,7 @@
+#!/bin/env bpftrace
+config = { unstable_dw_ustack=enable }
+
+uprobe:../../../compiler/dwarf/samples/hello.dw5:foo
+{
+	print(dw_ustack);
+}

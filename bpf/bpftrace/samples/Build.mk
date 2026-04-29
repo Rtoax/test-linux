@@ -11,6 +11,11 @@ target-bt-$(call bpftrace_gt,0,20,2) += stack-limit-is-exceeded.bt
 target-bt-$(call bpftrace_gt,0,20,2) += return.bt
 target-bt-y += ustack.bt
 target-bt-y += unroll.bt
+ifneq ($(wildcard ../../../compiler/dwarf/samples/hello.dw5),)
+  target-bt-y += dw_ustack.bt
+endif
+
+ARGS_dw_ustack.bt := -c ../../../compiler/dwarf/samples/hello.dw5
 
 ARGS_getopt.bt.1 := -- --num=1
 ARGS_getopt.bt.9 := -- --num=9
