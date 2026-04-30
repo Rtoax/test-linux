@@ -1,9 +1,11 @@
 #!/bin/env bpftrace
-struct {
+// Could have whitespace
+	struct a {
 	int a;
 };
 
 BEGIN
 {
+	$a = (struct a *)0;
 	exit();
 }
