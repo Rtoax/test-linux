@@ -62,6 +62,11 @@
 			"command": [ "cstool" ],
 			"keys": [ "capstone", "cstool" ]
 		},
+		"clang": {
+			"name": "Clang",
+			"command": [ "clang", "clang++" ],
+			"keys": [ "clang", "llvm" ]
+		},
 		"cuda": {
 			"name": "CUDA",
 			"path": [ "/usr/local/cuda" ],
