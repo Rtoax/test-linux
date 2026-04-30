@@ -1,0 +1,8 @@
+#!/bin/env bpftrace
+
+#define PI 3.14
+
+BEGIN
+{
+	exit();
+}
