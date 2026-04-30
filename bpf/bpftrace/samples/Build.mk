@@ -8,6 +8,7 @@ target-bt-$(call bpftrace_gt,0,21,0) += getopt.bt getopt.bt.1 getopt.bt.9 getopt
 target-bt-$(call bpftrace_gt,0,20,2) += import.bt
 target-bt-y += parent.bt
 target-bt-$(call bpftrace_gt,0,20,2) += pcomm.bt
+target-bt-y += signal_name.bt
 target-bt-$(call bpftrace_gt,0,20,2) += stack-limit-is-exceeded.bt
 target-bt-y += struct.bt
 target-bt-$(call bpftrace_gt,0,20,2) += return.bt

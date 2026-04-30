@@ -1,0 +1,7 @@
+#!/usr/bin/env bpftrace
+tracepoint:signal:signal_generate
+{
+	$sig = args.sig;
+	@[signal_name($sig)] = count();
+	exit();
+}
