@@ -4,6 +4,15 @@
 	int a;
 };
 
+union ua {
+	int a;
+};
+
+enum ea {
+	a,
+	b,
+};
+
 BEGIN
 {
 	$a = (struct a *)0;
