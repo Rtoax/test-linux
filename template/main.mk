@@ -121,7 +121,7 @@ clean: $(subdir-y-clean) $(target-clean-y)
 .PHONY: reset
 reset:
 	$(call log_warn,Reset)
-	$(call log_reset_files)
+	$(call log_reset)
 
 .PHONY: done
 done:
