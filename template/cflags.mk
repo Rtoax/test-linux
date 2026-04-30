@@ -34,7 +34,7 @@ ifdef ERROR
 endif
 
 ifdef M32
-  $(info Compile 32bit ELF)
+  $(info Compile 32bit ELF M32=${M32})
   CFLAGS += -m32 -DM32=${M32}
   CXXFLAGS += -m32 -DM32=${M32}
   LDFLAGS += -m32 -DM32=${M32}
@@ -42,11 +42,13 @@ ifdef M32
 endif
 
 ifdef FORCE
+  $(info Compile with FORCE=${FORCE})
   CFLAGS += -Wno-error -DFORCE=${FORCE}
   CXXFLAGS += -Wno-error -DFORCE=${FORCE}
 endif
 
 ifdef STATIC
+  $(info Compile with STATIC=${STATIC})
   CFLAGS += -static
   CXXFLAGS += -static
   LDFLAGS += -static
