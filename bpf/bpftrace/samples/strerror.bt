@@ -3,10 +3,7 @@
 tracepoint:syscalls:sys_exit_openat,
 tracepoint:syscalls:sys_exit_openat2
 {
-  $ret = args.ret;
-  $fd = ($ret >= 0) ? $ret : (-1);
-  $errno = ($ret >= 0) ? 0 : (-$ret);
-  printf("%-6d %-16s %4d %3s\n", pid, comm, $fd, strerror($errno));
-  @[strerror($errno)] = count();
-  exit();
+	$errno = args.ret;
+	@[strerror($errno)] = count();
+	exit();
 }
