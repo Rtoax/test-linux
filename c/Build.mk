@@ -73,6 +73,7 @@ include cross-compile.mk
 
 CFLAGS += -I../macro/
 
+CFLAGS_assignment := -Wno-error=uninitialized
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
 CFLAGS_param-pass += -Wno-error=strict-prototypes
