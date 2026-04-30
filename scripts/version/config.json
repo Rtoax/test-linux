@@ -220,6 +220,12 @@
 			"extension": [ "rst" ],
 			"keys": [ "latexmk", "sphinx", "Documentation" ]
 		},
+		"libbpf": {
+			"name": "LibBpf",
+			"library": [ "libbpf.so" ],
+			"extension": [ "bpf.c", "bpf.h" ],
+			"keys": [ "libbpf", "ebpf", "bpf" ]
+		},
 		"libcap-ng": {
 			"name": "LibCap-ng",
 			"package": {
@@ -228,11 +234,17 @@
 			},
 			"keys": [ "capability", "libcap" ]
 		},
-		"libbpf": {
-			"name": "LibBpf",
-			"library": [ "libbpf.so" ],
-			"extension": [ "bpf.c", "bpf.h" ],
-			"keys": [ "libbpf", "ebpf", "bpf" ]
+		"libdwarf": {
+			"name": "Libdwarf",
+			"command": [ "dwarfdump" ],
+			"version": {
+				"length": [ 1, 3 ]
+			},
+			"package": {
+				"deb": [ "libdwarf-dev" ],
+				"rpm": [ "libdwarf-devel" ]
+			},
+			"keys": [ "dwarf", "libdwarf" ]
 		},
 		"liburing": {
 			"name": "Liburing",

@@ -1,1 +1,2 @@
-subdir-y := samples
+subdir-y += libdwarf
+subdir-y += samples
