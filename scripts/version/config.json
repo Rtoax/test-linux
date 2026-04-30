@@ -120,6 +120,10 @@
 			},
 			"keys": [ "ffmpeg" ]
 		},
+		"flatpak": {
+			"name": "Flatpak",
+			"keys": [ "flatpak" ]
+		},
 		"findutils": {
 			"name": "Findutils",
 			"command": [ "find" ],
