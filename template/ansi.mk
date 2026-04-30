@@ -4,8 +4,6 @@
 # Input definitions:
 # - ANSI_NONE
 #
-# Exports:
-#
 ifndef _ANSI_MK
 _ANSI_MK = 1
 
@@ -84,6 +82,9 @@ ${ANSI_GREEN}${1}${ANSI_RST}
 endef
 define bgreen
 ${ANSI_BOLD}${ANSI_GREEN}${1}${ANSI_RST}
+endef
+define cyan
+${ANSI_CYAN}${1}${ANSI_RST}
 endef
 define red
 ${ANSI_RED}${1}${ANSI_RST}

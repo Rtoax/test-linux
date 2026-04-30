@@ -5,6 +5,7 @@
 # - log_obj()
 # - log_tgt()
 # - log_info()
+# - log_warn()
 # - log_fail()
 # - log_success()
 # - log_reset_files()
@@ -39,6 +40,11 @@ endef
 define log_fail
 printf "$(call TS) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
 endef
+
+define log_warn
+printf "$(call TS) $(call cyan,$1)\n" | tee --append ${LOG_FILE_INFO}
+endef
+
 define log_success
 printf "$(call TS) $(call green,$1)\n" | tee --append ${LOG_FILE_INFO}
 endef

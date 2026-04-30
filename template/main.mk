@@ -8,11 +8,6 @@ CXX ?= g++
 AS ?= as
 NASM ?= nasm
 OBJCOPY ?= objcopy
-
-ifeq ($(shell uname -m),x86_64)
-else ifeq ($(shell uname -m),aarch64)
-endif
-
 subdir-y ?=
 
 CFLAGS += -I${OUTPUT}
@@ -161,14 +156,17 @@ export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS MAKEFLAGS
 
 .PHONY: build
 build: $(build-targets)
+	$(call log_warn,Build)
 	$(call log_obj,BUILD DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: test
 test: $(build-targets) $(subdir-y-test) $(target-test-y)
+	$(call log_warn,Test)
 	$(call log_obj,TEST DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: clean
 clean: $(subdir-y-clean) $(target-clean-y)
+	$(call log_warn,Clean)
 	$(call log_tgt,CLEAN,${build-targets} ${target-clean-y})
 	${Q}rm -rf ${build-targets}
 	${Q}rm -f *.o *.o.d
@@ -179,12 +177,12 @@ clean: $(subdir-y-clean) $(target-clean-y)
 
 .PHONY: reset
 reset:
-	@echo "Reset"
+	$(call log_warn,Reset)
 	$(call log_reset_files)
 
 .PHONY: done
 done:
-	@echo "Done"
+	$(call log_warn,Done)
 	$(call log_display_failed)
 
 # All helpers, only include targets/helpers.mk if helpers.mk was included.
