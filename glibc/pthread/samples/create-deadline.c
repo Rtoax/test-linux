@@ -52,7 +52,7 @@ void *run_deadline(void *data)
 		x++;
 	}
 
-	printf("deadline thread dies [%d]\n", gettid());
+	printf("deadline thread dies [%d] x = %d\n", gettid(), x);
 	return NULL;
 }
 
