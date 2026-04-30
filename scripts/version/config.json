@@ -27,6 +27,13 @@
 			"name": "ACPITool",
 			"keys": [ "acpi", "acpitool" ]
 		},
+		"anaconda": {
+			"name": "Anaconda",
+			"version": {
+				"length": [ 2 ]
+			},
+			"keys": [ "anaconda" ]
+		},
 		"bcc": {
 			"name": "BCC",
 			"library": [ "libbcc.so", "libbcc_bpf.so" ],
