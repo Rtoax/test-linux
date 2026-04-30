@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 		++counter;
 	}
 
-	printf("Waiting aio finish...\n");
+	printf("Waiting aio finish... counter = %d\n", counter);
 
 	ret = aio_suspend(aiocb_list, MAX_LIST, NULL);
 
