@@ -16,7 +16,7 @@ and this project adheres to
 - bpftrace: add tools/sigsnoop.bt, samples/import.bt, samples/`dw_ustack.bt`;
 - cxl: add bus subdir;
 - flatpak: first commit;
-- libdwarf: first commit;
+- libdwarf: add dwarfdump.sh;
 - license: add Mulanv2;
 - shell: add bash-completion subdir;
 - version/config.json: add libcap-ng;
