@@ -1,9 +1,8 @@
-#include <sys/times.h>
 #include <stdio.h>
-#include <limits.h>
 #include <stdint.h>
+#include <sys/times.h>
+#include <limits.h>
 #include <unistd.h>
-
 
 static clock_t st_time;
 static clock_t en_time;
@@ -27,7 +26,6 @@ void end_clock(void)
 		(intmax_t)(en_cpu.tms_stime - st_cpu.tms_stime));
 }
 
-
 int main(void)
 {
 	long int i;
@@ -39,6 +37,7 @@ int main(void)
 	for (i = 0; i < 100000000; i++) {
 	    sum += i;
 	}
+	(void)sum;
 	end_clock();
 	return 0;
 }
