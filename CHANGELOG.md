@@ -31,6 +31,7 @@ and this project adheres to
 - add redis.rst;
 #### Tools
 #### Template
+- add libdwarf.mk;
 - add output.mk and `append_output_prefix()`;
 
 

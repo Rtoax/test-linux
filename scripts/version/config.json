@@ -237,9 +237,6 @@
 		"libdwarf": {
 			"name": "Libdwarf",
 			"command": [ "dwarfdump" ],
-			"version": {
-				"length": [ 1, 3 ]
-			},
 			"package": {
 				"deb": [ "libdwarf-dev" ],
 				"rpm": [ "libdwarf-devel" ]
