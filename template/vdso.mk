@@ -32,7 +32,7 @@ else ifeq ($(shell uname -m),aarch64)
 endif
 
 ifeq ($(wildcard $(KVDSO64)),)
-  $(warning "WARNING: Not found ${KVDSO64}, use dump")
+  $(warning "WARNING: Not found ${KVDSO64}, use dump ${VDSO_NAME} instead")
   KVDSO64 := ${VDSO_NAME}
 endif
 
