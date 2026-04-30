@@ -8,6 +8,7 @@ target-y += auto
 target-y += approaching
 target-y += array
 target-y += ascii
+target-y += assignment
 target-y += arch-unsigned-signed
 target-y += alignas
 target-y += case

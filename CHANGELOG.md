@@ -14,6 +14,7 @@ and this project adheres to
 - aarch64/asm: add adrp.s test;
 - binutils: add addr2line subdir;
 - bpftrace: add tools/sigsnoop.bt, samples/import.bt, samples/`dw_ustack.bt`;
+- c: add assignment.c;
 - cxl: add bus subdir;
 - flatpak: first commit;
 - libdwarf: add dwarfdump.sh, samples;
