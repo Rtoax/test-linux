@@ -1,20 +1,25 @@
 #!/bin/env bpftrace
 // Could have whitespace
-	struct a {
+	struct a0 {
 	int a;
 };
 
-union ua {
+/* TODO: test __attribute__
+struct a1 __attribute__((packed)) {
+};
+*/
+
+union u0 {
 	int a;
 };
 
-enum ea {
+enum e0 {
 	a,
 	b,
 };
 
 BEGIN
 {
-	$a = (struct a *)0;
+	$a = (struct a0 *)0;
 	exit();
 }
