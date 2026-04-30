@@ -15,5 +15,6 @@ under the GPL.
    coreutils
    gcc
    gdb
+   dwarf
    glibc
    gnuplot
