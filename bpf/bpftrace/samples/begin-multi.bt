@@ -1,8 +1,10 @@
 #!/bin/env bpftrace
 
+/* ERROR: More than one begin probe defined
 BEGIN
 {
 }
+*/
 
 BEGIN
 {
