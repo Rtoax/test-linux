@@ -56,8 +56,7 @@ target-y += overflow
 target-y += typeof
 
 # preprocessing
-target-prep-y := $(patsubst %,${OUTPUT}%.E.c,$(target-y))
-target-prep-y += ${OUTPUT}return.o.bin
+target-prep-y := ${OUTPUT}return.o.bin
 
 ptr-dim-objs := c_helpers.o
 __STDC__gnu98-objs := __STDC__.1.o
