@@ -1,0 +1,20 @@
+#!/bin/env bpftrace
+// Could have whitespace
+	struct a {
+	int a;
+};
+
+union ua {
+	int a;
+};
+
+enum ea {
+	a,
+	b,
+};
+
+BEGIN
+{
+	$a = (struct a *)0;
+	exit();
+}
