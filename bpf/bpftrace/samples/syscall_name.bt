@@ -1,0 +1,7 @@
+#!/usr/bin/env bpftrace
+tracepoint:raw_syscalls:sys_enter
+{
+	$id = args.id;
+	@[syscall_name($id)] = count();
+	exit();
+}
