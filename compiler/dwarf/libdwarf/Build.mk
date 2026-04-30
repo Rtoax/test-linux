@@ -1,3 +1,2 @@
-include libdwarf.mk
-
+subdir-y += samples
 target-prog-y += dwarfdump.sh
