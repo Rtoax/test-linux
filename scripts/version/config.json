@@ -243,6 +243,11 @@
 			},
 			"keys": [ "dwarf", "libdwarf" ]
 		},
+		"libunwind": {
+			"name": "Libunwind",
+			"library": [ "libunwind.so" ],
+			"keys": [ "unwind", "backtrace" ]
+		},
 		"liburing": {
 			"name": "Liburing",
 			"version": {

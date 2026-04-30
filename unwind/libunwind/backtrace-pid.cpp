@@ -10,7 +10,6 @@
 #include <cxxabi.h>
 #include <cstdio>
 
-
 int wait4stop(pid_t pid)
 {
 	int status = 99;

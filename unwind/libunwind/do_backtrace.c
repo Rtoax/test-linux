@@ -11,7 +11,6 @@
 #include <libunwind-ptrace.h>
 #include <signal.h>
 
-
 #define panic(X) do {	\
 		fprintf(stderr, #X "\n");	\
 		exit(1);	\

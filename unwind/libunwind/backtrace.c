@@ -2,7 +2,6 @@
 #define UNW_LOCAL_ONLY
 #include <libunwind.h>
 
-
 void do_backtrace(void)
 {
 	unw_cursor_t cursor;
