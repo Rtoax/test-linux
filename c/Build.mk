@@ -60,6 +60,10 @@ target-prep-y := $(patsubst %,${OUTPUT}%.E.c,$(target-y))
 target-prep-y += ${OUTPUT}return.o.bin
 
 ptr-dim-objs := c_helpers.o
+__STDC__gnu98-objs := __STDC__.1.o
+__STDC__c98-objs := __STDC__.2.o
+__STDC__c11-objs := __STDC__.3.o
+__STDC__c17-objs := __STDC__.4.o
 
 define arch_strip
   ${Q}${STRIP} $(1) -o $(1).strip
@@ -82,10 +86,10 @@ CFLAGS_include_next := -Dinclude/ -Wno-error
 CFLAGS_while-sleep := -DWHILE_SLEEP=1
 CFLAGS_macro := -DCONFIG_MMU=$(CONFIG_MMU)
 CFLAGS_struct := -Wno-gnu-designator -Wno-initializer-overrides
-CFLAGS___STDC__c98 := -std=c89 -DSTD_C98=1
-CFLAGS___STDC__gnu98 := -std=gnu89 -DSTD_GNU98=1
-CFLAGS___STDC__c11 := -std=c11 -DSTD_C11=1
-CFLAGS___STDC__c17 := -std=c17 -DSTD_C17=1
+CFLAGS___STDC__.1 := -std=gnu89 -DSTD_GNU98=1
+CFLAGS___STDC__.2 := -std=c89 -DSTD_C98=1
+CFLAGS___STDC__.3 := -std=c11 -DSTD_C11=1
+CFLAGS___STDC__.4 := -std=c17 -DSTD_C17=1
 
 CFLAGS_float := ${cflags-support-types-y}
 CFLAGS___float128 := ${cflags-support-types-y}
