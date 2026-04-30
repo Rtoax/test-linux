@@ -10,65 +10,8 @@ NASM ?= nasm
 OBJCOPY ?= objcopy
 subdir-y ?=
 
-CFLAGS += -I${OUTPUT}
-CFLAGS += -D_GNU_SOURCE
-CFLAGS += -Werror -Wall
-# C special, not for C++
-CFLAGS += -Wstrict-prototypes
-
-CXXFLAGS += -I${OUTPUT}
-CXXFLAGS += -D_GNU_SOURCE
-CXXFLAGS += -Werror -Wall
-
-ifdef DEBUG
-  $(info Compile with DEBUG=1)
-  CFLAGS += -DDEBUG=${DEBUG} -O0 -g -ggdb
-  CFLAGS_A += -DDEBUG=${DEBUG} -O0 -g -ggdb
-  CFLAGS_SO += -DDEBUG=${DEBUG} -O0 -g -ggdb
-  CFLAGS_BPF += -DDEBUG=${DEBUG} -O0 -g -ggdb
-  CXXFLAGS += -DDEBUG=${DEBUG} -O0 -g -ggdb
-  CXXFLAGS_A += -DDEBUG=${DEBUG} -O0 -g -ggdb
-  CXXFLAGS_SO += -DDEBUG=${DEBUG} -O0 -g -ggdb
-  MAKEFLAGS += DEBUG=${DEBUG}
-endif
-
-ifdef ERROR
-  $(info Compile with ERROR=${ERROR})
-  CFLAGS += -DERROR=${ERROR}
-  CFLAGS_A += -DERROR=${ERROR}
-  CFLAGS_SO += -DERROR=${ERROR}
-  CFLAGS_BPF += -DERROR=${ERROR}
-  CXXFLAGS += -DERROR=${ERROR}
-  MAKEFLAGS += ERROR=${ERROR}
-endif
-
-ifdef M32
-  $(info Compile 32bit ELF)
-  CFLAGS += -m32 -DM32=1
-  CXXFLAGS += -m32 -DM32=1
-  LDFLAGS += -m32 -DM32=1
-  LDXXFLAGS += -m32 -DM32=1
-  MAKEFLAGS += M32=1
-endif
-
-ifdef FORCE
-  CFLAGS += -Wno-error
-  CXXFLAGS += -Wno-error
-  MAKEFLAGS += FORCE=1
-endif
-
-ifdef STATIC
-  CFLAGS += -static
-  CXXFLAGS += -static
-  LDFLAGS += -static
-  LDXXFLAGS += -static
-  MAKEFLAGS += STATIC=1
-endif
-
-include pie.mk
-CFLAGS += ${CFLAGS_PIE}
-LDFLAGS += ${LDFLAGS_PIE}
-
+include cflags.mk
+include mkflags.mk
 include shell.mk
 include ansi.mk
 include user.mk
