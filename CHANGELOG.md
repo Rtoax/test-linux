@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- Ubuntu 26.04 Resolute Raccoon Released;
 #### Added
 - aarch64/asm: add adrp.s test;
 - binutils: add addr2line subdir;
