@@ -8,6 +8,19 @@ and this project adheres to
 
 
 ## Unreleased
+#### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+#### Template
+
+
+## [v2.4.4] 2026-05-05
 
 #### Breaking Changes
 - Ubuntu 26.04 Resolute Raccoon Released;
