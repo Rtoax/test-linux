@@ -66,10 +66,10 @@ ifneq ($(call kver_uapi_gt,1,1,1),y)
 endif
 # newest kernel is v7.0 right now
 ifneq ($(call kver_lt,7,1,0),y)
-  $(error "call kver_lt failed")
+  $(error "call kver_lt failed, kver >= 7.1.0")
 endif
-ifneq ($(call kver_uapi_lt,7,0,0),y)
-  $(error "call kver_uapi_lt failed")
+ifneq ($(call kver_uapi_lt,7,1,0),y)
+  $(error "call kver_uapi_lt failed, kuapi version >= 7.1.0")
 endif
 ifneq (${KVERSION_CODE},${kver_VERSION_CODE})
   $(error define_version failed for kver)
