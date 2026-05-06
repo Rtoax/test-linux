@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- python: add zlib subdir;
 #### Changed
 #### Deprecated
 #### Removed

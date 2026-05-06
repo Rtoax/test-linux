@@ -3,6 +3,7 @@ subdir-y += mkdocs
 subdir-y += numpy
 subdir-y += os
 subdir-y += sys
+subdir-y += zlib
 
 target-prog-y := calendar.sh
 
