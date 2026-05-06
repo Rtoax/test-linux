@@ -11,9 +11,16 @@ int main(void)
 	};
 	(void)msg;
 
+	printf("size of msghdr %ld\n", sizeof(struct msghdr));
+	printf("size of cmsghdr %ld\n", sizeof(struct cmsghdr));
+
 	printf("CMSG_SPACE(0) = %ld\n", CMSG_SPACE(0));
 	printf("CMSG_SPACE(1) = %ld\n", CMSG_SPACE(1));
 	printf("CMSG_SPACE(20) = %ld\n", CMSG_SPACE(20));
+
+	printf("CMSG_LEN(0) = %ld\n", CMSG_LEN(0));
+	printf("CMSG_LEN(1) = %ld\n", CMSG_LEN(1));
+	printf("CMSG_LEN(20) = %ld\n", CMSG_LEN(20));
 
 	return 0;
 }
