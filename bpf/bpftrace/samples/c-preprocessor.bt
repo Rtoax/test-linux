@@ -1,8 +1,13 @@
 #!/bin/env bpftrace
 
-#define PI 3.14
+#define ONE 1
+#define TWO 2
+
+#define HELLO printf("Hello %d\n", ONE)
 
 BEGIN
 {
+	HELLO;
+	printf("one %d\n", ONE);
 	exit();
 }
