@@ -29,6 +29,10 @@ scripts_install()
 	ln -s ${SCRIPTS_DIR}/kcompile.sh /usr/bin/kcompile
 	ln -s ${SCRIPTS_DIR}/qemu-compile.sh /usr/bin/qemu-compile
 	ln -s ${SCRIPTS_DIR}/qemu-vm.sh /usr/bin/qemu-vm
+
+	# Other directory
+	ln -s ${SCRIPTS_DIR}/../ai/pytorch/build/compile /usr/bin/pytorch-compile
+	ln -s ${SCRIPTS_DIR}/../tools/heatmap/hmctl.sh /usr/bin/hmctl
 }
 
 scripts_uninstall()
@@ -40,11 +44,13 @@ scripts_uninstall()
 		/usr/bin/git-push-remote-all \
 		/usr/bin/git-push-remote-all-tags \
 		/usr/bin/git-rm-permanent \
+		/usr/bin/hmctl \
 		/usr/bin/patchset \
 		/usr/bin/findelf \
 		/usr/bin/termplot \
 		/usr/bin/kconfig_compare \
 		/usr/bin/kcompile \
+		/usr/bin/pytorch-compile \
 		/usr/bin/qemu-compile \
 		/usr/bin/qemu-vm
 }

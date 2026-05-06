@@ -126,8 +126,6 @@ deps:
 .PHONY: install
 install: uninstall
 	@echo "Install"
-	${Q}ln -s ${TOPDIR}/ai/pytorch/build/compile /usr/bin/pytorch-compile
-	${Q}ln -s ${TOPDIR}/tools/heatmap/hmctl.sh /usr/bin/hmctl
 	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh
 	${Q}$(SHELL) ${TOPDIR}/scripts/git/hooks/config.sh
 
@@ -135,8 +133,6 @@ install: uninstall
 uninstall:
 	@echo "Uninstall"
 	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh uninstall
-	${Q}rm -f /usr/bin/pytorch-compile \
-		/usr/bin/hmctl
 
 .PHONY: menuconfig
 menuconfig:
