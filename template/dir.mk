@@ -27,6 +27,7 @@ endef
 
 ifdef DEBUG
   $(info TOPDIR = ${TOPDIR})
+  $(info HOME = ${HOME})
 endif
 
 export TOPDIR

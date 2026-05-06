@@ -57,6 +57,9 @@ scripts_uninstall()
 
 scripts_set_env()
 {
+	if [[ ! -f ${realhome}/.bashrc ]]; then
+		touch ${realhome}/.bashrc
+	fi
 	cat >>${realhome}/.bashrc<<-EOF
 	source ${SCRIPTS_DIR}/make_tl.sh
 	alias make='make_tl'
@@ -65,6 +68,10 @@ scripts_set_env()
 
 scripts_unset_env()
 {
+	if [[ ! -f ${realhome}/.bashrc ]]; then
+		return 0
+	fi
+
 	sed -i '/make_tl/d' ${realhome}/.bashrc
 	# FIXME: remove this line after a little while
 	rm -f /etc/profile.d/make_tl.sh

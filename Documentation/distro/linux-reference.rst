@@ -32,6 +32,7 @@ Linux Kernel Reference
 * 6.12.73 (debian13.3)
 * 6.12.69 (debian13.3)
 * 6.12.63 (debian13.3)
+* 6.12.55 (cclinux22.09.2)
 * 6.12.57 (debian13)
 * 6.12.0 (centos10)
 * 6.8.0 (ubuntu24.04)

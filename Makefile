@@ -43,13 +43,11 @@ endif
 
 # FIXME: remove this check after a little while.
 ifeq ($(shell test -L /etc/profile.d/make_tl.sh && echo yes),yes)
-  ifeq ($(filter $(MAKECMDGOALS),uninstall),)
-    $(error You MUST run 'make uninstall' and 'make install' first!!)
-  endif
+  $(error You MUST remove /etc/profile.d/make_tl.sh first!!)
 endif
 
 ifeq ($(wildcard /usr/bin/patchset),)
-  ifeq ($(filter $(MAKECMDGOALS),install deps),)
+  ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
     $(error You MUST run 'make install' first, then start a new bash session!!)
   endif
 endif
