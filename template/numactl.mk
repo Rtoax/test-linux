@@ -42,6 +42,6 @@ endif
 export HAVE_LIBNUMA := y
 export NUMACTL
 export NUMACTL_MAJOR NUMACTL_MINOR NUMACTL_PATCH
-endif # end of founc NUMACTL
+endif # end of found NUMACTL
 
 endif # end of _NUMACTL_MK

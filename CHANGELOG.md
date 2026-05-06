@@ -21,6 +21,7 @@ and this project adheres to
 #### Tools
 - zlib: add uncompress.c samples;
 #### Template
+- add pciutils.mk;
 
 
 ## [v2.4.4] 2026-05-05
