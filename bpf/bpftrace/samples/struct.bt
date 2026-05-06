@@ -4,13 +4,22 @@
 	int a;
 };
 
-/* TODO: test __attribute__
-struct a1 __attribute__((packed)) {
+// TODO: test __attribute__
+struct __attribute__((packed)) a1 {
+	int i;
+	char c;
 };
+
+/*
+struct a2 {
+	int i;
+	char c;
+} __attribute__((packed));
 */
 
 union u0 {
 	int a;
+	int b;
 };
 
 enum e0 {
