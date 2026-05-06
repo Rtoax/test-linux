@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- test CVE-2026-31431-Copy-Fail;
 - python: add zlib subdir;
 #### Changed
 #### Deprecated
@@ -18,7 +19,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
-- add zlib;
+- zlib: add uncompress.c samples;
 #### Template
 
 

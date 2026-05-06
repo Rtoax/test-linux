@@ -1,1 +1,2 @@
 subdir += python
+subdir += samples
