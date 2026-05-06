@@ -18,6 +18,10 @@ int main(void)
 	printf("CMSG_SPACE(1) = %ld\n", CMSG_SPACE(1));
 	printf("CMSG_SPACE(20) = %ld\n", CMSG_SPACE(20));
 
+	printf("CMSG_ALIGN(0) = %ld\n", CMSG_ALIGN(0));
+	printf("CMSG_ALIGN(1) = %ld\n", CMSG_ALIGN(1));
+	printf("CMSG_ALIGN(20) = %ld\n", CMSG_ALIGN(20));
+
 	printf("CMSG_LEN(0) = %ld\n", CMSG_LEN(0));
 	printf("CMSG_LEN(1) = %ld\n", CMSG_LEN(1));
 	printf("CMSG_LEN(20) = %ld\n", CMSG_LEN(20));
