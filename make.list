@@ -11,6 +11,7 @@ user-list-y += cgroup
 user-list-y += compiler
 user-list-y += cpp
 user-list-y += cpu
+user-list-y += cve
 user-list-y += cxl
 user-list-y += database
 user-list-y += device
