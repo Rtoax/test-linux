@@ -8,6 +8,8 @@
 struct __attribute__((packed)) a1 {
 	int i;
 	char c;
+	struct a0 a0;
+	long l;
 };
 
 /*
@@ -30,5 +32,6 @@ enum e0 {
 BEGIN
 {
 	$a = (struct a0 *)0;
+	printf("offsetof %d\n", offsetof(struct a1, l));
 	exit();
 }
