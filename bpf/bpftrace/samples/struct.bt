@@ -7,7 +7,7 @@ struct s0 {
 } /* The comma can be ignored. */
 
 // Could have whitespace
-struct s1 {
+	struct s1 {
 	int a;
 };
 
