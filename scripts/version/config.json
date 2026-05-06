@@ -503,6 +503,11 @@
 			"name": "ZLib",
 			"library": [ "libz.so" ],
 			"keys": [ "zlib", "libz" ]
+		},
+		"zlib-ng": {
+			"name": "ZLib-ng",
+			"library": [ "libz-ng.so" ],
+			"keys": [ "zlib", "zlib-ng", "libz", "libz-ng" ]
 		}
 	}
 }
