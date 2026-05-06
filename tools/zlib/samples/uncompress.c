@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <zlib.h>
+#ifdef HAVE_TLC_HELPERS
+#include "memshow.h"
+#endif
 
 /* see CVE-2026-31431-Copy-Fail */
 static const char *hex_payload =
@@ -71,6 +74,9 @@ int main(void)
 		printf("%02x", decompressed[i]);
 	}
 	printf("\n");
+#ifdef HAVE_TLC_HELPERS
+	hexdump(decompressed, decomp_len);
+#endif
 
 	free(compressed);
 	free(decompressed);
