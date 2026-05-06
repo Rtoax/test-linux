@@ -17,6 +17,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- add zlib;
 #### Template
 
 

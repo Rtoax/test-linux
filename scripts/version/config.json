@@ -498,6 +498,11 @@
 			},
 			"extension": [ "vim" ],
 			"keys": [ "vim" ]
+		},
+		"zlib": {
+			"name": "ZLib",
+			"library": [ "libz.so" ],
+			"keys": [ "zlib", "libz" ]
 		}
 	}
 }
