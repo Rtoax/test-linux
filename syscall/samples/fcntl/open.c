@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
-
 #include "fcntl_helpers.h"
 
 int main(void)

@@ -10,7 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
-- test CVE-2026-31431-Copy-Fail;
+- test CVE-2026-31431-Copy-Fail with python and C;
 - python: add zlib subdir;
 #### Changed
 #### Deprecated
