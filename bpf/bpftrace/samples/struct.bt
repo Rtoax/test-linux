@@ -1,19 +1,34 @@
 #!/bin/env bpftrace
+#define PACKED __attribute__((packed))
+#define ALIGN(n) __attribute__((align(n)))
+
+struct s0 {
+	int a;
+} /* The comma can be ignored. */
+
 // Could have whitespace
-	struct a0 {
+struct s1 {
 	int a;
 };
 
-// TODO: test __attribute__
-struct __attribute__((packed)) a1 {
+struct PACKED s2 {
+	// int
 	int i;
+	/* char */
 	char c;
-	struct a0 a0;
+	struct s1 s1;
+	struct ALIGN(8) {
+		int sa;
+	};
+	struct {
+		int sb;
+	} __attribute__((packed));
 	long l;
 };
 
+// TODO: test __attribute__ in the end
 /*
-struct a2 {
+struct s3 {
 	int i;
 	char c;
 } __attribute__((packed));
@@ -31,7 +46,7 @@ enum e0 {
 
 BEGIN
 {
-	$a = (struct a0 *)0;
-	printf("offsetof %d\n", offsetof(struct a1, l));
+	$a = (struct s1 *)0;
+	printf("offsetof %d\n", offsetof(struct s2, sb));
 	exit();
 }
