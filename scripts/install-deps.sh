@@ -983,6 +983,7 @@ dnf_add_packages()
 	add_cross_compiler
 
 	pkgs_build+=( rpm-build )
+	pkgs_build+=( rpmdevtools )
 	pkgs_build+=( ninja-build )
 
 	pkgs_container+=( cri-tools )
