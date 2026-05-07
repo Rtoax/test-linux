@@ -96,6 +96,7 @@ Distributions
 -------------
 
 - https://distrowatch.com/
+- https://www.gnu.org/distros/free-distros.html
 - https://mirrors.kernel.org/
 - http://www.linuxfromscratch.org/
 - https://gs.statcounter.com/os-market-share/desktop/worldwide
