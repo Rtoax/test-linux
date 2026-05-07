@@ -246,7 +246,7 @@ if [[ "$(has_changed_file cuda nvidia LUCA cestc CESTC)" ]]; then
 	fi
 fi
 
-__new_ver() {
+auto_versions() {
 	local allkeys=( $(${VERSH} -K) )
 	local allexts=( $(${VERSH} -E) )
 	local swlist swkeys swexts
@@ -264,8 +264,7 @@ __new_ver() {
 		add_ver "$(${VERSH} -n ${sw}) $(${VERSH} -n ${sw} -V)"
 	done
 }
-
-__new_ver
+auto_versions
 
 # Add lines
 if [[ ${Versions} ]]; then
@@ -286,7 +285,7 @@ if [[ -z "$(git status --short | grep -v Documentation || :)" ]] && \
 	doc_names=( $(for f in ${doc_files[@]}; do basename ${f}; done) )
 	doc_dirs=( $(for f in ${doc_files[@]}; do basename $(dirname ${f}); done | sort -u ) )
 	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
-	sed -i "1i Doc: ${doc_label}: update ${doc_names[*]}" ${COMMIT_MSG_FILE} || {
+	sed -i "1i Doc: ${doc_label}: update/add ${doc_names[*]}" ${COMMIT_MSG_FILE} || {
 		fatal "Failed add commit message"
 	}
 fi
