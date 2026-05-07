@@ -22,8 +22,10 @@ It aims towards POSIX and Single UNIX Specification compliance.
 - `kerneltests <https://kerneltests.org/>`_
 - `kernel/map <https://makelinux.github.io/kernel/map/>`_
     - `github.com/makelinux <https://github.com/makelinux/linux_kernel_map>`_
+- `Continuous Kernel Integration (CKI) Project <https://cki-project.org/>`_
 - linux git
     - `github torvalds <https://github.com/torvalds/linux>`_
     - `git.kernel.org stable <git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git>`_
     - `git.kernel.org torvalds <git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git>`_
     - `mirrors.kernel.org <https://mirrors.kernel.org/>`_
+    - `gitlab Always Ready Kernel (ARK) <https://gitlab.com/cki-project/kernel-ark>`_

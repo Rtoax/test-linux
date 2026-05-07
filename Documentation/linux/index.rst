@@ -6,7 +6,8 @@ Linux
 .. toctree::
    :maxdepth: 1
 
-   The Linux Kernel <linux>
+   linux
    bmc
    freebsd
-   Util Linux <util-linux>
+   util-linux
+   abbrev
