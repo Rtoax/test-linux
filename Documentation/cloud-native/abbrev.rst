@@ -32,5 +32,6 @@ Abbrev
 - PaaS: Platform as a Service (平台即服务)
 - PVC: Persistent Volumes Claim (持久卷声明)
 - SaaS: Software as a Service (软件即服务)
+- SOA: Service-Oriented Architecture (面向服务的架构)
 - VPC: Virtual Private Cloud (虚拟私有云)
 - XaaS: Anything as a Service (XaaS)
