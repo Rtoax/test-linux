@@ -19,6 +19,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add cloud-native dir;
 #### Tools
 - zlib: add uncompress.c samples;
 #### Template
