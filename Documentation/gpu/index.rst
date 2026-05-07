@@ -8,3 +8,4 @@ GPU (Graph Process Unit)
 
    amd/index
    nvidia/index
+   opencl
