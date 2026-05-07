@@ -26,7 +26,8 @@ struct PACKED s2 {
 	long l;
 };
 
-// TODO: test __attribute__ in the end
+// TODO: support __attribute__ in the end
+// see https://github.com/bpftrace/bpftrace/pull/5153
 /*
 struct s3 {
 	int i;
