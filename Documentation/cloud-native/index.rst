@@ -6,6 +6,7 @@ Cloud Native
    :maxdepth: 1
 
    abbrev
+   service-mesh
 
 
 Cloud Infrastructure Technologies
