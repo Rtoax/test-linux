@@ -17,10 +17,10 @@ target-cpp-y += __cplusplus
 target-cpp-${CC_STD_C++20} += format
 target-cpp-y += __STDC__
 target-cpp-y += __STDC__c++98 __STDC__gnu++98
-target-cpp-y += __STDC__c++03 __STDC__gnu++03
-target-cpp-y += __STDC__c++11 __STDC__gnu++11
-target-cpp-y += __STDC__c++14 __STDC__gnu++14
-target-cpp-y += __STDC__c++17 __STDC__gnu++17
+target-cpp-${CC_STD_C++03} += __STDC__c++03 __STDC__gnu++03
+target-cpp-${CC_STD_C++11} += __STDC__c++11 __STDC__gnu++11
+target-cpp-${CC_STD_C++14} += __STDC__c++14 __STDC__gnu++14
+target-cpp-${CC_STD_C++17} += __STDC__c++17 __STDC__gnu++17
 target-cpp-${CC_STD_C++20} += __STDC__c++20 __STDC__gnu++20
 target-cpp-${CC_STD_C++23} += __STDC__c++23 __STDC__gnu++23
 target-cpp-${CC_STD_C++26} += __STDC__c++26 __STDC__gnu++26
@@ -82,5 +82,3 @@ CXXFLAGS___STDC__.14 := -std=gnu++17
 CXXFLAGS___STDC__.15 := -std=gnu++20
 CXXFLAGS___STDC__.16 := -std=gnu++23
 CXXFLAGS___STDC__.17 := -std=gnu++26
-
-CXXFLAGS_string := -std=c++23
