@@ -5,6 +5,7 @@ Qemu - Quick Emulator
    :maxdepth: 1
 
    abbrev
+   tcg
 
 
 A generic and open source machine emulator and virtualizer.
