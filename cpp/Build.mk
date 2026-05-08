@@ -84,5 +84,4 @@ CXXFLAGS___STDC__.15 := -std=gnu++20
 CXXFLAGS___STDC__.16 := -std=gnu++23
 CXXFLAGS___STDC__.17 := -std=gnu++26
 
-CXXFLAGS_string := -std=c++23
 LDXXFLAGS_fmt := -lfmt
