@@ -13,3 +13,4 @@ target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
 
 # Ignore warning: array designators are a C99 extension
 CFLAGS_LSCC += -Wno-c99-designator
+LDFLAGS_NVCC += -lpthread

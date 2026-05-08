@@ -50,7 +50,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 }
 
 static const struct argp argp = {
-#if __cplusplus > 202002L
+#if __cplusplus > 201703L /* FIXME: maybe lower */
 	.options = opts,
 	.parser = parse_arg,
 	.doc = argp_prog_doc,
