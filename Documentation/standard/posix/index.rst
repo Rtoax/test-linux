@@ -31,5 +31,5 @@ standard versions:
 - **POSIX.1-2008 (2008)**: Also known as `IEEE Std 1003.1-2008`, includes many
   fixes and new feature extensions. See `IEEE P1003.1, Draft 3 <https://www.open-std.org/jtc1/sc22/open/n4217.pdf>`_
 - **POSIX.1-2017 (2017)**: Updates and corrections.
-- **POSIX.1-2024 (2024)**: The latest revision, which includes further updates
-  and corrections.
+- **POSIX.1-2024 (2024)**: Known ad `IEEE 1003.1-2024`, The latest revision,
+  which includes further updates and corrections.
