@@ -23,6 +23,7 @@ and this project adheres to
 #### Tools
 - zlib: add uncompress.c samples;
 #### Template
+- targets/cpp.mk: support compile multiple objects from one source code;
 - add pciutils.mk;
 
 

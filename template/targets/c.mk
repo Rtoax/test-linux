@@ -15,7 +15,7 @@ ${OUTPUT}%.o.bin: ${OUTPUT}%.o
 	$(call log_obj,OBJCOPY BIN,$(@))
 	${Q}$(OBJCOPY) -O binary $(<) $(@)
 
-# Compile .c to .N.o, this use to compile single source code to more than one
+# Compile .c to .<N>.o, this use to compile single source code to more than one
 # object file.
 define c_obj_x
 $${OUTPUT}%.${1}.o: %.c | $${OUTPUT}

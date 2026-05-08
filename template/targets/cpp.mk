@@ -14,6 +14,15 @@ ${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
 	$(call log_obj,CXX S,$(@))
 	${Q}$(CXX) -S -o $(@) $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
+# Compile .cpp to .<N>.cpp.o, this use to compile single source code to more
+# than one object file.
+define cpp_obj_x
+$${OUTPUT}%.${1}.cpp.o: %.cpp | ${OUTPUT}
+	$$(call log_obj,CXX.${1},$$(@))
+	$${Q}$$(CXX) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CXXFLAGS) $$(CXXFLAGS_$$(*).${1})
+endef
+$(foreach i, ${SRC_SFX_LIST}, $(eval $(call cpp_obj_x,${i})))
+
 ${target-cpp-y}: %:
 	$(call log_tgt,LD CXX,$(@))
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
