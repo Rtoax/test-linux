@@ -37,6 +37,7 @@
  * C++26			2026*			-std=c++26	dev
  *
  * vim:ts=8
+ * sync update Documentation/standard/stdc.rst
  */
 #include <stdio.h>
 #include <features.h>

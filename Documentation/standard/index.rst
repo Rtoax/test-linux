@@ -7,6 +7,7 @@ Standard
 .. toctree::
    :maxdepth: 1
 
+   stdc
    ieee/index
    iso/index
    posix/index
