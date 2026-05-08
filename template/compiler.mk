@@ -45,7 +45,7 @@ cflags-support-types-${CC___float80} += -DSUPPORT___float80=1
 cflags-support-types-${CC___uint128_t} += -DSUPPORT___uint128_t=1
 
 cflags-support-headers-${CC_H_quadmath_h} += -DSUPPORT_quadmath_h=1
-ldflags-support-headers-${CC_H_quadmath_h} += -lquadmath
+ldflags-support-headers-${CC_lquadmath} += -lquadmath
 
 CC_FULLVERSION := $(shell $(CC) -dumpfullversion -dumpversion)
 CC_VERSION := $(shell $(CC) -dumpversion)

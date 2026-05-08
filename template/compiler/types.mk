@@ -26,6 +26,7 @@ CC__Float128 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float12
 CC___float80 := $(findstring y,$(call check_compiler_support_type,$(CC),__float80))
 CC___uint128_t := $(findstring y,$(call check_compiler_support_type,$(CC),__uint128_t))
 
+CC_lquadmath := $(findstring y,$(call check_compiler_option_noS,$(CC),-lquadmath))
 CC_H_quadmath_h := $(findstring y,$(call check_compiler_support_header,$(CC),quadmath.h))
 
 include bits/mk-cache.mk
@@ -49,6 +50,7 @@ ifdef DEBUG
   $(info CC___float80: ${CC___float80})
   $(info CC___uint128_t: ${CC___uint128_t})
 
+  $(info CC_lquadmath ${CC_lquadmath})
   $(info CC_H_quadmath_h ${CC_H_quadmath_h})
 endif
 
