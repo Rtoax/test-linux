@@ -23,32 +23,32 @@ LOG_FILE_INFO := $(TOPDIR)/info.log
 LOG_FILE_FAILED := $(TOPDIR)/failed.log
 
 # Timestamp
-define PFX
-[$(shell date '+%Y/%m/%d %H:%M:%S')]
+define LOG_PFX
+$(if ${DEBUG},[$(shell date '+%Y/%m/%d %H:%M:%S')])
 endef
 
 define log_obj
-@printf "$(call PFX) %-8s $(call bold,%s)\n" "${1}" "$(2)"
+@printf "$(call LOG_PFX) %-8s $(call bold,%s)\n" "${1}" "$(2)"
 endef
 
 define log_tgt
-@printf "$(call PFX) %-8s $(call bgreen,%s)\n" "${1}" "$(2)"
+@printf "$(call LOG_PFX) %-8s $(call bgreen,%s)\n" "${1}" "$(2)"
 endef
 
 define log_info
-printf "$(call PFX) $1\n" | tee --append ${LOG_FILE_INFO}
+printf "$(call LOG_PFX) $1\n" | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_fail
-printf "$(call PFX) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
+printf "$(call LOG_PFX) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
 endef
 
 define log_warn
-printf "$(call PFX) $(call cyan,$1)\n" | tee --append ${LOG_FILE_INFO}
+printf "$(call LOG_PFX) $(call cyan,$1)\n" | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_success
-printf "$(call PFX) $(call green,$1)\n" | tee --append ${LOG_FILE_INFO}
+printf "$(call LOG_PFX) $(call green,$1)\n" | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_reset
