@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 		#pragma omp for
 		for (j = 0; j < 5; j++)
 			a[j] = j * j;
-		#pragma omp master
+		#pragma omp masked
 		for (j = 0; j < 5; j++)
 			printf(" a[%d] = %d, j = %d, id = %d/%d\n",
 				j, a[j],j,omp_get_thread_num(),omp_get_num_threads());

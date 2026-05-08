@@ -8,6 +8,7 @@ target-y += flush
 target-y += lastprivate
 target-y += lock
 target-y += master
+target-y += masked
 target-y += memory
 target-y += nowait
 target-y += omp_get_thread_num
