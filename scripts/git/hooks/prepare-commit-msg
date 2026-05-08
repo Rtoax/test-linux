@@ -279,13 +279,34 @@ if [[ ${Environments} ]]; then
 fi
 
 # If only modify The Documentation, try add Commit Message Title
-if [[ -z "$(git status --short | grep -v Documentation || :)" ]] && \
+pushd ${TOPDIR} >/dev/null
+if [[ -z "$(git status --short | grep -v '^ ' | grep -v Documentation || :)" ]] && \
    [[ -z ${is_commit_amend} ]]; then
-	doc_files=( $(git status --short | grep -Eo 'Documentation.*' | grep -vw conf.py) )
+	# Added files
+	add_files=( $(git status --short | grep -v '^ ' | grep ^A | grep -Eo 'Documentation.*' | grep -vw conf.py) )
+	add_names=( $(for f in ${add_files[@]}; do basename ${f}; done) )
+
+	# Deleted files
+	del_files=( $(git status --short | grep -v '^ ' | grep ^D | grep -Eo 'Documentation.*' | grep -vw conf.py) )
+	del_names=( $(for f in ${del_files[@]}; do basename ${f}; done) )
+
+	# Modified files
+	mod_files=( $(git status --short | grep -v '^ ' | grep ^M | grep -Eo 'Documentation.*' | grep -vw conf.py) )
+	mod_names=( $(for f in ${mod_files[@]}; do basename ${f}; done) )
+
+	# All files
+	doc_files=( $(git status --short | grep -v '^ ' | grep -Eo 'Documentation.*' | grep -vw conf.py) )
 	doc_names=( $(for f in ${doc_files[@]}; do basename ${f}; done) )
 	doc_dirs=( $(for f in ${doc_files[@]}; do basename $(dirname ${f}); done | sort -u ) )
+
 	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
-	sed -i "1i Doc: ${doc_label}: update/add ${doc_names[*]}" ${COMMIT_MSG_FILE} || {
-		fatal "Failed add commit message"
+
+	message="Doc: ${doc_label}:"
+	message+="${mod_names:+, update ${mod_names[*]}}"
+	message+="${add_names:+, add ${add_names[*]}}"
+	message+="${del_names:+, delete ${del_names[*]}}"
+	sed -i "1i ${message}" ${COMMIT_MSG_FILE} || {
+		fatal "Failed add Documentation commit message"
 	}
 fi
+popd >/dev/null
