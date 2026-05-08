@@ -3,6 +3,7 @@ subdir-y += cmake
 subdir-y += code-formatter
 subdir-y += criu
 subdir-y += ffmpeg
+subdir-y += fmtlib
 subdir-y += fstabd
 subdir-y += heatmap
 subdir-y += io_uring

@@ -22,6 +22,7 @@ and this project adheres to
 #### Docs
 - add cloud-native dir;
 #### Tools
+- fmtlib: first commit, https://github.com/fmtlib/fmt;
 - zlib: add uncompress.c samples;
 #### Template
 - targets/cpp.mk: support compile multiple objects from one source code;

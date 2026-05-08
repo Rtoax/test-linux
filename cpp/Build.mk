@@ -15,7 +15,6 @@ target-cpp-y += this
 target-cpp-y += string
 target-cpp-y += __cplusplus
 target-cpp-${CC_STD_C++20} += format
-target-cpp-y += fmt
 target-cpp-y += __STDC__
 target-cpp-y += __STDC__c++98 __STDC__gnu++98
 target-cpp-y += __STDC__c++03 __STDC__gnu++03
@@ -85,4 +84,3 @@ CXXFLAGS___STDC__.16 := -std=gnu++23
 CXXFLAGS___STDC__.17 := -std=gnu++26
 
 CXXFLAGS_string := -std=c++23
-LDXXFLAGS_fmt := -lfmt

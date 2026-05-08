@@ -191,6 +191,11 @@
 			"extension": [ "go" ],
 			"keys": [ "golang" ]
 		},
+		"fmt": {
+			"name": "FmtLib",
+			"library": [ "libfmt.so" ],
+			"keys": [ "fmtlib", "libfmt", "lfmt" ]
+		},
 		"hpcc": {
 			"name": "HPCC",
 			"path": [ "/opt/hpcc/" ],
