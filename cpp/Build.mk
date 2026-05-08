@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 
-export SRC_SFX_LIST := $(shell seq 1 1 20)
+SRC_SFX_LIST := $(shell seq 1 1 20)
 
 subdir-y := demangle
 subdir-y += std

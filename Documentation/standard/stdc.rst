@@ -14,6 +14,7 @@ C Standard
      - GCC
      - LLVM
      - CFLAGS
+     - __STDC_VERSION__
      - Other
    * - C89
      - ANSI C
@@ -22,19 +23,22 @@ C Standard
      -
      - -std=c89
      -
+     -
    * - GNU C89
      -
      - 1989
      -
      -
      - -std=gnu89
+     -
      - Linux Kernel
    * - C90
      - ISO/IEC 9899
      - 1990
      -
      -
-     - -std=c90/-std=iso9899:1990
+     - -std=c90,-std=iso9899:1990
+     -
      -
    * - GNU C90
      -
@@ -43,12 +47,14 @@ C Standard
      -
      - -std=gnu90
      -
+     -
    * - C99
      - ISO/IEC 9899
      - 1999
      -
      -
      - -std=c99
+     - 199901L
      -
    * - GNU C99
      -
@@ -56,6 +62,7 @@ C Standard
      -
      -
      - -std=gnu99
+     - 199901L
      -
    * - C11
      - ISO/IEC 9899
@@ -63,6 +70,7 @@ C Standard
      - 4.7+
      -
      - -std=c11
+     - 201112L
      -
    * - GNU C11
      -
@@ -70,6 +78,7 @@ C Standard
      -
      -
      - -std=gnu11
+     - 201112L
      -
    * - C17/C18
      -
@@ -77,6 +86,7 @@ C Standard
      - 8.1.0
      - 7.0.0
      - -std=c17
+     - 201710L
      -
    * - GNU C17
      -
@@ -84,6 +94,7 @@ C Standard
      -
      -
      - -std=gnu17
+     - 201710L
      -
    * - C23/C2x
      -
@@ -91,6 +102,7 @@ C Standard
      -
      -
      - -std=c23
+     - 202311L
      -
    * - GNU C23
      -
@@ -98,6 +110,7 @@ C Standard
      - 13+
      -
      - -std=gnu23
+     - 202311L
      -
 
 

@@ -3,19 +3,20 @@
 /**
  * C Standard
  * ============================================================================
- * Name		Standard	Year	GCC	LLVM	CFLAGS
+ * Name		Standard	Year	GCC	LLVM	CFLAGS		__STDC_VERSION__
  * C89		ANSI C		1989			-std=c89
- * GNU C89			1989			-std=gnu89	(linux)
- * C90		ISO/IEC 9899	1990			-std=c90/-std=iso9899:1990
+ * GNU C89			1989			-std=gnu89		Linux Kernel
+ * C90		ISO/IEC 9899	1990			-std=c90
+ *							-std=iso9899:1990
  * GNU C90			1990			-std=gnu90
- * C99		ISO/IEC 9899	1999			-std=c99
- * GNU C99			1999			-std=gnu99
- * C11		ISO/IEC 9899	2011	4.7+		-std=c11
- * GNU C11			2011			-std=gnu11
- * C17(C18)	ISO/IEC 9899	2018	8.1.0	7.0.0	-std=c17
- * GNU C17			2018			-std=gnu17
- * C23(C2x)			2024			-std=c23
- * GNU C23			2024	13+		-std=gnu23
+ * C99		ISO/IEC 9899	1999			-std=c99	199901L
+ * GNU C99			1999			-std=gnu99	199901L
+ * C11		ISO/IEC 9899	2011	4.7+		-std=c11	201112L
+ * GNU C11			2011			-std=gnu11	201112L
+ * C17(C18)	ISO/IEC 9899	2018	8.1.0	7.0.0	-std=c17	201710L
+ * GNU C17			2018			-std=gnu17	201710L
+ * C23(C2x)			2024			-std=c23	202311L
+ * GNU C23			2024	13+		-std=gnu23	202311L
  *
  * C++ Standard
  * ============================================================================
