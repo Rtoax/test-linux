@@ -2,6 +2,11 @@
 AI (Artificial Intelligence)
 ============================
 
+.. toctree::
+   :maxdepth: 1
+
+   aiops
+
 
 Links
 -----
