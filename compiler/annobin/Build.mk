@@ -9,10 +9,10 @@ ifneq ($(wildcard /usr/lib/rpm/redhat/redhat-annobin-cc1),)
   ANNOBIN := /usr/lib/rpm/redhat/redhat-annobin-cc1
 endif
 
-feature-annobin := $(findstring 1,$(call check_compiler_option_S,$(CC),-specs=${ANNOBIN}))
+feature-annobin := $(call compiler_support_option,$(CC),-specs=${ANNOBIN})
 
 $(info feature-annobin ${feature-annobin})
-ifeq (${feature-annobin},1)
+ifeq (${feature-annobin},y)
   $(info Support ANNOBIN)
   target-y += hello
 endif

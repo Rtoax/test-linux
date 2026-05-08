@@ -8,16 +8,13 @@ target-${IS_X86_64} += mfentry
 
 target-shell-y := info.sh
 
-CC := gcc
-
 include compiler.mk
 
-pac-ret := $(findstring 1,$(call check_compiler_option_S,$(CC),-mbranch-protection=pac-ret))
-
-ifeq (${pac-ret},1)
+pac-ret := $(call compiler_support_option,$(CC),-mbranch-protection=pac-ret)
+ifeq (${pac-ret},y)
   CFLAGS_mbranch-protection := -mbranch-protection=pac-ret
 else
-  $(warning "$(CC) not support -mbranch-protection=pac-ret")
+  $(warning "$(CC) not support -mbranch-protection=pac-ret, '${pac-ret}'")
 endif
 
 CFLAGS_march-armv8.3-a := -march=armv8.3-a

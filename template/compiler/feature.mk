@@ -17,13 +17,13 @@ ifneq ($(wildcard ${cachefile}),)
 else
 include bits/mk-cache.mk
 
-feature-mavx2 := $(findstring y,$(call check_compiler_option_S,$(CC),-mavx2))
-feature-mfentry := $(findstring y,$(call check_compiler_option_S,$(CC),-mfentry))
-feature-sve2 := $(findstring y,$(call check_compiler_option_S,$(CC),-march=armv8-a+sve+sve2))
-feature-mavx512f := $(findstring y,$(call check_compiler_option_S,$(CC),-mavx512f))
-feature-lse := $(findstring y,$(call check_compiler_option_S,$(CC),-march=armv8-a+lse))
-feature-fcf-protection := $(findstring y,$(call check_compiler_option_S,$(CC),-fcf-protection))
-feature-fpatchable-function-entry := $(findstring y,$(call check_compiler_option_S,$(CC),-fpatchable-function-entry=5,2))
+feature-mavx2 := $(findstring y,$(call compiler_support_option,$(CC),-mavx2))
+feature-mfentry := $(findstring y,$(call compiler_support_option,$(CC),-mfentry))
+feature-sve2 := $(findstring y,$(call compiler_support_option,$(CC),-march=armv8-a+sve+sve2))
+feature-mavx512f := $(findstring y,$(call compiler_support_option,$(CC),-mavx512f))
+feature-lse := $(findstring y,$(call compiler_support_option,$(CC),-march=armv8-a+lse))
+feature-fcf-protection := $(findstring y,$(call compiler_support_option,$(CC),-fcf-protection))
+feature-fpatchable-function-entry := $(findstring y,$(call compiler_support_option,$(CC),-fpatchable-function-entry=5,2))
 
 $(call mk_cache_var,feature-mavx2,${cachefile})
 $(call mk_cache_var,feature-mfentry,${cachefile})
