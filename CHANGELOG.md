@@ -17,6 +17,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- remove all pie,sh and nopie.sh, use `make [PIE|NOPIE]=1` instead;
 - remove all m32.sh, use `make M32=1` instead;
 - remove all clang.sh, use `make CC=clang CXX=clang++` instead;
 #### Fixed
