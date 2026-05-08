@@ -54,7 +54,7 @@ endif
 
 ifndef __USE_TEST_LINUX_MAKE__
   ifeq ($(filter $(MAKECMDGOALS),install uninstall),)
-    $(error Must use test-linux make_tl.sh, startup a login shell with `bash -l`)
+    $(error Must use test-linux make_tl.sh, `make install` first, then startup a login shell with `bash -l`)
   endif
 else
   include logo.mk
