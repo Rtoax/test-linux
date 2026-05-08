@@ -4,6 +4,7 @@
 ifndef _COMPILER_TYPES_MK
 _COMPILER_TYPES_MK = 1
 
+include dir.mk
 include compiler/check.mk
 
 cachefile := ${TOPDIR}/template/compiler/.types.mk.cache
@@ -13,23 +14,24 @@ ifneq ($(wildcard ${cachefile}),)
 else
 
 # see https://clang.llvm.org/docs/LanguageExtensions.html
-CC__Float16 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float16))
-CC___fp16 := $(findstring y,$(call check_compiler_support_type,$(CC),__fp16))
-CC___bf16 := $(findstring y,$(call check_compiler_support_type,$(CC),__bf16))
+CC__Float16 := $(findstring y,$(call compiler_support_type,$(CC),_Float16))
+CC___fp16 := $(findstring y,$(call compiler_support_type,$(CC),__fp16))
+CC___bf16 := $(findstring y,$(call compiler_support_type,$(CC),__bf16))
 # GCC Additional Floating Types: https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html
 # - NVRTC on Linux
 # - GCC version 4.1 or later on x86_64/amd64
 # - Clang version 3.9 or later on x86_64/amd64
 # - NVHPC version 21.1 or later on x86_64/amd64
-CC___float128 := $(findstring y,$(call check_compiler_support_type,$(CC),__float128))
-CC__Float128 := $(findstring y,$(call check_compiler_support_type,$(CC),_Float128))
-CC___float80 := $(findstring y,$(call check_compiler_support_type,$(CC),__float80))
-CC___uint128_t := $(findstring y,$(call check_compiler_support_type,$(CC),__uint128_t))
+CC___float128 := $(findstring y,$(call compiler_support_type,$(CC),__float128))
+CC__Float128 := $(findstring y,$(call compiler_support_type,$(CC),_Float128))
+CC___float80 := $(findstring y,$(call compiler_support_type,$(CC),__float80))
+CC___uint128_t := $(findstring y,$(call compiler_support_type,$(CC),__uint128_t))
 
 CC_lquadmath := $(findstring y,$(call compiler_support_option,$(CC),-lquadmath))
-CC_H_quadmath_h := $(findstring y,$(call check_compiler_support_header,$(CC),quadmath.h))
+CC_H_quadmath_h := $(findstring y,$(call compiler_support_header,$(CC),quadmath.h))
 
 include bits/mk-cache.mk
+
 $(call mk_cache_var,CC__Float16,${cachefile})
 $(call mk_cache_var,CC___fp16,${cachefile})
 $(call mk_cache_var,CC___bf16,${cachefile})

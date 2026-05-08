@@ -8,8 +8,8 @@
 # - compiler_support_option()=[y]
 # - check_clang_option()=[y]
 # - check_gcc_option()=[y]
-# - check_compiler_support_type()=[y]
-# - check_compiler_support_header()=[y]
+# - compiler_support_type()=[y]
+# - compiler_support_header()=[y]
 #
 ifndef _COMPILER_CHECK_MK
 _COMPILER_CHECK_MK = 1
@@ -32,7 +32,7 @@ endef
 # Check compiler support type
 # $(1) - compiler, gcc, clang, etc.
 # $(2) - type name, such as _Float16, float, etc.
-define check_compiler_support_type
+define compiler_support_type
 $(shell printf 'int main(void) { $(2) v; return 0; }' | \
 	$(1) -x c -Werror - -o /dev/null 2>/dev/null && echo y)
 endef
@@ -40,7 +40,7 @@ endef
 # Check compiler have header
 # $(1) - compiler, gcc, clang, etc.
 # $(2) - header name, like quadmath.h
-define check_compiler_support_header
+define compiler_support_header
 $(shell printf '#include <$(2)>\nint main(void) { return 0; }' | \
 	$(1) -x c -Werror - -o /dev/null 2>/dev/null && echo y)
 endef
@@ -49,8 +49,12 @@ ifneq ($(call compiler_support_option,${CC},),y)
   $(error compiler_support_option failed)
 endif
 
-ifneq ($(call check_compiler_support_type,${CC},int),y)
+ifneq ($(call compiler_support_type,${CC},int),y)
   $(error "${CC} not support int type!!")
+endif
+
+ifneq ($(call compiler_support_header,${CC},stdio.h),y)
+  $(error compiler_support_header failed)
 endif
 
 endif
