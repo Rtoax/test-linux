@@ -26,7 +26,7 @@ and this project adheres to
 #### Docs
 - add cloud-native dir;
 #### Tools
-- coreutils: first commit;
+- coreutils: add expr.sh;
 - fmtlib: first commit, https://github.com/fmtlib/fmt;
 - zlib: add uncompress.c samples;
 #### Template

@@ -38,7 +38,7 @@ define include_stat
   $(if ${V}${DEBUG},$(info Include $(_mk) -> Startup.))
   $(eval include $(_mk))
   $(eval _end_$(_mk_id) := $(shell date +%s%6N))
-  $(eval _cost_$(_mk_id) := $(shell echo "scale=3; ($(_end_$(_mk_id)) - $(_start_$(_mk_id))) / 1000" | bc))
+  $(eval _cost_$(_mk_id) := $(shell expr $$(expr $(_end_$(_mk_id)) - $(_start_$(_mk_id))) / 1000))
   $(if ${V}${DEBUG},$(info Include $(_mk) -> Done. Took $(_cost_$(_mk_id)) ms))
 endef
 
