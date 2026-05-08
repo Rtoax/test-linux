@@ -15,6 +15,7 @@
 /__STDC__c++17
 /__STDC__c++20
 /__STDC__c++23
+/__STDC__c++26
 /__STDC__gnu++98
 /__STDC__gnu++03
 /__STDC__gnu++11
@@ -22,6 +23,7 @@
 /__STDC__gnu++17
 /__STDC__gnu++20
 /__STDC__gnu++23
+/__STDC__gnu++26
 /format
 /fmt
 /expired

@@ -34,7 +34,8 @@
  * GNU C++20			2020			-std=gnu++20	202002L
  * C++23(C++2b)			2023			-std=c++23	202302L
  * GNU C++23			2023			-std=gnu++23	202302L
- * C++26			2026*			-std=c++26	dev
+ * C++26			2026			-std=c++26	202400L
+ * GNU C++26			2026			-std=gnu++26	202400L
  *
  * vim:ts=8
  * sync update Documentation/standard/stdc.rst

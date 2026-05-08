@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- test `-std=c++26` and `-std=gnu++26`;
 - Add an AGENTS.md file to guide AI Agents;
 - test CVE-2026-31431-Copy-Fail with python and C;
 - python: add zlib subdir;
