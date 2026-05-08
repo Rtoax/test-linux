@@ -55,6 +55,6 @@ target-y += omp_get_thread_limit
 target-y += omp_get_team_size
 target-y += omp_get_wtick
 
-CFLAGS :=  -fopenmp
 CFLAGS += -Wno-error=unused-variable
-LDFLAGS := -fopenmp
+CFLAGS +=  -fopenmp
+LDFLAGS += -fopenmp
