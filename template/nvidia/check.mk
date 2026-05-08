@@ -11,8 +11,8 @@ include nvidia/cuda.mk
 
 # Check nvcc support option or not
 define nvcc_check
-$(shell echo 'int main(void) { return 0; }' | \
-  ${NVCC} -x c - $(2) -o /dev/null >/dev/null 2>&1 \
+$(shell printf '#include <cuda_runtime.h>\nint main(void) { return 0; }' | \
+  ${NVCC} -x c - -o /dev/null >/dev/null 2>&1 \
     && echo y)
 endef
 
