@@ -6,7 +6,6 @@
 #
 # Functions:
 # - compiler_support_option()=[y]
-# - check_compiler_option()=[y]
 # - check_clang_option()=[y]
 # - check_gcc_option()=[y]
 # - check_compiler_support_type()=[y]
@@ -21,15 +20,6 @@ _COMPILER_CHECK_MK = 1
 define compiler_support_option
 $(shell printf 'int main(void) { return 0; }' | \
   $(1) -x c -Wall - -c $(2) -o /dev/null >/dev/null 2>&1 \
-    && echo y)
-endef
-
-# Check compiler support option or not
-# $(1) - compiler, for example: gcc, clang, etc.
-# $(2) - compile option, for example: -flto
-define check_compiler_option
-$(shell printf 'int main(void) { return 0; }' | \
-  $(1) -x c -Wall - $(2) -o /dev/null >/dev/null 2>&1 \
     && echo y)
 endef
 define check_clang_option

@@ -31,7 +31,7 @@ and this project adheres to
 #### Template
 - compiler/check.mk: add `compiler_support_option()`;
 - compiler/m32.mk: remove `feature-m32`;
-- compiler/check.mk: remove `check_compiler_option_S()` and `check_compiler_option_noS()`;
+- compiler/check.mk: remove `check_compiler_option()`, and `check_compiler_option_noS()`;
 - nvidia: add check.mk `nvcc_check()`;
 - targets/cpp.mk: support compile multiple objects from one source code;
 - add pciutils.mk;
