@@ -74,6 +74,14 @@
 			"extension": [ "cu" ],
 			"keys": [ "cuda", "nvcc", "nvidia" ]
 		},
+		"coreutils": {
+			"name": "CoreUtils",
+			"command": [ "date" ],
+			"version": {
+				"length": [ 2 ]
+			},
+			"keys": [ "coreutils", "date" ]
+		},
 		"cmake": {
 			"name": "CMake",
 			"extension": [ "cmake" ],

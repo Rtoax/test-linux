@@ -1,5 +1,6 @@
 subdir-y += capability
 subdir-y += cmake
+subdir-y += coreutils
 subdir-y += code-formatter
 subdir-y += criu
 subdir-y += ffmpeg
