@@ -1,4 +1,6 @@
 #!/bin/bash
+. ../scripts/make_tl.sh
+
 # Default: same as machine
-make clean
-make M32=1 "${@}"
+make_tl clean
+make_tl M32=1 "${@}"

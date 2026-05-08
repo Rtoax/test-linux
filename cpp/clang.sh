@@ -1,3 +1,6 @@
 #!/bin/bash
-make clean
-make CXX=clang++ -j$(nproc)
+. ../scripts/make_tl.sh
+
+# Default: gcc
+make_tl clean
+make_tl CXX=clang++ "${@}"
