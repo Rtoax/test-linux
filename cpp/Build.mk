@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 
+export SRC_SFX_LIST := $(shell seq 1 1 20)
+
 subdir-y := demangle
 subdir-y += std
 
@@ -18,10 +20,10 @@ target-cpp-y += __STDC__
 target-cpp-y += __STDC__c++98 __STDC__gnu++98
 target-cpp-y += __STDC__c++03 __STDC__gnu++03
 target-cpp-y += __STDC__c++11 __STDC__gnu++11
-target-cpp-y += __STDC__c++14
-target-cpp-y += __STDC__c++17
-target-cpp-y += __STDC__c++20
-target-cpp-y += __STDC__c++23
+target-cpp-y += __STDC__c++14 __STDC__gnu++14
+target-cpp-y += __STDC__c++17 __STDC__gnu++17
+target-cpp-y += __STDC__c++20 __STDC__gnu++20
+target-cpp-y += __STDC__c++23 __STDC__gnu++23
 target-cpp-y += expired
 target-cpp-y += unordered_map
 
@@ -35,6 +37,10 @@ __STDC__c++23-objs := __STDC__.7.cpp.o
 __STDC__gnu++98-objs := __STDC__.8.cpp.o
 __STDC__gnu++03-objs := __STDC__.9.cpp.o
 __STDC__gnu++11-objs := __STDC__.10.cpp.o
+__STDC__gnu++14-objs := __STDC__.11.cpp.o
+__STDC__gnu++17-objs := __STDC__.12.cpp.o
+__STDC__gnu++20-objs := __STDC__.13.cpp.o
+__STDC__gnu++23-objs := __STDC__.14.cpp.o
 
 CXXFLAGS += -DCPP
 
@@ -66,6 +72,10 @@ CXXFLAGS___STDC__.7 := -std=c++23
 CXXFLAGS___STDC__.8 := -std=gnu++98
 CXXFLAGS___STDC__.9 := -std=gnu++03
 CXXFLAGS___STDC__.10 := -std=gnu++11
+CXXFLAGS___STDC__.11 := -std=gnu++14
+CXXFLAGS___STDC__.12 := -std=gnu++17
+CXXFLAGS___STDC__.13 := -std=gnu++20
+CXXFLAGS___STDC__.14 := -std=gnu++23
 
 CXXFLAGS_string := -std=c++23
 LDXXFLAGS_fmt := -lfmt

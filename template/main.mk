@@ -50,7 +50,7 @@ build-targets += $(target-lscc-liba-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 
-SRC_SFX_LIST := $(shell seq 1 1 10)
+SRC_SFX_LIST ?= $(shell seq 1 1 10)
 # %.1 %.2 ...
 MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 
@@ -93,6 +93,7 @@ ifdef DEBUG
   $(info CXXFLAGS = ${CXXFLAGS})
   $(info LDXXFLAGS = ${LDXXFLAGS})
   $(info build-targets = ${build-targets})
+  $(info SRC_SFX_LIST = ${SRC_SFX_LIST})
 endif
 
 export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS MAKEFLAGS
