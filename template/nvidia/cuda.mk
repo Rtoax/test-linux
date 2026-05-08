@@ -58,7 +58,7 @@ else
   endif
 endif
 
-# Use env's nvcc first
+# Use env's nvcc first, otherwise, use absolute path.
 ifeq ($(NVCC),)
   ifneq (${CUDA_ROOT},)
     NVCC := ${CUDA_ROOT}/bin/nvcc
@@ -67,6 +67,7 @@ ifeq ($(NVCC),)
   endif
 endif
 
+# Get the realpath of nvcc, etc.
 ifneq ($(NVCC),)
   NVCC := $(shell realpath ${NVCC})
   CUOBJDUMP := $(shell realpath ${CUOBJDUMP})
@@ -95,8 +96,7 @@ ifeq ($(wildcard $(NVCC)),)
   NVDISASM :=
 
   export HAVE_CUDA := n
-# Found NVCC
-else
+else # Found NVCC
   CUDA_VERSION_RAW := $(shell ${NVCC} --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true)
   ifeq (${CUDA_VERSION_RAW},)
     $(error Not found CUDA Version in ${NVCC} --version)
@@ -112,7 +112,8 @@ else
   cuda-cflags += -DCUDA_PATCH=${CUDA_PATCH}
   cuda-cflags += -I${CUDA_ROOT}/include/
   cuda-cflags += -DHAVE_CUDA=1
-endif
+
+endif # end of Founc NVCC
 
 ifneq (${CUDA_ROOT},)
   SYS_CUDA_VERSION := $(shell grep '^#define CUDA_VERSION' ${CUDA_ROOT}/include/cuda.h | awk '{print $$3}')

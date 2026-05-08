@@ -4,6 +4,14 @@
 # Input definitions:
 # - CC=[cc]
 #
+# Functions:
+# - check_compiler_option()=[y]
+# - check_compiler_option_noS()=[y]
+# - check_compiler_support_type()=[y]
+# - check_compiler_support_header()=[y]
+# - check_clang_option()=[y]
+# - check_gcc_option()=[y]
+#
 ifndef _COMPILER_CHECK_MK
 _COMPILER_CHECK_MK = 1
 
@@ -11,15 +19,15 @@ _COMPILER_CHECK_MK = 1
 # $(1) - compiler, for example: gcc, clang, etc.
 # $(2) - compile option, for example: -flto
 define check_compiler_option
-  $(shell echo 'int main(void) { return 0; }' | \
-    $(1) -x c -Wall - $(2) -S -o /dev/null >/dev/null 2>&1 \
-      && echo y)
+$(shell echo 'int main(void) { return 0; }' | \
+  $(1) -x c -Wall - $(2) -S -o /dev/null >/dev/null 2>&1 \
+    && echo y)
 endef
 
 define check_compiler_option_noS
-  $(shell echo 'int main(void) { return 0; }' | \
-    $(1) -x c -Wall - $(2) -o /dev/null >/dev/null 2>&1 \
-      && echo y)
+$(shell echo 'int main(void) { return 0; }' | \
+  $(1) -x c -Wall - $(2) -o /dev/null >/dev/null 2>&1 \
+    && echo y)
 endef
 
 # Check compiler support type
