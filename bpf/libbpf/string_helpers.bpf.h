@@ -1,7 +1,6 @@
 #pragma once
 #include <bpf/bpf_tracing.h>
 
-
 /**
  * use bpf_strncmp() first
  */

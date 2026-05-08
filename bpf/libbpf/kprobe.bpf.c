@@ -12,6 +12,7 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
+#include <linux/version.h>
 #include "string_helpers.bpf.h"
 #include "stack_helpers.bpf.h"
 #include "bpf_misc.h"
@@ -26,7 +27,17 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 	pid_t pid;
 	const char *filename = NULL;
 	pid = bpf_get_current_pid_tgid() >> 32;
+	/**
+	 * struct filename {} has changed
+	 * linux v6.19-rc5-20-g8c888b31903c
+	 * commit 8c888b31903c ("struct filename: saner handling of long names")
+	 */
+#if LINUX_VERSION_CODE > KERNEL_VERSION(6, 19, 0)
+	struct __filename_head *fhead = (void *)name;
+	filename = BPF_CORE_READ(fhead, name);
+#else
 	filename = BPF_CORE_READ(name, name);
+#endif
 
 	__get_stack(ctx);
 
