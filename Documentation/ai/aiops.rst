@@ -12,3 +12,4 @@ Links
 -----
 
 - https://en.wikipedia.org/wiki/AIOps
+- https://github.com/resources/articles/what-is-aiops
