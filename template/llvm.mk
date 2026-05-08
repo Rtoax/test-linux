@@ -53,6 +53,13 @@ export llvm-cflags llvm-cxxflags llvm-ldflags
 
 endif # end of found LLVM
 
+ifeq ($(LLVM_CONFIG),)
+  $(warning Not found llvm-config, please install llvm first)
+endif
+ifeq ($(LLVM_OBJDUMP),)
+  $(warning Not found llvm-objdump, please install llvm first)
+endif
+
 ifdef DEBUG
   $(info LLVM_CONFIG = ${LLVM_CONFIG})
   $(info LLVM_AS = ${LLVM_AS})

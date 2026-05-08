@@ -10,14 +10,6 @@ include bpf/bpftool.mk
 include bpf/helper.mk
 include cflags.mk
 
-ifeq ($(CLANG),)
-  $(error Not found clang, please install clang first)
-endif
-
-ifeq ($(LLVM_OBJDUMP),)
-  $(error Not found llvm-objdump, please install llvm first)
-endif
-
 CFLAGS_BPF += -I.
 CFLAGS_BPF += -I${OUTPUT}
 CFLAGS_BPF += -O2 -g

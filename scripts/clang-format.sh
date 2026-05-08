@@ -12,9 +12,13 @@ fatal() {
 	echo >&2 -en "\033[31m"
 	echo >&2 -e "FATAL: "${@}
 	echo >&2 -en "\033[0m"
+
 	if [[ -z ${FCF} ]]; then
 		echo >&2 "WARNING: skip this error with env FCF=1 or FORCE=1"
 		exit 1
+	else
+		# exit immediatly
+		exit 0
 	fi
 }
 

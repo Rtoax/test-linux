@@ -32,4 +32,8 @@ else
   export CLANG CLANGXX
 endif # end of found CLANG
 
+ifeq ($(CLANG),)
+  $(warning Not found clang, please install clang first)
+endif
+
 endif # end of _CLANG_MK

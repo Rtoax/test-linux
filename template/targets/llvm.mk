@@ -19,13 +19,6 @@ _TARGET_LLVM_MK = 1
 include clang.mk
 include llvm.mk
 
-ifeq ($(CLANG),)
-  $(error Not found clang, please install clang first)
-endif
-ifeq ($(LLVM_CONFIG),)
-  $(error Not found llvm-config, please install llvm first)
-endif
-
 CLANG_AST_CFLAGS := -Xclang -ast-dump -fsyntax-only
 
 # AST: Abstract Syntax Tree
