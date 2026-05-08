@@ -5,8 +5,8 @@
 # - CC=[cc]
 #
 # Functions:
-# - check_compiler_option_noS()=[y]
 # - check_compiler_option()=[y]
+# - check_compiler_option_S()=[y]
 # - check_clang_option()=[y]
 # - check_gcc_option()=[y]
 # - check_compiler_support_type()=[y]
@@ -18,20 +18,20 @@ _COMPILER_CHECK_MK = 1
 # Check compiler support option or not
 # $(1) - compiler, for example: gcc, clang, etc.
 # $(2) - compile option, for example: -flto
-define check_compiler_option_noS
+define check_compiler_option
 $(shell printf 'int main(void) { return 0; }' | \
   $(1) -x c -Wall - $(2) -o /dev/null >/dev/null 2>&1 \
     && echo y)
 endef
 
-define check_compiler_option
-$(call check_compiler_option_noS,${1},${2} -S)
+define check_compiler_option_S
+$(call check_compiler_option,${1},${2} -S)
 endef
 define check_clang_option
-$(call check_compiler_option,clang,$(1))
+$(call check_compiler_option_S,clang,$(1))
 endef
 define check_gcc_option
-$(call check_compiler_option,gcc,$(1))
+$(call check_compiler_option_S,gcc,$(1))
 endef
 
 # Check compiler support type
@@ -50,8 +50,8 @@ $(shell printf '#include <$(2)>\nint main(void) { return 0; }' | \
 	$(1) -x c -Werror - -o /dev/null 2>/dev/null && echo y)
 endef
 
-ifneq ($(call check_compiler_option,${CC},),y)
-  $(error check_compiler_option failed)
+ifneq ($(call check_compiler_option_S,${CC},),y)
+  $(error check_compiler_option_S failed)
 endif
 
 ifneq ($(call check_compiler_support_type,${CC},int),y)

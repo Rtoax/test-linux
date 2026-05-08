@@ -12,7 +12,7 @@ CC := gcc
 
 include compiler.mk
 
-pac-ret := $(findstring 1,$(call check_compiler_option,$(CC),-mbranch-protection=pac-ret))
+pac-ret := $(findstring 1,$(call check_compiler_option_S,$(CC),-mbranch-protection=pac-ret))
 
 ifeq (${pac-ret},1)
   CFLAGS_mbranch-protection := -mbranch-protection=pac-ret

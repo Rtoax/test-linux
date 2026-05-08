@@ -29,6 +29,7 @@ and this project adheres to
 - fmtlib: first commit, https://github.com/fmtlib/fmt;
 - zlib: add uncompress.c samples;
 #### Template
+- compiler/check.mk: rename `check_compiler_option()` to `check_compiler_option_S()`;
 - nvidia: add check.mk `nvcc_check()`;
 - targets/cpp.mk: support compile multiple objects from one source code;
 - add pciutils.mk;
