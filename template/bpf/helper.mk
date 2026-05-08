@@ -10,17 +10,13 @@
 #
 # Output definitions:
 # - SUPPORT_<upcase helper or kfunc name>=[y]
-# - bpf-helper-cflags=
+# - bpf-helper-cflags=-DSUPPORT_<upcase helper or kfunc name>=1 ...
 #
 ifndef _BPF_HELPER_MK
 _BPF_HELPER_MK = 1
 _BPF_KFUNC_MK = 1
 
 include dir.mk
-include kernel.mk
-include pahole.mk
-include string.mk
-include bpf/btf.mk
 
 # Use cache first if it's exist, because it's fast,
 # see commit d48999813cd4 ("bpf/helper.mk: support cache")
@@ -28,6 +24,11 @@ cachefile := ${TOPDIR}/template/bpf/.helper.mk.cache
 ifneq ($(wildcard ${cachefile}),)
   include ${cachefile}
 else
+
+include kernel.mk
+include pahole.mk
+include string.mk
+include bpf/btf.mk
 
 include bits/mk-cache.mk
 
