@@ -17,6 +17,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Removed
+- remove all clang.sh, use `make CC=clang CXX=clang++` instead;
 #### Fixed
 #### Security
 #### Docs
