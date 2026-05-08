@@ -93,9 +93,15 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 }
 
 static const struct argp argp = {
+#if __cplusplus > 202002L
 	.options = opts,
 	.parser = parse_arg,
 	.doc = argp_prog_doc,
+#else
+	opts,
+	parse_arg,
+	argp_prog_doc,
+#endif
 };
 
 void dev_mem_alloc(int dev_id, struct device *dev)
