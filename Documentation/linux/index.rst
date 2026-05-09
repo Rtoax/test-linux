@@ -11,6 +11,7 @@ Linux Stack
    abbrev
    linux
    bmc
+   uapi
 
 
 Linux Tools
