@@ -50,6 +50,7 @@ deb_pkgs() {
 rpm_pkgs() {
 	sudo dnf install -y --skip-broken \
 		blazesym-c-devel \
+		python3-looseversion \
 		rubygem-asciidoctor
 }
 
