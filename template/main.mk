@@ -94,17 +94,10 @@ $(if ${target-bt-y}, $(eval $(call append_program_target,bt,.bt,.log)))
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
 
-
 ifdef DEBUG
-  $(info CFLAGS = ${CFLAGS})
-  $(info LDFLAGS = ${LDFLAGS})
-  $(info CXXFLAGS = ${CXXFLAGS})
-  $(info LDXXFLAGS = ${LDXXFLAGS})
   $(info build-targets = ${build-targets})
   $(info SRC_SFX_LIST = ${SRC_SFX_LIST})
 endif
-
-export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS MAKEFLAGS
 
 .PHONY: build
 build: $(build-targets)

@@ -59,4 +59,13 @@ include pie.mk
 CFLAGS += ${CFLAGS_PIE}
 LDFLAGS += ${LDFLAGS_PIE}
 
+ifdef DEBUG
+  $(info CFLAGS = ${CFLAGS})
+  $(info LDFLAGS = ${LDFLAGS})
+  $(info CXXFLAGS = ${CXXFLAGS})
+  $(info LDXXFLAGS = ${LDXXFLAGS})
+endif
+
+export CFLAGS LDFLAGS CXXFLAGS LDXXFLAGS
+
 endif # _CFLAGS_MK
