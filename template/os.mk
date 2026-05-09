@@ -25,7 +25,7 @@
 #      #endif
 #
 # Functions:
-# - is_os()=[y|n]
+# - is_os(fedora[ debian ...])=[y|n]
 #
 ifndef _OS_MK
 _OS_MK = 1
@@ -65,9 +65,14 @@ define define_os
   $(eval export __${1}__ = 1)
 endef
 
-# $1: distribution name, like fedora
+# $1: distribution name list, like fedora debian
 define is_os
-$(shell if test ${1} == ${OS_ID}; then echo y; else echo n; fi)
+$(shell for os in ${1}; do \
+          if test $${os} == ${OS_ID}; then \
+            echo y; exit 0; \
+          fi; \
+        done; \
+        echo n)
 endef
 
 $(call define_os,${OS_ID})
@@ -82,12 +87,12 @@ ifdef DEBUG
   $(info __os_major__ = ${__os_major__})
   $(info __os_minor__ = ${__os_minor__})
   $(info OS_CFLAGS = ${OS_CFLAGS})
-  $(info is_os ${OS_ID} = $(call is_os,${OS_ID}))
-  $(info is_os fedora = $(call is_os,fedora))
-  $(info is_os debian = $(call is_os,debian))
+  $(info is_os ${OS_ID} = $(call is_os,x ${OS_ID} y))
+  $(info is_os fedora = $(call is_os,x fedora y))
+  $(info is_os debian = $(call is_os,x debian y))
 endif
 
-ifneq ($(call is_os,${OS_ID}),y)
+ifneq ($(call is_os,x ${OS_ID} y),y)
   $(error is_os call failed for ${OS_ID})
 endif
 
