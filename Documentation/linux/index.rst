@@ -12,6 +12,7 @@ Linux Stack
    linux
    bmc
    uapi
+   uki
 
 
 Linux Tools

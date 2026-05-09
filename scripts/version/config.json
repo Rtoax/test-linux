@@ -529,7 +529,7 @@
 				"length": [ 2, 1 ]
 			},
 			"extension": [ "service", "mount" ],
-			"keys": [ "systemd", "journalctl" ]
+			"keys": [ "systemd", "journalctl", "ukify" ]
 		},
 		"util-linux": {
 			"name": "Util-Linux",

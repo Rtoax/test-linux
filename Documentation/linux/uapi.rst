@@ -11,6 +11,15 @@ systems. It serves as a central gathering place for specs, documentation, and
 ideas.
 
 
+UKI
+---
+
+.. toctree::
+   :maxdepth: 1
+
+   uki
+
+
 Links
 -----
 

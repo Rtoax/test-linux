@@ -8,8 +8,10 @@ and this project adheres to
 
 
 ## Unreleased
+
 #### Breaking Changes
 #### Added
+- add Unified Kernel Image (UKI);
 - git/hooks: add commit-msg;
 - stdc: test `c99`, `gnu99`, `c11`, `gnu11`, `c17`, `gnu17`, `c23`, `gnu23`, `c++26`, `gnu++26`;
 - Add an AGENTS.md file to guide AI Agents;

@@ -1,1 +1,2 @@
-subdir-y := journalctl
+subdir-y += journalctl
+subdir-y += ukify

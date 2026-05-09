@@ -660,6 +660,7 @@ pkgs_base+=( vim )
 pkgs_base+=( yq )
 
 pkgs_boot+=( efibootmgr )           # UEFI
+pkgs_boot+=( systemd-ukify )
 
 pkgs_compiler+=( automake )
 pkgs_compiler+=( bison )
