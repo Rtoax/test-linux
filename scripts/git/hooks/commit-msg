@@ -1,5 +1,23 @@
 #!/bin/bash
 set -e
 
-msg=$1
-echo "commit ${msg}"
+readonly msgfile=$1
+echo "commit ${msgfile}"
+
+show() {
+	echo -e "------------------------------------"
+	echo -e "\033[32m"
+	cat ${msgfile} | grep -v ^#
+	echo -e "\033[m"
+	echo -e "------------------------------------"
+}
+
+fatal() {
+	show
+	echo -e >&2 "\033[31mFATAL: ${@}\033[m"
+	exit 1
+}
+
+if [[ "$(grep -ow -e ^Fix: -e ^Fix ${msgfile})" ]]; then
+	fatal "Use 'Fixes:' instead of 'Fix: commit'"
+fi
