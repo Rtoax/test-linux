@@ -1,7 +1,7 @@
 Linux Kernel Reference
 ======================
 
-* 7.0.4 (fedora44)
+* 7.0.4 (fedora43,fedora44)
 * 7.0.0 (ubuntu26.04)
 * 6.19.14 (fedora43,fedora44)
 * 6.19.13 (fedora43)
