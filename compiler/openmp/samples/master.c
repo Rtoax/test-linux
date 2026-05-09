@@ -17,7 +17,14 @@ int main(int argc, char *argv[])
 		#pragma omp for
 		for (j = 0; j < 5; j++)
 			a[j] = j * j;
+		/**
+		 * error: ‘master’ construct deprecated since OpenMP 5.1, use ‘masked’
+		 */
+		#if _OPENMP < 202011
+		#pragma omp master
+		#else
 		#pragma omp masked
+		#endif
 		for (j = 0; j < 5; j++)
 			printf(" a[%d] = %d, j = %d, id = %d/%d\n",
 				j, a[j],j,omp_get_thread_num(),omp_get_num_threads());

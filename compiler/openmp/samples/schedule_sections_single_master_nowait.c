@@ -31,7 +31,14 @@ int main(void)
 	{
 		#pragma omp single
 		printf("1\n");
+		/**
+		 * error: ‘master’ construct deprecated since OpenMP 5.1, use ‘masked’
+		 */
+		#if _OPENMP < 202011
 		#pragma omp master
+		#else
+		#pragma omp masked
+		#endif
 		printf("2\n");
 		#pragma omp single nowait
 		printf("3\n");
