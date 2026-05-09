@@ -45,7 +45,7 @@ const char *tl_bfd_strbid(const struct bfd_build_id *bid, char *buf, int blen)
 /* Swap puts@GLIBC_2.34 to puts */
 const char *tl_bfd_pure_name(asymbol *sym, char *buf, int blen)
 {
-	char *name = strstr(sym->name, "@");
+	const char *name = strstr(sym->name, "@");
 	if (!name)
 		return sym->name;
 
