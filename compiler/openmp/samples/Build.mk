@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+target-y += _OPENMP
 target-y += atomic
 target-y += barrier
 target-y += critical
