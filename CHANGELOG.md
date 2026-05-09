@@ -40,7 +40,7 @@ and this project adheres to
 - compiler/check.mk: remove `check_compiler_option()`, and `check_compiler_option_noS()`;
 - nvidia: add check.mk `nvcc_check()`;
 - targets/cpp.mk: support compile multiple objects from one source code;
-- add pciutils.mk, gdb.mk, kubernetes.mk;
+- add pciutils.mk, gdb.mk, kubernetes.mk, podman.mk;
 
 
 ## [v2.4.4] 2026-05-05

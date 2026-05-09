@@ -1,3 +1,5 @@
+include podman.mk
+
 subdir-y += capability
 subdir-y += cmake
 subdir-y += coreutils
@@ -17,7 +19,7 @@ subdir-y += nasm
 subdir-y += NetworkManager
 subdir-y += ostree
 subdir-y += perf
-subdir-y += podman
+subdir-${HAVE_PODMAN} += podman
 subdir-y += psmisc
 subdir-y += readline
 subdir-y += redis
