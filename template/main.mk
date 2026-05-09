@@ -131,69 +131,28 @@ done:
 	$(call log_display_failed)
 
 # All helpers, only include targets/helpers.mk if helpers.mk was included.
-ifdef _HELPERS_MK
-  include targets/helpers.mk
-endif
-
-ifneq (${OUTPUT},)
-  include targets/output.mk
-endif
+$(if ${_HELPERS_MK}, $(eval include targets/helpers.mk))
+$(if ${OUTPUT}, $(eval include targets/output.mk))
 include targets/asm.mk
 include targets/c.mk
 include targets/cpp.mk
-ifneq ($(target-liba-y),)
-  include targets/liba.mk
-endif
-ifneq ($(target-libso-y)$(target-libso-cpp-y),)
-  include targets/libso.mk
-endif
-ifneq ($(target-llvm-ll-y),)
-  include targets/llvm.mk
-endif
-ifneq ($(target-bpf-y)$(target-btf-y),)
-  include targets/bpf.mk
-endif
-ifneq ($(target-rust-y),)
-  include targets/rust.mk
-endif
-ifneq ($(target-nvcc-y)$(target-nvcc-libso-y)$(target-nvcc-liba-y),)
-  include targets/cuda.mk
-endif
-ifneq ($(target-hipcc-y)$(target-hipcc-libso-y)$(target-hipcc-liba-y),)
-  include targets/hip.mk
-endif
-ifneq ($(target-htcc-y)$(target-htcc-libso-y)$(target-htcc-liba-y),)
-  include targets/hpcc.mk
-endif
-ifneq ($(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y),)
-  include targets/luca.mk
-endif
-ifneq ($(target-shell-y),)
-  include targets/shell.mk
-endif
-ifneq ($(target-prog-y),)
-  include targets/prog.mk
-endif
-ifneq ($(target-mk-y),)
-  include targets/make.mk
-endif
-ifneq ($(target-bt-y),)
-  include targets/bpftrace.mk
-endif
-ifneq ($(target-python-y),)
-  include targets/python.mk
-endif
-ifneq ($(target-go-y),)
-  include targets/golang.mk
-endif
-ifneq ($(target-java-y),)
-  include targets/java.mk
-endif
-
-ifneq ($(subdir-y),)
-  include targets/subdir-footer.mk
-endif
-
+$(if $(target-liba-y), $(eval include targets/liba.mk))
+$(if $(target-libso-y)$(target-libso-cpp-y), $(eval include targets/libso.mk))
+$(if $(target-llvm-ll-y), $(eval include targets/llvm.mk))
+$(if $(target-bpf-y)$(target-btf-y), $(eval include targets/bpf.mk))
+$(if $(target-rust-y), $(eval include targets/rust.mk))
+$(if $(target-nvcc-y)$(target-nvcc-libso-y)$(target-nvcc-liba-y), $(eval include targets/cuda.mk))
+$(if $(target-hipcc-y)$(target-hipcc-libso-y)$(target-hipcc-liba-y), $(eval include targets/hip.mk))
+$(if $(target-htcc-y)$(target-htcc-libso-y)$(target-htcc-liba-y), $(eval include targets/hpcc.mk))
+$(if $(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y), $(eval include targets/luca.mk))
+$(if $(target-shell-y), $(eval include targets/shell.mk))
+$(if $(target-prog-y), $(eval include targets/prog.mk))
+$(if $(target-mk-y), $(eval include targets/make.mk))
+$(if $(target-bt-y), $(eval include targets/bpftrace.mk))
+$(if $(target-python-y), $(eval include targets/python.mk))
+$(if $(target-go-y), $(eval include targets/golang.mk))
+$(if $(target-java-y), $(eval include targets/java.mk))
+$(if $(subdir-y), $(eval include targets/subdir-footer.mk))
 include targets/vdso.mk
 include targets/compiler.mk
 
