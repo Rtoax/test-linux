@@ -11,7 +11,6 @@ Linux Stack
    abbrev
    linux
    bmc
-   systemd
 
 
 Linux Tools

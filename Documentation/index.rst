@@ -112,6 +112,7 @@ Tools
    :maxdepth: 1
 
    Tools <tools/index>
+   Systemd <systemd/index>
 
 
 Frontier and Future Technology
