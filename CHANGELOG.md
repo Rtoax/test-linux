@@ -30,7 +30,7 @@ and this project adheres to
 - fmtlib: first commit, https://github.com/fmtlib/fmt;
 - zlib: add uncompress.c samples;
 #### Template
-- compiler/check.mk: add `compiler_support_option()`;
+- compiler/check.mk: add `compiler_support_option()`, `compiler_support_option_link()`;
 - compiler/m32.mk: remove `feature-m32`;
 - compiler/check.mk: remove `check_compiler_option()`, and `check_compiler_option_noS()`;
 - nvidia: add check.mk `nvcc_check()`;

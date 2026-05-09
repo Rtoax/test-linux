@@ -5,6 +5,7 @@
 # - CC=[cc]
 #
 # Functions:
+# - compiler_support_option_link()=[y]
 # - compiler_support_option()=[y]
 # - check_clang_option()=[y]
 # - check_gcc_option()=[y]
@@ -16,15 +17,21 @@ _COMPILER_CHECK_MK = 1
 
 # Check compiler support option or not
 # $(1) - compiler, for example: gcc, clang, etc.
-# $(2) - compile option, for example: -flto, -m32
-define compiler_support_option
+# $(2) - compile option, for example: -flto, -m32, etc.
+define compiler_support_option_link
 $(shell printf 'int main(void) { return 0; }' | \
-  $(1) -x c -Wall - -c $(2) -o /dev/null >/dev/null 2>&1 \
+  $(1) -x c -Wall - $(2) -o /dev/null >/dev/null 2>&1 \
     && echo y)
 endef
+
+define compiler_support_option
+$(call compiler_support_option_link,${1},-c ${2})
+endef
+
 define check_clang_option
 $(call compiler_support_option,clang,$(1))
 endef
+
 define check_gcc_option
 $(call compiler_support_option,gcc,$(1))
 endef

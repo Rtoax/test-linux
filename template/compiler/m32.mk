@@ -4,6 +4,7 @@
 ifndef _COMPILER_M32_MK
 _COMPILER_M32_MK = 1
 
+include dir.mk
 include compiler/check.mk
 
 cachefile := ${TOPDIR}/template/compiler/.m32.mk.cache
@@ -13,7 +14,7 @@ ifneq ($(wildcard ${cachefile}),)
 else
 include bits/mk-cache.mk
 
-CC_M32 := $(findstring y,$(call compiler_support_option,$(CC),-m32))
+CC_M32 := $(findstring y,$(call compiler_support_option_link,$(CC),-m32))
 
 $(call mk_cache_var,CC_M32,${cachefile})
 
