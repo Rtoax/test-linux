@@ -24,6 +24,7 @@ $(eval $(call append_mkflags,OUTPUT))
 $(eval $(call append_mkflags,M32))
 $(eval $(call append_mkflags,FORCE))
 $(eval $(call append_mkflags,STATIC))
+$(eval $(call append_mkflags,TMOUT))
 
 ifdef DEBUG
   $(info SUBMKFLAGS = ${SUBMKFLAGS})
