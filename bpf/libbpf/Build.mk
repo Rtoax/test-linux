@@ -30,7 +30,6 @@ ifdef DEBUG
   $(info KSYM_DO_EXECVEAT_COMMON = ${KSYM_DO_EXECVEAT_COMMON})
 endif
 
-kobjs-y :=
 kobjs-$(CONFIG_KPROBES) += kprobe
 kobjs-$(CONFIG_TRACEPOINTS) += tracepoint raw_tracepoint tp_btf
 kobjs-$(CONFIG_TRACEPOINTS) += map_hash map_lru_hash map_percpu_hash map_lru_percpu_hash
@@ -159,6 +158,14 @@ else
   ifdef DEBUG
     $(warning "Not config CONFIG_BPF_KPROBE_OVERRIDE=y, skip test bpf_override_return()")
   endif
+endif
+# linux v6.19-rc5-20-g8c888b31903c add struct __filename_head {}
+# commit 8c888b31903c ("struct filename: saner handling of long names")
+ifeq ($(call vmlinux_has_struct_shell,__filename_head),y)
+  CFLAGS_xdp_devmap += -DHAVE_STRUCT___FILENAME_HEAD=1
+  $(info Found struct __filename_head {})
+else
+  $(warning not found struct __filename_head {})
 endif
 CFLAGS_fentry := -DFENTRY=1
 CFLAGS_BPF_fentry := ${CFLAGS_fentry}

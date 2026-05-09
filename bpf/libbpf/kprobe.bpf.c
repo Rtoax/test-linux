@@ -32,7 +32,8 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 	 * linux v6.19-rc5-20-g8c888b31903c
 	 * commit 8c888b31903c ("struct filename: saner handling of long names")
 	 */
-#if LINUX_VERSION_CODE > KERNEL_VERSION(6, 19, 0)
+#if LINUX_VERSION_CODE > KERNEL_VERSION(6, 19, 0) && \
+	defined(HAVE_STRUCT___FILENAME_HEAD)
 	struct __filename_head *fhead = (void *)name;
 	filename = BPF_CORE_READ(fhead, name);
 #else
