@@ -37,6 +37,7 @@ Standard and Development
    :maxdepth: 2
 
    Standard <standard/index>
+   UEFI <uefi/index>
 
 .. toctree::
    :maxdepth: 1
