@@ -287,7 +287,7 @@ void heatmap_plot_space(FILE *fp, struct heatmap_space *space,
 	unsigned int ansi_idx = 0;
 	unsigned int ansi_num = NR_ANSI;
 	FILE *std = fp ?: stdout;
-	unsigned int icol, igran;
+	unsigned int icol;
 
 	FILE *fp_bin = NULL;
 
@@ -301,9 +301,7 @@ void heatmap_plot_space(FILE *fp, struct heatmap_space *space,
 	fprintf(std, "  %16s |<----->| = %#0lx bytes\n", "",
 		8 * space->granularity);
 	fprintf(std, "  %16s ", "");
-	for (icol = 0, igran = 0; icol <= col;
-		igran += space->granularity, icol++) {
-
+	for (icol = 0; icol <= col; icol++) {
 		if (icol % 8 == 0)
 			fprintf(std, "|");
 		else
