@@ -8,6 +8,7 @@ user-list-y += bpf
 user-list-y += c
 user-list-y += capstone
 user-list-y += cgroup
+user-list-y += cloud-native
 user-list-y += compiler
 user-list-y += cpp
 user-list-y += cpu

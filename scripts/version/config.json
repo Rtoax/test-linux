@@ -239,6 +239,11 @@
 			},
 			"keys": [ "kmod", "insmod", "modprobe", "module" ]
 		},
+		"kubernetes": {
+			"name": "K8s",
+			"command": [ "kubelet" ],
+			"keys": [ "k8s", "kubernetes" ]
+		},
 		"latexmk": {
 			"name": "LateXmk",
 			"version": {

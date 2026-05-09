@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- kubernetes: add Build.mk;
 - add Unified Kernel Image (UKI);
 - git/hooks: add commit-msg;
 - stdc: test `c99`, `gnu99`, `c11`, `gnu11`, `c17`, `gnu17`, `c23`, `gnu23`, `c++26`, `gnu++26`;
@@ -39,7 +40,7 @@ and this project adheres to
 - compiler/check.mk: remove `check_compiler_option()`, and `check_compiler_option_noS()`;
 - nvidia: add check.mk `nvcc_check()`;
 - targets/cpp.mk: support compile multiple objects from one source code;
-- add pciutils.mk, gdb.mk;
+- add pciutils.mk, gdb.mk, kubernetes.mk;
 
 
 ## [v2.4.4] 2026-05-05
