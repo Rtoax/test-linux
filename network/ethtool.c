@@ -16,6 +16,7 @@
 #include <linux/types.h>
 #include <linux/netlink.h>
 #include <linux/ethtool.h>
+#include <limits.h>
 
 #ifndef SIOCETHTOOL
 #define SIOCETHTOOL 0x8946
