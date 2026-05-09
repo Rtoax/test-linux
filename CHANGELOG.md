@@ -11,6 +11,20 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+#### Template
+
+
+## [v2.4.5] J2EE 2026-05-09
+
+#### Breaking Changes
+#### Added
 - kubernetes: add Build.mk;
 - add Unified Kernel Image (UKI);
 - git/hooks: add commit-msg;
