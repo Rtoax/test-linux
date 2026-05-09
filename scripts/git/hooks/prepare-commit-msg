@@ -302,9 +302,9 @@ if [[ -z "$(git status --short | grep -v '^ ' | grep -v Documentation || :)" ]] 
 	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
 
 	message="Doc: ${doc_label}:"
-	message+="${mod_names:+, update ${mod_names[*]}}"
-	message+="${add_names:+, add ${add_names[*]}}"
-	message+="${del_names:+, delete ${del_names[*]}}"
+	message+="${mod_names:+update ${mod_names[*]}, }"
+	message+="${add_names:+add ${add_names[*]}, }"
+	message+="${del_names:+delete ${del_names[*]}, }"
 	sed -i "1i ${message}" ${COMMIT_MSG_FILE} || {
 		fatal "Failed add Documentation commit message"
 	}
