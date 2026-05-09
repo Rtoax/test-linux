@@ -199,6 +199,15 @@
 			"extension": [ "go" ],
 			"keys": [ "golang" ]
 		},
+		"grub": {
+			"name": "Grub",
+			"command": [ "grub2-mkimage", "grub-mkimage" ],
+			"version": {
+				"length": [ 2 ]
+			},
+			"extension": [ "efi" ],
+			"keys": [ "grub", "bootloader" ]
+		},
 		"fmt": {
 			"name": "FmtLib",
 			"library": [ "libfmt.so" ],

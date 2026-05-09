@@ -111,8 +111,9 @@ Tools
 .. toctree::
    :maxdepth: 1
 
-   Tools <tools/index>
+   Grub <grub/index>
    Systemd <systemd/index>
+   Tools <tools/index>
 
 
 Frontier and Future Technology
