@@ -2,7 +2,7 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
-# - OS_ID=[centos|fedora|ubuntu|debian|cclinux|kylin]
+# - OS_ID=[centos|fedora|ubuntu|debian|cclinux|kylin|...]
 # - __centos__=1
 # - __debian__=1
 # - __fedora__=1
@@ -23,6 +23,9 @@
 #      #ifdef __fedora__
 #      #pragma message fedora
 #      #endif
+#
+# Functions:
+# - is_os()=[y|n]
 #
 ifndef _OS_MK
 _OS_MK = 1
@@ -55,16 +58,21 @@ ifeq (${__os_minor__},)
   __os_minor__ := 0
 endif
 
-# $1: distrobution name, like fedora
+# $1: distribution name, like fedora
 define define_os
   $(eval OS_CFLAGS += -D__${1}__=1)
+  $(eval OS_CFLAGS += -DOS_ID=${1})
   $(eval export __${1}__ = 1)
 endef
 
-OS_CFLAGS += -DOS_ID=${OS_ID}
-OS_CFLAGS += -DOS_VERSION_ID=${OS_VERSION_ID}
+# $1: distribution name, like fedora
+define is_os
+$(shell if test ${1} == ${OS_ID}; then echo y; else echo n; fi)
+endef
 
 $(call define_os,${OS_ID})
+
+OS_CFLAGS += -DOS_VERSION_ID=${OS_VERSION_ID}
 OS_CFLAGS += -D__os_major__=${__os_major__}
 OS_CFLAGS += -D__os_minor__=${__os_minor__}
 
@@ -74,6 +82,13 @@ ifdef DEBUG
   $(info __os_major__ = ${__os_major__})
   $(info __os_minor__ = ${__os_minor__})
   $(info OS_CFLAGS = ${OS_CFLAGS})
+  $(info is_os ${OS_ID} = $(call is_os,${OS_ID}))
+  $(info is_os fedora = $(call is_os,fedora))
+  $(info is_os debian = $(call is_os,debian))
+endif
+
+ifneq ($(call is_os,${OS_ID}),y)
+  $(error is_os call failed for ${OS_ID})
 endif
 
 export OS_ID
