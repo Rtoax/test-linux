@@ -6,7 +6,8 @@
 #include <syscall.h>
 #include <fcntl.h>
 
-/* Get the RSS information in an OS-specific way.
+/**
+ * Get the RSS information in an OS-specific way.
  *
  * ---------------------------------------
  * *** Resident Set Size 实际使用物理内存（包括共享内存占用的内存）
@@ -17,7 +18,8 @@
  *
  * For this kind of "fast RSS reporting" usages use instead the
  * function RedisEstimateRSS() that is a much faster (and less precise)
- * version of the function. */
+ * version of the function.
+ */
 size_t hpmalloc_get_rss(pid_t pid)
 {
 	int page = sysconf(_SC_PAGESIZE);
@@ -27,11 +29,11 @@ size_t hpmalloc_get_rss(pid_t pid)
 	int fd, count;
 	char *p, *x;
 
-	snprintf(filename,256,"/proc/%d/stat", pid);
-	if ((fd = open(filename,O_RDONLY)) == -1)
+	snprintf(filename, 256, "/proc/%d/stat", pid);
+	if ((fd = open(filename, O_RDONLY)) == -1)
 		return 0;
 
-	if (read(fd,buf,4096) <= 0) {
+	if (read(fd, buf, 4096) <= 0) {
 		close(fd);
 		return 0;
 	}
@@ -56,9 +58,8 @@ size_t hpmalloc_get_rss(pid_t pid)
 
 	*x = '\0';
 
-	rss = strtoll(p,NULL,10);
+	rss = strtoll(p, NULL, 10);
 	rss *= page;
-
 	return rss;
 }
 
@@ -67,4 +68,3 @@ int main(void)
 	printf("%ld\n", hpmalloc_get_rss(getpid()));
 	return 0;
 }
-

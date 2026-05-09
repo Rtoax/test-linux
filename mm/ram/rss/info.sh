@@ -16,8 +16,12 @@ comm_rss() {
 }
 
 comm_rss_total() {
-	comm_rss | awk '{ sum += $1 } END { print "Total RSS:\t"sum"kB" }'
+	local kB=$(comm_rss | awk '{ sum += $1 } END { print sum }')
+	printf "Total RSS:\t%ld KB, %ld MB, %ld GB\n" ${kB} $((${kB} / 1024)) \
+		$((${kB} / 1024/ 1024))
 }
 
 # comm_rss
 comm_rss_total
+
+free -g
