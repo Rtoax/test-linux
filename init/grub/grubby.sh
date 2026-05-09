@@ -8,8 +8,10 @@ add_arg() {
 }
 
 remove_arg_all() {
+	# rpm-ostree kargs --delete=intel_iommu=on
 	sudo grubby --update-kernel=ALL --remove-args=intel_iommu=on
 }
+
 remove_arg() {
 	sudo grubby --update-kernel=/boot/vmlinuz-$(uname -r) --remove-args=intel_iommu=on
 }
