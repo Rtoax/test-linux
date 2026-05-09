@@ -12,12 +12,12 @@ ${OUTPUT}%.bt.log: %.bt
 	$(Q)${SUDO} $(RUNPROG) --log $(@) -- $(BPFTRACE) $(<) $(ARGS_$(<))
 
 # $1: 1, 2, 3, ...
-define bt_target
+define add_bpftrace_target
 ${OUTPUT}%.bt.log.${1}: %.bt
 	$$(call log_tgt,BPFTRACE,$$(@))
 	$$(Q)$${SUDO} $$(RUNPROG) --log $$(@) -- $$(BPFTRACE) $$(<) $$(ARGS_$$(<).${1})
 endef
 
-$(foreach sfx, ${SRC_SFX_LIST}, $(eval $(call bt_target,${sfx})))
+$(foreach sfx, ${SRC_SFX_LIST}, $(eval $(call add_bpftrace_target,${sfx})))
 
 endif

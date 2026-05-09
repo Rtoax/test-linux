@@ -24,7 +24,7 @@ ifneq ($(subdir-y),)
   include targets/subdir-header.mk
 endif
 
-build-targets := $(target-prep-y)
+build-targets += $(target-prep-y)
 build-targets += $(OUTPUT)
 build-targets += $(target-liba-y) $(target-libso-y) $(target-libso-cpp-y)
 build-targets += $(target-y)
@@ -50,14 +50,21 @@ build-targets += $(target-lscc-liba-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 
+# 1 2 3 ...
 SRC_SFX_LIST ?= $(shell seq 1 1 10)
-# %.1 %.2 ...
+# %.1 %.2 %.3 ...
 MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 
+# append_program_target() - add program to build-targets
+#
+# If you want to test a program twice, add a .N suffix to the program, for
+# example: target-prog-y := a.sh a.sh.1
+#
+# Arguments:
 # $1: target name, like shell in target-shell-y
 # $2: target extension, like .sh for shell, could be a list
 # $3: log extension, like .log, .prog.log
-define add_target_program
+define append_program_target
 # without .N suffix
 target-${1}-y-orig := $$(filter-out $${MK_TGT_SFX_LIST},$$(target-${1}-y))
 # log with .N suffix
@@ -77,11 +84,12 @@ $$(if ${ext}, \
 build-targets += $$(patsubst %,$${OUTPUT}%${3},$$(target-${1}-y-orig)) $${target-${1}-y-sfx}
 endef
 
-$(eval $(call add_target_program,prog,,.prog.log))
-$(eval $(call add_target_program,shell,.sh,.log))
-$(eval $(call add_target_program,mk,.mk .mak,.log))
-$(eval $(call add_target_program,python,.py,.log))
-$(eval $(call add_target_program,bt,.bt,.log))
+# see targets/{prog,shell,make,python,bpftrace}.mk
+$(if ${target-prog-y}, $(eval $(call append_program_target,prog,,.prog.log)))
+$(if ${target-shell-y}, $(eval $(call append_program_target,shell,.sh,.log)))
+$(if ${target-mk-y}, $(eval $(call append_program_target,mk,.mk .mak,.log)))
+$(if ${target-python-y}, $(eval $(call append_program_target,python,.py,.log)))
+$(if ${target-bt-y}, $(eval $(call append_program_target,bt,.bt,.log)))
 
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
