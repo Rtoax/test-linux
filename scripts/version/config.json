@@ -468,6 +468,14 @@
 			"extension": [ "spec" ],
 			"keys": [ "rpm", "dnf" ]
 		},
+		"rpm-ostree": {
+			"name": "RPM-OSTree",
+			"command": [ "rpm-ostree" ],
+			"version": {
+				"length": [ 2 ]
+			},
+			"keys": [ "ostree" ]
+		},
 		"rust": {
 			"name": "Rust",
 			"command": [ "rustc" ],
