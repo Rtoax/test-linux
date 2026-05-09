@@ -30,6 +30,8 @@
 ifndef _OS_MK
 _OS_MK = 1
 
+include shell.mk
+
 OS_CFLAGS :=
 
 get_distr_info = $(patsubst "%",%,$(shell grep $(1) /etc/os-release 2>/dev/null | \
