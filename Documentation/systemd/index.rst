@@ -6,3 +6,4 @@ Systemd
    :maxdepth: 1
 
    systemd
+   service
