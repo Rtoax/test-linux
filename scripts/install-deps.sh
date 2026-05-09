@@ -717,6 +717,7 @@ pkgs_container+=( skopeo )
 pkgs_container+=( systemd-container )
 
 pkgs_docs+=( latexmk )
+pkgs_docs+=( mkdocs )
 pkgs_docs+=( texlive )
 
 pkgs_virt+=( virt-manager )
@@ -1136,6 +1137,7 @@ apt_add_packages()
 		pkgs_base+=( linux-perf )
 	fi
 	pkgs_base+=( lsb-release )
+	pkgs_base+=( ncal )
 	pkgs_base+=( parallel )
 	pkgs_base+=( passwd )
 	pkgs_base+=( procps )
