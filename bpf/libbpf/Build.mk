@@ -162,7 +162,7 @@ endif
 # linux v6.19-rc5-20-g8c888b31903c add struct __filename_head {}
 # commit 8c888b31903c ("struct filename: saner handling of long names")
 ifeq ($(call vmlinux_has_struct_shell,__filename_head),y)
-  CFLAGS_xdp_devmap += -DHAVE_STRUCT___FILENAME_HEAD=1
+  CFLAGS_BPF_kprobe += -DHAVE_STRUCT___FILENAME_HEAD=1
   $(info Found struct __filename_head {})
 else
   $(warning not found struct __filename_head {})
