@@ -21,3 +21,9 @@ fatal() {
 if [[ "$(grep -ow -e ^Fix: -e ^Fix ${msgfile})" ]]; then
 	fatal "Use 'Fixes:' instead of 'Fix: commit'"
 fi
+
+# see .git/hooks/commit-msg.sample
+test "" = "$(grep '^Signed-off-by: ' "$1" |
+	 sort | uniq -c | sed -e '/^[ 	]*1[ 	]/d')" || {
+	fatal "Duplicate Signed-off-by lines."
+}
