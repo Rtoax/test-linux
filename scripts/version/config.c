@@ -239,7 +239,6 @@ struct software *next_software(struct json *j, struct software *prev)
 
 int json_software(struct json *j, json_object *s)
 {
-	int i = 0;
 	json_object_object_foreach(s, key, val)
 	{
 		struct software *sw = alloc_software();
@@ -309,7 +308,6 @@ int json_software(struct json *j, json_object *s)
 		}
 
 		link_software(j, sw);
-		i++;
 	}
 	return 0;
 }
