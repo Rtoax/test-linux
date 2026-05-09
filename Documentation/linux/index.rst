@@ -2,12 +2,31 @@
 Linux
 =====
 
+Linux Stack
+-----------
 
 .. toctree::
    :maxdepth: 1
 
+   abbrev
    linux
    bmc
-   freebsd
+   systemd
+
+
+Linux Tools
+-----------
+
+.. toctree::
+   :maxdepth: 1
+
    util-linux
-   abbrev
+
+
+Other Kernels
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
+   freebsd
