@@ -346,6 +346,14 @@
 			"name": "Memcached",
 			"keys": [ "memcache", "memcached" ]
 		},
+		"mpich": {
+			"name": "MPICH",
+			"command": [
+				"/usr/lib64/mpich/bin/mpiexec",
+				"/usr/bin/mpichversion"
+			],
+			"keys": [ "mpi", "mpich" ]
+		},
 		"nasm": {
 			"name": "Nasm",
 			"extension": [ "asm", "s", "S" ],
@@ -370,6 +378,14 @@
 				"rpm": [ "numactl" ]
 			},
 			"keys": [ "numactl", "numa" ]
+		},
+		"openmpi": {
+			"name": "OpenMPI",
+			"package": {
+				"rpm": [ "openmpi" ],
+				"deb": [ "openmpi-common", "openmpi-bin" ]
+			},
+			"keys": [ "mpi", "openmpi" ]
 		},
 		"openssl": {
 			"name": "OpenSSL",
