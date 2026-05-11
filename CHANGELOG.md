@@ -20,8 +20,8 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
-- ldconfig.mk: add `find_library_path()`;
-- add zstd.mk;
+- ldconfig.mk: add `find_library_path()`, `have_library()`;
+- zstd.mk: add `HAVE_LIBZSTD`, `HAVE_ZSTD`;
 
 
 ## [v2.4.5] J2EE 2026-05-09

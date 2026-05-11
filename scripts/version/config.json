@@ -170,7 +170,7 @@
 				}
 			},
 			"extension": [ "c", "cpp", "h", "hpp", "c++" ],
-			"keys": [ "glibc", "ipc" ]
+			"keys": [ "glibc", "ldconfig", "ipc" ]
 		},
 		"git": {
 			"name": "Git",

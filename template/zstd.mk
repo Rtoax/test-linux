@@ -5,9 +5,12 @@
 # Definitions:
 # - ZSTD=[/usr/bin/zstd]
 # - HAVE_ZSTD=[y|n]
+# - HAVE_LIBZSTD=[y|n]
 #
 ifndef _ZSTD_MK
 _ZSTD_MK = 1
+
+include ldconfig.mk
 
 ZSTD := $(shell which zstd 2>/dev/null || true)
 ifeq ($(ZSTD),)
@@ -16,15 +19,20 @@ else
   HAVE_ZSTD := y
 endif
 
+HAVE_LIBZSTD := $(call have_library,libzstd.so)
+
 ifdef DEBUG
   $(info ZSTD = ${ZSTD})
   $(info HAVE_ZSTD = ${HAVE_ZSTD})
+  $(info HAVE_LIBZSTD = ${HAVE_LIBZSTD})
 endif
 
 ifeq ($(ZSTD),)
   $(error "Not found zstd in anywhere, install first")
 endif
 
-export ZSTD HAVE_ZSTD
+export ZSTD
+export HAVE_ZSTD
+export HAVE_LIBZSTD
 
 endif
