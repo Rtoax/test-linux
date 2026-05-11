@@ -2,5 +2,5 @@
 include efibootmgr.mk
 
 subdir-y += secureboot
-subdir-y += efivarfs
+subdir-y += efivars
 subdir-${HAVE_EFIBOOTMGR} += efibootmgr
