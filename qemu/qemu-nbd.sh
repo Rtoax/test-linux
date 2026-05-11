@@ -4,25 +4,57 @@ set -ex
 img_type=qcow2
 img_name=test.${img_type}
 
-# Partitions not appear in /sys/block/
-ALL_NBDS=( $(ls /sys/block/ | grep nbd) )
+# VALID_NBD_DEV: not body use this nbd device
+# BUSY_NBD_DEV: nbd device already used
+declare -a ALL_NBD_DEV VALID_NBD_DEV
+
+# Auto probe nbd driver and statistic
+update_nbd_devices() {
+	local nbd
+
+	# Partitions not appear in /sys/block/
+	ALL_NBD_DEV=( $(ls /sys/block/ | grep nbd || true) )
+
+	# create NBD devices
+	if [[ ${#ALL_NBD_DEV[@]} -eq 0 ]]; then
+		sudo modprobe nbd max_part=16
+		lsmod | grep nbd
+		ALL_NBD_DEV=( $(ls /sys/block/ | grep nbd || true) )
+	fi
+
+	# Reset valid NBD
+	unset VALID_NBD_DEV
+	unset BUSY_NBD_DEV
+	for nbd in ${ALL_NBD_DEV[@]}
+	do
+		if [[ -e /sys/block/${nbd}/pid ]]; then
+			BUSY_NBD_DEV+=( ${nbd} )
+		else
+			VALID_NBD_DEV+=( ${nbd} )
+		fi
+	done
+}
 
 find_valid_nbd_dev() {
 	local nbd
-	for nbd in ${ALL_NBDS[@]}
+	for nbd in ${ALL_NBD_DEV[@]}
 	do
 		# Found valid nbd
 		if [[ ! -e /sys/block/${nbd}/pid ]]; then
 			echo ${nbd}
+			return 0
 		fi
 	done
 	# Not found valid nbd
 }
 
-sudo modprobe nbd max_part=16
-lsmod | grep nbd
+update_nbd_devices
 
 nbd_dev=$(find_valid_nbd_dev)
+if [[ -z ${nbd_dev} ]]; then
+	echo >&2 "ERROR: not found valid NBD device"
+	exit 1
+fi
 
 # Create image file and connect
 sudo qemu-img create -f qcow2 ${img_name} 100G
@@ -69,4 +101,9 @@ sudo rmdir ext4.out
 
 # Disconnect nbd
 sudo qemu-nbd --disconnect /dev/${nbd_dev}
-sudo rmmod nbd
+
+update_nbd_devices
+
+if [[ ${#BUSY_NBD_DEV[@]} -eq 0 ]]; then
+	sudo rmmod nbd
+fi
