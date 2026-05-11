@@ -160,6 +160,11 @@
 			"extension": [ "gdb" ],
 			"keys": [ "coredump", "gdb" ]
 		},
+		"gdisk": {
+			"name": "GDisk",
+			"command": [ "sgdisk" ],
+			"keys": [ "gpt", "sgdisk" ]
+		},
 		"glibc": {
 			"name": "GLibc",
 			"command": [ "getconf" ],

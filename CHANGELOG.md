@@ -19,6 +19,7 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
+- add gdisk;
 #### Template
 - define.mk: add `find_cmd_and_def()` and apply to qemu.mk;
 - string.mk: add `underscore_non_alnum()`;

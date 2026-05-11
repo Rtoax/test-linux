@@ -9,6 +9,7 @@ subdir-y += criu
 subdir-y += ffmpeg
 subdir-y += fmtlib
 subdir-y += fstabd
+subdir-y += gdisk
 subdir-y += heatmap
 subdir-y += io_uring
 subdir-y += json-c
