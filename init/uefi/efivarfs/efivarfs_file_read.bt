@@ -1,0 +1,21 @@
+#!/bin/env bpftrace
+
+kprobe:efivarfs_file_read
+{
+	@userbuf[tid] = arg1;
+	@count[tid] = arg2;
+}
+
+kretprobe:efivarfs_file_read
+/ has_key(@userbuf, tid) /
+{
+	printf("userbuf %r\n", buf(@userbuf[tid], @count[tid]));
+	delete(@userbuf, tid);
+	delete(@count, tid);
+}
+
+END
+{
+	clear(@userbuf);
+	clear(@count);
+}
