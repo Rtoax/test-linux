@@ -26,3 +26,4 @@ subdir-y += redis
 subdir-y += util-linux
 subdir-y += vim
 subdir-y += zlib
+subdir-y += zstd

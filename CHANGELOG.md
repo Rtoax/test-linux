@@ -20,6 +20,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- add zstd.mk;
 
 
 ## [v2.4.5] J2EE 2026-05-09

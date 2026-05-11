@@ -559,6 +559,12 @@
 			"name": "ZLib-ng",
 			"library": [ "libz-ng.so" ],
 			"keys": [ "zlib", "zlib-ng", "libz", "libz-ng" ]
+		},
+		"zstd": {
+			"name": "ZStd",
+			"library": [ "libzstd.so" ],
+			"extension": [ "zst" ],
+			"keys": [ "zstd" ]
 		}
 	}
 }
