@@ -117,6 +117,13 @@
 			},
 			"keys": [ "firmware", "ovmf", "aavmf", "edk2" ]
 		},
+		"efibootmgr": {
+			"name": "EFIbootmgr",
+			"version": {
+				"length": [ 1 ]
+			},
+			"keys": [ "efibootmgr" ]
+		},
 		"ethtool": {
 			"name": "ETHTool",
 			"version": {

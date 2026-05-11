@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+include efibootmgr.mk
+
 subdir-y += secureboot
 subdir-y += efivarfs
 
-target-prog-y += efibootmgr.sh
+target-prog-${HAVE_EFIBOOTMGR} += efibootmgr.sh
