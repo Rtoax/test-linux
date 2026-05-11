@@ -9,13 +9,17 @@ _LIBATOMIC_MK = 1
 
 include ldconfig.mk
 
-LIBATOMIC := $(shell ${LDCONFIG} -p | grep -w libatomic.so 2>/dev/null | awk '{print $$4}')
+LIBATOMIC := $(call find_library_path,libatomic.so)
 
 ifneq ($(LIBATOMIC),)
   HAVE_LIBATOMIC := y
   export HAVE_LIBATOMIC
 else
   $(warning "WARNING: You need to install libatomic")
+endif
+
+ifdef DEBUG
+  $(info LIBATOMIC = ${LIBATOMIC})
 endif
 
 endif

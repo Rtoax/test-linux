@@ -20,6 +20,7 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- ldconfig.mk: add `find_library_path()`;
 - add zstd.mk;
 
 

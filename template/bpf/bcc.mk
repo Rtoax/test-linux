@@ -12,7 +12,7 @@ _BPF_BCC_MK = 1
 
 include ldconfig.mk
 
-LIBBCC_PATH := $(shell ${LDCONFIG} -p | grep libbcc.so 2>/dev/null | awk '{print $$NF}' | head -1)
+LIBBCC_PATH := $(call find_library_path,libbcc.so)
 BCC_SYMS_HDR := /usr/include/bcc/bcc_syms.h
 
 ifeq ($(LIBBCC_PATH),)

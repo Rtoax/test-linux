@@ -26,7 +26,7 @@ GLIBC_MINOR := $(shell ${glibcversh} --minor)
 $(eval $(call define_version,glibc,version2_code1616,${GLIBC_MAJOR},${GLIBC_MINOR}))
 
 # Get libc.so.6 abs-path
-LIBC_SO_PATH := $(shell ${LDCONFIG} -p | grep libc.so.6 | awk '{printf $$NF"\n"}' | head -1)
+LIBC_SO_PATH := $(call find_library_path,libc.so.6)
 
 # Probe printf(3) with non-output gcc command
 LIBC_PRINTF_PROBE := '\#include <stdio.h>\n'
