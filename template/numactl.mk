@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Output definitions:
-# - NUMACTL=
+# - NUMACTL=[/usr/bin/numactl]
+# - HAVE_NUMACTL=[y|n]
 # - HAVE_LIBNUMA=[y|n]
 # - NUMACTL_MAJOR=
 # - NUMACTL_MINOR=
@@ -14,7 +15,8 @@ include dir.mk
 include shell.mk
 include define.mk
 
-NUMACTL := $(shell which numactl 2>/dev/null || :)
+$(call find_cmd_and_def,numactl)
+
 LIBNUMA_HDR := /usr/include/numa.h
 LIBNUMAIF_HDR := /usr/include/numaif.h
 
@@ -40,7 +42,6 @@ ifneq (${NUMACTL_MAJOR},2)
 endif
 
 export HAVE_LIBNUMA := y
-export NUMACTL
 export NUMACTL_MAJOR NUMACTL_MINOR NUMACTL_PATCH
 endif # end of found NUMACTL
 

@@ -3,12 +3,16 @@
 #
 # Definitions:
 # - KUBELET=[/usr/bin/kubelet]
+# - HAVE_KUBELET=[y|n]
 # - HAVE_K8S=[y|n]
 #
 ifndef _K8S_MK
 _K8S_MK = 1
 
-KUBELET := $(shell which kubelet 2>/dev/null)
+include define.mk
+
+$(call find_cmd_and_def,kubelet)
+
 ifeq ($(wildcard ${KUBELET}),)
   HAVE_K8S := n
 else
@@ -16,7 +20,6 @@ else
 endif
 
 ifdef DEBUG
-  $(info KUBELET = ${KUBELET})
   $(info HAVE_K8S = ${HAVE_K8S})
 endif
 

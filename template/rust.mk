@@ -9,21 +9,8 @@ ifndef _RUSTC_MK
 _RUSTC_MK = 1
 
 include shell.mk
+include define.mk
 
-RUSTC := $(shell which rustc 2>/dev/null)
-
-ifeq ($(RUSTC),)
-  $(warning Not found rustc, please install first)
-  export HAVE_RUSTC := n
-else # Found rustc
-
-ifdef DEBUG
-  $(info RUSTC = ${RUSTC})
-endif
-
-export HAVE_RUSTC := y
-export RUSTC
-
-endif # end of found RUSTC
+$(call find_cmd_and_def,rustc)
 
 endif # end of _RUSTC_MK

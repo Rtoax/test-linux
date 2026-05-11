@@ -2,19 +2,18 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
+# - OPENSSL=[/usr/bin/openssl]
 # - HAVE_OPENSSL=[y|n]
 # - OPENSSL_{VERSION,MAJOR,MINOR,PATCH}=
 #
 ifndef _OPENSSL_MK
 _OPENSSL_MK = 1
 
-OPENSSL := $(shell which openssl 2>/dev/null)
+include define.mk
 
-ifeq (${OPENSSL},)
-  export HAVE_OPENSSL := n
-else
-export HAVE_OPENSSL := y
-export OPENSSL
+$(call find_cmd_and_def,openssl)
+
+ifneq (${OPENSSL},)
 
 include dir.mk
 
@@ -31,7 +30,6 @@ ${Q}${OPENSSL} genrsa -out $(1) -3 3072
 endef
 
 ifdef DEBUG
-  $(info HAVE_OPENSSL = ${HAVE_OPENSSL})
   $(info OPENSSL_VERSION ${OPENSSL_VERSION})
   $(info OPENSSL_MAJOR ${OPENSSL_MAJOR})
   $(info OPENSSL_MINOR ${OPENSSL_MINOR})

@@ -3,8 +3,8 @@
 #
 # Output definitions:
 # - HAVE_CLANG=[y|n]
-# - CLANG=
-# - CLANGXX=
+# - CLANG=[/usr/bin/clang]
+# - CLANGXX=[/usr/bin/clang++]
 #
 # Functions:
 #
@@ -12,25 +12,20 @@ ifndef _CLANG_MK
 _CLANG_MK = 1
 
 include shell.mk
+include define.mk
 
-CLANG := $(shell which clang 2>/dev/null)
+$(call find_cmd_and_def,clang)
+
 CLANGXX := $(shell which clang++ 2>/dev/null)
 
 CC ?= ${CLANG}
 CXX ?= ${CLANGXX}
 
-ifeq ($(CLANG),)
-  $(warning Not found clang, skipping all clang targets)
-  export HAVE_CLANG := n
-else
-  ifdef DEBUG
-    $(info CLANG = ${CLANG})
-    $(info CLANGXX = ${CLANGXX})
-  endif
+ifdef DEBUG
+  $(info CLANGXX = ${CLANGXX})
+endif
 
-  export HAVE_CLANG := y
-  export CLANG CLANGXX
-endif # end of found CLANG
+export CLANGXX
 
 ifeq ($(CLANG),)
   $(warning Not found clang, please install clang first)

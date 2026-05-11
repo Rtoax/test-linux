@@ -19,19 +19,19 @@ ifndef _LLVM_MK
 _LLVM_MK = 1
 
 include shell.mk
+include define.mk
 include clang.mk
 
-LLVM_CONFIG := $(shell which llvm-config 2>/dev/null)
+$(call find_cmd_and_def,llvm-config)
+$(call find_cmd_and_def,llvm-as)
+$(call find_cmd_and_def,llvm-dis)
+$(call find_cmd_and_def,llvm-objdump)
+$(call find_cmd_and_def,llc)
 
 ifeq (${LLVM_CONFIG},)
   $(warning "Not found llvm, maybe you should install llvm first")
   export HAVE_LLVM := n
 else # Found llvm
-
-LLVM_AS := $(shell which llvm-as 2>/dev/null)
-LLVM_DIS := $(shell which llvm-dis 2>/dev/null)
-LLVM_OBJDUMP := $(shell which llvm-objdump 2>/dev/null)
-LLC := $(shell which llc 2>/dev/null)
 
 # Note: Yep, i always store under this path
 LLVM_SRC_ROOT := $(HOME)/Git/llvm/
