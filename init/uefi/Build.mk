@@ -3,5 +3,4 @@ include efibootmgr.mk
 
 subdir-y += secureboot
 subdir-y += efivarfs
-
-target-prog-${HAVE_EFIBOOTMGR} += efibootmgr.sh
+subdir-${HAVE_EFIBOOTMGR} += efibootmgr
