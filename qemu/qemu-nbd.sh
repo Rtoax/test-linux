@@ -4,9 +4,12 @@ set -ex
 img_type=qcow2
 img_name=test.${img_type}
 
+# Partitions not appear in /sys/block/
+ALL_NBDS=( $(ls /sys/block/ | grep nbd) )
+
 find_valid_nbd_dev() {
-	local nbd nbds=( $(ls /sys/block/ | grep nbd) )
-	for nbd in ${nbds[@]}
+	local nbd
+	for nbd in ${ALL_NBDS[@]}
 	do
 		# Found valid nbd
 		if [[ ! -e /sys/block/${nbd}/pid ]]; then
