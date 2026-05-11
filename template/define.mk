@@ -22,10 +22,12 @@ endef
 
 # Find command in env and define CMD=[/path/to/cmd] and HAVE_CMD=[y|n]
 # $1: command name, like qemu-nbd
+# $2: alias name, for example, if $1=clang++, $2 could be clangxx
 define find_cmd_and_def
-$(eval __Name = $(call underscore_non_alnum,$(call toupper_shell,${1})))
+$(if ${2},$(eval __Name := $(call underscore_non_alnum,$(call toupper_shell,${2}))))
+$(eval __Name ?= $(call underscore_non_alnum,$(call toupper_shell,${1})))
 $(eval ${__Name} := $(shell which ${1} 2>/dev/null | grep -v ^alias))
-$(if ${__Name}, \
+$(if ${${__Name}}, \
   $(eval export HAVE_${__Name} := y), \
   $(eval export HAVE_${__Name} := n) \
 )
@@ -46,6 +48,10 @@ endif
 $(call find_cmd_and_def,ls)
 ifneq (${HAVE_LS},y)
   $(error find_cmd_and_def ls failed)
+endif
+$(call find_cmd_and_def,abc++,abcxx)
+ifneq (${HAVE_ABCXX},n)
+  $(error find_cmd_and_def abcxx failed, )
 endif
 
 endif
