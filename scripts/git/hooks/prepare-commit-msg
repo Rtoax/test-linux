@@ -199,7 +199,6 @@ redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
 uefi_ver() { add_ver "UEFI Spec $(${VERDIR}/uefi.sh)"; }
 
 cpu_env() { add_env "$(${TOPDIR}/cpu/cpuname.sh)"; add_env "$(uname -m)"; }
-pid1_env() { add_env "pid1=$(cat /proc/1/comm)"; }
 virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
@@ -214,15 +213,11 @@ fi
 # __main__
 if [[ "$(match_type asm S)$(has_changed_file asm arch insn cpu)" ]]; then
 	cpu_env
-	virt_env
 fi
 
 os_ver
 linux_ver
-
-if [[ "$(match_type qcow2 raw)$(has_changed_file qcow qcow2 qcow3 qemu)" ]]; then
-	virt_env
-fi
+virt_env
 
 if [[ "$(has_changed_file redis)" ]]; then
 	redis_ver

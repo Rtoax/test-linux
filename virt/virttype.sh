@@ -14,8 +14,6 @@ if [[ ${SYSTEMD_DETECT_VIRT} ]]; then
 	fi
 fi
 
-if [[ ${virttype} ]]; then
+if [[ ${virttype} ]] && [[ ${virttype} != none ]]; then
 	echo ${virttype}
-else
-	echo Physical Machine
 fi
