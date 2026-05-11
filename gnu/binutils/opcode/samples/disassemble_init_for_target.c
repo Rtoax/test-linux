@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#define PACKAGE "test-linux"
 #include <bfd.h>
 #include <dis-asm.h>
 
