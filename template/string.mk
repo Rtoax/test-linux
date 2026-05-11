@@ -13,6 +13,8 @@
 ifndef _STRING_MK
 _STRING_MK = 1
 
+include shell.mk
+
 define toupper
 echo $(1) | tr '[:lower:]' '[:upper:]'
 endef
