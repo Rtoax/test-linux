@@ -6,6 +6,7 @@
 # - toupper_shell()
 # - tolower()
 # - tolower_shell()
+# - underscore_non_alnum()
 # - uniq_repeat()
 # - strip_tail()
 #
@@ -24,6 +25,11 @@ echo $(1) | tr '[:upper:]' '[:lower:]'
 endef
 define tolower_shell
 $(shell $(call tolower,${1}))
+endef
+
+# Replace all non alpha and numeric to '_' expect [0-9a-zA-Z]
+define underscore_non_alnum
+$(shell str=${1}; echo $${str//[!0-9a-zA-Z]/_})
 endef
 
 # This is a good choice if a Makefile target has multiple conditional
@@ -48,6 +54,9 @@ ifneq ($(call toupper_shell,abcDEFgh),ABCDEFGH)
 endif
 ifneq ($(call tolower_shell,abcDEFgh),abcdefgh)
   $(error "ERROR: toupper failed, $(call tolower_shell,abcDEFgh)")
+endif
+ifneq ($(call underscore_non_alnum,mkfs.1-2),mkfs_1_2)
+  $(error "ERROR: underscore_non_alnum failed")
 endif
 ifneq ($(call uniq_repeat,xxxxxxxxxxxxxx),x)
   $(error "ERROR: uniq_repeat(xxxxxxxxxxxxxx) failed")

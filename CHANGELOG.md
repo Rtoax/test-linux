@@ -20,6 +20,8 @@ and this project adheres to
 #### Docs
 #### Tools
 #### Template
+- define.mk: add `find_cmd_and_def()` and apply to qemu.mk;
+- string.mk: add `underscore_non_alnum()`;
 - ldconfig.mk: add `find_library_path()`, `have_library()`;
 - zstd.mk: add `HAVE_LIBZSTD`, `HAVE_ZSTD`;
 
