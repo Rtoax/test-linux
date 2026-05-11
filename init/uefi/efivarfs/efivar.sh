@@ -1,4 +1,6 @@
 #!/bin/bash
+# Tool to manipulate UEFI variables
+# see also efibootmgr(8)
 set -e
 
 # ref: https://docs.kernel.org/filesystems/efivarfs.html

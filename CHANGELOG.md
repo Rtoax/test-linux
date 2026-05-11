@@ -21,7 +21,7 @@ and this project adheres to
 #### Tools
 - add gdisk;
 #### Template
-- add efibootmgr.mk;
+- add efibootmgr.mk, uefi.mk;
 - define.mk: add `find_cmd_and_def()` and apply to qemu.mk;
 - string.mk: add `underscore_non_alnum()`;
 - ldconfig.mk: add `find_library_path()`, `have_library()`;
