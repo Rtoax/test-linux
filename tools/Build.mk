@@ -1,4 +1,5 @@
 include podman.mk
+include zstd.mk
 
 subdir-y += capability
 subdir-y += cmake
@@ -26,4 +27,4 @@ subdir-y += redis
 subdir-y += util-linux
 subdir-y += vim
 subdir-y += zlib
-subdir-y += zstd
+subdir-${HAVE_ZSTD} += zstd
