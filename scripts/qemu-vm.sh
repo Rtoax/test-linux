@@ -211,7 +211,7 @@ ${BOLD}UEFI ARGUMENTS SYNTAX${RST}
 ${BOLD}--uefi help${RST}: show this information
 
 ${BOLD}--uefi code=<FILE>${RST}: specify code, such as: ${UEFI_CODES[@]}
-${BOLD}--uefi var=<FILE>${RST}: specify var, such as: ${UEFI_VARS[@]}, only specify if 'code' specified.
+${BOLD}--uefi var=<FILE>${RST}: specify var, such as: ${UEFI_VARS[@]}, only specify if 'code' specified. This is usually NVRAM.
 ${BOLD}--uefi novar${RST}: disable VARS
 "
 	exit 0
