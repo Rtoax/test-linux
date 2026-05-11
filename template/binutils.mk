@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2024-2026 Rong Tao
 #
-# Export definitions
+# Definitions:
+# - LD_BFD=[/usr/bin/ld.bfd]
+# - HAVE_LD_BFD=[y|n]
 # - BINUTILS_VERSION=
 # - BINUTILS_MAJOR=
 # - BINUTILS_MINOR=
@@ -11,10 +13,12 @@ ifndef _BINUTILS_MK
 _BINUTILS_MK = 1
 
 include dir.mk
+include define.mk
 
 binutils-cflags :=
 
-LD_BFD := $(shell which ld.bfd 2>/dev/null)
+$(call find_cmd_and_def,ld.bfd)
+
 ifeq ($(LD_BFD),)
   $(warning "Not found linker ld.bfd, install binutils first")
 endif
@@ -30,7 +34,6 @@ binutils-cflags += -DBINUTILS_MAJOR=${BINUTILS_MAJOR}
 binutils-cflags += -DBINUTILS_MINOR=${BINUTILS_MINOR}
 
 ifdef DEBUG
-  $(info LD_BFD = ${LD_BFD})
   $(info Binutils version ${BINUTILS_MAJOR}.${BINUTILS_MINOR})
   $(info BINUTILS_VERSION = ${BINUTILS_VERSION})
   $(info BINUTILS_MAJOR = ${BINUTILS_MAJOR})
@@ -39,7 +42,7 @@ ifdef DEBUG
 endif
 
 ifneq (${BINUTILS_MAJOR},2)
-  $(error Not support binutils major=${BINUTILS_VERSION})
+  $(error Not support binutils major=${BINUTILS_VERSION}, only major==2)
 endif
 
 export BINUTILS_VERSION

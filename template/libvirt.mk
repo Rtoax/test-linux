@@ -2,12 +2,17 @@
 # Copyright (C) 2026 Rong Tao
 #
 # Output definitions:
+# - VIRSH=[/usr/bin/virsh]
+# - HAVE_VIRSH=[y|n]
 # - HAVE_LIBVIRT=[y|n]
 #
 ifndef _LIBVIRT_MK
 _LIBVIRT_MK = 1
 
-VIRSH := $(shell which virsh 2>/dev/null)
+include define.mk
+
+$(call find_cmd_and_def,virsh)
+
 ifeq ($(VIRSH),)
   $(warning "Not found libvirt, skipping")
   export HAVE_LIBVIRT := n

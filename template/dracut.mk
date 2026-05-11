@@ -3,19 +3,17 @@
 #
 # Output definitions:
 # - HAVE_DRACUT=[y|n]
+# - DRACUT=[/usr/bin/dracut]
 # - DRACUT_{VERSION,MAJOR,MINOR}=
 #
 ifndef _DRACUT_MK
 _DRACUT_MK = 1
 
-DRACUT := $(shell which dracut 2>/dev/null)
+include define.mk
 
-ifeq (${DRACUT},)
-  export HAVE_DRACUT := n
-else
-export HAVE_DRACUT := y
-export DRACUT
+$(call find_cmd_and_def,dracut)
 
+ifneq (${DRACUT},)
 include dir.mk
 
 dracutversh = ${TOPDIR}/scripts/version/dracut.sh
@@ -24,8 +22,11 @@ DRACUT_VERSION := $(shell ${dracutversh})
 DRACUT_MAJOR := $(shell ${dracutversh} --major)
 DRACUT_MINOR := $(shell ${dracutversh} --minor)
 
+export DRACUT_VERSION DRACUT_MAJOR DRACUT_MINOR
+
+endif # end of HAVE_DRACUT
+
 ifdef DEBUG
-  $(info HAVE_DRACUT = ${HAVE_DRACUT})
   $(info DRACUT_VERSION ${DRACUT_VERSION})
   $(info DRACUT_MAJOR ${DRACUT_MAJOR})
   $(info DRACUT_MINOR ${DRACUT_MINOR})
@@ -34,9 +35,5 @@ endif
 ifneq (${DRACUT_VERSION},${DRACUT_MAJOR}-${DRACUT_MINOR})
   $(error ${DRACUT_VERSION} != ${DRACUT_MAJOR}-${DRACUT_MINOR})
 endif
-
-export DRACUT_VERSION DRACUT_MAJOR DRACUT_MINOR
-
-endif # end of HAVE_DRACUT
 
 endif

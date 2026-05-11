@@ -5,7 +5,7 @@
 #
 # Output definitions:
 # - HAVE_PAHOLE=[y|n]
-# - PAHOLE=
+# - PAHOLE=[/usr/bin/pahole]
 # - PAHOLE_MAJOR=DWARVES_MAJOR=
 # - PAHOLE_MINOR=DWARVES_MINOR=
 # - pahole-cflags=
@@ -17,16 +17,13 @@ ifndef _PAHOLE_MK
 _PAHOLE_MK = 1
 
 include dir.mk
+include define.mk
 include shell.mk
 include version.mk
 
-PAHOLE := $(shell which pahole 2>/dev/null)
-ifeq ($(PAHOLE),)
-  $(warning "Not found pahole, skipping")
-  export HAVE_PAHOLE := n
-else
-export HAVE_PAHOLE := y
+$(call find_cmd_and_def,pahole)
 
+ifneq ($(PAHOLE),)
 PAHOLE_VERSION := 0.0
 PAHOLE_MAJOR := 0
 PAHOLE_MINOR := 0
@@ -63,8 +60,6 @@ pahole-cflags += -DPAHOLE_MINOR=${PAHOLE_MINOR}
 $(eval $(call define_version,pahole,version2_code1616,${PAHOLE_MAJOR},${PAHOLE_MINOR}))
 
 ifdef DEBUG
-  $(info PAHOLE = ${PAHOLE})
-  $(info HAVE_PAHOLE = ${HAVE_PAHOLE})
   $(info PAHOLE_MAJOR = ${PAHOLE_MAJOR})
   $(info PAHOLE_MINOR = ${PAHOLE_MINOR})
   $(info DWARVES_MAJOR = ${DWARVES_MAJOR})
@@ -77,7 +72,7 @@ ifneq ($(call pahole_lt,1,32),y)
   $(error "Call pahole_lt failed, $(call pahole_lt,1,32)")
 endif
 
-export PAHOLE PAHOLE_MAJOR PAHOLE_MINOR
+export PAHOLE_MAJOR PAHOLE_MINOR
 export DWARVES_MAJOR DWARVES_MINOR
 export pahole-cflags
 

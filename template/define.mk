@@ -2,8 +2,8 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Functions:
-# - check_file_and_def()=[y]
-# - find_cmd_and_def()=[y|n]
+# - check_file_and_def()
+# - find_cmd_and_def()
 #
 ifndef _DEFINE_MK
 _DEFINE_MK = 1
@@ -24,15 +24,15 @@ endef
 # $1: command name, like qemu-nbd
 # $2: alias name, for example, if $1=clang++, $2 could be clangxx
 define find_cmd_and_def
-$(if ${2},$(eval __Name_${1} := $(call underscore_non_alnum,$(call toupper_shell,${2}))))
-$(eval __Name_${1} ?= $(call underscore_non_alnum,$(call toupper_shell,${1})))
-$(eval ${__Name_${1}} := $(shell which ${1} 2>/dev/null | grep -v ^alias))
-$(if ${${__Name_${1}}}, \
-  $(eval export HAVE_${__Name_${1}} := y), \
-  $(eval export HAVE_${__Name_${1}} := n) \
+$(if ${2},$(eval __Cmd_${1} := $(call underscore_non_alnum,$(call toupper_shell,${2}))))
+$(eval __Cmd_${1} ?= $(call underscore_non_alnum,$(call toupper_shell,${1})))
+$(eval ${__Cmd_${1}} := $(shell which ${1} 2>/dev/null | grep -v ^alias))
+$(if ${${__Cmd_${1}}}, \
+  $(eval export HAVE_${__Cmd_${1}} := y), \
+  $(eval export HAVE_${__Cmd_${1}} := n) \
 )
-$(if ${DEBUG}, $(info ${__Name_${1}} = ${${__Name_${1}}}))
-$(if ${DEBUG}, $(info HAVE_${__Name_${1}} = ${HAVE_${__Name_${1}}}))
+$(if ${DEBUG}, $(info __Cmd_${1} ${__Cmd_${1}} = ${${__Cmd_${1}}}))
+$(if ${DEBUG}, $(info HAVE_${__Cmd_${1}} = ${HAVE_${__Cmd_${1}}}))
 endef
 
 # Do some checks

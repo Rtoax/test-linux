@@ -2,25 +2,14 @@
 # Copyright (C) 2026 Rong Tao
 #
 # Definitions:
-# - PODMAN=[/usr/bin/podman]
 # - HAVE_PODMAN=[y|n]
+# - PODMAN=[/usr/bin/podman]
 #
 ifndef _PODMAN_MK
 _PODMAN_MK = 1
 
-PODMAN := $(shell which podman 2>/dev/null)
-ifeq ($(wildcard ${PODMAN}),)
-  HAVE_PODMAN := n
-else
-  HAVE_PODMAN := y
-endif
+include define.mk
 
-ifdef DEBUG
-  $(info PODMAN = ${PODMAN})
-  $(info HAVE_PODMAN = ${HAVE_PODMAN})
-endif
-
-export PODMAN
-export HAVE_PODMAN
+$(call find_cmd_and_def,podman)
 
 endif
