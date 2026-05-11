@@ -15,17 +15,10 @@ include shell.mk
 include define.mk
 
 $(call find_cmd_and_def,clang)
-
-CLANGXX := $(shell which clang++ 2>/dev/null)
+$(call find_cmd_and_def,clang++,clangxx)
 
 CC ?= ${CLANG}
 CXX ?= ${CLANGXX}
-
-ifdef DEBUG
-  $(info CLANGXX = ${CLANGXX})
-endif
-
-export CLANGXX
 
 ifeq ($(CLANG),)
   $(warning Not found clang, please install clang first)
