@@ -24,15 +24,15 @@ endef
 # $1: command name, like qemu-nbd
 # $2: alias name, for example, if $1=clang++, $2 could be clangxx
 define find_cmd_and_def
-$(if ${2},$(eval __Name := $(call underscore_non_alnum,$(call toupper_shell,${2}))))
-$(eval __Name ?= $(call underscore_non_alnum,$(call toupper_shell,${1})))
-$(eval ${__Name} := $(shell which ${1} 2>/dev/null | grep -v ^alias))
-$(if ${${__Name}}, \
-  $(eval export HAVE_${__Name} := y), \
-  $(eval export HAVE_${__Name} := n) \
+$(if ${2},$(eval __Name_${1} := $(call underscore_non_alnum,$(call toupper_shell,${2}))))
+$(eval __Name_${1} ?= $(call underscore_non_alnum,$(call toupper_shell,${1})))
+$(eval ${__Name_${1}} := $(shell which ${1} 2>/dev/null | grep -v ^alias))
+$(if ${${__Name_${1}}}, \
+  $(eval export HAVE_${__Name_${1}} := y), \
+  $(eval export HAVE_${__Name_${1}} := n) \
 )
-$(if ${DEBUG}, $(info ${__Name} = ${${__Name}}))
-$(if ${DEBUG}, $(info HAVE_${__Name} = ${HAVE_${__Name}}))
+$(if ${DEBUG}, $(info ${__Name_${1}} = ${${__Name_${1}}}))
+$(if ${DEBUG}, $(info HAVE_${__Name_${1}} = ${HAVE_${__Name_${1}}}))
 endef
 
 # Do some checks
