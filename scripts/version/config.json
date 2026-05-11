@@ -34,6 +34,11 @@
 			},
 			"keys": [ "anaconda" ]
 		},
+		"apt": {
+			"name": "APT",
+			"extension": [ "deb" ],
+			"keys": [ "apt" ]
+		},
 		"bcc": {
 			"name": "BCC",
 			"library": [ "libbcc.so", "libbcc_bpf.so" ],
@@ -86,6 +91,11 @@
 			"name": "CMake",
 			"extension": [ "cmake" ],
 			"keys": [ "cmake", "CMakeLists.txt" ]
+		},
+		"dpkg": {
+			"name": "DPKG",
+			"extension": [ "deb" ],
+			"keys": [ "apt", "dpkg" ]
 		},
 		"dracut": {
 			"name": "Dracut",
