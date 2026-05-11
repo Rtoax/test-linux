@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sysfs: add pstore subdir;
 - Makefile: add TMOUT= to set timeout seconds;
 #### Changed
 #### Deprecated
