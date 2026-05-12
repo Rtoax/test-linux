@@ -27,17 +27,28 @@ struct PACKED s2 {
 };
 
 // TODO: support __attribute__ in the end
-// see https://github.com/bpftrace/bpftrace/pull/5153
-/*
+// see PR https://github.com/bpftrace/bpftrace/pull/5153
 struct s3 {
 	int i;
 	char c;
-} __attribute__((packed))
-*/
+	int i2;
+} __attribute__ ((aligned(1), packed))
 
 union u0 {
 	int a;
 	int b;
+};
+
+union u1 {
+	struct {
+		int a;
+		char c;
+		int b;
+	} s0 __attribute__((packed));
+	struct {
+		int a;
+		int b;
+	} s1 __attribute__((packed));
 };
 
 enum e0 {
@@ -48,6 +59,8 @@ enum e0 {
 BEGIN
 {
 	$a = (struct s1 *)0;
-	printf("offsetof %d\n", offsetof(struct s2, sb));
+	printf("offsetof s2 %d\n", offsetof(struct s2, sb));
+	printf("sizeof s3 %d\n", sizeof(struct s3));
+	printf("sizeof u1 %d\n", sizeof(union u1));
 	exit();
 }
