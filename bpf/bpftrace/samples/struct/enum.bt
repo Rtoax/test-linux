@@ -1,0 +1,10 @@
+#!/bin/env bpftrace
+enum e0 {
+	a,
+	b,
+};
+
+BEGIN
+{
+	exit();
+}

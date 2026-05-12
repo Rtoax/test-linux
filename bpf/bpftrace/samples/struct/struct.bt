@@ -34,33 +34,10 @@ struct s3 {
 	int i2;
 } __attribute__ ((aligned(1), packed))
 
-union u0 {
-	int a;
-	int b;
-};
-
-union u1 {
-	struct {
-		int a;
-		char c;
-		int b;
-	} s0 __attribute__((packed));
-	struct {
-		int a;
-		int b;
-	} s1 __attribute__((packed));
-};
-
-enum e0 {
-	a,
-	b,
-};
-
 BEGIN
 {
 	$a = (struct s1 *)0;
 	printf("offsetof s2 %d\n", offsetof(struct s2, sb));
 	printf("sizeof s3 %d\n", sizeof(struct s3));
-	printf("sizeof u1 %d\n", sizeof(union u1));
 	exit();
 }

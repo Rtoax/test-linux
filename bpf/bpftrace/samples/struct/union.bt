@@ -1,0 +1,23 @@
+#!/bin/env bpftrace
+union u0 {
+	int a;
+	int b;
+};
+
+union u1 {
+	struct {
+		int a;
+		char c;
+		int b;
+	} s0 __attribute__((packed));
+	struct {
+		int a;
+		int b;
+	} s1 __attribute__((packed));
+};
+
+BEGIN
+{
+	printf("sizeof u1 %d\n", sizeof(union u1));
+	exit();
+}

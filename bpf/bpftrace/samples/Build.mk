@@ -1,5 +1,7 @@
 include bpf/bpftrace.mk
 
+subdir-y += struct
+
 target-bt-y += arithmetic.bt
 target-bt-y += begin.bt
 target-bt-$(call bpftrace_gt,0,20,2) += begin-multi.bt
