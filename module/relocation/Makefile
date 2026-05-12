@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-
 obj-m += relocation.o
 ifeq ($(shell uname -m),aarch64)
   obj-m += big-module.o

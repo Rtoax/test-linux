@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- `make_tl.sh`: support kmod compile;
 #### Added
 - compiler: attribute test packed, pragma test pack;
 - sysfs: add pstore subdir;

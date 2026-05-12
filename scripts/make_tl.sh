@@ -16,18 +16,18 @@ declare workdir=$PWD
 declare -a make_args
 declare TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../)
 
-# FIXME: remove this check after a little while
-if [[ -L /etc/profile.d/make_tl.sh ]]; then
-	echo >&2 "ERROR: 'make uninstall' first, then 'make install' again"
-	exit 1
-fi
-
 # Use origin make command
 if ! [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] &&
    ! [[ "$(realpath .)" =~ "ostools" ]] &&
    ! [[ "$(realpath .)" =~ "test-linux" ]]; then
 	${sys_make} $@
 	return $?
+fi
+
+# FIXME: remove this check after a little while
+if [[ -L /etc/profile.d/make_tl.sh ]]; then
+	echo >&2 "ERROR: 'make uninstall' first, then 'make install' again"
+	exit 1
 fi
 
 ARGS=( "${@}" )
@@ -43,19 +43,26 @@ for ((i = 0; i < ${#ARGS[@]}; i++)); do
 done
 
 make_args+=( __USE_TEST_LINUX_MAKE__=1 )
-make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 
-if [[ -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]]; then
+if [[ -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]] &&
+   [[ ! "${ARGS[@]}" =~ "/lib/modules" ]]; then
 	# It is not supported to use Build.mk and Makefile at
 	# the same time.
 	if [[ -f ${workdir}/Makefile ]]; then
 		echo >&2 "ERROR: Not allow Build.mk and Makefile at the same time"
 		exit 1
 	fi
+	make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 	make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.build )
-elif [[ -z ${makefile} ]] && [[ -f ${workdir}/Kbuild.mk ]]; then
-	# TODO
+elif [[ -z ${makefile} ]] && [[ -f ${workdir}/Kbuild ]]; then
+	make_args+=( __KMOD__=1 )
 	make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.kmod )
 fi
 
-${sys_make} ${make_args[@]} ${@}
+_eval() {
+	if [[ ${VERBOSE} ]]; then
+		echo >&2 -e "\033[1;32m${@}\033[m"
+	fi
+	eval "${@}"
+}
+_eval ${sys_make} ${make_args[@]} ${@}
