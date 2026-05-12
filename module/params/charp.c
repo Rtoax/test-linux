@@ -3,7 +3,6 @@
 #include <linux/init.h>
 #include <linux/kernel.h>
 
-
 static char *name = "Rong Tao";
 module_param(name, charp, 0660);
 
