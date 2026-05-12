@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
+#
+# Definitions:
+# - KDIR=
+# - VMLINUX=
+#
 ifndef _KCOMPILE_MK
 _KCOMPILE_MK = 1
 
@@ -14,5 +19,8 @@ ifneq ($(wildcard ${VMLINUX}),)
     $(info Copy ${VMLINUX} to ${KDIR})
   endif
 endif
+
+export KDIR
+export VMLINUX
 
 endif

@@ -91,7 +91,8 @@ $(if ${target-mk-y}, $(eval $(call append_program_target,mk,.mk .mak,.log)))
 $(if ${target-python-y}, $(eval $(call append_program_target,python,.py,.log)))
 $(if ${target-bt-y}, $(eval $(call append_program_target,bt,.bt,.log)))
 
-$(if ${__KMOD__}, $(eval build-targets += target-kmods))
+$(if ${__KMOD__}, $(eval build-targets += kmods-build))
+$(if ${__KMOD__}, $(eval target-clean-y += kmods-clean))
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
 

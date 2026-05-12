@@ -5,19 +5,7 @@ include os.mk
 
 include ${CURDIR}/Kbuild
 
-KERNEL_DIR = /lib/modules/$(shell uname -r)/build
-MODULE_DIR := ${CURDIR}
-
-.PHONY: build
-build: ${kmod-build-y}
-	${Q}make -C $(KERNEL_DIR) M=$(MODULE_DIR) modules
-
-.PHONY: test
-test:
-
-.PHONY: clean
-clean:
-	${Q}make -C $(KERNEL_DIR) M=$(MODULE_DIR) clean
+include main.mk
 
 # Ktarget.mk is not necessacy.
 ifneq ($(wildcard ${CURDIR}/Ktarget.mk),)
