@@ -2,14 +2,16 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Definitions:
-# - KDIR=
 # - VMLINUX=
+# - KDIR=
+# - MDIR=
 #
 ifndef _KCOMPILE_MK
 _KCOMPILE_MK = 1
 
 VMLINUX := /usr/lib/debug/lib/modules/$(shell uname -r)/vmlinux
 KDIR := /lib/modules/$(shell uname -r)/build
+MDIR := ${CURDIR}
 
 ifneq ($(wildcard ${VMLINUX}),)
   $(info Build with VMLINUX=${VMLINUX})
@@ -20,7 +22,8 @@ ifneq ($(wildcard ${VMLINUX}),)
   endif
 endif
 
-export KDIR
 export VMLINUX
+export KDIR
+export MDIR
 
 endif
