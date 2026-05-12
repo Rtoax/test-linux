@@ -24,6 +24,7 @@ scripts_install()
 	ln -s ${SCRIPTS_DIR}/git/rm-permanent.sh /usr/bin/git-rm-permanent
 	ln -s ${SCRIPTS_DIR}/patchset.sh /usr/bin/patchset
 	ln -s ${SCRIPTS_DIR}/findelf.sh /usr/bin/findelf
+	ln -s ${SCRIPTS_DIR}/make_tl.sh /usr/bin/make_tl
 	ln -s ${SCRIPTS_DIR}/termplot.sh /usr/bin/termplot
 	ln -s ${SCRIPTS_DIR}/kconfig_compare.sh /usr/bin/kconfig_compare
 	ln -s ${SCRIPTS_DIR}/kcompile.sh /usr/bin/kcompile
@@ -47,6 +48,7 @@ scripts_uninstall()
 		/usr/bin/hmctl \
 		/usr/bin/patchset \
 		/usr/bin/findelf \
+		/usr/bin/make_tl \
 		/usr/bin/termplot \
 		/usr/bin/kconfig_compare \
 		/usr/bin/kcompile \
@@ -61,7 +63,6 @@ scripts_set_env()
 		touch ${realhome}/.bashrc
 	fi
 	cat >>${realhome}/.bashrc<<-EOF
-	source ${SCRIPTS_DIR}/make_tl.sh
 	alias make='make_tl'
 	EOF
 }

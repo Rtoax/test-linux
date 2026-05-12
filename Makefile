@@ -46,7 +46,7 @@ ifeq ($(shell test -L /etc/profile.d/make_tl.sh && echo yes),yes)
   $(error You MUST remove /etc/profile.d/make_tl.sh first!!)
 endif
 
-ifeq ($(wildcard /usr/bin/patchset),)
+ifeq ($(wildcard /usr/bin/make_tl),)
   ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
     $(error You MUST run 'make install' first, then start a new bash session!!)
   endif
