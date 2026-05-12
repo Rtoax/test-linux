@@ -1,1 +1,4 @@
+$(info TOPDIR = ${TOPDIR})
+$(info OS_ID = ${OS_ID})
+
 obj-m += nothing.o

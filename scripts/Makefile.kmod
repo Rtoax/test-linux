@@ -1,4 +1,8 @@
 # Use template to compile kernel module.
+include dir.mk
+include shell.mk
+include os.mk
+
 include ${CURDIR}/Kbuild
 
 KERNEL_DIR = /lib/modules/$(shell uname -r)/build

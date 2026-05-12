@@ -43,10 +43,7 @@ for ((i = 0; i < ${#ARGS[@]}; i++)); do
 done
 
 make_args+=( __USE_TEST_LINUX_MAKE__=1 )
-# TODO: Linux driver build not support template yet.
-if [[ ! "${ARGS[@]}" =~ "/lib/modules" ]]; then
-	make_args+=( -I${TEST_LINUX_ROOT}/template/ )
-fi
+make_args+=( -I${TEST_LINUX_ROOT}/template/ )
 
 if [[ -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]]; then
 	# It is not supported to use Build.mk and Makefile at
