@@ -4,6 +4,7 @@ include os.mk
 
 target-mk-y := $(shell ls *.mak)
 target-mk-y += eval.mak.1
+target-mk-y := $(filter-out included.mak,${target-mk-y})
 
 ARGS_eval.mk.1 := Rong Tao
 
