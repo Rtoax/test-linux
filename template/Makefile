@@ -26,21 +26,7 @@ $(info MK_ALL = ${MK_ALL})
 $(info MK_TGT = ${MK_TGT})
 $(info MK_TST = ${MK_TST})
 
-# Sometimes including an mk file takes too long, and this function can be
-# used to effectively measure the time required to include the mk.
-# Set V or DEBUG to enable debug mode.
-# Arguments:
-# $1: makefile to include
-define include_stat
-  $(eval _mk := $(1))
-  $(eval _mk_id := $(subst /,_,$(subst .,_,$(1))))
-  $(eval _start_$(_mk_id) := $(shell date +%s%6N))
-  $(if ${V}${DEBUG},$(info Include $(_mk) -> Startup.))
-  $(eval include $(_mk))
-  $(eval _end_$(_mk_id) := $(shell date +%s%6N))
-  $(eval _cost_$(_mk_id) := $(shell expr $$(expr $(_end_$(_mk_id)) - $(_start_$(_mk_id))) / 1000000))
-  $(if ${V}${DEBUG},$(info Include $(_mk) -> Done. Took $(_cost_$(_mk_id)) ms))
-endef
+include make.mk
 
 # include each mk for twice to test ifndef-endif pair
 $(foreach mk, ${MK_TST} ${MK_TST}, $(eval $(call include_stat,${mk})))
