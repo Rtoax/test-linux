@@ -1,17 +1,16 @@
 /**
  * https://gcc.gcc.gnu.narkive.com/WvwssETm/builtin-apply-args-gcc-4-1-1
  * gcc-src/gcc/testsuite/gcc.dg/builtin-apply2.c
+ *
+ * Builtins:
+ * void * __builtin_apply(void (*function)(), void *arguments, size_t size);
+ * void ** __builtin_apply_args();
+ * void __builtin_return(void *result);
+ * __builtin_va_arg_pack();
+ * size_t __builtin_va_arg_pack_len();
  */
 #include <stdio.h>
 #include <stdarg.h>
-
-#if 0
-void * __builtin_apply(void (*function)(), void *arguments, size_t size);
-void ** __builtin_apply_args();
-void __builtin_return(void *result);
-__builtin_va_arg_pack();
-size_t __builtin_va_arg_pack_len();
-#endif
 
 void foo(char *name, int d, int e, int f, int g)
 {
