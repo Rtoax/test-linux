@@ -24,6 +24,7 @@ and this project adheres to
 #### Tools
 - add gdisk;
 #### Template
+- add kmod.mk;
 - add efibootmgr.mk, uefi.mk;
 - define.mk: add `find_cmd_and_def()` and apply to qemu.mk;
 - string.mk: add `underscore_non_alnum()`;

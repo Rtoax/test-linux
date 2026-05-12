@@ -91,6 +91,7 @@ $(if ${target-mk-y}, $(eval $(call append_program_target,mk,.mk .mak,.log)))
 $(if ${target-python-y}, $(eval $(call append_program_target,python,.py,.log)))
 $(if ${target-bt-y}, $(eval $(call append_program_target,bt,.bt,.log)))
 
+$(if ${__KMOD__}, $(eval build-targets += target-kmods))
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
 
@@ -152,6 +153,7 @@ $(if $(target-bt-y), $(eval include targets/bpftrace.mk))
 $(if $(target-python-y), $(eval include targets/python.mk))
 $(if $(target-go-y), $(eval include targets/golang.mk))
 $(if $(target-java-y), $(eval include targets/java.mk))
+$(if ${__KMOD__}, $(eval include targets/kmod.mk))
 $(if $(subdir-y), $(eval include targets/subdir-footer.mk))
 include targets/vdso.mk
 include targets/compiler.mk
