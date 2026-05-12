@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- compiler: attribute test packed, pragma test pack;
 - sysfs: add pstore subdir;
 - Makefile: add TMOUT= to set timeout seconds;
 #### Changed

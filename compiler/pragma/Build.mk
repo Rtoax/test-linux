@@ -9,6 +9,7 @@ target-y += GCC_novector
 target-y += GCC_unroll
 target-y += GCC_ivdep
 target-y += call-func
+target-y += pack
 target-y += push_macro
 target-y += message
 target-y += _Pragma

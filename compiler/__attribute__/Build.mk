@@ -30,6 +30,7 @@ target-y += __has_attribute
 target-y += __mode__
 target-y += no_instrument_function
 target-y += visibility
+target-y += packed
 
 target-bpf-${HAVE_CLANG} := preserve_access_index.bpf.o
 

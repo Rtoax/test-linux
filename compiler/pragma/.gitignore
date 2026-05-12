@@ -9,5 +9,6 @@
 /GCC_ivdep
 /GCC_novector
 /_Pragma
+/pack
 /push_macro
 /message
