@@ -5,6 +5,6 @@ config = {
 }
 
 import "include/stdbool.h";
-import "struct.h";
+import "struct/structs.h";
 
 import "begin.bt";
