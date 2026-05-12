@@ -28,7 +28,6 @@ static void sfunc1(void)
 	printk("%d\n", global_int1);
 }
 
-
 void print(void) {}
 
 static int kernel_init(void)

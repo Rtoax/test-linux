@@ -10,7 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
-- `make_tl.sh`: support kmod compile;
+- `make_tl.sh`: support kmod compile with `Kbuild`+`Ktarget.mk`, and add `kmod-build-y` target;
 #### Added
 - compiler: attribute test packed, pragma test pack;
 - sysfs: add pstore subdir;

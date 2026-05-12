@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+kmod-build-y += generated_functions.h
+kmod-build-y += big-text.h
+
 obj-m += relocation.o
 ifeq ($(shell uname -m),aarch64)
   obj-m += big-module.o
@@ -19,17 +22,3 @@ endif
 KBUILD_CFLAGS += -Wno-unused-function
 KBUILD_CFLAGS += -Wno-unused-variable
 KBUILD_CFLAGS += -Wno-missing-prototypes
-
-all: big-text.h generated_functions.h
-	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-	${Q}du -sh *.ko
-
-generated_functions.h: generate_code.py
-	${Q}./generate_code.py
-
-big-text.h: big-text.sh
-	${Q}bash big-text.sh
-
-clean:
-	${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-	${Q}rm -f big-text.h generated_functions.h
