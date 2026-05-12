@@ -33,11 +33,11 @@ define include_stat
   $(eval _mk := $(1))
   $(eval _mk_id := $(subst /,_,$(subst .,_,$(1))))
   $(eval _start_$(_mk_id) := $(shell date +%s%6N))
-  $(if ${V}${DEBUG},$(info Include $(_mk) -> Startup.))
+  $(if ${V}${DEBUG},$(info Including $(_mk)))
   $(eval include $(_mk))
   $(eval _end_$(_mk_id) := $(shell date +%s%6N))
   $(eval _cost_$(_mk_id) := $(shell expr $$(expr $(_end_$(_mk_id)) - $(_start_$(_mk_id))) / 1000000))
-  $(if ${V}${DEBUG},$(info Include $(_mk) -> Done. Took $(_cost_$(_mk_id)) ms))
+  $(if ${V}${DEBUG},$(info Include $(_mk) took $(_cost_$(_mk_id)) ms))
 endef
 
 ifdef DEBUG
