@@ -1,4 +1,13 @@
 # Use template to compile kernel module.
+__KMOD__ = 1
 
-# TODO
 include ${CURDIR}/Kbuild.mk
+
+KERNEL_DIR = /lib/modules/$(shell uname -r)/build
+MODULE_DIR := ${CURDIR}
+
+build:
+	${Q}make -C $(KERNEL_DIR) M=$(MODULE_DIR) modules
+
+clean:
+	${Q}make -C $(KERNEL_DIR) M=$(MODULE_DIR) clean

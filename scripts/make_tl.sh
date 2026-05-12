@@ -8,10 +8,15 @@
 # /etc/default/useradd file SHELL=/bin/bash, because /bin/sh(dash) not support
 # `if [[]]` syntax. And, you'd better modify /etc/gdm3/Xsession shebang to
 # /bin/bash too.
-
 sys_make=$(which make)
 
 make_tl() {
+	if [[ ${VERBOSE} ]]; then
+		echo >&2 -e "\033[1;32m$ make_tl.sh ${@}\033[m"
+		export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+		set -x
+	fi
+
 	local i ARGS makefile
 	local workdir=$PWD
 	local make_args=()
@@ -53,10 +58,12 @@ make_tl() {
 			echo >&2 "ERROR: Not allow Build.mk and Makefile at the same time"
 			exit 1
 		fi
-		make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.build )
+		make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.ubuild )
 	elif [[ -z ${makefile} ]] && [[ -f ${workdir}/Kbuild.mk ]]; then
 		# TODO
 		make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.kmod )
+	elif [[ -z ${makefile} ]] && [[ -f ${workdir}/Makefile.template.mk ]]; then
+		make_args+=( -f ${TEST_LINUX_ROOT}/template/Makefile.template.mk )
 	fi
 
 	${sys_make} ${make_args[@]} $@
