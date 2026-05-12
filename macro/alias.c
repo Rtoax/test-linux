@@ -1,7 +1,5 @@
 #include <stdio.h>
-
 #include "alias.h"
-
 
 void foo(void)
 {
@@ -11,7 +9,6 @@ void foo(void)
 weak_alias(foo, alias1_foo);
 
 void alias2_foo(void) f_weak_alias("foo");
-
 
 int main(void)
 {
