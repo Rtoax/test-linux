@@ -31,15 +31,15 @@ $(eval $(call define_version,make,version2_code100010,${MAKE_MAJOR},${MAKE_MINOR
 # $1: makefile to include
 # $2: random key
 define ___include_stat
-  $(eval _start_$(2) := $(shell date +%s%9N))
-  $(if ${V}${DEBUG},$(info Including $(1) [${2}]))
-  $(eval include $(1))
-  $(eval _end_$(2) := $(shell date +%s%9N))
-  $(eval _cost_$(2) := $(shell expr $$(expr $(_end_$(2)) - $(_start_$(2))) / 1000000))
-  $(if ${V}${DEBUG},$(info Include $(1) took $(_cost_$(2)) ms [${2}]))
+  $$(if ${V}${DEBUG},$$(info Including $(1)))
+  _start_$(2) := $$(shell date +%s%9N)
+  include $(1)
+  _end_$(2) := $$(shell date +%s%9N)
+  _cost_$(2) := $$(shell expr $$$$( expr $$(_end_$(2)) - $$(_start_$(2)) ) / 1000000)
+  $$(if ${V}${DEBUG},$$(info Include $(1) took $$(_cost_$(2)) ms))
 endef
 define include_stat
-  $(call ___include_stat,${1},$(shell mktemp -u XXXXXX))
+  $(eval $(call ___include_stat,${1},$(shell mktemp -u XXXXXX)))
 endef
 
 ifdef DEBUG
