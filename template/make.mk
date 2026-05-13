@@ -29,14 +29,17 @@ $(eval $(call define_version,make,version2_code100010,${MAKE_MAJOR},${MAKE_MINOR
 # Set V or DEBUG to enable debug mode.
 # Arguments:
 # $1: makefile to include
-define include_stat
-  $(eval _mk_id := $(subst /,_,$(subst .,_,$(1))))
-  $(eval _start_$(_mk_id) := $(shell date +%s%6N))
-  $(if ${V}${DEBUG},$(info Including $(1)))
+# $2: random key
+define ___include_stat
+  $(eval _start_$(2) := $(shell date +%s%9N))
+  $(if ${V}${DEBUG},$(info Including $(1) [${2}]))
   $(eval include $(1))
-  $(eval _end_$(_mk_id) := $(shell date +%s%6N))
-  $(eval _cost_$(_mk_id) := $(shell expr $$(expr $(_end_$(_mk_id)) - $(_start_$(_mk_id))) / 1000000))
-  $(if ${V}${DEBUG},$(info Include $(1) took $(_cost_$(_mk_id)) ms))
+  $(eval _end_$(2) := $(shell date +%s%9N))
+  $(eval _cost_$(2) := $(shell expr $$(expr $(_end_$(2)) - $(_start_$(2))) / 1000000))
+  $(if ${V}${DEBUG},$(info Include $(1) took $(_cost_$(2)) ms [${2}]))
+endef
+define include_stat
+  $(call ___include_stat,${1},$(shell mktemp -u XXXXXX))
 endef
 
 ifdef DEBUG

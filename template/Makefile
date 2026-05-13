@@ -29,7 +29,7 @@ $(info MK_TST = ${MK_TST})
 include make.mk
 
 # include each mk for twice to test ifndef-endif pair
-$(foreach mk, ${MK_TST} ${MK_TST}, $(eval $(call include_stat,${mk})))
+$(foreach mk, ${MK_TST} ${MK_TST}, $(call include_stat,${mk}))
 
 subdir-y := targets/test/
 
@@ -39,7 +39,7 @@ target-prep-y += logo
 # __main__
 $(call include_stat,main.mk)
 
-$(foreach mk, ${MK_TGT}, $(eval $(call include_stat,${mk})))
+$(foreach mk, ${MK_TGT}, $(call include_stat,${mk}))
 
 .PHONY: log
 log:
