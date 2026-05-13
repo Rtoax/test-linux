@@ -51,7 +51,8 @@ Links
 -----
 
 - `Cloud Native System Overview <https://swiftorial.com/archview/cloud-native/cloud-native-system-overview>`_
-- GitHub: `Container Network Model (CNM) <https://github.com/moby/libnetwork/blob/master/docs/design.md>`_
+- GitHub markdown: `Reference Architecture for a Cloud Native Digital Enterprise <https://github.com/wso2/reference-architecture/blob/master/reference-cloud-native-architecture-digital-enterprise.md>`_
+- GitHub: `Docker Container Network Model (CNM) <https://github.com/moby/libnetwork/blob/master/docs/design.md>`_
 - GitHub: https://github.com/containernetworking/cni
     - GitHub: `Container Network Interface (CNI) Specification <https://github.com/containernetworking/cni/blob/main/SPEC.md>`_
 - https://opencontainers.org/
