@@ -1,3 +1,4 @@
+include git.mk
 include podman.mk
 include zstd.mk
 
@@ -10,6 +11,7 @@ subdir-y += ffmpeg
 subdir-y += fmtlib
 subdir-y += fstabd
 subdir-y += gdisk
+subdir-${HAVE_GIT} += git
 subdir-y += heatmap
 subdir-y += io_uring
 subdir-y += json-c

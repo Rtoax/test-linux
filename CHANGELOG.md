@@ -23,8 +23,9 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
-- add gdisk;
+- add gdisk, git;
 #### Template
+- git.mk: add `HAVE_GIT=y`;
 - add kmod.mk;
 - add efibootmgr.mk, uefi.mk;
 - define.mk: add `find_cmd_and_def()` and apply to qemu.mk;

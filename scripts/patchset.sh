@@ -82,6 +82,10 @@ ${BOLD}PATCHSET EXAMPLES${RST}
 	${GRAY}# check patches (scripts/checkpatch.pl if linux)${RST}
 	$ git send-email ${dry_run:+--dry-run} ${GRAY}[--to|--cc|--to-cmd=] --confirm=[always|never|cc|compose|auto]${RST} ${output_dir}/*.patch
 
+${BOLD}GIT EXAMPLES${RST}
+	${GRAY}# Check patchset for single file between two commits/tags:${RST}
+	$ git log v5.15.131^..v5.15.191 -p Makefile
+
 ${BOLD}SEE ALSO${RST}
 	git(1), git‐format‐patch(1), git‐send‐email(1)
 
