@@ -466,6 +466,10 @@
 			"command": [ "ps" ],
 			"keys": [ "procps", "pgrep" ]
 		},
+		"prometheus": {
+			"name": "Prometheus",
+			"keys": [ "prometheus", "cloud-native" ]
+		},
 		"psmisc": {
 			"name": "PSMisc",
 			"command": [ "pstree" ],

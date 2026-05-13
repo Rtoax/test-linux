@@ -21,7 +21,7 @@ declare -a dnf_args apt_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
-declare -a pkgs_rdma pkgs_ostree
+declare -a pkgs_rdma pkgs_ostree pkgs_cloud
 declare -a pkgs_cxl pkgs_ai pkgs_gpu pkgs_cuda pkgs_rocm
 
 declare -a pkgs_skip
@@ -46,12 +46,12 @@ declare have_base have_upgrade have_ai have_cuda have_rocm have_gpu have_fs \
 	have_pip have_compiler have_build have_docs have_devel have_container \
 	have_virt have_desktop have_math have_media have_bench have_db \
 	have_storage have_net have_video have_boot have_rdma have_cxl \
-	have_ostree
+	have_ostree have_cloud
 
 declare have_services have_3rd_party
 
 has_pkgs() {
-	echo ${have_base}${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_rdma}${have_cxl}${have_services}${have_rocm}${have_ostree}
+	echo ${have_base}${have_compiler}${have_build}${have_docs}${have_devel}${have_container}${have_virt}${have_pip}${have_desktop}${have_math}${have_media}${have_bench}${have_net}${have_fs}${have_ai}${have_gpu}${have_cuda}${have_db}${have_storage}${have_3rd_party}${have_video}${have_boot}${have_rdma}${have_cxl}${have_services}${have_rocm}${have_ostree}${have_cloud}
 }
 
 enable_all()
@@ -63,6 +63,7 @@ enable_all()
 	have_devel=YES
 	have_container=YES
 	have_virt=YES
+	have_cloud=YES
 	have_pip=YES
 	have_desktop=YES
 	have_math=YES
@@ -316,6 +317,7 @@ ARGUMENT
 	--storage          install storage relate packages
 	--net              install network relate packages
 	--virt             install virtualization relate packages
+	--cloud            install cloud[-native] relate packages
 	--fs               install filesystem relate packages
 	--ai               install AI relate packages
 	--gpu              install GPU relate packages
@@ -367,6 +369,7 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long devel \
 	--long container \
 	--long virt \
+	--long cloud \
 	--long pip --long nopip \
 	--long desktop \
 	--long math \
@@ -458,6 +461,10 @@ while true; do
 	--virt)
 		shift
 		have_virt=YES
+		;;
+	--cloud)
+		shift
+		have_cloud=YES
 		;;
 	--desktop)
 		shift
@@ -723,6 +730,8 @@ pkgs_docs+=( texlive )
 pkgs_virt+=( virt-manager )
 pkgs_virt+=( virtiofsd )
 #pkgs_virt+=( wine )
+
+pkgs_cloud+=( prometheus )
 
 # Benchmark
 pkgs_bench+=( fio )
@@ -1353,6 +1362,7 @@ os_packages
 [[ ${have_devel} ]] && pkgs_inst+=( ${pkgs_devel[@]} )
 [[ ${have_container} ]] && pkgs_inst+=( ${pkgs_container[@]} )
 [[ ${have_virt} ]] && pkgs_inst+=( ${pkgs_virt[@]} )
+[[ ${have_cloud} ]] && pkgs_inst+=( ${pkgs_cloud[@]} )
 [[ ${IS_PHY} ]] && [[ ${have_desktop} ]] && pkgs_inst+=( ${pkgs_desktop[@]} )
 [[ ${have_math} ]] && pkgs_inst+=( ${pkgs_math[@]} )
 [[ ${have_media} ]] && pkgs_inst+=( ${pkgs_media[@]} )

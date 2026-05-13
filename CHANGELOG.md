@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - `make_tl.sh`: support kmod compile with `Kbuild`+`Ktarget.mk`, and add `kmod-build-y` target;
 #### Added
+- cloud-native: add prometheus subdir;
 - Makefile: add `DRY_RUN`;
 - compiler: attribute test packed, pragma test pack;
 - sysfs: add pstore subdir;
@@ -22,13 +23,12 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
-- add cncf.rst;
+- add cncf.rst, prometheus.rst;
 #### Tools
 - add gdisk, git, libsmbios;
 #### Template
 - git.mk: add `HAVE_GIT=y`;
-- add kmod.mk, libsmbios.mk;
-- add efibootmgr.mk, uefi.mk;
+- add kmod.mk, libsmbios.mk, prometheus.mk, efibootmgr.mk, uefi.mk;
 - define.mk: add `find_cmd_and_def()` and apply to qemu.mk;
 - string.mk: add `underscore_non_alnum()`;
 - ldconfig.mk: add `find_library_path()`, `have_library()`;

@@ -10,6 +10,7 @@ Cloud Native
    kubernetes
    microservices
    service-mesh
+   prometheus
 
 
 Cloud Infrastructure Technologies
