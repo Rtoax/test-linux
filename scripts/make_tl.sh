@@ -8,6 +8,8 @@
 # /etc/default/useradd file SHELL=/bin/bash, because /bin/sh(dash) not support
 # `if [[]]` syntax. And, you'd better modify /etc/gdm3/Xsession shebang to
 # /bin/bash too.
+#
+# Usage: [VERBOSE=1] ./make_tl.sh
 
 readonly sys_make=$(which make)
 

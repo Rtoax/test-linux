@@ -18,7 +18,7 @@ define make_sub_dir
   $(call log_info,${1} $(call strip_topdir_prefix,$(2)))
   $(Q)pushd $(2) >/dev/null || exit 1; \
   start_ms=$$(date +%s%3N); \
-  ${MAKE} ${1} ${SUBMKFLAGS}; \
+  DRY_RUN=${DRY_RUN} ${MAKE} ${1} ${SUBMKFLAGS}; \
   makeret=$$?; \
   end_ms=$$(date +%s%3N); \
   cost_ms=$$((end_ms - start_ms)); \

@@ -20,9 +20,7 @@ include arch.mk
 include dir.mk
 include log.mk
 
-ifneq ($(subdir-y),)
-  include targets/subdir-header.mk
-endif
+$(if $(subdir-y), $(eval include targets/subdir-header.mk))
 
 build-targets += $(target-prep-y)
 build-targets += $(OUTPUT)
@@ -95,6 +93,10 @@ $(if ${__KMOD__}, $(eval build-targets += kmods-build))
 $(if ${__KMOD__}, $(eval target-clean-y += kmods-clean))
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
+
+ifneq (${DRY_RUN},)
+  build-targets := $(subdir-y-build)
+endif
 
 ifdef DEBUG
   $(info build-targets = ${build-targets})

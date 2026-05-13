@@ -13,6 +13,7 @@ define append_mkflags
 ifdef ${1}
   SUBMKFLAGS += ${1}=$${${1}}
   MAKEFLAGS += ${1}=$${${1}}
+  $(if ${DEBUG}, $(info MKFLAGS: ${1} = ${${1}}))
 endif
 endef
 
@@ -25,6 +26,7 @@ $(eval $(call append_mkflags,M32))
 $(eval $(call append_mkflags,FORCE))
 $(eval $(call append_mkflags,STATIC))
 $(eval $(call append_mkflags,TMOUT))
+$(eval $(call append_mkflags,DRY_RUN))
 
 ifdef DEBUG
   $(info SUBMKFLAGS = ${SUBMKFLAGS})

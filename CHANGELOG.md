@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - `make_tl.sh`: support kmod compile with `Kbuild`+`Ktarget.mk`, and add `kmod-build-y` target;
 #### Added
+- Makefile: add `DRY_RUN`;
 - compiler: attribute test packed, pragma test pack;
 - sysfs: add pstore subdir;
 - Makefile: add TMOUT= to set timeout seconds;

@@ -92,6 +92,7 @@ help:
 	@echo >&2 -e "***  NOSUBDIR=1    skip all sub-directory"
 	@echo >&2 -e "***  CHECK_ERROR=1 stop immediately when an error occurs"
 	@echo >&2 -e "***  TMOUT=1       specify timeout seconds"
+	@echo >&2 -e "***  DRY_RUN=1     don't actually make"
 	@echo >&2 -e "***"
 
 include make.list
