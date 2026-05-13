@@ -31,10 +31,10 @@ $(eval $(call define_version,make,version2_code100010,${MAKE_MAJOR},${MAKE_MINOR
 # $1: makefile to include
 define include_stat
   $(eval _mk_id := $(subst /,_,$(subst .,_,$(1))))
-  $(eval _start_$(_mk_id) := $(shell date +%s%6N))
+  $(eval _start_$(_mk_id) := $(shell date +%s%9N))
   $(if ${V}${DEBUG},$(info Including $(1)))
   $(eval include $(1))
-  $(eval _end_$(_mk_id) := $(shell date +%s%6N))
+  $(eval _end_$(_mk_id) := $(shell date +%s%9N))
   $(eval _cost_$(_mk_id) := $(shell expr $$(expr $(_end_$(_mk_id)) - $(_start_$(_mk_id))) / 1000000))
   $(if ${V}${DEBUG},$(info Include $(1) took $(_cost_$(_mk_id)) ms))
 endef
