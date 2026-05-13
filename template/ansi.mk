@@ -78,25 +78,42 @@ RG := ${ANSI_RST}${ANSI_GREEN}${ANSI_GRAY}
 RST := ${ANSI_RST}
 
 define green
-${ANSI_GREEN}${1}${ANSI_RST}
+$(shell printf "${ANSI_GREEN}")${1}$(shell printf "${ANSI_RST}")
 endef
 define bgreen
-${ANSI_BOLD}${ANSI_GREEN}${1}${ANSI_RST}
+$(shell printf "${ANSI_BOLD}${ANSI_GREEN}")${1}$(shell printf "${ANSI_RST}")
 endef
 define cyan
-${ANSI_CYAN}${1}${ANSI_RST}
+$(shell printf "${ANSI_CYAN}")${1}$(shell printf "${ANSI_RST}")
 endef
 define red
-${ANSI_RED}${1}${ANSI_RST}
+$(shell printf "${ANSI_RED}")${1}$(shell printf "${ANSI_RST}")
+endef
+define bred
+$(shell printf "${ANSI_RED}${ANSI_BOLD}")${1}$(shell printf "${ANSI_RST}")
 endef
 define yellow
-${ANSI_YELLOW}${1}${ANSI_RST}
+$(shell printf "${ANSI_YELLOW}")${1}$(shell printf "${ANSI_RST}")
 endef
 define byellow
-${ANSI_BOLD}${ANSI_YELLOW}${1}${ANSI_RST}
+$(shell printf "${ANSI_BOLD}${ANSI_YELLOW}")${1}$(shell printf "${ANSI_RST}")
 endef
 define bold
-${ANSI_BOLD}${1}${ANSI_RST}
+$(shell printf "${ANSI_BOLD}")${1}$(shell printf "${ANSI_RST}")
 endef
+
+ifdef DEBUG
+  # Note: will print \033[31mRED\033[m
+  $(info ${ANSI_RED}RED${ANSI_RST})
+  $(info $(shell printf "${ANSI_RED}")RED$(shell printf "${ANSI_RST}"))
+  $(info $(call green,GREEN))
+  $(info $(call bgreen,BOLD GREEN))
+  $(info $(call cyan,CYAN))
+  $(info $(call red,RED))
+  $(info $(call bred,BOLD RED))
+  $(info $(call yellow,YELLOW))
+  $(info $(call byellow,BOLD YELLOW))
+  $(info $(call bold,BOLD))
+endif
 
 endif

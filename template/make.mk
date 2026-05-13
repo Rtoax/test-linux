@@ -11,6 +11,7 @@
 ifndef _MAKE_MK
 _MAKE_MK = 1
 
+include ansi.mk
 include dir.mk
 include version.mk
 
@@ -36,7 +37,7 @@ define ___include_stat
   include $(1)
   _end_$(2) := $$(shell date +%s%9N)
   _cost_$(2) := $$(shell expr $$$$( expr $$(_end_$(2)) - $$(_start_$(2)) ) / 1000000)
-  $$(if ${V}${DEBUG},$$(info Include $(1) took $$(_cost_$(2)) ms))
+  $$(if ${V}${DEBUG},$$(info Include $$(call bgreen,$(1)) took $$(call bred,$$(_cost_$(2))) ms))
 endef
 define include_stat
   $(eval $(call ___include_stat,${1},$(shell mktemp -u XXXXXX)))
