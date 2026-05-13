@@ -12,7 +12,7 @@ Abbrev
 - CaaS: Container as a Service (容器即服务)
 - CNCF: Cloud Native Computing Foundation (云原生计算基金会)
 - CNI: Container Network Interface (容器网络接口)
-- CNM: Container Network Model (容器网络模型) @OVN
+- CNM: Container Network Model (容器网络模型) @OVN @Docker
 - CPaaS: Communications Platform as a Service (CPaaS)
 - CRI: Container Runtime Interface (容器运行时接口)
 - CSI: Container Storage Interface (容器存储接口)
