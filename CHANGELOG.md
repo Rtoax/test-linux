@@ -22,6 +22,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
+- add cncf.rst;
 #### Tools
 - add gdisk, git, libsmbios;
 #### Template
