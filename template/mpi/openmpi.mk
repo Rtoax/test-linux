@@ -12,9 +12,19 @@ _MPI_OPENMPI_MK = 1
 
 include define.mk
 
-OPENMPI_MPICC := /usr/lib64/openmpi/bin/mpicc
-OPENMPI_MPIRUN := /usr/lib64/openmpi/bin/mpirun
-OPENMPI_MPIEXEC := /usr/lib64/openmpi/bin/mpiexec
+# Debian
+ifneq ($(wildcard /usr/bin/mpicc.openmpi),)
+  OPENMPI_MPICC := /usr/bin/mpicc.openmpi
+  OPENMPI_MPIRUN := /usr/bin/mpirun.openmpi
+  OPENMPI_MPIEXEC := /usr/bin/mpiexec.openmpi
+# Fedora
+else ifneq ($(wildcard /usr/lib64/openmpi/bin/mpicc),)
+  OPENMPI_MPICC := /usr/lib64/openmpi/bin/mpicc
+  OPENMPI_MPIRUN := /usr/lib64/openmpi/bin/mpirun
+  OPENMPI_MPIEXEC := /usr/lib64/openmpi/bin/mpiexec
+else
+  OPENMPI_MPICC := __nonsense__
+endif
 
 $(call check_file_and_def,${OPENMPI_MPICC},HAVE_OPENMPI)
 

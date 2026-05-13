@@ -12,9 +12,19 @@ _MPI_MPICH_MK = 1
 
 include define.mk
 
-MPICH_MPICC := /usr/lib64/mpich/bin/mpicc
-MPICH_MPIRUN := /usr/lib64/mpich/bin/mpirun
-MPICH_MPIEXEC := /usr/lib64/mpich/bin/mpiexec
+# Debian
+ifneq ($(wildcard /usr/bin/mpicc.mpich),)
+  MPICH_MPICC := /usr/bin/mpicc.mpich
+  MPICH_MPIRUN := /usr/bin/mpirun.mpich
+  MPICH_MPIEXEC := /usr/bin/mpiexec.mpich
+# Fedora
+else ifneq ($(wildcard /usr/lib64/mpich/bin/mpicc),)
+  MPICH_MPICC := /usr/lib64/mpich/bin/mpicc
+  MPICH_MPIRUN := /usr/lib64/mpich/bin/mpirun
+  MPICH_MPIEXEC := /usr/lib64/mpich/bin/mpiexec
+else
+  MPICH_MPICC := __nonsense__
+endif
 
 $(call check_file_and_def,${MPICH_MPICC},HAVE_MPICH)
 
