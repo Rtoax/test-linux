@@ -8,6 +8,8 @@
 set -e
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
+readonly TEST_LINUX_ROOT=$(realpath ${WHERE_AM_I}/../)
+readonly LOG_CMD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
 readonly prog_name=runprog
 LOG_FILE=runprog.log
 declare -a ENVS
@@ -99,8 +101,13 @@ if [[ -f ${EXEC} ]] && [[ "${EXEC:0:1}" != "/" ]] && \
 	LEFT_ARGS[0]="./${EXEC}"
 fi
 
-${ENVS:+env} ${ENVS[@]} ${SUDO} ${TMOUT:+timeout ${TMOUT}} ${LEFT_ARGS[@]} | tee ${LOG_FILE}
+readonly CMD="${ENVS:+env} ${ENVS[@]} ${SUDO} ${TMOUT:+timeout ${TMOUT}} ${LEFT_ARGS[@]}"
+
+eval "${CMD}" | tee ${LOG_FILE}
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 	rm -f ${LOG_FILE}
+	echo -e "Failed: '\033[31m${CMD}\033[m', in ${PWD}" >> ${LOG_CMD_FILE}
 	error "${@}: run failed"
+else
+	echo -e "Succes: '\033[32m${CMD}\033[m', in ${PWD}" >> ${LOG_CMD_FILE}
 fi
