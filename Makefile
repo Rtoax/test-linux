@@ -70,7 +70,7 @@ help:
 	@echo >&2 -e "***    core.hooksPath = ${GIT_HOOKSPATH}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION v${TEST_LINUX_VERSION}-${NAME} (${TEST_LINUX_GIT_VERSION})"
 	@echo >&2 -e "***"
-	@echo >&2 -e "*** make build [KMOD=0] [USER=0]"
+	@echo >&2 -e "*** make build [KMOD=<y|n>] [USER=<y|n>]"
 	@echo >&2 -e "*** make test"
 	@echo >&2 -e "*** make clean"
 	@echo >&2 -e "***"
@@ -103,15 +103,11 @@ target-shell-y := abbrev.sh
 target-shell-y += history.sh
 target-shell-y += kconfig.sh
 
-ifeq ($(KMOD),0)
-  kmod-list-y :=
-endif
-ifeq ($(USER),0)
-  user-list-y :=
-endif
+KMOD := y
+USER := y
 
-subdir-y := ${kmod-list-y}
-subdir-y += ${user-list-y}
+subdir-${KMOD} := ${kmod-list-y}
+subdir-${USER} += ${user-list-y}
 
 ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
   include template/main.mk
