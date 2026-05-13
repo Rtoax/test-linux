@@ -1,4 +1,5 @@
 include git.mk
+include libsmbios.mk
 include podman.mk
 include zstd.mk
 
@@ -15,6 +16,7 @@ subdir-${HAVE_GIT} += git
 subdir-y += heatmap
 subdir-y += io_uring
 subdir-y += json-c
+subdir-${HAVE_LIBSMBIOS} += libsmbios
 subdir-y += libguestfs
 subdir-y += libosinfo
 subdir-y += lsof

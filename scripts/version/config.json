@@ -297,6 +297,11 @@
 			},
 			"keys": [ "dwarf", "libdwarf" ]
 		},
+		"libsmbios": {
+			"name": "LibSMBIOS",
+			"library": [ "libsmbios_c.so" ],
+			"keys": [ "smbios" ]
+		},
 		"libunwind": {
 			"name": "Libunwind",
 			"library": [ "libunwind.so" ],

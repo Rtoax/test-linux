@@ -857,6 +857,8 @@ fi
 
 dnf_add_packages()
 {
+	pkgs_boot+=( libsmbios )
+	pkgs_boot+=( smbios-utils )
 	if [[ $(is_arch aarch64) ]]; then
 		pkgs_boot+=( shim-aa64 )
 		pkgs_boot+=( shim-unsigned-aarch64 )

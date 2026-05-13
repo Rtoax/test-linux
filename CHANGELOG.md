@@ -23,10 +23,10 @@ and this project adheres to
 #### Security
 #### Docs
 #### Tools
-- add gdisk, git;
+- add gdisk, git, libsmbios;
 #### Template
 - git.mk: add `HAVE_GIT=y`;
-- add kmod.mk;
+- add kmod.mk, libsmbios;
 - add efibootmgr.mk, uefi.mk;
 - define.mk: add `find_cmd_and_def()` and apply to qemu.mk;
 - string.mk: add `underscore_non_alnum()`;
