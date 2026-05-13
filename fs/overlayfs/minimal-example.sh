@@ -41,6 +41,7 @@ sudo umount overlay
 sudo tree lower upper/upper upper/work overlay
 
 # Cleanup.
-sudo umount upper lower
+sudo umount upper
+sudo umount lower
 sudo rm lower.ext4 upper.ext4
 sudo rmdir lower upper overlay
