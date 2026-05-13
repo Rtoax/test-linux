@@ -13,6 +13,8 @@ include define.mk
 
 export HAVE_LIBSMBIOS := $(call have_library,libsmbios_c.so)
 $(call check_file_and_def, /usr/include/smbios_c, HAVE_LIBSMBIOS_H)
+$(call find_cmd_and_def,smbios-sys-info)
+$(call find_cmd_and_def,smbios-sys-info-lite)
 
 ifdef DEBUG
   $(info HAVE_LIBSMBIOS = ${HAVE_LIBSMBIOS})

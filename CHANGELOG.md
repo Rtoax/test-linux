@@ -26,7 +26,7 @@ and this project adheres to
 - add gdisk, git, libsmbios;
 #### Template
 - git.mk: add `HAVE_GIT=y`;
-- add kmod.mk, libsmbios;
+- add kmod.mk, libsmbios.mk;
 - add efibootmgr.mk, uefi.mk;
 - define.mk: add `find_cmd_and_def()` and apply to qemu.mk;
 - string.mk: add `underscore_non_alnum()`;
