@@ -1119,6 +1119,7 @@ apt_add_packages()
 	pkgs_base+=( libc-bin )
 	pkgs_base+=( libelf-dev )
 	pkgs_base+=( libgmp-dev )
+	pkgs_base+=( libgoogle-perftools-dev )
 	pkgs_base+=( libmpfr-dev )
 	pkgs_base+=( libmpich-dev )         # MPI
 	pkgs_base+=( libncurses-dev )
