@@ -40,13 +40,11 @@ struct __attribute__ ((aligned(1))) __attribute__ ((packed)) s5 {
 // TODO: handle multiple __attribute__ statements @jordalgo, however,
 //  @viktormalik said we don't need that.
 // see PR https://github.com/bpftrace/bpftrace/pull/5153
-/*
-struct s5 {
+struct s6 {
 	int i;
 	char c;
 	int i2;
-} __attribute__ ((aligned(1))) __attribute__ ((packed))
-*/
+} /**/ __attribute__ /**/ ((packed)) /**/ __attribute__ /**/ ((aligned(1))) /**/
 
 BEGIN
 {
