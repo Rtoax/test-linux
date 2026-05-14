@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 include helpers.mk
 
-subdir-y := process
+subdir-y += process
 subdir-y += procps-ng
 subdir-y += kallsyms
+subdir-y += modules
 subdir-y += sys
 subdir-y += sysrq-trigger
 
