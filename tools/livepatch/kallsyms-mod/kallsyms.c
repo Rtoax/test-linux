@@ -1,4 +1,3 @@
-
 #include <linux/module.h>
 #include <linux/completion.h>
 #include <linux/list.h>

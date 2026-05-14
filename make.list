@@ -58,10 +58,6 @@ user-list-y += unwind
 user-list-y += vdso
 user-list-y += virt
 
-kmod-list-y += tools/livepatch/kallsyms-mod
-kmod-list-y += tools/livepatch/kthread
-kmod-list-y += tools/livepatch/modules
-kmod-list-y += tools/livepatch/samples
 kmod-list-y += trace/kprobes/modules
 kmod-list-y += mm/vma/modules
 kmod-list-y += sched/kthread

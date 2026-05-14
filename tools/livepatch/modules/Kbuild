@@ -1,10 +1,8 @@
 # Copyright (C) Rong Tao
-include /boot/config-$(shell uname -r)
-
-LIVEPATCH:=
+include kconfig.mk
 
 ifeq ($(CONFIG_LIVEPATCH),y)
-LIVEPATCH=m
+  LIVEPATCH := m
 endif
 
 obj-$(LIVEPATCH) += estimation_timer.o
@@ -20,12 +18,3 @@ obj-$(LIVEPATCH) += test_klp_state3.o
 obj-$(LIVEPATCH) += test_klp_state.o
 #obj-$(LIVEPATCH) += test_klp_sysvec_apic_timer_interrupt.o
 #obj-$(LIVEPATCH) += test_klp_lapic_cal_handler.o
-
-build:
-		${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-
-test:
-	@echo >/dev/null
-
-clean:
-		${Q}make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean

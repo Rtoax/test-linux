@@ -19,6 +19,7 @@ subdir-y += json-c
 subdir-${HAVE_LIBSMBIOS} += libsmbios
 subdir-y += libguestfs
 subdir-y += libosinfo
+subdir-y += livepath
 subdir-y += lsof
 subdir-y += memcached
 subdir-y += nasm

@@ -1,0 +1,8 @@
+# Copyright (C) Rong Tao
+include kconfig.mk
+
+ifeq ($(CONFIG_LIVEPATCH),y)
+  LIVEPATCH := m
+endif
+obj-$(LIVEPATCH) += kthread.o
+obj-$(LIVEPATCH) += patchkthread.o
