@@ -2,21 +2,11 @@
 #define PACKED __attribute__((packed))
 #define ALIGN(n) __attribute__((align(n)))
 
-struct s0 {
-	int a;
-} /* The comma can be ignored. */
-
-// Could have whitespace
-	struct s1 {
-	int a;
-};
-
 struct PACKED s2 {
 	// int
 	int i;
 	/* char */
 	char c;
-	struct s1 s1;
 	struct ALIGN(8) {
 		int sa;
 	};
@@ -36,7 +26,6 @@ struct s3 {
 
 BEGIN
 {
-	$a = (struct s1 *)0;
 	printf("offsetof s2 %d\n", offsetof(struct s2, sb));
 	printf("sizeof s3 %d\n", sizeof(struct s3));
 	exit();

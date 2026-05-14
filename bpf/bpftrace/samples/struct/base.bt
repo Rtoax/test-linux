@@ -1,0 +1,16 @@
+#!/bin/env bpftrace
+
+struct s0 {
+	int a;
+} /* The comma can be ignored. */
+
+// Could have whitespace
+	struct s1 {
+	int a;
+};
+
+BEGIN
+{
+	$a = (struct s1 *)0;
+	exit();
+}
