@@ -6,12 +6,12 @@ include kcompile.mk
 
 .PHONY: kmods-build
 kmods-build: ${kmod-build-y}
-	$(call log_tgt,KMOD BUILD,$(@))
+	$(call log_tgt,KMOD BUILD,$(obj-m))
 	${Q}make -C $(KDIR) M=$(MDIR) modules
 
 .PHONY: kmods-clean
 kmods-clean:
-	$(call log_tgt,KMOD CLEAN,$(@))
+	$(call log_tgt,KMOD CLEAN,$(obj-m))
 	${Q}make -C $(KDIR) M=$(MDIR) clean
 
 endif
