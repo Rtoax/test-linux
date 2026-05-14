@@ -10,6 +10,20 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Removed
+#### Fixed
+#### Security
+#### Docs
+#### Tools
+#### Template
+
+
+## [v2.4.6] Kappa 2026-05-14
+
+#### Breaking Changes
 - `make_tl.sh`: support kmod compile with `Kbuild`+`Ktarget.mk`, and add `kmod-build-y` target;
 - compile kmod and user space code in one make by recursivly;
 #### Added
