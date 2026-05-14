@@ -69,8 +69,16 @@ _eval() {
 	if [[ ${VERBOSE} ]]; then
 		echo >&2 -e "\033[1;32m${@}\033[m"
 	fi
-	eval "${@}"
-	echo "[$?] ${@}" >> ${MAKE_LOG}
+	local ret=0
+	eval "${@}" || ret=$?
+	local error=
+	if [[ ${ret} == 0 ]]; then
+		error="\033[1;32mSUCCESS\033[m"
+	else
+		error="\033[1;31mFAILED\033[m"
+	fi
+	echo -e "[${PWD}] '\033[33m${@}\033[m' run ${error}" >> ${MAKE_LOG}
+	return ${ret}
 }
 
 # Compile kernel module
