@@ -1,4 +1,11 @@
 Abbrev
 ======
 
+- APIC: Advanced Programmable Interrupt Controller (高级可编程中断控制器)
 - GIC: Generic Interrupt Controller (通用中断控制器)
+- GSI: Global System Interrupt (全局系统中断)
+- IDT: Interrupt Descripter Table (中断描述符表)
+- LVT: Local Vector Table (局部向量表)
+- MSI: Message Signaled Interrupts (消息信号中断) @MSI-X
+- MSI-X: Extended Message Signaled Interrupts (扩展的消息信号中断) @MSI
+- SMI: System Management Interrupt (系统管理中断) @SMM
