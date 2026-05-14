@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #define CHK(st, sz) _Static_assert(sizeof(struct st) == sz, #st)
+#define PNT(st) printf("size of struct %-8s is %ld\n", #st, sizeof(struct st))
 
 /**
  * support by GCC, MSVC, Clang, ARMCC, IAR 
@@ -47,12 +48,26 @@ struct s4 {
 } __attribute__((packed, aligned(1)));
 CHK(s4, 9);
 
+struct s4_1 {
+	int i1;
+	char c;
+	int i2;
+} __attribute__((packed, aligned(2)));
+CHK(s4_1, 10);
+
 struct s5 {
 	int i1;
 	char c;
 	int i2;
 } __attribute__((aligned(1)));
 CHK(s5, 12);
+
+struct s5_1 {
+	int i1;
+	char c;
+	int i2;
+} __attribute__((aligned(4)));
+CHK(s5_1, 12);
 
 struct s6 {
 	int i1;
@@ -70,13 +85,14 @@ CHK(s, 12);
 
 int main(void)
 {
-	printf("size of struct s %ld\n", sizeof(struct s));
-	printf("size of struct s0 %ld\n", sizeof(struct s0));
-	printf("size of struct s1 %ld\n", sizeof(struct s1));
-	printf("size of struct s2 %ld\n", sizeof(struct s2));
-	printf("size of struct s3 %ld\n", sizeof(struct s3));
-	printf("size of struct s4 %ld\n", sizeof(struct s4));
-	printf("size of struct s5 %ld\n", sizeof(struct s5));
-	printf("size of struct s6 %ld\n", sizeof(struct s6));
+	PNT(s);
+	PNT(s1);
+	PNT(s2);
+	PNT(s3);
+	PNT(s4);
+	PNT(s4_1);
+	PNT(s5);
+	PNT(s5_1);
+	PNT(s6);
 	return 0;
 }
