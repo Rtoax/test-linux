@@ -24,9 +24,33 @@ struct s3 {
 	int i2;
 } __attribute__ ((aligned(1), packed))
 
+struct __attribute__ ((aligned(1), packed)) s4 {
+	int i;
+	char c;
+	int i2;
+}
+
+struct __attribute__ ((aligned(1))) __attribute__ ((packed)) s5 {
+	int i;
+	char c;
+	int i2;
+}
+
+// TODO: handle multiple __attribute__ statements @jordalgo, however,
+//  @viktormalik said we don't need that.
+// see PR https://github.com/bpftrace/bpftrace/pull/5153
+/*
+struct s5 {
+	int i;
+	char c;
+	int i2;
+} __attribute__ ((aligned(1))) __attribute__ ((packed))
+*/
+
 BEGIN
 {
 	printf("offsetof s2 %d\n", offsetof(struct s2, sb));
 	printf("sizeof s3 %d\n", sizeof(struct s3));
+	printf("sizeof s4 %d\n", sizeof(struct s4));
 	exit();
 }
