@@ -82,3 +82,8 @@ fi
 if [[ ${make_usrc_args} ]]; then
 	_eval ${sys_make} ${make_args[@]} ${make_usrc_args[@]} ${@}
 fi
+
+# Still support Makefile
+if [[ -z "${make_kmod_args}${make_usrc_args}" ]]; then
+	_eval ${sys_make} ${make_args[@]} ${@}
+fi
