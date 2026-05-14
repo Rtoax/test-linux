@@ -27,7 +27,13 @@ irqreturn_t no_action(int cpl, void *dev_id)
 {
 	printk(KERN_INFO "irq line number is %d!\n", cpl);
 	printk(KERN_INFO "in_task       = %d\n", in_task());
+/**
+ * v6.18-rc2-1-g70e0a80a1f35
+ * commit 70e0a80a1f35 ("treewide: Remove in_irq()")
+ */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 18, 0)
 	printk(KERN_INFO "in_irq        = %ld\n", in_irq());
+#endif
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
 	printk(KERN_INFO "in_hardirq    = %ld\n", in_hardirq());
 #endif

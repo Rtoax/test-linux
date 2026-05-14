@@ -13,10 +13,12 @@ and this project adheres to
 #### Added
 #### Changed
 #### Deprecated
-#### Removed
+#### Doc
 #### Fixed
+#### Linux Kernel
+- `in_irq()` removed in v6.18-rc2-1-g70e0a80a1f35;
+#### Removed
 #### Security
-#### Docs
 #### Tools
 #### Template
 

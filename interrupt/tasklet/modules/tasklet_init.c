@@ -12,6 +12,7 @@ This interrupt shared the one irq with keyboard
 #include <linux/init.h>
 #include <linux/interrupt.h>
 #include <linux/preempt.h>
+#include <linux/version.h>
 
 static int irq = 2;
 static char* devname = "devname";
@@ -42,7 +43,13 @@ static irqreturn_t myirq_handler(int irq,void* dev)
 	tasklet_init(&mytasklet,mytasklet_handler,0);
 	tasklet_schedule(&mytasklet);
 	printk("ISR is leaving..\n");
+/**
+ * v6.18-rc2-1-g70e0a80a1f35
+ * commit 70e0a80a1f35 ("treewide: Remove in_irq()")
+ */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 18, 0)
 	printk("in_irq = %ld\n", in_irq());
+#endif
 	printk("in_softirq = %ld\n", in_softirq());
 	printk("in_task = %d\n", in_task());
 	count++;
@@ -68,9 +75,6 @@ static void __exit myirq_exit(void)
 	printk("%s request IRQ:%d success..\n",devname,irq);
 }
 
-
-
 module_init(myirq_init);
 module_exit(myirq_exit);
 MODULE_LICENSE("GPL");
-

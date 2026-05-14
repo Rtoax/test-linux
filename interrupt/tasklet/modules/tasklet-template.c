@@ -1,7 +1,7 @@
 /**
- *	File tasklet-template.c 
- *	Time 2022.01.12
- *	Author Rong Tao <rtoax@foxmail.com>
+ * File tasklet-template.c
+ * Time 2022.01.12
+ * Author Rong Tao <rtoax@foxmail.com>
  */
 #include <linux/module.h>    // included for all kernel modules
 #include <linux/kernel.h>    // included for KERN_INFO
@@ -21,18 +21,25 @@ MODULE_PARM_DESC(irqnum, "irq number, acpi is OK");
 
 static char *name = "tasklet-template";
 module_param( name, charp, S_IRUGO);
-MODULE_PARM_DESC(name, "irq name");	
+MODULE_PARM_DESC(name, "irq name");
 
 struct myirq {
 	int devid;
 };
-struct myirq mydev = {1119};
+
+struct myirq mydev = { 1119 };
 static struct tasklet_struct mytasklet;
 
 static void print_irq_status(char *prefix)
 {
 	printk(KERN_INFO "%20s in_task       = %d\n", prefix, in_task());
+/**
+ * v6.18-rc2-1-g70e0a80a1f35
+ * commit 70e0a80a1f35 ("treewide: Remove in_irq()")
+ */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 18, 0)
 	printk(KERN_INFO "%20s in_irq        = %ld\n", prefix, in_irq());
+#endif
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
 	printk(KERN_INFO "%20s in_hardirq    = %ld\n", prefix, in_hardirq());
 #endif
@@ -60,10 +67,9 @@ irqreturn_t no_action(int cpl, void *dev_id)
 
 static int __init rtoax_irq_init(void)
 {
-    
 	printk(KERN_INFO "request irq %s!\n", name);
-    if (request_irq(irqnum, no_action, IRQF_SHARED, name, &mydev) != 0) {
-	    printk(KERN_ERR "%s: request_irq() failed\n", name);
+	if (request_irq(irqnum, no_action, IRQF_SHARED, name, &mydev) != 0) {
+		printk(KERN_ERR "%s: request_irq() failed\n", name);
 		return -1;
 	}
 	return 0;
@@ -72,7 +78,7 @@ static int __init rtoax_irq_init(void)
 static void __exit rtoax_irq_cleanup(void)
 {
 	printk(KERN_INFO "free irq.\n");
-    free_irq(irqnum, &mydev);
+	free_irq(irqnum, &mydev);
 	tasklet_kill(&mytasklet);
 }
 

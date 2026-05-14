@@ -34,7 +34,13 @@ void my_do_work(struct work_struct *work);
 static void print_irq_status(char *prefix)
 {
 	printk(KERN_INFO "%20s in_task       = %d\n", prefix, in_task());
+/**
+ * v6.18-rc2-1-g70e0a80a1f35
+ * commit 70e0a80a1f35 ("treewide: Remove in_irq()")
+ */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 18, 0)
 	printk(KERN_INFO "%20s in_irq        = %ld\n", prefix, in_irq());
+#endif
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
 	printk(KERN_INFO "%20s in_hardirq    = %ld\n", prefix, in_hardirq());
 #endif

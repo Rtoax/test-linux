@@ -1,7 +1,7 @@
 #!/bin/bash
 # Check code format with clang-format.
 #
-# Usage: [FCF=1] [FORCE=1] clang-format.sh
+# Usage: [VCF=1] [FCF=1] [FORCE=1] clang-format.sh
 # - FORCE/FCF: Force mode of Clang-Format
 #
 set -e
