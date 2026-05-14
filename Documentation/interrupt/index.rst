@@ -1,4 +1,4 @@
-========
+=========
 Interrupt
 =========
 
@@ -7,3 +7,4 @@ Interrupt
 
    abbrev
    gic
+   pic

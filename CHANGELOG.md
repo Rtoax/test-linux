@@ -23,7 +23,7 @@ and this project adheres to
 #### Fixed
 #### Security
 #### Docs
-- add cncf.rst, prometheus.rst, gic.rst;
+- add cncf.rst, prometheus.rst, interrupt/gic.rst, interrupt/pic.rst;
 #### Tools
 - add gdisk, git, libsmbios;
 #### Template
