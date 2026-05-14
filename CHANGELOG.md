@@ -18,6 +18,7 @@ and this project adheres to
 #### Linux Kernel
 - `in_irq()` removed in v6.18-rc2-1-g70e0a80a1f35;
 #### Removed
+- remove `target-test-y` support, we never use it;
 #### Security
 #### Tools
 #### Template

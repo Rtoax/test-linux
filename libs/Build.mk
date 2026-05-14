@@ -67,7 +67,7 @@ target-htcc-liba-${HAVE_HPCC} := libhpcc_helpers.a
 target-lscc-libso-${HAVE_LUCA} := libluca_helpers.so
 target-lscc-liba-${HAVE_LUCA} := libluca_helpers.a
 
-target-post-y += test1
+target-post-y += post1
 
 objs-dynamic += byte.so.o
 objs-dynamic += endian.so.o

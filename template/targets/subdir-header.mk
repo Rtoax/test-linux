@@ -16,7 +16,6 @@ ifdef NOSUBDIR
 endif
 
 subdir-y-build := $(addprefix $(CURRENT_DIR)/,$(subdir-y:=.build))
-subdir-y-test := $(addprefix $(CURRENT_DIR)/,$(subdir-y:=.test))
 subdir-y-clean := $(addprefix $(CURRENT_DIR)/,$(subdir-y:=.clean))
 
 ifdef DEBUG

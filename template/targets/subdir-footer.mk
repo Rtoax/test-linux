@@ -12,7 +12,7 @@ ifneq ($(CHECK_ERROR),)
   CHECK_ERROR_EXIT = exit 1;
 endif
 
-# $1: build, test, clean
+# $1: build, clean
 # $2: subdir-y
 define make_sub_dir
   $(call log_info,${1} $(call strip_topdir_prefix,$(2)))
@@ -35,10 +35,6 @@ define make_sub_dir_build
   $(call make_sub_dir,build,${1})
 endef
 
-define make_sub_dir_test
-  $(call make_sub_dir,test,${1})
-endef
-
 define make_sub_dir_clean
   $(call make_sub_dir,clean,${1})
 endef
@@ -47,11 +43,6 @@ endef
 $(subdir-y-build):
 	$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.build,%,$(@))))
 	$(call make_sub_dir_build,$(@:.build=))
-
-.PHONY: $(subdir-y-test)
-$(subdir-y-test):
-	$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.test,%,$(@))))
-	$(call make_sub_dir_test,$(@:.test=))
 
 .PHONY: $(subdir-y-clean)
 $(subdir-y-clean):

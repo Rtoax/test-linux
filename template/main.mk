@@ -110,11 +110,6 @@ build: $(build-targets)
 	$(call log_warn,Build)
 	$(call log_obj,BUILD DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
-.PHONY: test
-test: $(build-targets) $(subdir-y-test) $(target-test-y)
-	$(call log_warn,Test)
-	$(call log_obj,TEST DONE,$(call strip_topdir_prefix,$(shell realpath .)))
-
 .PHONY: clean
 clean: $(subdir-y-clean) $(target-clean-y)
 	$(call log_warn,Clean)
