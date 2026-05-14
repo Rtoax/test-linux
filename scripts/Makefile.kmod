@@ -1,6 +1,6 @@
 # Use template to compile kernel module.
 
-# subdirectory need KMOD=y by default.
+# subdirectory need KMOD=y by default, see also top Makefile.
 KMOD ?= y
 
 include dir.mk

@@ -22,6 +22,7 @@ and this project adheres to
 - top-Makefile: rename `USER=` to `USRC=`, because USER is too comment;
 #### Deprecated
 #### Removed
+ - remove make.list;
 #### Fixed
 #### Security
 #### Docs

@@ -95,7 +95,16 @@ help:
 	@echo >&2 -e "***  DRY_RUN=1     don't actually make"
 	@echo >&2 -e "***"
 
-include make.list
+# default compile kmod and user-source, see also scripts/Makefile.build and
+# scripts/Makefile.kmod
+KMOD ?= y
+USRC ?= y
+
+ifneq (${KMOD}${USRC},)
+  subdir-y := $(shell \
+    for d in `find -maxdepth 1 -type d | sed 's/\.\///g' | grep -v '^\.'`; do \
+      if [[ -e $$d/Build.mk ]]; then echo "$$d"; fi; done)
+endif
 
 target-prep-y := reset
 target-post-y := done
