@@ -1,8 +1,11 @@
 include kconfig.mk
 include helpers.mk
 
+subdir-y += kthread
 subdir-y += reparent
 subdir-y += scripts
+subdir-y += softlockup
+subdir-y += waitqueue
 
 target-y += current
 target-y += uninterruptible

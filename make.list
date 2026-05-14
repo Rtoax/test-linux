@@ -58,9 +58,4 @@ user-list-y += unwind
 user-list-y += vdso
 user-list-y += virt
 
-kmod-list-y += trace/kprobes/modules
-kmod-list-y += mm/vma/modules
-kmod-list-y += sched/kthread
-kmod-list-y += sched/softlockup/modules
-kmod-list-y += sched/waitqueue/modules
 kmod-list-y += trace/trace_printk/modules

@@ -11,6 +11,7 @@ subdir-y += oom
 subdir-y += tcmalloc
 subdir-y += tlb
 subdir-y += jemalloc
+subdir-y += vma
 subdir-y += vmalloc
 subdir-y += pmem
 
