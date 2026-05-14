@@ -1,5 +1,8 @@
 /**
- * or use -fpack-struct=1
+ * Test __attribute__ packed and aligned
+ *
+ * - requested alignment number is a positive power of 2
+ * - or use -fpack-struct=1
  */
 #include <stdio.h>
 
@@ -55,6 +58,13 @@ struct s4_1 {
 } __attribute__((packed, aligned(2)));
 CHK(s4_1, 10);
 
+struct s4_2 {
+	int i1;
+	char c;
+	int i2;
+} __attribute__((packed, aligned(4)));
+CHK(s4_2, 12);
+
 struct s5 {
 	int i1;
 	char c;
@@ -91,6 +101,7 @@ int main(void)
 	PNT(s3);
 	PNT(s4);
 	PNT(s4_1);
+	PNT(s4_2);
 	PNT(s5);
 	PNT(s5_1);
 	PNT(s6);
