@@ -23,6 +23,8 @@ LOG_FILE_INFO := $(TOPDIR)/info.log
 LOG_FILE_FAILED := $(TOPDIR)/failed.log
 # see scripts/runprog.sh
 LOG_FILE_RUNPROG := $(TOPDIR)/runprog.cmd.log
+# see scripts/make_tl.sh
+LOG_MAKE_TL := ${TOPDIR}/make.log
 
 # Timestamp
 define LOG_PFX
@@ -56,7 +58,8 @@ endef
 define log_reset
 	${Q}$(call reset_file,${LOG_FILE_FAILED}); \
 	$(call reset_file,${LOG_FILE_INFO}); \
-	$(call reset_file,${LOG_FILE_RUNPROG})
+	$(call reset_file,${LOG_FILE_RUNPROG}); \
+	$(call reset_file,${LOG_MAKE_TL})
 endef
 
 define log_display_failed

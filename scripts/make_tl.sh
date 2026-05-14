@@ -17,6 +17,7 @@ declare i ARGS makefile
 declare workdir=$PWD
 declare -a make_args
 declare TEST_LINUX_ROOT=$(realpath $(dirname $(realpath ${BASH_SOURCE[0]}))/../)
+readonly MAKE_LOG=${TEST_LINUX_ROOT}/make.log
 
 # Use origin make command
 if ! [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] &&
@@ -65,5 +66,6 @@ _eval() {
 		echo >&2 -e "\033[1;32m${@}\033[m"
 	fi
 	eval "${@}"
+	echo "[$?] ${@}" >> ${MAKE_LOG}
 }
 _eval ${sys_make} ${make_args[@]} ${@}
