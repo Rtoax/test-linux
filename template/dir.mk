@@ -10,6 +10,7 @@
 #
 # Functions:
 # - strip_topdir_prefix()
+# - list_dir()
 #
 ifndef _DIR_MK
 _DIR_MK = 1
@@ -25,9 +26,16 @@ define strip_topdir_prefix
 $(patsubst ${TOPDIR}%,%,$(1))
 endef
 
+# List all directory in current directory
+# $1: directory to listing, optional, current directory if not pass.
+define list_dir
+$(shell find ${1} -maxdepth 1 -mindepth 1 -type d -printf '%f\n')
+endef
+
 ifdef DEBUG
   $(info TOPDIR = ${TOPDIR})
   $(info HOME = ${HOME})
+  $(info list_dir = $(call list_dir, ..))
 endif
 
 export TOPDIR

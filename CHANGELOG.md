@@ -22,6 +22,7 @@ and this project adheres to
 #### Security
 #### Tools
 #### Template
+- dir.mk: add `list_dir()`;
 
 
 ## [v2.4.6] Kappa 2026-05-14

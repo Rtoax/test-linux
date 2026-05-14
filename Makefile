@@ -101,9 +101,8 @@ KMOD ?= y
 USRC ?= y
 
 ifneq (${KMOD}${USRC},)
-  subdir-y := $(shell \
-    for d in `find -maxdepth 1 -type d | sed 's/\.\///g' | grep -v '^\.'`; do \
-      if [[ -e $$d/Build.mk ]]; then echo "$$d"; fi; done)
+  subdir-y := $(shell for d in $(call list_dir); do \
+                        if [[ -e $$d/Build.mk ]]; then echo "$$d"; fi; done)
 endif
 
 target-prep-y := reset
