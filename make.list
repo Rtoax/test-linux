@@ -58,13 +58,6 @@ user-list-y += unwind
 user-list-y += vdso
 user-list-y += virt
 
-kmod-list-y += interrupt/idt/modules
-kmod-list-y += interrupt/ioapic/modules
-kmod-list-y += interrupt/request_irq
-kmod-list-y += interrupt/softirq/modules
-kmod-list-y += interrupt/tasklet/modules
-kmod-list-y += interrupt/trace-irqoff
-kmod-list-y += interrupt/workqueue/modules
 kmod-list-y += tools/livepatch/kallsyms-mod
 kmod-list-y += tools/livepatch/kthread
 kmod-list-y += tools/livepatch/modules
