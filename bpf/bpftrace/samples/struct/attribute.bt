@@ -22,7 +22,7 @@ struct s3 {
 	int i;
 	char c;
 	int i2;
-} __attribute__ ((aligned(1), packed))
+} __attribute__ ((aligned(1), /* [])))))( */ packed))
 
 struct __attribute__ ((aligned(1), packed)) s4 {
 	int i;

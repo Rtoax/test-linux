@@ -7,4 +7,4 @@ struct s1 {
 struct s3 {
 	int i;
 	char c;
-} __attribute__((packed));
+} __attribute__((aligned(1), /* [])))))( */ packed));
