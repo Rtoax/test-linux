@@ -10,6 +10,7 @@
 # /bin/bash too.
 #
 # Usage: [VERBOSE=1] ./make_tl.sh
+set -e
 
 readonly sys_make=$(which make)
 
