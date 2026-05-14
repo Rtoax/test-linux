@@ -1,8 +1,7 @@
 # Use template to default support some definitions, and include main.mk is not
 # necessacy.
-#
-# define in top Makefile first time, however, under sub directory need USRC=y
-# bu default.
+
+# subdirectory need USRC=y by default.
 USRC ?= y
 
 include output.mk

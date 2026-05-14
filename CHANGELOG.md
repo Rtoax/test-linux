@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 - `make_tl.sh`: support kmod compile with `Kbuild`+`Ktarget.mk`, and add `kmod-build-y` target;
+- compile kmod and user space code in one make by recursivly;
 #### Added
 - cloud-native: add prometheus subdir;
 - Makefile: add `DRY_RUN`;

@@ -104,12 +104,6 @@ target-shell-y := abbrev.sh
 target-shell-y += history.sh
 target-shell-y += kconfig.sh
 
-KMOD ?= y
-USRC ?= y
-
-subdir-${KMOD} := ${kmod-list-y}
-subdir-${USRC} += ${user-list-y}
-
 ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
   include template/main.mk
 endif
