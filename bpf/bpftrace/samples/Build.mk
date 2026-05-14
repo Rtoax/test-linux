@@ -13,7 +13,6 @@ target-bt-y += parent.bt
 target-bt-$(call bpftrace_gt,0,20,2) += pcomm.bt
 target-bt-$(call bpftrace_ge,0,25,0) += signal_name.bt
 target-bt-$(call bpftrace_gt,0,20,2) += strerror.bt
-target-bt-y += struct.bt
 target-bt-y += syscall_name.bt
 target-bt-$(call bpftrace_gt,0,20,2) += return.bt
 target-bt-y += ustack.bt
