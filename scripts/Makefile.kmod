@@ -1,9 +1,15 @@
 # Use template to compile kernel module.
+# define in top Makefile first time, however, under sub directory need KMOD=y
+# bu default.
+KMOD ?= y
+
 include dir.mk
 include shell.mk
 include os.mk
 
-include ${CURDIR}/Kbuild
+ifeq (${KMOD}, y)
+  include ${CURDIR}/Kbuild
+endif
 
 include main.mk
 

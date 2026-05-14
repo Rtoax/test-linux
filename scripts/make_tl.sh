@@ -57,6 +57,7 @@ if [[ -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]]; then
 	fi
 	make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.build )
 elif [[ -z ${makefile} ]] && [[ -f ${workdir}/Kbuild ]]; then
+	# __KMOD__ used in main.mk
 	make_args+=( __KMOD__=1 )
 	make_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.kmod )
 fi

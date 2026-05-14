@@ -18,6 +18,7 @@ and this project adheres to
 - sysfs: add pstore subdir;
 - Makefile: add TMOUT= to set timeout seconds;
 #### Changed
+- top-Makefile: rename `USER=` to `USRC=`, because USER is too comment;
 #### Deprecated
 #### Removed
 #### Fixed

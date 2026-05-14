@@ -47,9 +47,15 @@ Compile without kernel modules:
 
 .. code-block:: bash
 
-    $ make build KMOD=0
+    $ make build KMOD=
 
-Compile with **-m32**:
+Compile without user space code:
+
+.. code-block:: bash
+
+    $ make build USRC=
+
+Compile with **32bits mathine**:
 
 .. code-block:: bash
 

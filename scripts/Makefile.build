@@ -1,11 +1,17 @@
 # Use template to default support some definitions, and include main.mk is not
 # necessacy.
 #
+# define in top Makefile first time, however, under sub directory need USRC=y
+# bu default.
+USRC ?= y
+
 include output.mk
 include arch.mk
 include ansi.mk
 
-include ${CURDIR}/Build.mk
+ifeq (${USRC}, y)
+  include ${CURDIR}/Build.mk
+endif
 
 include	main.mk
 
