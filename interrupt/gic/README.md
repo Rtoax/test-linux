@@ -1,4 +1,0 @@
-GIC - Generic Interrupt Controller
-===============
-
-

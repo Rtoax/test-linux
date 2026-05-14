@@ -68,6 +68,7 @@ Hardware Architecture
    GPU Architecture <gpu/index>
    superPod <superpod/index>
    CXL <cxl/index>
+   Interrupt <interrupt/index>
 
 
 Debug and Observability
