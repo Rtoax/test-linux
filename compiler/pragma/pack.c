@@ -37,6 +37,18 @@ struct __attribute__((packed)) s2 {
 };
 CHK(s2, 9);
 
+/**
+ * attribute before 'struct' is not useful, and GCC do not complain, CLANG does.
+ */
+#if !defined(__clang__)
+__attribute__((packed, aligned(1))) struct s2_1 {
+	int i1;
+	char c;
+	int i2;
+};
+CHK(s2_1, 12);
+#endif
+
 struct s3 {
 	int i1;
 	char c;
