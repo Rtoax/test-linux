@@ -19,7 +19,10 @@ subdir-y-build := $(addprefix $(CURRENT_DIR)/,$(subdir-y:=.build))
 subdir-y-clean := $(addprefix $(CURRENT_DIR)/,$(subdir-y:=.clean))
 
 ifdef DEBUG
+  $(info CURRENT_DIR = ${CURRENT_DIR})
   $(info subdir-y = ${subdir-y})
+  $(info subdir-y-build = ${subdir-y-build})
+  $(info subdir-y-clean = ${subdir-y-clean})
 endif
 
 endif
