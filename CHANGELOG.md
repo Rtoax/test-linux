@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- podman: add pod subdir;
 - cloud-native: add grafana subdir;
 #### Changed
 - top Makefile: rename `CHECK_ERROR` to `ERROR_STOP`;
