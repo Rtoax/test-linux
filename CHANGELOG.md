@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cloud-native: add grafana subdir;
 #### Changed
 - top Makefile: rename `CHECK_ERROR` to `ERROR_STOP`;
 #### Deprecated
@@ -23,6 +24,7 @@ and this project adheres to
 #### Security
 #### Tools
 #### Template
+- add grafana.mk;
 - dir.mk: add `list_dir()`;
 
 

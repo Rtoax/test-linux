@@ -731,6 +731,7 @@ pkgs_virt+=( virt-manager )
 pkgs_virt+=( virtiofsd )
 #pkgs_virt+=( wine )
 
+pkgs_cloud+=( grafana )
 pkgs_cloud+=( prometheus )
 
 # Benchmark

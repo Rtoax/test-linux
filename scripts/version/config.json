@@ -221,6 +221,10 @@
 			"extension": [ "go" ],
 			"keys": [ "golang" ]
 		},
+		"grafana": {
+			"name": "Grafana",
+			"keys": [ "grafana", "prometheus", "cloud-native" ]
+		},
 		"grub": {
 			"name": "Grub",
 			"command": [ "grub2-mkimage", "grub-mkimage" ],
@@ -468,7 +472,7 @@
 		},
 		"prometheus": {
 			"name": "Prometheus",
-			"keys": [ "prometheus", "cloud-native" ]
+			"keys": [ "grafana", "prometheus", "cloud-native" ]
 		},
 		"psmisc": {
 			"name": "PSMisc",
