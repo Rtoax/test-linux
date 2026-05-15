@@ -8,8 +8,13 @@ include emoji.mk
 include mkflags.mk
 include make.mk
 
-ifneq ($(CHECK_ERROR),)
-  CHECK_ERROR_EXIT = exit 1;
+ifneq ($(ERROR_STOP),)
+  define _exit
+    exit ${1}
+  endef
+else
+  define _exit
+  endef
 endif
 
 # $1: build, clean
@@ -24,7 +29,7 @@ define make_sub_dir
   cost_ms=$$((end_ms - start_ms)); \
   if [ $${makeret} -ne 0 ]; then \
     $(call log_fail,${EMOJI_CROSS} Failed ${1} $(call strip_topdir_prefix,$(2)) cost $${cost_ms} ms); \
-    ${CHECK_ERROR_EXIT} \
+    $(call _exit,${makeret}) \
   else  \
     $(call log_success,${EMOJI_CHECK} Success ${1} $(call strip_topdir_prefix,$(2)) cost $${cost_ms} ms); \
   fi; \

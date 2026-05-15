@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 #### Changed
+- top Makefile: rename `CHECK_ERROR` to `ERROR_STOP`;
 #### Deprecated
 #### Doc
 #### Fixed

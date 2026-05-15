@@ -71,4 +71,4 @@ Stop immediately when an error occurs:
 
 .. code-block:: bash
 
-    $ make build CHECK_ERROR=1
+    $ make build ERROR_STOP=1
