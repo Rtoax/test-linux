@@ -7,6 +7,7 @@ Cloud Native
 
    abbrev
    cncf
+   pod
    kubernetes
    microservices
    service-mesh
