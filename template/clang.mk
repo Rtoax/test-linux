@@ -3,6 +3,7 @@
 #
 # Output definitions:
 # - HAVE_CLANG=[y|n]
+# - HAVE_CLANGXX=[y|n]
 # - CLANG=[/usr/bin/clang]
 # - CLANGXX=[/usr/bin/clang++]
 #
