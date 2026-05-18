@@ -74,6 +74,7 @@ ${BOLD}BARE GIT EXAMPLES${RST}
 	${GRAY}# Generate 2 patches patchset with cover letter${RST}
 	$ git format-patch ${UL}-2${RST} -s --cover-letter --thread \\
 			--subject-prefix=\"${UL}PATCH v3${RST}\"
+	${GRAY}# Then, send-email, see below.${RST}
 
 ${BOLD}PATCHSET EXAMPLES${RST}
 	${GRAY}# Submit a patchset:${RST}
@@ -85,6 +86,9 @@ ${BOLD}PATCHSET EXAMPLES${RST}
 ${BOLD}GIT EXAMPLES${RST}
 	${GRAY}# Check patchset for single file between two commits/tags:${RST}
 	$ git log v5.15.131^..v5.15.191 -p Makefile
+	${GRAY}# Compare two branches${RST}
+	$ git diff ${UL}BRANCH1${RST} ${UL}BRANCH2${RST} ${GRAY}-- ${UL}FILE${RST}
+	$ git log ${UL}BRANCH1${RST}..${UL}BRANCH2${RST} ${GRAY}--oneline${RST}
 
 ${BOLD}SEE ALSO${RST}
 	git(1), git‐format‐patch(1), git‐send‐email(1)
@@ -93,8 +97,8 @@ ${BOLD}AUTHOR${RST}
 	Rong Tao
 
 ${BOLD}LINKS${RST}
-	https://kernelnewbies.org/FirstKernelPatch
-	https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+	1. https://kernelnewbies.org/FirstKernelPatch
+	2. https://www.kernel.org/doc/html/latest/process/submitting-patches.html
 " | more
 	exit ${1-0}
 }

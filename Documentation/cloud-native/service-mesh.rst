@@ -13,6 +13,20 @@ without code changes.
    istio
 
 
+Sidecar
+-------
+
+.. code-block:: text
+
+         Microservice Pod
+    ┌──────────────────────────┐
+    │┌──────────┐ ┌──────────┐ │
+    ││Service   │ │ Sidecar  │ │
+    ││Container │ │ Container│ │
+    │└──────────┘ └──────────┘ │
+    └──────────────────────────┘
+
+
 Links
 -----
 

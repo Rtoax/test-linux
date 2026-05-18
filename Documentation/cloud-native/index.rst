@@ -7,10 +7,12 @@ Cloud Native
 
    abbrev
    cncf
+   pod
    kubernetes
    microservices
    service-mesh
    prometheus
+   grafana
 
 
 Cloud Infrastructure Technologies

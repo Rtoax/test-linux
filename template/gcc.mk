@@ -4,8 +4,10 @@
 # Input definitions:
 #
 # Output definitions:
-# - GCC=[gcc]
-# - GXX=[g++]
+# - HAVE_GCC=[y|n]
+# - HAVE_GXX=[y|n]
+# - GCC=[/usr/bin/gcc]
+# - GXX=[/usr/bin/g++]
 # - GCC_VERSION=
 # - GCC_MAJOR=
 # - GCC_MINOR=
@@ -18,10 +20,12 @@ ifndef _GCC_MK
 _GCC_MK = 1
 
 include dir.mk
+include define.mk
+include shell.mk
 include version.mk
 
-GCC := gcc
-GXX := g++
+$(call find_cmd_and_def,gcc)
+$(call find_cmd_and_def,g++,gxx)
 
 CC ?= ${GCC}
 CXX ?= ${GXX}

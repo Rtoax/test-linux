@@ -1,0 +1,20 @@
+#!/bin/env bpftrace
+
+struct __attribute__ ((aligned(1), packed)) s4 {
+	int i;
+	char c;
+	int i2;
+}
+
+struct __attribute__ ((aligned(1))) __attribute__ ((packed)) s5 {
+	int i;
+	char c;
+	int i2;
+}
+
+BEGIN
+{
+	printf("sizeof s4 %d\n", sizeof(struct s4));
+	printf("sizeof s5 %d\n", sizeof(struct s5));
+	exit();
+}

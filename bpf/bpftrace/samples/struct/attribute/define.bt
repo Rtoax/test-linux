@@ -1,0 +1,23 @@
+#!/bin/env bpftrace
+#define PACKED __attribute__((packed))
+#define ALIGN(n) __attribute__((align(n)))
+
+struct PACKED st {
+	// int
+	int i;
+	/* char */
+	char c;
+	struct ALIGN(8) {
+		int sa;
+	};
+	struct {
+		int sb;
+	} __attribute__((packed));
+	long l;
+};
+
+BEGIN
+{
+	printf("offsetof st %d\n", offsetof(struct st, sb));
+	exit();
+}

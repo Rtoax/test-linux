@@ -70,14 +70,17 @@ _eval() {
 		echo >&2 -e "\033[1;32m${@}\033[m"
 	fi
 	local ret=0
+	local start=$(date +%s%9N)
 	eval "${@}" || ret=$?
+	local end=$(date +%s%9N)
+	local cost=$(expr $(expr ${end} - ${start}) / 1000000)
 	local error=
 	if [[ ${ret} == 0 ]]; then
 		error="\033[1;32mSUCCESS\033[m"
 	else
 		error="\033[1;31mFAILED\033[m"
 	fi
-	echo -e "[${PWD}] '\033[33m${@}\033[m' run ${error}" >> ${MAKE_LOG}
+	echo -e "[${PWD}] '\033[33m${@}\033[m' run ${error}, cost ${cost} ms" >> ${MAKE_LOG}
 	return ${ret}
 }
 

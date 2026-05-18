@@ -30,7 +30,7 @@ $(eval $(call define_version,make,version2_code100010,${MAKE_MAJOR},${MAKE_MINOR
 # Set V or DEBUG to enable debug mode.
 # Arguments:
 # $1: makefile to include
-# $2: random key
+# $2: a random key to identify the makefile for parallelism and nesting
 define ___include_stat
   $$(if ${V}${DEBUG},$$(info Including $(1)))
   _start_$(2) := $$(shell date +%s%9N)
