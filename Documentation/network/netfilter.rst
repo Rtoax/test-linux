@@ -1,7 +1,14 @@
 Netfilter
 =========
 
-filter package
+What is the netfilter.org project?
+----------------------------------
+
+The netfilter project is a community-driven collaborative FOSS project that
+provides packet filtering software for the Linux 2.4.x and later kernel series.
+The netfilter project is commonly associated with iptables and its successor
+nftables.
+
 
 hook
 ----
@@ -53,4 +60,5 @@ static key
 Links
 -----
 
+- https://netfilter.org/
 - https://inai.de/images/nf-packet-flow.svg
