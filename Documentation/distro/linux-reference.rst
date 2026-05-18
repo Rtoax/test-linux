@@ -29,6 +29,7 @@ Linux Kernel Reference
 * 6.15.9 (fedora42)
 * 6.14.11 (fedora42)
 * 6.14.0 (ubuntu24.04)
+* 6.12.88 (debian13.5)
 * 6.12.86 (debian13.4)
 * 6.12.74 (debian13.4)
 * 6.12.73 (debian13.3)
