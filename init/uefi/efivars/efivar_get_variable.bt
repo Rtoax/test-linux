@@ -1,0 +1,10 @@
+#!/bin/env bpftrace
+
+kprobe:efivar_get_variable
+{
+	let $name = arg0;
+	for ($j : ((uint64)0)..((uint64)32)) {
+		printf("%s", str($name + 2 * $j));
+	}
+	printf("\n");
+}
