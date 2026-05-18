@@ -10,4 +10,7 @@ Computing Foundation alongside projects like Kubernetes and Prometheus.
 Links
 -----
 
+- https://istio.io/
 - https://istio.io/latest/about/service-mesh/
+- https://github.com/istio/istio
+- https://github.com/envoyproxy/envoy
