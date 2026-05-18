@@ -22,6 +22,7 @@ Linux Tools
    :maxdepth: 1
 
    util-linux
+   binfmt
 
 
 Other Kernels
