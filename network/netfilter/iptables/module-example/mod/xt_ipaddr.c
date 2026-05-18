@@ -13,7 +13,6 @@
 #include "xt_ipaddr.h"
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0)
-
 /*
  * Until kernel 4.9, the incoming and outgoing devices were par->in and
  * par->out.
@@ -34,7 +33,6 @@ static inline const struct net_device *xt_out(const struct xt_action_param *par)
 {
 	return par->out;
 }
-
 #endif
 
 static bool ipaddr_mt4(const struct sk_buff *skb, struct xt_action_param *par)
@@ -43,10 +41,10 @@ static bool ipaddr_mt4(const struct sk_buff *skb, struct xt_action_param *par)
 	const struct iphdr *iph = ip_hdr(skb);
 
 	printk(KERN_INFO
-			"xt_ipaddr: IN=%s OUT=%s SRC=%pI4 DST=%pI4 IPSRC=%pI4 IPDST=%pI4\n",
-			(xt_in(par) != NULL) ? xt_in(par)->name : "",
-			(xt_out(par) != NULL) ? xt_out(par)->name : "",
-			&iph->saddr, &iph->daddr, &info->src, &info->dst);
+		"xt_ipaddr: IN=%s OUT=%s SRC=%pI4 DST=%pI4 IPSRC=%pI4 IPDST=%pI4\n",
+		(xt_in(par) != NULL) ? xt_in(par)->name : "",
+		(xt_out(par) != NULL) ? xt_out(par)->name : "",
+		&iph->saddr, &iph->daddr, &info->src, &info->dst);
 
 	if (info->flags & XT_IPADDR_SRC) {
 		if ((iph->saddr != info->src.ip)

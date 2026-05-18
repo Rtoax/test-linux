@@ -18,6 +18,7 @@ Netfilter
 .. toctree::
    :maxdepth: 1
 
+   netfilter
    iptables
 
 

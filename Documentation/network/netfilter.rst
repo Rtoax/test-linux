@@ -1,14 +1,17 @@
-# Netfilter
+Netfilter
+=========
 
 filter package
 
-# hook
+hook
+----
 
 * NF_HOOK
 * NF_HOOK_COND
 * NF_HOOK_THRESH
 
-# nf inet
+nf inet
+-------
 
 * NF_INET_PRE_ROUTING
 * NF_INET_LOCAL_IN
@@ -17,7 +20,8 @@ filter package
 * NF_INET_POST_ROUTING
 * NF_INET_NUMHOOKS
 
-# nf proto
+nf proto
+--------
 
 * NFPROTO_UNSPEC
 * NFPROTO_INET
@@ -30,8 +34,9 @@ filter package
 * NFPROTO_NUMPROTO
 
 
-# static key
+static key
+----------
 
-```c
-struct static_key nf_hooks_needed[NFPROTO_NUMPROTO][NF_MAX_HOOKS];
-```
+.. code-block:: c
+
+    struct static_key nf_hooks_needed[NFPROTO_NUMPROTO][NF_MAX_HOOKS];
