@@ -4,6 +4,11 @@ binfmt
 binfmt_misc
 -----------
 
+/proc/sys/fs/binfmt_misc/register
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+format: `:name:type:offset:magic:mask:interpreter:flags`.
+
 see `binfmt.d(5)`
 
 - /etc/binfmt.d/
