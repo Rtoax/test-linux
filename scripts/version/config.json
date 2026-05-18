@@ -416,6 +416,11 @@
 			"command": [ "nmcli" ],
 			"keys": [ "NetworkManager", "nmcli" ]
 		},
+		"nginx": {
+			"name": "Nginx",
+			"command": [ "nginx" ],
+			"keys": [ "nginx" ]
+		},
 		"numactl": {
 			"name": "NumaCTL",
 			"package": {
