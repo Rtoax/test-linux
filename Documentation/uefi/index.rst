@@ -7,3 +7,4 @@ UEFI (Unified Extensible Firmware Interface)
 
    uefi
    shim
+   efibootmgr
