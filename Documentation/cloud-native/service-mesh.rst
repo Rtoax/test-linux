@@ -18,18 +18,26 @@ Sidecar
 
 .. code-block:: text
 
-             Microservice Pod
-    ┌────────────────────────────────────┐
-    │┌──────────┐          ┌───────────┐ │
-    ││          │  UNIX    │           │ │
-    ││ Service  │  Socket  │ Sidecar   │ │
-    ││ Container│◀────────▶│ Container │ │
-    ││          │          │           │ │
-    │└──────────┘          └───────────┘ │
-    └────────────────────────────────────┘
+            Microservice Pod
+   ┌────────────────────────────────────┐
+   │┌──────────┐          ┌───────────┐ │Ingress
+   ││          │  UNIX    │ (Envoy)   │◀┼────────
+   ││ Service  │  Socket  │ Sidecar   │ │
+   ││ Container│◀────────▶│ Container │ │Egress
+   ││          │          │           │─┼───────▶
+   │└──────────┘          └───────────┘ │
+   └────────────────────────────────────┘
+
+
+Envoy: Service Proxy
+~~~~~~~~~~~~~~~~~~~~
+
+Envoy is an L7 proxy and communication bus designed for large modern service
+oriented architectures.
 
 
 Links
 -----
 
+- https://www.envoyproxy.io/
 - https://istio.io/latest/about/service-mesh/
