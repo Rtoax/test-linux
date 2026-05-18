@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-./runprog.sh -v
+./runprog.sh -h
 ./runprog.sh -- runprog.sh -h
 ./runprog.sh -- /usr/bin/ls
 {

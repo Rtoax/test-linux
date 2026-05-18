@@ -74,7 +74,7 @@ while true; do
 		;;
 	-h | --help)
 		shift
-		__usage__
+		__usage__ 0
 		;;
 	--maybe-sudo)
 		shift
@@ -93,6 +93,10 @@ done
 LEFT_ARGS=( "${@}" )
 EXEC=${LEFT_ARGS[0]}
 
+if [[ -z ${EXEC} ]]; then
+	error "Need pass execution"
+fi
+
 # If not found EXEC in system env, and it's exist file under current directory,
 # add './' prefix.
 if [[ -f ${EXEC} ]] && [[ "${EXEC:0:1}" != "/" ]] && \
@@ -101,10 +105,18 @@ if [[ -f ${EXEC} ]] && [[ "${EXEC:0:1}" != "/" ]] && \
 	LEFT_ARGS[0]="./${EXEC}"
 fi
 
+SHEBANG=$(awk 'NR==1' ${LEFT_ARGS[0]} 2>/dev/null)
+if [[ "${SHEBANG:0:2}" == "#!" ]]; then
+	SHEBANG=${SHEBANG:2}
+else
+	SHEBANG=""
+fi
+
 CMD=""
 CMD+="${ENVS:+env ${ENVS[@]} }"
 CMD+="${SUDO:+${SUDO} }"
 CMD+="${TMOUT:+timeout ${TMOUT} }"
+CMD+="${SHEBANG:+${SHEBANG} }"
 CMD+="${LEFT_ARGS[@]}"
 
 eval "${CMD}" | tee ${LOG_FILE}
