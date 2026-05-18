@@ -3,6 +3,7 @@ include libsmbios.mk
 include podman.mk
 include zstd.mk
 
+subdir-y += binfmt
 subdir-y += capability
 subdir-y += cmake
 subdir-y += coreutils

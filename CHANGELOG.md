@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- binfmt: add Build.mk;
 - podman: add pod,kube subdir;
 - cloud-native: add grafana subdir;
 #### Changed
