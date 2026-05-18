@@ -245,6 +245,10 @@
 			"extension": [ "cu", "lc" ],
 			"keys": [ "hpcc", "htcc", "mars", "cuda" ]
 		},
+		"iptables": {
+			"name": "IPtabls",
+			"keys": [ "iptables" ]
+		},
 		"java": {
 			"name": "Java",
 			"command": [ "javac" ],

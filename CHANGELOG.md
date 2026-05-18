@@ -18,7 +18,7 @@ and this project adheres to
 - top Makefile: rename `CHECK_ERROR` to `ERROR_STOP`;
 #### Deprecated
 #### Doc
-- add pod.rst, efibootmgr.rst;
+- add pod.rst, efibootmgr.rst, iptables.rst;
 #### Fixed
 #### Linux Kernel
 - `in_irq()` removed in v6.18-rc2-1-g70e0a80a1f35;
