@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fedora-pod
+spec:
+  containers:
+    - name: fedora44
+      image: registry.fedoraproject.org/fedora:44
+    - name: fedora43
+      image: registry.fedoraproject.org/fedora:43
