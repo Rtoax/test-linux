@@ -101,13 +101,17 @@ if [[ -f ${EXEC} ]] && [[ "${EXEC:0:1}" != "/" ]] && \
 	LEFT_ARGS[0]="./${EXEC}"
 fi
 
-readonly CMD="${ENVS:+env} ${ENVS[@]} ${SUDO} ${TMOUT:+timeout ${TMOUT}} ${LEFT_ARGS[@]}"
+CMD=""
+CMD+="${ENVS:+env ${ENVS[@]} }"
+CMD+="${SUDO:+${SUDO} }"
+CMD+="${TMOUT:+timeout ${TMOUT} }"
+CMD+="${LEFT_ARGS[@]}"
 
 eval "${CMD}" | tee ${LOG_FILE}
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 	rm -f ${LOG_FILE}
-	echo -e "Failed: '\033[31m${CMD}\033[m', in ${PWD}" >> ${LOG_CMD_FILE}
+	echo -e "Run '\033[31m${CMD}\033[m' failed in ${PWD}" >> ${LOG_CMD_FILE}
 	error "${@}: run failed"
 else
-	echo -e "Succes: '\033[32m${CMD}\033[m', in ${PWD}" >> ${LOG_CMD_FILE}
+	echo -e "Run '\033[32m${CMD}\033[m' success in ${PWD}" >> ${LOG_CMD_FILE}
 fi
