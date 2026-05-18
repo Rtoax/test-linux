@@ -3,8 +3,11 @@ kind: Pod
 metadata:
   name: fedora-pod
 spec:
+  # Containers shared one virtual NIC
   containers:
     - name: fedora44
       image: registry.fedoraproject.org/fedora:44
+      command: ["/bin/bash", "-c", "sleep infinity"]
     - name: fedora43
       image: registry.fedoraproject.org/fedora:43
+      command: ["/bin/bash", "-c", "sleep infinity"]
