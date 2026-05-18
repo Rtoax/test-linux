@@ -10,6 +10,14 @@ hook
 * NF_HOOK_COND
 * NF_HOOK_THRESH
 
+return
+------
+* NF_ACCEPT
+* NF_DROP
+* NF_QUEUE
+* NF_STOLEN
+* NF_REPEAT
+
 nf inet
 -------
 
@@ -40,3 +48,9 @@ static key
 .. code-block:: c
 
     struct static_key nf_hooks_needed[NFPROTO_NUMPROTO][NF_MAX_HOOKS];
+
+
+Links
+-----
+
+- https://inai.de/images/nf-packet-flow.svg
