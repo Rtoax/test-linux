@@ -1,0 +1,3 @@
+# -*- Makefile -*-
+ccflags-y := -I$(src)/../include
+obj-m += xt_ipaddr.o

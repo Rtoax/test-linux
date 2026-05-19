@@ -3,6 +3,7 @@ include helpers.mk
 
 subdir-y := icmp
 subdir-y += infiniband
+subdir-y += netfilter
 subdir-y += netlink
 subdir-y += nic
 
