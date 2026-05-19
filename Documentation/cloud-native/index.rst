@@ -13,8 +13,8 @@ Cloud Native
    service-mesh
 
 
-Observability
--------------
+Metrics and Observability
+-------------------------
 
 .. toctree::
    :maxdepth: 1
@@ -22,6 +22,15 @@ Observability
    prometheus
    grafana
    node-exporter
+
+
+Tracing
+-------
+
+.. toctree::
+   :maxdepth: 1
+
+   jaeger
 
 
 Cloud Infrastructure Technologies
