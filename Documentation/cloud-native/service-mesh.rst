@@ -11,6 +11,7 @@ without code changes.
    :maxdepth: 1
 
    istio
+   envoy
 
 
 Sidecar
