@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: fedora-pod
+securityContext:
+  privileged: true
+  runAsUser: 0
 spec:
   # Containers shared one virtual NIC, see
   # commit 5e723caca9c1 ("podman: pod: network: containers in pod share nic")
