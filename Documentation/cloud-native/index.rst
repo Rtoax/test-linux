@@ -34,6 +34,7 @@ Tracing
    :maxdepth: 1
 
    jaeger
+   skywalking
 
 
 Logging
