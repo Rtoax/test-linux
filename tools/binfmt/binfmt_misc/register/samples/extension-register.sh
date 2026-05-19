@@ -1,13 +1,16 @@
 #!/bin/bash
 set -e
 
+MISC=/proc/sys/fs/binfmt_misc/
+NAME=python-extension
+
 register() {
-	echo ":python-extension:E::py::$(which python):OC" | sudo tee /proc/sys/fs/binfmt_misc/register
-	cat /proc/sys/fs/binfmt_misc/python-extension
+	echo ":${NAME}:E::py::$(which python):OC" | sudo tee ${MISC}/register
+	cat ${MISC}/${NAME}
 }
 
 unregister() {
-	echo '-1' | sudo tee /proc/sys/fs/binfmt_misc/python-extension
+	echo '-1' | sudo tee ${MISC}/${NAME}
 }
 
 case $1 in
