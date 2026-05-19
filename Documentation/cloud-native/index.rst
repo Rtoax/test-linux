@@ -13,8 +13,11 @@ Cloud Native
    service-mesh
 
 
-Metrics and Observability
--------------------------
+Observability
+-------------
+
+Metrics
+~~~~~~~
 
 .. toctree::
    :maxdepth: 1
@@ -25,12 +28,16 @@ Metrics and Observability
 
 
 Tracing
--------
+~~~~~~~
 
 .. toctree::
    :maxdepth: 1
 
    jaeger
+
+
+Logging
+~~~~~~~
 
 
 Cloud Infrastructure Technologies
