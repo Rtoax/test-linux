@@ -8,7 +8,18 @@ spec:
   containers:
     - name: fedora44
       image: registry.fedoraproject.org/fedora:44
+      volumeMounts:
+      - name: git-data
+        mountPath: /root/Git/
       command: ["/bin/bash", "-c", "sleep infinity"]
     - name: fedora43
       image: registry.fedoraproject.org/fedora:43
+      volumeMounts:
+      - name: git-data
+        mountPath: /root/Git/
       command: ["/bin/bash", "-c", "sleep infinity"]
+  volumes:
+  - name: git-data
+    hostPath:
+      path: /home/rongtao/Git/
+      type: DirectoryOrCreate
