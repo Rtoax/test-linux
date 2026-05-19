@@ -11,8 +11,17 @@ Cloud Native
    kubernetes
    microservices
    service-mesh
+
+
+Observability
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
    prometheus
    grafana
+   node-exporter
 
 
 Cloud Infrastructure Technologies

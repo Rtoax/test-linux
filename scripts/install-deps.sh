@@ -732,6 +732,7 @@ pkgs_virt+=( virtiofsd )
 #pkgs_virt+=( wine )
 
 pkgs_cloud+=( grafana )
+pkgs_cloud+=( node-exporter )
 pkgs_cloud+=( prometheus )
 
 # Benchmark

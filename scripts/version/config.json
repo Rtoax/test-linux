@@ -425,6 +425,11 @@
 			"command": [ "nginx" ],
 			"keys": [ "nginx" ]
 		},
+		"node-expoter": {
+			"name": "Node-Exporter",
+			"command": [ "node_exporter" ],
+			"keys": [ "node-expoter", "node_exporter" ]
+		},
 		"numactl": {
 			"name": "NumaCTL",
 			"package": {
