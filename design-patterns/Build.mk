@@ -7,3 +7,9 @@ target-python-y += singletion.py
 
 # Structural
 target-python-y += adapter.py
+target-python-y += bridge.py
+target-python-y += composite.py
+target-python-y += decorator.py
+target-python-y += facade.py
+target-python-y += flyweight.py
+target-python-y += proxy.py
