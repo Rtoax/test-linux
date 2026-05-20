@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-# ---------- 抽象产品 ----------
+# ---------- abstract product ----------
 class Car(ABC):
     @abstractmethod
     def drive(self):
@@ -13,25 +13,25 @@ class Bike(ABC):
     def ride(self):
         pass
 
-# ---------- 具体产品：奔驰系列 ----------
+# ---------- product: benz ----------
 class BenzCar(Car):
     def drive(self):
-        return "驾驶奔驰汽车"
+        return "drive Benz Car"
 
 class BenzBike(Bike):
     def ride(self):
-        return "骑奔驰自行车"
+        return "ride Benz Bike"
 
-# ---------- 具体产品：宝马系列 ----------
+# ---------- product: bmw ----------
 class BmwCar(Car):
     def drive(self):
-        return "驾驶宝马车"
+        return "drive Bmw Car"
 
 class BmwBike(Bike):
     def ride(self):
-        return "骑宝马自行车"
+        return "ride Bmw Bike"
 
-# ---------- 抽象工厂 ----------
+# ---------- abstract factory ----------
 class VehicleFactory(ABC):
     @abstractmethod
     def create_car(self) -> Car:
@@ -41,7 +41,7 @@ class VehicleFactory(ABC):
     def create_bike(self) -> Bike:
         pass
 
-# ---------- 具体工厂 ----------
+# ---------- real factory ----------
 class BenzFactory(VehicleFactory):
     def create_car(self) -> Car:
         return BenzCar()
@@ -56,7 +56,7 @@ class BmwFactory(VehicleFactory):
     def create_bike(self) -> Bike:
         return BmwBike()
 
-# ---------- 客户端 ----------
+# ---------- client ----------
 def client_code(factory: VehicleFactory):
     car = factory.create_car()
     bike = factory.create_bike()
@@ -64,8 +64,8 @@ def client_code(factory: VehicleFactory):
     print(bike.ride())
 
 if __name__ == "__main__":
-    print("=== 使用奔驰工厂 ===")
+    print("=== Use BenzFactory ===")
     client_code(BenzFactory())
 
-    print("\n=== 使用宝马工厂 ===")
+    print("\n=== Use BmwFactory ===")
     client_code(BmwFactory())
