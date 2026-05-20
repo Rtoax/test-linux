@@ -35,6 +35,33 @@ Data Types
      - ZADD, ZRANGE
 
 
+Redis Persistence
+-----------------
+
+RDB - Redis Database Backup file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+AOF - Append Only File
+~~~~~~~~~~~~~~~~~~~~~~
+
+Configuration file `/etc/redis/redis.conf`, `/etc/valkey/valkey.conf`.
+
+Enable AOF:
+
+.. code-block:: text
+
+    appendonly yes
+    appendfilename "appendonly.aof"
+
+AOF recording frequency:
+
+.. code-block:: text
+
+    appendfsync always
+    appendfsync everysec
+    appendfsync no
+
+
 Benchmark
 ---------
 
