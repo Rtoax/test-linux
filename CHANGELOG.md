@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- add design-patterns directory;
 - redis: add {aof,rdb} directory;
 - binfmt: add Build.mk;
 - podman: add pod,kube subdir;
