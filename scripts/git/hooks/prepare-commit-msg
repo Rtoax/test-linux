@@ -14,6 +14,9 @@ readonly COMMIT_MSG_FILE=$1
 readonly COMMIT_SOURCE=$2 # commit, merge
 readonly COMMIT_SHA1=$3
 
+# Other git repository will call this script directly, thus, we need a git
+# topdir.
+readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
 readonly TOPDIR=$(realpath ${MY_DIRECTORY}/../../../)
 readonly VERDIR=${TOPDIR}/scripts/version
@@ -274,7 +277,7 @@ if [[ ${Environments} ]]; then
 fi
 
 # If only modify The Documentation, try add Commit Message Title
-pushd ${TOPDIR} >/dev/null
+pushd ${GIT_TOPDIR} >/dev/null
 if [[ -z "$(git status --short | grep -v '^ ' | grep -v Documentation || :)" ]] && \
    [[ -z ${is_commit_amend} ]]; then
 	# Added files
