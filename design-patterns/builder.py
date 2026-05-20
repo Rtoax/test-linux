@@ -1,4 +1,4 @@
-#!/bin/env bpftrace
+#!/bin/env python
 
 # ---------- Product ----------
 class Computer:
