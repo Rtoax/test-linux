@@ -8,4 +8,7 @@ load15=${__loadavg[2]}
 nproc=$(nproc)
 echo ${load1} ${load5} ${load15}
 
-# TODO: use ttyplot
+# TODO: ttyplot only support two lines
+while sleep 1; do
+	awk '{print $1, $2}' /proc/loadavg
+done | ttyplot -t "Load Averages (1m, 5m)" -u "load" -2
