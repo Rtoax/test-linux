@@ -46,12 +46,15 @@ print_axis() {
 		wprint $((WINROWS - WINBND)) ${i} ${C_ROW}
 	done
 	wprint $((WINROWS - WINBND)) ${i} ${C_RIGHT}
+	wprint $((WINROWS - WINBND + 1)) $((${i} - 5)) "Time"
 	wprint $((WINROWS - WINBND)) ${WINBND} ${C_COR}
+	wprint $((WINROWS - WINBND + 1)) $((${WINBND} - 1)) "0"
 	for ((i = ${WINBND}; i < $((WINROWS - WINBND)); i++))
 	do
 		wprint ${i} ${WINBND} ${C_COL}
 	done
 	wprint ${WINBND} ${WINBND} ${C_UP}
+	wprint $((${WINBND} - 1)) ${WINBND} "Load Avg"
 }
 
 scale_val() {
