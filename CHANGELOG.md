@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- scripts: add loadavg.sh;
 - add design-patterns directory;
 - redis: add {aof,rdb,lua,expire} directory;
 - binfmt: add Build.mk;

@@ -22,6 +22,7 @@ scripts_install()
 	ln -s ${SCRIPTS_DIR}/git/push-remote-all.sh /usr/bin/git-push-remote-all
 	ln -s ${SCRIPTS_DIR}/git/push-remote-all.sh /usr/bin/git-push-remote-all-tags
 	ln -s ${SCRIPTS_DIR}/git/rm-permanent.sh /usr/bin/git-rm-permanent
+	ln -s ${SCRIPTS_DIR}/loadavg.sh /usr/bin/loadavg
 	ln -s ${SCRIPTS_DIR}/patchset.sh /usr/bin/patchset
 	ln -s ${SCRIPTS_DIR}/findelf.sh /usr/bin/findelf
 	ln -s ${SCRIPTS_DIR}/make_tl.sh /usr/bin/make_tl
@@ -47,6 +48,7 @@ scripts_uninstall()
 		/usr/bin/git-rm-permanent \
 		/usr/bin/hmctl \
 		/usr/bin/patchset \
+		/usr/bin/loadavg \
 		/usr/bin/findelf \
 		/usr/bin/make_tl \
 		/usr/bin/termplot \
