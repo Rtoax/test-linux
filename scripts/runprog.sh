@@ -105,7 +105,7 @@ if [[ -f ${EXEC} ]] && [[ "${EXEC:0:1}" != "/" ]] && \
 	LEFT_ARGS[0]="./${EXEC}"
 fi
 
-SHEBANG=$(head -c 2 ${LEFT_ARGS[0]} 2>/dev/null)
+SHEBANG=$(head -c 2 ${LEFT_ARGS[0]} 2>/dev/null || true)
 if [[ "${SHEBANG:0:2}" == "#!" ]]; then
 	SHEBANG=${SHEBANG:2}
 else
