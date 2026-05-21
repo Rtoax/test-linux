@@ -3,7 +3,7 @@
 #
 # Copyright (C) 2025-2026 Rong Tao
 #
-# Usage: runprog.sh [options] -- EXEC [EXEC ARGS...]
+# Usage: runprog.sh [options] -- execution [args...]
 #
 set -e
 
@@ -99,8 +99,10 @@ fi
 
 # If not found EXEC in system env, and it's exist file under current directory,
 # add './' prefix.
-if [[ -f ${EXEC} ]] && [[ "${EXEC:0:1}" != "/" ]] && \
-   [[ "${EXEC:0:2}" != "./" ]] && [[ "${EXEC:0:3}" != "../" ]] && \
+if [[ -f ${EXEC} ]] &&
+   [[ "${EXEC:0:1}" != "/" ]] &&
+   [[ "${EXEC:0:2}" != "./" ]] &&
+   [[ "${EXEC:0:3}" != "../" ]] && \
    [[ ! $(which ${EXEC} 2>/dev/null) ]]; then
 	LEFT_ARGS[0]="./${EXEC}"
 fi
