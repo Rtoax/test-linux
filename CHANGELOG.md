@@ -21,6 +21,7 @@ and this project adheres to
 - top Makefile: rename `CHECK_ERROR` to `ERROR_STOP`;
 #### Deprecated
 #### Doc
+- add sched/index.rst;
 - add pod.rst, efibootmgr.rst, iptables.rst, netfilter.rst, node-exporter.rst, jaeger.rst, skywalking.rst, envoy.rst;
 #### Fixed
 #### Linux Kernel

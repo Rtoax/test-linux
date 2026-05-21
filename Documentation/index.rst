@@ -71,6 +71,15 @@ Hardware Architecture
    Interrupt <interrupt/index>
 
 
+Linux Kernel
+============
+
+.. toctree::
+   :maxdepth: 1
+
+   Scheduler <sched/index>
+
+
 Debug and Observability
 =======================
 
