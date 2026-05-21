@@ -15,10 +15,13 @@ readonly C_UP='▲'
 readonly C_RIGHT='►'
 
 declare -a load1 load5 load15
+declare MAX_LOAD_SCALE=0
 
 WINROWS=$(tput lines)
 WINCOLS=$(tput cols)
 WINBND=5
+MAXHIGH=$((WINROWS - WINBND * 2))
+MAXWIDTH=$((WINCOLS - WINBND * 2))
 
 cleanup() {
 	tput cnorm
@@ -50,6 +53,10 @@ print_axis() {
 	wprint ${WINBND} ${WINBND} ${C_UP}
 }
 
+scale_val() {
+	echo "scale=0; 1000.0 * ${1}" | bc | cut -d. -f1
+}
+
 # __main__
 trap cleanup INT TERM EXIT
 
@@ -65,10 +72,10 @@ while true; do
 	load5+=( ${l5} )
 	load15+=( ${l15} )
 
-
-	wprint 10 10 "${l1}"
-	wprint 12 10 "${l5}"
-	wprint 14 10 "${l15}"
+	wprint 10 10 "$(scale_val ${l1})"
+	wprint 12 10 "$(scale_val ${l5})"
+	wprint 14 10 "$(scale_val ${l15})"
+	wprint 16 10 "${MAX_LOAD_SCALE}"
 
 	sleep 1
 done
