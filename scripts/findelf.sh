@@ -1,5 +1,14 @@
 #!/bin/bash
+# Usage: findelf.sh [DIR=<./>]
 set -e
+
+DIR=${1}
+[[ -z ${DIR} ]] && DIR=./
+
+if [[ ! -e ${DIR} ]]; then
+	echo >&2 "ERROR: bad directory or file"
+	exit 1
+fi
 
 while read file
 do
@@ -9,4 +18,4 @@ do
 	if [[ $bin == $'\x7f'ELF* ]]; then
 		echo "$file"
 	fi
-done <<< $(find ./ -type f)
+done <<< $(find ${DIR} -type f)
