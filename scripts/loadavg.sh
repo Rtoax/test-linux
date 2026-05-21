@@ -55,6 +55,14 @@ wprint() {
 		shift
 		printf "\033[1;31m%s\033[m" "${*}"
 		;;
+	yellow)
+		shift
+		printf "\033[1;33m%s\033[m" "${*}"
+		;;
+	blue)
+		shift
+		printf "\033[1;34m%s\033[m" "${*}"
+		;;
 	*)
 		printf "%s" "${*}"
 		;;
@@ -108,7 +116,7 @@ getchar() {
 declare MAX_LOAD_SCALE=0
 getmaxload() {
 	local load
-	for load in ${load1[@]}
+	for load in ${load1[@]} ${load5[@]} ${load15[@]}
 	do
 		local scale=$(scale_val ${load})
 		if [[ ${MAX_LOAD_SCALE} -lt ${scale} ]]; then
@@ -118,6 +126,23 @@ getmaxload() {
 }
 
 declare -a prev_cols prev_raws
+__print_load() {
+	local color=$1
+	shift
+	local loads=( ${@} )
+	# Print loads
+	local nloads=${#loads[@]}
+	for ((i = 0; i < ${nloads}; i++))
+	do
+		local col=$((WINBND + 1 + MAXWIDTH - ${nloads} + i))
+		local row_scale=$(scale_val ${loads[i]})
+		local row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / ${MAX_LOAD_SCALE} + WINBND + 1 ))
+		prev_cols+=( ${col} )
+		prev_rows+=( ${row} )
+		# wprint 2 1 "${col} ${row} ${nloads}"
+		wprint ${row} ${col} ${color} "${C_ROW}"
+	done
+}
 print_load() {
 	local i
 
@@ -130,18 +155,9 @@ print_load() {
 	unset prev_cols
 	unset prev_rows
 
-	# Print load1
-	local nload1=${#load1[@]}
-	for ((i = 0; i < ${nload1}; i++))
-	do
-		local col=$((WINBND + 1 + MAXWIDTH - ${nload1} + i))
-		local row_scale=$(scale_val ${load1[i]})
-		local row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / ${MAX_LOAD_SCALE} + WINBND + 1 ))
-		prev_cols+=( ${col} )
-		prev_rows+=( ${row} )
-		# wprint 2 1 "${col} ${row} ${nload1}"
-		wprint ${row} ${col} red "${C_ROW}"
-	done
+	__print_load red ${load1[@]}
+	__print_load yellow ${load5[@]}
+	__print_load blue ${load15[@]}
 }
 
 # __main__
@@ -163,24 +179,35 @@ while true; do
 	load5+=( ${l5} )
 	load15+=( ${l15} )
 
-	# Remove index 0, TODO: load5 and load15
+	# Remove index 0 if beyond boundary
 	if [[ ${#load1[@]} -ge ${MAXWIDTH} ]]; then
 		load1=( ${load1[@]:1} )
+		MAX_LOAD_SCALE=0
+	fi
+	if [[ ${#load5[@]} -ge ${MAXWIDTH} ]]; then
+		load5=( ${load5[@]:1} )
+		MAX_LOAD_SCALE=0
+	fi
+	if [[ ${#load15[@]} -ge ${MAXWIDTH} ]]; then
+		load15=( ${load15[@]:1} )
 		MAX_LOAD_SCALE=0
 	fi
 	getmaxload
 
 	print_load
 
-	wprint 10 10 "$(scale_val ${l1}), max = ${MAX_LOAD_SCALE}"
-	wprint 12 10 "$(scale_val ${l5})"
-	wprint 14 10 "$(scale_val ${l15})"
+	wprint 1 1 "load1 scale $(scale_val ${l1}), max = ${MAX_LOAD_SCALE}"
+	wprint 2 1 "load5 scale $(scale_val ${l5})"
+	wprint 3 1 "load15 scale $(scale_val ${l15})"
 
 	key_ascii=$(getchar)
 	if [[ -z ${key_ascii} ]]; then
 		key_ascii="---"
 	fi
-	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}, winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}, nload ${#load1[@]}"
+	wprint $((WINROWS - 4)) 1 red "load1 ${l1}"
+	wprint $((WINROWS - 3)) 1 yellow "load5 ${l5}"
+	wprint $((WINROWS - 2)) 1 blue "load15 ${l15}"
+	wprint ${WINROWS} 1 "winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}, nload ${#load1[@]}"
 
 	sleep 1
 done
