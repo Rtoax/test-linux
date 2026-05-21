@@ -143,7 +143,7 @@ __print_load() {
 		wprint ${row} ${col} ${color} "${C_ROW}"
 	done
 }
-print_load() {
+__clean_load() {
 	local i
 
 	# reset previous first
@@ -154,7 +154,9 @@ print_load() {
 	done
 	unset prev_cols
 	unset prev_rows
-
+}
+print_load() {
+	__clean_load
 	__print_load red ${load1[@]}
 	__print_load yellow ${load5[@]}
 	__print_load blue ${load15[@]}
