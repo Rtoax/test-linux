@@ -104,7 +104,10 @@ if [[ -f ${EXEC} ]] &&
    [[ "${EXEC:0:2}" != "./" ]] &&
    [[ "${EXEC:0:3}" != "../" ]] && \
    [[ ! $(which ${EXEC} 2>/dev/null) ]]; then
-	LEFT_ARGS[0]="./${EXEC}"
+	# If file has x permission, just add './'
+	if test -x ${EXEC}; then
+		LEFT_ARGS[0]="./${EXEC}"
+	fi
 fi
 
 SHEBANG=$(head -c 2 ${LEFT_ARGS[0]} 2>/dev/null || true)
