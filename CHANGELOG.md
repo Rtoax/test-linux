@@ -31,7 +31,7 @@ and this project adheres to
 - remove `target-test-y` support, we never use it;
 #### Security
 #### Tools
-- add nginx;
+- add nginx, ncurses;
 #### Template
 - add grafana.mk, nginx.mk;
 - dir.mk: add `list_dir()`;

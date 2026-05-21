@@ -25,6 +25,7 @@ subdir-y += lsof
 subdir-y += memcached
 subdir-y += nasm
 subdir-y += NetworkManager
+subdir-y += ncurses
 subdir-y += nginx
 subdir-y += ostree
 subdir-y += perf

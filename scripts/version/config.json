@@ -420,6 +420,16 @@
 			"command": [ "nmcli" ],
 			"keys": [ "NetworkManager", "nmcli" ]
 		},
+		"ncurses": {
+			"name": "Ncurses",
+			"command": [ "clear" ],
+			"version": {
+				"command": {
+					"argument": [ "-V" ]
+				}
+			},
+			"keys": [ "ncurses" ]
+		},
 		"nginx": {
 			"name": "Nginx",
 			"command": [ "nginx" ],
