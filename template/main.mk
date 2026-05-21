@@ -59,35 +59,36 @@ MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 # example: target-prog-y := a.sh a.sh.1
 #
 # Arguments:
-# $1: target name, like shell in target-shell-y
-# $2: target extension, like .sh for shell, could be a list
-# $3: log extension, like .log, .prog.log
+# $1: target prefix, default: 'target-' for 'target-shell-y', maybe empty
+# $2: target name, like 'shell' in 'target-shell-y'
+# $3: target extension, like '.sh' for shell, could be a list
+# $4: log extension, like '.log', '.prog.log'
 define append_program_target
 # without .N suffix
-target-${1}-y-orig := $$(filter-out $${MK_TGT_SFX_LIST},$$(target-${1}-y))
+${1}${2}-y-orig := $$(filter-out $${MK_TGT_SFX_LIST},$$(${1}${2}-y))
 # log with .N suffix
 $$(if ${ext}, \
-  $$(foreach ext, ${2}, \
-    $$(eval target-${1}-y-sfx := $$(filter-out $${target-${1}-y-orig},$$(target-${1}-y))) \
+  $$(foreach ext, ${3}, \
+    $$(eval ${1}${2}-y-sfx := $$(filter-out $${${1}${2}-y-orig},$$(${1}${2}-y))) \
     $$(foreach sfx, $${SRC_SFX_LIST}, \
-      $$(eval target-${1}-y-sfx := $$(patsubst %${ext}.$${sfx},$${OUTPUT}%${ext}${3}.$${sfx},$$(target-${1}-y-sfx))) \
+      $$(eval ${1}${2}-y-sfx := $$(patsubst %${ext}.$${sfx},$${OUTPUT}%${ext}${4}.$${sfx},$$(${1}${2}-y-sfx))) \
     ) \
   ), \
-  $$(eval target-${1}-y-sfx := $$(filter-out $${target-${1}-y-orig},$$(target-${1}-y))) \
+  $$(eval ${1}${2}-y-sfx := $$(filter-out $${${1}${2}-y-orig},$$(${1}${2}-y))) \
   $$(foreach sfx, $${SRC_SFX_LIST}, \
-    $$(eval target-${1}-y-sfx := $$(patsubst %.$${sfx},$${OUTPUT}%${3}.$${sfx},$$(target-${1}-y-sfx))) \
+    $$(eval ${1}${2}-y-sfx := $$(patsubst %.$${sfx},$${OUTPUT}%${4}.$${sfx},$$(${1}${2}-y-sfx))) \
   ) \
 )
 # all logs
-build-targets += $$(patsubst %,$${OUTPUT}%${3},$$(target-${1}-y-orig)) $${target-${1}-y-sfx}
+build-targets += $$(patsubst %,$${OUTPUT}%${4},$$(${1}${2}-y-orig)) $${${1}${2}-y-sfx}
 endef
 
 # see targets/{prog,shell,make,python,bpftrace}.mk
-$(if ${target-prog-y}, $(eval $(call append_program_target,prog,,.prog.log)))
-$(if ${target-shell-y}, $(eval $(call append_program_target,shell,.sh,.log)))
-$(if ${target-mk-y}, $(eval $(call append_program_target,mk,.mk .mak,.log)))
-$(if ${target-python-y}, $(eval $(call append_program_target,python,.py,.log)))
-$(if ${target-bt-y}, $(eval $(call append_program_target,bt,.bt,.log)))
+$(if ${target-prog-y}, $(eval $(call append_program_target,target-,prog,,.prog.log)))
+$(if ${target-shell-y}, $(eval $(call append_program_target,target-,shell,.sh,.log)))
+$(if ${target-mk-y}, $(eval $(call append_program_target,target-,mk,.mk .mak,.log)))
+$(if ${target-python-y}, $(eval $(call append_program_target,target-,python,.py,.log)))
+$(if ${target-bt-y}, $(eval $(call append_program_target,target-,bt,.bt,.log)))
 
 ifeq (${KMOD}, y)
   $(if ${__IN_KMOD__}, $(eval build-targets += kmods-build))
