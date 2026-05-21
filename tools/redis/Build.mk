@@ -1,4 +1,5 @@
 subdir-y += aof
+subdir-y += expire
 subdir-y += rdb
 subdir-y += types
 
