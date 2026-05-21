@@ -17,6 +17,7 @@ and this project adheres to
 - podman: add pod,kube subdir;
 - cloud-native: add grafana subdir;
 #### Changed
+- `make_tl.sh`: rename `__KMOD__` to `__IN_KMOD__`;
 - top Makefile: rename `CHECK_ERROR` to `ERROR_STOP`;
 #### Deprecated
 #### Doc

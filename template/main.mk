@@ -90,8 +90,8 @@ $(if ${target-python-y}, $(eval $(call append_program_target,python,.py,.log)))
 $(if ${target-bt-y}, $(eval $(call append_program_target,bt,.bt,.log)))
 
 ifeq (${KMOD}, y)
-  $(if ${__KMOD__}, $(eval build-targets += kmods-build))
-  $(if ${__KMOD__}, $(eval target-clean-y += kmods-clean))
+  $(if ${__IN_KMOD__}, $(eval build-targets += kmods-build))
+  $(if ${__IN_KMOD__}, $(eval target-clean-y += kmods-clean))
 endif
 build-targets += $(subdir-y-build)
 build-targets += $(target-post-y)
@@ -154,8 +154,8 @@ $(if $(target-python-y), $(eval include targets/python.mk))
 $(if $(target-go-y), $(eval include targets/golang.mk))
 $(if $(target-java-y), $(eval include targets/java.mk))
 ifeq (${KMOD}, y)
-  # __KMOD__ defined in scripts/make_tl.sh
-  $(if ${__KMOD__}, $(eval include targets/kmod.mk))
+  # __IN_KMOD__ defined in scripts/make_tl.sh
+  $(if ${__IN_KMOD__}, $(eval include targets/kmod.mk))
 endif
 $(if $(subdir-y), $(eval include targets/subdir-footer.mk))
 include targets/vdso.mk
