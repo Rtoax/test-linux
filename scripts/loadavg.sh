@@ -57,20 +57,18 @@ clear
 tput init
 tput civis
 
-for i in $(seq 1 10); do
+print_axis
+
+while true; do
 	read l1 l5 l15 _ < /proc/loadavg
 	load1+=( ${l1} )
 	load5+=( ${l5} )
 	load15+=( ${l15} )
 
-	print_axis
 
 	wprint 10 10 "${l1}"
 	wprint 12 10 "${l5}"
 	wprint 14 10 "${l15}"
 
 	sleep 1
-
-	tput init
-	clear
 done
