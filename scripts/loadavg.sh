@@ -13,6 +13,7 @@ readonly C_COR='└'
 readonly C_ROW='─'
 readonly C_UP='▲'
 readonly C_RIGHT='►'
+readonly K_ENTER=10
 
 readonly old_tty=$(stty -g)
 
@@ -74,9 +75,15 @@ scale_val() {
 }
 
 getchar() {
-	local key=$(dd bs=1 count=1 2>/dev/null)
-	if [[ -n "$key" ]]; then
-		printf "%d" "'$key"
+	local key ascii
+	if read -n1 -s -t 0.01 key 2>/dev/null; then
+		ascii=$(printf "%d" "'$key")
+		# Get enter
+		if [[ -z "$key" ]]; then
+			echo ${K_ENTER}
+		else
+			echo $ascii
+		fi
 	fi
 }
 
