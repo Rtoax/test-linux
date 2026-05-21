@@ -8,6 +8,13 @@
 #   done | ttyplot -t "Load Averages (1m, 5m)" -u "load" -2
 set -e
 
+if [[ ${VERBOSE} ]]; then
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
+fi
+
+exec 2<> $PWD/loadavg.stderr.log
+
 readonly C_COL='│'
 readonly C_COR='└'
 readonly C_ROW='─'
@@ -26,10 +33,13 @@ MAXHIGH=$((WINROWS - WINBND * 2 - 1))
 MAXWIDTH=$((WINCOLS - WINBND * 2 - 2))
 
 cleanup() {
+	local ret=$?
+	echo "exit with ${ret}"
 	tput cnorm
-	clear
 	stty "$old_tty"
-	exit 0
+	exec 2>&-
+	clear
+	exit ${ret}
 }
 
 # window print at location
@@ -126,7 +136,7 @@ print_load() {
 	do
 		local col=$((WINBND + 1 + MAXWIDTH - ${nload1} + i))
 		local row_scale=$(scale_val ${load1[i]})
-		local row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / 1000 + WINBND + 1 ))
+		local row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / ${MAX_LOAD_SCALE} + WINBND + 1 ))
 		prev_cols+=( ${col} )
 		prev_rows+=( ${row} )
 		# wprint 2 1 "${col} ${row} ${nload1}"
@@ -172,5 +182,5 @@ while true; do
 	fi
 	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}, winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}, nload ${#load1[@]}"
 
-	# sleep 1
+	sleep 1
 done
