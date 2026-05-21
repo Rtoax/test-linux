@@ -2,7 +2,7 @@
 # Copyright (C) 2026 Rong Tao
 #
 # Output definitions:
-# - RUNPROG=..../scripts/runprog.sh [args...]
+# - RUNPROG=[/path/to/runprog.sh [args...]]
 #
 ifndef _RUNPROG_MK
 _RUNPROG_MK = 1
@@ -13,6 +13,8 @@ RUNPROG := ${TOPDIR}/scripts/runprog.sh
 
 $(if ${DEBUG}, $(eval RUNPROG += --verbose))
 $(if ${TMOUT}, $(eval RUNPROG += --timeout ${TMOUT}))
+
+$(if ${DEBUG}, $(info RUNPROG = ${RUNPROG}))
 
 export RUNPROG
 
