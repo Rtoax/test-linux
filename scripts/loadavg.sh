@@ -182,18 +182,15 @@ while true; do
 	load15+=( ${l15} )
 
 	# Remove index 0 if beyond boundary
-	if [[ ${#load1[@]} -ge ${MAXWIDTH} ]]; then
-		load1=( ${load1[@]:1} )
+	nload=${#load1[@]}
+	if [[ ${nload} -ge ${MAXWIDTH} ]]; then
+		x=$((nload - MAXWIDTH))
+		load1=( ${load1[@]:${x}} )
+		load5=( ${load5[@]:${x}} )
+		load15=( ${load15[@]:${x}} )
 		MAX_LOAD_SCALE=0
 	fi
-	if [[ ${#load5[@]} -ge ${MAXWIDTH} ]]; then
-		load5=( ${load5[@]:1} )
-		MAX_LOAD_SCALE=0
-	fi
-	if [[ ${#load15[@]} -ge ${MAXWIDTH} ]]; then
-		load15=( ${load15[@]:1} )
-		MAX_LOAD_SCALE=0
-	fi
+
 	getmaxload
 
 	print_load
