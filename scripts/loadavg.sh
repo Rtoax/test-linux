@@ -18,13 +18,12 @@ readonly K_ENTER=10
 readonly old_tty=$(stty -g)
 
 declare -a load1 load5 load15
-declare MAX_LOAD_SCALE=0
 
 WINROWS=$(tput lines)
 WINCOLS=$(tput cols)
 WINBND=5
-MAXHIGH=$((WINROWS - WINBND * 2))
-MAXWIDTH=$((WINCOLS - WINBND * 2))
+MAXHIGH=$((WINROWS - WINBND * 2 - 1))
+MAXWIDTH=$((WINCOLS - WINBND * 2 - 2))
 
 cleanup() {
 	tput cnorm
@@ -87,6 +86,45 @@ getchar() {
 	fi
 }
 
+declare MAX_LOAD_SCALE=0
+getmaxload() {
+	local load
+	for load in ${load1[@]}
+	do
+		local scale=$(scale_val ${load})
+		if [[ ${MAX_LOAD_SCALE} -lt ${scale} ]]; then
+			MAX_LOAD_SCALE=${scale}
+		fi
+	done
+}
+
+declare -a prev_cols prev_raws
+print_load() {
+	local i
+
+	# reset previous first
+	for ((i = 0; i < ${#prev_cols[@]}; i++))
+	do
+		# wprint 1 1 "${#prev_rows[@]}, ${#prev_cols[@]}"
+		wprint ${prev_rows[i]} ${prev_cols[i]} " "
+	done
+	unset prev_cols
+	unset prev_rows
+
+	# Print new
+	local nload1=${#load1[@]}
+	for ((i = 0; i < ${nload1}; i++))
+	do
+		local col=$((WINBND + 1 + MAXWIDTH - ${nload1} + i))
+		local row_scale=$(scale_val ${load1[i]})
+		local row=$(( MAXHIGH - row_scale * MAXHIGH / 1000 + WINBND + 1 ))
+		prev_cols+=( ${col} )
+		prev_rows+=( ${row} )
+		# wprint 2 1 "${col} ${row} ${nload1}"
+		wprint ${row} ${col} "X"
+	done
+}
+
 # __main__
 trap cleanup INT TERM EXIT
 trap on_winch WINCH
@@ -106,7 +144,16 @@ while true; do
 	load5+=( ${l5} )
 	load15+=( ${l15} )
 
-	wprint 10 10 "$(scale_val ${l1})"
+	# Remove index 0, TODO: load5 and load15
+	if [[ ${#load1[@]} -ge ${MAXWIDTH} ]]; then
+		load1=( ${load1[@]:1} )
+		MAX_LOAD_SCALE=0
+	fi
+	getmaxload
+
+	print_load
+
+	wprint 10 10 "$(scale_val ${l1}), max = ${MAX_LOAD_SCALE}"
 	wprint 12 10 "$(scale_val ${l5})"
 	wprint 14 10 "$(scale_val ${l15})"
 
@@ -114,7 +161,7 @@ while true; do
 	if [[ -z ${key_ascii} ]]; then
 		key_ascii="---"
 	fi
-	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}, winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}"
+	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}, winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}, nload ${#load1[@]}"
 
 	sleep 1
 done
