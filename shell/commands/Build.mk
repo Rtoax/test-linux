@@ -14,6 +14,5 @@ subdir-y += sed
 subdir-y += split
 subdir-y += ssh-keygen
 subdir-y += stat
-subdir-y += tput
 
 target-prog-y := tr.sh
