@@ -35,7 +35,8 @@ cleanup() {
 # $3: string to display
 wprint() {
 	tput cup $1 $2
-	printf "%s" "$3"
+	shift 2
+	printf "%s" "${*}"
 }
 
 print_axis() {
@@ -75,7 +76,8 @@ while true; do
 	wprint 10 10 "$(scale_val ${l1})"
 	wprint 12 10 "$(scale_val ${l5})"
 	wprint 14 10 "$(scale_val ${l15})"
-	wprint 16 10 "${MAX_LOAD_SCALE}"
+
+	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}"
 
 	sleep 1
 done
