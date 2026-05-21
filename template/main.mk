@@ -94,12 +94,13 @@ ifeq (${KMOD}, y)
   $(if ${__IN_KMOD__}, $(eval build-targets += kmods-build))
   $(if ${__IN_KMOD__}, $(eval target-clean-y += kmods-clean))
 endif
-build-targets += $(subdir-y-build)
-build-targets += $(target-post-y)
 
-ifneq (${DRY_RUN},)
-  build-targets := $(subdir-y-build)
-endif
+# %post means post in current directory, it's must be in front of subdir, when
+# current directory done first, subdir startup.
+build-targets += $(target-post-y)
+build-targets += $(subdir-y-build)
+
+$(if ${DRY_RUN}, $(eval build-targets := $(subdir-y-build)))
 
 ifdef DEBUG
   $(info build-targets = ${build-targets})
