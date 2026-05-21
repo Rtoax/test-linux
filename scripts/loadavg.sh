@@ -57,12 +57,22 @@ print_axis() {
 	wprint $((${WINBND} - 1)) ${WINBND} "Load Avg"
 }
 
+on_winch() {
+	clear
+	WINROWS=$(tput lines)
+	WINCOLS=$(tput cols)
+	MAXHIGH=$((WINROWS - WINBND * 2))
+	MAXWIDTH=$((WINCOLS - WINBND * 2))
+	print_axis
+}
+
 scale_val() {
 	echo "scale=0; 1000.0 * ${1}" | bc | cut -d. -f1
 }
 
 # __main__
 trap cleanup INT TERM EXIT
+trap on_winch WINCH
 
 clear
 tput init
@@ -80,7 +90,7 @@ while true; do
 	wprint 12 10 "$(scale_val ${l5})"
 	wprint 14 10 "$(scale_val ${l15})"
 
-	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}"
+	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}, winsize ${WINROWS}x${WINCOLS}"
 
 	sleep 1
 done
