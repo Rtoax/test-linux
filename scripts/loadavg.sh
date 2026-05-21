@@ -53,15 +53,15 @@ wprint() {
 	case $1 in
 	red)
 		shift
-		printf "\033[1;31m%s\033[m" "${*}"
+		printf "\033[1;7;31m%s\033[m" "${*}"
 		;;
 	yellow)
 		shift
-		printf "\033[1;33m%s\033[m" "${*}"
+		printf "\033[1;7;33m%s\033[m" "${*}"
 		;;
 	blue)
 		shift
-		printf "\033[1;34m%s\033[m" "${*}"
+		printf "\033[1;7;34m%s\033[m" "${*}"
 		;;
 	*)
 		printf "%s" "${*}"
