@@ -120,13 +120,13 @@ print_load() {
 	unset prev_cols
 	unset prev_rows
 
-	# Print new
+	# Print load1
 	local nload1=${#load1[@]}
 	for ((i = 0; i < ${nload1}; i++))
 	do
 		local col=$((WINBND + 1 + MAXWIDTH - ${nload1} + i))
 		local row_scale=$(scale_val ${load1[i]})
-		local row=$(( MAXHIGH - row_scale * MAXHIGH / 1000 + WINBND + 1 ))
+		local row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / 1000 + WINBND + 1 ))
 		prev_cols+=( ${col} )
 		prev_rows+=( ${row} )
 		# wprint 2 1 "${col} ${row} ${nload1}"
@@ -172,5 +172,5 @@ while true; do
 	fi
 	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}, winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}, nload ${#load1[@]}"
 
-	sleep 1
+	# sleep 1
 done
