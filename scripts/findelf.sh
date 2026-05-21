@@ -3,7 +3,8 @@ set -e
 
 while read file
 do
-	read -r -N 4 bin < $file
+	unset bin
+	read -r -N 4 bin < $file || true
 	# ELF header magic
 	if [[ $bin == $'\x7f'ELF* ]]; then
 		echo "$file"
