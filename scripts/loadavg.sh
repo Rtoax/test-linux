@@ -35,11 +35,20 @@ cleanup() {
 # window print at location
 # $1: row
 # $2: col
-# $3: string to display
+# $3: [optional] format of color, bold, etc.
+# left args: string to display
 wprint() {
 	tput cup $1 $2
 	shift 2
-	printf "%s" "${*}"
+	case $1 in
+	red)
+		shift
+		printf "\033[1;31m%s\033[m" "${*}"
+		;;
+	*)
+		printf "%s" "${*}"
+		;;
+	esac
 }
 
 print_axis() {
@@ -121,7 +130,7 @@ print_load() {
 		prev_cols+=( ${col} )
 		prev_rows+=( ${row} )
 		# wprint 2 1 "${col} ${row} ${nload1}"
-		wprint ${row} ${col} "X"
+		wprint ${row} ${col} red "${C_ROW}"
 	done
 }
 
