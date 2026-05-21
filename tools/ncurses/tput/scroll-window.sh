@@ -3,12 +3,14 @@ set -e
 
 cleanup() {
 	tput cnorm
+	tput init
 	clear
 	exit 0
 }
 trap cleanup INT TERM EXIT
 
 clear
+tput init
 tput civis
 
 for i in $(seq 1 10); do
