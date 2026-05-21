@@ -14,6 +14,8 @@ readonly C_ROW='─'
 readonly C_UP='▲'
 readonly C_RIGHT='►'
 
+readonly old_tty=$(stty -g)
+
 declare -a load1 load5 load15
 declare MAX_LOAD_SCALE=0
 
@@ -26,6 +28,7 @@ MAXWIDTH=$((WINCOLS - WINBND * 2))
 cleanup() {
 	tput cnorm
 	clear
+	stty "$old_tty"
 	exit 0
 }
 
@@ -70,6 +73,13 @@ scale_val() {
 	echo "scale=0; 1000.0 * ${1}" | bc | cut -d. -f1
 }
 
+getchar() {
+	local key=$(dd bs=1 count=1 2>/dev/null)
+	if [[ -n "$key" ]]; then
+		printf "%d" "'$key"
+	fi
+}
+
 # __main__
 trap cleanup INT TERM EXIT
 trap on_winch WINCH
@@ -77,6 +87,9 @@ trap on_winch WINCH
 clear
 tput init
 tput civis
+
+# Turn off line buffer, no echo for screen.
+stty -icanon min 0 time 0 -echo
 
 print_axis
 
@@ -90,7 +103,11 @@ while true; do
 	wprint 12 10 "$(scale_val ${l5})"
 	wprint 14 10 "$(scale_val ${l15})"
 
-	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}, winsize ${WINROWS}x${WINCOLS}"
+	key_ascii=$(getchar)
+	if [[ -z ${key_ascii} ]]; then
+		key_ascii="---"
+	fi
+	wprint ${WINROWS} 1 "loadavg: ${l1} ${l5} ${l15}, winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}"
 
 	sleep 1
 done
