@@ -4,6 +4,7 @@
 # Output defintions:
 # - TPUT=[/usr/bin/tput]
 # - HAVE_NCURSES=[y|n]
+# - HAVE_NCURSES_H=[y|n]
 #
 ifndef _NCURSES_MK
 _NCURSES_MK = 1
@@ -11,5 +12,6 @@ _NCURSES_MK = 1
 include define.mk
 
 $(call find_cmd_and_def,tput,ncurses)
+$(call check_file_and_def,/usr/include/ncurses.h,HAVE_NCURSES_H)
 
 endif
