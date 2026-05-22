@@ -9,18 +9,19 @@ cleanup() {
 }
 trap cleanup INT TERM EXIT
 
-clear
+tput smcup
 tput init
 tput civis # hidden curse
-tput smcup
 
 for i in $(seq 1 10); do
 	read load1 load5 load15 _ < /proc/loadavg
 	clear
 	tput cup 10 10
-	printf "%s,%s,%s" ${load1} ${load5} ${load15}
+	printf "%s,%s,%s\n" ${load1} ${load5} ${load15}
+	cat /etc/os-release
 
-	sleep .01
+	sleep .05
 done
 
+tput cnorm
 tput rmcup
