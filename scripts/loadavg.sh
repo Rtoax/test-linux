@@ -33,11 +33,18 @@ declare -a load1 load5 load15
 declare -a load1_scale load5_scale load15_scale
 
 DATEBASE=loadavg.db
-WINROWS=$(tput lines)
-WINCOLS=$(tput cols)
-WINBND=5
-MAXHIGH=$((WINROWS - WINBND * 2 - 1))
-MAXWIDTH=$((WINCOLS - WINBND * 2 - 2))
+WINROWS=
+WINCOLS=
+readonly WINBND=6
+MAXHIGH=
+MAXWIDTH=
+
+init_panel() {
+	WINROWS=$(tput lines)
+	WINCOLS=$(tput cols)
+	MAXHIGH=$((WINROWS - WINBND * 2 - 1))
+	MAXWIDTH=$((WINCOLS - WINBND * 2 - 2))
+}
 
 cleanup() {
 	local ret=$?
@@ -96,10 +103,7 @@ print_axis() {
 
 on_winch() {
 	clear
-	WINROWS=$(tput lines)
-	WINCOLS=$(tput cols)
-	MAXHIGH=$((WINROWS - WINBND * 2))
-	MAXWIDTH=$((WINCOLS - WINBND * 2))
+	init_panel
 	print_axis
 }
 
@@ -142,7 +146,7 @@ __print_load_scale() {
 	local nloads=${#loads_scale[@]}
 	for ((i = 0; i < ${nloads}; i++))
 	do
-		col=$((WINBND + 1 + MAXWIDTH - ${nloads} + i))
+		col=$((WINBND + 2 + MAXWIDTH - ${nloads} + i))
 		local row_scale=${loads_scale[i]}
 		row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / ${MAX_LOAD_SCALE} ))
 		prev_cols+=( ${col} )
@@ -177,20 +181,20 @@ print_load() {
 	local last_load1="${load1[-1]}"
 	local last_load5="${load5[-1]}"
 	local last_load15="${load15[-1]}"
-	wprint ${last_row[red]} 1 "${last_load1}"
-	wprint ${last_row[yellow]} 1 "${last_load5}"
-	wprint ${last_row[blue]} 1 "${last_load15}"
+	wprint ${last_row[red]} 0 "${last_load1}"
+	wprint ${last_row[yellow]} 0 "${last_load5}"
+	wprint ${last_row[blue]} 0 "${last_load15}"
 
 	local i
-	for ((i = 1; i <= ${#last_load1}; i++)); do
+	for ((i = 0; i < ${#last_load1}; i++)); do
 		prev_cols+=( ${i} )
 		prev_rows+=( ${last_row[red]} )
 	done
-	for ((i = 1; i <= ${#last_load5}; i++)); do
+	for ((i = 0; i < ${#last_load5}; i++)); do
 		prev_cols+=( ${i} )
 		prev_rows+=( ${last_row[yellow]} )
 	done
-	for ((i = 1; i <= ${#last_load15}; i++)); do
+	for ((i = 0; i < ${#last_load15}; i++)); do
 		prev_cols+=( ${i} )
 		prev_rows+=( ${last_row[blue]} )
 	done
@@ -208,6 +212,8 @@ rm -f ${DATEBASE}
 
 # Turn off line buffer, no echo for screen.
 stty -icanon min 0 time 0 -echo
+
+init_panel
 
 print_axis
 
