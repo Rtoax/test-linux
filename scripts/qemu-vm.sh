@@ -1,4 +1,6 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0
+#
 # Use the qemu command to create a virtual machine directly, without using
 # libvirt, but directly use the qemu command line parameters.
 #

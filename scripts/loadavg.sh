@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0
 # Copyright (C) 2026 Rong Tao
 #
 # Plot and display a loadavg graph of 1, 5, 15 minutes in the Linux terminal

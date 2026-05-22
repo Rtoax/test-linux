@@ -1,4 +1,6 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0
+#
 # Generate patch set in git repo. With this script, you can easily obtain a
 # patchset that can be used for Linux kernel development.
 #

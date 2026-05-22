@@ -1,4 +1,6 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0
+#
 # Usage: findelf.sh [DIR=<./>]
 set -e
 

@@ -1,4 +1,6 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0
+#
 # Check code format with clang-format.
 #
 # Usage: [VCF=1] [FCF=1] [FORCE=1] clang-format.sh
