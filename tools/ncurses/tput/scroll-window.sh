@@ -11,7 +11,8 @@ trap cleanup INT TERM EXIT
 
 clear
 tput init
-tput civis
+tput civis # hidden curse
+tput smcup # swap to a clean screen
 
 for i in $(seq 1 10); do
 	read load1 load5 load15 _ < /proc/loadavg
@@ -21,3 +22,5 @@ for i in $(seq 1 10); do
 
 	sleep .01
 done
+
+tput rmcup # turn off screen, back to main screen

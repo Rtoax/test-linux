@@ -50,9 +50,9 @@ cleanup() {
 	local ret=$?
 	echo "exit with ${ret}"
 	tput cnorm
+	tput rmcup
 	stty "$old_tty"
 	exec 2>&-
-	clear
 	exit ${ret}
 }
 
@@ -107,7 +107,6 @@ print_axis() {
 }
 
 on_winch() {
-	clear
 	init_panel
 	print_axis
 }
@@ -209,7 +208,7 @@ print_load() {
 trap cleanup INT TERM EXIT
 trap on_winch WINCH
 
-clear
+tput smcup
 tput init
 tput civis
 
