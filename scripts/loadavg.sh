@@ -20,6 +20,7 @@ readonly C_COR='└'
 readonly C_ROW='─'
 readonly C_UP='▲'
 readonly C_RIGHT='►'
+readonly C_ASCII220='▄'
 readonly K_ENTER=10
 
 readonly old_tty=$(stty -g)
@@ -53,15 +54,15 @@ wprint() {
 	case $1 in
 	red)
 		shift
-		printf "\033[1;7;31m%s\033[m" "${*}"
+		printf "\033[1;31m%s\033[m" "${*}"
 		;;
 	yellow)
 		shift
-		printf "\033[1;7;33m%s\033[m" "${*}"
+		printf "\033[1;33m%s\033[m" "${*}"
 		;;
 	blue)
 		shift
-		printf "\033[1;7;34m%s\033[m" "${*}"
+		printf "\033[1;34m%s\033[m" "${*}"
 		;;
 	*)
 		printf "%s" "${*}"
@@ -140,7 +141,7 @@ __print_load() {
 		prev_cols+=( ${col} )
 		prev_rows+=( ${row} )
 		# wprint 2 1 "${col} ${row} ${nloads}"
-		wprint ${row} ${col} ${color} "${C_ROW}"
+		wprint ${row} ${col} ${color} "${C_ASCII220}"
 	done
 }
 __clean_load() {

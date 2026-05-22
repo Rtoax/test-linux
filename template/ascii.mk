@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2025-2026 Rong Tao
+# refs:
+# https://www.ascii-code.com/CP437
 ifndef _ASCII_MK
 _ASCII_MK = 1
 
@@ -31,6 +33,8 @@ ASCII177 := ▒
 ASCII178 := ▓
 ASCII219 := █
 ASCII220 := ▄
+ASCII221 := ▌
+ASCII222 := ▐
 ASCII223 := ▀
 ASCII254 := ■
 
