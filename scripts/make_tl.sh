@@ -25,7 +25,7 @@ if ! [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] &&
    ! [[ "$(realpath .)" =~ "ostools" ]] &&
    ! [[ "$(realpath .)" =~ "test-linux" ]]; then
 	${sys_make} $@
-	return $?
+	exit $?
 fi
 
 # FIXME: remove this check after a little while
