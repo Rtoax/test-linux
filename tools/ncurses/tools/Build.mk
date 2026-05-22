@@ -1,3 +1,5 @@
+include ncurses.mk
+
 target-y += loadavg
 
-LDFLAGS += -lncurses
+LDFLAGS += ${ncurses-ldflags}

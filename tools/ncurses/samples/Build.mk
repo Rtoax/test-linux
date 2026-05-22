@@ -1,4 +1,6 @@
+include ncurses.mk
+
 target-y += getmaxyx
 target-y += initscr
 
-LDFLAGS += -lncurses
+LDFLAGS += ${ncurses-ldflags}
