@@ -135,19 +135,29 @@ declare -a prev_cols prev_raws
 __print_load() {
 	local color=$1
 	shift
+	local i col row
 	local loads=( ${@} )
 	# Print loads
 	local nloads=${#loads[@]}
 	for ((i = 0; i < ${nloads}; i++))
 	do
-		local col=$((WINBND + 1 + MAXWIDTH - ${nloads} + i))
+		col=$((WINBND + 1 + MAXWIDTH - ${nloads} + i))
 		local row_scale=$(scale_val ${loads[i]})
-		local row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / ${MAX_LOAD_SCALE} ))
+		row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / ${MAX_LOAD_SCALE} ))
 		prev_cols+=( ${col} )
 		prev_rows+=( ${row} )
 		# wprint 2 1 "${col} ${row} ${nloads}"
 		wprint ${row} ${col} ${color} "${C_ASCII220}"
 	done
+
+	# Print Y axis in the end, and record it for refresh.
+	local last_load="${loads[i - 1]}"
+	wprint ${row} 1 "${last_load}"
+	for ((i = 1; i <= ${#last_load}; i++)); do
+		prev_cols+=( ${i} )
+		prev_rows+=( ${row} )
+	done
+
 }
 __clean_load() {
 	local i
