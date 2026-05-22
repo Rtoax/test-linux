@@ -181,9 +181,9 @@ print_load() {
 	local last_load1="${load1[-1]}"
 	local last_load5="${load5[-1]}"
 	local last_load15="${load15[-1]}"
-	wprint ${last_row[red]} 0 "${last_load1}"
-	wprint ${last_row[yellow]} 0 "${last_load5}"
-	wprint ${last_row[blue]} 0 "${last_load15}"
+	wprint ${last_row[red]} 0 red "${last_load1}"
+	wprint ${last_row[yellow]} 0 yellow "${last_load5}"
+	wprint ${last_row[blue]} 0 blue "${last_load15}"
 
 	local i
 	for ((i = 0; i < ${#last_load1}; i++)); do
