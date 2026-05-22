@@ -264,7 +264,7 @@ while true; do
 	wprint $((WINROWS - 4)) 1 red "load1 ${l1}, scale ${l1_scale}, max = ${MAX_LOAD_SCALE}"
 	wprint $((WINROWS - 3)) 1 yellow "load5 ${l5}, scale ${l5_scale}"
 	wprint $((WINROWS - 2)) 1 blue "load15 ${l15}, scale ${l15_scale}"
-	wprint ${WINROWS} 1 "winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}, nload ${#load1[@]}"
+	wprint $((WINROWS - 1)) 1 "winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}, nload ${#load1[@]}"
 
 	sleep 1
 done
