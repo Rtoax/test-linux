@@ -34,7 +34,7 @@ and this project adheres to
 #### Tools
 - add nginx, ncurses;
 #### Template
-- add grafana.mk, nginx.mk;
+- add grafana.mk, nginx.mk, ncurses.mk;
 - dir.mk: add `list_dir()`;
 
 
