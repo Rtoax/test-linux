@@ -204,3 +204,8 @@ vmlinux.h
 
 # PID lock file
 *.pid
+
+# Datebase
+*.aof
+*.db
+*.rdb

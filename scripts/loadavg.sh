@@ -27,6 +27,7 @@ readonly old_tty=$(stty -g)
 
 declare -a load1 load5 load15
 
+DATEBASE=loadavg.db
 WINROWS=$(tput lines)
 WINCOLS=$(tput cols)
 WINBND=5
@@ -171,6 +172,8 @@ clear
 tput init
 tput civis
 
+rm -f ${DATEBASE}
+
 # Turn off line buffer, no echo for screen.
 stty -icanon min 0 time 0 -echo
 
@@ -181,6 +184,8 @@ while true; do
 	load1+=( ${l1} )
 	load5+=( ${l5} )
 	load15+=( ${l15} )
+
+	echo -e "${l1}\t${l5}\t${l15}\t$(date -u +%s)" >> ${DATEBASE}
 
 	# Remove index 0 if beyond boundary
 	nload=${#load1[@]}
