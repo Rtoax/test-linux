@@ -30,6 +30,7 @@ readonly K_ENTER=10
 readonly old_tty=$(stty -g)
 
 declare -a load1 load5 load15
+declare -a load1_scale load5_scale load15_scale
 
 DATEBASE=loadavg.db
 WINROWS=$(tput lines)
@@ -121,10 +122,9 @@ getchar() {
 
 declare MAX_LOAD_SCALE=0
 getmaxload() {
-	local load
-	for load in ${load1[@]} ${load5[@]} ${load15[@]}
+	local scale
+	for scale in ${load1_scale[@]} ${load5_scale[@]} ${load15_scale[@]}
 	do
-		local scale=$(scale_val ${load})
 		if [[ ${MAX_LOAD_SCALE} -lt ${scale} ]]; then
 			MAX_LOAD_SCALE=${scale}
 		fi
@@ -132,17 +132,18 @@ getmaxload() {
 }
 
 declare -a prev_cols prev_raws
-__print_load() {
+declare -A last_row # array[red|yellow|blue]=row
+__print_load_scale() {
 	local color=$1
 	shift
 	local i col row
-	local loads=( ${@} )
-	# Print loads
-	local nloads=${#loads[@]}
+	local loads_scale=( ${@} )
+	# Print loads_scale
+	local nloads=${#loads_scale[@]}
 	for ((i = 0; i < ${nloads}; i++))
 	do
 		col=$((WINBND + 1 + MAXWIDTH - ${nloads} + i))
-		local row_scale=$(scale_val ${loads[i]})
+		local row_scale=${loads_scale[i]}
 		row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / ${MAX_LOAD_SCALE} ))
 		prev_cols+=( ${col} )
 		prev_rows+=( ${row} )
@@ -150,14 +151,8 @@ __print_load() {
 		wprint ${row} ${col} ${color} "${C_ASCII220}"
 	done
 
-	# Print Y axis in the end, and record it for refresh.
-	local last_load="${loads[i - 1]}"
-	wprint ${row} 1 "${last_load}"
-	for ((i = 1; i <= ${#last_load}; i++)); do
-		prev_cols+=( ${i} )
-		prev_rows+=( ${row} )
-	done
-
+	# record Y axis in the end, and record it for refresh.
+	last_row[$color]=${row}
 }
 __clean_load() {
 	local i
@@ -173,9 +168,32 @@ __clean_load() {
 }
 print_load() {
 	__clean_load
-	__print_load red ${load1[@]}
-	__print_load yellow ${load5[@]}
-	__print_load blue ${load15[@]}
+
+	__print_load_scale red ${load1_scale[@]}
+	__print_load_scale yellow ${load5_scale[@]}
+	__print_load_scale blue ${load15_scale[@]}
+
+	# Print Y axis values, and record it for refresh and cleanup.
+	local last_load1="${load1[-1]}"
+	local last_load5="${load5[-1]}"
+	local last_load15="${load15[-1]}"
+	wprint ${last_row[red]} 1 "${last_load1}"
+	wprint ${last_row[yellow]} 1 "${last_load5}"
+	wprint ${last_row[blue]} 1 "${last_load15}"
+
+	local i
+	for ((i = 1; i <= ${#last_load1}; i++)); do
+		prev_cols+=( ${i} )
+		prev_rows+=( ${last_row[red]} )
+	done
+	for ((i = 1; i <= ${#last_load5}; i++)); do
+		prev_cols+=( ${i} )
+		prev_rows+=( ${last_row[yellow]} )
+	done
+	for ((i = 1; i <= ${#last_load15}; i++)); do
+		prev_cols+=( ${i} )
+		prev_rows+=( ${last_row[blue]} )
+	done
 }
 
 # __main__
@@ -199,6 +217,14 @@ while true; do
 	load5+=( ${l5} )
 	load15+=( ${l15} )
 
+	l1_scale=$(scale_val ${l1})
+	l5_scale=$(scale_val ${l5})
+	l15_scale=$(scale_val ${l15})
+
+	load1_scale+=( ${l1_scale} )
+	load5_scale+=( ${l5_scale} )
+	load15_scale+=( ${l15_scale} )
+
 	echo -e "${l1}\t${l5}\t${l15}\t$(date -u +%s)" >> ${DATEBASE}
 
 	# Remove index 0 if beyond boundary
@@ -208,6 +234,9 @@ while true; do
 		load1=( ${load1[@]:${x}} )
 		load5=( ${load5[@]:${x}} )
 		load15=( ${load15[@]:${x}} )
+		load1_scale=( ${load1_scale[@]:${x}} )
+		load5_scale=( ${load5_scale[@]:${x}} )
+		load15_scale=( ${load15_scale[@]:${x}} )
 		MAX_LOAD_SCALE=0
 	fi
 
@@ -219,9 +248,9 @@ while true; do
 	if [[ -z ${key_ascii} ]]; then
 		key_ascii="---"
 	fi
-	wprint $((WINROWS - 4)) 1 red "load1 ${l1}, scale $(scale_val ${l1}), max = ${MAX_LOAD_SCALE}"
-	wprint $((WINROWS - 3)) 1 yellow "load5 ${l5}, scale $(scale_val ${l5})"
-	wprint $((WINROWS - 2)) 1 blue "load15 ${l15}, scale $(scale_val ${l15})"
+	wprint $((WINROWS - 4)) 1 red "load1 ${l1}, scale ${l1_scale}, max = ${MAX_LOAD_SCALE}"
+	wprint $((WINROWS - 3)) 1 yellow "load5 ${l5}, scale ${l5_scale}"
+	wprint $((WINROWS - 2)) 1 blue "load15 ${l15}, scale ${l15_scale}"
 	wprint ${WINROWS} 1 "winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}, nload ${#load1[@]}"
 
 	sleep 1
