@@ -136,7 +136,7 @@ __print_load() {
 	do
 		local col=$((WINBND + 1 + MAXWIDTH - ${nloads} + i))
 		local row_scale=$(scale_val ${loads[i]})
-		local row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / ${MAX_LOAD_SCALE} + WINBND ))
+		local row=$(( MAXHIGH + WINBND - row_scale * MAXHIGH / ${MAX_LOAD_SCALE} ))
 		prev_cols+=( ${col} )
 		prev_rows+=( ${row} )
 		# wprint 2 1 "${col} ${row} ${nloads}"
