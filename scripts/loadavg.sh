@@ -1,6 +1,9 @@
 #!/bin/bash
 # Copyright (C) 2026 Rong Tao
 #
+# Plot and display a loadavg graph of 1, 5, 15 minutes in the Linux terminal
+# with minimal dependencies.
+#
 # ttyplot (https://github.com/tenox7/ttyplot)
 #   Note: ttyplot only support two lines
 #   while sleep 1; do
@@ -201,17 +204,13 @@ while true; do
 
 	print_load
 
-	wprint 1 1 "load1 scale $(scale_val ${l1}), max = ${MAX_LOAD_SCALE}"
-	wprint 2 1 "load5 scale $(scale_val ${l5})"
-	wprint 3 1 "load15 scale $(scale_val ${l15})"
-
 	key_ascii=$(getchar)
 	if [[ -z ${key_ascii} ]]; then
 		key_ascii="---"
 	fi
-	wprint $((WINROWS - 4)) 1 red "load1 ${l1}"
-	wprint $((WINROWS - 3)) 1 yellow "load5 ${l5}"
-	wprint $((WINROWS - 2)) 1 blue "load15 ${l15}"
+	wprint $((WINROWS - 4)) 1 red "load1 ${l1}, scale $(scale_val ${l1}), max = ${MAX_LOAD_SCALE}"
+	wprint $((WINROWS - 3)) 1 yellow "load5 ${l5}, scale $(scale_val ${l5})"
+	wprint $((WINROWS - 2)) 1 blue "load15 ${l15}, scale $(scale_val ${l15})"
 	wprint ${WINROWS} 1 "winsize ${WINROWS}x${WINCOLS}, key ${key_ascii}, nload ${#load1[@]}"
 
 	sleep 1
