@@ -9,6 +9,10 @@ int main(void)
 	noecho();
 	curs_set(0);
 
+	printw("Hello World.\n");
+	refresh();
+	sleep(1);
+
 	endwin();
 	return 0;
 }

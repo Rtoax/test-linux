@@ -10,5 +10,13 @@
 
 int main(void)
 {
+	initscr();
+	cbreak();
+	noecho();
+	curs_set(0);
+
+	/* do more/something */
+
+	endwin();
 	return 0;
 }
