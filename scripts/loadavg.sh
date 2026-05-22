@@ -10,6 +10,9 @@
 #   while sleep 1; do
 #     awk '{print $1, $2}' /proc/loadavg
 #   done | ttyplot -t "Load Averages (1m, 5m)" -u "load" -2
+#
+# TODO: `while :; do tput; print; done` mode is too slow, we should use pure C.
+# see also tools/ncurses/loadavg.c.
 set -e
 
 if [[ ${VERBOSE} ]]; then

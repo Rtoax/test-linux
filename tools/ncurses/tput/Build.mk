@@ -6,4 +6,4 @@ target-prog-y += window.sh
 target-prog-y += S.sh
 target-prog-y += rmcup.sh smcup.sh
 
-target-post-y := tput_test1
+target-prep-y := tput_test1
