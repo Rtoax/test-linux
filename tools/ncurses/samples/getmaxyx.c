@@ -3,19 +3,20 @@
 #include <signal.h>
 #include <unistd.h>
 
-void print_winsz(void);
+volatile sig_atomic_t winch_flag = 0;
 
 void window_change(int signo)
 {
 	if (signo == SIGWINCH) {
-		print_winsz();
+		winch_flag = 1;
 	}
 }
 
-/* TODO: why rows and cols not change? */
 void print_winsz(void)
 {
 	int err, rows, cols;
+
+	clear();
 
 	err = getmaxyx(stdscr, rows, cols);
 	printw("screen rows %d, cols %d, err %d\n", rows, cols, err);
@@ -35,8 +36,15 @@ int main(void)
 
 	print_winsz();
 
-	while (1)
-		sleep(10);
+	while (1) {
+		if (winch_flag) {
+			winch_flag = 0;
+			endwin();
+			refresh();
+			print_winsz();
+		}
+		napms(100);
+	}
 
 	endwin();
 	return 0;
