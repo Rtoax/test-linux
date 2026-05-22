@@ -5,6 +5,7 @@ include nvidia/cuda.mk
 include amd/rocm.mk
 include metax/hpcc.mk
 include cestc/luca.mk
+include ncurses.mk
 
 target-y += byte
 target-y += endian
@@ -41,6 +42,7 @@ target-liba-${HAVE_LIBBPF_H} += libbpf_helpers.a
 target-liba-${HAVE_LIBBPF_H} += libbtf_helpers.a
 target-liba-y += libreboot_helpers.a
 target-liba-y += libcgroup_helpers.a
+target-liba-${HAVE_NCURSES_H} += libncurses_helpers.a
 
 target-libso-y += ${libpcie-helpers}
 target-libso-y += ${libproc-helpers}
@@ -57,6 +59,7 @@ target-libso-${HAVE_LIBBPF_H} += libbpf_helpers.so
 target-libso-${HAVE_LIBBPF_H} += libbtf_helpers.so
 target-libso-y += libreboot_helpers.so
 target-libso-y += libcgroup_helpers.so
+target-libso-${HAVE_NCURSES_H} += libncurses_helpers.so
 
 target-nvcc-libso-${HAVE_CUDA} := libcuda_helpers.so
 target-nvcc-liba-${HAVE_CUDA} := libcuda_helpers.a
@@ -122,6 +125,8 @@ libreboot_helpers.a-objs := reboot_helpers.a.o
 libreboot_helpers.so-objs := reboot_helpers.so.o
 libcgroup_helpers.a-objs := cgroup_helpers.a.o
 libcgroup_helpers.so-objs := cgroup_helpers.so.o
+libncurses_helpers.a-objs := ncurses_helpers.a.o
+libncurses_helpers.so-objs := ncurses_helpers.so.o
 
 ksym_examples-objs := ksym_helpers.o
 proc_examples-objs := proc_helpers.o

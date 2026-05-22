@@ -30,6 +30,7 @@
 # - BPF_HELPERS
 # - BTF_HELPERS
 # - BPF_INSN_SAMPLES
+# - NCURSES_HELPERS
 #
 # Functions:
 # - add_helpers_cflags()
@@ -56,6 +57,7 @@ endif
 export TLC_HELPERS := ${TOPDIR}/libs/libtest-linux-c.${LIB_TYPE}
 export KSYM_HELPERS := ${TOPDIR}/libs/libksym_helpers.${LIB_TYPE}
 export PROC_HELPERS := ${TOPDIR}/libs/libproc_helpers.${LIB_TYPE}
+export NCURSES_HELPERS := ${TOPDIR}/libs/libncurses_helpers.${LIB_TYPE}
 export SOCKET_HELPERS := ${TOPDIR}/libs/libsocket_helpers.${LIB_TYPE}
 export PCIE_HELPERS := ${TOPDIR}/libs/libpcie_helpers.${LIB_TYPE}
 export PTHREAD_HELPERS := ${TOPDIR}/libs/libpthread_helpers.${LIB_TYPE}
@@ -79,6 +81,7 @@ export ALL_HELPERS := \
 		${SOCKET_HELPERS} \
 		${PCIE_HELPERS} \
 		${PROC_HELPERS} \
+		${NCURSES_HELPERS} \
 		${PTHREAD_HELPERS} \
 		${SCHED_HELPERS} \
 		${MMAP_HELPERS} \
@@ -133,6 +136,7 @@ ifdef DEBUG
   $(info TLC_HELPERS = ${TLC_HELPERS})
   $(info KSYM_HELPERS = ${KSYM_HELPERS})
   $(info PROC_HELPERS = ${PROC_HELPERS})
+  $(info NCURSES_HELPERS = ${NCURSES_HELPERS})
   $(info SOCKET_HELPERS = ${SOCKET_HELPERS})
   $(info PCIE_HELPERS = ${PCIE_HELPERS})
   $(info PTHREAD_HELPERS = ${PTHREAD_HELPERS})

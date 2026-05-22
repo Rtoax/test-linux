@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- ncurses: add tools/loadavg.c, samples;
+- ncurses: add tools/loadavg.c, samples, add `ncurses_helpers`;
 - scripts: add loadavg.sh;
 - add design-patterns directory;
 - redis: add {aof,rdb,lua,expire} directory;
