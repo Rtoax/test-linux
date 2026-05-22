@@ -35,3 +35,4 @@
 /sigprocmask
 /signalfd
 /SIGILL
+/SIGWINCH

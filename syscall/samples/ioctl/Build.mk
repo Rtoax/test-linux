@@ -1,5 +1,4 @@
-target-y += TIOCGWINSZ
-target-y += TIOCSWINSZ
+target-y += TIOCGWINSZ TIOCSWINSZ
 target-y += TCSETS TCGETS
 target-y += SIOCETHTOOL
 target-y += SIOCGIFCONF
