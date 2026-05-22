@@ -59,8 +59,9 @@ cleanup() {
 # window print at location
 # $1: row
 # $2: col
-# $3: [optional] format of color, bold, etc.
+# $3: [optional] format of color, bold, clean, etc.
 # left args: string to display
+#   $4: if $3=clean, $4 is size of clean
 wprint() {
 	tput cup $1 $2
 	shift 2
@@ -76,6 +77,10 @@ wprint() {
 	blue)
 		shift
 		printf "\033[1;34m%s\033[m" "${*}"
+		;;
+	clean)
+		shift
+		printf "%*s" $1 " "
 		;;
 	*)
 		printf "%s" "${*}"
@@ -165,7 +170,7 @@ __clean_load() {
 	for ((i = 0; i < ${#prev_cols[@]}; i++))
 	do
 		# wprint 1 1 "${#prev_rows[@]}, ${#prev_cols[@]}"
-		wprint ${prev_rows[i]} ${prev_cols[i]} " "
+		wprint ${prev_rows[i]} ${prev_cols[i]} clean 1
 	done
 	unset prev_cols
 	unset prev_rows
