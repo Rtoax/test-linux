@@ -30,6 +30,7 @@ DESCRIPTION
 
 	-d, --display [ITEM]   specify what to display, default: ${display}
 	                       support: ${DISPLAYERS[@]}
+	                        ym: base=y, config=m
 
 	-h, --help             show help
 	-v, --verbose          display verbose
