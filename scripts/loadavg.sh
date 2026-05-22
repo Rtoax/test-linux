@@ -255,9 +255,9 @@ while true; do
 	print_load
 
 	key_ascii=$(getchar)
-	if [[ -z ${key_ascii} ]]; then
-		key_ascii="---"
-	fi
+	[[ -z ${key_ascii} ]] && key_ascii="---"
+	[[ ${key_ascii} == 113 ]] && exit 0
+
 	wprint $((WINROWS - 4)) 1 red "load1 ${l1}, scale ${l1_scale}, max = ${MAX_LOAD_SCALE}"
 	wprint $((WINROWS - 3)) 1 yellow "load5 ${l5}, scale ${l5_scale}"
 	wprint $((WINROWS - 2)) 1 blue "load15 ${l15}, scale ${l15_scale}"
