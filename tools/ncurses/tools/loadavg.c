@@ -25,7 +25,7 @@
 #include <unistd.h>
 #include "value.h"
 
-static const char *verstring = "github.com/rtoax/test-linux v1.0.1";
+static const char *verstring = "github.com/rtoax/test-linux v1.0.2";
 const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
@@ -59,9 +59,15 @@ static const struct argp_option opts[] = {
 #define HEIGHT_BND 4
 #define WIDTH_BND 6
 
-static char *title = "Load average";
-static int height = 0, width = 0;
-static int plotheight = 0, plotwidth = 0;
+struct plot {
+	char *title;
+	int height, width;
+	int plotheight, plotwidth;
+};
+
+struct plot pla = {
+	.title = "Load average",
+};
 
 static struct timeval now;
 static int sig_rd_fd, sig_wr_fd;
@@ -83,22 +89,22 @@ void sig_handler(int signo)
 	} while ((ret == -1) && (errno == EINTR));
 }
 
-void update_size(void)
+void update_size(struct plot *p)
 {
-	getmaxyx(stdscr, height, width);
-	plotheight = height - HEIGHT_BND * 2;
-	plotwidth = width - WIDTH_BND * 2;
+	getmaxyx(stdscr, p->height, p->width);
+	p->plotheight = p->height - HEIGHT_BND * 2;
+	p->plotwidth = p->width - WIDTH_BND * 2;
 }
 
-void paint_values(struct values *load, char *label, double max, double min,
-		  int color)
+void paint_values(const struct plot *p, struct values *load, char *label,
+		  double max, double min, int color)
 {
 	int i = 0;
 	for_each_value(load, v)
 	{
-		int h = plotheight + HEIGHT_BND - 1 -
-			(v->v - min) * (plotheight - 2) / (max - min);
-		int w = plotwidth + WIDTH_BND - load->count + i;
+		int h = p->plotheight + HEIGHT_BND - 1 -
+			(v->v - min) * (p->plotheight - 2) / (max - min);
+		int w = p->plotwidth + WIDTH_BND - load->count + i;
 		attron(flavor[color]);
 		mvprintw(h, w, "━");
 		attroff(flavor[color]);
@@ -109,7 +115,7 @@ void paint_values(struct values *load, char *label, double max, double min,
 		if ((i - 1) % 10 == 0) {
 			char buf[10];
 			strftime(buf, 10, "%T", localtime(&v->tv.tv_sec));
-			mvprintw(height - HEIGHT_BND + 1, w, "%s", buf);
+			mvprintw(p->height - HEIGHT_BND + 1, w, "%s", buf);
 		}
 
 		/* set y axis */
@@ -127,29 +133,29 @@ void append_load(struct values *loads, double v)
 	if (loads->tail && loads->tail->tv.tv_sec == now.tv_sec)
 		return;
 	enqueue_val(loads, v);
-	for (int i = plotwidth - 2; i < loads->count; i++)
+	for (int i = pla.plotwidth - 2; i < loads->count; i++)
 		dequeue_val(loads);
 }
 
-void draw_axes(void)
+void draw_axes(const struct plot *p)
 {
-	mvhline(plotheight + HEIGHT_BND, WIDTH_BND, T_HLINE, plotwidth);
-	mvvline(HEIGHT_BND, WIDTH_BND, T_VLINE, plotheight);
-	mvaddch(plotheight + HEIGHT_BND, WIDTH_BND, T_LLCR);
+	mvhline(p->plotheight + HEIGHT_BND, WIDTH_BND, T_HLINE, p->plotwidth);
+	mvvline(HEIGHT_BND, WIDTH_BND, T_VLINE, p->plotheight);
+	mvaddch(p->plotheight + HEIGHT_BND, WIDTH_BND, T_LLCR);
 	mvaddch(HEIGHT_BND, WIDTH_BND, T_UARR);
 	mvprintw(HEIGHT_BND, WIDTH_BND, "▲");
-	mvprintw(plotheight + HEIGHT_BND, plotwidth + WIDTH_BND, "►");
+	mvprintw(p->plotheight + HEIGHT_BND, p->plotwidth + WIDTH_BND, "►");
 }
 
-void paint_plot(void)
+void paint_plot(const struct plot *p)
 {
 	double loadavg[3];
 
 	erase();
 
-	mvaddstr(0, (width - strlen(title)) / 2, title);
+	mvaddstr(0, (p->width - strlen(p->title)) / 2, p->title);
 
-	draw_axes();
+	draw_axes(p);
 
 	/* draw load */
 	getloadavg(loadavg, 3);
@@ -175,31 +181,31 @@ void paint_plot(void)
 	load_min = load_min > load5.min->v ? load5.min->v : load_min;
 	load_min = load_min > load15.min->v ? load15.min->v : load_min;
 
-	paint_values(&load1, "load1", load_max, load_min, C_RED);
-	paint_values(&load5, "load5", load_max, load_min, C_GREEN);
-	paint_values(&load15, "load15", load_max, load_min, C_BLUE);
+	paint_values(&pla, &load1, "load1", load_max, load_min, C_RED);
+	paint_values(&pla, &load5, "load5", load_max, load_min, C_GREEN);
+	paint_values(&pla, &load15, "load15", load_max, load_min, C_BLUE);
 
 	time_t sec = time(NULL);
 	struct tm *tm = localtime(&sec);
 	char ts[64] = { 0 };
 	asctime_r(tm, ts);
 	ts[strlen(ts) - 1] = '\n';
-	mvaddstr(height - 2, width - strlen(ts) - 1, ts);
+	mvaddstr(p->height - 2, p->width - strlen(ts) - 1, ts);
 
-	mvaddstr(height - 1, width - strlen(verstring) - 1, verstring);
+	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
 
 #ifdef DEBUG
-	mvprintw(height - 2, 1,
+	mvprintw(p->height - 2, 1,
 		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d'\n",
-		 loadavg[0], loadavg[1], loadavg[2], LINES, plotheight, COLS,
-		 plotwidth, key);
+		 loadavg[0], loadavg[1], loadavg[2], LINES, p->plotheight, COLS,
+		 p->plotwidth, key);
 #endif
 	move(0, 0);
 }
 
 void redraw_screen(void)
 {
-	paint_plot();
+	paint_plot(&pla);
 	refresh();
 }
 
@@ -207,7 +213,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 {
 	switch (opt) {
 	case 'T':
-		title = arg;
+		pla.title = arg;
 		break;
 	case 'v':
 		verbose = true;
@@ -294,7 +300,7 @@ int main(int argc, char *argv[])
 	if (maxfd < sig_rd_fd)
 		maxfd = sig_rd_fd;
 
-	update_size();
+	update_size(&pla);
 	redraw_screen();
 
 	/* main loop */
@@ -328,7 +334,7 @@ int main(int argc, char *argv[])
 				initscr();
 				erase();
 				refresh();
-				update_size();
+				update_size(&pla);
 				redraw = true;
 			}
 		} else
