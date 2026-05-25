@@ -41,9 +41,7 @@ static const int height_bnd = 3, width_bnd = 5;
 
 static int done = false;
 
-static chtype flavor[] = {
-	'O', '*', '#', '$', '%', '0', '@',
-};
+static chtype flavor[8] = { 0 };
 
 struct value {
 	int v;
@@ -176,7 +174,7 @@ void paint_plot(void)
 		mvaddch(plotheight + height_bnd -
 				v->v * 1.0 * plotheight / load1.max->v,
 			plotwidth + width_bnd - load1.count + i,
-			'X' | A_REVERSE);
+			T_HLINE | flavor[2]);
 		i++;
 	}
 
