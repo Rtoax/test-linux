@@ -11,11 +11,16 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <signal.h>
 #include <ncurses.h>
 #include <unistd.h>
 
-int done = false;
+static const char *verstring = "v0.0.1";
+static int height = 0, width = 0;
+static const int height_bnd = 5, width_bnd = 5;
+
+static int done = false;
 
 static chtype flavor[] = {
 	'O', '*', '#', '$', '%', '0', '@',
@@ -49,18 +54,29 @@ int getload(int *l1, int *l5, int *l15, int scale)
 	return 0;
 }
 
-void load_window(void)
+void paint_plot(void)
 {
-	// TODO
-	while (!done) {
-		int l1, l5, l15;
-		getload(&l1, &l5, &l15, 1000);
+	int l1, l5, l15;
+	int plotheight = height - height_bnd;
+	int plotwidth = width - width_bnd;
 
-		printw("%d %d %d, row %d, col %d\n", l1, l5, l15, LINES, COLS);
+	getload(&l1, &l5, &l15, 1000);
 
-		refresh();
-		sleep(1);
-	}
+	mvaddstr(height - 1, width - strlen(verstring) - 1, verstring);
+	mvprintw(height - 2, 1, "%d %d %d, row %d, col %d\n", l1, l5, l15,
+		 LINES, COLS);
+
+	mvaddch(plotheight, plotwidth, 'X' | A_REVERSE);
+
+	// TODO: draw more
+
+	refresh();
+}
+
+void redraw_screen(void)
+{
+	paint_plot();
+	refresh();
 }
 
 int main(void)
@@ -92,7 +108,10 @@ int main(void)
 #undef SET_COLOR
 	}
 
-	load_window();
+	while (!done) {
+		getmaxyx(stdscr, height, width);
+		redraw_screen();
+	}
 
 	endwin();
 	return 0;
