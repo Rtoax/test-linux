@@ -148,7 +148,7 @@ void paint_values(struct values *load, char *label, double max, int color)
 		attron(flavor[color]);
 		mvprintw(h, 0, "%.2f", v->v);
 		if (i == load->count)
-			mvprintw(h, w + 1, label);
+			mvprintw(h, w + 1, "%s", label);
 		attroff(flavor[color]);
 	}
 }
