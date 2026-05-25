@@ -90,7 +90,7 @@ void paint_values(struct values *load, char *label, double max, double min,
 			(v->v - min) * (plotheight - 2) / (max - min);
 		int w = plotwidth + WIDTH_BND - load->count + i;
 		attron(flavor[color]);
-		mvprintw(h, w, "▄");
+		mvprintw(h, w, "━");
 		attroff(flavor[color]);
 
 		i++;
