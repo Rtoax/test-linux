@@ -168,12 +168,12 @@ void paint_plot(void)
 	for (i = plotwidth - 2; i < load15.count; i++)
 		dequeue_val(&load15);
 
-	for_each_value(&load1, i)
+	i = 0;
+	for_each_value(&load1, v)
 	{
-		mvaddch(i->v * 1.0 * plotheight / load1.max->v, plotwidth,
-			'X' | A_REVERSE);
-		mvprintw(3, 1, "%d %d", i->v * load1.max->v * plotheight / 1000,
-			 plotwidth);
+		mvaddch(v->v * 1.0 * plotheight / load1.max->v,
+			plotwidth - load1.count + i, 'X' | A_REVERSE);
+		i++;
 	}
 
 	// TODO: draw more
@@ -223,7 +223,7 @@ int main(void)
 	while (!done) {
 		getmaxyx(stdscr, height, width);
 		redraw_screen();
-		napms(10);
+		napms(1000);
 	}
 
 	endwin();
