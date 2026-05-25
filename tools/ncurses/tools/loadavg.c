@@ -134,7 +134,8 @@ void paint_plot(void)
 	mvvline(HEIGHT_BND, WIDTH_BND, T_VLINE, plotheight);
 	mvaddch(plotheight + HEIGHT_BND, WIDTH_BND, T_LLCR);
 	mvaddch(HEIGHT_BND, WIDTH_BND, T_UARR);
-	mvaddch(plotheight + HEIGHT_BND, plotwidth + WIDTH_BND, T_RARR);
+	mvprintw(HEIGHT_BND, WIDTH_BND, "▲");
+	mvprintw(plotheight + HEIGHT_BND, plotwidth + WIDTH_BND, "►");
 
 	/* draw load */
 	getloadavg(loadavg, 3);
