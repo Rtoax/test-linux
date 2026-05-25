@@ -5,7 +5,6 @@
 #include <fcntl.h>
 #include <linux/input.h>
 
-
 int main(int argc, char *argv[])
 {
 	int i, fd, idx;
