@@ -61,7 +61,7 @@ struct value {
 };
 
 struct values {
-	struct value *head, *tail, *max;
+	struct value *head, *tail, *max, *min;
 	int count; /* number of value */
 };
 
@@ -84,6 +84,15 @@ int dequeue_val(struct values *vals)
 		while (tmp) {
 			if (tmp->v > vals->max->v)
 				vals->max = tmp;
+			tmp = tmp->next;
+		}
+	}
+	/* update min */
+	if (vals->min && vals->min == vals->head) {
+		struct value *tmp = vals->min = vals->head->next;
+		while (tmp) {
+			if (tmp->v < vals->min->v)
+				vals->min = tmp;
 			tmp = tmp->next;
 		}
 	}
@@ -112,6 +121,12 @@ int enqueue_val(struct values *vals, double v)
 		if (vals->max->v < v)
 			vals->max = new;
 	}
+	if (!vals->min) {
+		vals->min = new;
+	} else {
+		if (vals->min->v > v)
+			vals->min = new;
+	}
 
 	vals->tail = new;
 	return 0;
@@ -133,12 +148,14 @@ void update_size(void)
 	plotwidth = width - width_bnd * 2;
 }
 
-void paint_values(struct values *load, char *label, double max, int color)
+void paint_values(struct values *load, char *label, double max, double min,
+		  int color)
 {
 	int i = 0;
 	for_each_value(load, v)
 	{
-		int h = plotheight + height_bnd + 1 - v->v * plotheight / max;
+		int h = plotheight + height_bnd - 1 -
+			(v->v - min) * (plotheight - 2) / (max - min);
 		int w = plotwidth + width_bnd - load->count + i;
 		mvaddch(h, w, T_HLINE | flavor[color]);
 
@@ -177,9 +194,12 @@ void paint_plot(void)
 	enqueue_val(&load15, loadavg[2]);
 
 #ifdef DEBUG
-	mvprintw(0, 1, "- %d - %f", load1.count, loadavg[0]);
-	mvprintw(1, 1, "- %d - %f", load5.count, loadavg[1]);
-	mvprintw(2, 1, "- %d - %f", load15.count, loadavg[2]);
+	mvprintw(0, 1, "- %d - %f - %lf~%lf", load1.count, loadavg[0],
+		 load1.min->v, load1.max->v);
+	mvprintw(1, 1, "- %d - %f - %lf~%lf", load5.count, loadavg[1],
+		 load5.min->v, load5.max->v);
+	mvprintw(2, 1, "- %d - %f - %lf~%lf", load15.count, loadavg[2],
+		 load15.min->v, load15.max->v);
 #endif
 
 	for (i = plotwidth - 2; i < load1.count; i++)
@@ -189,14 +209,17 @@ void paint_plot(void)
 	for (i = plotwidth - 2; i < load15.count; i++)
 		dequeue_val(&load15);
 
-	double load_max = 0;
+	double load_max = 0, load_min = 9999;
 	load_max = load_max < load1.max->v ? load1.max->v : load_max;
 	load_max = load_max < load5.max->v ? load5.max->v : load_max;
 	load_max = load_max < load15.max->v ? load15.max->v : load_max;
+	load_min = load_min > load1.min->v ? load1.min->v : load_min;
+	load_min = load_min > load5.min->v ? load5.min->v : load_min;
+	load_min = load_min > load15.min->v ? load15.min->v : load_min;
 
-	paint_values(&load1, "load1", load_max, C_RED);
-	paint_values(&load5, "load5", load_max, C_GREEN);
-	paint_values(&load15, "load15", load_max, C_BLUE);
+	paint_values(&load1, "load1", load_max, load_min, C_RED);
+	paint_values(&load5, "load5", load_max, load_min, C_GREEN);
+	paint_values(&load15, "load15", load_max, load_min, C_BLUE);
 
 	// TODO: draw more
 
