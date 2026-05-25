@@ -59,6 +59,10 @@ struct values load1 = {};
 struct values load5 = {};
 struct values load15 = {};
 
+#define for_each_value(vals, iter)                                       \
+	for (struct value *iter = ((struct values *)(vals))->head; iter; \
+	     iter = iter->next)
+
 int dequeue_val(struct values *vals)
 {
 	if (!vals || !vals->head)
@@ -151,23 +155,32 @@ void paint_plot(void)
 	getloadavg_scale(&l1, &l5, &l15, 1000);
 
 	enqueue_val(&load1, l1);
+	mvprintw(0, 1, "- %d - %d", load1.count, l1);
 	enqueue_val(&load5, l5);
+	mvprintw(1, 1, "- %d - %d", load5.count, l5);
 	enqueue_val(&load15, l15);
+	mvprintw(2, 1, "- %d - %d", load15.count, l15);
 
-	for (i = plotwidth; i > load1.count; i--)
+	for (i = plotwidth - 2; i < load1.count; i++)
 		dequeue_val(&load1);
-	for (i = plotwidth; i > load5.count; i--)
+	for (i = plotwidth - 2; i < load5.count; i++)
 		dequeue_val(&load5);
-	for (i = plotwidth; i > load15.count; i--)
+	for (i = plotwidth - 2; i < load15.count; i++)
 		dequeue_val(&load15);
 
-	mvaddstr(height - 1, width - strlen(verstring) - 1, verstring);
-	mvprintw(height - 2, 1, "%d %d %d, row %d, col %d\n", l1, l5, l15,
-		 LINES, COLS);
-
-	mvaddch(plotheight, plotwidth, 'X' | A_REVERSE);
+	for_each_value(&load1, i)
+	{
+		mvaddch(i->v * 1.0 * plotheight / load1.max->v, plotwidth,
+			'X' | A_REVERSE);
+		mvprintw(3, 1, "%d %d", i->v * load1.max->v * plotheight / 1000,
+			 plotwidth);
+	}
 
 	// TODO: draw more
+
+	mvaddstr(height - 1, width - strlen(verstring) - 1, verstring);
+	mvprintw(height - 2, 1, "%d %d %d, row %d (%d), col %d (%d)\n", l1, l5,
+		 l15, LINES, plotheight, COLS, plotwidth);
 
 	move(0, 0);
 }
