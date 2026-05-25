@@ -17,5 +17,7 @@ fi
 for remote in ${git_remotes[@]}
 do
 	echo -e "\033[1;32m=== Push to remote ${remote} ===\033[m"
-	git push ${remote} ${git_args[@]}
+	timeout 5 git push ${remote} ${git_args[@]} || {
+		echo -e "\033[1;31mPush to ${remote} failed\033[m"
+	}
 done
