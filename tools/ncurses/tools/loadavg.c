@@ -34,6 +34,7 @@
 #define T_UARR ACS_UARROW
 #endif
 
+static char *title = "Load average";
 static const char *verstring = "v0.0.1";
 static int height = 0, width = 0;
 static const int height_bnd = 3, width_bnd = 5;
@@ -78,6 +79,8 @@ void paint_plot(void)
 	int plotheight = height - height_bnd * 2;
 	int plotwidth = width - width_bnd * 2;
 
+	mvaddstr(0, (width - strlen(title)) / 2, title);
+
 	/* draw axes */
 	mvhline(plotheight + height_bnd, width_bnd, T_HLINE, plotwidth);
 	mvvline(height_bnd, width_bnd, T_VLINE, plotheight);
@@ -96,7 +99,7 @@ void paint_plot(void)
 
 	// TODO: draw more
 
-	refresh();
+	move(0, 0);
 }
 
 void redraw_screen(void)
