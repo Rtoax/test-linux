@@ -20,9 +20,23 @@
 #include <ncurses.h>
 #include <unistd.h>
 
+#ifdef NOACS
+#define T_HLINE '-'
+#define T_VLINE '|'
+#define T_LLCR 'L'
+#define T_RARR '>'
+#define T_UARR '^'
+#else
+#define T_HLINE ACS_HLINE
+#define T_VLINE ACS_VLINE
+#define T_LLCR ACS_LLCORNER
+#define T_RARR ACS_RARROW
+#define T_UARR ACS_UARROW
+#endif
+
 static const char *verstring = "v0.0.1";
 static int height = 0, width = 0;
-static const int height_bnd = 5, width_bnd = 5;
+static const int height_bnd = 3, width_bnd = 5;
 
 static int done = false;
 
@@ -61,9 +75,17 @@ int getload(int *l1, int *l5, int *l15, int scale)
 void paint_plot(void)
 {
 	int l1, l5, l15;
-	int plotheight = height - height_bnd;
-	int plotwidth = width - width_bnd;
+	int plotheight = height - height_bnd * 2;
+	int plotwidth = width - width_bnd * 2;
 
+	/* draw axes */
+	mvhline(plotheight + height_bnd, width_bnd, T_HLINE, plotwidth);
+	mvvline(height_bnd, width_bnd, T_VLINE, plotheight);
+	mvaddch(plotheight + height_bnd, width_bnd, T_LLCR);
+	mvaddch(height_bnd, width_bnd, T_UARR);
+	mvaddch(plotheight + height_bnd, plotwidth + width_bnd, T_RARR);
+
+	/* draw load */
 	getload(&l1, &l5, &l15, 1000);
 
 	mvaddstr(height - 1, width - strlen(verstring) - 1, verstring);
