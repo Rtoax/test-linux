@@ -4,7 +4,11 @@
  * Plot and display a loadavg graph of 1, 5, 15 minutes in the Linux terminal
  * with minimal dependencies.
  *
+ * ttyplot is not good enough.
+ *
  * see also test-linux/scripts/loadavg.sh
+ *
+ * ttyplot: https://github.com/tenox7/ttyplot.git
  */
 #include <errno.h>
 #include <locale.h>
