@@ -142,6 +142,8 @@ void paint_plot(void)
 	int plotheight = height - height_bnd * 2;
 	int plotwidth = width - width_bnd * 2;
 
+	erase();
+
 	mvaddstr(0, (width - strlen(title)) / 2, title);
 
 	/* draw axes */
@@ -171,8 +173,10 @@ void paint_plot(void)
 	i = 0;
 	for_each_value(&load1, v)
 	{
-		mvaddch(v->v * 1.0 * plotheight / load1.max->v,
-			plotwidth - load1.count + i, 'X' | A_REVERSE);
+		mvaddch(plotheight + height_bnd -
+				v->v * 1.0 * plotheight / load1.max->v,
+			plotwidth + width_bnd - load1.count + i,
+			'X' | A_REVERSE);
 		i++;
 	}
 
