@@ -37,7 +37,7 @@
 static char *title = "Load average";
 static const char *verstring = "v0.0.1";
 static int height = 0, width = 0;
-static const int height_bnd = 3, width_bnd = 5;
+static const int height_bnd = 3, width_bnd = 6;
 
 static int done = false;
 
@@ -114,29 +114,10 @@ void sig_handler(int signo)
 	}
 }
 
-/* see also getloadavg(3) */
-int getloadavg_scale(int *l1, int *l5, int *l15, int scale)
-{
-	FILE *fp = fopen("/proc/loadavg", "r");
-	if (!fp) {
-		fprintf(stderr, "open /proc/loadavg failed, %m\n");
-		return -errno;
-	}
-
-	float f1, f5, f15;
-	fscanf(fp, "%f %f %f", &f1, &f5, &f15);
-
-	*l1 = f1 * scale;
-	*l5 = f5 * scale;
-	*l15 = f15 * scale;
-
-	fclose(fp);
-	return 0;
-}
-
 void paint_plot(void)
 {
-	int i, l1, l5, l15;
+	int i;
+	double loadavg[3];
 	int plotheight = height - height_bnd * 2;
 	int plotwidth = width - width_bnd * 2;
 
@@ -152,14 +133,17 @@ void paint_plot(void)
 	mvaddch(plotheight + height_bnd, plotwidth + width_bnd, T_RARR);
 
 	/* draw load */
-	getloadavg_scale(&l1, &l5, &l15, 1000);
+	getloadavg(loadavg, 3);
 
-	enqueue_val(&load1, l1);
-	mvprintw(0, 1, "- %d - %d", load1.count, l1);
-	enqueue_val(&load5, l5);
-	mvprintw(1, 1, "- %d - %d", load5.count, l5);
-	enqueue_val(&load15, l15);
-	mvprintw(2, 1, "- %d - %d", load15.count, l15);
+	enqueue_val(&load1, loadavg[0] * 1000);
+	enqueue_val(&load5, loadavg[1] * 1000);
+	enqueue_val(&load15, loadavg[2] * 1000);
+
+#ifdef DEBUG
+	mvprintw(0, 1, "- %d - %f", load1.count, loadavg[0]);
+	mvprintw(1, 1, "- %d - %f", load5.count, loadavg[1]);
+	mvprintw(2, 1, "- %d - %f", load15.count, loadavg[2]);
+#endif
 
 	for (i = plotwidth - 2; i < load1.count; i++)
 		dequeue_val(&load1);
@@ -171,9 +155,9 @@ void paint_plot(void)
 	i = 0;
 	for_each_value(&load1, v)
 	{
-		mvaddch(plotheight + height_bnd -
-				v->v * 1.0 * plotheight / load1.max->v,
-			plotwidth + width_bnd - load1.count + i,
+		int h = plotheight + height_bnd -
+			v->v * 1.0 * plotheight / load1.max->v;
+		mvaddch(h, plotwidth + width_bnd - load1.count + i,
 			T_HLINE | flavor[2]);
 		i++;
 	}
@@ -181,9 +165,11 @@ void paint_plot(void)
 	// TODO: draw more
 
 	mvaddstr(height - 1, width - strlen(verstring) - 1, verstring);
-	mvprintw(height - 2, 1, "%d %d %d, row %d (%d), col %d (%d)\n", l1, l5,
-		 l15, LINES, plotheight, COLS, plotwidth);
-
+#ifdef DEBUG
+	mvprintw(height - 2, 1, "%.2f %.2f %.2f, row %d (%d), col %d (%d)\n",
+		 loadavg[0], loadavg[1], loadavg[2], LINES, plotheight, COLS,
+		 plotwidth);
+#endif
 	move(0, 0);
 }
 
