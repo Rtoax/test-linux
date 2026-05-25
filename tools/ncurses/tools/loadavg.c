@@ -140,6 +140,7 @@ int main(void)
 	while (!done) {
 		getmaxyx(stdscr, height, width);
 		redraw_screen();
+		napms(10);
 	}
 
 	endwin();
