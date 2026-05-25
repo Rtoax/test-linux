@@ -8,11 +8,14 @@
  */
 #include <errno.h>
 #include <locale.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <signal.h>
 #include <ncurses.h>
 #include <unistd.h>
+
+int done = false;
 
 static chtype flavor[] = {
 	'O', '*', '#', '$', '%', '0', '@',
@@ -22,8 +25,8 @@ void sig_handler(int signo)
 {
 	switch (signo) {
 	case SIGINT:
-		endwin();
-		exit(EXIT_SUCCESS);
+		done = true;
+		break;
 	}
 }
 
@@ -49,7 +52,7 @@ int getload(int *l1, int *l5, int *l15, int scale)
 void load_window(void)
 {
 	// TODO
-	while (1) {
+	while (!done) {
 		int l1, l5, l15;
 		getload(&l1, &l5, &l15, 1000);
 
