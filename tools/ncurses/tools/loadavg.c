@@ -45,6 +45,64 @@ static chtype flavor[] = {
 	'O', '*', '#', '$', '%', '0', '@',
 };
 
+struct value {
+	int v;
+	struct value *next;
+};
+
+struct values {
+	struct value *head, *tail, *max;
+	int count; /* number of value */
+};
+
+struct values load1 = {};
+struct values load5 = {};
+struct values load15 = {};
+
+int dequeue_val(struct values *vals)
+{
+	if (!vals || !vals->head)
+		return 0;
+	int v = vals->head->v;
+	/* update max */
+	if (vals->max && vals->max == vals->head) {
+		struct value *tmp = vals->max = vals->head->next;
+		while (tmp) {
+			if (tmp->v > vals->max->v)
+				vals->max = tmp;
+			tmp = tmp->next;
+		}
+	}
+	vals->count--;
+	vals->head = vals->head->next;
+	return v;
+}
+
+int enqueue_val(struct values *vals, int v)
+{
+	struct value *new = malloc(sizeof(struct value));
+	new->v = v;
+	new->next = NULL;
+
+	if (!vals->head) {
+		vals->head = new;
+		vals->count = 1;
+	} else {
+		vals->tail->next = new;
+		vals->count++;
+	}
+
+	if (!vals->max) {
+		vals->max = new;
+	} else {
+		if (vals->max->v < v)
+			vals->max = new;
+	}
+
+	vals->tail = new;
+	return 0;
+}
+
 void sig_handler(int signo)
 {
 	switch (signo) {
@@ -54,7 +112,8 @@ void sig_handler(int signo)
 	}
 }
 
-int getload(int *l1, int *l5, int *l15, int scale)
+/* see also getloadavg(3) */
+int getloadavg_scale(int *l1, int *l5, int *l15, int scale)
 {
 	FILE *fp = fopen("/proc/loadavg", "r");
 	if (!fp) {
@@ -62,12 +121,12 @@ int getload(int *l1, int *l5, int *l15, int scale)
 		return -errno;
 	}
 
-	float load1, load5, load15;
-	fscanf(fp, "%f %f %f", &load1, &load5, &load15);
+	float f1, f5, f15;
+	fscanf(fp, "%f %f %f", &f1, &f5, &f15);
 
-	*l1 = load1 * scale;
-	*l5 = load5 * scale;
-	*l15 = load15 * scale;
+	*l1 = f1 * scale;
+	*l5 = f5 * scale;
+	*l15 = f15 * scale;
 
 	fclose(fp);
 	return 0;
@@ -75,7 +134,7 @@ int getload(int *l1, int *l5, int *l15, int scale)
 
 void paint_plot(void)
 {
-	int l1, l5, l15;
+	int i, l1, l5, l15;
 	int plotheight = height - height_bnd * 2;
 	int plotwidth = width - width_bnd * 2;
 
@@ -89,7 +148,18 @@ void paint_plot(void)
 	mvaddch(plotheight + height_bnd, plotwidth + width_bnd, T_RARR);
 
 	/* draw load */
-	getload(&l1, &l5, &l15, 1000);
+	getloadavg_scale(&l1, &l5, &l15, 1000);
+
+	enqueue_val(&load1, l1);
+	enqueue_val(&load5, l5);
+	enqueue_val(&load15, l15);
+
+	for (i = plotwidth; i > load1.count; i--)
+		dequeue_val(&load1);
+	for (i = plotwidth; i > load5.count; i--)
+		dequeue_val(&load5);
+	for (i = plotwidth; i > load15.count; i--)
+		dequeue_val(&load15);
 
 	mvaddstr(height - 1, width - strlen(verstring) - 1, verstring);
 	mvprintw(height - 2, 1, "%d %d %d, row %d, col %d\n", l1, l5, l15,
