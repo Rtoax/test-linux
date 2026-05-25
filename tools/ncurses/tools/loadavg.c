@@ -50,7 +50,7 @@
 #define WIDTH_BND 6
 
 static char *title = "Load average";
-static const char *verstring = "github.com/rtoax/test-linux v0.0.1";
+static const char *verstring = "github.com/rtoax/test-linux v1.0.0";
 static int height = 0, width = 0;
 static int plotheight = 0, plotwidth = 0;
 
