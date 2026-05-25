@@ -21,6 +21,7 @@
 #include <time.h>
 #include <ncurses.h>
 #include <unistd.h>
+#include "value.h"
 
 #ifdef NOACS
 #define T_HLINE '-'
@@ -56,84 +57,9 @@ static int done = false;
 
 static chtype flavor[8] = { 0 };
 
-struct value {
-	double v;
-	struct timeval tv;
-	struct value *next;
-};
-
-struct values {
-	struct value *head, *tail, *max, *min;
-	int count; /* number of value */
-};
-
 struct values load1 = {};
 struct values load5 = {};
 struct values load15 = {};
-
-#define for_each_value(vals, iter)                                       \
-	for (struct value *iter = ((struct values *)(vals))->head; iter; \
-	     iter = iter->next)
-
-int dequeue_val(struct values *vals)
-{
-	if (!vals || !vals->head)
-		return 0;
-	int v = vals->head->v;
-	/* update max */
-	if (vals->max && vals->max == vals->head) {
-		struct value *tmp = vals->max = vals->head->next;
-		while (tmp) {
-			if (tmp->v > vals->max->v)
-				vals->max = tmp;
-			tmp = tmp->next;
-		}
-	}
-	/* update min */
-	if (vals->min && vals->min == vals->head) {
-		struct value *tmp = vals->min = vals->head->next;
-		while (tmp) {
-			if (tmp->v < vals->min->v)
-				vals->min = tmp;
-			tmp = tmp->next;
-		}
-	}
-	vals->count--;
-	vals->head = vals->head->next;
-	return v;
-}
-
-int enqueue_val(struct values *vals, double v)
-{
-	struct value *new = malloc(sizeof(struct value));
-	new->v = v;
-	gettimeofday(&new->tv, NULL);
-	new->next = NULL;
-
-	if (!vals->head) {
-		vals->head = new;
-		vals->count = 1;
-	} else {
-		vals->tail->next = new;
-		vals->count++;
-	}
-
-	if (!vals->max) {
-		vals->max = new;
-	} else {
-		if (vals->max->v < v)
-			vals->max = new;
-	}
-	if (!vals->min) {
-		vals->min = new;
-	} else {
-		if (vals->min->v > v)
-			vals->min = new;
-	}
-
-	vals->tail = new;
-	return 0;
-}
 
 void sig_handler(int signo)
 {
