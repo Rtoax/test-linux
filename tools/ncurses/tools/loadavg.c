@@ -54,6 +54,7 @@ static const char *verstring = "github.com/rtoax/test-linux v0.0.1";
 static int height = 0, width = 0;
 static int plotheight = 0, plotwidth = 0;
 
+static int sig_rd_fd, sig_wr_fd;
 static int key = ' ';
 static int done = false;
 
@@ -65,11 +66,10 @@ struct values load15 = {};
 
 void sig_handler(int signo)
 {
-	switch (signo) {
-	case SIGINT:
-		done = true;
-		break;
-	}
+	int ret;
+	do {
+		ret = write(sig_wr_fd, &signo, 1);
+	} while ((ret == -1) && (errno == EINTR));
 }
 
 void update_size(void)
@@ -190,11 +190,22 @@ int main(void)
 {
 	int maxfd = STDIN_FILENO;
 	int timerfd;
+	int sigpipe[2];
 	fd_set readfds;
 
 	setlocale(LC_ALL, "");
 
+	if (pipe(sigpipe) != 0) {
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+
+	sig_rd_fd = sigpipe[0];
+	sig_wr_fd = sigpipe[1];
+
 	signal(SIGINT, sig_handler);
+	signal(SIGWINCH, sig_handler);
+
 	initscr();
 	cbreak();
 	noecho();
@@ -229,9 +240,17 @@ int main(void)
 	if (maxfd < timerfd)
 		maxfd = timerfd;
 
+	FD_SET(sig_rd_fd, &readfds);
+	if (maxfd < sig_rd_fd)
+		maxfd = sig_rd_fd;
+
+	update_size();
+
 	/* main loop */
 	while (!done) {
 		fd_set fds = readfds;
+		bool redraw = false;
+
 		int ret = select(maxfd + 1, &fds, NULL, NULL, NULL);
 		if (ret > 0 && FD_ISSET(STDIN_FILENO, &fds)) {
 			key = getch();
@@ -245,11 +264,25 @@ int main(void)
 		} else if (ret > 0 && FD_ISSET(timerfd, &fds)) {
 			uint64_t exp;
 			read(timerfd, &exp, sizeof(exp));
+			redraw = true;
+		} else if (ret > 0 && FD_ISSET(sig_rd_fd, &fds)) {
+			int signo;
+			read(sig_rd_fd, &signo, 1);
+			if (signo == SIGINT) {
+				break;
+			} else if (signo == SIGWINCH) {
+				endwin();
+				initscr();
+				erase();
+				refresh();
+				update_size();
+				redraw = true;
+			}
 		} else
 			continue;
 
-		update_size();
-		redraw_screen();
+		if (redraw)
+			redraw_screen();
 	}
 
 end:
