@@ -1,4 +1,5 @@
 subdir-y += gic
+subdir-y += keyboard
 subdir-y += idt
 subdir-y += ioapic
 subdir-y += request_irq
