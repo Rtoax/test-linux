@@ -123,12 +123,12 @@ void sig_handler(int signo)
 }
 
 void paint_plot_loadx(int ph, int pw, struct values *load, char *label,
-		      int color)
+		      double max, int color)
 {
 	int i = 0;
 	for_each_value(load, v)
 	{
-		int h = ph + height_bnd + 1 - v->v * ph / load->max->v;
+		int h = ph + height_bnd + 1 - v->v * ph / max;
 		int w = pw + width_bnd - load->count + i;
 		mvaddch(h, w, T_HLINE | flavor[color]);
 
@@ -181,7 +181,17 @@ void paint_plot(void)
 	for (i = plotwidth - 2; i < load15.count; i++)
 		dequeue_val(&load15);
 
-	paint_plot_loadx(plotheight, plotwidth, &load1, "load1", C_RED);
+	double load_max = 0;
+	load_max = load_max < load1.max->v ? load1.max->v : load_max;
+	load_max = load_max < load5.max->v ? load5.max->v : load_max;
+	load_max = load_max < load15.max->v ? load15.max->v : load_max;
+
+	paint_plot_loadx(plotheight, plotwidth, &load1, "load1", load_max,
+			 C_RED);
+	paint_plot_loadx(plotheight, plotwidth, &load5, "load5", load_max,
+			 C_GREEN);
+	paint_plot_loadx(plotheight, plotwidth, &load15, "load15", load_max,
+			 C_BLUE);
 
 	// TODO: draw more
 
