@@ -133,7 +133,7 @@ void update_size(void)
 	plotwidth = width - width_bnd * 2;
 }
 
-void paint_plot_loadx(struct values *load, char *label, double max, int color)
+void paint_values(struct values *load, char *label, double max, int color)
 {
 	int i = 0;
 	for_each_value(load, v)
@@ -194,9 +194,9 @@ void paint_plot(void)
 	load_max = load_max < load5.max->v ? load5.max->v : load_max;
 	load_max = load_max < load15.max->v ? load15.max->v : load_max;
 
-	paint_plot_loadx(&load1, "load1", load_max, C_RED);
-	paint_plot_loadx(&load5, "load5", load_max, C_GREEN);
-	paint_plot_loadx(&load15, "load15", load_max, C_BLUE);
+	paint_values(&load1, "load1", load_max, C_RED);
+	paint_values(&load5, "load5", load_max, C_GREEN);
+	paint_values(&load15, "load15", load_max, C_BLUE);
 
 	// TODO: draw more
 
