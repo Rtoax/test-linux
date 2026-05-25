@@ -18,6 +18,7 @@ under the GPL.
    dwarf
    glibc
    gnuplot
+   ncurses
 
 
 Links
