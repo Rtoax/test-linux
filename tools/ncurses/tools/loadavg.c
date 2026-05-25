@@ -131,6 +131,16 @@ void append_load(struct values *loads, double v)
 		dequeue_val(loads);
 }
 
+void draw_axes(void)
+{
+	mvhline(plotheight + HEIGHT_BND, WIDTH_BND, T_HLINE, plotwidth);
+	mvvline(HEIGHT_BND, WIDTH_BND, T_VLINE, plotheight);
+	mvaddch(plotheight + HEIGHT_BND, WIDTH_BND, T_LLCR);
+	mvaddch(HEIGHT_BND, WIDTH_BND, T_UARR);
+	mvprintw(HEIGHT_BND, WIDTH_BND, "▲");
+	mvprintw(plotheight + HEIGHT_BND, plotwidth + WIDTH_BND, "►");
+}
+
 void paint_plot(void)
 {
 	double loadavg[3];
@@ -139,13 +149,7 @@ void paint_plot(void)
 
 	mvaddstr(0, (width - strlen(title)) / 2, title);
 
-	/* draw axes */
-	mvhline(plotheight + HEIGHT_BND, WIDTH_BND, T_HLINE, plotwidth);
-	mvvline(HEIGHT_BND, WIDTH_BND, T_VLINE, plotheight);
-	mvaddch(plotheight + HEIGHT_BND, WIDTH_BND, T_LLCR);
-	mvaddch(HEIGHT_BND, WIDTH_BND, T_UARR);
-	mvprintw(HEIGHT_BND, WIDTH_BND, "▲");
-	mvprintw(plotheight + HEIGHT_BND, plotwidth + WIDTH_BND, "►");
+	draw_axes();
 
 	/* draw load */
 	getloadavg(loadavg, 3);
