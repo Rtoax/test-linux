@@ -3,7 +3,6 @@
 #include <wctype.h>
 #include <wchar.h>
 
-
 int main(void)
 {
 	wchar_t *wc = L"123abc";

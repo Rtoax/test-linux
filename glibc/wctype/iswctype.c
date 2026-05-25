@@ -2,7 +2,6 @@
 #include <stddef.h> /* wchar_t */
 #include <wctype.h>
 
-
 int main(void)
 {
 	wchar_t wc = L'2';

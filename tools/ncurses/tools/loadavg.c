@@ -86,7 +86,9 @@ void paint_values(struct values *load, char *label, double max, double min,
 		int h = plotheight + HEIGHT_BND - 1 -
 			(v->v - min) * (plotheight - 2) / (max - min);
 		int w = plotwidth + WIDTH_BND - load->count + i;
-		mvaddch(h, w, T_HLINE | flavor[color]);
+		attron(flavor[color]);
+		mvprintw(h, w, "▄");
+		attroff(flavor[color]);
 
 		i++;
 
