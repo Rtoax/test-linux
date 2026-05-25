@@ -45,6 +45,7 @@
 static char *title = "Load average";
 static const char *verstring = "v0.0.1";
 static int height = 0, width = 0;
+static int plotheight = 0, plotwidth = 0;
 static const int height_bnd = 3, width_bnd = 6;
 
 static int done = false;
@@ -122,14 +123,13 @@ void sig_handler(int signo)
 	}
 }
 
-void paint_plot_loadx(int ph, int pw, struct values *load, char *label,
-		      double max, int color)
+void paint_plot_loadx(struct values *load, char *label, double max, int color)
 {
 	int i = 0;
 	for_each_value(load, v)
 	{
-		int h = ph + height_bnd + 1 - v->v * ph / max;
-		int w = pw + width_bnd - load->count + i;
+		int h = plotheight + height_bnd + 1 - v->v * plotheight / max;
+		int w = plotwidth + width_bnd - load->count + i;
 		mvaddch(h, w, T_HLINE | flavor[color]);
 
 		i++;
@@ -147,8 +147,6 @@ void paint_plot(void)
 {
 	int i;
 	double loadavg[3];
-	int plotheight = height - height_bnd * 2;
-	int plotwidth = width - width_bnd * 2;
 
 	erase();
 
@@ -186,12 +184,9 @@ void paint_plot(void)
 	load_max = load_max < load5.max->v ? load5.max->v : load_max;
 	load_max = load_max < load15.max->v ? load15.max->v : load_max;
 
-	paint_plot_loadx(plotheight, plotwidth, &load1, "load1", load_max,
-			 C_RED);
-	paint_plot_loadx(plotheight, plotwidth, &load5, "load5", load_max,
-			 C_GREEN);
-	paint_plot_loadx(plotheight, plotwidth, &load15, "load15", load_max,
-			 C_BLUE);
+	paint_plot_loadx(&load1, "load1", load_max, C_RED);
+	paint_plot_loadx(&load5, "load5", load_max, C_GREEN);
+	paint_plot_loadx(&load15, "load15", load_max, C_BLUE);
 
 	// TODO: draw more
 
@@ -241,6 +236,9 @@ int main(void)
 
 	while (!done) {
 		getmaxyx(stdscr, height, width);
+		plotheight = height - height_bnd * 2;
+		plotwidth = width - width_bnd * 2;
+
 		redraw_screen();
 		napms(1000);
 	}
