@@ -10,6 +10,7 @@
  *
  * ttyplot: https://github.com/tenox7/ttyplot.git
  */
+#include <argp.h>
 #include <errno.h>
 #include <locale.h>
 #include <stdbool.h>
@@ -23,6 +24,15 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include "value.h"
+
+static const char *verstring = "github.com/rtoax/test-linux v1.0.1";
+const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
+
+static const struct argp_option opts[] = {
+	{ "title", 'T', "TITLE", 0, "Spedify title" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{},
+};
 
 #ifdef NOACS
 #define T_HLINE '-'
@@ -50,7 +60,6 @@
 #define WIDTH_BND 6
 
 static char *title = "Load average";
-static const char *verstring = "github.com/rtoax/test-linux v1.0.0";
 static int height = 0, width = 0;
 static int plotheight = 0, plotwidth = 0;
 
@@ -58,6 +67,7 @@ static struct timeval now;
 static int sig_rd_fd, sig_wr_fd;
 static int key = ' ';
 static int done = false;
+static int verbose = false;
 
 static chtype flavor[8] = { 0 };
 
@@ -189,12 +199,43 @@ void redraw_screen(void)
 	refresh();
 }
 
-int main(void)
+static error_t parse_arg(int opt, char *arg, struct argp_state *state)
+{
+	switch (opt) {
+	case 'T':
+		title = arg;
+		break;
+	case 'v':
+		verbose = true;
+		break;
+	case ARGP_KEY_ARG:
+		break;
+	case ARGP_KEY_END:
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
+
+int main(int argc, char *argv[])
 {
 	int maxfd = STDIN_FILENO;
 	int timerfd;
 	int sigpipe[2];
 	fd_set readfds;
+
+	int err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
 
 	setlocale(LC_ALL, "");
 
