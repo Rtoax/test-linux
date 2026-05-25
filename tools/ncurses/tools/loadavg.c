@@ -123,6 +123,13 @@ void sig_handler(int signo)
 	}
 }
 
+void update_size(void)
+{
+	getmaxyx(stdscr, height, width);
+	plotheight = height - height_bnd * 2;
+	plotwidth = width - width_bnd * 2;
+}
+
 void paint_plot_loadx(struct values *load, char *label, double max, int color)
 {
 	int i = 0;
@@ -235,9 +242,7 @@ int main(void)
 	}
 
 	while (!done) {
-		getmaxyx(stdscr, height, width);
-		plotheight = height - height_bnd * 2;
-		plotwidth = width - width_bnd * 2;
+		update_size();
 
 		redraw_screen();
 		napms(1000);
