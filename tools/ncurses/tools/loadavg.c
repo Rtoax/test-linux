@@ -54,6 +54,7 @@ static const char *verstring = "github.com/rtoax/test-linux v0.0.1";
 static int height = 0, width = 0;
 static int plotheight = 0, plotwidth = 0;
 
+static struct timeval now;
 static int sig_rd_fd, sig_wr_fd;
 static int key = ' ';
 static int done = false;
@@ -110,9 +111,15 @@ void paint_values(struct values *load, char *label, double max, double min,
 	}
 }
 
+void append_load(struct values *loads, double v)
+{
+	enqueue_val(loads, v);
+	for (int i = plotwidth - 2; i < loads->count; i++)
+		dequeue_val(loads);
+}
+
 void paint_plot(void)
 {
-	int i;
 	double loadavg[3];
 
 	erase();
@@ -129,9 +136,9 @@ void paint_plot(void)
 	/* draw load */
 	getloadavg(loadavg, 3);
 
-	enqueue_val(&load1, loadavg[0]);
-	enqueue_val(&load5, loadavg[1]);
-	enqueue_val(&load15, loadavg[2]);
+	append_load(&load1, loadavg[0]);
+	append_load(&load5, loadavg[1]);
+	append_load(&load15, loadavg[2]);
 
 #ifdef DEBUG
 	mvprintw(0, 1, "- %d - %f - %lf~%lf", load1.count, loadavg[0],
@@ -141,13 +148,6 @@ void paint_plot(void)
 	mvprintw(2, 1, "- %d - %f - %lf~%lf", load15.count, loadavg[2],
 		 load15.min->v, load15.max->v);
 #endif
-
-	for (i = plotwidth - 2; i < load1.count; i++)
-		dequeue_val(&load1);
-	for (i = plotwidth - 2; i < load5.count; i++)
-		dequeue_val(&load5);
-	for (i = plotwidth - 2; i < load15.count; i++)
-		dequeue_val(&load15);
 
 	double load_max = 0, load_min = 9999;
 	load_max = load_max < load1.max->v ? load1.max->v : load_max;
@@ -161,9 +161,8 @@ void paint_plot(void)
 	paint_values(&load5, "load5", load_max, load_min, C_GREEN);
 	paint_values(&load15, "load15", load_max, load_min, C_BLUE);
 
-	struct timeval now;
-	gettimeofday(&now, NULL);
-	struct tm *tm = localtime(&now.tv_sec);
+	time_t sec = time(NULL);
+	struct tm *tm = localtime(&sec);
 	char ts[64] = { 0 };
 	asctime_r(tm, ts);
 	ts[strlen(ts) - 1] = '\n';
@@ -206,6 +205,8 @@ int main(void)
 	signal(SIGINT, sig_handler);
 	signal(SIGWINCH, sig_handler);
 
+	gettimeofday(&now, NULL);
+
 	initscr();
 	cbreak();
 	noecho();
@@ -245,6 +246,7 @@ int main(void)
 		maxfd = sig_rd_fd;
 
 	update_size();
+	redraw_screen();
 
 	/* main loop */
 	while (!done) {
@@ -259,6 +261,7 @@ int main(void)
 				goto end;
 				break;
 			case 13: /* enter */
+				redraw = true;
 				break;
 			}
 		} else if (ret > 0 && FD_ISSET(timerfd, &fds)) {
