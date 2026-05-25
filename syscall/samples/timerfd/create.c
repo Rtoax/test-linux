@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <sys/select.h>
 #include <signal.h>
 #include <string.h>
 #include <errno.h>
@@ -8,9 +7,8 @@
 #include <stdint.h>
 #include <unistd.h>
 
-
-#define TFMT	"[%ld,%ld]"
-#define T(t)  t.tv_sec,t.tv_nsec
+#define TFMT "[%ld,%ld]"
+#define T(t) t.tv_sec, t.tv_nsec
 
 void sig_handler(int signum)
 {
@@ -23,7 +21,7 @@ int main(void)
 {
 	int ret;
 	uint64_t exp = 0;
-	struct itimerspec t1 = {{1,0},{1,0}}, t2;
+	struct itimerspec t1 = { { 1, 0 }, { 1, 0 } }, t2;
 
 	signal(SIGINT, sig_handler);
 
@@ -31,11 +29,14 @@ int main(void)
 	printf("Timer FD: %d\n", timerfd);
 
 	ret = timerfd_settime(timerfd, 0, &t1, &t2);
-	printf("[%d, new]: "TFMT","TFMT"\n", ret, T(t1.it_interval), T(t1.it_value));
-	printf("[%d, old]: "TFMT","TFMT"\n", ret, T(t2.it_interval), T(t2.it_value));
+	printf("[%d, new]: " TFMT "," TFMT "\n", ret, T(t1.it_interval),
+	       T(t1.it_value));
+	printf("[%d, old]: " TFMT "," TFMT "\n", ret, T(t2.it_interval),
+	       T(t2.it_value));
 
 	ret = timerfd_gettime(timerfd, &t1);
-	printf("[%d, get]: "TFMT","TFMT"\n", ret, T(t1.it_interval), T(t1.it_value));
+	printf("[%d, get]: " TFMT "," TFMT "\n", ret, T(t1.it_interval),
+	       T(t1.it_value));
 
 	while (1) {
 		read(timerfd, &exp, sizeof(exp));

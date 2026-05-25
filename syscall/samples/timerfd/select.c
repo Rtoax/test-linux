@@ -8,26 +8,22 @@
 #include <stdint.h>
 #include <unistd.h>
 
+#define N_TIMER 3
+
+static int timersfd[N_TIMER] = { 0 };
 
 void sig_handler(int signum)
 {
 	printf("signal handler.\n");
 	exit(0);
-	return;
 }
-
-#define TFMT	"[%ld,%ld]"
-#define T(t)  t.tv_sec,t.tv_nsec
-
-#define N_TIMER 3
-static int timersfd[N_TIMER] = {0};
 
 int main(void)
 {
 	int maxfd = 0, nready = 0;
 	int i;
 	uint64_t exp = 0;
-	struct itimerspec t1 = { {1, 0}, {1, 0}};
+	struct itimerspec t1 = { { 1, 0 }, { 1, 0 } };
 	fd_set readtimersfd;
 
 	FD_ZERO(&readtimersfd);
@@ -47,7 +43,7 @@ int main(void)
 	while (1) {
 		fd_set allset = readtimersfd;
 		static int count = 0;
-		nready = select(maxfd+1, &allset, NULL, NULL, NULL);
+		nready = select(maxfd + 1, &allset, NULL, NULL, NULL);
 		printf("nready = %d, count = %d\n", nready, count++);
 		for (i = 0; i < N_TIMER; i++) {
 			if (FD_ISSET(timersfd[i], &allset)) {
@@ -61,4 +57,3 @@ int main(void)
 
 	return 0;
 }
-

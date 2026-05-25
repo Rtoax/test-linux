@@ -8,8 +8,7 @@
 #define handle_error(msg) \
 	do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
-static void
-print_elapsed_time(void)
+static void print_elapsed_time(void)
 {
 	static struct timespec start;
 	struct timespec curr;
@@ -34,8 +33,7 @@ print_elapsed_time(void)
 	printf("%d.%03d: ", secs, (nsecs + 500000) / 1000000);
 }
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	struct itimerspec new_value;
 	int max_exp, fd;
@@ -45,7 +43,7 @@ main(int argc, char *argv[])
 
 	if ((argc != 2) && (argc != 4)) {
 		fprintf(stderr, "%s init-secs [interval-secs max-exp]\n",
-				argv[0]);
+			argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
