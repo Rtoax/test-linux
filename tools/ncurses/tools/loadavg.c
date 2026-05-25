@@ -132,13 +132,14 @@ void paint_plot_loadx(int ph, int pw, struct values *load, char *label,
 		int w = pw + width_bnd - load->count + i;
 		mvaddch(h, w, T_HLINE | flavor[color]);
 
+		i++;
+
 		/* set y axis */
 		attron(flavor[color]);
 		mvprintw(h, 0, "%.2f", v->v);
-		mvprintw(h, w + 1, label);
+		if (i == load->count)
+			mvprintw(h, w + 1, label);
 		attroff(flavor[color]);
-
-		i++;
 	}
 }
 
