@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/time.h>
+#include <time.h>
 #include <ncurses.h>
 #include <unistd.h>
 
@@ -43,10 +45,11 @@
 #define C_YELLOW 6
 
 static char *title = "Load average";
-static const char *verstring = "v0.0.1";
+static const char *verstring = "github.com/rtoax/test-linux v0.0.1";
 static int height = 0, width = 0;
 static int plotheight = 0, plotwidth = 0;
 static const int height_bnd = 3, width_bnd = 6;
+static struct timeval now;
 
 static int done = false;
 
@@ -197,7 +200,15 @@ void paint_plot(void)
 
 	// TODO: draw more
 
+	gettimeofday(&now, NULL);
+	struct tm *tm = localtime(&now.tv_sec);
+	char ts[64] = { 0 };
+	asctime_r(tm, ts);
+	ts[strlen(ts) - 1] = '\n';
+	mvaddstr(height - 2, width - strlen(ts) - 1, ts);
+
 	mvaddstr(height - 1, width - strlen(verstring) - 1, verstring);
+
 #ifdef DEBUG
 	mvprintw(height - 2, 1, "%.2f %.2f %.2f, row %d (%d), col %d (%d)\n",
 		 loadavg[0], loadavg[1], loadavg[2], LINES, plotheight, COLS,
