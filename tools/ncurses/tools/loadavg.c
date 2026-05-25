@@ -113,6 +113,9 @@ void paint_values(struct values *load, char *label, double max, double min,
 
 void append_load(struct values *loads, double v)
 {
+	/* Only add new loadavg when the time interval is at least 1 second */
+	if (loads->tail && loads->tail->tv.tv_sec == now.tv_sec)
+		return;
 	enqueue_val(loads, v);
 	for (int i = plotwidth - 2; i < loads->count; i++)
 		dequeue_val(loads);
@@ -254,6 +257,7 @@ int main(void)
 		bool redraw = false;
 
 		int ret = select(maxfd + 1, &fds, NULL, NULL, NULL);
+		gettimeofday(&now, NULL);
 		if (ret > 0 && FD_ISSET(STDIN_FILENO, &fds)) {
 			key = getch();
 			switch (key) {
