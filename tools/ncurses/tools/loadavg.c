@@ -44,7 +44,7 @@ static int done = false;
 static chtype flavor[8] = { 0 };
 
 struct value {
-	int v;
+	double v;
 	struct value *next;
 };
 
@@ -80,7 +80,7 @@ int dequeue_val(struct values *vals)
 	return v;
 }
 
-int enqueue_val(struct values *vals, int v)
+int enqueue_val(struct values *vals, double v)
 {
 	struct value *new = malloc(sizeof(struct value));
 	new->v = v;
@@ -135,9 +135,9 @@ void paint_plot(void)
 	/* draw load */
 	getloadavg(loadavg, 3);
 
-	enqueue_val(&load1, loadavg[0] * 1000);
-	enqueue_val(&load5, loadavg[1] * 1000);
-	enqueue_val(&load15, loadavg[2] * 1000);
+	enqueue_val(&load1, loadavg[0]);
+	enqueue_val(&load5, loadavg[1]);
+	enqueue_val(&load15, loadavg[2]);
 
 #ifdef DEBUG
 	mvprintw(0, 1, "- %d - %f", load1.count, loadavg[0]);
@@ -156,10 +156,13 @@ void paint_plot(void)
 	for_each_value(&load1, v)
 	{
 		int h = plotheight + height_bnd -
-			v->v * 1.0 * plotheight / load1.max->v;
+			v->v * plotheight / load1.max->v;
 		mvaddch(h, plotwidth + width_bnd - load1.count + i,
 			T_HLINE | flavor[2]);
 		i++;
+		if (i == load1.count) {
+			mvprintw(h, 0, "%.2f", v->v);
+		}
 	}
 
 	// TODO: draw more
