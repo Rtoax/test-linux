@@ -18,6 +18,7 @@
 #include <string.h>
 #include <signal.h>
 #include <sys/time.h>
+#include <sys/timerfd.h>
 #include <time.h>
 #include <ncurses.h>
 #include <unistd.h>
@@ -53,6 +54,7 @@ static const char *verstring = "github.com/rtoax/test-linux v0.0.1";
 static int height = 0, width = 0;
 static int plotheight = 0, plotwidth = 0;
 
+static int key = ' ';
 static int done = false;
 
 static chtype flavor[8] = { 0 };
@@ -170,9 +172,10 @@ void paint_plot(void)
 	mvaddstr(height - 1, width - strlen(verstring) - 1, verstring);
 
 #ifdef DEBUG
-	mvprintw(height - 2, 1, "%.2f %.2f %.2f, row %d (%d), col %d (%d)\n",
+	mvprintw(height - 2, 1,
+		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d'\n",
 		 loadavg[0], loadavg[1], loadavg[2], LINES, plotheight, COLS,
-		 plotwidth);
+		 plotwidth, key);
 #endif
 	move(0, 0);
 }
@@ -185,6 +188,10 @@ void redraw_screen(void)
 
 int main(void)
 {
+	int maxfd = STDIN_FILENO;
+	int timerfd;
+	fd_set readfds;
+
 	setlocale(LC_ALL, "");
 
 	signal(SIGINT, sig_handler);
@@ -212,13 +219,40 @@ int main(void)
 #undef SET_COLOR
 	}
 
-	while (!done) {
-		update_size();
+	FD_ZERO(&readfds);
+	FD_SET(STDIN_FILENO, &readfds);
 
+	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
+	struct itimerspec tmout = { { 1, 0 }, { 1, 0 } };
+	timerfd_settime(timerfd, 0, &tmout, NULL);
+	FD_SET(timerfd, &readfds);
+	if (maxfd < timerfd)
+		maxfd = timerfd;
+
+	/* main loop */
+	while (!done) {
+		fd_set fds = readfds;
+		int ret = select(maxfd + 1, &fds, NULL, NULL, NULL);
+		if (ret > 0 && FD_ISSET(STDIN_FILENO, &fds)) {
+			key = getch();
+			switch (key) {
+			case 'q':
+				goto end;
+				break;
+			case 13: /* enter */
+				break;
+			}
+		} else if (ret > 0 && FD_ISSET(timerfd, &fds)) {
+			uint64_t exp;
+			read(timerfd, &exp, sizeof(exp));
+		} else
+			continue;
+
+		update_size();
 		redraw_screen();
-		napms(1000);
 	}
 
+end:
 	endwin();
 	return 0;
 }

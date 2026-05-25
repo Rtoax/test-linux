@@ -9,12 +9,14 @@ int main(void)
 
 	while (1) {
 		char c = getch();
-		printw("getch = '%c' %d\n", c, c);
-		refresh();
-		switch (c) {
-		case 'q':
-			goto end;
-			break;
+		if (c != ERR) {
+			printw("getch = '%c' %d\n", c, c);
+			refresh();
+			switch (c) {
+			case 'q':
+				goto end;
+				break;
+			}
 		}
 	}
 
