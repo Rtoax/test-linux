@@ -44,12 +44,13 @@
 #define C_BLUE 5
 #define C_YELLOW 6
 
+#define HEIGHT_BND 4
+#define WIDTH_BND 6
+
 static char *title = "Load average";
 static const char *verstring = "github.com/rtoax/test-linux v0.0.1";
 static int height = 0, width = 0;
 static int plotheight = 0, plotwidth = 0;
-static const int height_bnd = 3, width_bnd = 6;
-static struct timeval now;
 
 static int done = false;
 
@@ -57,6 +58,7 @@ static chtype flavor[8] = { 0 };
 
 struct value {
 	double v;
+	struct timeval tv;
 	struct value *next;
 };
 
@@ -105,6 +107,7 @@ int enqueue_val(struct values *vals, double v)
 {
 	struct value *new = malloc(sizeof(struct value));
 	new->v = v;
+	gettimeofday(&new->tv, NULL);
 	new->next = NULL;
 
 	if (!vals->head) {
@@ -144,8 +147,8 @@ void sig_handler(int signo)
 void update_size(void)
 {
 	getmaxyx(stdscr, height, width);
-	plotheight = height - height_bnd * 2;
-	plotwidth = width - width_bnd * 2;
+	plotheight = height - HEIGHT_BND * 2;
+	plotwidth = width - WIDTH_BND * 2;
 }
 
 void paint_values(struct values *load, char *label, double max, double min,
@@ -154,9 +157,9 @@ void paint_values(struct values *load, char *label, double max, double min,
 	int i = 0;
 	for_each_value(load, v)
 	{
-		int h = plotheight + height_bnd - 1 -
+		int h = plotheight + HEIGHT_BND - 1 -
 			(v->v - min) * (plotheight - 2) / (max - min);
-		int w = plotwidth + width_bnd - load->count + i;
+		int w = plotwidth + WIDTH_BND - load->count + i;
 		mvaddch(h, w, T_HLINE | flavor[color]);
 
 		i++;
@@ -180,11 +183,11 @@ void paint_plot(void)
 	mvaddstr(0, (width - strlen(title)) / 2, title);
 
 	/* draw axes */
-	mvhline(plotheight + height_bnd, width_bnd, T_HLINE, plotwidth);
-	mvvline(height_bnd, width_bnd, T_VLINE, plotheight);
-	mvaddch(plotheight + height_bnd, width_bnd, T_LLCR);
-	mvaddch(height_bnd, width_bnd, T_UARR);
-	mvaddch(plotheight + height_bnd, plotwidth + width_bnd, T_RARR);
+	mvhline(plotheight + HEIGHT_BND, WIDTH_BND, T_HLINE, plotwidth);
+	mvvline(HEIGHT_BND, WIDTH_BND, T_VLINE, plotheight);
+	mvaddch(plotheight + HEIGHT_BND, WIDTH_BND, T_LLCR);
+	mvaddch(HEIGHT_BND, WIDTH_BND, T_UARR);
+	mvaddch(plotheight + HEIGHT_BND, plotwidth + WIDTH_BND, T_RARR);
 
 	/* draw load */
 	getloadavg(loadavg, 3);
@@ -221,8 +224,7 @@ void paint_plot(void)
 	paint_values(&load5, "load5", load_max, load_min, C_GREEN);
 	paint_values(&load15, "load15", load_max, load_min, C_BLUE);
 
-	// TODO: draw more
-
+	struct timeval now;
 	gettimeofday(&now, NULL);
 	struct tm *tm = localtime(&now.tv_sec);
 	char ts[64] = { 0 };
