@@ -34,6 +34,14 @@
 #define T_UARR ACS_UARROW
 #endif
 
+#define C_GREEN 0
+#define C_RED 1
+#define C_CYAN 2
+#define C_WHITE 3
+#define C_MAGENTA 4
+#define C_BLUE 5
+#define C_YELLOW 6
+
 static char *title = "Load average";
 static const char *verstring = "v0.0.1";
 static int height = 0, width = 0;
@@ -158,11 +166,14 @@ void paint_plot(void)
 		int h = plotheight + height_bnd -
 			v->v * plotheight / load1.max->v;
 		mvaddch(h, plotwidth + width_bnd - load1.count + i,
-			T_HLINE | flavor[2]);
+			T_HLINE | flavor[C_RED]);
+
+		/* set y axis */
+		attron(flavor[C_RED]);
+		mvprintw(h, 0, "%.2f", v->v);
+		attroff(flavor[C_RED]);
+
 		i++;
-		if (i == load1.count) {
-			mvprintw(h, 0, "%.2f", v->v);
-		}
 	}
 
 	// TODO: draw more
@@ -199,15 +210,15 @@ int main(void)
 		start_color();
 #define SET_COLOR(num, fg)                        \
 	init_pair(num + 1, (short)fg, (short)bg); \
-	flavor[num] |= (chtype)COLOR_PAIR(num + 1) | A_BOLD
+	flavor[num] |= (chtype)COLOR_PAIR(num + 1)
 
-		SET_COLOR(0, COLOR_GREEN);
-		SET_COLOR(1, COLOR_RED);
-		SET_COLOR(2, COLOR_CYAN);
-		SET_COLOR(3, COLOR_WHITE);
-		SET_COLOR(4, COLOR_MAGENTA);
-		SET_COLOR(5, COLOR_BLUE);
-		SET_COLOR(6, COLOR_YELLOW);
+		SET_COLOR(C_GREEN, COLOR_GREEN);
+		SET_COLOR(C_RED, COLOR_RED);
+		SET_COLOR(C_CYAN, COLOR_CYAN);
+		SET_COLOR(C_WHITE, COLOR_WHITE);
+		SET_COLOR(C_MAGENTA, COLOR_MAGENTA);
+		SET_COLOR(C_BLUE, COLOR_BLUE);
+		SET_COLOR(C_YELLOW, COLOR_YELLOW);
 #undef SET_COLOR
 	}
 
