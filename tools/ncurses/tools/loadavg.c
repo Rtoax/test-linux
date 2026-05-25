@@ -164,6 +164,13 @@ void paint_values(struct values *load, char *label, double max, double min,
 
 		i++;
 
+		/* set x axis */
+		if ((i - 1) % 10 == 0) {
+			char buf[10];
+			strftime(buf, 10, "%T", localtime(&v->tv.tv_sec));
+			mvprintw(height - HEIGHT_BND + 1, w, "%s", buf);
+		}
+
 		/* set y axis */
 		attron(flavor[color]);
 		mvprintw(h, 0, "%.3f", v->v);

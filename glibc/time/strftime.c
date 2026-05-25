@@ -2,7 +2,6 @@
 #include <time.h>
 #include <sys/time.h>
 
-
 int test_1(void)
 {
 	time_t t = time(NULL);
@@ -23,7 +22,8 @@ void test_2(void)
 	gettimeofday(&tv, NULL);
 	time_t t = time(NULL);
 
-	strftime(buffer, 40, "Current date/time: %m-%d-%Y/%T", localtime(&tv.tv_sec));
+	strftime(buffer, 40, "Current date/time: %m-%d-%Y/%T",
+		 localtime(&tv.tv_sec));
 	printf("%s\n",buffer);
 	strftime(buffer, 40, "Current date/time: %m-%d-%Y/%T", localtime(&t));
 	printf("%s\n",buffer);
@@ -35,4 +35,3 @@ int main(void)
 	test_2();
 	return 0;
 }
-
