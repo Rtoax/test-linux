@@ -169,9 +169,9 @@ int main(int argc, char *argv[])
 
 	init_flavor();
 
-	init_line(&load1, "load1", flavor[C_RED]);
-	init_line(&load5, "load5", flavor[C_GREEN]);
-	init_line(&load15, "load15", flavor[C_BLUE]);
+	init_line(&load1, "load1", C_RED);
+	init_line(&load5, "load5", C_GREEN);
+	init_line(&load15, "load15", C_BLUE);
 
 	line_group_add(&line_group_loadavg, &load1);
 	line_group_add(&line_group_loadavg, &load5);

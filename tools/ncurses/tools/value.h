@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
-#include <ncurses.h>
 #include <sys/time.h>
 #include <time.h>
+#include "config.h"
 
 struct value {
 	double v;
@@ -13,7 +13,7 @@ struct value {
 
 struct line {
 	const char *name;
-	chtype color;
+	int color; /* C_RED, ... */
 	struct value *head, *tail, *max, *min;
 	int count; /* number of value */
 	struct line *next; /* maybe line in group */
@@ -35,5 +35,5 @@ struct line_group {
 int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);
 
-struct line *init_line(struct line *l, const char *name, chtype color);
+struct line *init_line(struct line *l, const char *name, int color);
 int line_group_add(struct line_group *lg, struct line *l);

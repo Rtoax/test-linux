@@ -94,7 +94,7 @@ void paint_plot(const struct plot *p)
 	}
 	for_each_line(p->lg, l)
 	{
-		plot_paint_line(p, l, l->name, max, min, l->color);
+		plot_paint_line(p, l, l->name, max, min, flavor[l->color]);
 	}
 
 	time_t sec = time(NULL);
