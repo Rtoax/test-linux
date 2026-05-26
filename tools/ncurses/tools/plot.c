@@ -33,6 +33,19 @@ void plot_update_size(struct plot *p)
 	p->plotwidth = p->width - WIDTH_BND * 2;
 }
 
+void plot_append_val(const struct plot *p, struct line *l, double v)
+{
+	struct timeval now;
+	gettimeofday(&now, NULL);
+
+	/* Only add new loadavg when the time interval is at least 1 second */
+	if (l->tail && l->tail->tv.tv_sec == now.tv_sec)
+		return;
+	enqueue_val(l, v);
+	for (int i = p->plotwidth - 2; i < l->count; i++)
+		dequeue_val(l);
+}
+
 void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 		     double max, double min, chtype color)
 {

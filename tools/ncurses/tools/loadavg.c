@@ -35,7 +35,6 @@ static const struct argp_option opts[] = {
 	{},
 };
 
-static struct timeval now;
 static int sig_rd_fd, sig_wr_fd;
 static int key = ' ';
 static int done = false;
@@ -62,25 +61,15 @@ void sig_handler(int signo)
 	errno = saved_errno;
 }
 
-void append_load(struct line *loads, double v)
-{
-	/* Only add new loadavg when the time interval is at least 1 second */
-	if (loads->tail && loads->tail->tv.tv_sec == now.tv_sec)
-		return;
-	enqueue_val(loads, v);
-	for (int i = pla.plotwidth - 2; i < loads->count; i++)
-		dequeue_val(loads);
-}
-
 void redraw_screen(void)
 {
 	double avg[3];
 
 	getloadavg(avg, 3);
 
-	append_load(&load1, avg[0]);
-	append_load(&load5, avg[1]);
-	append_load(&load15, avg[2]);
+	plot_append_val(&pla, &load1, avg[0]);
+	plot_append_val(&pla, &load5, avg[1]);
+	plot_append_val(&pla, &load15, avg[2]);
 
 #ifdef DEBUG
 	mvprintw(0, 1, "- %d - %f - %lf~%lf", load1.count, avg[0], load1.min->v,
@@ -158,8 +147,6 @@ int main(int argc, char *argv[])
 	signal(SIGINT, sig_handler);
 	signal(SIGWINCH, sig_handler);
 
-	gettimeofday(&now, NULL);
-
 	initscr();
 	cbreak();
 	noecho();
@@ -201,7 +188,6 @@ int main(int argc, char *argv[])
 		bool redraw = false;
 
 		int ret = select(maxfd + 1, &fds, NULL, NULL, NULL);
-		gettimeofday(&now, NULL);
 		if (ret > 0 && FD_ISSET(STDIN_FILENO, &fds)) {
 			key = getch();
 			switch (key) {
