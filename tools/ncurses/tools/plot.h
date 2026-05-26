@@ -32,8 +32,6 @@ struct plot {
 	for (struct lgroup *iter = ((struct plot *)(plt))->lghead; iter; \
 	     iter = iter->next)
 
-extern chtype flavor[8];
-
 int plot_add(struct plot *p, struct lgroup *lg);
 
 void plot_update_size(struct plot *p);
