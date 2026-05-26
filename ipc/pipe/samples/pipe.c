@@ -5,7 +5,6 @@
 #include <signal.h>
 #include <errno.h>
 
-
 /**
  *   Thread0          Thread1
  *  +------+----------+------+
@@ -71,4 +70,3 @@ int main(void)
 
 	return 0;
 }
-

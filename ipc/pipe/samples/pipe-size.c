@@ -10,7 +10,6 @@
 #include <malloc.h>
 #include <fcntl.h>
 
-
 int main(void)
 {
 	int pipefd[2];

@@ -4,7 +4,6 @@
 #include <signal.h>
 #include <errno.h>
 
-
 void sig_handler(int signum)
 {
 	switch (signum) {

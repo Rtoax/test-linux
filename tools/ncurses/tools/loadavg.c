@@ -83,10 +83,11 @@ struct values load15 = {};
 
 void sig_handler(int signo)
 {
-	int ret;
+	int ret, saved_errno = errno;
 	do {
 		ret = write(sig_wr_fd, &signo, 1);
 	} while ((ret == -1) && (errno == EINTR));
+	errno = saved_errno;
 }
 
 void update_size(struct plot *p)
@@ -325,17 +326,20 @@ int main(int argc, char *argv[])
 			read(timerfd, &exp, sizeof(exp));
 			redraw = true;
 		} else if (ret > 0 && FD_ISSET(sig_rd_fd, &fds)) {
-			int signo;
-			read(sig_rd_fd, &signo, 1);
-			if (signo == SIGINT) {
-				break;
-			} else if (signo == SIGWINCH) {
-				endwin();
-				initscr();
-				erase();
-				refresh();
-				update_size(&pla);
-				redraw = true;
+			unsigned char signo;
+			const ssize_t cnt = read(sig_rd_fd, &signo, 1);
+			if (cnt > 0) {
+				if (signo == SIGINT) {
+					done = true;
+					break;
+				} else if (signo == SIGWINCH) {
+					endwin();
+					initscr();
+					erase();
+					refresh();
+					update_size(&pla);
+					redraw = true;
+				}
 			}
 		} else
 			continue;
