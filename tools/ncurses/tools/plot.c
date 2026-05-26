@@ -43,7 +43,7 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 			(v->v - min) * (p->plotheight - 2) / (max - min);
 		int w = p->plotwidth + WIDTH_BND - load->count + i;
 		attron(color);
-		mvprintw(h, w, "━");
+		mvprintw(h, w, U2501);
 		attroff(color);
 
 		i++;
@@ -75,8 +75,8 @@ void plot_draw_axes(const struct plot *p)
 	mvvline(HEIGHT_BND, WIDTH_BND, T_VLINE, p->plotheight);
 	mvaddch(p->plotheight + HEIGHT_BND, WIDTH_BND, T_LLCR);
 	mvaddch(HEIGHT_BND, WIDTH_BND, T_UARR);
-	mvprintw(HEIGHT_BND, WIDTH_BND, "▲");
-	mvprintw(p->plotheight + HEIGHT_BND, p->plotwidth + WIDTH_BND, "►");
+	mvprintw(HEIGHT_BND, WIDTH_BND, U25B2);
+	mvprintw(p->plotheight + HEIGHT_BND, p->plotwidth + WIDTH_BND, U25BA);
 }
 
 void paint_plot(const struct plot *p)

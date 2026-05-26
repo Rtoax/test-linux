@@ -12,3 +12,13 @@
 
 #define HEIGHT_BND 4
 #define WIDTH_BND 6
+
+#define U2501 "━"
+#define U2503 "┃"
+#define U250F "┏"
+#define U2513 "┓"
+#define U2517 "┗"
+#define U251B "┛"
+#define U25B2 "▲"
+#define U25BA "►"
+#define U25C4 "◄"
