@@ -24,6 +24,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include "value.h"
+#include "plot.h"
 
 static const char *verstring = "github.com/rtoax/test-linux v1.0.2";
 const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
@@ -32,37 +33,6 @@ static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{},
-};
-
-#ifdef NOACS
-#define T_HLINE '-'
-#define T_VLINE '|'
-#define T_LLCR 'L'
-#define T_RARR '>'
-#define T_UARR '^'
-#else
-#define T_HLINE ACS_HLINE
-#define T_VLINE ACS_VLINE
-#define T_LLCR ACS_LLCORNER
-#define T_RARR ACS_RARROW
-#define T_UARR ACS_UARROW
-#endif
-
-#define C_GREEN 0
-#define C_RED 1
-#define C_CYAN 2
-#define C_WHITE 3
-#define C_MAGENTA 4
-#define C_BLUE 5
-#define C_YELLOW 6
-
-#define HEIGHT_BND 4
-#define WIDTH_BND 6
-
-struct plot {
-	char *title;
-	int height, width;
-	int plotheight, plotwidth;
 };
 
 struct plot pla = {
@@ -90,44 +60,6 @@ void sig_handler(int signo)
 	errno = saved_errno;
 }
 
-void update_size(struct plot *p)
-{
-	getmaxyx(stdscr, p->height, p->width);
-	p->plotheight = p->height - HEIGHT_BND * 2;
-	p->plotwidth = p->width - WIDTH_BND * 2;
-}
-
-void paint_values(const struct plot *p, struct values *load, char *label,
-		  double max, double min, int color)
-{
-	int i = 0;
-	for_each_value(load, v)
-	{
-		int h = p->plotheight + HEIGHT_BND - 1 -
-			(v->v - min) * (p->plotheight - 2) / (max - min);
-		int w = p->plotwidth + WIDTH_BND - load->count + i;
-		attron(flavor[color]);
-		mvprintw(h, w, "━");
-		attroff(flavor[color]);
-
-		i++;
-
-		/* set x axis */
-		if ((i - 1) % 10 == 0) {
-			char buf[10];
-			strftime(buf, 10, "%T", localtime(&v->tv.tv_sec));
-			mvprintw(p->height - HEIGHT_BND + 1, w, "%s", buf);
-		}
-
-		/* set y axis */
-		attron(flavor[color]);
-		mvprintw(h, 0, "%.3f", v->v);
-		if (i == load->count)
-			mvprintw(h, w + 1, "%s", label);
-		attroff(flavor[color]);
-	}
-}
-
 void append_load(struct values *loads, double v)
 {
 	/* Only add new loadavg when the time interval is at least 1 second */
@@ -138,16 +70,6 @@ void append_load(struct values *loads, double v)
 		dequeue_val(loads);
 }
 
-void draw_axes(const struct plot *p)
-{
-	mvhline(p->plotheight + HEIGHT_BND, WIDTH_BND, T_HLINE, p->plotwidth);
-	mvvline(HEIGHT_BND, WIDTH_BND, T_VLINE, p->plotheight);
-	mvaddch(p->plotheight + HEIGHT_BND, WIDTH_BND, T_LLCR);
-	mvaddch(HEIGHT_BND, WIDTH_BND, T_UARR);
-	mvprintw(HEIGHT_BND, WIDTH_BND, "▲");
-	mvprintw(p->plotheight + HEIGHT_BND, p->plotwidth + WIDTH_BND, "►");
-}
-
 void paint_plot(const struct plot *p)
 {
 	double loadavg[3];
@@ -156,7 +78,7 @@ void paint_plot(const struct plot *p)
 
 	mvaddstr(0, (p->width - strlen(p->title)) / 2, p->title);
 
-	draw_axes(p);
+	plot_draw_axes(p);
 
 	/* draw load */
 	getloadavg(loadavg, 3);
@@ -182,9 +104,12 @@ void paint_plot(const struct plot *p)
 	load_min = load_min > load5.min->v ? load5.min->v : load_min;
 	load_min = load_min > load15.min->v ? load15.min->v : load_min;
 
-	paint_values(&pla, &load1, "load1", load_max, load_min, C_RED);
-	paint_values(&pla, &load5, "load5", load_max, load_min, C_GREEN);
-	paint_values(&pla, &load15, "load15", load_max, load_min, C_BLUE);
+	plot_paint_values(&pla, &load1, "load1", load_max, load_min,
+			  flavor[C_RED]);
+	plot_paint_values(&pla, &load5, "load5", load_max, load_min,
+			  flavor[C_GREEN]);
+	plot_paint_values(&pla, &load15, "load15", load_max, load_min,
+			  flavor[C_BLUE]);
 
 	time_t sec = time(NULL);
 	struct tm *tm = localtime(&sec);
@@ -301,7 +226,7 @@ int main(int argc, char *argv[])
 	if (maxfd < sig_rd_fd)
 		maxfd = sig_rd_fd;
 
-	update_size(&pla);
+	plot_update_size(&pla);
 	redraw_screen();
 
 	/* main loop */
@@ -337,7 +262,7 @@ int main(int argc, char *argv[])
 					initscr();
 					erase();
 					refresh();
-					update_size(&pla);
+					plot_update_size(&pla);
 					redraw = true;
 				}
 			}
