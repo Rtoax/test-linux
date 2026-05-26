@@ -34,13 +34,15 @@ struct plot {
 	int height, width;
 	int plotheight, plotwidth;
 	int interval_sec;
+	struct line_group *lg;
 };
+
+extern chtype flavor[8];
 
 void plot_update_size(struct plot *p);
 void plot_draw_axes(const struct plot *p);
 void plot_draw_title(const struct plot *p);
-void plot_paint_line(const struct plot *p, struct line *load, char *label,
+void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 		     double max, double min, chtype color);
 
 void init_flavor(void);
-extern chtype flavor[8];

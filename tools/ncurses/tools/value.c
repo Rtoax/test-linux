@@ -2,6 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #include <malloc.h>
 #include <ncurses.h>
+#include <string.h>
 #include "value.h"
 
 int dequeue_val(struct line *l)
@@ -63,5 +64,27 @@ int enqueue_val(struct line *l, double v)
 	}
 
 	l->tail = new;
+	return 0;
+}
+
+struct line *init_line(struct line *l, const char *name, chtype color)
+{
+	struct line *new = l ?: malloc(sizeof(struct line));
+	memset(new, 0, sizeof(struct line));
+	new->name = name;
+	new->color = color;
+	return new;
+}
+
+int line_group_add(struct line_group *lg, struct line *l)
+{
+	if (!lg->head) {
+		lg->head = l;
+		lg->count = 1;
+	} else {
+		lg->tail->next = l;
+	}
+	lg->count++;
+	lg->tail = l;
 	return 0;
 }

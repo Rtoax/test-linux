@@ -36,11 +36,6 @@ static const struct argp_option opts[] = {
 	{},
 };
 
-struct plot pla = {
-	.title = "Load average",
-	.interval_sec = 1,
-};
-
 static struct timeval now;
 static int sig_rd_fd, sig_wr_fd;
 static int key = ' ';
@@ -50,6 +45,14 @@ static int verbose = false;
 struct line load1 = {};
 struct line load5 = {};
 struct line load15 = {};
+
+struct line_group line_group_loadavg = {};
+
+struct plot pla = {
+	.title = "Load average",
+	.interval_sec = 1,
+	.lg = &line_group_loadavg,
+};
 
 void sig_handler(int signo)
 {
@@ -72,43 +75,21 @@ void append_load(struct line *loads, double v)
 
 void paint_plot(const struct plot *p)
 {
-	double loadavg[3];
-
 	erase();
 
 	plot_draw_title(p);
 	plot_draw_axes(p);
 
-	/* draw load */
-	getloadavg(loadavg, 3);
-
-	append_load(&load1, loadavg[0]);
-	append_load(&load5, loadavg[1]);
-	append_load(&load15, loadavg[2]);
-
-#ifdef DEBUG
-	mvprintw(0, 1, "- %d - %f - %lf~%lf", load1.count, loadavg[0],
-		 load1.min->v, load1.max->v);
-	mvprintw(1, 1, "- %d - %f - %lf~%lf", load5.count, loadavg[1],
-		 load5.min->v, load5.max->v);
-	mvprintw(2, 1, "- %d - %f - %lf~%lf", load15.count, loadavg[2],
-		 load15.min->v, load15.max->v);
-#endif
-
-	double load_max = 0, load_min = 9999;
-	load_max = load_max < load1.max->v ? load1.max->v : load_max;
-	load_max = load_max < load5.max->v ? load5.max->v : load_max;
-	load_max = load_max < load15.max->v ? load15.max->v : load_max;
-	load_min = load_min > load1.min->v ? load1.min->v : load_min;
-	load_min = load_min > load5.min->v ? load5.min->v : load_min;
-	load_min = load_min > load15.min->v ? load15.min->v : load_min;
-
-	plot_paint_line(&pla, &load1, "load1", load_max, load_min,
-			flavor[C_RED]);
-	plot_paint_line(&pla, &load5, "load5", load_max, load_min,
-			flavor[C_GREEN]);
-	plot_paint_line(&pla, &load15, "load15", load_max, load_min,
-			flavor[C_BLUE]);
+	double max = 0, min = 9999;
+	for_each_line(p->lg, l)
+	{
+		max = max < l->max->v ? l->max->v : max;
+		min = min > l->min->v ? l->min->v : min;
+	}
+	for_each_line(p->lg, l)
+	{
+		plot_paint_line(p, l, l->name, max, min, l->color);
+	}
 
 	time_t sec = time(NULL);
 	struct tm *tm = localtime(&sec);
@@ -119,17 +100,33 @@ void paint_plot(const struct plot *p)
 
 	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
 
-#ifdef DEBUG
-	mvprintw(p->height - 2, 1,
-		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d'\n",
-		 loadavg[0], loadavg[1], loadavg[2], LINES, p->plotheight, COLS,
-		 p->plotwidth, key);
-#endif
 	move(0, 0);
 }
 
 void redraw_screen(void)
 {
+	double avg[3];
+
+	getloadavg(avg, 3);
+
+	append_load(&load1, avg[0]);
+	append_load(&load5, avg[1]);
+	append_load(&load15, avg[2]);
+
+#ifdef DEBUG
+	mvprintw(0, 1, "- %d - %f - %lf~%lf", load1.count, avg[0], load1.min->v,
+		 load1.max->v);
+	mvprintw(1, 1, "- %d - %f - %lf~%lf", load5.count, avg[1], load5.min->v,
+		 load5.max->v);
+	mvprintw(2, 1, "- %d - %f - %lf~%lf", load15.count, avg[2],
+		 load15.min->v, load15.max->v);
+
+	mvprintw(pla.height - 2, 1,
+		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d'\n", avg[0],
+		 avg[1], avg[2], LINES, pla.plotheight, COLS, pla.plotwidth,
+		 key);
+#endif
+
 	paint_plot(&pla);
 	refresh();
 }
@@ -202,6 +199,14 @@ int main(int argc, char *argv[])
 	curs_set(0);
 
 	init_flavor();
+
+	init_line(&load1, "load1", flavor[C_RED]);
+	init_line(&load5, "load5", flavor[C_GREEN]);
+	init_line(&load15, "load15", flavor[C_BLUE]);
+
+	line_group_add(&line_group_loadavg, &load1);
+	line_group_add(&line_group_loadavg, &load5);
+	line_group_add(&line_group_loadavg, &load15);
 
 	FD_ZERO(&readfds);
 	FD_SET(STDIN_FILENO, &readfds);

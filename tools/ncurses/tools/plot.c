@@ -32,7 +32,7 @@ void plot_update_size(struct plot *p)
 	p->plotwidth = p->width - WIDTH_BND * 2;
 }
 
-void plot_paint_line(const struct plot *p, struct line *load, char *label,
+void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 		     double max, double min, chtype color)
 {
 	int i = 0;
