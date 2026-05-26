@@ -23,9 +23,16 @@ struct line {
 	for (struct value *iter = ((struct line *)(l))->head; iter; \
 	     iter = iter->next)
 
+struct line_group;
+
+struct lg_operations {
+	void (*update)(struct line_group *self, void *arg);
+};
+
 struct line_group {
 	struct line *head, *tail;
 	int count; /* number of lines */
+	struct lg_operations ops;
 };
 
 #define for_each_line(lg, iter)                                           \

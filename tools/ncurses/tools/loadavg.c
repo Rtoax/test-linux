@@ -43,12 +43,16 @@ static int verbose = false;
 
 static char data_from_stdin[256];
 
-struct line_group line_group = {};
+void loadavg_update(struct line_group *lg, void *arg);
+
+struct line_group lg_loadavg = {
+	.ops.update = loadavg_update,
+};
 
 struct plot plot = {
 	.title = "Load average",
 	.interval_sec = 1,
-	.lg = &line_group,
+	.lg = &lg_loadavg,
 };
 
 void sig_handler(int signo)
@@ -60,14 +64,14 @@ void sig_handler(int signo)
 	errno = saved_errno;
 }
 
-void update_loadavg(void)
+void loadavg_update(struct line_group *lg, void *arg)
 {
 	double avg[3];
 
 	getloadavg(avg, 3);
 
 	int i = 0;
-	for_each_line(&line_group, line)
+	for_each_line(lg, line)
 	{
 		plot_append_val(&plot, line, avg[i]);
 #ifdef DEBUG
@@ -89,7 +93,9 @@ void update_loadavg(void)
 void redraw_screen(const struct plot *p)
 {
 	erase();
-	update_loadavg();
+
+	lg_loadavg.ops.update(&lg_loadavg, NULL);
+
 	paint_plot(p);
 	refresh();
 }
@@ -209,9 +215,9 @@ int main(int argc, char *argv[])
 
 	init_flavor();
 
-	new_line(&line_group, "load1", C_RED);
-	new_line(&line_group, "load5", C_GREEN);
-	new_line(&line_group, "load15", C_BLUE);
+	new_line(&lg_loadavg, "load1", C_RED);
+	new_line(&lg_loadavg, "load5", C_GREEN);
+	new_line(&lg_loadavg, "load15", C_BLUE);
 
 	plot_update_size(&plot);
 	redraw_screen(&plot);
