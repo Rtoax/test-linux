@@ -70,8 +70,10 @@ void update_loadavg(void)
 	for_each_line(&line_group, line)
 	{
 		plot_append_val(&plot, line, avg[i]);
+#ifdef DEBUG
 		mvprintw(i, 1, "- %d - %f - %lf~%lf", line->count, avg[i],
 			 line->min->v, line->max->v);
+#endif
 		i++;
 	}
 #ifdef DEBUG
@@ -84,11 +86,11 @@ void update_loadavg(void)
 #endif
 }
 
-void redraw_screen(void)
+void redraw_screen(const struct plot *p)
 {
 	erase();
 	update_loadavg();
-	paint_plot(&plot);
+	paint_plot(p);
 	refresh();
 }
 
@@ -175,11 +177,11 @@ int main(int argc, char *argv[])
 		FD_SET(datafd, &readfds);
 		if (maxfd < datafd)
 			maxfd = datafd;
-	/**
-	 * When we read data from stdin, we no longer need a timer to trigger
-	 * the update.
-	 */
 	} else {
+		/**
+		 * When we read data from stdin, we no longer need a timer to
+		 * trigger the update.
+		 */
 		timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
 		struct itimerspec tmout = { { plot.interval_sec, 0 },
 					    { plot.interval_sec, 0 } };
@@ -212,7 +214,7 @@ int main(int argc, char *argv[])
 	new_line(&line_group, "load15", C_BLUE);
 
 	plot_update_size(&plot);
-	redraw_screen();
+	redraw_screen(&plot);
 
 	/* main loop */
 	while (!done) {
@@ -263,7 +265,7 @@ int main(int argc, char *argv[])
 			continue;
 
 		if (redraw)
-			redraw_screen();
+			redraw_screen(&plot);
 	}
 
 end:
