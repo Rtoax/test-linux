@@ -125,7 +125,7 @@ static const struct argp argp = {
 int main(int argc, char *argv[])
 {
 	int maxfd = 0;
-	int timerfd, ttyfd;
+	int timerfd, keyfd;
 	int sigpipe[2];
 	fd_set readfds;
 
@@ -174,13 +174,13 @@ int main(int argc, char *argv[])
 	 * device to read the keyboard.
 	 */
 	if (!isatty(STDIN_FILENO)) {
-		ttyfd = open("/dev/tty", O_RDONLY);
+		keyfd = open("/dev/tty", O_RDONLY);
 	} else
-		ttyfd = STDIN_FILENO;
+		keyfd = STDIN_FILENO;
 
-	FD_SET(ttyfd, &readfds);
-	if (maxfd < ttyfd)
-		maxfd = ttyfd;
+	FD_SET(keyfd, &readfds);
+	if (maxfd < keyfd)
+		maxfd = keyfd;
 
 	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
 	struct itimerspec tmout = { { pla.interval_sec, 0 },
@@ -203,8 +203,8 @@ int main(int argc, char *argv[])
 		bool redraw = false;
 
 		int ret = select(maxfd + 1, &fds, NULL, NULL, NULL);
-		if (ret > 0 && FD_ISSET(ttyfd, &fds)) {
-			int count = read(ttyfd, &key, 1);
+		if (ret > 0 && FD_ISSET(keyfd, &fds)) {
+			int count = read(keyfd, &key, 1);
 			if (count == 1) {
 				switch (key) {
 				case 'q':
