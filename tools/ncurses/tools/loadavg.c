@@ -41,6 +41,8 @@ static char key = ' ';
 static int done = false;
 static int verbose = false;
 
+static char data_from_stdin[256];
+
 struct line load1 = {};
 struct line load5 = {};
 struct line load15 = {};
@@ -81,6 +83,7 @@ void redraw_screen(void)
 		 load5.max->v);
 	mvprintw(2, 1, "- %d - %f - %lf~%lf", load15.count, avg[2],
 		 load15.min->v, load15.max->v);
+	mvprintw(3, 1, "- %s", data_from_stdin);
 
 	mvprintw(pla.height - 2, 1,
 		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d=%c'\n",
@@ -125,7 +128,7 @@ static const struct argp argp = {
 int main(int argc, char *argv[])
 {
 	int maxfd = 0;
-	int timerfd, keyfd;
+	int timerfd, keyfd, datafd;
 	int sigpipe[2];
 	fd_set readfds;
 
@@ -165,6 +168,8 @@ int main(int argc, char *argv[])
 	line_group_add(&line_group_loadavg, &load5);
 	line_group_add(&line_group_loadavg, &load15);
 
+	timerfd = keyfd = datafd = -1;
+
 	FD_ZERO(&readfds);
 
 	/**
@@ -175,12 +180,19 @@ int main(int argc, char *argv[])
 	 */
 	if (!isatty(STDIN_FILENO)) {
 		keyfd = open("/dev/tty", O_RDONLY);
+		datafd = STDIN_FILENO;
 	} else
 		keyfd = STDIN_FILENO;
 
 	FD_SET(keyfd, &readfds);
 	if (maxfd < keyfd)
 		maxfd = keyfd;
+
+	if (datafd != -1) {
+		FD_SET(datafd, &readfds);
+		if (maxfd < datafd)
+			maxfd = datafd;
+	}
 
 	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
 	struct itimerspec tmout = { { pla.interval_sec, 0 },
@@ -234,6 +246,13 @@ int main(int argc, char *argv[])
 					plot_update_size(&pla);
 					redraw = true;
 				}
+			}
+		} else if (ret > 0 && datafd != -1 && FD_ISSET(datafd, &fds)) {
+			memset(data_from_stdin, 0, sizeof(data_from_stdin));
+			ssize_t cnt = read(datafd, data_from_stdin,
+					   sizeof(data_from_stdin));
+			if (cnt > 0) {
+				/* TODO: parse data and plot */
 			}
 		} else
 			continue;
