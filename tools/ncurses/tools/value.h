@@ -30,11 +30,13 @@ struct lgroup_operations {
 	void (*update)(struct lgroup *self, void *arg);
 };
 
+struct plot;
 struct lgroup {
 	struct line *head, *tail;
 	int count; /* number of lines */
 	struct lgroup_operations ops;
 	struct lgroup *next;
+	struct plot *plot; /* plot belongs to */
 };
 
 #define for_each_line(lg, iter)                                       \

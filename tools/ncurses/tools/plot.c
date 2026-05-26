@@ -16,6 +16,7 @@ int plot_add(struct plot *p, struct lgroup *lg)
 	}
 	p->lgcount++;
 	p->lgtail = lg;
+	lg->plot = p;
 	return 0;
 }
 
