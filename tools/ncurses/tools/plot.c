@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
+#include <string.h>
 #include "plot.h"
 
 void plot_update_size(struct plot *p)
@@ -38,6 +39,11 @@ void plot_paint_values(const struct plot *p, struct values *load, char *label,
 			mvprintw(h, w + 1, "%s", label);
 		attroff(color);
 	}
+}
+
+void plot_draw_title(const struct plot *p)
+{
+	mvaddstr(0, (p->width - strlen(p->title)) / 2, p->title);
 }
 
 void plot_draw_axes(const struct plot *p)

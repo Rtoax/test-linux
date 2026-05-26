@@ -76,8 +76,7 @@ void paint_plot(const struct plot *p)
 
 	erase();
 
-	mvaddstr(0, (p->width - strlen(p->title)) / 2, p->title);
-
+	plot_draw_title(p);
 	plot_draw_axes(p);
 
 	/* draw load */
