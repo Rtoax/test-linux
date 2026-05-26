@@ -35,5 +35,7 @@ struct line_group {
 int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);
 
+struct line *new_line(struct line_group *lg, const char *name, int color);
 struct line *init_line(struct line *l, const char *name, int color);
+
 int line_group_add(struct line_group *lg, struct line *l);

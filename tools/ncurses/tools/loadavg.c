@@ -43,10 +43,6 @@ static int verbose = false;
 
 static char data_from_stdin[256];
 
-struct line load1 = {};
-struct line load5 = {};
-struct line load15 = {};
-
 struct line_group line_group = {};
 
 struct plot plot = {
@@ -70,17 +66,15 @@ void update_loadavg(void)
 
 	getloadavg(avg, 3);
 
-	plot_append_val(&plot, &load1, avg[0]);
-	plot_append_val(&plot, &load5, avg[1]);
-	plot_append_val(&plot, &load15, avg[2]);
-
+	int i = 0;
+	for_each_line(&line_group, line)
+	{
+		plot_append_val(&plot, line, avg[i]);
+		mvprintw(i, 1, "- %d - %f - %lf~%lf", line->count, avg[i],
+			 line->min->v, line->max->v);
+		i++;
+	}
 #ifdef DEBUG
-	mvprintw(0, 1, "- %d - %f - %lf~%lf", load1.count, avg[0], load1.min->v,
-		 load1.max->v);
-	mvprintw(1, 1, "- %d - %f - %lf~%lf", load5.count, avg[1], load5.min->v,
-		 load5.max->v);
-	mvprintw(2, 1, "- %d - %f - %lf~%lf", load15.count, avg[2],
-		 load15.min->v, load15.max->v);
 	mvprintw(3, 1, "- %s", data_from_stdin);
 
 	mvprintw(plot.height - 2, 1,
@@ -209,13 +203,9 @@ int main(int argc, char *argv[])
 
 	init_flavor();
 
-	init_line(&load1, "load1", C_RED);
-	init_line(&load5, "load5", C_GREEN);
-	init_line(&load15, "load15", C_BLUE);
-
-	line_group_add(&line_group, &load1);
-	line_group_add(&line_group, &load5);
-	line_group_add(&line_group, &load15);
+	new_line(&line_group, "load1", C_RED);
+	new_line(&line_group, "load5", C_GREEN);
+	new_line(&line_group, "load15", C_BLUE);
 
 	plot_update_size(&plot);
 	redraw_screen();
