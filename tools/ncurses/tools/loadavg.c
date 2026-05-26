@@ -54,7 +54,6 @@ struct lgroup lg_loadavg = {
 struct plot plot = {
 	.title = "Load average",
 	.interval_sec = 1,
-	.lgrps = &lg_loadavg,
 };
 
 void sig_handler(int signo)
@@ -103,7 +102,10 @@ void redraw_screen(const struct plot *p)
 {
 	erase();
 
-	lg_loadavg.ops.update(&lg_loadavg, NULL);
+	for_each_lg(&plot, lg)
+	{
+		lg->ops.update(lg, NULL);
+	}
 
 	paint_plot(p);
 	refresh();
@@ -224,7 +226,11 @@ int main(int argc, char *argv[])
 
 	init_flavor();
 
-	lg_loadavg.ops.create(&lg_loadavg, NULL);
+	plot_add(&plot, &lg_loadavg);
+	for_each_lg(&plot, lg)
+	{
+		lg->ops.create(lg, NULL);
+	}
 
 	plot_update_size(&plot);
 	redraw_screen(&plot);

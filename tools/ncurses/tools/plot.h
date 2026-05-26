@@ -24,10 +24,17 @@ struct plot {
 	int height, width;
 	int plotheight, plotwidth;
 	int interval_sec;
-	struct lgroup *lgrps;
+	struct lgroup *lghead, *lgtail;
+	int lgcount;
 };
 
+#define for_each_lg(plt, iter)                                           \
+	for (struct lgroup *iter = ((struct plot *)(plt))->lghead; iter; \
+	     iter = iter->next)
+
 extern chtype flavor[8];
+
+int plot_add(struct plot *p, struct lgroup *lg);
 
 void plot_update_size(struct plot *p);
 void plot_draw_axes(const struct plot *p);

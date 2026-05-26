@@ -6,6 +6,19 @@
 chtype flavor[8] = { 0 };
 static const char *verstring = "github.com/rtoax/test-linux v1.0.3";
 
+int plot_add(struct plot *p, struct lgroup *lg)
+{
+	if (!p->lghead) {
+		p->lghead = lg;
+		p->lgcount = 1;
+	} else {
+		p->lgtail->next = lg;
+	}
+	p->lgcount++;
+	p->lgtail = lg;
+	return 0;
+}
+
 void init_flavor(void)
 {
 	if (has_colors()) {
@@ -133,12 +146,12 @@ void paint_plot(const struct plot *p)
 	plot_draw_axes(p);
 
 	double max = 0, min = 9999;
-	for_each_line(p->lgrps, l)
+	for_each_line(p->lghead, l)
 	{
 		max = max < l->max->v ? l->max->v : max;
 		min = min > l->min->v ? l->min->v : min;
 	}
-	for_each_line(p->lgrps, l)
+	for_each_line(p->lghead, l)
 	{
 		plot_paint_line(p, l, l->name, max, min, flavor[l->color]);
 	}
