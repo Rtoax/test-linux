@@ -20,6 +20,7 @@ target-y += scanf sscanf
 target-y += perror
 target-y += tmpfile tmpnam tempnam
 target-y += setbuf setvbuf
+target-y += stdin
 target-y += fgets
 target-y += fopen
 target-y += fread
