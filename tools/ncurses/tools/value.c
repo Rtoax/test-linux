@@ -4,64 +4,64 @@
 #include <ncurses.h>
 #include "value.h"
 
-int dequeue_val(struct values *vals)
+int dequeue_val(struct line *l)
 {
-	if (!vals || !vals->head)
+	if (!l || !l->head)
 		return 0;
-	int v = vals->head->v;
+	int v = l->head->v;
 	/* update max */
-	if (vals->max && vals->max == vals->head) {
-		struct value *tmp = vals->max = vals->head->next;
+	if (l->max && l->max == l->head) {
+		struct value *tmp = l->max = l->head->next;
 		while (tmp) {
-			if (tmp->v > vals->max->v)
-				vals->max = tmp;
+			if (tmp->v > l->max->v)
+				l->max = tmp;
 			tmp = tmp->next;
 		}
 	}
 	/* update min */
-	if (vals->min && vals->min == vals->head) {
-		struct value *tmp = vals->min = vals->head->next;
+	if (l->min && l->min == l->head) {
+		struct value *tmp = l->min = l->head->next;
 		while (tmp) {
-			if (tmp->v < vals->min->v)
-				vals->min = tmp;
+			if (tmp->v < l->min->v)
+				l->min = tmp;
 			tmp = tmp->next;
 		}
 	}
-	vals->count--;
-	struct value *head = vals->head;
-	vals->head = head->next;
+	l->count--;
+	struct value *head = l->head;
+	l->head = head->next;
 	free(head);
 	return v;
 }
 
-int enqueue_val(struct values *vals, double v)
+int enqueue_val(struct line *l, double v)
 {
 	struct value *new = malloc(sizeof(struct value));
 	new->v = v;
 	gettimeofday(&new->tv, NULL);
 	new->next = NULL;
 
-	if (!vals->head) {
-		vals->head = new;
-		vals->count = 1;
+	if (!l->head) {
+		l->head = new;
+		l->count = 1;
 	} else {
-		vals->tail->next = new;
-		vals->count++;
+		l->tail->next = new;
+		l->count++;
 	}
 
-	if (!vals->max) {
-		vals->max = new;
+	if (!l->max) {
+		l->max = new;
 	} else {
-		if (vals->max->v < v)
-			vals->max = new;
+		if (l->max->v < v)
+			l->max = new;
 	}
-	if (!vals->min) {
-		vals->min = new;
+	if (!l->min) {
+		l->min = new;
 	} else {
-		if (vals->min->v > v)
-			vals->min = new;
+		if (l->min->v > v)
+			l->min = new;
 	}
 
-	vals->tail = new;
+	l->tail = new;
 	return 0;
 }

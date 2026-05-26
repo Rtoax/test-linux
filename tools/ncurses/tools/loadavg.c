@@ -47,9 +47,9 @@ static int key = ' ';
 static int done = false;
 static int verbose = false;
 
-struct values load1 = {};
-struct values load5 = {};
-struct values load15 = {};
+struct line load1 = {};
+struct line load5 = {};
+struct line load15 = {};
 
 void sig_handler(int signo)
 {
@@ -60,7 +60,7 @@ void sig_handler(int signo)
 	errno = saved_errno;
 }
 
-void append_load(struct values *loads, double v)
+void append_load(struct line *loads, double v)
 {
 	/* Only add new loadavg when the time interval is at least 1 second */
 	if (loads->tail && loads->tail->tv.tv_sec == now.tv_sec)
@@ -103,12 +103,12 @@ void paint_plot(const struct plot *p)
 	load_min = load_min > load5.min->v ? load5.min->v : load_min;
 	load_min = load_min > load15.min->v ? load15.min->v : load_min;
 
-	plot_paint_values(&pla, &load1, "load1", load_max, load_min,
-			  flavor[C_RED]);
-	plot_paint_values(&pla, &load5, "load5", load_max, load_min,
-			  flavor[C_GREEN]);
-	plot_paint_values(&pla, &load15, "load15", load_max, load_min,
-			  flavor[C_BLUE]);
+	plot_paint_line(&pla, &load1, "load1", load_max, load_min,
+			flavor[C_RED]);
+	plot_paint_line(&pla, &load5, "load5", load_max, load_min,
+			flavor[C_GREEN]);
+	plot_paint_line(&pla, &load15, "load15", load_max, load_min,
+			flavor[C_BLUE]);
 
 	time_t sec = time(NULL);
 	struct tm *tm = localtime(&sec);

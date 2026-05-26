@@ -10,14 +10,14 @@ struct value {
 	struct value *next;
 };
 
-struct values {
+struct line {
 	struct value *head, *tail, *max, *min;
 	int count; /* number of value */
 };
 
-#define for_each_value(vals, iter)                                       \
-	for (struct value *iter = ((struct values *)(vals))->head; iter; \
+#define for_each_value(l, iter)                                     \
+	for (struct value *iter = ((struct line *)(l))->head; iter; \
 	     iter = iter->next)
 
-int dequeue_val(struct values *vals);
-int enqueue_val(struct values *vals, double v);
+int dequeue_val(struct line *l);
+int enqueue_val(struct line *l, double v);
