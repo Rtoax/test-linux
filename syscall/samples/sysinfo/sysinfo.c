@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <sys/sysinfo.h>
 
-
 struct ram_occupy {
 	unsigned long totalRamMemMb;
 	unsigned long freeRamMemMb;
@@ -15,7 +14,6 @@ struct ram_occupy {
 		int decimal;
 	} occupyRam, occupySwap;
 };
-
 
 void print_sysinfo(struct sysinfo *si)
 {

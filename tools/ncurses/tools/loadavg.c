@@ -25,20 +25,23 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include "value.h"
+#include "ram.h"
 #include "plot.h"
 
 const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
+	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
-	{ "verbose", 'v', NULL, 1, "Disploty detail" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{},
 };
 
 static int sig_rd_fd, sig_wr_fd;
 static char key = ' ';
 static int done = false;
+static int ram = false;
 static int verbose = false;
 
 static char data_from_stdin[256];
@@ -107,6 +110,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 			fprintf(stderr, "ERROR: bad -I value\n");
 			exit(EXIT_FAILURE);
 		}
+		break;
+	case 'M':
+		ram = true;
 		break;
 	case 'v':
 		verbose = true;
@@ -210,7 +216,11 @@ int main(int argc, char *argv[])
 
 	init_flavor();
 
-	plot_add(&plot, &lg_loadavg);
+	if (ram)
+		plot_add(&plot, &lg_ram);
+	else
+		plot_add(&plot, &lg_loadavg);
+
 	for_each_lg(&plot, lg)
 	{
 		lg->ops.create(lg, NULL);
