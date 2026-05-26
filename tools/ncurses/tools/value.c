@@ -28,7 +28,9 @@ int dequeue_val(struct values *vals)
 		}
 	}
 	vals->count--;
-	vals->head = vals->head->next;
+	struct value *head = vals->head;
+	vals->head = head->next;
+	free(head);
 	return v;
 }
 
