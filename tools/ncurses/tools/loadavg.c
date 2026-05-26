@@ -148,26 +148,6 @@ int main(int argc, char *argv[])
 	sig_rd_fd = sigpipe[0];
 	sig_wr_fd = sigpipe[1];
 
-	signal(SIGINT, sig_handler);
-	signal(SIGWINCH, sig_handler);
-
-	initscr();
-	cbreak();
-	noecho();
-	nonl();
-
-	curs_set(0);
-
-	init_flavor();
-
-	init_line(&load1, "load1", C_RED);
-	init_line(&load5, "load5", C_GREEN);
-	init_line(&load15, "load15", C_BLUE);
-
-	line_group_add(&line_group, &load1);
-	line_group_add(&line_group, &load5);
-	line_group_add(&line_group, &load15);
-
 	timerfd = keyfd = datafd = -1;
 
 	FD_ZERO(&readfds);
@@ -180,6 +160,10 @@ int main(int argc, char *argv[])
 	 */
 	if (!isatty(STDIN_FILENO)) {
 		keyfd = open("/dev/tty", O_RDONLY);
+		if (keyfd == -1) {
+			fprintf(stderr, "ERROR: open /dev/tty failed, %m\n");
+			exit(EXIT_FAILURE);
+		}
 		datafd = STDIN_FILENO;
 	} else
 		keyfd = STDIN_FILENO;
@@ -205,6 +189,28 @@ int main(int argc, char *argv[])
 	FD_SET(sig_rd_fd, &readfds);
 	if (maxfd < sig_rd_fd)
 		maxfd = sig_rd_fd;
+
+	signal(SIGINT, sig_handler);
+	signal(SIGWINCH, sig_handler);
+
+	/* curses start from here */
+
+	initscr();
+	cbreak();
+	noecho();
+	nonl();
+
+	curs_set(0);
+
+	init_flavor();
+
+	init_line(&load1, "load1", C_RED);
+	init_line(&load5, "load5", C_GREEN);
+	init_line(&load15, "load15", C_BLUE);
+
+	line_group_add(&line_group, &load1);
+	line_group_add(&line_group, &load5);
+	line_group_add(&line_group, &load15);
 
 	plot_update_size(&plot);
 	redraw_screen();
