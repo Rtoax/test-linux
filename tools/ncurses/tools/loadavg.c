@@ -43,14 +43,6 @@ static int verbose = false;
 
 static char data_from_stdin[256];
 
-void loadavg_create(struct lgroup *lg, void *arg);
-void loadavg_update(struct lgroup *lg, void *arg);
-
-struct lgroup lg_loadavg = {
-	.ops.create = loadavg_create,
-	.ops.update = loadavg_update,
-};
-
 struct plot plot = {
 	.title = "Load average",
 	.interval_sec = 1,
@@ -65,14 +57,14 @@ void sig_handler(int signo)
 	errno = saved_errno;
 }
 
-void loadavg_create(struct lgroup *lg, void *arg)
+static void loadavg_create(struct lgroup *lg, void *arg)
 {
 	new_line(lg, "load1", C_RED);
 	new_line(lg, "load5", C_GREEN);
 	new_line(lg, "load15", C_BLUE);
 }
 
-void loadavg_update(struct lgroup *lg, void *arg)
+static void loadavg_update(struct lgroup *lg, void *arg)
 {
 	double avg[3];
 
@@ -97,6 +89,11 @@ void loadavg_update(struct lgroup *lg, void *arg)
 		 plot.plotwidth, key, key);
 #endif
 }
+
+struct lgroup lg_loadavg = {
+	.ops.create = loadavg_create,
+	.ops.update = loadavg_update,
+};
 
 static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 {
