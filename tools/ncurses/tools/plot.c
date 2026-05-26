@@ -37,6 +37,7 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 		     double max, double min, chtype color)
 {
 	int i = 0;
+	int prev_h = -1;
 	for_each_value(load, v)
 	{
 		int h = p->plotheight + HEIGHT_BND - 1 -
@@ -45,6 +46,32 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 		attron(color);
 		mvprintw(h, w, U2501);
 		attroff(color);
+
+		/**
+		 * Print the corner, like:
+		 *   ┏━━
+		 * ━━┛
+		 */
+		if (prev_h != -1) {
+			attron(color);
+			const wchar_t *wstr = W_U2503;
+			cchar_t wch_vline;
+			setcchar(&wch_vline, wstr, A_NORMAL, 0, NULL);
+			if (prev_h > h) {
+				mvprintw(prev_h, w, U251B);
+				mvprintw(h, w, U250F);
+				mvvline_set(h + 1, w, &wch_vline,
+					    prev_h - h - 1);
+			} else if (h > prev_h) {
+				mvprintw(prev_h, w, U2513);
+				mvprintw(h, w, U2517);
+				mvvline_set(prev_h + 1, w, &wch_vline,
+					    h - prev_h - 1);
+			}
+			attroff(color);
+		}
+
+		prev_h = h;
 
 		i++;
 

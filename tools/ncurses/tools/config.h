@@ -22,3 +22,13 @@
 #define U25B2 "▲"
 #define U25BA "►"
 #define U25C4 "◄"
+
+#define W_U2501 L"━"
+#define W_U2503 L"┃"
+#define W_U250F L"┏"
+#define W_U2513 L"┓"
+#define W_U2517 L"┗"
+#define W_U251B L"┛"
+#define W_U25B2 L"▲"
+#define W_U25BA L"►"
+#define W_U25C4 L"◄"
