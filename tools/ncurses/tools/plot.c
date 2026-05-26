@@ -3,7 +3,7 @@
 #include <string.h>
 #include "plot.h"
 
-chtype flavor[8] = { 0 };
+chtype flavor[C_MAX] = { 0 };
 static const char *verstring = "github.com/rtoax/test-linux v1.0.3";
 
 int plot_add(struct plot *p, struct lgroup *lg)
