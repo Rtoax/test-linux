@@ -33,6 +33,7 @@ struct plot {
 	char *title;
 	int height, width;
 	int plotheight, plotwidth;
+	int interval_sec;
 };
 
 void plot_update_size(struct plot *p);

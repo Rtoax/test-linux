@@ -31,12 +31,14 @@ const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
+	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{},
 };
 
 struct plot pla = {
 	.title = "Load average",
+	.interval_sec = 1,
 };
 
 static struct timeval now;
@@ -138,6 +140,13 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	case 'T':
 		pla.title = arg;
 		break;
+	case 'I':
+		pla.interval_sec = atoi(arg);
+		if (pla.interval_sec <= 0) {
+			fprintf(stderr, "ERROR: bad -I value\n");
+			exit(EXIT_FAILURE);
+		}
+		break;
 	case 'v':
 		verbose = true;
 		break;
@@ -198,7 +207,8 @@ int main(int argc, char *argv[])
 	FD_SET(STDIN_FILENO, &readfds);
 
 	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
-	struct itimerspec tmout = { { 1, 0 }, { 1, 0 } };
+	struct itimerspec tmout = { { pla.interval_sec, 0 },
+				    { pla.interval_sec, 0 } };
 	timerfd_settime(timerfd, 0, &tmout, NULL);
 	FD_SET(timerfd, &readfds);
 	if (maxfd < timerfd)
