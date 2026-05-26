@@ -42,6 +42,11 @@ void plot_append_val(const struct plot *p, struct line *l, double v)
 	if (l->tail && l->tail->tv.tv_sec == now.tv_sec)
 		return;
 	enqueue_val(l, v);
+
+	/**
+	 * Due to the limited width of the screen, we removed unnecessary
+	 * history records. TODO: maybe we should keep the old values.
+	 */
 	for (int i = p->plotwidth - 2; i < l->count; i++)
 		dequeue_val(l);
 }

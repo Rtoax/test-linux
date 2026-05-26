@@ -71,6 +71,8 @@ void redraw_screen(void)
 	plot_append_val(&pla, &load5, avg[1]);
 	plot_append_val(&pla, &load15, avg[2]);
 
+	paint_plot(&pla);
+
 #ifdef DEBUG
 	mvprintw(0, 1, "- %d - %f - %lf~%lf", load1.count, avg[0], load1.min->v,
 		 load1.max->v);
@@ -84,8 +86,6 @@ void redraw_screen(void)
 		 avg[1], avg[2], LINES, pla.plotheight, COLS, pla.plotwidth,
 		 key);
 #endif
-
-	paint_plot(&pla);
 	refresh();
 }
 
