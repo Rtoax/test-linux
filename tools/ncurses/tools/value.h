@@ -26,6 +26,7 @@ struct line {
 struct line_group;
 
 struct lg_operations {
+	void (*create)(struct line_group *self, void *arg);
 	void (*update)(struct line_group *self, void *arg);
 };
 

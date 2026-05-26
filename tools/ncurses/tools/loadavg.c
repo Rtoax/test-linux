@@ -43,9 +43,11 @@ static int verbose = false;
 
 static char data_from_stdin[256];
 
+void loadavg_create(struct line_group *lg, void *arg);
 void loadavg_update(struct line_group *lg, void *arg);
 
 struct line_group lg_loadavg = {
+	.ops.create = loadavg_create,
 	.ops.update = loadavg_update,
 };
 
@@ -62,6 +64,13 @@ void sig_handler(int signo)
 		ret = write(sig_wr_fd, &signo, 1);
 	} while ((ret == -1) && (errno == EINTR));
 	errno = saved_errno;
+}
+
+void loadavg_create(struct line_group *lg, void *arg)
+{
+	new_line(lg, "load1", C_RED);
+	new_line(lg, "load5", C_GREEN);
+	new_line(lg, "load15", C_BLUE);
 }
 
 void loadavg_update(struct line_group *lg, void *arg)
@@ -215,9 +224,7 @@ int main(int argc, char *argv[])
 
 	init_flavor();
 
-	new_line(&lg_loadavg, "load1", C_RED);
-	new_line(&lg_loadavg, "load5", C_GREEN);
-	new_line(&lg_loadavg, "load15", C_BLUE);
+	lg_loadavg.ops.create(&lg_loadavg, NULL);
 
 	plot_update_size(&plot);
 	redraw_screen(&plot);
