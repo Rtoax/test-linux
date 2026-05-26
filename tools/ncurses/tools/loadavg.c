@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (C) 2026 Rong Tao
 /**
- * Plot and display a loadavg graph of 1, 5, 15 minutes in the Linux terminal
+ * Plot and disploty a loadavg graph of 1, 5, 15 minutes in the Linux terminal
  * with minimal dependencies.
  *
  * ttyplot is not good enough.
@@ -32,7 +32,7 @@ const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
 static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
-	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{ "verbose", 'v', NULL, 1, "Disploty detail" },
 	{},
 };
 
@@ -47,12 +47,12 @@ struct line load1 = {};
 struct line load5 = {};
 struct line load15 = {};
 
-struct line_group line_group_loadavg = {};
+struct line_group line_group = {};
 
-struct plot pla = {
+struct plot plot = {
 	.title = "Load average",
 	.interval_sec = 1,
-	.lg = &line_group_loadavg,
+	.lg = &line_group,
 };
 
 void sig_handler(int signo)
@@ -70,11 +70,11 @@ void redraw_screen(void)
 
 	getloadavg(avg, 3);
 
-	plot_append_val(&pla, &load1, avg[0]);
-	plot_append_val(&pla, &load5, avg[1]);
-	plot_append_val(&pla, &load15, avg[2]);
+	plot_append_val(&plot, &load1, avg[0]);
+	plot_append_val(&plot, &load5, avg[1]);
+	plot_append_val(&plot, &load15, avg[2]);
 
-	paint_plot(&pla);
+	paint_plot(&plot);
 
 #ifdef DEBUG
 	mvprintw(0, 1, "- %d - %f - %lf~%lf", load1.count, avg[0], load1.min->v,
@@ -85,10 +85,10 @@ void redraw_screen(void)
 		 load15.min->v, load15.max->v);
 	mvprintw(3, 1, "- %s", data_from_stdin);
 
-	mvprintw(pla.height - 2, 1,
+	mvprintw(plot.height - 2, 1,
 		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d=%c'\n",
-		 avg[0], avg[1], avg[2], LINES, pla.plotheight, COLS,
-		 pla.plotwidth, key, key);
+		 avg[0], avg[1], avg[2], LINES, plot.plotheight, COLS,
+		 plot.plotwidth, key, key);
 #endif
 	refresh();
 }
@@ -97,11 +97,11 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 {
 	switch (opt) {
 	case 'T':
-		pla.title = arg;
+		plot.title = arg;
 		break;
 	case 'I':
-		pla.interval_sec = atoi(arg);
-		if (pla.interval_sec <= 0) {
+		plot.interval_sec = atoi(arg);
+		if (plot.interval_sec <= 0) {
 			fprintf(stderr, "ERROR: bad -I value\n");
 			exit(EXIT_FAILURE);
 		}
@@ -164,9 +164,9 @@ int main(int argc, char *argv[])
 	init_line(&load5, "load5", C_GREEN);
 	init_line(&load15, "load15", C_BLUE);
 
-	line_group_add(&line_group_loadavg, &load1);
-	line_group_add(&line_group_loadavg, &load5);
-	line_group_add(&line_group_loadavg, &load15);
+	line_group_add(&line_group, &load1);
+	line_group_add(&line_group, &load5);
+	line_group_add(&line_group, &load15);
 
 	timerfd = keyfd = datafd = -1;
 
@@ -195,8 +195,8 @@ int main(int argc, char *argv[])
 	}
 
 	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
-	struct itimerspec tmout = { { pla.interval_sec, 0 },
-				    { pla.interval_sec, 0 } };
+	struct itimerspec tmout = { { plot.interval_sec, 0 },
+				    { plot.interval_sec, 0 } };
 	timerfd_settime(timerfd, 0, &tmout, NULL);
 	FD_SET(timerfd, &readfds);
 	if (maxfd < timerfd)
@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
 	if (maxfd < sig_rd_fd)
 		maxfd = sig_rd_fd;
 
-	plot_update_size(&pla);
+	plot_update_size(&plot);
 	redraw_screen();
 
 	/* main loop */
@@ -243,7 +243,7 @@ int main(int argc, char *argv[])
 					initscr();
 					erase();
 					refresh();
-					plot_update_size(&pla);
+					plot_update_size(&plot);
 					redraw = true;
 				}
 			}
