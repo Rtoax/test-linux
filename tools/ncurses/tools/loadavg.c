@@ -43,10 +43,10 @@ static int verbose = false;
 
 static char data_from_stdin[256];
 
-void loadavg_create(struct line_group *lg, void *arg);
-void loadavg_update(struct line_group *lg, void *arg);
+void loadavg_create(struct lgroup *lg, void *arg);
+void loadavg_update(struct lgroup *lg, void *arg);
 
-struct line_group lg_loadavg = {
+struct lgroup lg_loadavg = {
 	.ops.create = loadavg_create,
 	.ops.update = loadavg_update,
 };
@@ -66,14 +66,14 @@ void sig_handler(int signo)
 	errno = saved_errno;
 }
 
-void loadavg_create(struct line_group *lg, void *arg)
+void loadavg_create(struct lgroup *lg, void *arg)
 {
 	new_line(lg, "load1", C_RED);
 	new_line(lg, "load5", C_GREEN);
 	new_line(lg, "load15", C_BLUE);
 }
 
-void loadavg_update(struct line_group *lg, void *arg)
+void loadavg_update(struct lgroup *lg, void *arg)
 {
 	double avg[3];
 

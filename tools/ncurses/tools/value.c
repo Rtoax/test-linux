@@ -67,10 +67,10 @@ int enqueue_val(struct line *l, double v)
 	return 0;
 }
 
-struct line *new_line(struct line_group *lg, const char *name, int color)
+struct line *new_line(struct lgroup *lg, const char *name, int color)
 {
 	struct line *new = init_line(NULL, name, color);
-	line_group_add(lg, new);
+	lgroup_add(lg, new);
 	return new;
 }
 
@@ -83,7 +83,7 @@ struct line *init_line(struct line *l, const char *name, int color)
 	return new;
 }
 
-int line_group_add(struct line_group *lg, struct line *l)
+int lgroup_add(struct lgroup *lg, struct line *l)
 {
 	if (!lg->head) {
 		lg->head = l;

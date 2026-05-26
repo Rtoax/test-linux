@@ -23,27 +23,27 @@ struct line {
 	for (struct value *iter = ((struct line *)(l))->head; iter; \
 	     iter = iter->next)
 
-struct line_group;
+struct lgroup;
 
-struct lg_operations {
-	void (*create)(struct line_group *self, void *arg);
-	void (*update)(struct line_group *self, void *arg);
+struct lgroup_operations {
+	void (*create)(struct lgroup *self, void *arg);
+	void (*update)(struct lgroup *self, void *arg);
 };
 
-struct line_group {
+struct lgroup {
 	struct line *head, *tail;
 	int count; /* number of lines */
-	struct lg_operations ops;
+	struct lgroup_operations ops;
 };
 
-#define for_each_line(lg, iter)                                           \
-	for (struct line *iter = ((struct line_group *)(lg))->head; iter; \
+#define for_each_line(lg, iter)                                       \
+	for (struct line *iter = ((struct lgroup *)(lg))->head; iter; \
 	     iter = iter->next)
 
 int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);
 
-struct line *new_line(struct line_group *lg, const char *name, int color);
+struct line *new_line(struct lgroup *lg, const char *name, int color);
 struct line *init_line(struct line *l, const char *name, int color);
 
-int line_group_add(struct line_group *lg, struct line *l);
+int lgroup_add(struct lgroup *lg, struct line *l);

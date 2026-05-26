@@ -24,7 +24,7 @@ struct plot {
 	int height, width;
 	int plotheight, plotwidth;
 	int interval_sec;
-	struct line_group *lg;
+	struct lgroup *lg;
 };
 
 extern chtype flavor[8];
