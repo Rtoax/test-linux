@@ -175,3 +175,16 @@ void paint_plot(const struct plot *p)
 
 	move(0, 0);
 }
+
+void redraw_screen(const struct plot *p)
+{
+	erase();
+
+	for_each_lg(p, lg)
+	{
+		lg->ops.update(lg, NULL);
+	}
+
+	paint_plot(p);
+	refresh();
+}

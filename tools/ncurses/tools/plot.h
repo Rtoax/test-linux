@@ -44,5 +44,6 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 void plot_append_val(const struct plot *p, struct line *l, double v);
 
 void paint_plot(const struct plot *p);
+void redraw_screen(const struct plot *p);
 
 void init_flavor(void);

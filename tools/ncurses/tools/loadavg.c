@@ -98,19 +98,6 @@ void loadavg_update(struct lgroup *lg, void *arg)
 #endif
 }
 
-void redraw_screen(const struct plot *p)
-{
-	erase();
-
-	for_each_lg(&plot, lg)
-	{
-		lg->ops.update(lg, NULL);
-	}
-
-	paint_plot(p);
-	refresh();
-}
-
 static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 {
 	switch (opt) {
