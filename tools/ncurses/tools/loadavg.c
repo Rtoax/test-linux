@@ -12,6 +12,7 @@
  */
 #include <argp.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <locale.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -36,7 +37,7 @@ static const struct argp_option opts[] = {
 };
 
 static int sig_rd_fd, sig_wr_fd;
-static int key = ' ';
+static char key = ' ';
 static int done = false;
 static int verbose = false;
 
@@ -82,9 +83,9 @@ void redraw_screen(void)
 		 load15.min->v, load15.max->v);
 
 	mvprintw(pla.height - 2, 1,
-		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d'\n", avg[0],
-		 avg[1], avg[2], LINES, pla.plotheight, COLS, pla.plotwidth,
-		 key);
+		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d=%c'\n",
+		 avg[0], avg[1], avg[2], LINES, pla.plotheight, COLS,
+		 pla.plotwidth, key, key);
 #endif
 	refresh();
 }
@@ -123,8 +124,8 @@ static const struct argp argp = {
 
 int main(int argc, char *argv[])
 {
-	int maxfd = STDIN_FILENO;
-	int timerfd;
+	int maxfd = 0;
+	int timerfd, ttyfd;
 	int sigpipe[2];
 	fd_set readfds;
 
@@ -165,7 +166,21 @@ int main(int argc, char *argv[])
 	line_group_add(&line_group_loadavg, &load15);
 
 	FD_ZERO(&readfds);
-	FD_SET(STDIN_FILENO, &readfds);
+
+	/**
+	 * If stdin is redirected, open the terminal for key press.
+	 *
+	 * When we use stdin to pass data, we need to directly open the tty
+	 * device to read the keyboard.
+	 */
+	if (!isatty(STDIN_FILENO)) {
+		ttyfd = open("/dev/tty", O_RDONLY);
+	} else
+		ttyfd = STDIN_FILENO;
+
+	FD_SET(ttyfd, &readfds);
+	if (maxfd < ttyfd)
+		maxfd = ttyfd;
 
 	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
 	struct itimerspec tmout = { { pla.interval_sec, 0 },
@@ -188,15 +203,17 @@ int main(int argc, char *argv[])
 		bool redraw = false;
 
 		int ret = select(maxfd + 1, &fds, NULL, NULL, NULL);
-		if (ret > 0 && FD_ISSET(STDIN_FILENO, &fds)) {
-			key = getch();
-			switch (key) {
-			case 'q':
-				goto end;
-				break;
-			case 13: /* enter */
-				redraw = true;
-				break;
+		if (ret > 0 && FD_ISSET(ttyfd, &fds)) {
+			int count = read(ttyfd, &key, 1);
+			if (count == 1) {
+				switch (key) {
+				case 'q':
+					goto end;
+					break;
+				case 13: /* enter */
+					redraw = true;
+					break;
+				}
 			}
 		} else if (ret > 0 && FD_ISSET(timerfd, &fds)) {
 			uint64_t exp;
