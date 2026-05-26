@@ -4,6 +4,7 @@
 #include "plot.h"
 
 chtype flavor[8] = { 0 };
+static const char *verstring = "github.com/rtoax/test-linux v1.0.3";
 
 void init_flavor(void)
 {
@@ -76,4 +77,34 @@ void plot_draw_axes(const struct plot *p)
 	mvaddch(HEIGHT_BND, WIDTH_BND, T_UARR);
 	mvprintw(HEIGHT_BND, WIDTH_BND, "▲");
 	mvprintw(p->plotheight + HEIGHT_BND, p->plotwidth + WIDTH_BND, "►");
+}
+
+void paint_plot(const struct plot *p)
+{
+	erase();
+
+	plot_draw_title(p);
+	plot_draw_axes(p);
+
+	double max = 0, min = 9999;
+	for_each_line(p->lg, l)
+	{
+		max = max < l->max->v ? l->max->v : max;
+		min = min > l->min->v ? l->min->v : min;
+	}
+	for_each_line(p->lg, l)
+	{
+		plot_paint_line(p, l, l->name, max, min, l->color);
+	}
+
+	time_t sec = time(NULL);
+	struct tm *tm = localtime(&sec);
+	char ts[64] = { 0 };
+	asctime_r(tm, ts);
+	ts[strlen(ts) - 1] = '\n';
+	mvaddstr(p->height - 2, p->width - strlen(ts) - 1, ts);
+
+	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
+
+	move(0, 0);
 }

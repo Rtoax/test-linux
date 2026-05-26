@@ -26,7 +26,6 @@
 #include "value.h"
 #include "plot.h"
 
-static const char *verstring = "github.com/rtoax/test-linux v1.0.2";
 const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
@@ -71,36 +70,6 @@ void append_load(struct line *loads, double v)
 	enqueue_val(loads, v);
 	for (int i = pla.plotwidth - 2; i < loads->count; i++)
 		dequeue_val(loads);
-}
-
-void paint_plot(const struct plot *p)
-{
-	erase();
-
-	plot_draw_title(p);
-	plot_draw_axes(p);
-
-	double max = 0, min = 9999;
-	for_each_line(p->lg, l)
-	{
-		max = max < l->max->v ? l->max->v : max;
-		min = min > l->min->v ? l->min->v : min;
-	}
-	for_each_line(p->lg, l)
-	{
-		plot_paint_line(p, l, l->name, max, min, l->color);
-	}
-
-	time_t sec = time(NULL);
-	struct tm *tm = localtime(&sec);
-	char ts[64] = { 0 };
-	asctime_r(tm, ts);
-	ts[strlen(ts) - 1] = '\n';
-	mvaddstr(p->height - 2, p->width - strlen(ts) - 1, ts);
-
-	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
-
-	move(0, 0);
 }
 
 void redraw_screen(void)
