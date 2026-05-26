@@ -137,6 +137,20 @@ void plot_draw_axes(const struct plot *p)
 	mvprintw(p->plotheight + HEIGHT_BND, p->plotwidth + WIDTH_BND, U25BA);
 }
 
+static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)
+{
+	double max = 0, min = 9999;
+	for_each_line(lg, l)
+	{
+		max = max < l->max->v ? l->max->v : max;
+		min = min > l->min->v ? l->min->v : min;
+	}
+	for_each_line(lg, l)
+	{
+		plot_paint_line(p, l, l->name, max, min, flavor[l->color]);
+	}
+}
+
 /**
  * need erase() before, refresh() after
  */
@@ -145,15 +159,9 @@ void paint_plot(const struct plot *p)
 	plot_draw_title(p);
 	plot_draw_axes(p);
 
-	double max = 0, min = 9999;
-	for_each_line(p->lghead, l)
+	for_each_lg(p, lg)
 	{
-		max = max < l->max->v ? l->max->v : max;
-		min = min > l->min->v ? l->min->v : min;
-	}
-	for_each_line(p->lghead, l)
-	{
-		plot_paint_line(p, l, l->name, max, min, flavor[l->color]);
+		__paint_plot_lg(p, lg);
 	}
 
 	time_t sec = time(NULL);
