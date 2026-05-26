@@ -175,15 +175,19 @@ int main(int argc, char *argv[])
 		FD_SET(datafd, &readfds);
 		if (maxfd < datafd)
 			maxfd = datafd;
+	/**
+	 * When we read data from stdin, we no longer need a timer to trigger
+	 * the update.
+	 */
+	} else {
+		timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
+		struct itimerspec tmout = { { plot.interval_sec, 0 },
+					    { plot.interval_sec, 0 } };
+		timerfd_settime(timerfd, 0, &tmout, NULL);
+		FD_SET(timerfd, &readfds);
+		if (maxfd < timerfd)
+			maxfd = timerfd;
 	}
-
-	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
-	struct itimerspec tmout = { { plot.interval_sec, 0 },
-				    { plot.interval_sec, 0 } };
-	timerfd_settime(timerfd, 0, &tmout, NULL);
-	FD_SET(timerfd, &readfds);
-	if (maxfd < timerfd)
-		maxfd = timerfd;
 
 	FD_SET(sig_rd_fd, &readfds);
 	if (maxfd < sig_rd_fd)
