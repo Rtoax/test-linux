@@ -124,10 +124,11 @@ void plot_draw_axes(const struct plot *p)
 	mvprintw(p->plotheight + HEIGHT_BND, p->plotwidth + WIDTH_BND, U25BA);
 }
 
+/**
+ * need erase() before, refresh() after
+ */
 void paint_plot(const struct plot *p)
 {
-	erase();
-
 	plot_draw_title(p);
 	plot_draw_axes(p);
 

@@ -64,7 +64,7 @@ void sig_handler(int signo)
 	errno = saved_errno;
 }
 
-void redraw_screen(void)
+void update_loadavg(void)
 {
 	double avg[3];
 
@@ -73,8 +73,6 @@ void redraw_screen(void)
 	plot_append_val(&plot, &load1, avg[0]);
 	plot_append_val(&plot, &load5, avg[1]);
 	plot_append_val(&plot, &load15, avg[2]);
-
-	paint_plot(&plot);
 
 #ifdef DEBUG
 	mvprintw(0, 1, "- %d - %f - %lf~%lf", load1.count, avg[0], load1.min->v,
@@ -90,6 +88,13 @@ void redraw_screen(void)
 		 avg[0], avg[1], avg[2], LINES, plot.plotheight, COLS,
 		 plot.plotwidth, key, key);
 #endif
+}
+
+void redraw_screen(void)
+{
+	erase();
+	update_loadavg();
+	paint_plot(&plot);
 	refresh();
 }
 
