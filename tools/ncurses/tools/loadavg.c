@@ -45,8 +45,6 @@ static int key = ' ';
 static int done = false;
 static int verbose = false;
 
-static chtype flavor[8] = { 0 };
-
 struct values load1 = {};
 struct values load5 = {};
 struct values load15 = {};
@@ -194,22 +192,7 @@ int main(int argc, char *argv[])
 
 	curs_set(0);
 
-	if (has_colors()) {
-		int bg = COLOR_BLACK;
-		start_color();
-#define SET_COLOR(num, fg)                        \
-	init_pair(num + 1, (short)fg, (short)bg); \
-	flavor[num] |= (chtype)COLOR_PAIR(num + 1)
-
-		SET_COLOR(C_GREEN, COLOR_GREEN);
-		SET_COLOR(C_RED, COLOR_RED);
-		SET_COLOR(C_CYAN, COLOR_CYAN);
-		SET_COLOR(C_WHITE, COLOR_WHITE);
-		SET_COLOR(C_MAGENTA, COLOR_MAGENTA);
-		SET_COLOR(C_BLUE, COLOR_BLUE);
-		SET_COLOR(C_YELLOW, COLOR_YELLOW);
-#undef SET_COLOR
-	}
+	init_flavor();
 
 	FD_ZERO(&readfds);
 	FD_SET(STDIN_FILENO, &readfds);

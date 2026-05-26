@@ -40,3 +40,6 @@ void plot_draw_axes(const struct plot *p);
 void plot_draw_title(const struct plot *p);
 void plot_paint_values(const struct plot *p, struct values *load, char *label,
 		       double max, double min, chtype color);
+
+void init_flavor(void);
+extern chtype flavor[8];
