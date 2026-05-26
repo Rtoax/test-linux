@@ -5,13 +5,18 @@ int main(void)
 {
 	FILE *fp = fopen("tmp.out", "w");
 
-	printf("%s: %d\n", ttyname(fileno(stdin)), isatty(fileno(stdin)));
-	printf("%s: %d\n", ttyname(fileno(stdout)), isatty(fileno(stdout)));
-	printf("%s: %d\n", ttyname(fileno(stderr)), isatty(fileno(stderr)));
-	printf("%s: %d\n", ttyname(fileno(fp)), isatty(fileno(fp)));
+#define P(fd)                                                            \
+	printf("%-8s: fd = %4d, tty %s, isatty = %d\n", #fd, fileno(fd), \
+	       ttyname(fileno(fd)), isatty(fileno(fd)))
+
+	P(stdin); /* null if 'echo hello | ./isatty' */
+	P(stdout);
+	P(stderr); /* null if './isatty 2>/dev/null' */
+	P(fp);
+
+#undef P
 
 	fclose(fp);
 
 	return 0;
 }
-
