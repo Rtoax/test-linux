@@ -54,7 +54,7 @@ struct lgroup lg_loadavg = {
 struct plot plot = {
 	.title = "Load average",
 	.interval_sec = 1,
-	.lg = &lg_loadavg,
+	.lgrps = &lg_loadavg,
 };
 
 void sig_handler(int signo)

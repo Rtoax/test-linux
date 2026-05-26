@@ -133,12 +133,12 @@ void paint_plot(const struct plot *p)
 	plot_draw_axes(p);
 
 	double max = 0, min = 9999;
-	for_each_line(p->lg, l)
+	for_each_line(p->lgrps, l)
 	{
 		max = max < l->max->v ? l->max->v : max;
 		min = min > l->min->v ? l->min->v : min;
 	}
-	for_each_line(p->lg, l)
+	for_each_line(p->lgrps, l)
 	{
 		plot_paint_line(p, l, l->name, max, min, flavor[l->color]);
 	}
