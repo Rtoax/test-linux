@@ -50,7 +50,7 @@ static int tmout_sec = -1;
 static char data_from_stdin[256] = { 0 };
 
 struct plot plot = {
-	.title = "Load average",
+	.title = NULL,
 	.interval_sec = 1,
 };
 
@@ -250,16 +250,18 @@ int main(int argc, char *argv[])
 
 	if (datafd == -1) {
 		if (ram) {
-			plot.title = "Memory Usage";
+			plot.title = plot.title ?: "Memory Usage";
 			plot_add(&plot, &lg_ram, NULL);
-		} else
+		} else {
+			plot.title = plot.title ?: "Loadavg";
 			plot_add(&plot, &lg_loadavg, NULL);
+		}
 	} else {
 		struct stdin_arg stdarg = {
 			.nline = 1, /* at least one line */
 			.line_buff = data_from_stdin,
 		};
-		plot.title = "stdin";
+		plot.title = plot.title ?: "stdin";
 		plot_add(&plot, &lg_stdin, &stdarg);
 	}
 
