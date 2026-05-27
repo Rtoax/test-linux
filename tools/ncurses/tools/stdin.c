@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (C) 2026 Rong Tao
+#include <ctype.h>
 #include <unistd.h>
+#include <malloc.h>
+#include <stdlib.h>
 #include <sys/sysinfo.h>
 #include "plot.h"
 #include "stdin.h"
@@ -19,10 +22,40 @@ static void stdin_create(struct lgroup *lg, void *arg)
 
 static void stdin_update(struct lgroup *lg, void *arg)
 {
+	int i;
 	struct stdin_arg *a = arg;
+	double *values = malloc(sizeof(double) * a->nline);
 	char *buf = a->line_buff;
-	(void)buf;
-	/* TODO */
+
+#ifdef DEBUG
+	mvprintw(0, BND_LEFT + 1, "stdin: '%s'", a->line_buff);
+#endif
+
+	if (*buf == '\0')
+		return;
+
+	for (i = 0; i < a->nline && *buf != '\0'; i++) {
+		/* skip space first */
+		while (*buf != '\0' && isspace(buf[0]))
+			buf++;
+		double v = strtod(buf, &buf);
+		values[i] = v;
+#ifdef DEBUG
+		mvprintw(i + 1, BND_LEFT + 1, "- %lf", values[i]);
+#endif
+	}
+
+	i = 0;
+	for_each_line(lg, line)
+	{
+		plot_append_val(lg->plot, line, values[i]);
+		i++;
+#ifdef DEBUG
+		mvprintw(a->nline + i + 1, BND_LEFT + 1, "- %d - %f - %lf~%lf",
+			 line->count, values[i], line->min->v, line->max->v);
+#endif
+	}
+	free(values);
 }
 
 static const struct lgroup_operations stdin_ops = {

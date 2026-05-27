@@ -165,6 +165,8 @@ static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)
 	}
 	for_each_line(lg, l)
 	{
+		if (l->count <= 0)
+			continue;
 		plot_paint_line(p, l, l->name, max, min, flavor[l->color]);
 	}
 }

@@ -47,7 +47,7 @@ static int ram = false;
 static int verbose = false;
 static int tmout_sec = -1;
 
-static char data_from_stdin[256];
+static char data_from_stdin[256] = { 0 };
 
 struct plot plot = {
 	.title = "Load average",
