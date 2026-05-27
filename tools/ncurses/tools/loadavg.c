@@ -63,6 +63,15 @@ void sig_handler(int signo)
 	errno = saved_errno;
 }
 
+/**
+ * send to every process in the process group of the calling process, to make
+ * sure the process preceding the pipeline exits.
+ */
+void broadcast_sigint(void)
+{
+	kill(0, SIGINT);
+}
+
 static void loadavg_create(struct lgroup *lg, void *arg)
 {
 	new_line(lg, "load1", C_RED);
@@ -273,6 +282,7 @@ int main(int argc, char *argv[])
 			if (count == 1) {
 				switch (key) {
 				case 'q':
+					broadcast_sigint();
 					goto end;
 					break;
 				case 13: /* enter */
@@ -287,6 +297,7 @@ int main(int argc, char *argv[])
 		} else if (ret > 0 && FD_ISSET(tmoutfd, &fds)) {
 			uint64_t exp;
 			read(tmoutfd, &exp, sizeof(exp));
+			broadcast_sigint();
 			goto end;
 		} else if (ret > 0 && FD_ISSET(sig_rd_fd, &fds)) {
 			unsigned char signo;

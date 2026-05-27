@@ -33,6 +33,7 @@ Commit Tags
 - **Fixes**: This tag indicates that the patch fixes an issue in a previous
   commit referenced by its Commit ID. This tag allows us to track where the
   bug originated.
+- **Assisted-by:**: If AI is available to assist, this tag can be added.
 - **Envs**: This tag indicates the env of your system.
 - **Vers**: This tag indicates the software/hardware version of your system.
 
