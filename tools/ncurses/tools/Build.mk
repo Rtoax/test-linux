@@ -3,6 +3,8 @@ include ncurses.mk
 target-y += loadavg
 target-y += loadavg.dbg
 
+target-prog-y += examples.sh
+
 loadavg-objs := value.o plot.o ram.o stdin.o
 loadavg.dbg-objs := loadavg.1.o value.o plot.o ram.o stdin.o
 
