@@ -227,8 +227,13 @@ int main(int argc, char *argv[])
 			plot_add(&plot, &lg_ram, NULL);
 		} else
 			plot_add(&plot, &lg_loadavg, NULL);
-	} else
-		plot_add(&plot, &lg_stdin, NULL);
+	} else {
+		struct stdin_arg stdarg = {
+			.nline = 2,
+			.line_buff = data_from_stdin,
+		};
+		plot_add(&plot, &lg_stdin, &stdarg);
+	}
 
 	for_each_lg(&plot, lg)
 	{

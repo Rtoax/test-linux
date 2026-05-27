@@ -78,7 +78,8 @@ struct line *init_line(struct line *l, const char *name, int color)
 {
 	struct line *new = l ?: malloc(sizeof(struct line));
 	memset(new, 0, sizeof(struct line));
-	new->name = name;
+	/* TODO: memleak */
+	new->name = strdup(name);
 	new->color = color;
 	return new;
 }

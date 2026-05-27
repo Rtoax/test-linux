@@ -3,4 +3,9 @@
 #pragma once
 #include "value.h"
 
+struct stdin_arg {
+	int nline;
+	char *line_buff;
+};
+
 extern struct lgroup lg_stdin;
