@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# For make-y
+#
 ifndef _TARGET_MAKE_MK
 _TARGET_MAKE_MK = 1
 

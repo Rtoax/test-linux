@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - rename `target-prog-y` to `prog-y`;
 - rename `target-shell-y` to `shell-y`;
+- rename `target-mk-y` to `make-y`;
 #### Added
 - tty: add read.c;
 - ncurses: add tools/loadavg.c, samples, add `ncurses_helpers`;

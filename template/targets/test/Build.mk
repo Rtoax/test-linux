@@ -13,8 +13,8 @@ SHELL_ARGS_test-env.sh.1 := def
 SHELL_ARGS_test-env.sh.9 := uvw
 SHELL_ARGS_test-env.sh.10 := xyz
 
-target-mk-y += test.mk test.mk.1 test.mk.9 test.mk.10
-target-mk-y += test.mak test.mak.1 test.mak.9 test.mak.10
+make-y += test.mk test.mk.1 test.mk.9 test.mk.10
+make-y += test.mak test.mak.1 test.mak.9 test.mak.10
 ARGS_test.mk := TEST_MK_DEF_1=0
 ARGS_test.mk.1 := TEST_MK_DEF_1=1
 ARGS_test.mk.9 := TEST_MK_DEF_1=9

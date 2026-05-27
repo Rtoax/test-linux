@@ -2,9 +2,9 @@
 include dir.mk
 include os.mk
 
-target-mk-y := $(shell ls *.mak)
-target-mk-y += eval.mak.1
-target-mk-y := $(filter-out included.mak,${target-mk-y})
+make-y := $(shell ls *.mak)
+make-y += eval.mak.1
+make-y := $(filter-out included.mak,${make-y})
 
 ARGS_eval.mk.1 := Rong Tao
 

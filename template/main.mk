@@ -86,7 +86,7 @@ endef
 # see targets/{prog,shell,make,python,bpftrace}.mk
 $(if ${prog-y}, $(eval $(call append_program_target,,prog,,.prog.log)))
 $(if ${shell-y}, $(eval $(call append_program_target,,shell,.sh,.log)))
-$(if ${target-mk-y}, $(eval $(call append_program_target,target-,mk,.mk .mak,.log)))
+$(if ${make-y}, $(eval $(call append_program_target,,make,.mk .mak,.log)))
 $(if ${target-python-y}, $(eval $(call append_program_target,target-,python,.py,.log)))
 $(if ${target-bt-y}, $(eval $(call append_program_target,target-,bt,.bt,.log)))
 
@@ -150,7 +150,7 @@ $(if $(target-htcc-y)$(target-htcc-libso-y)$(target-htcc-liba-y), $(eval include
 $(if $(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y), $(eval include targets/luca.mk))
 $(if $(shell-y), $(eval include targets/shell.mk))
 $(if $(prog-y), $(eval include targets/prog.mk))
-$(if $(target-mk-y), $(eval include targets/make.mk))
+$(if $(make-y), $(eval include targets/make.mk))
 $(if $(target-bt-y), $(eval include targets/bpftrace.mk))
 $(if $(target-python-y), $(eval include targets/python.mk))
 $(if $(target-go-y), $(eval include targets/golang.mk))
