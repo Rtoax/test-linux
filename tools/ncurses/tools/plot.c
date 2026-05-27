@@ -79,7 +79,7 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 	{
 		double span = .0f, diff = .0f;
 
-		if (max == min || max == 0.0) {
+		if (max == min || max == 0.0 || max < min) {
 			diff = 0;
 			span = 1;
 		} else {
@@ -154,8 +154,12 @@ void plot_draw_axes(const struct plot *p)
 static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)
 {
 	double max = 0, min = 9999;
+
+	/* find min and max first */
 	for_each_line(lg, l)
 	{
+		if (l->count <= 0)
+			continue;
 		max = max < l->max->v ? l->max->v : max;
 		min = min > l->min->v ? l->min->v : min;
 	}
@@ -196,7 +200,7 @@ void redraw_screen(const struct plot *p)
 
 	for_each_lg(p, lg)
 	{
-		lg->ops.update(lg, NULL);
+		lg->ops.update(lg, lg->ops.arg);
 	}
 
 	paint_plot(p);

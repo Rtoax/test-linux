@@ -255,7 +255,7 @@ int main(int argc, char *argv[])
 
 	for_each_lg(&plot, lg)
 	{
-		lg->ops.create(lg, NULL);
+		lg->ops.create(lg, lg->ops.arg);
 	}
 
 	plot_update_size(&plot);
