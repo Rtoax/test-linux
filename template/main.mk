@@ -53,42 +53,41 @@ SRC_SFX_LIST ?= $(shell seq 1 1 10)
 # %.1 %.2 %.3 ...
 MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 
-# append_program_target() - add program to build-targets
+# add_prog_log() - add program to build-targets
 #
 # If you want to test a program twice, add a .N suffix to the program, for
 # example: prog-y := a.sh a.sh.1
 #
 # Arguments:
-# $1: target prefix, default: 'target-' for 'target-xxx-y', maybe empty
-# $2: target name, like 'name' in 'target-name-y'
-# $3: target extension, like '.sh' for shell, could be a list
-# $4: log extension, like '.log', '.prog.log'
-define append_program_target
+# $1: target name, like 'name' in 'name-y'
+# $2: target extension, like '.sh' for shell, could be a list
+# $3: log extension, like '.log', '.prog.log'
+define add_prog_log
 # without .N suffix
-${1}${2}-y-orig := $$(filter-out $${MK_TGT_SFX_LIST},$$(${1}${2}-y))
+${1}-y-orig := $$(filter-out $${MK_TGT_SFX_LIST},$$(${1}-y))
 # log with .N suffix
 $$(if ${ext}, \
-  $$(foreach ext, ${3}, \
-    $$(eval ${1}${2}-y-sfx := $$(filter-out $${${1}${2}-y-orig},$$(${1}${2}-y))) \
+  $$(foreach ext, ${2}, \
+    $$(eval ${1}-y-sfx := $$(filter-out $${${1}-y-orig},$$(${1}-y))) \
     $$(foreach sfx, $${SRC_SFX_LIST}, \
-      $$(eval ${1}${2}-y-sfx := $$(patsubst %${ext}.$${sfx},$${OUTPUT}%${ext}${4}.$${sfx},$$(${1}${2}-y-sfx))) \
+      $$(eval ${1}-y-sfx := $$(patsubst %${ext}.$${sfx},$${OUTPUT}%${ext}${3}.$${sfx},$$(${1}-y-sfx))) \
     ) \
   ), \
-  $$(eval ${1}${2}-y-sfx := $$(filter-out $${${1}${2}-y-orig},$$(${1}${2}-y))) \
+  $$(eval ${1}-y-sfx := $$(filter-out $${${1}-y-orig},$$(${1}-y))) \
   $$(foreach sfx, $${SRC_SFX_LIST}, \
-    $$(eval ${1}${2}-y-sfx := $$(patsubst %.$${sfx},$${OUTPUT}%${4}.$${sfx},$$(${1}${2}-y-sfx))) \
+    $$(eval ${1}-y-sfx := $$(patsubst %.$${sfx},$${OUTPUT}%${3}.$${sfx},$$(${1}-y-sfx))) \
   ) \
 )
 # all logs
-build-targets += $$(patsubst %,$${OUTPUT}%${4},$$(${1}${2}-y-orig)) $${${1}${2}-y-sfx}
+build-targets += $$(patsubst %,$${OUTPUT}%${3},$$(${1}-y-orig)) $${${1}-y-sfx}
 endef
 
 # see targets/{prog,shell,make,python,bpftrace}.mk
-$(if ${prog-y}, $(eval $(call append_program_target,,prog,,.prog.log)))
-$(if ${shell-y}, $(eval $(call append_program_target,,shell,.sh,.log)))
-$(if ${make-y}, $(eval $(call append_program_target,,make,.mk .mak,.log)))
-$(if ${python-y}, $(eval $(call append_program_target,,python,.py,.log)))
-$(if ${bpftrace-y}, $(eval $(call append_program_target,,bpftrace,.bt,.log)))
+$(if ${prog-y}, $(eval $(call add_prog_log,prog,,.prog.log)))
+$(if ${shell-y}, $(eval $(call add_prog_log,shell,.sh,.log)))
+$(if ${make-y}, $(eval $(call add_prog_log,make,.mk .mak,.log)))
+$(if ${python-y}, $(eval $(call add_prog_log,python,.py,.log)))
+$(if ${bpftrace-y}, $(eval $(call add_prog_log,bpftrace,.bt,.log)))
 
 ifeq (${KMOD}, y)
   $(if ${__IN_KMOD__}, $(eval build-targets += kmods-build))
