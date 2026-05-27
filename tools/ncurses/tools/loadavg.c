@@ -27,6 +27,7 @@
 #include "value.h"
 #include "ram.h"
 #include "plot.h"
+#include "stdin.h"
 
 const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
 
@@ -216,11 +217,14 @@ int main(int argc, char *argv[])
 
 	init_flavor();
 
-	if (ram) {
-		plot.title = "Memory Usage";
-		plot_add(&plot, &lg_ram);
+	if (datafd == -1) {
+		if (ram) {
+			plot.title = "Memory Usage";
+			plot_add(&plot, &lg_ram);
+		} else
+			plot_add(&plot, &lg_loadavg);
 	} else
-		plot_add(&plot, &lg_loadavg);
+		plot_add(&plot, &lg_stdin);
 
 	for_each_lg(&plot, lg)
 	{
@@ -274,6 +278,7 @@ int main(int argc, char *argv[])
 					   sizeof(data_from_stdin));
 			if (cnt > 0) {
 				/* TODO: parse data and plot */
+				redraw = true;
 			}
 		} else
 			continue;
