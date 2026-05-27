@@ -8,6 +8,13 @@
 #include "plot.h"
 #include "stdin.h"
 
+static char *skip(char *buf)
+{
+	while (*buf != '\0' && isspace(buf[0]))
+		buf++;
+	return buf;
+}
+
 static void __add_line(struct lgroup *lg, int i)
 {
 	char name[64] = { 0 };
@@ -39,9 +46,8 @@ static void stdin_update(struct lgroup *lg, void *arg)
 		return;
 
 	for (i = 0; i < a->nline && *buf != '\0'; i++) {
-		/* skip space first */
-		while (*buf != '\0' && isspace(buf[0]))
-			buf++;
+		buf = skip(buf);
+
 		double v = strtod(buf, &buf);
 		values[i] = v;
 #ifdef DEBUG
@@ -51,9 +57,8 @@ static void stdin_update(struct lgroup *lg, void *arg)
 
 	/* found more values, we could apped new line */
 	while (*buf != '\0') {
-		/* skip space */
-		while (*buf != '\0' && isspace(buf[0]))
-			buf++;
+		buf = skip(buf);
+
 		if (*buf == '\0')
 			break;
 
