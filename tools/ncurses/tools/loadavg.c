@@ -35,6 +35,7 @@ static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
+	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{},
 };
@@ -44,6 +45,7 @@ static char key = ' ';
 static int done = false;
 static int ram = false;
 static int verbose = false;
+static int tmout_sec = -1;
 
 static char data_from_stdin[256];
 
@@ -109,6 +111,13 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	case 'T':
 		plot.title = arg;
 		break;
+	case 't':
+		tmout_sec = atoi(arg);
+		if (tmout_sec <= 0) {
+			fprintf(stderr, "ERROR: bad -t value\n");
+			exit(EXIT_FAILURE);
+		}
+		break;
 	case 'I':
 		plot.interval_sec = atoi(arg);
 		if (plot.interval_sec <= 0) {
@@ -141,7 +150,7 @@ static const struct argp argp = {
 int main(int argc, char *argv[])
 {
 	int maxfd = 0;
-	int timerfd, keyfd, datafd;
+	int timerfd, keyfd, datafd, tmoutfd;
 	int sigpipe[2];
 	fd_set readfds;
 
@@ -161,7 +170,7 @@ int main(int argc, char *argv[])
 	sig_rd_fd = sigpipe[0];
 	sig_wr_fd = sigpipe[1];
 
-	timerfd = keyfd = datafd = -1;
+	tmoutfd = timerfd = keyfd = datafd = -1;
 
 	FD_ZERO(&readfds);
 
@@ -195,12 +204,21 @@ int main(int argc, char *argv[])
 		 * trigger the update.
 		 */
 		timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
-		struct itimerspec tmout = { { plot.interval_sec, 0 },
-					    { plot.interval_sec, 0 } };
-		timerfd_settime(timerfd, 0, &tmout, NULL);
+		struct itimerspec to = { { plot.interval_sec, 0 },
+					 { plot.interval_sec, 0 } };
+		timerfd_settime(timerfd, 0, &to, NULL);
 		FD_SET(timerfd, &readfds);
 		if (maxfd < timerfd)
 			maxfd = timerfd;
+	}
+
+	if (tmout_sec != -1) {
+		tmoutfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
+		struct itimerspec to = { { tmout_sec, 0 }, { tmout_sec, 0 } };
+		timerfd_settime(tmoutfd, 0, &to, NULL);
+		FD_SET(tmoutfd, &readfds);
+		if (maxfd < tmoutfd)
+			maxfd = tmoutfd;
 	}
 
 	FD_SET(sig_rd_fd, &readfds);
@@ -265,6 +283,10 @@ int main(int argc, char *argv[])
 			uint64_t exp;
 			read(timerfd, &exp, sizeof(exp));
 			redraw = true;
+		} else if (ret > 0 && FD_ISSET(tmoutfd, &fds)) {
+			uint64_t exp;
+			read(tmoutfd, &exp, sizeof(exp));
+			goto end;
 		} else if (ret > 0 && FD_ISSET(sig_rd_fd, &fds)) {
 			unsigned char signo;
 			const ssize_t cnt = read(sig_rd_fd, &signo, 1);
@@ -297,6 +319,16 @@ int main(int argc, char *argv[])
 	}
 
 end:
+	if (datafd != -1)
+		close(datafd);
+	if (timerfd != -1)
+		close(timerfd);
+	if (tmoutfd != -1)
+		close(tmoutfd);
+	if (keyfd != STDIN_FILENO && keyfd != -1)
+		close(keyfd);
+	close(sig_rd_fd);
+	close(sig_wr_fd);
 	endwin();
 	return 0;
 }

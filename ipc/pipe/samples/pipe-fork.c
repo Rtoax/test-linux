@@ -20,5 +20,7 @@ int main(void)
 		puts(buf);
 	}
 
+	close(filedes[0]);
+	close(filedes[1]);
 	return 0;
 }

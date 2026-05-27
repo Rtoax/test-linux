@@ -31,5 +31,7 @@ int main(void)
 	write(pipefd[1], buf, 1);
 
 	free(buf);
+	close(pipefd[0]);
+	close(pipefd[1]);
 	return 0;
 }
