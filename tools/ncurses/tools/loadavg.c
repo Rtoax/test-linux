@@ -35,6 +35,8 @@ static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
 	{ "xlabel", 'x', "X LABEL", 0, "Spedify x axis label" },
 	{ "ylabel", 'y', "Y LABEL", 0, "Spedify y axis label" },
+	{ "lname", 'l', "LINE NAME", 0,
+	  "Spedify line names (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
@@ -121,6 +123,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	switch (opt) {
 	case 'T':
 		plot.title = arg;
+		break;
+	case 'l':
+		enqueue_lname(arg);
 		break;
 	case 'x':
 		plot.label_x = arg;

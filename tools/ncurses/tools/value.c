@@ -5,6 +5,30 @@
 #include <string.h>
 #include "value.h"
 
+static char **lnames = NULL;
+static int nr_lnames = 0;
+static int idx_lnames = -1;
+
+/**
+ * Since this program is single-thread, we could set line name with a global
+ * list.
+ */
+int enqueue_lname(const char *name)
+{
+	nr_lnames++;
+	lnames = (char **)realloc(lnames, nr_lnames * sizeof(char *));
+	/* TODO: memleak here */
+	lnames[nr_lnames - 1] = strdup(name);
+	return 0;
+}
+
+const char *dequeue_lname(void)
+{
+	if (nr_lnames <= 0 || idx_lnames >= nr_lnames)
+		return NULL;
+	return lnames[++idx_lnames];
+}
+
 int dequeue_val(struct line *l)
 {
 	if (!l || !l->head)
@@ -70,10 +94,14 @@ int enqueue_val(struct line *l, double v)
 static struct line *__init_line(struct line *l, const char *name, int color)
 {
 	struct line *new = l ?: malloc(sizeof(struct line));
+	const char *arg_name = dequeue_lname();
+
 	memset(new, 0, sizeof(struct line));
-	/* TODO: memleak */
-	new->name = strdup(name);
+
+	/* TODO: memleak here */
+	new->name = arg_name ?: strdup(name);
 	new->color = color;
+
 	return new;
 }
 

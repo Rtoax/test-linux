@@ -44,6 +44,9 @@ struct lgroup {
 	for (struct line *iter = ((struct lgroup *)(lg))->head; iter; \
 	     iter = iter->next)
 
+int enqueue_lname(const char *name);
+const char *dequeue_lname(void);
+
 int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);
 
