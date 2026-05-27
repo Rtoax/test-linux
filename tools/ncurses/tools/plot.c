@@ -57,7 +57,7 @@ void plot_append_val(const struct plot *p, struct line *l, double v)
 	struct timeval now;
 	gettimeofday(&now, NULL);
 
-	/* Only add new loadavg when the time interval is at least 1 second */
+	/* Only add new value when the time interval is at least 1 second */
 	if (l->tail && l->tail->tv.tv_sec == now.tv_sec)
 		return;
 	enqueue_val(l, v);
@@ -82,13 +82,13 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 	attroff(flavor[C_RED] | A_BOLD);
 }
 
-void plot_paint_line(const struct plot *p, struct line *load, const char *label,
+void plot_paint_line(const struct plot *p, struct line *ln, const char *label,
 		     double max, double min, chtype color)
 {
 	int i = 0;
 	int prev_h = -1;
 
-	for_each_value(load, v)
+	for_each_value(ln, v)
 	{
 		double span = .0f, diff = .0f;
 
@@ -102,7 +102,7 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 
 		int h = p->plotheight + BND_TOP - 1 -
 			diff * (p->plotheight - 2) / span;
-		int w = p->plotwidth + BND_LEFT - load->count + i;
+		int w = p->plotwidth + BND_LEFT - ln->count + i;
 		attron(color);
 		mvprintw(h, w, U2501);
 		attroff(color);
@@ -143,8 +143,12 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 		/* set y axis */
 		attron(color);
 		mvprintw(h, 0, "%.3f", v->v);
-		if (i == load->count)
+		if (i == ln->count) {
 			mvprintw(h, w + 1, "%s", label);
+#ifdef DEBUG
+			mvprintw(h + 1, w + 1, "%d", ln->count);
+#endif
+		}
 		attroff(color);
 	}
 }
