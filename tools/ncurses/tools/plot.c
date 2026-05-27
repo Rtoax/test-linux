@@ -70,10 +70,21 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 {
 	int i = 0;
 	int prev_h = -1;
+
 	for_each_value(load, v)
 	{
+		double span = .0f, diff = .0f;
+
+		if (max == min || max == 0.0) {
+			diff = 0;
+			span = 1;
+		} else {
+			diff = v->v - min;
+			span = max - min;
+		}
+
 		int h = p->plotheight + BND_TOP - 1 -
-			(v->v - min) * (p->plotheight - 2) / (max - min);
+			diff * (p->plotheight - 2) / span;
 		int w = p->plotwidth + BND_LEFT - load->count + i;
 		attron(color);
 		mvprintw(h, w, U2501);
