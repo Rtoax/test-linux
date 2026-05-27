@@ -37,3 +37,12 @@ enum {
 #define W_U25B2 L"▲"
 #define W_U25BA L"►"
 #define W_U25C4 L"◄"
+
+#define WCH(W)                                           \
+	({                                               \
+		cchar_t ___wch;                          \
+		setcchar(&___wch, W, A_NORMAL, 0, NULL); \
+		___wch;                                  \
+	})
+
+#define WCH_U2503 WCH(W_U2503)

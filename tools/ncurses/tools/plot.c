@@ -80,15 +80,13 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 		attroff(color);
 
 		/**
-		 * Print the corner, like:
-		 *   ┏━━
-		 * ━━┛
+		 * Print the corner, like: ---+
+		 *                            |
+		 *                            +----
 		 */
 		if (prev_h != -1) {
 			attron(color);
-			const wchar_t *wstr = W_U2503;
-			cchar_t wch_vline;
-			setcchar(&wch_vline, wstr, A_NORMAL, 0, NULL);
+			cchar_t wch_vline = WCH_U2503;
 			if (prev_h > h) {
 				mvprintw(prev_h, w, U251B);
 				mvprintw(h, w, U250F);
