@@ -26,6 +26,7 @@ struct line {
 struct lgroup;
 
 struct lgroup_operations {
+	void *arg; /* pass to every fn */
 	void (*create)(struct lgroup *self, void *arg);
 	void (*update)(struct lgroup *self, void *arg);
 };

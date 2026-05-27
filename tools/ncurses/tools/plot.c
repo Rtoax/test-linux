@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
+#include <assert.h>
 #include <string.h>
 #include "plot.h"
 
 chtype flavor[C_MAX] = { 0 };
 static const char *verstring = "github.com/rtoax/test-linux v1.0.3";
 
-int plot_add(struct plot *p, struct lgroup *lg)
+int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
+	assert(lg->ops.create && "lgroup ops is not set, set it first");
+
 	if (!p->lghead) {
 		p->lghead = lg;
 		p->lgcount = 1;
@@ -17,6 +20,7 @@ int plot_add(struct plot *p, struct lgroup *lg)
 	p->lgcount++;
 	p->lgtail = lg;
 	lg->plot = p;
+	lg->ops.arg = lg_ops_arg;
 	return 0;
 }
 

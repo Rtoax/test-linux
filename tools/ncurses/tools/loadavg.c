@@ -224,11 +224,11 @@ int main(int argc, char *argv[])
 	if (datafd == -1) {
 		if (ram) {
 			plot.title = "Memory Usage";
-			plot_add(&plot, &lg_ram);
+			plot_add(&plot, &lg_ram, NULL);
 		} else
-			plot_add(&plot, &lg_loadavg);
+			plot_add(&plot, &lg_loadavg, NULL);
 	} else
-		plot_add(&plot, &lg_stdin);
+		plot_add(&plot, &lg_stdin, NULL);
 
 	for_each_lg(&plot, lg)
 	{

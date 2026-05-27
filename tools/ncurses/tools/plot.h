@@ -32,7 +32,7 @@ struct plot {
 	for (struct lgroup *iter = ((struct plot *)(plt))->lghead; iter; \
 	     iter = iter->next)
 
-int plot_add(struct plot *p, struct lgroup *lg);
+int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg);
 
 void plot_update_size(struct plot *p);
 void plot_draw_axes(const struct plot *p);
