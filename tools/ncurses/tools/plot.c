@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
 #include <assert.h>
+#include <stdio.h>
 #include <string.h>
 #include "plot.h"
 
@@ -67,6 +68,18 @@ void plot_append_val(const struct plot *p, struct line *l, double v)
 	 */
 	for (int i = p->plotwidth - 2; i < l->count; i++)
 		dequeue_val(l);
+}
+
+void __plot_warning(const struct plot *p, char *fmt, ...)
+{
+	char buff[256];
+	va_list va;
+	va_start(va, fmt);
+	vsnprintf(buff, 256, fmt, va);
+	va_end(va);
+	attron(flavor[C_RED] | A_BOLD);
+	mvaddstr(p->height / 2, (p->width - strlen(buff)) / 2, buff);
+	attroff(flavor[C_RED] | A_BOLD);
 }
 
 void plot_paint_line(const struct plot *p, struct line *load, const char *label,

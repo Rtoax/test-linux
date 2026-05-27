@@ -2,6 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
 #include <ncurses.h>
+#include <stdarg.h>
 #include "config.h"
 #include "value.h"
 
@@ -31,6 +32,9 @@ struct plot {
 #define for_each_lg(plt, iter)                                           \
 	for (struct lgroup *iter = ((struct plot *)(plt))->lghead; iter; \
 	     iter = iter->next)
+
+#define plot_warning(p, fmt...) __plot_warning(p, fmt)
+void __plot_warning(const struct plot *p, char *fmt, ...);
 
 int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg);
 

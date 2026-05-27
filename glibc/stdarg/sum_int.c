@@ -22,4 +22,3 @@ int main(void)
 	printf("%d\n", add_em_up(10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
 	return 0;
 }
-
