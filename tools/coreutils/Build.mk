@@ -1,1 +1,1 @@
-target-prog-y += expr.sh
+prog-y += expr.sh

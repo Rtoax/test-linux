@@ -1,3 +1,3 @@
 subdir-y := samples
 
-target-prog-y := check.sh
+prog-y := check.sh

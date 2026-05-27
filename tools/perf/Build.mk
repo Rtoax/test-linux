@@ -1,3 +1,3 @@
 subdir-y := list
 
-target-prog-y := tplist.sh
+prog-y := tplist.sh

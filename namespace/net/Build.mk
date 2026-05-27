@@ -1,2 +1,2 @@
 subdir-y := ip
-target-prog-y := unshare.sh
+prog-y := unshare.sh

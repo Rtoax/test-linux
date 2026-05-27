@@ -1,1 +1,1 @@
-target-prog-y += log.sh
+prog-y += log.sh

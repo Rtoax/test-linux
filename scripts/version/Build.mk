@@ -4,17 +4,17 @@ include helpers.mk
 
 target-${HAVE_JSON_C} += config
 
-target-prog-y += version.sh version.sh.1 version.sh.2 version.sh.3 version.sh.4
-target-prog-y += version.sh.5 version.sh.6
-target-prog-y += linux.sh
-target-prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
-target-prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
-target-prog-y += uefi.sh uefi.sh.1 uefi.sh.2 uefi.sh.3
-target-prog-y += distro.sh distro.sh.1
+prog-y += version.sh version.sh.1 version.sh.2 version.sh.3 version.sh.4
+prog-y += version.sh.5 version.sh.6
+prog-y += linux.sh
+prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
+prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
+prog-y += uefi.sh uefi.sh.1 uefi.sh.2 uefi.sh.3
+prog-y += distro.sh distro.sh.1
 
 # $1: script name without ext
 define test_mmp
-target-prog-y += ${1}.sh ${1}.sh.1 ${1}.sh.2 ${1}.sh.3 ${1}.sh.4 ${1}.sh.5
+prog-y += ${1}.sh ${1}.sh.1 ${1}.sh.2 ${1}.sh.3 ${1}.sh.4 ${1}.sh.5
 PROG_ARGS_${1}.sh.1 := --major
 PROG_ARGS_${1}.sh.2 := --minor
 PROG_ARGS_${1}.sh.3 := --patchlevel

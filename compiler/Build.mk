@@ -25,6 +25,6 @@ target-y += __GNUC__
 target-y += __GNUC_PREREQ
 target-y += __VERSION__
 
-target-prog-y := info.sh
+prog-y := info.sh
 
 target-prep-y := $(CC)-macros.h

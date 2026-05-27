@@ -1,4 +1,4 @@
 subdir-y := random
 
 target-y := osrelease
-target-prog-y := osrelease.sh
+prog-y := osrelease.sh

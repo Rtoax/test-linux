@@ -1,1 +1,1 @@
-target-prog-y := ether.sh
+prog-y := ether.sh

@@ -16,7 +16,7 @@ target-y += malloc_usable_size
 target-y += memalign
 target-y += pvalloc
 
-target-prog-y := list-tunables.sh
+prog-y := list-tunables.sh
 
 mallinfo-objs := malloc_helpers.o
 malloc_trim-objs := malloc_helpers.o

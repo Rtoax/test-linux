@@ -24,10 +24,10 @@ ARGS_test.mak.1 := TEST_MAK_DEF_1=1
 ARGS_test.mak.9 := TEST_MAK_DEF_1=9
 ARGS_test.mak.10 := TEST_MAK_DEF_1=10
 
-target-prog-y += test-env.sh
-target-prog-y += test-env.sh.1
-target-prog-y += test-env.sh.2
-target-prog-y += test-args.sh
+prog-y += test-env.sh
+prog-y += test-env.sh.1
+prog-y += test-env.sh.2
+prog-y += test-args.sh
 
 PROG_ENVS_test-env.sh := -e TEST_LINUX_TEMPLATE_TARGETS_SHELL_ENV=rtoax
 PROG_ENVS_test-env.sh.1 := ${PROG_ENVS_test-env.sh}

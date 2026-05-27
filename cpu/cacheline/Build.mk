@@ -1,1 +1,1 @@
-target-prog-y := cacheinfo.sh
+prog-y := cacheinfo.sh

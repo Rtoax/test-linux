@@ -1,3 +1,3 @@
 subdir-y := tracepoint
 
-target-prog-y := list.sh
+prog-y := list.sh

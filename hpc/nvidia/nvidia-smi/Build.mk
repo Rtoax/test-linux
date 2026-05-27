@@ -1,1 +1,1 @@
-target-prog-y := $(shell ls *.sh)
+prog-y := $(shell ls *.sh)

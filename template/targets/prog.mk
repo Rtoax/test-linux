@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
+# For prog-y
+#
 # Input definitions:
 # - PROG_ENVS_*=--env ENV=V
 # - PROG_ARGS_*=

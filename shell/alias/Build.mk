@@ -1,1 +1,1 @@
-target-prog-y := uname.sh
+prog-y := uname.sh

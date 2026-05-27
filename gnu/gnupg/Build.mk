@@ -1,1 +1,1 @@
-target-prog-y := list-keys.sh
+prog-y := list-keys.sh

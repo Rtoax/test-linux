@@ -23,8 +23,8 @@ obj-s-o += R_X86_64_PLTOFF64.s.o
 
 target-prep-y := $(patsubst %,${OUTPUT}%, ${obj-o} ${obj-s-o})
 
-target-prog-y := R_X86_64_64.sh
-target-prog-y += R_X86_64_PC32.sh
+prog-y := R_X86_64_64.sh
+prog-y += R_X86_64_PC32.sh
 
 PROG_ARGS_R_X86_64_64.sh := ${OUTPUT}
 PROG_ARGS_R_X86_64_PC32.sh := ${OUTPUT}

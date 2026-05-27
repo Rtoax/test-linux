@@ -1,3 +1,3 @@
 target-y := driver-version
 
-target-prog-y := driver-version.sh
+prog-y := driver-version.sh

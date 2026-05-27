@@ -1,1 +1,1 @@
-target-prog-y += bgsave.sh
+prog-y += bgsave.sh

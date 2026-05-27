@@ -1,5 +1,5 @@
-target-prog-y += newline.sh
-target-prog-y += prefix.sh
-target-prog-y += replace.sh
-target-prog-y += string.sh
-target-prog-y += uppercase.sh
+prog-y += newline.sh
+prog-y += prefix.sh
+prog-y += replace.sh
+prog-y += string.sh
+prog-y += uppercase.sh

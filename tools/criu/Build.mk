@@ -3,7 +3,7 @@ include kconfig.mk
 
 $(info CONFIG_CHECKPOINT_RESTORE = $(CONFIG_CHECKPOINT_RESTORE))
 
-target-prog-y := check.sh
+prog-y := check.sh
 
 CFLAGS += -pthread
 

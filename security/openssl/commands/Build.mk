@@ -1,5 +1,5 @@
 # $(shell find -name '*.sh' -perm -u=x)
-target-prog-y += base64.sh
-target-prog-y += genras.sh
-target-prog-y += rand.sh
-target-prog-y += req.sh
+prog-y += base64.sh
+prog-y += genras.sh
+prog-y += rand.sh
+prog-y += req.sh

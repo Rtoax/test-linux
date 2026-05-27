@@ -1,1 +1,1 @@
-target-prog-y := compile.sh
+prog-y := compile.sh

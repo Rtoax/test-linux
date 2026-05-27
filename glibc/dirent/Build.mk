@@ -9,4 +9,4 @@ target-y += fdopendir
 target-y += listdir
 target-y += remove_dir
 
-target-prog-y := remove_dir.sh
+prog-y := remove_dir.sh

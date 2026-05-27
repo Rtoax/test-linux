@@ -1,1 +1,1 @@
-target-prog-y := minimal-example.sh
+prog-y := minimal-example.sh

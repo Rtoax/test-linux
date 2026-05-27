@@ -1,3 +1,3 @@
-target-prog-y := check.sh
+prog-y := check.sh
 target-y := aesdec
 CFLAGS := -maes

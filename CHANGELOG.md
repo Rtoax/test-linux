@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- rename `target-prog-y` to `prog-y`;
 #### Added
 - tty: add read.c;
 - ncurses: add tools/loadavg.c, samples, add `ncurses_helpers`;

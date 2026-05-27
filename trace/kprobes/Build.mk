@@ -1,4 +1,4 @@
 subdir-y += modules
 
-target-prog-y += list-kprobes.sh
-target-prog-y += list-kprobing.sh
+prog-y += list-kprobes.sh
+prog-y += list-kprobing.sh

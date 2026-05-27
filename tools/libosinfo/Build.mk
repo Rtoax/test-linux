@@ -1,1 +1,1 @@
-target-prog-y := osinfo-query.sh
+prog-y := osinfo-query.sh

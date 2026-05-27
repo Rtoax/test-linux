@@ -1,2 +1,2 @@
 # SPDX-License-Identifier: GPL-3.0
-target-prog-y := ps.sh
+prog-y := ps.sh

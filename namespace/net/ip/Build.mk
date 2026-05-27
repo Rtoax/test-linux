@@ -1,1 +1,1 @@
-target-prog-y := ping.sh
+prog-y := ping.sh

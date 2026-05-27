@@ -20,7 +20,7 @@ target-libso-cpp-y += AnnotateFunctions.so
 target-libso-cpp-y += Attribute.so
 target-libso-cpp-y += pid.so
 
-target-prog-y := test-plugins.sh
+prog-y := test-plugins.sh
 
 PrintFunctionNames.so-objs := PrintFunctionNames.cpp.so.o
 AnnotateFunctions.so-objs := AnnotateFunctions.cpp.so.o

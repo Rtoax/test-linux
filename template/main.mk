@@ -56,7 +56,7 @@ MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 # append_program_target() - add program to build-targets
 #
 # If you want to test a program twice, add a .N suffix to the program, for
-# example: target-prog-y := a.sh a.sh.1
+# example: prog-y := a.sh a.sh.1
 #
 # Arguments:
 # $1: target prefix, default: 'target-' for 'target-shell-y', maybe empty
@@ -84,7 +84,7 @@ build-targets += $$(patsubst %,$${OUTPUT}%${4},$$(${1}${2}-y-orig)) $${${1}${2}-
 endef
 
 # see targets/{prog,shell,make,python,bpftrace}.mk
-$(if ${target-prog-y}, $(eval $(call append_program_target,target-,prog,,.prog.log)))
+$(if ${prog-y}, $(eval $(call append_program_target,,prog,,.prog.log)))
 $(if ${target-shell-y}, $(eval $(call append_program_target,target-,shell,.sh,.log)))
 $(if ${target-mk-y}, $(eval $(call append_program_target,target-,mk,.mk .mak,.log)))
 $(if ${target-python-y}, $(eval $(call append_program_target,target-,python,.py,.log)))
@@ -149,7 +149,7 @@ $(if $(target-hipcc-y)$(target-hipcc-libso-y)$(target-hipcc-liba-y), $(eval incl
 $(if $(target-htcc-y)$(target-htcc-libso-y)$(target-htcc-liba-y), $(eval include targets/hpcc.mk))
 $(if $(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y), $(eval include targets/luca.mk))
 $(if $(target-shell-y), $(eval include targets/shell.mk))
-$(if $(target-prog-y), $(eval include targets/prog.mk))
+$(if $(prog-y), $(eval include targets/prog.mk))
 $(if $(target-mk-y), $(eval include targets/make.mk))
 $(if $(target-bt-y), $(eval include targets/bpftrace.mk))
 $(if $(target-python-y), $(eval include targets/python.mk))

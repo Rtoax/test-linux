@@ -1,1 +1,1 @@
-target-prog-y := hello.sh
+prog-y := hello.sh

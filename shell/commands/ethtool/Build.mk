@@ -1,1 +1,1 @@
-target-prog-y := base.sh
+prog-y := base.sh

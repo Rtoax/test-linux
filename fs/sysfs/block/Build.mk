@@ -1,1 +1,1 @@
-target-prog-y := stat.sh
+prog-y := stat.sh

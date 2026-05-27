@@ -1,2 +1,2 @@
 subdir-y := samples
-target-prog-y := README.sh
+prog-y := README.sh

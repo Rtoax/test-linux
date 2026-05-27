@@ -11,7 +11,7 @@ target-y += get_cursor_position
 cfmakeraw-objs := termios_helpers.o
 tcgetattr-objs := termios_helpers.o
 
-target-prog-y := tcsetattr.sh
+prog-y := tcsetattr.sh
 
 CFLAGS += -I../../../
 LDFLAGS += -lm

@@ -5,5 +5,5 @@ subdir-y += driver
 subdir-y += nccl
 subdir-${HAVE_NVIDIA_GPU} += nvidia-smi
 
-target-prog-y := gpuinfo.sh
-target-prog-y += gpuname.sh
+prog-y := gpuinfo.sh
+prog-y += gpuname.sh

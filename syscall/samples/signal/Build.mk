@@ -24,7 +24,7 @@ target-y += sigprocmask
 target-y += signalfd
 
 target-prep-y := sig.h
-target-prog-y := sigpending.sh
+prog-y := sigpending.sh
 
 sigaddset-objs := ${TLC_HELPERS}
 

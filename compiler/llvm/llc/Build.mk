@@ -1,2 +1,2 @@
-target-prog-y += bpf.sh
-target-prog-y += dwarfris.sh
+prog-y += bpf.sh
+prog-y += dwarfris.sh

@@ -1,1 +1,1 @@
-target-prog-y := mount.sh
+prog-y := mount.sh

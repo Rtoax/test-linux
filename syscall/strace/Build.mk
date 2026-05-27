@@ -1,3 +1,3 @@
-target-prog-y += count.sh
-target-prog-y += time.sh
-target-prog-y += trace.sh
+prog-y += count.sh
+prog-y += time.sh
+prog-y += trace.sh

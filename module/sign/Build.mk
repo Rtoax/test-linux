@@ -1,2 +1,2 @@
-target-prog-y += keys.sh
-target-prog-y += openssl.sh
+prog-y += keys.sh
+prog-y += openssl.sh

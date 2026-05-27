@@ -1,1 +1,1 @@
-target-prog-y += features.sh
+prog-y += features.sh

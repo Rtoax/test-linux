@@ -1,1 +1,1 @@
-target-prog-y := chrt.sh
+prog-y := chrt.sh

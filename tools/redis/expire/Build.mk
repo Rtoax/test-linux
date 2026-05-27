@@ -1,1 +1,1 @@
-target-prog-y += expire.sh
+prog-y += expire.sh

@@ -65,7 +65,7 @@ target-y += cond-demo1 cond-demo2 cond-demo3-latency
 target-${IS_X86_64} += mutex_latency
 target-y += taskset_example
 
-target-prog-y += create create.1
+prog-y += create create.1
 
 PROG_ARGS_create := tout=1
 PROG_ARGS_create.1 := tout=1 nr=10

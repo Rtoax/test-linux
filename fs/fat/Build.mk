@@ -1,1 +1,1 @@
-target-prog-y := mkfs.fat.sh
+prog-y := mkfs.fat.sh

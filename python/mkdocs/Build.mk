@@ -1,1 +1,1 @@
-target-prog-y := build.sh
+prog-y := build.sh

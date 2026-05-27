@@ -15,4 +15,4 @@ subdir-y += split
 subdir-y += ssh-keygen
 subdir-y += stat
 
-target-prog-y := tr.sh
+prog-y := tr.sh

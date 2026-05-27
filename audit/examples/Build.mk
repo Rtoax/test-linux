@@ -1,2 +1,2 @@
-target-prog-y := file.sh
-target-prog-y += syscall.sh
+prog-y := file.sh
+prog-y += syscall.sh

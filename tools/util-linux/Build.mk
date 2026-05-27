@@ -1,1 +1,1 @@
-target-prog-y += getopt.sh
+prog-y += getopt.sh

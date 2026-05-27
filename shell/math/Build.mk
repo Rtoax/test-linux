@@ -1,2 +1,2 @@
-target-prog-y := fact.sh
-target-prog-y += pi.sh
+prog-y := fact.sh
+prog-y += pi.sh

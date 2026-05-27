@@ -9,5 +9,5 @@ subdir-y += nvDSO
 subdir-y += vvar
 
 target-prep-y += ${VDSO_NAME}
-target-prog-y += dump.sh
-target-prog-y += layout.sh
+prog-y += dump.sh
+prog-y += layout.sh

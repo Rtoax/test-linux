@@ -1,1 +1,1 @@
-target-prog-y := mkfs.xfs.sh
+prog-y := mkfs.xfs.sh

@@ -1,1 +1,1 @@
-target-prog-y += smbios-sys-info.sh
+prog-y += smbios-sys-info.sh

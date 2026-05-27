@@ -1,1 +1,1 @@
-target-prog-y := scheduler.sh
+prog-y := scheduler.sh

@@ -1,1 +1,1 @@
-target-prog-y := cmd
+prog-y := cmd

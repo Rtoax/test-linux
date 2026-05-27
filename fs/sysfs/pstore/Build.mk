@@ -1,2 +1,2 @@
 # pstore: Persistent Storage
-target-prog-y += info.sh
+prog-y += info.sh

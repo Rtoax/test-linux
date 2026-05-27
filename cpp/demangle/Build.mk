@@ -1,1 +1,1 @@
-target-prog-y := filt.sh
+prog-y := filt.sh

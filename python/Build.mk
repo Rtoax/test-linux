@@ -5,7 +5,7 @@ subdir-y += os
 subdir-y += sys
 subdir-y += zlib
 
-target-prog-y := calendar.sh
+prog-y := calendar.sh
 
 target-python-y := hexdump.py
 target-python-y += listdir.py

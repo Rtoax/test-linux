@@ -1,1 +1,1 @@
-target-prog-y := rsa.sh
+prog-y := rsa.sh

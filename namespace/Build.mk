@@ -11,8 +11,8 @@ subdir-y += syscalls
 subdir-y += nsfs
 subdir-y += cgroup
 
-target-prog-y += info.sh
-target-prog-y += info.sh.1
+prog-y += info.sh
+prog-y += info.sh.1
 
 PROG_ARGS_info.sh := ps
 PROG_ARGS_info.sh.1 := detail

@@ -11,6 +11,6 @@ subdir-y += sign
 subdir-y += symbol
 subdir-y += version
 
-target-prog-y += alias.sh
-target-prog-y += builtin.sh
-target-prog-y += info.sh
+prog-y += alias.sh
+prog-y += builtin.sh
+prog-y += info.sh

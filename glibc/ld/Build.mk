@@ -1,1 +1,1 @@
-target-prog-y := ldd.sh
+prog-y := ldd.sh

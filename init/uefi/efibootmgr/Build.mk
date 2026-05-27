@@ -1,1 +1,1 @@
-target-prog-y += efibootmgr.sh
+prog-y += efibootmgr.sh

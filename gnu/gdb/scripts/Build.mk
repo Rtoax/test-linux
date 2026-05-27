@@ -1,1 +1,1 @@
-target-prog-y := list_uprobes.sh
+prog-y := list_uprobes.sh

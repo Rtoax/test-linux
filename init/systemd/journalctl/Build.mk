@@ -1,1 +1,1 @@
-target-prog-y := journalctl.sh
+prog-y := journalctl.sh

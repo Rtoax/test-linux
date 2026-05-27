@@ -1,4 +1,4 @@
-target-prog-y := f2blk.sh
-target-prog-y += lsblk.sh
+prog-y := f2blk.sh
+prog-y += lsblk.sh
 
 target-y := open

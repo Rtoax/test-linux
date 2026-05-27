@@ -1,1 +1,1 @@
-target-prog-y := acpi.sh
+prog-y := acpi.sh

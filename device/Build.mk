@@ -8,6 +8,6 @@ subdir-y += tty
 target-y += cpu_dma_latency
 target-y += random
 
-target-prog-y += pty.sh
-target-prog-y += query.sh
-target-prog-y += random.sh
+prog-y += pty.sh
+prog-y += query.sh
+prog-y += random.sh

@@ -1,2 +1,2 @@
 subdir-y += samples
-target-prog-y += dwarfdump.sh
+prog-y += dwarfdump.sh

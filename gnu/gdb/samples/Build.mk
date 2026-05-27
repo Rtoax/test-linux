@@ -11,7 +11,7 @@ target-cpp-y := global-var
 
 target-prep-y := hello.strip
 
-target-prog-y := $(shell ls *.sh)
+prog-y := $(shell ls *.sh)
 
 CFLAGS += -O0 -ggdb
 LDFLAGS += -pthread

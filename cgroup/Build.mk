@@ -7,4 +7,4 @@ subdir-y += tools
 subdir-${CGROUP_V1} += v1
 subdir-${CGROUP_V2} += v2
 
-target-prog-y := info.sh
+prog-y := info.sh

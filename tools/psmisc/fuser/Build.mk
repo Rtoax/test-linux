@@ -1,3 +1,3 @@
-target-prog-y += exe.sh
-target-prog-y += mount.sh
-target-prog-y += rw.sh
+prog-y += exe.sh
+prog-y += mount.sh
+prog-y += rw.sh

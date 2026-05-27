@@ -1,1 +1,1 @@
-target-prog-y += decompress.py
+prog-y += decompress.py

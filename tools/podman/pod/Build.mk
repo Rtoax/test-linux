@@ -1,1 +1,1 @@
-target-prog-y += pod.sh
+prog-y += pod.sh

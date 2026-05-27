@@ -1,2 +1,2 @@
-target-prog-y := boot_id.sh
-target-prog-y += uuid.sh
+prog-y := boot_id.sh
+prog-y += uuid.sh
