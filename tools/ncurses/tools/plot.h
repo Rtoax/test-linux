@@ -22,6 +22,8 @@
 
 struct plot {
 	char *title;
+	char *label_x;
+	char *label_y;
 	int height, width;
 	int plotheight, plotwidth;
 	int interval_sec;

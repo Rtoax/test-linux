@@ -159,9 +159,16 @@ void plot_draw_axes(const struct plot *p)
 	mvhline(p->plotheight + BND_TOP, BND_LEFT, T_HLINE, p->plotwidth);
 	mvvline(BND_TOP, BND_LEFT, T_VLINE, p->plotheight);
 	mvaddch(p->plotheight + BND_TOP, BND_LEFT, T_LLCR);
+
 	mvaddch(BND_TOP, BND_LEFT, T_UARR);
 	mvprintw(BND_TOP, BND_LEFT, U25B2);
+	if (p->label_y)
+		mvaddstr(BND_TOP - 1, BND_LEFT, p->label_y);
+
 	mvprintw(p->plotheight + BND_TOP, p->plotwidth + BND_LEFT, U25BA);
+	if (p->label_x)
+		mvaddstr(p->plotheight + BND_TOP + 1, p->plotwidth + BND_LEFT,
+			 p->label_x);
 }
 
 static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)

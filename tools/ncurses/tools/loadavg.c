@@ -33,6 +33,8 @@ const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
 
 static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
+	{ "xlabel", 'x', "X LABEL", 0, "Spedify x axis label" },
+	{ "ylabel", 'y', "Y LABEL", 0, "Spedify y axis label" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
@@ -119,6 +121,12 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	switch (opt) {
 	case 'T':
 		plot.title = arg;
+		break;
+	case 'x':
+		plot.label_x = arg;
+		break;
+	case 'y':
+		plot.label_y = arg;
 		break;
 	case 't':
 		tmout_sec = atoi(arg);
@@ -251,9 +259,13 @@ int main(int argc, char *argv[])
 	if (datafd == -1) {
 		if (ram) {
 			plot.title = plot.title ?: "Memory Usage";
+			plot.label_x = plot.label_x ?: "Time";
+			plot.label_y = plot.label_y ?: "Size(MB)";
 			plot_add(&plot, &lg_ram, NULL);
 		} else {
 			plot.title = plot.title ?: "Loadavg";
+			plot.label_x = plot.label_x ?: "Time";
+			plot.label_y = plot.label_y ?: "Load";
 			plot_add(&plot, &lg_loadavg, NULL);
 		}
 	} else {
@@ -262,6 +274,8 @@ int main(int argc, char *argv[])
 			.line_buff = data_from_stdin,
 		};
 		plot.title = plot.title ?: "stdin";
+		plot.label_x = plot.label_x ?: "Time";
+		plot.label_y = plot.label_y ?: "Value";
 		plot_add(&plot, &lg_stdin, &stdarg);
 	}
 

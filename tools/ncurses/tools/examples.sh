@@ -15,16 +15,16 @@ trap sigint INT
 # display the loadavg
 while sleep .2; do
 	awk '{print $1, $2, $3}' /proc/loadavg
-done | ./loadavg -t ${tmout} --title 'Loadavg'
+done | ./loadavg -t ${tmout} --title 'Loadavg' --xlabel 'Time' --ylabel 'Load'
 
 # display the memory usage
 while sleep .2; do
 	free -m | grep ^Mem | awk '{print $2, $3, $4, $5, $6, $7}'
-done | ./loadavg -t ${tmout} --title 'Memory Usage'
+done | ./loadavg -t ${tmout} --title 'Memory Usage' --xlabel 'Time' --ylabel 'Size(MB)'
 
 # display the process number
 while sleep .2; do
 	ls /proc/ | grep -E '[0-9]+' | wc -w
-done | ./loadavg -t ${tmout} --title 'Process Number'
+done | ./loadavg -t ${tmout} --title 'Process Number' --xlabel 'Time' --ylabel 'Number'
 
 echo "Byebye"
