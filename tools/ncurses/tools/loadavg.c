@@ -94,9 +94,13 @@ static void loadavg_update(struct lgroup *lg, void *arg)
 #endif
 }
 
-struct lgroup lg_loadavg = {
-	.ops.create = loadavg_create,
-	.ops.update = loadavg_update,
+static const struct lgroup_operations loadavg_ops = {
+	.create = loadavg_create,
+	.update = loadavg_update,
+};
+
+static struct lgroup lg_loadavg = {
+	.ops = loadavg_ops,
 };
 
 static error_t parse_arg(int opt, char *arg, struct argp_state *state)

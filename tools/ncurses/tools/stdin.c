@@ -13,7 +13,11 @@ static void stdin_update(struct lgroup *lg, void *arg)
 {
 }
 
+static const struct lgroup_operations stdin_ops = {
+	.create = stdin_create,
+	.update = stdin_update,
+};
+
 struct lgroup lg_stdin = {
-	.ops.create = stdin_create,
-	.ops.update = stdin_update,
+	.ops = stdin_ops,
 };
