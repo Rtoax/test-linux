@@ -59,8 +59,8 @@ MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 # example: prog-y := a.sh a.sh.1
 #
 # Arguments:
-# $1: target prefix, default: 'target-' for 'target-python-y', maybe empty
-# $2: target name, like 'python' in 'target-python-y'
+# $1: target prefix, default: 'target-' for 'target-xxx-y', maybe empty
+# $2: target name, like 'name' in 'target-name-y'
 # $3: target extension, like '.sh' for shell, could be a list
 # $4: log extension, like '.log', '.prog.log'
 define append_program_target
@@ -87,7 +87,7 @@ endef
 $(if ${prog-y}, $(eval $(call append_program_target,,prog,,.prog.log)))
 $(if ${shell-y}, $(eval $(call append_program_target,,shell,.sh,.log)))
 $(if ${make-y}, $(eval $(call append_program_target,,make,.mk .mak,.log)))
-$(if ${target-python-y}, $(eval $(call append_program_target,target-,python,.py,.log)))
+$(if ${python-y}, $(eval $(call append_program_target,,python,.py,.log)))
 $(if ${target-bt-y}, $(eval $(call append_program_target,target-,bt,.bt,.log)))
 
 ifeq (${KMOD}, y)
@@ -152,7 +152,7 @@ $(if $(shell-y), $(eval include targets/shell.mk))
 $(if $(prog-y), $(eval include targets/prog.mk))
 $(if $(make-y), $(eval include targets/make.mk))
 $(if $(target-bt-y), $(eval include targets/bpftrace.mk))
-$(if $(target-python-y), $(eval include targets/python.mk))
+$(if $(python-y), $(eval include targets/python.mk))
 $(if $(target-go-y), $(eval include targets/golang.mk))
 $(if $(target-java-y), $(eval include targets/java.mk))
 ifeq (${KMOD}, y)

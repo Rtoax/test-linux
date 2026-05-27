@@ -1,1 +1,1 @@
-target-python-y := main.py
+python-y := main.py

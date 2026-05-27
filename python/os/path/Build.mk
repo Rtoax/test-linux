@@ -1,1 +1,1 @@
-target-python-y := getmtime.py
+python-y := getmtime.py

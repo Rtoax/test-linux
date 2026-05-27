@@ -7,7 +7,7 @@ subdir-y += zlib
 
 prog-y := calendar.sh
 
-target-python-y := hexdump.py
-target-python-y += listdir.py
-target-python-y += print.py
-target-python-y += split.py
+python-y := hexdump.py
+python-y += listdir.py
+python-y += print.py
+python-y += split.py

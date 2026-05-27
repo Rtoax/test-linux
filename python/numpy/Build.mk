@@ -1,2 +1,2 @@
-target-python-y := np.random.py
-target-python-y += np.linspace.py
+python-y := np.random.py
+python-y += np.linspace.py

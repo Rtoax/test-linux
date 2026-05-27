@@ -1,28 +1,28 @@
 # Creative
-target-python-y += abstract-factory.py
-target-python-y += builder.py
-target-python-y += factory-method.py
-target-python-y += prototype.py
-target-python-y += singletion.py
+python-y += abstract-factory.py
+python-y += builder.py
+python-y += factory-method.py
+python-y += prototype.py
+python-y += singletion.py
 
 # Structural
-target-python-y += adapter.py
-target-python-y += bridge.py
-target-python-y += composite.py
-target-python-y += decorator.py
-target-python-y += facade.py
-target-python-y += flyweight.py
-target-python-y += proxy.py
+python-y += adapter.py
+python-y += bridge.py
+python-y += composite.py
+python-y += decorator.py
+python-y += facade.py
+python-y += flyweight.py
+python-y += proxy.py
 
 # Behavioral
-target-python-y += memento.py
-target-python-y += observer.py
-target-python-y += state.py
-target-python-y += strategy.py
-target-python-y += template-method.py
-target-python-y += visitor.py
-target-python-y += chain-of-responsibility.py
-target-python-y += command.py
-target-python-y += interpreter.py
-target-python-y += iterator.py
-target-python-y += mediator.py
+python-y += memento.py
+python-y += observer.py
+python-y += state.py
+python-y += strategy.py
+python-y += template-method.py
+python-y += visitor.py
+python-y += chain-of-responsibility.py
+python-y += command.py
+python-y += interpreter.py
+python-y += iterator.py
+python-y += mediator.py

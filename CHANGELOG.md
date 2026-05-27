@@ -13,6 +13,7 @@ and this project adheres to
 - rename `target-prog-y` to `prog-y`;
 - rename `target-shell-y` to `shell-y`;
 - rename `target-mk-y` to `make-y`;
+- rename `target-python-y` to `python-y`;
 #### Added
 - tty: add read.c;
 - ncurses: add tools/loadavg.c, samples, add `ncurses_helpers`;

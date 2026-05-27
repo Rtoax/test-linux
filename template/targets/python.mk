@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# For python-y
+#
 ifndef _TARGET_PYTHON_MK
 _TARGET_PYTHON_MK = 1
 
