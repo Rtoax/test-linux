@@ -147,6 +147,8 @@ void plot_paint_line(const struct plot *p, struct line *ln, const char *label,
 			mvprintw(h, w + 1, "%s", label);
 #ifdef DEBUG
 			mvprintw(h + 1, w + 1, "%d", ln->count);
+			mvprintw(h + 2, w + 1, "%.1f", ln->min->v);
+			mvprintw(h + 3, w + 1, "%.1f", ln->max->v);
 #endif
 		}
 		attroff(color);
