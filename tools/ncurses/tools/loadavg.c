@@ -250,6 +250,7 @@ int main(int argc, char *argv[])
 			.nline = 2,
 			.line_buff = data_from_stdin,
 		};
+		plot.title = "stdin";
 		plot_add(&plot, &lg_stdin, &stdarg);
 	}
 
