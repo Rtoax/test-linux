@@ -1,1 +1,1 @@
-target-bt-y := console_printk.bt
+bpftrace-y := console_printk.bt

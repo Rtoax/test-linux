@@ -14,6 +14,7 @@ and this project adheres to
 - rename `target-shell-y` to `shell-y`;
 - rename `target-mk-y` to `make-y`;
 - rename `target-python-y` to `python-y`;
+- rename `target-bt-y` to `bpftrace-y`;
 #### Added
 - tty: add read.c;
 - ncurses: add tools/loadavg.c, samples, add `ncurses_helpers`;

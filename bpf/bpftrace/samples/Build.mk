@@ -2,23 +2,23 @@ include bpf/bpftrace.mk
 
 subdir-y += struct
 
-target-bt-y += arithmetic.bt
-target-bt-y += begin.bt
-target-bt-$(call bpftrace_gt,0,20,2) += begin-multi.bt
-target-bt-y += c-preprocessor.bt
-target-bt-y += config.bt
-target-bt-$(call bpftrace_gt,0,21,0) += getopt.bt getopt.bt.1 getopt.bt.9 getopt.bt.10
-target-bt-$(call bpftrace_gt,0,20,2) += import.bt
-target-bt-y += parent.bt
-target-bt-$(call bpftrace_gt,0,20,2) += pcomm.bt
-target-bt-$(call bpftrace_ge,0,25,0) += signal_name.bt
-target-bt-$(call bpftrace_gt,0,20,2) += strerror.bt
-target-bt-y += syscall_name.bt
-target-bt-$(call bpftrace_gt,0,20,2) += return.bt
-target-bt-y += ustack.bt
-target-bt-y += unroll.bt
+bpftrace-y += arithmetic.bt
+bpftrace-y += begin.bt
+bpftrace-$(call bpftrace_gt,0,20,2) += begin-multi.bt
+bpftrace-y += c-preprocessor.bt
+bpftrace-y += config.bt
+bpftrace-$(call bpftrace_gt,0,21,0) += getopt.bt getopt.bt.1 getopt.bt.9 getopt.bt.10
+bpftrace-$(call bpftrace_gt,0,20,2) += import.bt
+bpftrace-y += parent.bt
+bpftrace-$(call bpftrace_gt,0,20,2) += pcomm.bt
+bpftrace-$(call bpftrace_ge,0,25,0) += signal_name.bt
+bpftrace-$(call bpftrace_gt,0,20,2) += strerror.bt
+bpftrace-y += syscall_name.bt
+bpftrace-$(call bpftrace_gt,0,20,2) += return.bt
+bpftrace-y += ustack.bt
+bpftrace-y += unroll.bt
 ifneq ($(wildcard ../../../compiler/dwarf/samples/hello.dw5),)
-  target-bt-y += dw_ustack.bt
+  bpftrace-y += dw_ustack.bt
 endif
 
 ARGS_dw_ustack.bt := -c ../../../compiler/dwarf/samples/hello.dw5

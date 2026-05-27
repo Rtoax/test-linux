@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
+#
+# For bpftrace-y
+#
 ifndef _TARGET_BPFTRACE_MK
 _TARGET_BPFTRACE_MK = 1
 
