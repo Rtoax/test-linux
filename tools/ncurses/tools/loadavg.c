@@ -78,15 +78,15 @@ static void loadavg_update(struct lgroup *lg, void *arg)
 	{
 		plot_append_val(lg->plot, line, avg[i]);
 #ifdef DEBUG
-		mvprintw(i, 1, "- %d - %f - %lf~%lf", line->count, avg[i],
-			 line->min->v, line->max->v);
+		mvprintw(i + 1, WIDTH_BND + 1, "- %d - %f - %lf~%lf",
+			 line->count, avg[i], line->min->v, line->max->v);
 #endif
 		i++;
 	}
 #ifdef DEBUG
-	mvprintw(3, 1, "- %s", data_from_stdin);
+	mvprintw(i + 1, WIDTH_BND + 1, "- %s", data_from_stdin);
 
-	mvprintw(lg->plot->height - 2, 1,
+	mvprintw(lg->plot->height - BND_BOTTOM + 2, WIDTH_BND + 1,
 		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d=%c'\n",
 		 avg[0], avg[1], avg[2], LINES, lg->plot->plotheight, COLS,
 		 lg->plot->plotwidth, key, key);

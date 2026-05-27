@@ -13,7 +13,8 @@ enum {
 	C_MAX,
 };
 
-#define HEIGHT_BND 4
+#define BND_TOP 1
+#define BND_BOTTOM 4
 #define WIDTH_BND 6
 
 #define U2501 "━"

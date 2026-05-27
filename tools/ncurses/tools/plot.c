@@ -43,7 +43,7 @@ void init_flavor(void)
 void plot_update_size(struct plot *p)
 {
 	getmaxyx(stdscr, p->height, p->width);
-	p->plotheight = p->height - HEIGHT_BND * 2;
+	p->plotheight = p->height - BND_BOTTOM - BND_TOP;
 	p->plotwidth = p->width - WIDTH_BND * 2;
 }
 
@@ -72,7 +72,7 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 	int prev_h = -1;
 	for_each_value(load, v)
 	{
-		int h = p->plotheight + HEIGHT_BND - 1 -
+		int h = p->plotheight + BND_TOP - 1 -
 			(v->v - min) * (p->plotheight - 2) / (max - min);
 		int w = p->plotwidth + WIDTH_BND - load->count + i;
 		attron(color);
@@ -111,7 +111,7 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 		if ((i - 1) % 10 == 0) {
 			char buf[10];
 			strftime(buf, 10, "%T", localtime(&v->tv.tv_sec));
-			mvprintw(p->height - HEIGHT_BND + 1, w, "%s", buf);
+			mvprintw(p->height - BND_BOTTOM + 1, w, "%s", buf);
 		}
 
 		/* set y axis */
@@ -130,12 +130,12 @@ void plot_draw_title(const struct plot *p)
 
 void plot_draw_axes(const struct plot *p)
 {
-	mvhline(p->plotheight + HEIGHT_BND, WIDTH_BND, T_HLINE, p->plotwidth);
-	mvvline(HEIGHT_BND, WIDTH_BND, T_VLINE, p->plotheight);
-	mvaddch(p->plotheight + HEIGHT_BND, WIDTH_BND, T_LLCR);
-	mvaddch(HEIGHT_BND, WIDTH_BND, T_UARR);
-	mvprintw(HEIGHT_BND, WIDTH_BND, U25B2);
-	mvprintw(p->plotheight + HEIGHT_BND, p->plotwidth + WIDTH_BND, U25BA);
+	mvhline(p->plotheight + BND_TOP, WIDTH_BND, T_HLINE, p->plotwidth);
+	mvvline(BND_TOP, WIDTH_BND, T_VLINE, p->plotheight);
+	mvaddch(p->plotheight + BND_TOP, WIDTH_BND, T_LLCR);
+	mvaddch(BND_TOP, WIDTH_BND, T_UARR);
+	mvprintw(BND_TOP, WIDTH_BND, U25B2);
+	mvprintw(p->plotheight + BND_TOP, p->plotwidth + WIDTH_BND, U25BA);
 }
 
 static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)
