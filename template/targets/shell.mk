@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
+# For shell-y
+#
 # Input definitions:
 # - SHELL_ENVS_*=--env ENV=V
 # - SHELL_ARGS_*=
@@ -16,7 +18,7 @@ ${OUTPUT}%.sh.log: %.sh
 	$(Q)$(RUNPROG) --log $(@) $(SHELL_ENVS_$(<)) -- ${SHELL} $(<) $(SHELL_ARGS_$(<))
 
 # If you want to test a script twice, add a .1 suffix to the script, for
-# example: target-shell-y := a.sh a.sh.1
+# example: shell-y := a.sh a.sh.1
 define add_shell_target
 ${OUTPUT}%.sh.log.${1}: %.sh
 	$$(call log_tgt,SHELL,$$(@))

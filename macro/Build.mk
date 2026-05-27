@@ -45,7 +45,7 @@ target-${IS_LOONGARCH64} += __loongarch64
 target-cpp-y := __cplusplus __cplusplus-std98
 
 target-prep-y := ${CC}-macros.h
-target-shell-y := likely.sh
+shell-y := likely.sh
 
 CFLAGS += ${KFLAGS}
 

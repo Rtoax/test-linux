@@ -108,9 +108,9 @@ endif
 target-prep-y := reset
 target-post-y := done
 
-target-shell-y := abbrev.sh
-target-shell-y += history.sh
-target-shell-y += kconfig.sh
+shell-y := abbrev.sh
+shell-y += history.sh
+shell-y += kconfig.sh
 
 ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
   include template/main.mk

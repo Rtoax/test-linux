@@ -1,7 +1,7 @@
-target-shell-y := test-env.sh
-target-shell-y += test-env.sh.1
-target-shell-y += test-env.sh.9
-target-shell-y += test-env.sh.10
+shell-y := test-env.sh
+shell-y += test-env.sh.1
+shell-y += test-env.sh.9
+shell-y += test-env.sh.10
 
 SHELL_ENVS_test-env.sh := -e TEST_LINUX_TEMPLATE_TARGETS_SHELL_ENV=rtoax
 SHELL_ENVS_test-env.sh.1 := ${SHELL_ENVS_test-env.sh}

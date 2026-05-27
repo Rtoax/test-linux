@@ -59,8 +59,8 @@ MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 # example: prog-y := a.sh a.sh.1
 #
 # Arguments:
-# $1: target prefix, default: 'target-' for 'target-shell-y', maybe empty
-# $2: target name, like 'shell' in 'target-shell-y'
+# $1: target prefix, default: 'target-' for 'target-python-y', maybe empty
+# $2: target name, like 'python' in 'target-python-y'
 # $3: target extension, like '.sh' for shell, could be a list
 # $4: log extension, like '.log', '.prog.log'
 define append_program_target
@@ -85,7 +85,7 @@ endef
 
 # see targets/{prog,shell,make,python,bpftrace}.mk
 $(if ${prog-y}, $(eval $(call append_program_target,,prog,,.prog.log)))
-$(if ${target-shell-y}, $(eval $(call append_program_target,target-,shell,.sh,.log)))
+$(if ${shell-y}, $(eval $(call append_program_target,,shell,.sh,.log)))
 $(if ${target-mk-y}, $(eval $(call append_program_target,target-,mk,.mk .mak,.log)))
 $(if ${target-python-y}, $(eval $(call append_program_target,target-,python,.py,.log)))
 $(if ${target-bt-y}, $(eval $(call append_program_target,target-,bt,.bt,.log)))
@@ -148,7 +148,7 @@ $(if $(target-nvcc-y)$(target-nvcc-libso-y)$(target-nvcc-liba-y), $(eval include
 $(if $(target-hipcc-y)$(target-hipcc-libso-y)$(target-hipcc-liba-y), $(eval include targets/hip.mk))
 $(if $(target-htcc-y)$(target-htcc-libso-y)$(target-htcc-liba-y), $(eval include targets/hpcc.mk))
 $(if $(target-lscc-y)$(target-lscc-libso-y)$(target-lscc-liba-y), $(eval include targets/luca.mk))
-$(if $(target-shell-y), $(eval include targets/shell.mk))
+$(if $(shell-y), $(eval include targets/shell.mk))
 $(if $(prog-y), $(eval include targets/prog.mk))
 $(if $(target-mk-y), $(eval include targets/make.mk))
 $(if $(target-bt-y), $(eval include targets/bpftrace.mk))
