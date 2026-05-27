@@ -58,9 +58,13 @@ static void stdin_update(struct lgroup *lg, void *arg)
 	/* found more values, we could apped new line */
 	while (*buf != '\0') {
 		buf = skip(buf);
-
-		if (*buf == '\0')
+		if (!isdigit(*buf)) {
+			if (*buf != '\0')
+				plot_warning(lg->plot,
+					     "stdin data syntax error: %s",
+					     a->line_buff);
 			break;
+		}
 
 		__add_line(lg, i);
 
