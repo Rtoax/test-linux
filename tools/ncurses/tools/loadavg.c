@@ -216,9 +216,10 @@ int main(int argc, char *argv[])
 
 	init_flavor();
 
-	if (ram)
+	if (ram) {
+		plot.title = "Memory Usage";
 		plot_add(&plot, &lg_ram);
-	else
+	} else
 		plot_add(&plot, &lg_loadavg);
 
 	for_each_lg(&plot, lg)
