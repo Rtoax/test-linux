@@ -15,7 +15,8 @@ enum {
 
 #define BND_TOP 1
 #define BND_BOTTOM 4
-#define WIDTH_BND 6
+#define BND_LEFT 7
+#define BND_RIGHT 6
 
 #define U2501 "━"
 #define U2503 "┃"

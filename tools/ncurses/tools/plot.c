@@ -44,7 +44,7 @@ void plot_update_size(struct plot *p)
 {
 	getmaxyx(stdscr, p->height, p->width);
 	p->plotheight = p->height - BND_BOTTOM - BND_TOP;
-	p->plotwidth = p->width - WIDTH_BND * 2;
+	p->plotwidth = p->width - BND_LEFT - BND_RIGHT;
 }
 
 void plot_append_val(const struct plot *p, struct line *l, double v)
@@ -74,7 +74,7 @@ void plot_paint_line(const struct plot *p, struct line *load, const char *label,
 	{
 		int h = p->plotheight + BND_TOP - 1 -
 			(v->v - min) * (p->plotheight - 2) / (max - min);
-		int w = p->plotwidth + WIDTH_BND - load->count + i;
+		int w = p->plotwidth + BND_LEFT - load->count + i;
 		attron(color);
 		mvprintw(h, w, U2501);
 		attroff(color);
@@ -130,12 +130,12 @@ void plot_draw_title(const struct plot *p)
 
 void plot_draw_axes(const struct plot *p)
 {
-	mvhline(p->plotheight + BND_TOP, WIDTH_BND, T_HLINE, p->plotwidth);
-	mvvline(BND_TOP, WIDTH_BND, T_VLINE, p->plotheight);
-	mvaddch(p->plotheight + BND_TOP, WIDTH_BND, T_LLCR);
-	mvaddch(BND_TOP, WIDTH_BND, T_UARR);
-	mvprintw(BND_TOP, WIDTH_BND, U25B2);
-	mvprintw(p->plotheight + BND_TOP, p->plotwidth + WIDTH_BND, U25BA);
+	mvhline(p->plotheight + BND_TOP, BND_LEFT, T_HLINE, p->plotwidth);
+	mvvline(BND_TOP, BND_LEFT, T_VLINE, p->plotheight);
+	mvaddch(p->plotheight + BND_TOP, BND_LEFT, T_LLCR);
+	mvaddch(BND_TOP, BND_LEFT, T_UARR);
+	mvprintw(BND_TOP, BND_LEFT, U25B2);
+	mvprintw(p->plotheight + BND_TOP, p->plotwidth + BND_LEFT, U25BA);
 }
 
 static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)
