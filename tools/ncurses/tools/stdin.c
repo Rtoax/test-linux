@@ -8,16 +8,20 @@
 #include "plot.h"
 #include "stdin.h"
 
+static void __add_line(struct lgroup *lg, int i)
+{
+	char name[64] = { 0 };
+	snprintf(name, 64, "line%d", i);
+	new_line(lg, name, i % C_MAX);
+}
+
 static void stdin_create(struct lgroup *lg, void *arg)
 {
 	int i;
 	struct stdin_arg *a = arg;
-	char name[64];
 
-	for (i = 0; i < a->nline; i++) {
-		snprintf(name, 64, "line%d", i);
-		new_line(lg, name, i % C_MAX);
-	}
+	for (i = 0; i < a->nline; i++)
+		__add_line(lg, i);
 }
 
 static void stdin_update(struct lgroup *lg, void *arg)
@@ -43,6 +47,20 @@ static void stdin_update(struct lgroup *lg, void *arg)
 #ifdef DEBUG
 		mvprintw(i + 1, BND_LEFT + 1, "- %lf", values[i]);
 #endif
+	}
+
+	/* found more values, we could apped new line */
+	while (*buf != '\0') {
+		/* skip space */
+		while (*buf != '\0' && isspace(buf[0]))
+			buf++;
+		if (*buf == '\0')
+			break;
+
+		__add_line(lg, i);
+
+		values = realloc(values, sizeof(double) * ++a->nline);
+		values[i++] = strtod(buf, &buf);
 	}
 
 	i = 0;

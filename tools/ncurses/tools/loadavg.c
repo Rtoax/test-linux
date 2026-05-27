@@ -247,7 +247,7 @@ int main(int argc, char *argv[])
 			plot_add(&plot, &lg_loadavg, NULL);
 	} else {
 		struct stdin_arg stdarg = {
-			.nline = 2,
+			.nline = 1, /* at least one line */
 			.line_buff = data_from_stdin,
 		};
 		plot.title = "stdin";
