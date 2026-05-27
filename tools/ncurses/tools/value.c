@@ -67,20 +67,20 @@ int enqueue_val(struct line *l, double v)
 	return 0;
 }
 
-struct line *new_line(struct lgroup *lg, const char *name, int color)
-{
-	struct line *new = init_line(NULL, name, color);
-	lgroup_add(lg, new);
-	return new;
-}
-
-struct line *init_line(struct line *l, const char *name, int color)
+static struct line *__init_line(struct line *l, const char *name, int color)
 {
 	struct line *new = l ?: malloc(sizeof(struct line));
 	memset(new, 0, sizeof(struct line));
 	/* TODO: memleak */
 	new->name = strdup(name);
 	new->color = color;
+	return new;
+}
+
+struct line *new_line(struct lgroup *lg, const char *name, int color)
+{
+	struct line *new = __init_line(NULL, name, color);
+	lgroup_add(lg, new);
 	return new;
 }
 
