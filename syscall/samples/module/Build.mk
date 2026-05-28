@@ -10,9 +10,9 @@ target-y += init_module
 target-y += finit_module
 target-y += delete_module
 
-init_module-objs := mod_helpers.o
-finit_module-objs := mod_helpers.o
-delete_module-objs := mod_helpers.o
+init_module-objs := kmod_helpers.o
+finit_module-objs := kmod_helpers.o
+delete_module-objs := kmod_helpers.o
 
 ifeq (${CONFIG_MODULE_FORCE_LOAD},y)
   CFLAGS += -DCONFIG_MODULE_FORCE_LOAD=1

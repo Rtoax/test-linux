@@ -8,8 +8,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <linux/module.h>    /* Definition of MODULE_* constants */
-
-#include "mod_helpers.h"
+#include "kmod_helpers.h"
 
 char *module_file = NULL;
 int verbose = false;

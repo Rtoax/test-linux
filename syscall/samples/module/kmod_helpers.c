@@ -6,8 +6,7 @@
 #include <sys/syscall.h>
 #include <errno.h>
 #include <linux/version.h>
-
-#include "mod_helpers.h"
+#include "kmod_helpers.h"
 
 /* see init_module(2) */
 #if LINUX_VERSION_CODE <= KERNEL_VERSION(2, 4, 0)
