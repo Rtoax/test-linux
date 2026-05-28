@@ -25,10 +25,14 @@ struct line {
 };
 
 struct ldraw_ops {
-	void (*hline)(struct line *ln);
-	void (*vline)(struct line *ln);
-	void (*ulcorner)(struct line *ln); /* upper left corner */
-	/* TODO */
+	void (*hline)(struct line *ln, int y, int x);
+	void (*vline)(struct line *ln, int y, int x, int n);
+	void (*ulcorner)(struct line *ln, int y, int x); /* upper left corner */
+	void (*llcorner)(struct line *ln, int y, int x); /* lower left corner */
+	void (*urcorner)(struct line *ln, int y,
+			 int x); /* upper right corner */
+	void (*lrcorner)(struct line *ln, int y,
+			 int x); /* lower right corner */
 };
 
 #define for_each_value(l, iter)                                     \

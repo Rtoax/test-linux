@@ -105,6 +105,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 		int h = p->plotheight + p->bnd.top - 1 -
 			diff * (p->plotheight - 2) / span;
 		int w = p->plotwidth + p->bnd.left - ln->count + i;
+
 		attron(color);
 		mvprintw(h, w, U2501);
 		attroff(color);
