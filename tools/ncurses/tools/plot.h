@@ -31,7 +31,7 @@ struct plot {
 	} bnd, prev_max;
 	int height, width;
 	int plotheight, plotwidth;
-	int interval_sec;
+	int prev_sec, interval_sec;
 	struct lgroup *lghead, *lgtail;
 	int lgcount;
 };

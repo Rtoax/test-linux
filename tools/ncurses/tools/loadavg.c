@@ -224,6 +224,12 @@ int main(int argc, char *argv[])
 		FD_SET(datafd, &readfds);
 		if (maxfd < datafd)
 			maxfd = datafd;
+		/**
+		 * If stdin is used to transfer data, then the refresh interval
+		 * is unnecessary and must be set to 0 so that it can pass the
+		 * check in the redraw_screen() function.
+		 */
+		plot.interval_sec = 0;
 	} else {
 		/**
 		 * When we read data from stdin, we no longer need a timer to

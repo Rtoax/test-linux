@@ -94,13 +94,8 @@ int enqueue_val(struct line *l, double v)
 
 void line_add(struct line *l, double v)
 {
-	struct timeval now;
-	gettimeofday(&now, NULL);
 	const struct plot *p = l->lg->plot;
 
-	/* Only add new value when the time interval is at least 1 second */
-	if (l->tail && l->tail->tv.tv_sec == now.tv_sec)
-		return;
 	enqueue_val(l, v);
 
 	/**
