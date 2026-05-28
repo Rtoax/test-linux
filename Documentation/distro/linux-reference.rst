@@ -42,7 +42,7 @@ Linux Kernel Reference
 * 6.12.55 (cclinux22.09.2)
 * 6.12.57 (debian13)
 * 6.12.0 (centos10)
-* 6.8.0 (ubuntu24.04)
+* 6.8.0 (ubuntu22.04,ubuntu24.04)
 * 6.6.0 (cclinuxV5,openEuler24.03)
 * 6.5.0 (ubuntu24.04)
 * 5.15.131 (cclinux21.08.5,cclinux22.09.2)
