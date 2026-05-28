@@ -13,6 +13,10 @@ sigint() {
 }
 trap sigint INT
 
+while sleep 0.05; do
+	seq 1 1 14
+done | ./loadavg ${args[@]}
+
 # display the loadavg
 while sleep .1; do
 	awk '{print $1, $2, $3}' /proc/loadavg

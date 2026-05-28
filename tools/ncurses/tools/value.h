@@ -59,6 +59,7 @@ struct lgroup {
 	     iter = iter->next)
 
 extern struct ldraw_ops unicode_bold_line_ops;
+extern struct ldraw_ops unicode_bold_dashed_line_ops;
 
 int enqueue_lname(const char *name);
 const char *dequeue_lname(void);
