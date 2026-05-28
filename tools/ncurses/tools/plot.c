@@ -48,8 +48,8 @@ void init_flavor(void)
 void plot_update_size(struct plot *p)
 {
 	getmaxyx(stdscr, p->height, p->width);
-	p->plotheight = p->height - BND_BOTTOM - BND_TOP;
-	p->plotwidth = p->width - BND_LEFT - BND_RIGHT;
+	p->plotheight = p->height - p->bnd.bottom - p->bnd.top;
+	p->plotwidth = p->width - p->bnd.left - p->bnd.right;
 }
 
 void plot_append_val(const struct plot *p, struct line *l, double v)
@@ -100,9 +100,9 @@ void plot_paint_line(const struct plot *p, struct line *ln, const char *label,
 			span = max - min;
 		}
 
-		int h = p->plotheight + BND_TOP - 1 -
+		int h = p->plotheight + p->bnd.top - 1 -
 			diff * (p->plotheight - 2) / span;
-		int w = p->plotwidth + BND_LEFT - ln->count + i;
+		int w = p->plotwidth + p->bnd.left - ln->count + i;
 		attron(color);
 		mvprintw(h, w, U2501);
 		attroff(color);
@@ -137,7 +137,7 @@ void plot_paint_line(const struct plot *p, struct line *ln, const char *label,
 		if ((i - 1) % 10 == 0) {
 			char buf[10];
 			strftime(buf, 10, "%T", localtime(&v->tv.tv_sec));
-			mvprintw(p->height - BND_BOTTOM + 1, w, "%s", buf);
+			mvprintw(p->height - p->bnd.bottom + 1, w, "%s", buf);
 		}
 
 		/* set y axis */
@@ -162,19 +162,19 @@ void plot_draw_title(const struct plot *p)
 
 void plot_draw_axes(const struct plot *p)
 {
-	mvhline(p->plotheight + BND_TOP, BND_LEFT, T_HLINE, p->plotwidth);
-	mvvline(BND_TOP, BND_LEFT, T_VLINE, p->plotheight);
-	mvaddch(p->plotheight + BND_TOP, BND_LEFT, T_LLCR);
+	mvhline(p->plotheight + p->bnd.top, p->bnd.left, T_HLINE, p->plotwidth);
+	mvvline(p->bnd.top, p->bnd.left, T_VLINE, p->plotheight);
+	mvaddch(p->plotheight + p->bnd.top, p->bnd.left, T_LLCR);
 
-	mvaddch(BND_TOP, BND_LEFT, T_UARR);
-	mvprintw(BND_TOP, BND_LEFT, U25B2);
+	mvaddch(p->bnd.top, p->bnd.left, T_UARR);
+	mvprintw(p->bnd.top, p->bnd.left, U25B2);
 	if (p->label_y)
-		mvaddstr(BND_TOP - 1, BND_LEFT, p->label_y);
+		mvaddstr(p->bnd.top - 1, p->bnd.left, p->label_y);
 
-	mvprintw(p->plotheight + BND_TOP, p->plotwidth + BND_LEFT, U25BA);
+	mvprintw(p->plotheight + p->bnd.top, p->plotwidth + p->bnd.left, U25BA);
 	if (p->label_x)
-		mvaddstr(p->plotheight + BND_TOP + 1, p->plotwidth + BND_LEFT,
-			 p->label_x);
+		mvaddstr(p->plotheight + p->bnd.top + 1,
+			 p->plotwidth + p->bnd.left, p->label_x);
 }
 
 static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)

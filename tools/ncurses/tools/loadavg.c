@@ -57,6 +57,10 @@ static char data_from_stdin[256] = { 0 };
 struct plot plot = {
 	.title = NULL,
 	.interval_sec = 1,
+	.bnd.top = BND_TOP,
+	.bnd.bottom = BND_BOTTOM,
+	.bnd.left = BND_LEFT,
+	.bnd.right = BND_RIGHT,
 };
 
 void sig_handler(int signo)
@@ -87,26 +91,27 @@ static void loadavg_create(struct lgroup *lg, void *arg)
 static void loadavg_update(struct lgroup *lg, void *arg)
 {
 	double avg[3];
+	struct plot *p = lg->plot;
 
 	getloadavg(avg, 3);
 
 	int i = 0;
 	for_each_line(lg, line)
 	{
-		plot_append_val(lg->plot, line, avg[i]);
+		plot_append_val(p, line, avg[i]);
 #ifdef DEBUG
-		mvprintw(i + 1, BND_LEFT + 1, "- %d - %f - %lf~%lf",
+		mvprintw(i + 1, p->bnd.left + 1, "- %d - %f - %lf~%lf",
 			 line->count, avg[i], line->min->v, line->max->v);
 #endif
 		i++;
 	}
 #ifdef DEBUG
-	mvprintw(i + 1, BND_LEFT + 1, "- %s", data_from_stdin);
+	mvprintw(i + 1, p->bnd.left + 1, "- %s", data_from_stdin);
 
-	mvprintw(lg->plot->height - BND_BOTTOM + 2, BND_LEFT + 1,
+	mvprintw(p->height - p->bnd.bottom + 2, p->bnd.left + 1,
 		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d=%c'\n",
-		 avg[0], avg[1], avg[2], LINES, lg->plot->plotheight, COLS,
-		 lg->plot->plotwidth, key, key);
+		 avg[0], avg[1], avg[2], LINES, p->plotheight, COLS,
+		 p->plotwidth, key, key);
 #endif
 }
 

@@ -13,6 +13,7 @@ enum {
 	C_MAX,
 };
 
+/* Initial plot boundary */
 #define BND_TOP 1
 #define BND_BOTTOM 4
 #define BND_LEFT 7

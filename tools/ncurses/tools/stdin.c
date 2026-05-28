@@ -37,9 +37,10 @@ static void stdin_update(struct lgroup *lg, void *arg)
 	struct stdin_arg *a = arg;
 	double *values = malloc(sizeof(double) * a->nline);
 	char *buf = a->line_buff;
+	struct plot *p = lg->plot;
 
 #ifdef DEBUG
-	mvprintw(0, BND_LEFT + 1, "stdin: '%s'", a->line_buff);
+	mvprintw(0, p->bnd.left + 1, "stdin: '%s'", a->line_buff);
 #endif
 
 	if (*buf == '\0')
@@ -51,7 +52,7 @@ static void stdin_update(struct lgroup *lg, void *arg)
 		double v = strtod(buf, &buf);
 		values[i] = v;
 #ifdef DEBUG
-		mvprintw(i + 1, BND_LEFT + 1, "- %lf", values[i]);
+		mvprintw(i + 1, p->bnd.left + 1, "- %lf", values[i]);
 #endif
 	}
 
@@ -60,8 +61,7 @@ static void stdin_update(struct lgroup *lg, void *arg)
 		buf = skip(buf);
 		if (!isdigit(*buf)) {
 			if (*buf != '\0')
-				plot_warning(lg->plot,
-					     "stdin data syntax error: %s",
+				plot_warning(p, "stdin data syntax error: %s",
 					     a->line_buff);
 			break;
 		}
@@ -75,11 +75,12 @@ static void stdin_update(struct lgroup *lg, void *arg)
 	i = 0;
 	for_each_line(lg, line)
 	{
-		plot_append_val(lg->plot, line, values[i]);
+		plot_append_val(p, line, values[i]);
 		i++;
 #ifdef DEBUG
-		mvprintw(a->nline + i + 1, BND_LEFT + 1, "- %d - %f - %lf~%lf",
-			 line->count, values[i], line->min->v, line->max->v);
+		mvprintw(a->nline + i + 1, p->bnd.left + 1,
+			 "- %d - %f - %lf~%lf", line->count, values[i],
+			 line->min->v, line->max->v);
 #endif
 	}
 	free(values);
