@@ -62,9 +62,8 @@ for i in ${iface[@]}; do
 		maxiface=${i}
 	fi
 done
-
 while sleep 0.1; do
-	grep ${maxiface} /proc/net/dev | awk '{print $2}'
-done | ./loadavg ${args[@]} -l ${maxiface}
+	grep ${maxiface} /proc/net/dev | awk '{print $2, $10}'
+done | ./loadavg ${args[@]} --title "${maxiface} tx/rx" -l RX -l TX
 
 echo "Byebye"
