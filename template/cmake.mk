@@ -2,7 +2,8 @@
 # Copyright (C) 2026 Rong Tao
 #
 # Export:
-# - CMAKE=[cmake]
+# - HAVE_CMAKE=[y|n]
+# - CMAKE=[/usr/bin/cmake]
 #
 # Functions:
 # - cmake_{gt,ge,eq,lt,le}()=[y|n]
@@ -10,17 +11,26 @@
 ifndef _CMAKE_MK
 _CMAKE_MK = 1
 
+include define.mk
 include dir.mk
 include version.mk
 
-CMAKE := cmake
+$(call find_cmd_and_def,cmake)
 
-cmakeversh = ${TOPDIR}/scripts/version/cmake.sh
+# Get cmake version first
+ifneq (${CMAKE},)
+  cmakeversh = ${TOPDIR}/scripts/version/cmake.sh
 
-CMAKE_VERSION := $(shell ${cmakeversh})
-CMAKE_MAJOR := $(shell ${cmakeversh} --major)
-CMAKE_MINOR := $(shell ${cmakeversh} --minor)
-CMAKE_PATCHLEVEL := $(shell ${cmakeversh} --patchlevel)
+  CMAKE_VERSION := $(shell ${cmakeversh})
+  CMAKE_MAJOR := $(shell ${cmakeversh} --major)
+  CMAKE_MINOR := $(shell ${cmakeversh} --minor)
+  CMAKE_PATCHLEVEL := $(shell ${cmakeversh} --patchlevel)
+else
+  CMAKE_VERSION := 0.0.0
+  CMAKE_MAJOR := 0
+  CMAKE_MINOR := 0
+  CMAKE_PATCHLEVEL := 0
+endif
 
 $(eval $(call define_version,cmake,version3_code1688,${CMAKE_MAJOR},${CMAKE_MINOR},${CMAKE_PATCHLEVEL}))
 
