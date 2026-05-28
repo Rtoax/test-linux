@@ -5,7 +5,8 @@ set -em
 args=( --tmout 2 )
 
 # loadavg will send SIGINT to every processes in it's group, thus, we just
-# catch SIGINT wo avoid this script execute failed.
+# catch SIGINT wo avoid this script execute failed, just for test in Build.mk's
+# `prog-y`.
 sigint() {
 	echo "SIGINT: $?"
 	return 0
