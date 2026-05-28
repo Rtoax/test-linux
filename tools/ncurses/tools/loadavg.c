@@ -291,7 +291,7 @@ int main(int argc, char *argv[])
 		lg->ops.create(lg, lg->ops.arg);
 	}
 
-	plot_update_size(&plot);
+	plot_update_size(&plot, true);
 	redraw_screen(&plot);
 
 	/* main loop */
@@ -334,7 +334,7 @@ int main(int argc, char *argv[])
 					initscr();
 					erase();
 					refresh();
-					plot_update_size(&plot);
+					plot_update_size(&plot, false);
 					redraw = true;
 				}
 			}

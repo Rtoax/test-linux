@@ -45,15 +45,31 @@ void init_flavor(void)
 	}
 }
 
-void plot_update_size(struct plot *p)
+void plot_update_size(struct plot *p, bool init)
 {
-	p->bnd.top = BND_TOP;
-	p->bnd.bottom = BND_BOTTOM;
-	p->bnd.left = BND_LEFT;
-	p->bnd.right = BND_RIGHT;
+	if (init) {
+		p->bnd.top = BND_TOP;
+		p->bnd.bottom = BND_BOTTOM;
+		p->bnd.left = BND_LEFT;
+		p->bnd.right = BND_RIGHT;
+	} else {
+		/**
+		 * Just use left and right to make sure y axis values and line
+		 * names show correctly.
+		 */
+		p->bnd.left = p->bnd.left > p->prev_max.left ? p->bnd.left :
+							       p->prev_max.left;
+		p->bnd.right = p->bnd.right > p->prev_max.right ?
+				       p->bnd.right :
+				       p->prev_max.right;
+	}
+
 	getmaxyx(stdscr, p->height, p->width);
 	p->plotheight = p->height - p->bnd.bottom - p->bnd.top;
 	p->plotwidth = p->width - p->bnd.left - p->bnd.right;
+
+	p->prev_max.left = BND_LEFT;
+	p->prev_max.right = BND_RIGHT;
 }
 
 void plot_append_val(const struct plot *p, struct line *l, double v)
@@ -86,7 +102,7 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 	attroff(flavor[C_RED] | A_BOLD);
 }
 
-static void paint_line(const struct plot *p, struct line *ln, const char *lname,
+static void paint_line(struct plot *p, struct line *ln, const char *lname,
 		       double max, double min, chtype color)
 {
 	int i = 0;
@@ -146,9 +162,17 @@ static void paint_line(const struct plot *p, struct line *ln, const char *lname,
 
 		/* set y axis */
 		attron(color);
-		mvprintw(h, 0, "%.3f", v->v);
+		char sv[64];
+		int nc = snprintf(sv, 64, "%.3f", v->v);
+		if (p->prev_max.left < nc)
+			p->prev_max.left = nc;
+		mvprintw(h, 0, "%s", sv);
+
 		if (i == ln->count) {
 			mvprintw(h, w + 1, "%s", lname);
+			nc = strlen(lname);
+			if (p->prev_max.right < nc)
+				p->prev_max.right = nc;
 #ifdef DEBUG
 			mvprintw(h + 1, w + 1, "%d", ln->count);
 			mvprintw(h + 2, w + 1, "%.1f", ln->min->v);
@@ -181,7 +205,7 @@ void plot_draw_axes(const struct plot *p)
 			 p->plotwidth + p->bnd.left, p->label_x);
 }
 
-static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)
+static void __paint_plot_lg(struct plot *p, const struct lgroup *lg)
 {
 	double max = 0, min = 9999;
 
@@ -204,7 +228,7 @@ static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)
 /**
  * need erase() before, refresh() after
  */
-void paint_plot(const struct plot *p)
+void paint_plot(struct plot *p)
 {
 	plot_draw_title(p);
 	plot_draw_axes(p);
@@ -226,7 +250,7 @@ void paint_plot(const struct plot *p)
 	move(0, 0);
 }
 
-void redraw_screen(const struct plot *p)
+void redraw_screen(struct plot *p)
 {
 	erase();
 
@@ -237,4 +261,5 @@ void redraw_screen(const struct plot *p)
 
 	paint_plot(p);
 	refresh();
+	plot_update_size(p, false);
 }
