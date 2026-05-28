@@ -1,6 +1,7 @@
 Linux Kernel Reference
 ======================
 
+* 7.0.10 (fedora44)
 * 7.0.9 (fedora44)
 * 7.0.8 (fedora44)
 * 7.0.6 (fedora44)
