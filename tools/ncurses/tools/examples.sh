@@ -31,4 +31,15 @@ while sleep .1; do
 done | ./loadavg ${args[@]} --title 'Process Number' --xlabel 'Time' --ylabel 'Number' \
 		-l Proc
 
+# display one storage read and write
+iostat_x() {
+	iostat | grep -e ^sd -e ^nvme -e ^vd | head -1
+}
+if which iostat 2>/dev/null; then
+	while sleep .1; do
+		iostat_x | awk '{print $3, $4}'
+	done | ./loadavg ${args[@]} -T "$(iostat_x | awk '{print $1}') Read-Write" \
+			-l 'kB_read/s' -l 'kB_wrtn/s' --ylabel 'Rate'
+fi
+
 echo "Byebye"

@@ -1,4 +1,6 @@
 #!/bin/bash
 set -e
-iostat -x 1
 
+iostat | grep -e ^sd -e ^nvme -e ^vd
+
+iostat -x 1
