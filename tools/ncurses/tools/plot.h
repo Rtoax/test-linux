@@ -8,20 +8,6 @@
 #include "config.h"
 #include "value.h"
 
-#ifdef NOACS
-#define T_HLINE '-'
-#define T_VLINE '|'
-#define T_LLCR 'L'
-#define T_RARR '>'
-#define T_UARR '^'
-#else
-#define T_HLINE ACS_HLINE
-#define T_VLINE ACS_VLINE
-#define T_LLCR ACS_LLCORNER
-#define T_RARR ACS_RARROW
-#define T_UARR ACS_UARROW
-#endif
-
 struct plot {
 	char *title;
 	char *label_x;

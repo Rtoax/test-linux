@@ -18,7 +18,7 @@ int enqueue_lname(const char *name)
 {
 	nr_lnames++;
 	lnames = (char **)realloc(lnames, nr_lnames * sizeof(char *));
-	/* TODO: memleak here */
+	/* FIXME: memleak here */
 	lnames[nr_lnames - 1] = strdup(name);
 	return 0;
 }
@@ -113,7 +113,7 @@ static struct line *__init_line(struct line *l, const char *name, int color)
 
 	memset(new, 0, sizeof(struct line));
 
-	/* TODO: memleak here */
+	/* FIXME: memleak here */
 	new->name = arg_name ?: strdup(name);
 	new->color = color;
 

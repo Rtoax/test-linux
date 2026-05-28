@@ -19,6 +19,21 @@ enum {
 #define BND_LEFT 7
 #define BND_RIGHT 6
 
+/* TODO: support more line type */
+#ifdef NOACS
+#define T_HLINE '-'
+#define T_VLINE '|'
+#define T_LLCR 'L'
+#define T_RARR '>'
+#define T_UARR '^'
+#else
+#define T_HLINE ACS_HLINE
+#define T_VLINE ACS_VLINE
+#define T_LLCR ACS_LLCORNER
+#define T_RARR ACS_RARROW
+#define T_UARR ACS_UARROW
+#endif
+
 #define U2501 "━"
 #define U2503 "┃"
 #define U250F "┏"
