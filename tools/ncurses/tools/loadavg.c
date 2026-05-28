@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (C) 2026 Rong Tao
 /**
- * When plotting data curves, in the Linux terminal with minimal dependencies.
+ * Plotting data curves in the terminal.
  *
  * The default plot is loadavg, loadavg graph of 1, 5, 15 minutes.
  *
  * see also
+ * https://github.com/rtoax/loadavg
  * github.com/rtoax/test-linux/scripts/loadavg.sh
  * ttyplot: https://github.com/tenox7/ttyplot.git
  *          ttyplot is not good enough.
