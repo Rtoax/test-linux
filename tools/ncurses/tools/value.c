@@ -106,9 +106,9 @@ void line_add(struct line *l, double v)
 		dequeue_val(l);
 }
 
-static struct line *__init_line(struct line *l, const char *name, int color)
+static struct line *__create_line(const char *name, int color)
 {
-	struct line *new = l ?: malloc(sizeof(struct line));
+	struct line *new = malloc(sizeof(struct line));
 	const char *arg_name = dequeue_lname();
 
 	memset(new, 0, sizeof(struct line));
@@ -136,7 +136,7 @@ static int lgroup_add(struct lgroup *lg, struct line *l)
 
 struct line *new_line(struct lgroup *lg, const char *name, int color)
 {
-	struct line *new = __init_line(NULL, name, color);
+	struct line *new = __create_line(name, color);
 	lgroup_add(lg, new);
 	return new;
 }
