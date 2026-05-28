@@ -24,16 +24,16 @@ DRACUT_MINOR := $(shell ${dracutversh} --minor)
 
 export DRACUT_VERSION DRACUT_MAJOR DRACUT_MINOR
 
+ifneq (${DRACUT_VERSION},${DRACUT_MAJOR}-${DRACUT_MINOR})
+  $(error dracut version error: ${DRACUT_VERSION} != ${DRACUT_MAJOR}-${DRACUT_MINOR})
+endif
+
 endif # end of HAVE_DRACUT
 
 ifdef DEBUG
   $(info DRACUT_VERSION ${DRACUT_VERSION})
   $(info DRACUT_MAJOR ${DRACUT_MAJOR})
   $(info DRACUT_MINOR ${DRACUT_MINOR})
-endif
-
-ifneq (${DRACUT_VERSION},${DRACUT_MAJOR}-${DRACUT_MINOR})
-  $(error ${DRACUT_VERSION} != ${DRACUT_MAJOR}-${DRACUT_MINOR})
 endif
 
 endif
