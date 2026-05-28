@@ -107,7 +107,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 		int w = p->plotwidth + p->bnd.left - ln->count + i;
 
 		attron(color);
-		mvprintw(h, w, U2501);
+		ln->ops->horizon(ln, h, w);
 		attroff(color);
 
 		/**
@@ -117,17 +117,15 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 		 */
 		if (prev_h != -1) {
 			attron(color);
-			cchar_t wch_vline = WCH_U2503;
 			if (prev_h > h) {
-				mvprintw(prev_h, w, U251B);
-				mvprintw(h, w, U250F);
-				mvvline_set(h + 1, w, &wch_vline,
-					    prev_h - h - 1);
+				ln->ops->lrcorner(ln, prev_h, w);
+				ln->ops->ulcorner(ln, h, w);
+				ln->ops->vertical(ln, h + 1, w, prev_h - h - 1);
 			} else if (h > prev_h) {
-				mvprintw(prev_h, w, U2513);
-				mvprintw(h, w, U2517);
-				mvvline_set(prev_h + 1, w, &wch_vline,
-					    h - prev_h - 1);
+				ln->ops->urcorner(ln, prev_h, w);
+				ln->ops->llcorner(ln, h, w);
+				ln->ops->vertical(ln, prev_h + 1, w,
+						  h - prev_h - 1);
 			}
 			attroff(color);
 		}

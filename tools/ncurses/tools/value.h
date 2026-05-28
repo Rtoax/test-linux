@@ -25,8 +25,8 @@ struct line {
 };
 
 struct ldraw_ops {
-	void (*hline)(struct line *ln, int y, int x);
-	void (*vline)(struct line *ln, int y, int x, int n);
+	void (*horizon)(struct line *ln, int y, int x);
+	void (*vertical)(struct line *ln, int y, int x, int n);
 	void (*ulcorner)(struct line *ln, int y, int x); /* upper left corner */
 	void (*llcorner)(struct line *ln, int y, int x); /* lower left corner */
 	void (*urcorner)(struct line *ln, int y,
@@ -58,6 +58,8 @@ struct lgroup {
 	for (struct line *iter = ((struct lgroup *)(lg))->head; iter; \
 	     iter = iter->next)
 
+extern struct ldraw_ops unicode_bold_line_ops;
+
 int enqueue_lname(const char *name);
 const char *dequeue_lname(void);
 
@@ -65,4 +67,5 @@ int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);
 void line_add(struct line *l, double v);
 
-struct line *new_line(struct lgroup *lg, const char *name, int color);
+struct line *new_line(struct lgroup *lg, const char *name, int color,
+		      struct ldraw_ops *ops);

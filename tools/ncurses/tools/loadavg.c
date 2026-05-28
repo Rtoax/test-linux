@@ -79,9 +79,9 @@ void broadcast_sig(int signo)
 
 static void loadavg_create(struct lgroup *lg, void *arg)
 {
-	new_line(lg, "load1", C_RED);
-	new_line(lg, "load5", C_GREEN);
-	new_line(lg, "load15", C_BLUE);
+	new_line(lg, "load1", C_RED, &unicode_bold_line_ops);
+	new_line(lg, "load5", C_GREEN, &unicode_bold_line_ops);
+	new_line(lg, "load15", C_BLUE, &unicode_bold_line_ops);
 }
 
 static void loadavg_update(struct lgroup *lg, void *arg)
