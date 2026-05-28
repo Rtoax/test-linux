@@ -5,6 +5,7 @@ subdir-y += process
 subdir-y += procps-ng
 subdir-y += kallsyms
 subdir-y += modules
+subdir-y += net
 subdir-y += sys
 subdir-y += sysrq-trigger
 
