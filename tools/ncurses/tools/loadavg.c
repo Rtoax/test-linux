@@ -6,7 +6,7 @@
  * The default plot is loadavg, loadavg graph of 1, 5, 15 minutes.
  *
  * see also
- * https://github.com/rtoax/loadavg
+ * https://github.com/rtoax/ncurses-tools
  * github.com/rtoax/test-linux/scripts/loadavg.sh
  * ttyplot: https://github.com/tenox7/ttyplot.git
  *          ttyplot is not good enough.
