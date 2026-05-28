@@ -31,6 +31,12 @@ Boot Linux
     (grub)> boot
 
 
+Menu Entry
+----------
+
+`GRUB_TIMEOUT_STYLE` could be `hidden`, `menu`, etc.
+
+
 Re-Boot Linux
 -------------
 
