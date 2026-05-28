@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (C) 2026 Rong Tao
 /**
- * Plot and disploty a loadavg graph of 1, 5, 15 minutes in the Linux terminal
- * with minimal dependencies.
+ * When plotting data curves, in the Linux terminal with minimal dependencies.
  *
- * ttyplot is not good enough.
+ * The default plot is loadavg, loadavg graph of 1, 5, 15 minutes.
  *
- * see also test-linux/scripts/loadavg.sh
- *
+ * see also
+ * github.com/rtoax/test-linux/scripts/loadavg.sh
  * ttyplot: https://github.com/tenox7/ttyplot.git
+ *          ttyplot is not good enough.
  */
 #include <argp.h>
 #include <errno.h>
