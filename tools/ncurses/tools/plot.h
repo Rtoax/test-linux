@@ -47,8 +47,6 @@ int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg);
 void plot_update_size(struct plot *p);
 void plot_draw_axes(const struct plot *p);
 void plot_draw_title(const struct plot *p);
-void plot_paint_line(const struct plot *p, struct line *load, const char *label,
-		     double max, double min, chtype color);
 void plot_append_val(const struct plot *p, struct line *l, double v);
 
 void paint_plot(const struct plot *p);

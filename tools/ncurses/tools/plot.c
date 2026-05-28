@@ -82,8 +82,8 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 	attroff(flavor[C_RED] | A_BOLD);
 }
 
-void plot_paint_line(const struct plot *p, struct line *ln, const char *label,
-		     double max, double min, chtype color)
+static void paint_line(const struct plot *p, struct line *ln, const char *lname,
+		       double max, double min, chtype color)
 {
 	int i = 0;
 	int prev_h = -1;
@@ -144,7 +144,7 @@ void plot_paint_line(const struct plot *p, struct line *ln, const char *label,
 		attron(color);
 		mvprintw(h, 0, "%.3f", v->v);
 		if (i == ln->count) {
-			mvprintw(h, w + 1, "%s", label);
+			mvprintw(h, w + 1, "%s", lname);
 #ifdef DEBUG
 			mvprintw(h + 1, w + 1, "%d", ln->count);
 			mvprintw(h + 2, w + 1, "%.1f", ln->min->v);
@@ -193,7 +193,7 @@ static void __paint_plot_lg(const struct plot *p, const struct lgroup *lg)
 	{
 		if (l->count <= 0)
 			continue;
-		plot_paint_line(p, l, l->name, max, min, flavor[l->color]);
+		paint_line(p, l, l->name, max, min, flavor[l->color]);
 	}
 }
 
