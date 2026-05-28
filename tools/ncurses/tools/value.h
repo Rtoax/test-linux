@@ -6,6 +6,7 @@
 #include "config.h"
 
 struct lgroup;
+struct ldraw_ops;
 
 struct value {
 	double v;
@@ -20,6 +21,14 @@ struct line {
 	int count; /* number of value */
 	struct line *next; /* maybe line in group */
 	struct lgroup *lg; /* belongs to */
+	struct ldraw_ops *ops;
+};
+
+struct ldraw_ops {
+	void (*hline)(struct line *ln);
+	void (*vline)(struct line *ln);
+	void (*ulcorner)(struct line *ln); /* upper left corner */
+	/* TODO */
 };
 
 #define for_each_value(l, iter)                                     \
