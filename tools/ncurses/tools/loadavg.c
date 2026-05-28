@@ -57,10 +57,6 @@ static char data_from_stdin[256] = { 0 };
 struct plot plot = {
 	.title = NULL,
 	.interval_sec = 1,
-	.bnd.top = BND_TOP,
-	.bnd.bottom = BND_BOTTOM,
-	.bnd.left = BND_LEFT,
-	.bnd.right = BND_RIGHT,
 };
 
 void sig_handler(int signo)

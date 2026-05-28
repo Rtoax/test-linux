@@ -47,6 +47,10 @@ void init_flavor(void)
 
 void plot_update_size(struct plot *p)
 {
+	p->bnd.top = BND_TOP;
+	p->bnd.bottom = BND_BOTTOM;
+	p->bnd.left = BND_LEFT;
+	p->bnd.right = BND_RIGHT;
 	getmaxyx(stdscr, p->height, p->width);
 	p->plotheight = p->height - p->bnd.bottom - p->bnd.top;
 	p->plotwidth = p->width - p->bnd.left - p->bnd.right;
