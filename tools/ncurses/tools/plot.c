@@ -85,10 +85,11 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 }
 
 static void paint_line(struct plot *p, struct line *ln, const char *lname,
-		       double max, double min, chtype color)
+		       double max, double min)
 {
 	int i = 0;
 	int prev_h = -1;
+	chtype color = flavor[ln->color];
 
 	for_each_value(ln, v)
 	{
@@ -203,7 +204,7 @@ static void __paint_plot_lg(struct plot *p, const struct lgroup *lg)
 	{
 		if (l->count <= 0)
 			continue;
-		paint_line(p, l, l->name, max, min, flavor[l->color]);
+		paint_line(p, l, l->name, max, min);
 	}
 }
 
