@@ -3,11 +3,16 @@
  * init_module.bt
  *
  * Copyright (C) 2022-2026 Rong Tao
- *
- * 2024-02-04	Rong Tao	Create this.
- * 2024-11-05	Rong Tao	Display uargs.
- * 2025-04-24	Rong Tao	Display ret value.
  */
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/sched.h>
+#endif
+
+struct load_info {
+	const char *name;
+	// ...
+};
+
 BEGIN
 {
 	printf("Tracing (f)init_module(2), hit ctrl-c to end.\n");
