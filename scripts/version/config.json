@@ -27,6 +27,10 @@
 			"name": "ACPITool",
 			"keys": [ "acpi", "acpitool" ]
 		},
+		"pkg-config": {
+			"name": "PKG-Config",
+			"keys": [ "pkg-config" ]
+		},
 		"anaconda": {
 			"name": "Anaconda",
 			"version": {

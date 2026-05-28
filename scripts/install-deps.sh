@@ -645,6 +645,7 @@ pkgs_base+=( numactl )              # numastat
 pkgs_base+=( nvme-cli )             # nvme
 pkgs_base+=( opencl-headers )
 pkgs_base+=( openssl )
+pkgs_base+=( pkg-config )
 pkgs_base+=( powertop ) # power consumption and power management diagnosis tool
 pkgs_base+=( psmisc )
 pkgs_base+=( python3-pip )          # pip wheel

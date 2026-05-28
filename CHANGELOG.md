@@ -40,7 +40,7 @@ and this project adheres to
 #### Tools
 - add nginx, ncurses;
 #### Template
-- add grafana.mk, nginx.mk, ncurses.mk, unicode/table.mk;
+- add grafana.mk, nginx.mk, ncurses.mk, unicode/table.mk, pkg-config.mk;
 - dir.mk: add `list_dir()`;
 
 
