@@ -75,7 +75,7 @@ static void stdin_update(struct lgroup *lg, void *arg)
 	i = 0;
 	for_each_line(lg, line)
 	{
-		plot_append_val(p, line, values[i]);
+		line_add(line, values[i]);
 		i++;
 #ifdef DEBUG
 		mvprintw(a->nline + i + 1, p->bnd.left + 1,

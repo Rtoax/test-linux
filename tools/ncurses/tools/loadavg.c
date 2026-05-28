@@ -87,14 +87,16 @@ static void loadavg_create(struct lgroup *lg, void *arg)
 static void loadavg_update(struct lgroup *lg, void *arg)
 {
 	double avg[3];
-	struct plot *p = lg->plot;
 
 	getloadavg(avg, 3);
+#ifdef DEBUG
+	struct plot *p = lg->plot;
+#endif
 
 	int i = 0;
 	for_each_line(lg, line)
 	{
-		plot_append_val(p, line, avg[i]);
+		line_add(line, avg[i]);
 #ifdef DEBUG
 		mvprintw(i + 1, p->bnd.left + 1, "- %d - %f - %lf~%lf",
 			 line->count, avg[i], line->min->v, line->max->v);

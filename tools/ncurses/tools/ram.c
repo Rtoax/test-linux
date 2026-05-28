@@ -28,8 +28,7 @@ static void ram_update(struct lgroup *lg, void *arg)
 
 	for_each_line(lg, line)
 	{
-		plot_append_val(lg->plot, line,
-				mem[i] * 1.0 / 1024 / 1024 / 1024);
+		line_add(line, mem[i] * 1.0 / 1024 / 1024 / 1024);
 		i++;
 	}
 }

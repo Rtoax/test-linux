@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include <string.h>
 #include "value.h"
+#include "plot.h"
 
 static char **lnames = NULL;
 static int nr_lnames = 0;
@@ -91,6 +92,25 @@ int enqueue_val(struct line *l, double v)
 	return 0;
 }
 
+void line_add(struct line *l, double v)
+{
+	struct timeval now;
+	gettimeofday(&now, NULL);
+	const struct plot *p = l->lg->plot;
+
+	/* Only add new value when the time interval is at least 1 second */
+	if (l->tail && l->tail->tv.tv_sec == now.tv_sec)
+		return;
+	enqueue_val(l, v);
+
+	/**
+	 * Due to the limited width of the screen, we removed unnecessary
+	 * history records. TODO: maybe we should keep the old values.
+	 */
+	for (int i = p->plotwidth - 2; i < l->count; i++)
+		dequeue_val(l);
+}
+
 static struct line *__init_line(struct line *l, const char *name, int color)
 {
 	struct line *new = l ?: malloc(sizeof(struct line));
@@ -122,5 +142,6 @@ int lgroup_add(struct lgroup *lg, struct line *l)
 	}
 	lg->count++;
 	lg->tail = l;
+	l->lg = lg;
 	return 0;
 }

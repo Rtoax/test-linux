@@ -72,24 +72,6 @@ void plot_update_size(struct plot *p, bool init)
 	p->prev_max.right = BND_RIGHT;
 }
 
-void plot_append_val(const struct plot *p, struct line *l, double v)
-{
-	struct timeval now;
-	gettimeofday(&now, NULL);
-
-	/* Only add new value when the time interval is at least 1 second */
-	if (l->tail && l->tail->tv.tv_sec == now.tv_sec)
-		return;
-	enqueue_val(l, v);
-
-	/**
-	 * Due to the limited width of the screen, we removed unnecessary
-	 * history records. TODO: maybe we should keep the old values.
-	 */
-	for (int i = p->plotwidth - 2; i < l->count; i++)
-		dequeue_val(l);
-}
-
 void __plot_warning(const struct plot *p, char *fmt, ...)
 {
 	char buff[256];
