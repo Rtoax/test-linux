@@ -50,4 +50,21 @@ if which iostat 2>/dev/null; then
 			-l 'kB_read/s' -l 'kB_wrtn/s' --ylabel 'Rate'
 fi
 
+# display the NIC rx
+# TODO: the bytes is too large to show the changes.
+iface=( $(cat /proc/net/dev | grep ':' | awk '{print $1}') )
+maxbytes=0
+# found the most busy nic
+for i in ${iface[@]}; do
+	bytes=$(grep ${i} /proc/net/dev | awk '{print $2}')
+	if [[ ${maxbytes} -lt ${bytes} ]]; then
+		maxbytes=${bytes}
+		maxiface=${i}
+	fi
+done
+
+while sleep 0.1; do
+	grep ${maxiface} /proc/net/dev | awk '{print $2}'
+done | ./loadavg ${args[@]} -l ${maxiface}
+
 echo "Byebye"
