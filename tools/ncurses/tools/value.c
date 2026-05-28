@@ -120,14 +120,7 @@ static struct line *__init_line(struct line *l, const char *name, int color)
 	return new;
 }
 
-struct line *new_line(struct lgroup *lg, const char *name, int color)
-{
-	struct line *new = __init_line(NULL, name, color);
-	lgroup_add(lg, new);
-	return new;
-}
-
-int lgroup_add(struct lgroup *lg, struct line *l)
+static int lgroup_add(struct lgroup *lg, struct line *l)
 {
 	if (!lg->head) {
 		lg->head = l;
@@ -139,4 +132,11 @@ int lgroup_add(struct lgroup *lg, struct line *l)
 	lg->tail = l;
 	l->lg = lg;
 	return 0;
+}
+
+struct line *new_line(struct lgroup *lg, const char *name, int color)
+{
+	struct line *new = __init_line(NULL, name, color);
+	lgroup_add(lg, new);
+	return new;
 }

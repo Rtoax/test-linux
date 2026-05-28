@@ -66,5 +66,3 @@ int enqueue_val(struct line *l, double v);
 void line_add(struct line *l, double v);
 
 struct line *new_line(struct lgroup *lg, const char *name, int color);
-
-int lgroup_add(struct lgroup *lg, struct line *l);
