@@ -31,9 +31,13 @@ done | ./loadavg ${args[@]} --title 'Memory Usage' --xlabel 'Time' --ylabel 'Siz
 
 # display the process number
 while sleep .1; do
-	ls /proc/ | grep -E '[0-9]+' | wc -w
+	num=( $(ps -e | wc -l)
+	      $(ps -eo state | grep ^S | wc -l)
+	      $(ps -eo state | grep ^R | wc -l)
+	      $(ps -eo state | grep ^I | wc -l) )
+	echo ${num[@]}
 done | ./loadavg ${args[@]} --title 'Process Number' --xlabel 'Time' --ylabel 'Number' \
-		-l Proc
+		-l All -l Sleep -l Run -l Idle
 
 # display one storage read and write
 iostat_x() {
