@@ -231,7 +231,7 @@ void paint_plot(struct plot *p)
 	move(0, 0);
 }
 
-void redraw_screen(struct plot *p)
+void plot_update_data(struct plot *p)
 {
 	struct timeval now;
 	gettimeofday(&now, NULL);
@@ -245,16 +245,19 @@ void redraw_screen(struct plot *p)
 		return;
 	}
 
-	erase();
-
 	for_each_lg(p, lg)
 	{
 		lg->ops.update(lg, lg->ops.arg);
 	}
 
+	p->prev_sec = now.tv_sec;
+}
+
+void redraw_screen(struct plot *p)
+{
+	erase();
 	paint_plot(p);
 	refresh();
 
 	plot_update_size(p, false);
-	p->prev_sec = now.tv_sec;
 }

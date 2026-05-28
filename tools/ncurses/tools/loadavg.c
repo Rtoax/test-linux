@@ -300,6 +300,7 @@ int main(int argc, char *argv[])
 	}
 
 	plot_update_size(&plot, true);
+	plot_update_data(&plot);
 	redraw_screen(&plot);
 
 	/* main loop */
@@ -325,6 +326,7 @@ int main(int argc, char *argv[])
 			uint64_t exp;
 			read(timerfd, &exp, sizeof(exp));
 			redraw = true;
+			plot_update_data(&plot);
 		} else if (ret > 0 && FD_ISSET(tmoutfd, &fds)) {
 			uint64_t exp;
 			read(tmoutfd, &exp, sizeof(exp));
@@ -354,6 +356,7 @@ int main(int argc, char *argv[])
 				/* TODO: parse data and plot */
 				redraw = true;
 			}
+			plot_update_data(&plot);
 		} else
 			continue;
 

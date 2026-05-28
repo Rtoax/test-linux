@@ -36,6 +36,7 @@ void plot_draw_axes(const struct plot *p);
 void plot_draw_title(const struct plot *p);
 
 void paint_plot(struct plot *p);
+void plot_update_data(struct plot *p);
 void redraw_screen(struct plot *p);
 
 void init_flavor(void);
