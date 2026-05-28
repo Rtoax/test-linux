@@ -34,6 +34,13 @@ enum {
 #define T_UARR ACS_UARROW
 #endif
 
+#define U2500 "─"
+#define U2502 "│"
+#define U250C "┌"
+#define U2510 "┐"
+#define U2514 "└"
+#define U2518 "┘"
+
 #define U2501 "━"
 #define U2503 "┃"
 #define U250F "┏"
