@@ -16,6 +16,8 @@ and this project adheres to
 - rename `target-python-y` to `python-y`;
 - rename `target-bt-y` to `bpftrace-y`;
 #### Added
+- glibc: add limits sbudir;
+- compiler: add float subdir;
 - tty: add read.c;
 - ncurses: add tools/loadavg.c, samples, add `ncurses_helpers`;
 - scripts: add loadavg.sh;

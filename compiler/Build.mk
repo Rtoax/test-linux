@@ -2,6 +2,7 @@
 subdir-y += annobin
 subdir-y += ast
 subdir-y += bison
+subdir-y += float
 subdir-y += gnu
 subdir-y += linker
 subdir-y += llvm

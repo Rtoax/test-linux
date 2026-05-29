@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
+#include <float.h>
 #include <malloc.h>
 #include <ncurses.h>
 #include <string.h>
@@ -115,6 +116,38 @@ int enqueue_val(struct line *l, double v)
 
 	l->tail = new;
 	return 0;
+}
+
+double line_range_max(struct line *l, int start, int len)
+{
+	int i = 0;
+	double max = -DBL_MAX;
+	struct value *v = l->head;
+	while (v) {
+		if (i >= start && i < start + len) {
+			if (max < v->v)
+				max = v->v;
+		}
+		i++;
+		v = v->next;
+	}
+	return max;
+}
+
+double line_range_min(struct line *l, int start, int len)
+{
+	int i = 0;
+	double min = -DBL_MAX;
+	struct value *v = l->head;
+	while (v) {
+		if (i >= start && i < start + len) {
+			if (min > v->v)
+				min = v->v;
+		}
+		i++;
+		v = v->next;
+	}
+	return min;
 }
 
 void line_add(struct line *l, double v)

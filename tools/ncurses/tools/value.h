@@ -90,6 +90,8 @@ int get_nr_ltypes(void);
 int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);
 void line_add(struct line *l, double v);
+double line_range_max(struct line *l, int start, int len);
+double line_range_min(struct line *l, int start, int len);
 
 struct line *new_line(struct lgroup *lg, const char *name, int color);
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
