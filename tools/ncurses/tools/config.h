@@ -41,6 +41,8 @@ enum {
 #define U2514 "└"
 #define U2518 "┘"
 
+#define W_U2502 L"│"
+
 #define U2501 "━"
 #define U2503 "┃"
 #define U250F "┏"
@@ -68,4 +70,5 @@ enum {
 		___wch;                                  \
 	})
 
+#define WCH_U2502 WCH(W_U2502)
 #define WCH_U2503 WCH(W_U2503)

@@ -14,7 +14,7 @@ sigint() {
 trap sigint INT
 
 while sleep 0.05; do
-	seq 1 1 14
+	seq 1 1 21
 done | ./loadavg ${args[@]}
 
 # display the loadavg

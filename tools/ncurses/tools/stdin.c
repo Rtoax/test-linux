@@ -8,6 +8,8 @@
 #include "plot.h"
 #include "stdin.h"
 
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+
 static char *skip(char *buf)
 {
 	while (*buf != '\0' && isspace(buf[0]))
@@ -23,8 +25,10 @@ static void __add_line(struct lgroup *lg, int i)
 	struct ldraw_ops *ldraw_operations[] = {
 		&unicode_bold_line_ops,
 		&unicode_bold_dashed_line_ops,
+		&unicode_line_ops,
 	};
-	new_line(lg, name, i % C_MAX, ldraw_operations[(i / C_MAX) % 2]);
+	new_line(lg, name, i % C_MAX,
+		 ldraw_operations[(i / C_MAX) % ARRAY_SIZE(ldraw_operations)]);
 }
 
 static void stdin_create(struct lgroup *lg, void *arg)
