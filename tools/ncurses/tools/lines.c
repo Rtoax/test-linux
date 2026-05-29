@@ -168,3 +168,40 @@ const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_THIN_UNICODE_DASHED] = &unicode_dashed_line_ops,
 	[LINE_TYPE_UTF8] = &utf8_line_ops,
 };
+
+bool ldraw_hasname(const char *name)
+{
+	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++)
+		if (!strcmp(ldraw_operations[i]->name, name))
+			return true;
+	fprintf(stderr, "ERROR: not support '%s', please use:\n", name);
+	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++) {
+		fprintf(stderr, "%s\n", ldraw_operations[i]->name);
+	}
+	return false;
+}
+
+enum ltype_enum ldraw_name2type(const char *name)
+{
+	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++)
+		if (!strcmp(ldraw_operations[i]->name, name))
+			return i;
+	return LINE_TYPE_DEFAULT;
+}
+
+const struct ldraw_ops *ldraw_type2ops(enum ltype_enum t)
+{
+	if (t < LINE_TYPE_DEFAULT || t >= LINE_TYPE_MAX)
+		t = LINE_TYPE_DEFAULT;
+	return ldraw_operations[t];
+}
+
+const struct ldraw_ops *ldraw_name2ops(const char *name)
+{
+	return ldraw_type2ops(ldraw_name2type(name));
+}
+
+const char *ldraw_type2name(enum ltype_enum t)
+{
+	return ldraw_type2ops(t)->name;
+}

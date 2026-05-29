@@ -10,6 +10,10 @@ static char **lnames = NULL;
 static int nr_lnames = 0;
 static int idx_lnames = -1;
 
+static enum ltype_enum *ltypes = NULL;
+static int nr_ltypes = 0;
+static int idx_ltypes = -1;
+
 /**
  * Since this program is single-thread, we could set line name with a global
  * list.
@@ -28,6 +32,22 @@ const char *dequeue_lname(void)
 	if (nr_lnames <= 0 || idx_lnames >= nr_lnames)
 		return NULL;
 	return lnames[++idx_lnames];
+}
+
+int enqueue_ltype(enum ltype_enum t)
+{
+	nr_ltypes++;
+	ltypes = (enum ltype_enum *)realloc(
+		ltypes, nr_ltypes * sizeof(enum ltype_enum));
+	ltypes[nr_ltypes - 1] = t;
+	return 0;
+}
+
+enum ltype_enum dequeue_ltype(void)
+{
+	if (nr_ltypes <= 0 || idx_ltypes >= nr_ltypes)
+		return LINE_TYPE_DEFAULT;
+	return ltypes[++idx_ltypes];
 }
 
 int dequeue_val(struct line *l)
@@ -134,11 +154,10 @@ static int lgroup_add(struct lgroup *lg, struct line *l)
 	return 0;
 }
 
-struct line *new_line(struct lgroup *lg, const char *name, int color,
-		      const struct ldraw_ops *ops)
+struct line *new_line(struct lgroup *lg, const char *name, int color)
 {
 	struct line *new = __create_line(name, color);
-	new->ops = ops;
+	new->ops = ldraw_type2ops(dequeue_ltype());
 	lgroup_add(lg, new);
 	return new;
 }

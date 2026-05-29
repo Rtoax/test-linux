@@ -15,7 +15,7 @@ struct value {
 };
 
 enum ltype_enum {
-	LINE_TYPE_DEFAULT,
+	LINE_TYPE_DEFAULT = 0,
 	LINE_TYPE_BOLD_UNICODE = LINE_TYPE_DEFAULT,
 	LINE_TYPE_BOLD_UNICODE_DASHED,
 	LINE_TYPE_THIN_UNICODE,
@@ -75,12 +75,19 @@ extern const struct ldraw_ops unicode_line_ops;
 extern const struct ldraw_ops unicode_dashed_line_ops;
 extern const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX];
 
+bool ldraw_hasname(const char *name);
+enum ltype_enum ldraw_name2type(const char *name);
+const struct ldraw_ops *ldraw_type2ops(enum ltype_enum t);
+const struct ldraw_ops *ldraw_name2ops(const char *name);
+const char *ldraw_type2name(enum ltype_enum t);
+
 int enqueue_lname(const char *name);
 const char *dequeue_lname(void);
+int enqueue_ltype(enum ltype_enum t);
+enum ltype_enum dequeue_ltype(void);
 
 int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);
 void line_add(struct line *l, double v);
 
-struct line *new_line(struct lgroup *lg, const char *name, int color,
-		      const struct ldraw_ops *ops);
+struct line *new_line(struct lgroup *lg, const char *name, int color);

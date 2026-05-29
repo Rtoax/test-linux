@@ -40,6 +40,8 @@ static const struct argp_option opts[] = {
 	{ "ylabel", 'y', "Y LABEL", 0, "Spedify y axis label" },
 	{ "lname", 'l', "LINE NAME", 0,
 	  "Spedify line names (may be listed multiple times)" },
+	{ "ltype", 'L', "LINE TYPE", 0,
+	  "Spedify line types (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
@@ -81,9 +83,9 @@ void broadcast_sig(int signo)
 
 static void loadavg_create(struct lgroup *lg, void *arg)
 {
-	new_line(lg, "load1", C_RED, &unicode_bold_line_ops);
-	new_line(lg, "load5", C_GREEN, &unicode_bold_line_ops);
-	new_line(lg, "load15", C_BLUE, &unicode_bold_line_ops);
+	new_line(lg, "load1", C_RED);
+	new_line(lg, "load5", C_GREEN);
+	new_line(lg, "load15", C_BLUE);
 }
 
 static void loadavg_update(struct lgroup *lg, void *arg)
@@ -132,6 +134,11 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case 'l':
 		enqueue_lname(arg);
+		break;
+	case 'L':
+		if (!ldraw_hasname(arg))
+			exit(EXIT_FAILURE);
+		enqueue_ltype(ldraw_name2type(arg));
 		break;
 	case 'x':
 		plot.label_x = arg;
