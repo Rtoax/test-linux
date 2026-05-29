@@ -56,6 +56,7 @@ cleanup() {
 	tput rmcup
 	stty "$old_tty"
 	exec 2>&-
+	echo -e "\033[1;31mWARNING: Using ncurses/tools is better!\033[m"
 	exit ${ret}
 }
 
