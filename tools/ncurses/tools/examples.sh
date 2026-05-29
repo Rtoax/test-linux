@@ -14,8 +14,9 @@ sigint() {
 trap sigint INT
 
 # display all line type
-while sleep 0.05; do
-	seq 1 1 35
+for ((i = 0;; i++)); do
+	seq ${i} 1 $((i + 35))
+	sleep 0.05
 done | ./loadavg ${args[@]}
 
 # display the loadavg
