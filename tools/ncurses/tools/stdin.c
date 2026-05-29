@@ -22,7 +22,7 @@ static void __add_line(struct lgroup *lg, int i)
 	char name[64] = { 0 };
 	snprintf(name, 64, "line%d", i);
 
-	struct ldraw_ops *ldraw_operations[] = {
+	const struct ldraw_ops *ldraw_operations[] = {
 		&unicode_bold_line_ops,
 		&unicode_bold_dashed_line_ops,
 		&unicode_line_ops,

@@ -96,7 +96,8 @@ static void unicode_lrcorner(struct line *ln, int y, int x)
 	mvprintw(y, x, U2518);
 }
 
-struct ldraw_ops unicode_bold_line_ops = {
+const struct ldraw_ops unicode_bold_line_ops = {
+	.name = "unicode-bold",
 	.horizon = unicode_bold_horizon,
 	.vertical = unicode_bold_vertical,
 	.ulcorner = unicode_bold_ulcorner,
@@ -105,7 +106,8 @@ struct ldraw_ops unicode_bold_line_ops = {
 	.lrcorner = unicode_bold_lrcorner,
 };
 
-struct ldraw_ops unicode_bold_dashed_line_ops = {
+const struct ldraw_ops unicode_bold_dashed_line_ops = {
+	.name = "unicode-bold-dashed",
 	.horizon = unicode_bold_horizon_dashed_line,
 	.vertical = unicode_bold_vertical_dashed_line,
 	.ulcorner = unicode_bold_ulcorner,
@@ -114,7 +116,8 @@ struct ldraw_ops unicode_bold_dashed_line_ops = {
 	.lrcorner = unicode_bold_lrcorner,
 };
 
-struct ldraw_ops unicode_line_ops = {
+const struct ldraw_ops unicode_line_ops = {
+	.name = "unicode",
 	.horizon = unicode_horizon,
 	.vertical = unicode_vertical,
 	.ulcorner = unicode_ulcorner,
@@ -123,7 +126,8 @@ struct ldraw_ops unicode_line_ops = {
 	.lrcorner = unicode_lrcorner,
 };
 
-struct ldraw_ops unicode_line_dashed_line_ops = {
+const struct ldraw_ops unicode_line_dashed_line_ops = {
+	.name = "unicode-dashed",
 	.horizon = unicode_horizon_dashed_line,
 	.vertical = unicode_vertical_dashed_line,
 	.ulcorner = unicode_ulcorner,

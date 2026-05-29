@@ -135,7 +135,7 @@ static int lgroup_add(struct lgroup *lg, struct line *l)
 }
 
 struct line *new_line(struct lgroup *lg, const char *name, int color,
-		      struct ldraw_ops *ops)
+		      const struct ldraw_ops *ops)
 {
 	struct line *new = __create_line(name, color);
 	new->ops = ops;
