@@ -50,6 +50,11 @@ if which iostat 2>/dev/null; then
 			-l 'kB_read/s' -l 'kB_wrtn/s' --ylabel 'Rate'
 fi
 
+# display files opened
+while sleep .3; do
+	awk '{print $1}' /proc/sys/fs/file-nr
+done | ./loadavg ${args[@]} --title 'File Number' -l 'opened'
+
 # display the NIC rx
 # TODO: the bytes is too large to show the changes.
 iface=( $(cat /proc/net/dev | grep ':' | awk '{print $1}') )
