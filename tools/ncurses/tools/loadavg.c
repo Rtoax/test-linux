@@ -7,9 +7,11 @@
  *
  * see also
  * https://github.com/rtoax/ncurses-tools
- * github.com/rtoax/test-linux/scripts/loadavg.sh
+ * https://github.com/rtoax/test-linux scripts/loadavg.sh
+ *
+ * relative repository:
  * ttyplot: https://github.com/tenox7/ttyplot.git
- *          ttyplot is not good enough.
+ *          ttyplot is not good enough, I don't like his drawing style.
  */
 #include <argp.h>
 #include <errno.h>
