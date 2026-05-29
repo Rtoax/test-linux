@@ -21,5 +21,8 @@ if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README})" ]]; the
 	else
 		echo >&2 "ERROR: Missing '* ${kver_short} (${os_short})' in ${README}"
 	fi
-	[[ -z ${FLR} ]] && exit 1
+	if [[ -z ${FLR} ]]; then
+		echo >&2 "ERROR: set FLR=1/FORCE=1 to skip"
+		exit 1
+	fi
 fi
