@@ -43,6 +43,11 @@ int enqueue_ltype(enum ltype_enum t)
 	return 0;
 }
 
+int get_nr_ltypes(void)
+{
+	return nr_ltypes;
+}
+
 enum ltype_enum dequeue_ltype(void)
 {
 	if (nr_ltypes <= 0 || idx_ltypes >= nr_ltypes)

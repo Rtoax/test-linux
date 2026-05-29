@@ -85,6 +85,7 @@ int enqueue_lname(const char *name);
 const char *dequeue_lname(void);
 int enqueue_ltype(enum ltype_enum t);
 enum ltype_enum dequeue_ltype(void);
+int get_nr_ltypes(void);
 
 int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);
