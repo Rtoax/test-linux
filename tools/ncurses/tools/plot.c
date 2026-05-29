@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
 #include <assert.h>
+#include <float.h>
 #include <stdio.h>
 #include <string.h>
 #include "plot.h"
@@ -109,6 +110,8 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 		 *         |--------------------| plotwidth
 		 *
 		 *     ^^^^^ skip
+		 *
+		 * see also __paint_plot_lg().
 		 */
 		if (i <= ln->count - p->plotwidth) {
 			i++;
@@ -209,16 +212,23 @@ void plot_draw_axes(const struct plot *p)
 
 static void __paint_plot_lg(struct plot *p, const struct lgroup *lg)
 {
-	double max = 0, min = 9999;
+	double max = -DBL_MAX, min = DBL_MAX;
 
 	/* find min and max first */
 	for_each_line(lg, l)
 	{
 		if (l->count <= 0)
 			continue;
-		max = max < l->max->v ? l->max->v : max;
-		min = min > l->min->v ? l->min->v : min;
+
+		/* see also line count and plotwidth check in paint_line() */
+		double _max = line_range_max(l, l->count - p->plotwidth,
+					     p->plotwidth);
+		double _min = line_range_min(l, l->count - p->plotwidth,
+					     p->plotwidth);
+		max = max < _max ? _max : max;
+		min = min > _min ? _min : min;
 	}
+
 	for_each_line(lg, l)
 	{
 		if (l->count <= 0)

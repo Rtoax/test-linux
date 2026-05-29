@@ -123,6 +123,8 @@ double line_range_max(struct line *l, int start, int len)
 	int i = 0;
 	double max = -DBL_MAX;
 	struct value *v = l->head;
+	if (start < 0)
+		start = 0;
 	while (v) {
 		if (i >= start && i < start + len) {
 			if (max < v->v)
@@ -137,8 +139,10 @@ double line_range_max(struct line *l, int start, int len)
 double line_range_min(struct line *l, int start, int len)
 {
 	int i = 0;
-	double min = -DBL_MAX;
+	double min = DBL_MAX;
 	struct value *v = l->head;
+	if (start < 0)
+		start = 0;
 	while (v) {
 		if (i >= start && i < start + len) {
 			if (min > v->v)
