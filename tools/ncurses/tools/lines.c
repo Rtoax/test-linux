@@ -96,6 +96,21 @@ static void unicode_lrcorner(struct line *ln, int y, int x)
 	mvprintw(y, x, U2518);
 }
 
+static void utf8_horizon(struct line *ln, int y, int x)
+{
+	mvprintw(y, x, "-");
+}
+
+static void utf8_vertical(struct line *ln, int y, int x, int n)
+{
+	mvvline(y, x, '|', n);
+}
+
+static void utf8_cross(struct line *ln, int y, int x)
+{
+	mvprintw(y, x, "+");
+}
+
 const struct ldraw_ops unicode_bold_line_ops = {
 	.name = "unicode-bold",
 	.horizon = unicode_bold_horizon,
@@ -136,9 +151,20 @@ const struct ldraw_ops unicode_dashed_line_ops = {
 	.lrcorner = unicode_lrcorner,
 };
 
+const struct ldraw_ops utf8_line_ops = {
+	.name = "utf8",
+	.horizon = utf8_horizon,
+	.vertical = utf8_vertical,
+	.ulcorner = utf8_cross,
+	.llcorner = utf8_cross,
+	.urcorner = utf8_cross,
+	.lrcorner = utf8_cross,
+};
+
 const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_line_ops,
 	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_line_ops,
 	[LINE_TYPE_THIN_UNICODE] = &unicode_line_ops,
 	[LINE_TYPE_THIN_UNICODE_DASHED] = &unicode_dashed_line_ops,
+	[LINE_TYPE_UTF8] = &utf8_line_ops,
 };
