@@ -126,7 +126,7 @@ const struct ldraw_ops unicode_line_ops = {
 	.lrcorner = unicode_lrcorner,
 };
 
-const struct ldraw_ops unicode_line_dashed_line_ops = {
+const struct ldraw_ops unicode_dashed_line_ops = {
 	.name = "unicode-dashed",
 	.horizon = unicode_horizon_dashed_line,
 	.vertical = unicode_vertical_dashed_line,
@@ -134,4 +134,11 @@ const struct ldraw_ops unicode_line_dashed_line_ops = {
 	.llcorner = unicode_llcorner,
 	.urcorner = unicode_urcorner,
 	.lrcorner = unicode_lrcorner,
+};
+
+const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX] = {
+	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_line_ops,
+	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_line_ops,
+	[LINE_TYPE_THIN_UNICODE] = &unicode_line_ops,
+	[LINE_TYPE_THIN_UNICODE_DASHED] = &unicode_dashed_line_ops,
 };

@@ -14,6 +14,15 @@ struct value {
 	struct value *next;
 };
 
+enum ltype_enum {
+	LINE_TYPE_DEFAULT,
+	LINE_TYPE_BOLD_UNICODE = LINE_TYPE_DEFAULT,
+	LINE_TYPE_BOLD_UNICODE_DASHED,
+	LINE_TYPE_THIN_UNICODE,
+	LINE_TYPE_THIN_UNICODE_DASHED,
+	LINE_TYPE_MAX,
+};
+
 struct line {
 	const char *name;
 	int color; /* C_RED, ... */
@@ -62,7 +71,8 @@ struct lgroup {
 extern const struct ldraw_ops unicode_bold_line_ops;
 extern const struct ldraw_ops unicode_bold_dashed_line_ops;
 extern const struct ldraw_ops unicode_line_ops;
-extern const struct ldraw_ops unicode_line_dashed_line_ops;
+extern const struct ldraw_ops unicode_dashed_line_ops;
+extern const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX];
 
 int enqueue_lname(const char *name);
 const char *dequeue_lname(void);
