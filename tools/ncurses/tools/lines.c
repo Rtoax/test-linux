@@ -17,6 +17,18 @@ static void unicode_horizon(struct line *ln, int y, int x)
 	mvprintw(y, x, U2500);
 }
 
+static void unicode_bold_horizon_dashed_line(struct line *ln, int y, int x)
+{
+	if (x % 2)
+		mvprintw(y, x, U2501);
+}
+
+static void unicode_horizon_dashed_line(struct line *ln, int y, int x)
+{
+	if (x % 2)
+		mvprintw(y, x, U2500);
+}
+
 static void unicode_bold_vertical(struct line *ln, int y, int x, int n)
 {
 	cchar_t wch_vline = WCH_U2503;
@@ -29,16 +41,17 @@ static void unicode_vertical(struct line *ln, int y, int x, int n)
 	mvvline_set(y, x, &wch_vline, n);
 }
 
-static void unicode_bold_horizon_dashed_line(struct line *ln, int y, int x)
-{
-	if (x % 2)
-		mvprintw(y, x, U2501);
-}
-
 static void unicode_bold_vertical_dashed_line(struct line *ln, int y, int x,
 					      int n)
 {
 	cchar_t wch_vline = WCH_U2503;
+	for (int i = 0; i < n; i += 2)
+		mvvline_set(y + i, x, &wch_vline, 1);
+}
+
+static void unicode_vertical_dashed_line(struct line *ln, int y, int x, int n)
+{
+	cchar_t wch_vline = WCH_U2502;
 	for (int i = 0; i < n; i += 2)
 		mvvline_set(y + i, x, &wch_vline, 1);
 }
@@ -92,6 +105,15 @@ struct ldraw_ops unicode_bold_line_ops = {
 	.lrcorner = unicode_bold_lrcorner,
 };
 
+struct ldraw_ops unicode_bold_dashed_line_ops = {
+	.horizon = unicode_bold_horizon_dashed_line,
+	.vertical = unicode_bold_vertical_dashed_line,
+	.ulcorner = unicode_bold_ulcorner,
+	.llcorner = unicode_bold_llcorner,
+	.urcorner = unicode_bold_urcorner,
+	.lrcorner = unicode_bold_lrcorner,
+};
+
 struct ldraw_ops unicode_line_ops = {
 	.horizon = unicode_horizon,
 	.vertical = unicode_vertical,
@@ -101,11 +123,11 @@ struct ldraw_ops unicode_line_ops = {
 	.lrcorner = unicode_lrcorner,
 };
 
-struct ldraw_ops unicode_bold_dashed_line_ops = {
-	.horizon = unicode_bold_horizon_dashed_line,
-	.vertical = unicode_bold_vertical_dashed_line,
-	.ulcorner = unicode_bold_ulcorner,
-	.llcorner = unicode_bold_llcorner,
-	.urcorner = unicode_bold_urcorner,
-	.lrcorner = unicode_bold_lrcorner,
+struct ldraw_ops unicode_line_dashed_line_ops = {
+	.horizon = unicode_horizon_dashed_line,
+	.vertical = unicode_vertical_dashed_line,
+	.ulcorner = unicode_ulcorner,
+	.llcorner = unicode_llcorner,
+	.urcorner = unicode_urcorner,
+	.lrcorner = unicode_lrcorner,
 };
