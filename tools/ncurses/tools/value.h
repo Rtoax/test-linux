@@ -91,3 +91,5 @@ int enqueue_val(struct line *l, double v);
 void line_add(struct line *l, double v);
 
 struct line *new_line(struct lgroup *lg, const char *name, int color);
+struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
+			  const struct ldraw_ops *ops);

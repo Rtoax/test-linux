@@ -154,10 +154,16 @@ static int lgroup_add(struct lgroup *lg, struct line *l)
 	return 0;
 }
 
-struct line *new_line(struct lgroup *lg, const char *name, int color)
+struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
+			  const struct ldraw_ops *ops)
 {
 	struct line *new = __create_line(name, color);
-	new->ops = ldraw_type2ops(dequeue_ltype());
+	new->ops = ops;
 	lgroup_add(lg, new);
 	return new;
+}
+
+struct line *new_line(struct lgroup *lg, const char *name, int color)
+{
+	return new_line_ops(lg, name, color, ldraw_type2ops(dequeue_ltype()));
 }
