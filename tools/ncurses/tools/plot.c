@@ -65,8 +65,14 @@ void plot_update_size(struct plot *p, bool init)
 	}
 
 	getmaxyx(stdscr, p->height, p->width);
+
 	p->plotheight = p->height - p->bnd.bottom - p->bnd.top;
 	p->plotwidth = p->width - p->bnd.left - p->bnd.right;
+
+	if (p->heightmax < p->height)
+		p->heightmax = p->height;
+	if (p->widthmax < p->width)
+		p->widthmax = p->width;
 
 	p->prev_max.left = BND_LEFT;
 	p->prev_max.right = BND_RIGHT;
@@ -93,6 +99,21 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 	for_each_value(ln, v)
 	{
 		double span = .0f, diff = .0f;
+
+		/**
+		 * The number of data points may be greater than the horizontal
+		 * size of the plotting area, so it is necessary to first skip
+		 * the data points that exceed the plotting area.
+		 *
+		 *     |------------------------| count
+		 *         |--------------------| plotwidth
+		 *
+		 *     ^^^^^ skip
+		 */
+		if (i <= ln->count - p->plotwidth) {
+			i++;
+			continue;
+		}
 
 		if (max == min || max == 0.0 || max < min) {
 			diff = 0;

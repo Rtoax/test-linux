@@ -12,11 +12,19 @@ struct plot {
 	char *title;
 	char *label_x;
 	char *label_y;
+	/**
+	 * max indicates the maximum value your terminal has reached during the
+	 * entire program run (you can use the mouse to drag and adjust the
+	 * terminal size)
+	 */
+	int heightmax, widthmax;
+	/* Current terminal size */
+	int height, width;
+	/* The size of the drawing area (excluding boundaries, axes, etc.) */
+	int plotheight, plotwidth;
 	struct {
 		int top, bottom, left, right;
 	} bnd, prev_max;
-	int height, width;
-	int plotheight, plotwidth;
 	int prev_sec, interval_sec;
 	struct lgroup *lghead, *lgtail;
 	int lgcount;

@@ -125,9 +125,9 @@ void line_add(struct line *l, double v)
 
 	/**
 	 * Due to the limited width of the screen, we removed unnecessary
-	 * history records. TODO: maybe we should keep the old values.
+	 * history records and keep the old values as mach as possible.
 	 */
-	for (int i = p->plotwidth - 2; i < l->count; i++)
+	for (int i = p->widthmax - 2; i < l->count; i++)
 		dequeue_val(l);
 }
 
