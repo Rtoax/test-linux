@@ -89,16 +89,21 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	struct plot *p = lg->plot;
 	int i;
 
-	mvprintw(0, p->bnd.left + 1, "stdin: '%s'", a->line_buff);
+	mvprintw(0, p->bnd.left + 1, "lg cnt %d", lg->count);
+	mvprintw(1, p->bnd.left + 1, "stdin: '%s'", a->line_buff);
 
 	i = 0;
 	for_each_line(lg, line)
 	{
 		if (line->count <= 0)
-			continue;
-		mvprintw(a->nline + i + 1, p->bnd.left + 1,
-			 "%s: %d - %f - %lf~%lf", line->name, line->count,
-			 line->tail->v, line->min->v, line->max->v);
+			mvprintw(i + 2, p->bnd.left + 1, "%s: %d", line->name,
+				 line->count);
+		else
+			mvprintw(i + 2, p->bnd.left + 1,
+				 "%s: %d - %f - %lf~%lf", line->name,
+				 line->count, line->tail->v, line->min->v,
+				 line->max->v);
+		i++;
 	}
 }
 
