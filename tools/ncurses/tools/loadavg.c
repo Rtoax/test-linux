@@ -32,7 +32,18 @@
 #include "plot.h"
 #include "stdin.h"
 
-const char argp_prog_doc[] = "USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n";
+const char argp_prog_doc[] =
+	"USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n"
+	"\n"
+	"EXAMPLES:\n"
+	"   $ ./loadavg        # Draw loadavg graph\n"
+	"   $ ./loadavg -M     # Draw memory usage graph\n"
+	"\n"
+	"   # Draw opened file number\n"
+	"   $ while sleep .5; do\n"
+	"	awk '{print $1}' /proc/sys/fs/file-nr\n"
+	"     done | ./loadavg --title 'Opened File Number' -l 'opened'\n"
+	"\n";
 
 static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
@@ -46,6 +57,7 @@ static const struct argp_option opts[] = {
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{ "version", 'V', NULL, 1, "Display version" },
 	{},
 };
 
@@ -163,6 +175,10 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case 'v':
 		verbose = true;
+		break;
+	case 'V':
+		printf("%s\n", MY_VERSION);
+		exit(EXIT_SUCCESS);
 		break;
 	case ARGP_KEY_ARG:
 		break;
