@@ -266,6 +266,12 @@ void paint_plot(struct plot *p)
 
 	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
 
+#ifdef DEBUG
+	mvprintw(p->height - 2, 0, "plot: (%d,%d) max(%d,%d) plot(%d,%d)",
+		 p->height, p->width, p->heightmax, p->widthmax, p->plotheight,
+		 p->plotwidth);
+#endif
+
 	move(0, 0);
 }
 
