@@ -48,10 +48,6 @@ static void stdin_update(struct lgroup *lg, void *arg)
 	char *buf = a->line_buff;
 	struct plot *p = lg->plot;
 
-#ifdef DEBUG
-	mvprintw(0, p->bnd.left + 1, "stdin: '%s'", a->line_buff);
-#endif
-
 	if (*buf == '\0')
 		return;
 
@@ -60,9 +56,6 @@ static void stdin_update(struct lgroup *lg, void *arg)
 
 		double v = strtod(buf, &buf);
 		values[i] = v;
-#ifdef DEBUG
-		mvprintw(i + 1, p->bnd.left + 1, "- %lf", values[i]);
-#endif
 	}
 
 	/* found more values, we could apped new line */
@@ -86,18 +79,33 @@ static void stdin_update(struct lgroup *lg, void *arg)
 	{
 		line_add(line, values[i]);
 		i++;
-#ifdef DEBUG
-		mvprintw(a->nline + i + 1, p->bnd.left + 1,
-			 "- %d - %f - %lf~%lf", line->count, values[i],
-			 line->min->v, line->max->v);
-#endif
 	}
 	free(values);
+}
+
+static void stdin_plot_debug(const struct lgroup *lg, void *arg)
+{
+	struct stdin_arg *a = arg;
+	struct plot *p = lg->plot;
+	int i;
+
+	mvprintw(0, p->bnd.left + 1, "stdin: '%s'", a->line_buff);
+
+	i = 0;
+	for_each_line(lg, line)
+	{
+		if (line->count <= 0)
+			continue;
+		mvprintw(a->nline + i + 1, p->bnd.left + 1,
+			 "%s: %d - %f - %lf~%lf", line->name, line->count,
+			 line->tail->v, line->min->v, line->max->v);
+	}
 }
 
 static const struct lgroup_operations stdin_ops = {
 	.create = stdin_create,
 	.update = stdin_update,
+	.plot_debug = stdin_plot_debug,
 };
 
 struct lgroup lg_stdin = {

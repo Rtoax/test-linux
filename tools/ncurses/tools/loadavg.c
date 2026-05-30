@@ -93,33 +93,31 @@ static void loadavg_update(struct lgroup *lg, void *arg)
 	double avg[3];
 
 	getloadavg(avg, 3);
-#ifdef DEBUG
-	struct plot *p = lg->plot;
-#endif
 
 	int i = 0;
 	for_each_line(lg, line)
 	{
 		line_add(line, avg[i]);
-#ifdef DEBUG
-		mvprintw(i + 1, p->bnd.left + 1, "- %d - %f - %lf~%lf",
-			 line->count, avg[i], line->min->v, line->max->v);
-#endif
 		i++;
 	}
-#ifdef DEBUG
-	mvprintw(i + 1, p->bnd.left + 1, "- %s", data_from_stdin);
+}
 
-	mvprintw(p->height - p->bnd.bottom + 2, p->bnd.left + 1,
-		 "%.2f %.2f %.2f, row %d (%d), col %d (%d), key '%d=%c'\n",
-		 avg[0], avg[1], avg[2], LINES, p->plotheight, COLS,
-		 p->plotwidth, key, key);
-#endif
+void loadavg_plot_debug(const struct lgroup *lg, void *arg)
+{
+	struct plot *p = lg->plot;
+	int i = 0;
+	for_each_line(lg, ln)
+	{
+		mvprintw(i + 1, p->bnd.left + 1, "%s: cnt=%d %lf~%lf", ln->name,
+			 ln->count, ln->min->v, ln->max->v);
+		i++;
+	}
 }
 
 static const struct lgroup_operations loadavg_ops = {
 	.create = loadavg_create,
 	.update = loadavg_update,
+	.plot_debug = loadavg_plot_debug,
 };
 
 static struct lgroup lg_loadavg = {
