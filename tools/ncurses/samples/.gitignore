@@ -1,4 +1,5 @@
 /getch
 /getmaxyx
+/keyname
 /initscr
 /setlocale
