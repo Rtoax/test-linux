@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
 int main(void)
 {
 	long double a[4], b[4], loadavg;
@@ -28,10 +27,11 @@ int main(void)
 		 */
 
 		/**
-		 * (user + nice + system)/(user + nice + system + idle + iowait + irq + softirq) * 100%
+		 * (user + nice + system) / (user + nice + system + idle + iowait + irq + softirq) * 100%
 		 */
-		loadavg = ((b[0] + b[1] + b[2]) - (a[0] + a[1] + a[2])) / \
-			((b[0] + b[1] + b[2] + b[3]) - (a[0] + a[1] + a[2] + a[3]));
+		loadavg = ((b[0] + b[1] + b[2]) - (a[0] + a[1] + a[2])) /
+			  ((b[0] + b[1] + b[2] + b[3]) -
+			   (a[0] + a[1] + a[2] + a[3]));
 		printf("The total CPU utilization is %Lf%%\n", loadavg * 100.0);
 	}
 

@@ -13,9 +13,10 @@ target-y += self thread-self
 target-y += stat
 target-y += uptime
 
-prog-y := mounts.sh
 prog-y += cmdline.sh
 prog-y += diskstats.sh
+prog-y += mounts.sh
+prog-y += stat.sh
 prog-y += version.sh
 
 self-objs := ${PROC_HELPERS}
