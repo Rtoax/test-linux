@@ -111,6 +111,38 @@ static void utf8_cross(struct line *ln, int y, int x)
 	mvprintw(y, x, "+");
 }
 
+static void unicode_boldbold_horizon(struct line *ln, int y, int x)
+{
+	mvprintw(y, x, U2584);
+}
+
+static void unicode_boldbold_vertical(struct line *ln, int y, int x, int n)
+{
+	cchar_t wch_vline = WCH_U2588;
+	mvvline_set(y, x, &wch_vline, n);
+}
+
+static void unicode_boldbold_corner1(struct line *ln, int y, int x)
+{
+	mvprintw(y, x, U2584);
+}
+
+static void unicode_boldbold_corner2(struct line *ln, int y, int x)
+{
+	cchar_t wch_vline = WCH_U2588;
+	mvvline_set(y, x, &wch_vline, 1);
+}
+
+const struct ldraw_ops unicode_boldbold_line_ops = {
+	.name = "unicode-boldbold",
+	.horizon = unicode_boldbold_horizon,
+	.vertical = unicode_boldbold_vertical,
+	.ulcorner = unicode_boldbold_corner1,
+	.llcorner = unicode_boldbold_corner2,
+	.urcorner = unicode_boldbold_corner1,
+	.lrcorner = unicode_boldbold_corner2,
+};
+
 const struct ldraw_ops unicode_bold_line_ops = {
 	.name = "unicode-bold",
 	.horizon = unicode_bold_horizon,
@@ -164,6 +196,7 @@ const struct ldraw_ops utf8_line_ops = {
 const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_line_ops,
 	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_line_ops,
+	[LINE_TYPE_BOLDBOLD_UNICODE] = &unicode_boldbold_line_ops,
 	[LINE_TYPE_THIN_UNICODE] = &unicode_line_ops,
 	[LINE_TYPE_THIN_UNICODE_DASHED] = &unicode_dashed_line_ops,
 	[LINE_TYPE_UTF8] = &utf8_line_ops,

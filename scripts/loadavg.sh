@@ -27,7 +27,7 @@ readonly C_COR='└'
 readonly C_ROW='─'
 readonly C_UP='▲'
 readonly C_RIGHT='►'
-readonly C_ASCII220='▄'
+readonly C_U2584='▄'
 readonly K_ENTER=10
 
 readonly old_tty=$(stty -g)
@@ -160,7 +160,7 @@ __print_load_scale() {
 		prev_cols+=( ${col} )
 		prev_rows+=( ${row} )
 		# wprint 2 1 "${col} ${row} ${nloads}"
-		wprint ${row} ${col} ${color} "${C_ASCII220}"
+		wprint ${row} ${col} ${color} "${C_U2584}"
 	done
 
 	# record Y axis in the end, and record it for refresh.

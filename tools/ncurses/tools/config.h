@@ -2,7 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
 
-#define MY_VERSION "v1.2.0"
+#define MY_VERSION "v1.2.1"
 
 enum {
 	C_GREEN,
@@ -65,6 +65,14 @@ enum {
 #define W_U25BA L"►"
 #define W_U25C4 L"◄"
 
+#define U2580 "▀"
+#define U2584 "▄"
+#define U2588 "█"
+
+#define W_U2580 L"▀"
+#define W_U2584 L"▄"
+#define W_U2588 L"█"
+
 #define WCH(W)                                           \
 	({                                               \
 		cchar_t ___wch;                          \
@@ -74,3 +82,4 @@ enum {
 
 #define WCH_U2502 WCH(W_U2502)
 #define WCH_U2503 WCH(W_U2503)
+#define WCH_U2588 WCH(W_U2588)
