@@ -311,11 +311,7 @@ int main(int argc, char *argv[])
 		plot_add(&plot, &lg_stdin, &stdarg);
 	}
 
-	for_each_lg(&plot, lg)
-	{
-		lg->ops.create(lg, lg->ops.arg);
-	}
-
+	plot_create_data(&plot);
 	plot_update_size(&plot, true);
 	plot_update_data(&plot);
 	redraw_screen(&plot);

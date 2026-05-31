@@ -275,6 +275,14 @@ void paint_plot(struct plot *p)
 	move(0, 0);
 }
 
+void plot_create_data(struct plot *p)
+{
+	for_each_lg(p, lg)
+	{
+		lg->ops.create(lg, lg->ops.arg);
+	}
+}
+
 void plot_update_data(struct plot *p)
 {
 	for_each_lg(p, lg)
