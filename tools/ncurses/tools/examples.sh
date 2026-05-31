@@ -14,10 +14,9 @@ sigint() {
 trap sigint INT
 
 # display all line type
-for ((i = 0;; i++)); do
-	seq ${i} 1 $((i + 35))
-	sleep 0.05
-done | ./loadavg ${args[@]}
+while sleep 0.05; do
+	seq 1 1 $(./loadavg -L nonsense 2>/dev/null | wc -l)
+done | ./loadavg ${args[@]} $(./loadavg -L nonsense 2>/dev/null | sed 's/^/-L/g')
 
 # display the loadavg
 while sleep .1; do

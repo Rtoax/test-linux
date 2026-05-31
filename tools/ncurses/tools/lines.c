@@ -218,10 +218,10 @@ const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_line_ops,
 	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_line_ops,
 	[LINE_TYPE_BOLDBOLD_UNICODE] = &unicode_boldbold_line_ops,
-	[LINE_TYPE_HEART_UNICODE] = &unicode_heart_line_ops,
 	[LINE_TYPE_THIN_UNICODE] = &unicode_line_ops,
 	[LINE_TYPE_THIN_UNICODE_DASHED] = &unicode_dashed_line_ops,
 	[LINE_TYPE_UTF8] = &utf8_line_ops,
+	[LINE_TYPE_HEART_UNICODE] = &unicode_heart_line_ops,
 };
 
 bool ldraw_hasname(const char *name)
@@ -229,9 +229,12 @@ bool ldraw_hasname(const char *name)
 	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++)
 		if (!strcmp(ldraw_operations[i]->name, name))
 			return true;
+	/**
+	 * print error to stderr, hint to stdout.
+	 */
 	fprintf(stderr, "ERROR: not support '%s', please use:\n", name);
 	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++) {
-		fprintf(stderr, "%s\n", ldraw_operations[i]->name);
+		fprintf(stdout, "\t%s\n", ldraw_operations[i]->name);
 	}
 	return false;
 }

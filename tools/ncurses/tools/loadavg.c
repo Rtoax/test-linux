@@ -52,7 +52,7 @@ static const struct argp_option opts[] = {
 	{ "lname", 'l', "LINE NAME", 0,
 	  "Spedify line names (may be listed multiple times)" },
 	{ "ltype", 'L', "LINE TYPE", 0,
-	  "Spedify line types (may be listed multiple times)" },
+	  "Spedify line types, if an invalid value is entered, the supported line types will be listed (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
