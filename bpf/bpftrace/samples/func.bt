@@ -1,0 +1,8 @@
+#!/bin/env bpftrace
+
+kprobe:net_rx_action,
+kprobe:net_tx_action
+{
+	printf("%s", func);
+	exit();
+}

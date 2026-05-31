@@ -7,6 +7,7 @@ bpftrace-y += begin.bt
 bpftrace-$(call bpftrace_gt,0,20,2) += begin-multi.bt
 bpftrace-y += c-preprocessor.bt
 bpftrace-y += config.bt
+bpftrace-y += func.bt
 bpftrace-$(call bpftrace_gt,0,21,0) += getopt.bt getopt.bt.1 getopt.bt.9 getopt.bt.10
 bpftrace-$(call bpftrace_gt,0,20,2) += import.bt
 bpftrace-y += parent.bt
