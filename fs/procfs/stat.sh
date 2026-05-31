@@ -3,6 +3,7 @@ set -e
 
 cpus=( $(grep -Eo '^cpu[0-9]+' /proc/stat) )
 
+# see also: mpstat -P ALL
 for cpu in cpu ${cpus[@]}
 do
 	datas=( $(grep -w ^${cpu} /proc/stat) )
