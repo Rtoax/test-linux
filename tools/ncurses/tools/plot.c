@@ -277,24 +277,10 @@ void paint_plot(struct plot *p)
 
 void plot_update_data(struct plot *p)
 {
-	struct timeval now;
-	gettimeofday(&now, NULL);
-
-	/**
-	 * The frequency of refreshing/adding data must not exceed the
-	 * constraint frequency; otherwise, skip the update.
-	 */
-	if (p->prev_sec && p->interval_sec &&
-	    now.tv_sec - p->prev_sec < p->interval_sec) {
-		return;
-	}
-
 	for_each_lg(p, lg)
 	{
 		lg->ops.update(lg, lg->ops.arg);
 	}
-
-	p->prev_sec = now.tv_sec;
 }
 
 void redraw_screen(struct plot *p)

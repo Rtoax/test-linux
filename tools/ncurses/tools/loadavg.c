@@ -67,12 +67,12 @@ static int done = false;
 static int ram = false;
 static int verbose = false;
 static int tmout_sec = -1;
+static int interval_sec = 1;
 
 static char data_from_stdin[256] = { 0 };
 
 struct plot plot = {
 	.title = NULL,
-	.interval_sec = 1,
 };
 
 void sig_handler(int signo)
@@ -164,8 +164,8 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		}
 		break;
 	case 'I':
-		plot.interval_sec = atoi(arg);
-		if (plot.interval_sec <= 0) {
+		interval_sec = atoi(arg);
+		if (interval_sec <= 0) {
 			fprintf(stderr, "ERROR: bad -I value\n");
 			exit(EXIT_FAILURE);
 		}
@@ -247,20 +247,14 @@ int main(int argc, char *argv[])
 		FD_SET(datafd, &readfds);
 		if (maxfd < datafd)
 			maxfd = datafd;
-		/**
-		 * If stdin is used to transfer data, then the refresh interval
-		 * is unnecessary and must be set to 0 so that it can pass the
-		 * check in the redraw_screen() function.
-		 */
-		plot.interval_sec = 0;
 	} else {
 		/**
 		 * When we read data from stdin, we no longer need a timer to
 		 * trigger the update.
 		 */
 		timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
-		struct itimerspec to = { { plot.interval_sec, 0 },
-					 { plot.interval_sec, 0 } };
+		struct itimerspec to = { { interval_sec, 0 },
+					 { interval_sec, 0 } };
 		timerfd_settime(timerfd, 0, &to, NULL);
 		FD_SET(timerfd, &readfds);
 		if (maxfd < timerfd)

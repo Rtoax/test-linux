@@ -25,7 +25,6 @@ struct plot {
 	struct {
 		int top, bottom, left, right;
 	} bnd, prev_max;
-	int prev_sec, interval_sec;
 	struct lgroup *lghead, *lgtail;
 	int lgcount;
 };
