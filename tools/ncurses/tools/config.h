@@ -73,6 +73,9 @@ enum {
 #define W_U2584 L"▄"
 #define W_U2588 L"█"
 
+#define U2665 "♥"
+#define W_U2665 L"♥"
+
 #define WCH(W)                                           \
 	({                                               \
 		cchar_t ___wch;                          \
@@ -83,3 +86,4 @@ enum {
 #define WCH_U2502 WCH(W_U2502)
 #define WCH_U2503 WCH(W_U2503)
 #define WCH_U2588 WCH(W_U2588)
+#define WCH_U2665 WCH(W_U2665)

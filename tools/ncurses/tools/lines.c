@@ -133,6 +133,27 @@ static void unicode_boldbold_corner2(struct line *ln, int y, int x)
 	mvvline_set(y, x, &wch_vline, 1);
 }
 
+static void unicode_heart(struct line *ln, int y, int x)
+{
+	mvprintw(y, x, U2665);
+}
+
+static void unicode_heart_vertical(struct line *ln, int y, int x, int n)
+{
+	cchar_t wch_vline = WCH_U2665;
+	mvvline_set(y, x, &wch_vline, n);
+}
+
+const struct ldraw_ops unicode_heart_line_ops = {
+	.name = "unicode-heart",
+	.horizon = unicode_heart,
+	.vertical = unicode_heart_vertical,
+	.ulcorner = unicode_heart,
+	.llcorner = unicode_heart,
+	.urcorner = unicode_heart,
+	.lrcorner = unicode_heart,
+};
+
 const struct ldraw_ops unicode_boldbold_line_ops = {
 	.name = "unicode-boldbold",
 	.horizon = unicode_boldbold_horizon,
@@ -197,6 +218,7 @@ const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_line_ops,
 	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_line_ops,
 	[LINE_TYPE_BOLDBOLD_UNICODE] = &unicode_boldbold_line_ops,
+	[LINE_TYPE_HEART_UNICODE] = &unicode_heart_line_ops,
 	[LINE_TYPE_THIN_UNICODE] = &unicode_line_ops,
 	[LINE_TYPE_THIN_UNICODE_DASHED] = &unicode_dashed_line_ops,
 	[LINE_TYPE_UTF8] = &utf8_line_ops,
