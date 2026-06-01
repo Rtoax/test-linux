@@ -4,7 +4,7 @@ set -em
 
 args=( --tmout 2 )
 
-# loadavg will send SIGINT to every processes in it's group, thus, we just
+# plotcake will send SIGINT to every processes in it's group, thus, we just
 # catch SIGINT wo avoid this script execute failed, just for test in Build.mk's
 # `prog-y`.
 sigint() {
@@ -15,26 +15,26 @@ trap sigint INT
 
 # display all line type
 while sleep 0.05; do
-	seq 1 1 $(./loadavg -L nonsense 2>/dev/null | wc -l)
-done | ./loadavg ${args[@]} $(./loadavg -L nonsense 2>/dev/null | sed 's/^/-L/g') \
+	seq 1 1 $(./plotcake -L nonsense 2>/dev/null | wc -l)
+done | ./plotcake ${args[@]} $(./plotcake -L nonsense 2>/dev/null | sed 's/^/-L/g') \
 	-C red -C red
 
 #
 for i in 2 4 1 4 6 1 9; do
 	seq 1 1 $i
 	sleep .1
-done | ./loadavg ${args[@]}
+done | ./plotcake ${args[@]}
 
 # display the loadavg
 while sleep .1; do
 	awk '{print $1, $2, $3}' /proc/loadavg
-done | ./loadavg ${args[@]} --title 'Loadavg' --xlabel 'Time' --ylabel 'Load' \
+done | ./plotcake ${args[@]} --title 'Loadavg' --xlabel 'Time' --ylabel 'Load' \
 		-l 'Load1' -l 'Load5' -l 'Load15'
 
 # display the memory usage
 while sleep .1; do
 	free -m | grep ^Mem | awk '{print $2, $3, $4, $5, $6, $7}'
-done | ./loadavg ${args[@]} --title 'Memory Usage' --xlabel 'Time' --ylabel 'Size(MB)' \
+done | ./plotcake ${args[@]} --title 'Memory Usage' --xlabel 'Time' --ylabel 'Size(MB)' \
 		-l total -l used -l free -l shared -l buff/cache -l avail
 
 # display the process number
@@ -44,7 +44,7 @@ while sleep .1; do
 	      $(ps -eo state | grep ^R | wc -l)
 	      $(ps -eo state | grep ^I | wc -l) )
 	echo ${num[@]}
-done | ./loadavg ${args[@]} --title 'Process Number' --xlabel 'Time' --ylabel 'Number' \
+done | ./plotcake ${args[@]} --title 'Process Number' --xlabel 'Time' --ylabel 'Number' \
 		-l All -l Sleep -l Run -l Idle
 
 # display one storage read and write
@@ -54,14 +54,14 @@ iostat_x() {
 if which iostat 2>&1 >/dev/null; then
 	while sleep .1; do
 		iostat_x | awk '{print $3, $4}'
-	done | ./loadavg ${args[@]} -T "$(iostat_x | awk '{print $1}') Read-Write" \
+	done | ./plotcake ${args[@]} -T "$(iostat_x | awk '{print $1}') Read-Write" \
 			-l 'kB_read/s' -l 'kB_wrtn/s' --ylabel 'Rate'
 fi
 
 # display files opened
 while sleep .3; do
 	awk '{print $1}' /proc/sys/fs/file-nr
-done | ./loadavg ${args[@]} --title 'File Number' -l 'opened'
+done | ./plotcake ${args[@]} --title 'File Number' -l 'opened'
 
 # display the NIC rx
 # TODO: the bytes is too large to show the changes.
@@ -77,6 +77,6 @@ for i in ${iface[@]}; do
 done
 while sleep 0.1; do
 	grep ${maxiface} /proc/net/dev | awk '{print $2, $10}'
-done | ./loadavg ${args[@]} --title "${maxiface} tx/rx" -l RX -l TX
+done | ./plotcake ${args[@]} --title "${maxiface} tx/rx" -l RX -l TX
 
 echo "Byebye"

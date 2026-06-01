@@ -12,5 +12,5 @@ i:s:2 {
 END {
 	clear(@enter);
 }
-' 2>/dev/null | ../loadavg --title 'Syscalls' --ylabel 'N/s' \
+' 2>/dev/null | ../plotcake --title 'Syscalls' --ylabel 'N/s' \
 			-l 'syscall'

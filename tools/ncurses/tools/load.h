@@ -1,0 +1,6 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+/* Copyright (C) 2026 Rong Tao */
+#pragma once
+#include "value.h"
+
+extern struct lgroup lg_loadavg;

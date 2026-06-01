@@ -17,5 +17,5 @@ END {
 	clear(@tx);
 	clear(@rx);
 }
-' 2>/dev/null | ../loadavg --title 'Network rx and tx action' --ylabel 'N/s' \
+' 2>/dev/null | ../plotcake --title 'Network rx and tx action' --ylabel 'N/s' \
 			-l 'tx' -l 'rx'

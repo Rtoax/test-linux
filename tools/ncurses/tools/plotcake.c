@@ -27,22 +27,23 @@
 #include <time.h>
 #include <ncurses.h>
 #include <unistd.h>
+#include "load.h"
 #include "value.h"
-#include "ram.h"
 #include "plot.h"
+#include "ram.h"
 #include "stdin.h"
 
 const char argp_prog_doc[] =
 	"USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n"
 	"\n"
 	"EXAMPLES:\n"
-	"   $ ./loadavg        # Draw loadavg graph\n"
-	"   $ ./loadavg -M     # Draw memory usage graph\n"
+	"   $ ./plotcake        # Draw loadavg graph\n"
+	"   $ ./plotcake -M     # Draw memory usage graph\n"
 	"\n"
 	"   # Draw opened file number\n"
 	"   $ while sleep .5; do\n"
 	"	awk '{print $1}' /proc/sys/fs/file-nr\n"
-	"     done | ./loadavg --title 'Opened File Number' -l 'opened'\n"
+	"     done | ./plotcake --title 'Opened File Number' -l 'opened'\n"
 	"\n";
 
 static const struct argp_option opts[] = {
@@ -94,49 +95,6 @@ void broadcast_sig(int signo)
 {
 	kill(0, signo);
 }
-
-static void loadavg_create(struct lgroup *lg, void *arg)
-{
-	new_line(lg, "load1", nextcolor(C_RED));
-	new_line(lg, "load5", nextcolor(C_GREEN));
-	new_line(lg, "load15", nextcolor(C_BLUE));
-}
-
-static void loadavg_update(struct lgroup *lg, void *arg)
-{
-	double avg[3];
-
-	getloadavg(avg, 3);
-
-	int i = 0;
-	for_each_line(lg, line)
-	{
-		line_add(line, avg[i]);
-		i++;
-	}
-}
-
-void loadavg_plot_debug(const struct lgroup *lg, void *arg)
-{
-	struct plot *p = lg->plot;
-	int i = 0;
-	for_each_line(lg, ln)
-	{
-		mvprintw(i + 1, p->bnd.left + 1, "%s: cnt=%d %lf~%lf", ln->name,
-			 ln->count, ln->min->v, ln->max->v);
-		i++;
-	}
-}
-
-static struct lgroup_operations loadavg_ops = {
-	.create = loadavg_create,
-	.update = loadavg_update,
-	.plot_debug = loadavg_plot_debug,
-};
-
-static struct lgroup lg_loadavg = {
-	.ops = &loadavg_ops,
-};
 
 static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 {

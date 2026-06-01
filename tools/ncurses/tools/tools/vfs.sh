@@ -17,5 +17,5 @@ END {
 	clear(@write);
 	clear(@read);
 }
-' 2>/dev/null | ../loadavg --title 'VFS Read and Write' --ylabel 'N/s' \
+' 2>/dev/null | ../plotcake --title 'VFS Read and Write' --ylabel 'N/s' \
 			-l 'write' -l 'read'

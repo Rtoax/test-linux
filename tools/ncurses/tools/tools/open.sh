@@ -17,5 +17,5 @@ END {
 	clear(@open);
 	clear(@close);
 }
-' 2>/dev/null | ../loadavg --title 'Open and Close Syscall Rate' --ylabel 'N/s' \
+' 2>/dev/null | ../plotcake --title 'Open and Close Syscall Rate' --ylabel 'N/s' \
 			-l 'open' -l 'close'
