@@ -8,6 +8,7 @@ done
 
 # TODO
 while sleep 1; do
-	loads=( $(mpstat -P ALL | awk '{print $NF}' | grep -E '[0-9]+\.[0-9]+') )
+	loads=( $(mpstat -P ALL | grep -wv all | \
+		awk '{print $NF}' | grep -E '[0-9]+\.[0-9]+') )
 	echo ${loads[@]}
 done | ../loadavg --title 'CPU Loads' --ylabel '%idle' ${labels[@]}
