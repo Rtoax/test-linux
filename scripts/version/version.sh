@@ -3,14 +3,13 @@
 # Copyright (C) 2026 Rong Tao
 set -e
 
-if ! which jq 1>/dev/null 2>/dev/null; then
-	# jq() { echo 0; }
-	exit 0
-fi
-
 readonly ROOTDIR=$(dirname $(realpath $0))
 source ${ROOTDIR}/../liblog.sh
 readonly CONFIG=${ROOTDIR}/config.json
+
+if ! which jq 1>/dev/null 2>/dev/null; then
+	error "Not found command jq, please install jq"
+fi
 
 # If symlink, just run actual command.
 readonly symlink=$(basename $0)

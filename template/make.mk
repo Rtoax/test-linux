@@ -51,7 +51,7 @@ ifdef DEBUG
 endif
 
 ifneq ($(call make_ge,4,5), n)
-  $(error make_ge failed, $(call make_ge,4,4))
+  $(error make_ge failed, $(call make_ge,4,5))
 endif
 
 endif
