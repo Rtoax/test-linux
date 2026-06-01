@@ -104,7 +104,7 @@ const static char *color_names[C_MAX] = {
 enum lcolor_enum color_name2n(const char *name)
 {
 	for (int i = 0; i < C_MAX; i++)
-		if (!strcasecmp(name, color_names[i]))
+		if (!strncasecmp(color_names[i], name, strlen(name)))
 			return i;
 	/**
 	 * print error to stderr, hint to stdout.

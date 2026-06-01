@@ -54,7 +54,7 @@ static const struct argp_option opts[] = {
 	{ "ltype", 'L', "LINE TYPE", 0,
 	  "Spedify line types, if an invalid value is entered, the supported line types will be listed (may be listed multiple times)" },
 	{ "lcolor", 'C', "LINE COLOR", 0,
-	  "Spedify line colors, if an invalid value is entered, the supported line colors will be listed (may be listed multiple times)" },
+	  "Spedify line colors, if an invalid value is entered, the supported line colors will be listed, can match color prefixes, such as 'r' matching 'red' (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
