@@ -2,7 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
 
-#define MY_VERSION "v1.2.2"
+#define MY_VERSION "v1.3.0"
 
 enum {
 	C_GREEN,

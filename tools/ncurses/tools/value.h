@@ -85,8 +85,8 @@ const struct ldraw_ops *ldraw_type2ops(enum ltype_enum t);
 const struct ldraw_ops *ldraw_name2ops(const char *name);
 const char *ldraw_type2name(enum ltype_enum t);
 
-int enqueue_lname(const char *name);
-const char *dequeue_lname(void);
+int enqueue_llabel(const char *name);
+const char *dequeue_llabel(void);
 int enqueue_ltype(enum ltype_enum t);
 enum ltype_enum dequeue_ltype(void);
 int get_nr_ltypes(void);

@@ -49,8 +49,8 @@ static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
 	{ "xlabel", 'x', "X LABEL", 0, "Spedify x axis label" },
 	{ "ylabel", 'y', "Y LABEL", 0, "Spedify y axis label" },
-	{ "lname", 'l', "LINE NAME", 0,
-	  "Spedify line names (may be listed multiple times)" },
+	{ "llabel", 'l', "LINE NAME", 0,
+	  "Spedify line label (may be listed multiple times)" },
 	{ "ltype", 'L', "LINE TYPE", 0,
 	  "Spedify line types, if an invalid value is entered, the supported line types will be listed (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
@@ -143,7 +143,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		plot.title = arg;
 		break;
 	case 'l':
-		enqueue_lname(arg);
+		enqueue_llabel(arg);
 		break;
 	case 'L':
 		if (!ldraw_hasname(arg))

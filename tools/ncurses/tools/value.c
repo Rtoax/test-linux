@@ -7,9 +7,9 @@
 #include "value.h"
 #include "plot.h"
 
-static char **lnames = NULL;
-static int nr_lnames = 0;
-static int idx_lnames = -1;
+static char **llabels = NULL;
+static int nr_llabels = 0;
+static int idx_llabels = -1;
 
 static enum ltype_enum *ltypes = NULL;
 static int nr_ltypes = 0;
@@ -19,20 +19,20 @@ static int idx_ltypes = -1;
  * Since this program is single-thread, we could set line name with a global
  * list.
  */
-int enqueue_lname(const char *name)
+int enqueue_llabel(const char *name)
 {
-	nr_lnames++;
-	lnames = (char **)realloc(lnames, nr_lnames * sizeof(char *));
+	nr_llabels++;
+	llabels = (char **)realloc(llabels, nr_llabels * sizeof(char *));
 	/* FIXME: memleak here */
-	lnames[nr_lnames - 1] = strdup(name);
+	llabels[nr_llabels - 1] = strdup(name);
 	return 0;
 }
 
-const char *dequeue_lname(void)
+const char *dequeue_llabel(void)
 {
-	if (nr_lnames <= 0 || idx_lnames >= nr_lnames)
+	if (nr_llabels <= 0 || idx_llabels >= nr_llabels)
 		return NULL;
-	return lnames[++idx_lnames];
+	return llabels[++idx_llabels];
 }
 
 int enqueue_ltype(enum ltype_enum t)
@@ -171,7 +171,7 @@ void line_add(struct line *l, double v)
 static struct line *__create_line(const char *name, int color)
 {
 	struct line *new = malloc(sizeof(struct line));
-	const char *arg_name = dequeue_lname();
+	const char *arg_name = dequeue_llabel();
 
 	memset(new, 0, sizeof(struct line));
 
