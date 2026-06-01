@@ -189,8 +189,8 @@ static int lgroup_add(struct lgroup *lg, struct line *l)
 		lg->count = 1;
 	} else {
 		lg->tail->next = l;
+		lg->count++;
 	}
-	lg->count++;
 	lg->tail = l;
 	l->lg = lg;
 	return 0;
