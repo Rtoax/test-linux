@@ -12,7 +12,7 @@
 
 static char *skip(char *buf)
 {
-	while (*buf != '\0' && isspace(buf[0]))
+	while (*buf != '\0' && isspace(*buf))
 		buf++;
 	return buf;
 }
@@ -42,42 +42,47 @@ static void stdin_create(struct lgroup *lg, void *arg)
 
 static void stdin_update(struct lgroup *lg, void *arg)
 {
-	int i;
+	int i, narg;
 	struct stdin_arg *a = arg;
 	double *values = malloc(sizeof(double) * a->nline);
 	char *buf = a->line_buff;
-	struct plot *p = lg->plot;
 
 	if (*buf == '\0')
 		return;
 
 	for (i = 0; i < a->nline && *buf != '\0'; i++) {
 		buf = skip(buf);
-
-		double v = strtod(buf, &buf);
-		values[i] = v;
+		values[i] = strtod(buf, &buf);
+		buf = skip(buf);
 	}
 
 	/* found more values, we could apped new line */
 	while (*buf != '\0') {
 		buf = skip(buf);
-		if (!isdigit(*buf)) {
-			if (*buf != '\0')
-				plot_warning(p, "stdin data syntax error: %s",
-					     a->line_buff);
+		if (!isdigit(*buf))
 			break;
-		}
 
 		__add_line(lg, i);
 
 		values = realloc(values, sizeof(double) * ++a->nline);
 		values[i++] = strtod(buf, &buf);
 	}
+	narg = i;
 
 	i = 0;
 	for_each_line(lg, line)
 	{
-		line_add(line, values[i]);
+		/**
+		 * The number of data items read from stdin may change. If it
+		 * is less than the previous number, then we need to add the old
+		 * data. If it's more than before, we've already added lines
+		 * above it.
+		 */
+		if (i < narg) {
+			line_add(line, values[i]);
+		} else {
+			line_add(line, line->tail->v);
+		}
 		i++;
 	}
 	free(values);
@@ -89,7 +94,8 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	struct plot *p = lg->plot;
 	int i;
 
-	mvprintw(0, p->bnd.left + 1, "lg cnt %d", lg->count);
+	mvprintw(0, p->bnd.left + 1, "lgroup cnt %d, arg nline %d", lg->count,
+		 a->nline);
 	mvprintw(1, p->bnd.left + 1, "stdin: '%s'", a->line_buff);
 
 	i = 0;

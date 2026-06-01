@@ -18,6 +18,12 @@ while sleep 0.05; do
 	seq 1 1 $(./loadavg -L nonsense 2>/dev/null | wc -l)
 done | ./loadavg ${args[@]} $(./loadavg -L nonsense 2>/dev/null | sed 's/^/-L/g')
 
+#
+for i in 2 4 1 4 6 1 9; do
+	seq 1 1 $i
+	sleep .1
+done | ./loadavg ${args[@]}
+
 # display the loadavg
 while sleep .1; do
 	awk '{print $1, $2, $3}' /proc/loadavg
