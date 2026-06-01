@@ -53,6 +53,8 @@ static const struct argp_option opts[] = {
 	  "Spedify line label (may be listed multiple times)" },
 	{ "ltype", 'L', "LINE TYPE", 0,
 	  "Spedify line types, if an invalid value is entered, the supported line types will be listed (may be listed multiple times)" },
+	{ "lcolor", 'C', "LINE COLOR", 0,
+	  "Spedify line colors, if an invalid value is entered, the supported line colors will be listed (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
@@ -149,6 +151,11 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		if (!ldraw_hasname(arg))
 			exit(EXIT_FAILURE);
 		enqueue_ltype(ldraw_name2type(arg));
+		break;
+	case 'C':
+		if (!hascolor_name(arg))
+			exit(EXIT_FAILURE);
+		enqueue_lcolor(color_name2n(arg));
 		break;
 	case 'x':
 		plot.label_x = arg;

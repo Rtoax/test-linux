@@ -16,7 +16,8 @@ trap sigint INT
 # display all line type
 while sleep 0.05; do
 	seq 1 1 $(./loadavg -L nonsense 2>/dev/null | wc -l)
-done | ./loadavg ${args[@]} $(./loadavg -L nonsense 2>/dev/null | sed 's/^/-L/g')
+done | ./loadavg ${args[@]} $(./loadavg -L nonsense 2>/dev/null | sed 's/^/-L/g') \
+	-C red -C red
 
 #
 for i in 2 4 1 4 6 1 9; do

@@ -15,6 +15,10 @@ static enum ltype_enum *ltypes = NULL;
 static int nr_ltypes = 0;
 static int idx_ltypes = -1;
 
+static enum lcolor_enum *lcolors = NULL;
+static int nr_lcolors = 0;
+static int idx_lcolors = -1;
+
 /**
  * Since this program is single-thread, we could set line name with a global
  * list.
@@ -54,6 +58,55 @@ enum ltype_enum dequeue_ltype(void)
 	if (nr_ltypes <= 0 || idx_ltypes >= nr_ltypes)
 		return LINE_TYPE_DEFAULT;
 	return ltypes[++idx_ltypes];
+}
+
+int enqueue_lcolor(enum lcolor_enum c)
+{
+	nr_lcolors++;
+	lcolors = (enum lcolor_enum *)realloc(
+		lcolors, nr_lcolors * sizeof(enum lcolor_enum));
+	lcolors[nr_lcolors - 1] = c;
+	return 0;
+}
+
+int get_nr_lcolors(void)
+{
+	return nr_lcolors;
+}
+
+enum lcolor_enum dequeue_lcolor(void)
+{
+	if (nr_lcolors <= 0 || idx_lcolors >= nr_lcolors)
+		return LINE_TYPE_DEFAULT;
+	return lcolors[++idx_lcolors];
+}
+
+const static char *color_names[C_MAX] = {
+	[C_GREEN] = "green", [C_RED] = "red",	      [C_CYAN] = "cyan",
+	[C_WHITE] = "white", [C_MAGENTA] = "magenta", [C_BLUE] = "blue",
+};
+
+/**
+ * @return: return C_UNKNOWN if not found.
+ */
+enum lcolor_enum color_name2n(const char *name)
+{
+	for (int i = 0; i < C_MAX; i++)
+		if (!strcasecmp(name, color_names[i]))
+			return i;
+	/**
+	 * print error to stderr, hint to stdout.
+	 */
+	fprintf(stderr, "ERROR: not support '%s', please use:\n", name);
+	for (int i = 0; i < C_MAX; i++) {
+		fprintf(stdout, "\t%s\n", color_names[i]);
+	}
+	return C_UNKNOWN;
+}
+
+bool hascolor_name(const char *name)
+{
+	return color_name2n(name) != C_UNKNOWN;
 }
 
 int dequeue_val(struct line *l)

@@ -90,6 +90,11 @@ const char *dequeue_llabel(void);
 int enqueue_ltype(enum ltype_enum t);
 enum ltype_enum dequeue_ltype(void);
 int get_nr_ltypes(void);
+int enqueue_lcolor(enum lcolor_enum c);
+enum lcolor_enum dequeue_lcolor(void);
+int get_nr_lcolors(void);
+enum lcolor_enum color_name2n(const char *name);
+bool hascolor_name(const char *name);
 
 int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);

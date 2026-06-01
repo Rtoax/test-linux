@@ -21,13 +21,19 @@ static void __add_line(struct lgroup *lg, int i)
 {
 	char name[64] = { 0 };
 	snprintf(name, 64, "line%d", i);
-	/* TODO: if stdin, auto select line type */
+	enum lcolor_enum color;
+
+	if (i < get_nr_lcolors())
+		color = dequeue_lcolor();
+	else
+		color = i % C_MAX;
+
 	if (i < get_nr_ltypes())
-		new_line(lg, name, i % C_MAX);
+		new_line(lg, name, color);
 	else {
 		int idx = (i - get_nr_ltypes()) / C_MAX;
 		idx %= LINE_TYPE_MAX;
-		new_line_ops(lg, name, i % C_MAX, ldraw_type2ops(idx));
+		new_line_ops(lg, name, color, ldraw_type2ops(idx));
 	}
 }
 

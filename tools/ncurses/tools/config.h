@@ -4,7 +4,7 @@
 
 #define MY_VERSION "v1.3.0"
 
-enum {
+enum lcolor_enum {
 	C_GREEN,
 	C_RED,
 	C_CYAN,
@@ -13,6 +13,7 @@ enum {
 	C_BLUE,
 	C_YELLOW,
 	C_MAX,
+	C_UNKNOWN = C_MAX,
 };
 
 /* Initial plot boundary */
