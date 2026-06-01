@@ -11,7 +11,7 @@ static const char *verstring = "github.com/rtoax/test-linux " MY_VERSION;
 
 int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
-	assert(lg->ops.create && "lgroup ops is not set, set it first");
+	assert(lg->ops->create && "lgroup ops is not set, set it first");
 
 	if (!p->lghead) {
 		p->lghead = lg;
@@ -22,7 +22,7 @@ int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 	p->lgcount++;
 	p->lgtail = lg;
 	lg->plot = p;
-	lg->ops.arg = lg_ops_arg;
+	lg->ops->arg = lg_ops_arg;
 	return 0;
 }
 
@@ -236,8 +236,8 @@ static void __paint_plot_lg(struct plot *p, const struct lgroup *lg)
 		paint_line(p, l, max, min);
 	}
 #ifdef DEBUG
-	if (lg->ops.plot_debug)
-		lg->ops.plot_debug(lg, lg->ops.arg);
+	if (lg->ops->plot_debug)
+		lg->ops->plot_debug(lg, lg->ops->arg);
 #endif
 }
 
@@ -276,7 +276,7 @@ void plot_create_data(struct plot *p)
 {
 	for_each_lg(p, lg)
 	{
-		lg->ops.create(lg, lg->ops.arg);
+		lg->ops->create(lg, lg->ops->arg);
 	}
 }
 
@@ -284,7 +284,7 @@ void plot_update_data(struct plot *p)
 {
 	for_each_lg(p, lg)
 	{
-		lg->ops.update(lg, lg->ops.arg);
+		lg->ops->update(lg, lg->ops->arg);
 	}
 }
 

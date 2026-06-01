@@ -126,14 +126,14 @@ void loadavg_plot_debug(const struct lgroup *lg, void *arg)
 	}
 }
 
-static const struct lgroup_operations loadavg_ops = {
+static struct lgroup_operations loadavg_ops = {
 	.create = loadavg_create,
 	.update = loadavg_update,
 	.plot_debug = loadavg_plot_debug,
 };
 
 static struct lgroup lg_loadavg = {
-	.ops = loadavg_ops,
+	.ops = &loadavg_ops,
 };
 
 static error_t parse_arg(int opt, char *arg, struct argp_state *state)

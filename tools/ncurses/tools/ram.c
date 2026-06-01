@@ -33,11 +33,11 @@ static void ram_update(struct lgroup *lg, void *arg)
 	}
 }
 
-static const struct lgroup_operations ram_ops = {
+static struct lgroup_operations ram_ops = {
 	.create = ram_create,
 	.update = ram_update,
 };
 
 struct lgroup lg_ram = {
-	.ops = ram_ops,
+	.ops = &ram_ops,
 };

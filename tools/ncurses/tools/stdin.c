@@ -113,12 +113,12 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	}
 }
 
-static const struct lgroup_operations stdin_ops = {
+static struct lgroup_operations stdin_ops = {
 	.create = stdin_create,
 	.update = stdin_update,
 	.plot_debug = stdin_plot_debug,
 };
 
 struct lgroup lg_stdin = {
-	.ops = stdin_ops,
+	.ops = &stdin_ops,
 };
