@@ -212,7 +212,6 @@ void plot_draw_axes(const struct plot *p)
 
 static void __paint_plot_lg(struct plot *p, const struct lgroup *lg)
 {
-	int i;
 	double max = -DBL_MAX, min = DBL_MAX;
 
 	/* find min and max first */
@@ -230,10 +229,8 @@ static void __paint_plot_lg(struct plot *p, const struct lgroup *lg)
 		min = min > _min ? _min : min;
 	}
 
-	i = -1;
 	for_each_line(lg, l)
 	{
-		i++;
 		if (l->count <= 0)
 			continue;
 		paint_line(p, l, max, min);
