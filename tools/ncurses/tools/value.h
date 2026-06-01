@@ -95,6 +95,7 @@ enum lcolor_enum dequeue_lcolor(void);
 int get_nr_lcolors(void);
 enum lcolor_enum color_name2n(const char *name);
 bool hascolor_name(const char *name);
+enum lcolor_enum nextcolor(enum lcolor_enum c);
 
 int dequeue_val(struct line *l);
 int enqueue_val(struct line *l, double v);

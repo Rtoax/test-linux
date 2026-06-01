@@ -7,10 +7,10 @@
 
 static void ram_create(struct lgroup *lg, void *arg)
 {
-	new_line(lg, "total", C_RED);
-	new_line(lg, "free", C_GREEN);
-	new_line(lg, "shared", C_BLUE);
-	new_line(lg, "buff", C_CYAN);
+	new_line(lg, "total", nextcolor(C_RED));
+	new_line(lg, "free", nextcolor(C_GREEN));
+	new_line(lg, "shared", nextcolor(C_BLUE));
+	new_line(lg, "buff", nextcolor(C_CYAN));
 }
 
 static void ram_update(struct lgroup *lg, void *arg)

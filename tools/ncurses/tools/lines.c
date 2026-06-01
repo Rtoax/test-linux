@@ -232,7 +232,8 @@ bool ldraw_hasname(const char *name)
 	/**
 	 * print error to stderr, hint to stdout.
 	 */
-	fprintf(stderr, "ERROR: not support '%s', please use:\n", name);
+	fprintf(stderr, "ERROR: not support line type '%s', please use:\n",
+		name);
 	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++) {
 		fprintf(stdout, "\t%s\n", ldraw_operations[i]->name);
 	}

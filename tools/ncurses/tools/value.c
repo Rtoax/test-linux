@@ -74,16 +74,28 @@ int get_nr_lcolors(void)
 	return nr_lcolors;
 }
 
+/**
+ * @return: return C_UNKNOWN if not enough.
+ */
 enum lcolor_enum dequeue_lcolor(void)
 {
 	if (nr_lcolors <= 0 || idx_lcolors >= nr_lcolors)
-		return LINE_TYPE_DEFAULT;
+		return C_UNKNOWN;
 	return lcolors[++idx_lcolors];
 }
 
+enum lcolor_enum nextcolor(enum lcolor_enum c)
+{
+	enum lcolor_enum color = dequeue_lcolor();
+	if (color != C_UNKNOWN)
+		return color;
+	return c % C_MAX;
+}
+
 const static char *color_names[C_MAX] = {
-	[C_GREEN] = "green", [C_RED] = "red",	      [C_CYAN] = "cyan",
-	[C_WHITE] = "white", [C_MAGENTA] = "magenta", [C_BLUE] = "blue",
+	[C_GREEN] = "green",   [C_RED] = "red",		[C_CYAN] = "cyan",
+	[C_WHITE] = "white",   [C_MAGENTA] = "magenta", [C_BLUE] = "blue",
+	[C_YELLOW] = "yellow",
 };
 
 /**
@@ -97,7 +109,7 @@ enum lcolor_enum color_name2n(const char *name)
 	/**
 	 * print error to stderr, hint to stdout.
 	 */
-	fprintf(stderr, "ERROR: not support '%s', please use:\n", name);
+	fprintf(stderr, "ERROR: not support color '%s', please use:\n", name);
 	for (int i = 0; i < C_MAX; i++) {
 		fprintf(stdout, "\t%s\n", color_names[i]);
 	}
