@@ -12,6 +12,7 @@
 const char argp_prog_doc[] = "USAGE: cuda oom [-v]\n\n";
 
 static const struct argp_option opts[] = {
+	{ "gpu", 'g', "GPU", 0, "Specify gpu, otherwise use default" },
 	{ "nopf", 'n', NULL, 1, "Disable page fault" },
 	{ "managed", 'm', NULL, 1,
 	  "Use cudaMallocManaged() instead of cudaMalloc()" },
@@ -19,6 +20,7 @@ static const struct argp_option opts[] = {
 };
 
 struct {
+	int gpu;
 	/**
 	 * Actually, if not page-fault, the GPU Memory Usage still rise up, see
 	 * nvidia-smi.
@@ -26,6 +28,7 @@ struct {
 	bool nopagefault;
 	bool managed;
 } env = {
+	.gpu = -1,
 	.nopagefault = false,
 	.managed = false,
 };
@@ -33,6 +36,9 @@ struct {
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
+	case 'g':
+		env.gpu = atoi(arg);
+		break;
 	case 'n':
 		env.nopagefault = true;
 		break;
@@ -80,6 +86,10 @@ int main(int argc, char *argv[])
 	if (err) {
 		fprintf(stderr, "argp_parse return %d\n", err);
 		return -err;
+	}
+
+	if (env.gpu != -1) {
+		CUDA_RUNTIME_CHECK_EXIT(cudaSetDevice(env.gpu));
 	}
 
 	for (;;) {
