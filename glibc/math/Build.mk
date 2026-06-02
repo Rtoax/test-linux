@@ -17,12 +17,9 @@ target-${IS_AARCH64} += __SVFloat32_t
 target-${IS_AARCH64} += __SVFloat64_t
 target-${IS_AARCH64} += __SVBool_t
 
+target-clean-y := clean-tmp
+
 LDFLAGS := -lm
 
 CFLAGS_sqrt-stress := -DSTRESS=1
 CFLAGS_log-stress := -DSTRESS=1
-
-target-clean-y := clean-tmp
-
-clean-tmp:
-	${Q}rm -rf tmpd-* tmp-*
