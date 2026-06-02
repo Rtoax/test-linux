@@ -28,7 +28,7 @@ struct plot {
 	struct lgroup *lghead, *lgtail;
 	int lgcount;
 	/* Logarithmic plotting */
-	int logarithmic;
+	enum { T_NONE = 0, T_LOGARITHMIC, T_LOGARITHMIC10 } logarithmic;
 };
 
 #define for_each_lg(plt, iter)                                           \

@@ -22,6 +22,7 @@ all_line_type() {
 }
 all_line_type
 all_line_type --logarithmic
+all_line_type --logarithmic10
 
 #
 for i in 2 4 1 4 6 1 9; do

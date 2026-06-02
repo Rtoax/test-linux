@@ -101,9 +101,18 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 	int prev_h = -1;
 	chtype color = flavor[ln->color];
 
-	if (p->logarithmic) {
+	switch (p->logarithmic) {
+	case T_LOGARITHMIC:
 		max = log(max);
 		min = log(min);
+		break;
+	case T_LOGARITHMIC10:
+		max = log10(max);
+		min = log10(min);
+		break;
+	case T_NONE:
+	default:
+		break;
 	}
 
 	for_each_value(ln, v)
@@ -111,8 +120,10 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 		double span = .0f, diff = .0f;
 		double plot_v = v->v;
 
-		if (p->logarithmic)
+		if (p->logarithmic == T_LOGARITHMIC)
 			plot_v = log(plot_v);
+		else if (p->logarithmic == T_LOGARITHMIC10)
+			plot_v = log10(plot_v);
 
 		/**
 		 * The number of data points may be greater than the horizontal
@@ -210,8 +221,10 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 void plot_draw_title(const struct plot *p)
 {
 	char buf[128], *title = buf;
-	if (p->logarithmic)
+	if (p->logarithmic == T_LOGARITHMIC)
 		snprintf(buf, 128, "%s (logarithmic)", p->title);
+	else if (p->logarithmic == T_LOGARITHMIC10)
+		snprintf(buf, 128, "%s (base-10 logarithmic)", p->title);
 	else
 		title = p->title;
 	mvaddstr(0, (p->width - strlen(title)) / 2, title);

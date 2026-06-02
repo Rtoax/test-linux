@@ -157,6 +157,7 @@ int enqueue_val(struct line *l, double v)
 	struct value *new = malloc(sizeof(struct value));
 	new->v = v;
 	new->logarithmic_v = log(v);
+	new->logarithmic10_v = log10(v);
 	gettimeofday(&new->tv, NULL);
 	new->next = NULL;
 

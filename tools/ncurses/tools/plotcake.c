@@ -35,6 +35,7 @@
 
 enum {
 	ARG_LOGARITHMIC = 200,
+	ARG_LOGARITHMIC10,
 };
 
 const char argp_prog_doc[] =
@@ -63,6 +64,8 @@ static const struct argp_option opts[] = {
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1, "Use natural logarithmic" },
+	{ "logarithmic10", ARG_LOGARITHMIC10, NULL, 1,
+	  "Use base-10 logarithmic, the curve shape is exactly the same as --logarithmic, only the values of the tick labels on the axes are different." },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
@@ -81,7 +84,7 @@ static char data_from_stdin[256] = { 0 };
 
 struct plot plot = {
 	.title = NULL,
-	.logarithmic = false,
+	.logarithmic = T_NONE,
 };
 
 void sig_handler(int signo)
@@ -135,7 +138,10 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		}
 		break;
 	case ARG_LOGARITHMIC:
-		plot.logarithmic = true;
+		plot.logarithmic = T_LOGARITHMIC;
+		break;
+	case ARG_LOGARITHMIC10:
+		plot.logarithmic = T_LOGARITHMIC10;
 		break;
 	case 'I':
 		interval_sec = atoi(arg);
