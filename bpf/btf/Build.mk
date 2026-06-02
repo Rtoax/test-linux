@@ -4,11 +4,13 @@ include helpers.mk
 subdir-y += btf_h
 subdir-y += examples
 
-target-y := btf_ksym
+target-y += btf_dump
+target-y += btf_ksym
 target-y += btf_kfunc
 target-y += btf_struct
 target-y += btf_decl_tag
 
+btf_dump-objs := ${BTF_HELPERS}
 btf_ksym-objs := ${BTF_HELPERS}
 btf_kfunc-objs := ${BTF_HELPERS}
 btf_struct-objs := ${BTF_HELPERS}

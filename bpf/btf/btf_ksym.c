@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
 #include "btf_helpers.h"
 
 int main(int argc, char **argv)

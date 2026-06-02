@@ -1,6 +1,7 @@
 /vmlinux.h
 /kvm.h
 /*.btf
+/btf_dump
 /btf_ksym
 /btf_kfunc
 /btf_struct
