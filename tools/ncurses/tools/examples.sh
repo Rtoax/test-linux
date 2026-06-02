@@ -13,21 +13,26 @@ sigint() {
 }
 trap sigint INT
 
-# display all line type
-all_line_type() {
-	while sleep 0.05; do
-		seq 1 1 $(./plotcake -L nonsense 2>/dev/null | wc -l)
-	done | ./plotcake ${args[@]} $(./plotcake -L nonsense 2>/dev/null | sed 's/^/-L/g') \
-		-C red -C red ${@}
-}
-all_line_type
-all_line_type --logarithmic
-all_line_type --logarithmic10
+line_types=( $(./plotcake -L nonsense 2>/dev/null || true) )
 
-#
-for i in 2 4 1 4 6 1 9; do
-	seq 1 1 $i
-	sleep .1
+# display all line type
+run() {
+	while sleep 0.05; do
+		seq 1 1 ${#line_types[@]}
+	done | ./plotcake ${args[@]} "${@}"
+}
+
+run
+run --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
+run $(for t in ${line_types[@]}; do echo "-L ${t}"; done)
+run --logarithmic
+run --logarithmic10
+
+while true; do
+	for i in 2 4 1 4 6 1 9 1 2 3 4 5; do
+		seq 1 1 $i
+		sleep 0.02
+	done
 done | ./plotcake ${args[@]}
 
 echo "Byebye"
