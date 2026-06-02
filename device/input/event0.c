@@ -19,7 +19,8 @@ int main(int argc, char *argv[])
 		if (!strncmp(argv[i], "idx=", 4))
 			idx = atoi(argv[i] + 4);
 
-	fprintf(stderr, "Usage: %s [idx=IDX]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [idx=IDX, see /dev/input/by-id/]\n",
+		argv[0]);
 
 	sprintf(event, "/dev/input/event%d", idx);
 

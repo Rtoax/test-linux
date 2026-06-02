@@ -2,7 +2,6 @@
 #include <sys/socket.h>
 #include <termios.h>
 #include <unistd.h>
-
 #include "termios_helpers.h"
 
 int socket_fd(void)
