@@ -19,5 +19,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "btf dump new failed.\n");
 	}
 	// TODO
+	btf_dump__free(dump);
+	btf__free(btf);
 	return 0;
 }
