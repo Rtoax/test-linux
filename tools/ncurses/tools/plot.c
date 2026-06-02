@@ -194,8 +194,10 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 		char sv[64];
 		int nc;
 
-		if (p->logarithmic)
-			nc = snprintf(sv, 64, "%.3f (%.3f)", v->v, plot_v);
+		if (p->logarithmic == T_LOGARITHMIC)
+			nc = snprintf(sv, 64, "log(%.3f)=%.3f", v->v, plot_v);
+		else if (p->logarithmic == T_LOGARITHMIC10)
+			nc = snprintf(sv, 64, "log10(%.3f)=%.3f", v->v, plot_v);
 		else
 			nc = snprintf(sv, 64, "%.3f", v->v);
 
