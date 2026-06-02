@@ -7,7 +7,7 @@ target-y += finite
 target-y += sqrt sqrt-stress
 target-y += nan
 target-y += isgreater
-target-y += log log-stress
+target-y += log log-stress log10
 target-y += sin
 target-y += signbit
 target-y += nextafter
@@ -19,7 +19,10 @@ target-${IS_AARCH64} += __SVBool_t
 
 target-clean-y := clean-tmp
 
+log10-objs := log.1.o
+
 LDFLAGS := -lm
 
 CFLAGS_sqrt-stress := -DSTRESS=1
 CFLAGS_log-stress := -DSTRESS=1
+CFLAGS_log.1 := -DLOG10=1

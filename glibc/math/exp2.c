@@ -1,11 +1,12 @@
 #include <math.h>
 #include <stdio.h>
 
-int main(void)
+static double ds[] = { 1, 2, 3, 3.14 };
+
+int main(int argc, char *argv[])
 {
-	printf("%f\n", exp2(1));
-	printf("%f\n", exp2(2));
-	printf("%f\n", exp2(-3));
+	for (int i = 0; i < sizeof(ds) / sizeof(ds[0]); i++)
+		printf("exp2(%lf) = %lf\n", ds[i], exp2(ds[i]));
 
 	return 0;
 }
