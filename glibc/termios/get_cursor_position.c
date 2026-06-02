@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <termios.h>
-
-#include "../../libs/gotoxy.h"
+#include "gotoxy.h"
 
 /* Function to set terminal to raw mode */
 void set_raw_mode(struct termios *old_termios)

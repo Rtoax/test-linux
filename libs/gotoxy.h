@@ -3,8 +3,6 @@
 #include <sys/ioctl.h>
 
 /**
- * row: 行; col: 列;
- *
  * $ tput sc                # save curse
  * $ tput cup [row] [col]   # jump to curse
  * $ tput rc                # resume curse
@@ -32,4 +30,3 @@ getwinsz(unsigned short *row, unsigned short *col)
 	*col = sz.ws_col;
 	return ret;
 }
-
