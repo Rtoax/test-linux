@@ -33,6 +33,10 @@
 #include "ram.h"
 #include "stdin.h"
 
+enum {
+	ARG_LOGARITHMIC = 200,
+};
+
 const char argp_prog_doc[] =
 	"USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n"
 	"\n"
@@ -58,6 +62,7 @@ static const struct argp_option opts[] = {
 	  "Spedify line colors, if an invalid value is entered, the supported line colors will be listed, can match color prefixes, such as 'r' matching 'red' (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
+	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1, "Use natural logarithmic" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
@@ -76,6 +81,7 @@ static char data_from_stdin[256] = { 0 };
 
 struct plot plot = {
 	.title = NULL,
+	.logarithmic = false,
 };
 
 void sig_handler(int signo)
@@ -127,6 +133,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 			fprintf(stderr, "ERROR: bad -t value\n");
 			exit(EXIT_FAILURE);
 		}
+		break;
+	case ARG_LOGARITHMIC:
+		plot.logarithmic = true;
 		break;
 	case 'I':
 		interval_sec = atoi(arg);

@@ -27,6 +27,8 @@ struct plot {
 	} bnd, prev_max;
 	struct lgroup *lghead, *lgtail;
 	int lgcount;
+	/* Logarithmic plotting */
+	int logarithmic;
 };
 
 #define for_each_lg(plt, iter)                                           \
