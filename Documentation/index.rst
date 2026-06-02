@@ -77,6 +77,7 @@ Linux Kernel
 .. toctree::
    :maxdepth: 1
 
+   File System <fs/index>
    Scheduler <sched/index>
 
 
