@@ -42,6 +42,7 @@ const char argp_prog_doc[] =
 	"USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n"
 	"\n"
 	"EXAMPLES:\n"
+	"\n"
 	"   $ ./plotcake        # Draw loadavg graph\n"
 	"   $ ./plotcake -M     # Draw memory usage graph\n"
 	"\n"
@@ -49,7 +50,12 @@ const char argp_prog_doc[] =
 	"   $ while sleep .5; do\n"
 	"	awk '{print $1}' /proc/sys/fs/file-nr\n"
 	"     done | ./plotcake --title 'Opened File Number' -l 'opened'\n"
-	"\n";
+	"\n"
+	"SHORTCUT KEY:\n"
+	"\n"
+	"   'q', Esc: quit\n"
+	"\n"
+	"OPTIONS:\n";
 
 static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
@@ -307,6 +313,7 @@ int main(int argc, char *argv[])
 				plot.keyboard.count++;
 				switch (plot.keyboard.key) {
 				case 'q':
+				case 27: /* Esc */
 					broadcast_sig(SIGINT);
 					goto end;
 					break;
