@@ -8,6 +8,9 @@
 #elif defined(LOG2)
 #define log(x) log2(x)
 #define NAME "log2"
+#elif defined(LOGB)
+#define log(x) logb(x)
+#define NAME "logb"
 #else
 #define NAME "log"
 #endif

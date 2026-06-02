@@ -12,6 +12,7 @@
 /log-stress
 /log10
 /log2
+/logb
 /sin
 /signbit
 /nextafter
