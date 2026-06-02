@@ -3,7 +3,12 @@
 
 int main(int argc, char *argv[])
 {
-	char ch = argv[1][0];
+	char ch;
+
+	if (argc > 1)
+		ch = argv[1][0];
+	else
+		ch = 'x';
 
 	printf("%c\n", ch);
 

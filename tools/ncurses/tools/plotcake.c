@@ -73,7 +73,6 @@ static const struct argp_option opts[] = {
 };
 
 static int sig_rd_fd, sig_wr_fd;
-static char key = ' ';
 static int done = false;
 static int ram = false;
 static int verbose = false;
@@ -303,9 +302,10 @@ int main(int argc, char *argv[])
 
 		int ret = select(maxfd + 1, &fds, NULL, NULL, NULL);
 		if (ret > 0 && FD_ISSET(keyfd, &fds)) {
-			int count = read(keyfd, &key, 1);
+			int count = read(keyfd, &plot.keyboard.key, 1);
 			if (count == 1) {
-				switch (key) {
+				plot.keyboard.count++;
+				switch (plot.keyboard.key) {
 				case 'q':
 					broadcast_sig(SIGINT);
 					goto end;

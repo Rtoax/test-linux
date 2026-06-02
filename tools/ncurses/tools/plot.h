@@ -29,6 +29,14 @@ struct plot {
 	int lgcount;
 	/* Logarithmic plotting */
 	enum { T_NONE = 0, T_LOGARITHMIC, T_LOGARITHMIC10 } logarithmic;
+
+	/**
+	 * record previous keyboard event.
+	 */
+	struct {
+		unsigned long count;
+		char key;
+	} keyboard;
 };
 
 #define for_each_lg(plt, iter)                                           \

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
 #include <assert.h>
+#include <ctype.h>
 #include <float.h>
 #include <math.h>
 #include <stdio.h>
@@ -303,9 +304,12 @@ void paint_plot(struct plot *p)
 	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
 
 #ifdef DEBUG
-	mvprintw(p->height - 2, 0, "plot: (%d,%d) max(%d,%d) plot(%d,%d)",
-		 p->height, p->width, p->heightmax, p->widthmax, p->plotheight,
-		 p->plotwidth);
+	mvprintw(
+		p->height - 2, 0,
+		"plot: (%d,%d) max(%d,%d) plot(%d,%d) keyboard(count=%ld,key=%d='%c')",
+		p->height, p->width, p->heightmax, p->widthmax, p->plotheight,
+		p->plotwidth, p->keyboard.count, p->keyboard.key,
+		isgraph(p->keyboard.key) ? p->keyboard.key : '?');
 #endif
 
 	move(0, 0);
