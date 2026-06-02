@@ -11,4 +11,5 @@ plotcake.dbg-objs := plotcake.1.o load.1.o value.1.o plot.1.o ram.1.o stdin.1.o 
 $(foreach obj, plotcake load value plot ram stdin lines, \
   $(eval CFLAGS_${obj}.1 := -DDEBUG=1))
 
+LDFLAGS += -lm
 LDFLAGS += ${ncurses-ldflags}

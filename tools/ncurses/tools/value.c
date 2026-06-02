@@ -2,6 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #include <float.h>
 #include <malloc.h>
+#include <math.h>
 #include <ncurses.h>
 #include <string.h>
 #include "value.h"
@@ -155,6 +156,7 @@ int enqueue_val(struct line *l, double v)
 {
 	struct value *new = malloc(sizeof(struct value));
 	new->v = v;
+	new->logarithmic_v = log(v);
 	gettimeofday(&new->tv, NULL);
 	new->next = NULL;
 

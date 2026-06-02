@@ -11,6 +11,7 @@ struct ldraw_ops;
 
 struct value {
 	double v;
+	double logarithmic_v;
 	struct timeval tv;
 	struct value *next;
 };
