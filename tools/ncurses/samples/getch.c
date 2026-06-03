@@ -7,10 +7,24 @@ int main(void)
 	noecho();
 	curs_set(0);
 
+	keypad(stdscr, TRUE);
+	/**
+	 * nodelay configures the input character reading function to be
+	 * non-blocking for window win.
+	 */
+	nodelay(stdscr, TRUE);
+
 	while (1) {
-		char c = getch();
+		int c = getch();
 		if (c != ERR) {
-			printw("getch = '%c' %d\n", c, c);
+			switch (c) {
+			case KEY_LEFT:
+				printw("KEY_LEFT %d\n", c);
+				break;
+			default:
+				printw("getch = '%c' %d\n", c, c);
+				break;
+			}
 			refresh();
 			switch (c) {
 			case 'q':
