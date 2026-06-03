@@ -314,7 +314,9 @@ void paint_plot(struct plot *p)
 		p->height, p->width, p->heightmax, p->widthmax, p->plotheight,
 		p->plotwidth, p->keyboard.count, p->keyboard.key,
 		p->keyboard.key, keyname(p->keyboard.key));
-	mvprintw(p->height - 1, 0, "      redraw=%ld", p->redrawcount);
+	mvprintw(p->height - 1, 0, "      redraw=%ld, key(left=%ld,right=%ld)",
+		 p->redrawcount, p->keyboard.key_left_count,
+		 p->keyboard.key_right_count);
 #endif
 
 	move(0, 0);

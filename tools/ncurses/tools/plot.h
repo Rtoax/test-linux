@@ -41,6 +41,7 @@ struct plot {
 	 */
 	struct {
 		unsigned long count;
+		unsigned long key_left_count, key_right_count;
 		int key; /* read from STDIN/getch() or /dev/tty */
 	} keyboard;
 };

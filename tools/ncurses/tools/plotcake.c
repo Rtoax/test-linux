@@ -370,6 +370,12 @@ int main(int argc, char *argv[])
 			if (plot.keyboard.key != ERR) {
 				plot.keyboard.count += count;
 				switch (plot.keyboard.key) {
+				case KEY_LEFT:
+					plot.keyboard.key_left_count++;
+					break;
+				case KEY_RIGHT:
+					plot.keyboard.key_right_count++;
+					break;
 				case 'q':
 				case 27: /* Esc */
 					broadcast_sig(SIGINT);
