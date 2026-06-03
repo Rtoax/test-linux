@@ -15,7 +15,10 @@ struct plot {
 	/**
 	 * max indicates the maximum value your terminal has reached during the
 	 * entire program run (you can use the mouse to drag and adjust the
-	 * terminal size)
+	 * terminal size).
+	 *
+	 * `heightmax` represents the maximum height of the terminal window, and
+	 * `widthmax` represents the maximum width of the terminal window.
 	 */
 	int heightmax, widthmax;
 	/* Current terminal size */
