@@ -1,7 +1,8 @@
 #!/bin/env bpftrace
 
 kprobe:net_rx_action,
-kprobe:net_tx_action
+kprobe:net_tx_action,
+uprobe:libc:printf
 {
 	printf("%s", func);
 	exit();
