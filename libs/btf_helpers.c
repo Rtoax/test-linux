@@ -311,6 +311,13 @@ struct btf *btf_load_vmlinux(void)
 	return btf;
 }
 
+struct btf *btf_load_module(const char *module)
+{
+	char path[64];
+	snprintf(path, 64, "/sys/kernel/btf/%s", module);
+	return btf__parse(path, NULL);
+}
+
 /**
  * Return btf id if exist, -1 if non-exist.
  */
