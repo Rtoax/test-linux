@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 		};
 
 		DECLARE_LIBBPF_OPTS(btf_dump_type_data_opts, opts,
-				    .compact = true, .skip_names = false, );
+				    .compact = false, .skip_names = false, );
 		btf_dump__dump_type_data(dump, btf_id, &task, sizeof(task),
 					 &opts);
 	} else {
