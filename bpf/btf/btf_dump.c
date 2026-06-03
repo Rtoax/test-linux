@@ -1,6 +1,7 @@
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
 #include <bpf/btf.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -29,7 +30,31 @@ int main(int argc, char **argv)
 
 	btf_id = btf_has_struct(sym_struct);
 
-	btf_dump__dump_type(dump, btf_id);
+	if (!strcmp(sym_struct, "task_struct")) {
+		struct task_struct {
+			struct thread_info {
+				long unsigned int flags;
+				long unsigned int syscall_work;
+				uint32_t status;
+				uint32_t cpu;
+			} thread_info;
+		};
+		struct task_struct task = {
+			.thread_info = {
+				.flags = 2,
+				.syscall_work = 3,
+				.status = 4,
+				.cpu = 5,
+			},
+		};
+
+		DECLARE_LIBBPF_OPTS(btf_dump_type_data_opts, opts,
+				    .compact = true, .skip_names = false, );
+		btf_dump__dump_type_data(dump, btf_id, &task, sizeof(task),
+					 &opts);
+	} else {
+		btf_dump__dump_type(dump, btf_id);
+	}
 
 	btf_dump__free(dump);
 	btf__free(btf);
