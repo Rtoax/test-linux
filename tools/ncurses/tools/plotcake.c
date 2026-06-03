@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
 	plot_create_data(&plot);
 	plot_update_size(&plot, true);
 	plot_update_data(&plot);
-	redraw_screen(&plot);
+	plot_redraw(&plot);
 
 	/* main loop */
 	while (!done) {
@@ -361,7 +361,7 @@ int main(int argc, char *argv[])
 			continue;
 
 		if (redraw)
-			redraw_screen(&plot);
+			plot_redraw(&plot);
 	}
 
 end:

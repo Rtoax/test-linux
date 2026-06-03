@@ -331,11 +331,14 @@ void plot_update_data(struct plot *p)
 	}
 }
 
-void redraw_screen(struct plot *p)
+void plot_redraw(struct plot *p)
 {
 	erase();
 	paint_plot(p);
 	refresh();
 
 	plot_update_size(p, false);
+
+	/* do some reset */
+	p->keyboard.key = '\0';
 }
