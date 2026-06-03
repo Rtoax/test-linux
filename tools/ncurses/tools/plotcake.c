@@ -88,12 +88,7 @@ static int interval_sec = 1;
 
 static char data_from_stdin[256] = { 0 };
 
-struct plot plot = {
-	.title = NULL,
-	.logarithmic = T_NONE,
-	.redrawcount = 0,
-	.keyboard.count = 0,
-};
+struct plot plot = { 0 };
 
 void sig_handler(int signo)
 {
@@ -268,6 +263,8 @@ int main(int argc, char *argv[])
 	signal(SIGWINCH, sig_handler);
 
 	/* curses start from here */
+
+	plot_init(&plot);
 
 	/**
 	 * In ncurses, the biggest difficulty in detecting a single press of the

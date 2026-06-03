@@ -45,6 +45,8 @@ struct plot {
 	} keyboard;
 };
 
+#define plot_init(p) memset(p, 0, sizeof(struct plot))
+
 #define for_each_lg(plt, iter)                                           \
 	for (struct lgroup *iter = ((struct plot *)(plt))->lghead; iter; \
 	     iter = iter->next)
