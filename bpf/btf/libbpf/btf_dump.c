@@ -23,9 +23,14 @@ int main(int argc, char **argv)
 		sym_struct = argv[1];
 
 	btf = btf_load_vmlinux();
+	if (!btf) {
+		fprintf(stderr, "btf load failed.\n");
+		exit(EXIT_FAILURE);
+	}
 	dump = btf_dump__new(btf, dump_printf, NULL, NULL);
 	if (!dump) {
-		fprintf(stderr, "btf dump new failed.\n");
+		fprintf(stderr, "btf dump create failed.\n");
+		exit(EXIT_FAILURE);
 	}
 
 	btf_id = btf_has_struct(sym_struct);
