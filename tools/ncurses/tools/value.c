@@ -122,7 +122,7 @@ bool hascolor_name(const char *name)
 	return color_name2n(name) != C_UNKNOWN;
 }
 
-int dequeue_val(struct line *l)
+static int dequeue_val(struct line *l)
 {
 	if (!l || !l->head)
 		return 0;
@@ -152,7 +152,7 @@ int dequeue_val(struct line *l)
 	return v;
 }
 
-int enqueue_val(struct line *l, double v)
+static int enqueue_val(struct line *l, double v)
 {
 	struct value *new = malloc(sizeof(struct value));
 	new->v = v;
