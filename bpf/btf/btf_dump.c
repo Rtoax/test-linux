@@ -30,7 +30,10 @@ int main(int argc, char **argv)
 
 	btf_id = btf_has_struct(sym_struct);
 
-	if (!strcmp(sym_struct, "task_struct")) {
+	/**
+	 * If input none arguments
+	 */
+	if (argc == 1 && !strcmp(sym_struct, "task_struct")) {
 		struct task_struct {
 			struct thread_info {
 				long unsigned int flags;
