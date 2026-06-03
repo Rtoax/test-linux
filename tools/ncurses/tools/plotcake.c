@@ -90,6 +90,8 @@ static char data_from_stdin[256] = { 0 };
 struct plot plot = {
 	.title = NULL,
 	.logarithmic = T_NONE,
+	.redrawcount = 0,
+	.keyboard.count = 0,
 };
 
 void sig_handler(int signo)

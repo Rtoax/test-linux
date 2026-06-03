@@ -29,7 +29,10 @@ struct plot {
 		int top, bottom, left, right;
 	} bnd, bnd_prev_max;
 	struct lgroup *lghead, *lgtail;
+
 	int lgcount;
+	unsigned long redrawcount;
+
 	/* Logarithmic plotting */
 	enum { T_NONE = 0, T_LOGARITHMIC, T_LOGARITHMIC10 } logarithmic;
 

@@ -310,10 +310,11 @@ void paint_plot(struct plot *p)
 #ifdef DEBUG
 	mvprintw(
 		p->height - 2, 0,
-		"plot: (%d,%d) max(%d,%d) plot(%d,%d) keyboard(count=%ld,key=%d=0x%x='%s')",
+		"plot: size(%d,%d) max(%d,%d) plot(%d,%d) keyboard(count=%ld,key=%d=0x%x='%s')",
 		p->height, p->width, p->heightmax, p->widthmax, p->plotheight,
 		p->plotwidth, p->keyboard.count, p->keyboard.key,
 		p->keyboard.key, keyname(p->keyboard.key));
+	mvprintw(p->height - 1, 0, "      redraw=%ld", p->redrawcount);
 #endif
 
 	move(0, 0);
@@ -337,6 +338,8 @@ void plot_update_data(struct plot *p)
 
 void plot_redraw(struct plot *p)
 {
+	p->redrawcount++;
+
 	erase();
 	paint_plot(p);
 	refresh();
