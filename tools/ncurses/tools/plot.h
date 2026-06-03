@@ -24,7 +24,7 @@ struct plot {
 	int plotheight, plotwidth;
 	struct {
 		int top, bottom, left, right;
-	} bnd, prev_max;
+	} bnd, bnd_prev_max;
 	struct lgroup *lghead, *lgtail;
 	int lgcount;
 	/* Logarithmic plotting */

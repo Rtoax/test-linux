@@ -60,11 +60,12 @@ void plot_update_size(struct plot *p, bool init)
 		 * Just use left and right to make sure y axis values and line
 		 * names show correctly.
 		 */
-		p->bnd.left = p->bnd.left > p->prev_max.left ? p->bnd.left :
-							       p->prev_max.left;
-		p->bnd.right = p->bnd.right > p->prev_max.right ?
+		p->bnd.left = p->bnd.left > p->bnd_prev_max.left ?
+				      p->bnd.left :
+				      p->bnd_prev_max.left;
+		p->bnd.right = p->bnd.right > p->bnd_prev_max.right ?
 				       p->bnd.right :
-				       p->prev_max.right;
+				       p->bnd_prev_max.right;
 	}
 
 	getmaxyx(stdscr, p->height, p->width);
@@ -77,8 +78,10 @@ void plot_update_size(struct plot *p, bool init)
 	if (p->widthmax < p->width)
 		p->widthmax = p->width;
 
-	p->prev_max.left = BND_LEFT;
-	p->prev_max.right = BND_RIGHT;
+	p->bnd_prev_max.top = BND_TOP;
+	p->bnd_prev_max.bottom = BND_BOTTOM;
+	p->bnd_prev_max.left = BND_LEFT;
+	p->bnd_prev_max.right = BND_RIGHT;
 }
 
 void __plot_warning(const struct plot *p, char *fmt, ...)
@@ -202,15 +205,16 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 		else
 			nc = snprintf(sv, 64, "%.3f", v->v);
 
-		if (p->prev_max.left < nc)
-			p->prev_max.left = nc;
+		if (p->bnd_prev_max.left < nc)
+			p->bnd_prev_max.left = nc;
+
 		mvprintw(h, 0, "%s", sv);
 
 		if (i == ln->count) {
 			mvprintw(h, w + 1, "%s", ln->name);
 			nc = strlen(ln->name);
-			if (p->prev_max.right < nc)
-				p->prev_max.right = nc;
+			if (p->bnd_prev_max.right < nc)
+				p->bnd_prev_max.right = nc;
 #ifdef DEBUG
 			mvprintw(h + 1, w + 1, "%d", ln->count);
 			mvprintw(h + 2, w + 1, "%.1f", ln->min->v);
