@@ -54,6 +54,7 @@ const char argp_prog_doc[] =
 	"SHORTCUT KEY:\n"
 	"\n"
 	"   'q', Esc: quit\n"
+	"   Enter: refresh\n"
 	"\n"
 	"OPTIONS:\n";
 
@@ -267,6 +268,20 @@ int main(int argc, char *argv[])
 	signal(SIGWINCH, sig_handler);
 
 	/* curses start from here */
+
+	/**
+	 * In ncurses, the biggest difficulty in detecting a single press of the
+	 * Esc key directly is that the Esc key, besides being a key itself, is
+	 * also the starting byte of all escape sequences (such as arrow keys).
+	 *
+	 * To avoid confusion, ncurses, upon detecting the Esc key, briefly
+	 * waits to see if there are any subsequent characters. This process
+	 * (usually about 1 second) causes a sense of 'delay'.
+	 *
+	 * Another method is to set the environment variable with the same name,
+	 * ESCDELAY=50.
+	 */
+	set_escdelay(50);
 
 	initscr();
 	cbreak();
