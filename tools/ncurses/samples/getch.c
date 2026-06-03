@@ -15,6 +15,7 @@ int main(void)
 	nodelay(stdscr, TRUE);
 
 	while (1) {
+		/* actually, getch() read from stdin */
 		int c = getch();
 		if (c != ERR) {
 			switch (c) {

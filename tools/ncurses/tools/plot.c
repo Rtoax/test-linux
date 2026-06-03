@@ -310,10 +310,10 @@ void paint_plot(struct plot *p)
 #ifdef DEBUG
 	mvprintw(
 		p->height - 2, 0,
-		"plot: (%d,%d) max(%d,%d) plot(%d,%d) keyboard(count=%ld,key=%d='%c')",
+		"plot: (%d,%d) max(%d,%d) plot(%d,%d) keyboard(count=%ld,key=%d=0x%x='%s')",
 		p->height, p->width, p->heightmax, p->widthmax, p->plotheight,
 		p->plotwidth, p->keyboard.count, p->keyboard.key,
-		isgraph(p->keyboard.key) ? p->keyboard.key : '?');
+		p->keyboard.key, keyname(p->keyboard.key));
 #endif
 
 	move(0, 0);
@@ -344,5 +344,5 @@ void plot_redraw(struct plot *p)
 	plot_update_size(p, false);
 
 	/* do some reset */
-	p->keyboard.key = '\0';
+	p->keyboard.key = 0;
 }

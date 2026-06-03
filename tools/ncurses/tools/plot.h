@@ -38,7 +38,7 @@ struct plot {
 	 */
 	struct {
 		unsigned long count;
-		char key;
+		int key; /* read from STDIN/getch() or /dev/tty */
 	} keyboard;
 };
 
