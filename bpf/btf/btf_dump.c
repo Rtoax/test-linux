@@ -16,6 +16,10 @@ int main(int argc, char **argv)
 	struct btf *btf;
 	struct btf_dump *dump;
 	int btf_id;
+	char *sym_struct = "task_struct";
+
+	if (argc > 1)
+		sym_struct = argv[1];
 
 	btf = btf_load_vmlinux();
 	dump = btf_dump__new(btf, dump_printf, NULL, NULL);
@@ -23,7 +27,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "btf dump new failed.\n");
 	}
 
-	btf_id = btf_has_struct("task_struct");
+	btf_id = btf_has_struct(sym_struct);
 
 	btf_dump__dump_type(dump, btf_id);
 
