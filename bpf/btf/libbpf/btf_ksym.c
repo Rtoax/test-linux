@@ -41,6 +41,6 @@ int main(int argc, char **argv)
 		printf("Kernel symbol '%s' %s does not exist.\n", ksym, s_type);
 	else
 		printf("Kernel symbol '%s' %s exist, btf id %d.\n", ksym,
-			s_type, btf_id);
+		       s_type, btf_id);
 	return 0;
 }
