@@ -4,13 +4,14 @@
 #include <stdio.h>
 #include "file.h"
 #include "plot.h"
+#ifdef HAVE_JSON_C
+#include <json-c/json.h>
+#define FILE_JSON "plotcake.json"
+#endif
 
 #define FILE_DATA "plotcake.dat"
 
-/**
- * only have one plot
- */
-int save_plot(struct plot *p)
+static int save_txt(const struct plot *p)
 {
 	int lg_idx, ln_idx;
 	char *path = FILE_DATA;
@@ -51,4 +52,25 @@ int save_plot(struct plot *p)
 
 	fclose(fp);
 	return 0;
+}
+
+#ifdef HAVE_JSON_C
+static int save_json(const struct plot *p)
+{
+	// TODO
+	return 0;
+}
+#else
+#define save_json(p) 0
+#endif
+
+/**
+ * only have one plot
+ */
+int save_plot(const struct plot *p)
+{
+	int err = 0;
+	err = err ?: save_txt(p);
+	err = err ?: save_json(p);
+	return err;
 }

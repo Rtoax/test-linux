@@ -1,3 +1,4 @@
+include json-c.mk
 include ncurses.mk
 
 target-y += plotcake
@@ -13,5 +14,8 @@ $(foreach obj, plotcake keyboard file load value plot ram stdin lines, \
   $(eval plotcake.dbg-objs += ${obj}.1.o) \
   $(eval CFLAGS_${obj}.1 := -DDEBUG=1))
 
+CFLAGS += ${json-c-cflags}
+
 LDFLAGS += -lm
+LDFLAGS += ${json-c-ldflags}
 LDFLAGS += ${ncurses-ldflags}

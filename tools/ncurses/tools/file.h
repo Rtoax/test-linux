@@ -3,4 +3,4 @@
 #pragma once
 #include "value.h"
 
-int save_plot(struct plot *p);
+int save_plot(const struct plot *p);
