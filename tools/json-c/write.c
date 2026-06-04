@@ -25,6 +25,7 @@ int main(void)
 
 	json_object_object_add(header, "array", array);
 
+	/* Note: item1, item2 could not have same name */
 	item = json_object_new_object();
 	json_object_object_add(item, "type", json_object_new_string("ball"));
 	json_object_object_add(body, "item1", item);
