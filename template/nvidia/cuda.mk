@@ -129,6 +129,11 @@ $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)
 $(call check_file_and_def,${CUDA_ROOT}/include/nvrtc.h,HAVE_NVRTC)
 $(call check_file_and_def,${CUDA_ROOT}/include/cufile.h,HAVE_CUFILE)
 
+# cudnn maybe under /usr/ instead of CUDA_ROOT
+ifneq (${HAVE_CUDNN},y)
+  $(call check_file_and_def,/usr/include/cudnn.h,HAVE_CUDNN)
+endif
+
 $(if ${HAVE_CUDNN}, $(eval cuda-cflags += -DHAVE_CUDNN=1))
 $(if ${HAVE_CUPTI}, $(eval cuda-cflags += -DHAVE_CUPTI=1))
 $(if ${HAVE_CUFILE}, $(eval cuda-cflags += -DHAVE_CUFILE=1))
