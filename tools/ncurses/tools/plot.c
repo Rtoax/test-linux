@@ -357,11 +357,35 @@ void plot_redraw(struct plot *p)
 	p->keyboard.key = 0;
 }
 
+/**
+ * Press key 'l', display the label for each line.
+ */
 static void key_l(int key, void *arg)
 {
 	struct plot *p = arg;
-	plot_warning(p, "Press key 'l'");
-	/* TODO: list all line labels */
+	int i, nline = 0;
+
+	for_each_lg(p, lg)
+	{
+		nline += lg->count;
+	}
+
+	i = 0;
+	for_each_lg(p, lg)
+	{
+		for_each_line(lg, ln)
+		{
+			const int n = 6;
+			int h = p->height / 2 - nline / 2 + i;
+			int w = p->width / 2;
+			attron(flavor[ln->color] | A_BOLD);
+			for (int x = 0; x < n; x++)
+				ln->ops->horizon(ln, h, w + x);
+			mvprintw(h, w + n, " %s", ln->name);
+			attroff(flavor[ln->color] | A_BOLD);
+			i++;
+		}
+	}
 }
 
 void plot_init(struct plot *p)

@@ -54,7 +54,8 @@ const char argp_prog_doc[] =
 	"\n"
 	"SHORTCUT KEY:\n"
 	"\n"
-	"   'q', Esc: quit\n"
+	"   'q' and Esc: quit\n"
+	"   'l': display the label for each line (long press to prevent flickering)\n"
 	"   Enter: refresh\n"
 	"\n"
 	"OPTIONS:\n";
