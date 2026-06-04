@@ -12,6 +12,9 @@ skills["Rong Tao"]+=" coding"
 skills["Xue Yuehua"]+="learn"
 skills["Xue Yuehua"]+=" eat"
 
+echo "${!skills[@]}"
+echo "${skills[@]}"
+
 for name in "${!skills[@]}"
 do
 	printf "%-16s" "$name"

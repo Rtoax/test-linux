@@ -186,6 +186,8 @@ int main(int argc, char *argv[])
 	int sigpipe[2];
 	fd_set readfds;
 
+	plot_init(&plot);
+
 	int err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
 		fprintf(stderr, "argp_parse return %d\n", err);
@@ -263,8 +265,6 @@ int main(int argc, char *argv[])
 	signal(SIGWINCH, sig_handler);
 
 	/* curses start from here */
-
-	plot_init(&plot);
 
 	/**
 	 * In ncurses, the biggest difficulty in detecting a single press of the

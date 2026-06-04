@@ -12,7 +12,7 @@ int main(void)
 		fscanf(fp, "%*s %Lf %Lf %Lf %Lf", &a[0], &a[1], &a[2], &a[3]);
 		fclose(fp);
 
-		sleep(2);
+		sleep(1);
 
 		fp = fopen("/proc/stat","r");
 		fscanf(fp, "%*s %Lf %Lf %Lf %Lf", &b[0], &b[1], &b[2], &b[3]);
