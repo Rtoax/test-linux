@@ -384,6 +384,7 @@ int main(int argc, char *argv[])
 					broadcast_sig(SIGINT);
 					goto end;
 					break;
+				case 'l':
 				case 13: /* enter */
 					redraw = true;
 					break;
