@@ -21,8 +21,8 @@ int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 		p->lgcount = 1;
 	} else {
 		p->lgtail->next = lg;
+		p->lgcount++;
 	}
-	p->lgcount++;
 	p->lgtail = lg;
 	lg->plot = p;
 	lg->ops->arg = lg_ops_arg;

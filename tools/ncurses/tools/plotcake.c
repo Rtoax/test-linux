@@ -434,7 +434,6 @@ int main(int argc, char *argv[])
 	}
 
 end:
-	save_plot(&plot);
 	if (datafd != -1)
 		close(datafd);
 	if (timerfd != -1)
@@ -446,5 +445,7 @@ end:
 	close(sig_rd_fd);
 	close(sig_wr_fd);
 	endwin();
+
+	save_plot(&plot);
 	return 0;
 }
