@@ -1,3 +1,12 @@
+/**
+ * Test btf dump
+ *
+ * Usage: ./btf_dump [kvm] [ksymbol]
+ *
+ * Examples:
+ *  ./btf_dump task_struct
+ *  ./btf_dump kvm task_struct
+ */
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
 #include <bpf/btf.h>
@@ -14,15 +23,23 @@ static void dump_printf(void *ctx, const char *fmt, va_list args)
 
 int main(int argc, char **argv)
 {
-	struct btf *btf;
+	struct btf *btf, *base = NULL;
 	struct btf_dump *dump;
+	char *mod = NULL;
 	int btf_id;
 	char *sym_struct = "task_struct";
 
-	if (argc > 1)
+	if (argc == 2)
 		sym_struct = argv[1];
+	else if (argc > 2) {
+		mod = argv[1];
+		sym_struct = argv[2];
+	}
 
-	btf = btf_load_vmlinux();
+	if (mod)
+		btf = btf_load_module(mod, &base);
+	else
+		btf = btf_load_vmlinux();
 	if (!btf) {
 		fprintf(stderr, "btf load failed.\n");
 		exit(EXIT_FAILURE);
@@ -66,5 +83,7 @@ int main(int argc, char **argv)
 
 	btf_dump__free(dump);
 	btf__free(btf);
+	if (base)
+		btf__free(base);
 	return 0;
 }

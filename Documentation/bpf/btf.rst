@@ -8,6 +8,13 @@ BTF Types
 - `BTF_KIND_DECL_TAG`: Declaration Tag
 
 
+Base BTF and Split BTF
+----------------------
+
+- `btf__parse()`: like vmlinux;
+- `btf__parse_split()`: like kvm, etc;
+
+
 /sys/kernel/btf/
 ----------------
 

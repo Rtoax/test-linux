@@ -311,11 +311,32 @@ struct btf *btf_load_vmlinux(void)
 	return btf;
 }
 
-struct btf *btf_load_module(const char *module)
+/**
+ * If module is not base BTF, parse the base BTF first, point to base.
+ */
+struct btf *btf_load_module(const char *module, struct btf **base)
 {
+	if (!strcmp(module, "vmlinux"))
+		return btf_load_vmlinux();
+
 	char path[64];
 	snprintf(path, 64, "/sys/kernel/btf/%s", module);
-	return btf__parse(path, NULL);
+	/**
+	 * To save storage space and avoid duplication, the Linux kernel's BTF
+	 * information is divided into two parts:
+	 *
+	 * Base BTF (vmlinux): Contains all type definitions for the kernel
+	 * core; it's the system's "type dictionary."
+	 *
+	 * Split BTF (kvm, i915, etc. modules): Each kernel module's BTF file is
+	 * an "incremental package," containing only the new type definitions
+	 * specific to that module. For a type that already exists in vmlinux
+	 * (such as `struct task_struct`), it is not redefined in the module's
+	 * BTF; instead, it is referred to by its ID in vmlinux.
+	 *
+	 * TODO: vmlinux btf leak here
+	 */
+	return btf__parse_split(path, btf_load_vmlinux());
 }
 
 /**

@@ -36,7 +36,7 @@ struct func {
 };
 
 struct btf *btf_load_vmlinux(void);
-struct btf *btf_load_module(const char *module);
+struct btf *btf_load_module(const char *module, struct btf **base);
 
 const char *btf_kind_name(int kind);
 
