@@ -28,6 +28,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include "load.h"
+#include "keyboard.h"
 #include "value.h"
 #include "plot.h"
 #include "ram.h"
@@ -187,6 +188,7 @@ int main(int argc, char *argv[])
 	fd_set readfds;
 
 	plot_init(&plot);
+	keyboard_init();
 
 	int err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {

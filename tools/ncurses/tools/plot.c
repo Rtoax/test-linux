@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "plot.h"
+#include "keyboard.h"
 
 chtype flavor[C_MAX] = { 0 };
 static const char *verstring = "github.com/rtoax/test-linux " MY_VERSION;
@@ -343,11 +344,29 @@ void plot_redraw(struct plot *p)
 	p->redrawcount++;
 
 	erase();
+
 	paint_plot(p);
+
+	exec_key_handler(p->keyboard.key);
+
 	refresh();
 
 	plot_update_size(p, false);
 
 	/* do some reset */
 	p->keyboard.key = 0;
+}
+
+static void key_l(int key, void *arg)
+{
+	struct plot *p = arg;
+	plot_warning(p, "Press key 'l'");
+	/* TODO: list all line labels */
+}
+
+void plot_init(struct plot *p)
+{
+	memset(p, 0, sizeof(struct plot));
+
+	register_key_handler('l', p, key_l);
 }

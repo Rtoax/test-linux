@@ -46,11 +46,11 @@ struct plot {
 	} keyboard;
 };
 
-#define plot_init(p) memset(p, 0, sizeof(struct plot))
-
 #define for_each_lg(plt, iter)                                           \
 	for (struct lgroup *iter = ((struct plot *)(plt))->lghead; iter; \
 	     iter = iter->next)
+
+void plot_init(struct plot *p);
 
 #define plot_warning(p, fmt...) __plot_warning(p, fmt)
 void __plot_warning(const struct plot *p, char *fmt, ...);
