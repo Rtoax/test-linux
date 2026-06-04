@@ -27,6 +27,7 @@
 #include <time.h>
 #include <ncurses.h>
 #include <unistd.h>
+#include "file.h"
 #include "load.h"
 #include "keyboard.h"
 #include "value.h"
@@ -433,6 +434,7 @@ int main(int argc, char *argv[])
 	}
 
 end:
+	save_plot(&plot);
 	if (datafd != -1)
 		close(datafd);
 	if (timerfd != -1)
