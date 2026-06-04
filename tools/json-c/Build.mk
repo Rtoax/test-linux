@@ -6,4 +6,5 @@ target-y += read
 
 $(call target_link_helper,read,TLC_HELPERS)
 
-LDFLAGS += -ljson-c
+CFLAGS += ${json-c-cflags}
+LDFLAGS += ${json-c-ldflags}
