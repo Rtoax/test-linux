@@ -8,7 +8,7 @@ prog-y += examples.sh
 plotcake-objs :=
 plotcake.dbg-objs := plotcake.1.o
 
-$(foreach obj, plotcake keyboard load value plot ram stdin lines, \
+$(foreach obj, plotcake keyboard file load value plot ram stdin lines, \
   $(eval plotcake-objs += ${obj}.o) \
   $(eval plotcake.dbg-objs += ${obj}.1.o) \
   $(eval CFLAGS_${obj}.1 := -DDEBUG=1))
