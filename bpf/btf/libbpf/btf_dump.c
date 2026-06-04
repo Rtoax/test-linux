@@ -10,6 +10,7 @@
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
 #include <bpf/btf.h>
+#include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +24,7 @@ static void dump_printf(void *ctx, const char *fmt, va_list args)
 
 int main(int argc, char **argv)
 {
+	int err = 0;
 	struct btf *btf, *base = NULL;
 	struct btf_dump *dump;
 	char *mod = NULL;
@@ -51,6 +53,8 @@ int main(int argc, char **argv)
 	}
 
 	btf_id = btf_has_struct(sym_struct);
+	if (btf_id <= 0)
+		err = -ENOENT;
 
 	/**
 	 * If input none arguments
@@ -85,5 +89,5 @@ int main(int argc, char **argv)
 	btf__free(btf);
 	if (base)
 		btf__free(base);
-	return 0;
+	return err;
 }

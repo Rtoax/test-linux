@@ -1,6 +1,7 @@
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
 #include <bpf/btf.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -8,6 +9,7 @@
 
 int main(int argc, char **argv)
 {
+	int err = 0;
 	int btf_id;
 	char *s_type = "";
 	const char *ksym;
@@ -37,10 +39,11 @@ int main(int argc, char **argv)
 		printf("Kernel symbol '%s' exist.\n", ksym);
 #endif
 
-	if (btf_id <= 0)
+	if (btf_id <= 0) {
 		printf("Kernel symbol '%s' %s does not exist.\n", ksym, s_type);
-	else
+		err = -ENOENT;
+	} else
 		printf("Kernel symbol '%s' %s exist, btf id %d.\n", ksym,
 		       s_type, btf_id);
-	return 0;
+	return err;
 }
