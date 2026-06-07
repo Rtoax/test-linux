@@ -56,8 +56,9 @@ const char argp_prog_doc[] =
 	"SHORTCUT KEY:\n"
 	"\n"
 	"   'q' and Esc: quit\n"
+	"   'h': show the help info\n"
 	"   'l': display the label for each line (long press to prevent flickering)\n"
-	"   Enter: refresh\n"
+	"   Enter: refresh plot\n"
 	"\n"
 	"OPTIONS:\n";
 
@@ -385,6 +386,7 @@ int main(int argc, char *argv[])
 					broadcast_sig(SIGINT);
 					goto end;
 					break;
+				case 'h':
 				case 'l':
 				case 13: /* enter */
 					redraw = true;

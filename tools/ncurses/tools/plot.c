@@ -358,6 +358,24 @@ void plot_redraw(struct plot *p)
 }
 
 /**
+ * Press key 'h', display the help info
+ */
+static void key_h(int key, void *arg)
+{
+	struct plot *p = arg;
+
+	int h = p->plotheight + p->bnd.top - 1;
+	int w = p->bnd.left + 1;
+
+	attron(flavor[C_BLUE] | A_BOLD);
+	mvprintw(h - 3, w, "'q' and Esc: quit");
+	mvprintw(h - 2, w, "'h': show the help info");
+	mvprintw(h - 1, w, "'l': display the label for each line");
+	mvprintw(h, w, "Enter: refresh plot");
+	attroff(flavor[C_BLUE] | A_BOLD);
+}
+
+/**
  * Press key 'l', display the label for each line.
  */
 static void key_l(int key, void *arg)
@@ -392,5 +410,6 @@ void plot_init(struct plot *p)
 {
 	memset(p, 0, sizeof(struct plot));
 
+	register_key_handler('h', p, key_h);
 	register_key_handler('l', p, key_l);
 }
