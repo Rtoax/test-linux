@@ -2,6 +2,7 @@
 include helpers.mk
 
 target-y += btf_dump
+target-y += btf_info
 target-y += btf_ksym
 target-y += btf_kfunc
 target-y += btf_struct

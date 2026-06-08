@@ -2,6 +2,7 @@
 /kvm.h
 /*.btf
 /btf_dump
+/btf_info
 /btf_ksym
 /btf_kfunc
 /btf_struct
