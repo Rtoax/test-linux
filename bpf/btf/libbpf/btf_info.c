@@ -11,11 +11,11 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-int main(int argc, char **argv)
+int next_btf(uint32_t *next_id)
 {
 	int fd = -1, err = 0;
 	struct bpf_btf_info info = {};
-	uint32_t id = 0, info_len = sizeof(info);
+	uint32_t id = *next_id, info_len = sizeof(info);
 
 	err = bpf_btf_get_next_id(id, &id);
 	if (err) {
@@ -35,8 +35,10 @@ int main(int argc, char **argv)
 		goto done;
 	}
 
+#ifdef DEBUG
 	printf("info1 len=%d, name=%llx, namelen=%d\n", info_len, info.name,
 	       info.name_len);
+#endif
 
 	char *name_buf;
 	uint32_t name_len = info.name_len + 1;
@@ -70,5 +72,18 @@ free_done:
 done:
 	if (fd > 0)
 		close(fd);
+	if (!err)
+		*next_id = id;
 	return err;
+}
+
+int main(int argc, char **argv)
+{
+	uint32_t id = 0;
+	/**
+	 * Get all kernel module BTF, looks like `lsmod`
+	 */
+	while (!next_btf(&id))
+		;
+	return 0;
 }
