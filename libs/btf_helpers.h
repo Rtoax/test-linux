@@ -43,4 +43,7 @@ const char *btf_kind_name(int kind);
 int btf_has_ksym(const char *ksym);
 int btf_has_kfunc(const char *kfunc);
 int btf_has_struct(const char *sname);
+int btf_has_union(const char *sname);
+int btf_has_enum(const char *sname);
+int btf_has_enum64(const char *sname);
 int btf_has_decl_tag(const char *ksym);

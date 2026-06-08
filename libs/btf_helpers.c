@@ -397,6 +397,21 @@ int btf_has_struct(const char *sname)
 	return __btf_has_ksym(sname, BTF_KIND_STRUCT);
 }
 
+int btf_has_union(const char *sname)
+{
+	return __btf_has_ksym(sname, BTF_KIND_UNION);
+}
+
+int btf_has_enum(const char *sname)
+{
+	return __btf_has_ksym(sname, BTF_KIND_ENUM);
+}
+
+int btf_has_enum64(const char *sname)
+{
+	return __btf_has_ksym(sname, BTF_KIND_ENUM64);
+}
+
 int btf_has_decl_tag(const char *ksym)
 {
 	return __btf_has_ksym(ksym, BTF_KIND_DECL_TAG);
