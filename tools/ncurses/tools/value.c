@@ -222,7 +222,7 @@ double line_range_min(struct line *l, int start, int len)
 	return min;
 }
 
-void line_add(struct line *l, double v)
+void line_add_val(struct line *l, double v)
 {
 	const struct plot *p = l->lg->plot;
 

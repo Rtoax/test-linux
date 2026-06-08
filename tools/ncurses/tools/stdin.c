@@ -80,9 +80,9 @@ static void stdin_update(struct lgroup *lg, void *arg)
 		 * above it.
 		 */
 		if (i < narg) {
-			line_add(line, values[i]);
+			line_add_val(line, values[i]);
 		} else {
-			line_add(line, line->tail->v);
+			line_add_val(line, line->tail->v);
 		}
 		i++;
 	}
