@@ -7,6 +7,14 @@
 #include "plot.h"
 #include "value.h"
 
+static void nothing(struct line *ln, int y, int x)
+{
+}
+
+static void nothing_v(struct line *ln, int y, int x, int n)
+{
+}
+
 static void unicode_bold_horizon(struct line *ln, int y, int x)
 {
 	mvprintw(y, x, U2501);
@@ -133,6 +141,14 @@ static void unicode_boldbold_corner2(struct line *ln, int y, int x)
 	mvvline_set(y, x, &wch_vline, 1);
 }
 
+static void unicode_area_chart_horizon(struct line *ln, int y, int x)
+{
+	cchar_t wch_vline = WCH_U2588;
+	struct plot *p = ln->lg->plot;
+	int n = p->bnd.top + p->plotheight - y;
+	mvvline_set(y, x, &wch_vline, n);
+}
+
 static void unicode_heart(struct line *ln, int y, int x)
 {
 	mvprintw(y, x, U2665);
@@ -204,6 +220,16 @@ const struct ldraw_ops unicode_dashed_line_ops = {
 	.lrcorner = unicode_lrcorner,
 };
 
+const struct ldraw_ops unicode_area_chart_ops = {
+	.name = "unicode-area-chart",
+	.horizon = unicode_area_chart_horizon,
+	.vertical = nothing_v,
+	.ulcorner = nothing,
+	.llcorner = nothing,
+	.urcorner = nothing,
+	.lrcorner = nothing,
+};
+
 const struct ldraw_ops utf8_line_ops = {
 	.name = "utf8",
 	.horizon = utf8_horizon,
@@ -220,6 +246,7 @@ const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_BOLDBOLD_UNICODE] = &unicode_boldbold_line_ops,
 	[LINE_TYPE_THIN_UNICODE] = &unicode_line_ops,
 	[LINE_TYPE_THIN_UNICODE_DASHED] = &unicode_dashed_line_ops,
+	[LINE_TYPE_AREA_CHART_UNICODE] = &unicode_area_chart_ops,
 	[LINE_TYPE_UTF8] = &utf8_line_ops,
 	[LINE_TYPE_HEART_UNICODE] = &unicode_heart_line_ops,
 };
