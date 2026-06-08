@@ -24,6 +24,7 @@ enum ltype_enum {
 	LINE_TYPE_BOLDBOLD_UNICODE,
 	LINE_TYPE_THIN_UNICODE,
 	LINE_TYPE_THIN_UNICODE_DASHED,
+	LINE_TYPE_AREA_CHART_UNICODE,
 	LINE_TYPE_UTF8,
 	LINE_TYPE_HEART_UNICODE,
 	LINE_TYPE_MAX,
@@ -99,7 +100,7 @@ enum lcolor_enum color_name2n(const char *name);
 bool hascolor_name(const char *name);
 enum lcolor_enum nextcolor(enum lcolor_enum c);
 
-void line_add(struct line *l, double v);
+void line_add_val(struct line *l, double v);
 double line_range_max(struct line *l, int start, int len);
 double line_range_min(struct line *l, int start, int len);
 

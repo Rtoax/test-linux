@@ -333,10 +333,9 @@ struct btf *btf_load_module(const char *module, struct btf **base)
 	 * specific to that module. For a type that already exists in vmlinux
 	 * (such as `struct task_struct`), it is not redefined in the module's
 	 * BTF; instead, it is referred to by its ID in vmlinux.
-	 *
-	 * TODO: vmlinux btf leak here
 	 */
-	return btf__parse_split(path, btf_load_vmlinux());
+	*base = btf_load_vmlinux();
+	return btf__parse_split(path, *base);
 }
 
 /**
@@ -395,6 +394,21 @@ int btf_has_kfunc(const char *kfunc)
 int btf_has_struct(const char *sname)
 {
 	return __btf_has_ksym(sname, BTF_KIND_STRUCT);
+}
+
+int btf_has_union(const char *sname)
+{
+	return __btf_has_ksym(sname, BTF_KIND_UNION);
+}
+
+int btf_has_enum(const char *sname)
+{
+	return __btf_has_ksym(sname, BTF_KIND_ENUM);
+}
+
+int btf_has_enum64(const char *sname)
+{
+	return __btf_has_ksym(sname, BTF_KIND_ENUM64);
 }
 
 int btf_has_decl_tag(const char *ksym)

@@ -22,7 +22,7 @@ static void loadavg_update(struct lgroup *lg, void *arg)
 	int i = 0;
 	for_each_line(lg, line)
 	{
-		line_add(line, avg[i]);
+		line_add_val(line, avg[i]);
 		i++;
 	}
 }
