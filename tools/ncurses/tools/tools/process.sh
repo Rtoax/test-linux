@@ -9,5 +9,4 @@ while sleep 1; do
 	      $(ps -eo state | grep ^I | wc -l) )
 	echo ${num[@]}
 done | ../plotcake ${args[@]} --title 'Process Number' --xlabel 'Time' --ylabel 'Number' \
-		-l All -l Sleep -l Run -l Idle
-
+		-l All -l Sleep -l Run -l Idle ${@}

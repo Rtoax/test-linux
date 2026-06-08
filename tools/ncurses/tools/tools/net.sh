@@ -16,4 +16,4 @@ done
 while sleep 1; do
 	grep ${maxiface} /proc/net/dev | awk '{print $2, $10}'
 done | ../plotcake ${args[@]} --title "${maxiface} tx/rx" --logarithmic \
-		-l RX -l TX
+		-l RX -l TX ${@}

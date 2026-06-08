@@ -18,4 +18,4 @@ END {
 	clear(@read);
 }
 ' 2>/dev/null | ../plotcake --title 'VFS Read and Write' --ylabel 'N/s' \
-			-l 'write' -l 'read'
+			-l 'write' -l 'read' ${@}

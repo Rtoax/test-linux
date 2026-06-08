@@ -13,4 +13,4 @@ END {
 	clear(@enter);
 }
 ' 2>/dev/null | ../plotcake --title 'Syscalls' --ylabel 'N/s' \
-			-l 'syscall'
+			-l 'syscall' ${@}

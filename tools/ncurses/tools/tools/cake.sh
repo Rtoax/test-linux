@@ -15,4 +15,4 @@ for ((i = 0; i < ${#l1[@]}; i++))
 do
 	echo ${l1[i]} ${l2[i]} ${height}
 	sleep 0.01
-done | ../plotcake --title 'Happy Birthday' -L unicode-boldbold -L unicode-boldbold -C w -C w
+done | ../plotcake --title 'Happy Birthday' -L unicode-boldbold -L unicode-boldbold -C w -C w ${@}

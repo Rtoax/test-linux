@@ -18,4 +18,4 @@ END {
 	clear(@rx);
 }
 ' 2>/dev/null | ../plotcake --title 'Network rx and tx action' --ylabel 'N/s' \
-			-l 'tx' -l 'rx'
+			-l 'tx' -l 'rx' ${@}

@@ -18,4 +18,4 @@ END {
 	clear(@close);
 }
 ' 2>/dev/null | ../plotcake --title 'Open and Close Syscall Rate' --ylabel 'N/s' \
-			-l 'open' -l 'close'
+			-l 'open' -l 'close' ${@}
