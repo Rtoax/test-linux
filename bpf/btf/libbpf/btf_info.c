@@ -65,7 +65,7 @@ int next_btf(uint32_t *next_id)
 		goto free_done;
 	}
 
-	printf("%s\n", name_buf);
+	printf("%s (id %d)\n", name_buf, id);
 
 free_done:
 	free(name_buf);
