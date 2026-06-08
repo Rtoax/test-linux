@@ -6,3 +6,4 @@ Tools
    :maxdepth: 1
 
    redis
+   samba
