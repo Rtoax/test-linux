@@ -388,18 +388,21 @@ static void key_l(int key, void *arg)
 		nline += lg->count;
 	}
 
+	int h = p->plotheight + p->bnd.top - 1;
+	int w = p->bnd.left + 1;
+
 	i = 0;
 	for_each_lg(p, lg)
 	{
 		for_each_line(lg, ln)
 		{
+			int hi = h - nline + i + 1;
 			const int n = 6;
-			int h = p->height / 2 - nline / 2 + i;
-			int w = p->width / 2;
+
 			attron(flavor[ln->color] | A_BOLD);
 			for (int x = 0; x < n; x++)
-				ln->ops->horizon(ln, h, w + x);
-			mvprintw(h, w + n, " %s", ln->name);
+				ln->ops->horizon(ln, hi, w + x);
+			mvprintw(hi, w + n + 1, " %s", ln->name);
 			attroff(flavor[ln->color] | A_BOLD);
 			i++;
 		}
