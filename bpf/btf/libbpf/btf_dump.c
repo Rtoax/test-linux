@@ -1,11 +1,13 @@
 /**
  * Test btf dump
  *
- * Usage: ./btf_dump [kvm] [ksymbol]
+ * Usage: ./btf_dump [module] [kernel symbol]
  *
  * Examples:
  *  ./btf_dump task_struct
  *  ./btf_dump kvm task_struct
+ *  ./btf_dump ALL
+ *  ./btf_dump kvm ALL
  */
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
@@ -46,6 +48,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "btf load failed.\n");
 		exit(EXIT_FAILURE);
 	}
+
 	dump = btf_dump__new(btf, dump_printf, NULL, NULL);
 	if (!dump) {
 		fprintf(stderr, "btf dump create failed.\n");
@@ -53,7 +56,7 @@ int main(int argc, char **argv)
 	}
 
 	btf_id = btf_has_struct(sym_struct);
-	if (btf_id <= 0)
+	if (btf_id <= 0 && strcmp(sym_struct, "ALL"))
 		err = -ENOENT;
 
 	/**
@@ -81,6 +84,9 @@ int main(int argc, char **argv)
 				    .compact = false, .skip_names = false, );
 		btf_dump__dump_type_data(dump, btf_id, &task, sizeof(task),
 					 &opts);
+	} else if (!strcmp(sym_struct, "ALL")) {
+		for (btf_id = 0; btf_id < btf__type_cnt(btf); btf_id++)
+			btf_dump__dump_type(dump, btf_id);
 	} else {
 		btf_dump__dump_type(dump, btf_id);
 	}
