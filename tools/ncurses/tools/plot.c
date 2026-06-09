@@ -327,10 +327,12 @@ static void paint_plot(struct plot *p, bool debug)
 			p->plotheight, p->plotwidth, p->keyboard.count,
 			p->keyboard.key, p->keyboard.key,
 			keyname(p->keyboard.key));
-		mvprintw(p->height - 1, 0,
-			 "      redraw=%ld, key(left=%ld,right=%ld)",
-			 p->redrawcount, p->keyboard.key_left_count,
-			 p->keyboard.key_right_count);
+		mvprintw(
+			p->height - 1, 0,
+			"      redraw=%ld, key(left=%ld,right=%ld,l=%ld,h=%ld,enter=%ld)",
+			p->redrawcount, p->keyboard.key_left_count,
+			p->keyboard.key_right_count, p->keyboard.key_l_count,
+			p->keyboard.key_h_count, p->keyboard.key_enter_count);
 	}
 
 	move(0, 0);

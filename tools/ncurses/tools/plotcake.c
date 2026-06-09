@@ -392,8 +392,15 @@ int main(int argc, char *argv[])
 					goto end;
 					break;
 				case 'h':
+					plot.keyboard.key_h_count++;
+					redraw = true;
+					break;
 				case 'l':
+					plot.keyboard.key_l_count++;
+					redraw = true;
+					break;
 				case 13: /* enter */
+					plot.keyboard.key_enter_count++;
 					redraw = true;
 					break;
 				}
