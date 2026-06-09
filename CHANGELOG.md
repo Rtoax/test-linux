@@ -8,6 +8,20 @@ and this project adheres to
 
 
 ## Unreleased
+#### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Doc
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Tools
+#### Template
+
+
+## [v2.4.7] Lamada 2026-06-09
 
 #### Breaking Changes
 - rename `target-prog-y` to `prog-y`;
