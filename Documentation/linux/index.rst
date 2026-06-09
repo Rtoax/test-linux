@@ -23,12 +23,3 @@ Linux Tools
 
    util-linux
    binfmt
-
-
-Other Kernels
--------------
-
-.. toctree::
-   :maxdepth: 1
-
-   freebsd

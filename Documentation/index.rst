@@ -45,6 +45,7 @@ Standard and Development
    Linux <linux/index>
    Linux Distributions <distro/index>
    Test Linux Development <devel/index>
+   BSD <bsd/index>
 
 
 Development Tools
