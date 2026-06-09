@@ -19,33 +19,26 @@ int main(int argc, char **argv)
 {
 	int err = 0;
 	int btf_id;
-	char *s_type = "";
-	const char *ksym;
-	int kind;
-
-	if (argc != 2) {
-		fprintf(stderr, "Usage: %s <ksym>\n", argv[0]);
-		return 1;
-	}
+	const char *ksym = NULL;
+	int kind = BTF_KIND_UNKN;
 
 	for (int i = 1; i < argc; i++) {
 		if (!strncmp(argv[i], "struct=", 7)) {
 			ksym = argv[i] + 7;
-			s_type = "STRUCT";
 			kind = BTF_KIND_STRUCT;
 		} else if (!strncmp(argv[i], "func=", 5)) {
 			ksym = argv[i] + 5;
-			s_type = "FUNC";
 			kind = BTF_KIND_FUNC;
 		} else if (!strncmp(argv[i], "decl-tag=", 9)) {
 			ksym = argv[i] + 9;
-			s_type = "DECL_TAG";
 			kind = BTF_KIND_DECL_TAG;
 		} else {
-			usage();
-			fprintf(stderr, "ERROR: Unknown %s\n", argv[i]);
-			exit(EXIT_FAILURE);
+			ksym = argv[i];
 		}
+	}
+	if (!ksym) {
+		usage();
+		exit(EXIT_FAILURE);
 	}
 
 	switch (kind) {
@@ -64,10 +57,11 @@ int main(int argc, char **argv)
 	}
 
 	if (btf_id <= 0) {
-		printf("Kernel symbol '%s' %s does not exist.\n", ksym, s_type);
+		printf("Kernel symbol '%s' %s does not exist.\n", ksym,
+		       btf_kind_name(kind));
 		err = -ENOENT;
 	} else
 		printf("Kernel symbol '%s' %s exist, btf id %d.\n", ksym,
-		       s_type, btf_id);
+		       btf_kind_name(kind), btf_id);
 	return err;
 }
