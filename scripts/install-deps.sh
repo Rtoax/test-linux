@@ -940,6 +940,7 @@ dnf_add_packages()
 	pkgs_base+=( mpich mpich-devel )    # mpi
 	pkgs_base+=( mpfr-devel )
 	pkgs_base+=( ncurses-devel )
+	pkgs_base+=( ncurses-static )
 	pkgs_base+=( openmpi openmpi-devel )
 	pkgs_base+=( openssl-devel )
 	pkgs_base+=( parallel )
