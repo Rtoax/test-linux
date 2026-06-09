@@ -3,7 +3,12 @@ set -e
 
 declare -a devices pathes
 
-devices=( $(ls /dev/ | grep -e sd[a-z]* -e vd[a-z]* -e nvme*) )
+devices+=( $(ls /dev/ | grep -e sd[a-z]* -e vd[a-z]* -e nvme*) )
+devices+=( mem )
+devices+=( null )
+devices+=( urandom random )
+devices+=( zero )
+devices+=( snapshot )
 
 for dev in ${devices[@]}
 do
