@@ -1,8 +1,6 @@
 #!/bin/bash
-# Display history.md
-# history.md format:
-# * YEAR[-MONTH[-DAY]]: Descriptions
-#
+# Display history.rst
+# format: YEAR[-MONTH[-DAY]]: Descriptions
 set -e
 
 word=
@@ -44,7 +42,7 @@ while true; do
 done
 
 name=$1
-files=( $(find -name history.md -type f) $(find -name history.rst -type f) )
+files=( $(find -name history.rst -type f) )
 
 list_all() {
 	for f in ${files[@]}

@@ -34,6 +34,7 @@ and this project adheres to
 - top Makefile: rename `CHECK_ERROR` to `ERROR_STOP`;
 #### Deprecated
 #### Doc
+- move all history.md to history.rst;
 - add tools/samples.rst;
 - add sched/index.rst, gnu/ncurses.rst, bpf/jit.rst, fs/xfs.rst;
 - add pod.rst, efibootmgr.rst, iptables.rst, netfilter.rst, node-exporter.rst, jaeger.rst, skywalking.rst, envoy.rst;

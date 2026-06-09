@@ -23,3 +23,12 @@ Linux Tools
 
    util-linux
    binfmt
+
+
+Linux History
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
+   history

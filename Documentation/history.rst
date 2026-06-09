@@ -1,3 +1,6 @@
+History
+=======
+
 * 2007: Google 发布 `Android` 操作系统;
 * 1998: Open Source Initiative (`OSI`) 成立，发布了开放源代码的定义和认证标准;
 * 1995: 德国慕尼黑市政府成为第一个采用Linux作为主要操作系统的政府机构;

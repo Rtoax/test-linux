@@ -4,6 +4,13 @@
 System V Release
 ================
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+   history
+
+
 **System V**, also known as **System V Release**, is one of the versions of the
 Unix operating system. Below are the key standard versions of System V:
 

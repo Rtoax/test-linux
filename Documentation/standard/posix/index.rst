@@ -8,6 +8,7 @@ POSIX (Portable Operating System Interface of UNIX)
    :maxdepth: 1
 
    abbrev
+   history
 
 
 **POSIX (Portable Operating System Interface)** is a family of standards

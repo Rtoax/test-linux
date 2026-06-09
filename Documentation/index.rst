@@ -139,6 +139,14 @@ Frontier and Future Technology
    Big Data <bigdata/index>
    Cloud Native <cloud-native/index>
 
+History
+=======
+
+.. toctree::
+   :maxdepth: 1
+
+   history
+
 
 Relative Projects
 =================
