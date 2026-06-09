@@ -13,15 +13,16 @@
 
 static void usage(void)
 {
-	fprintf(stderr, "\033[2m\n"
-			"Usage: ./btf_dump struct=<ksym|ALL> mod=<kmod>\n"
-			"\n"
-			"Examples:\n"
-			" ./btf_dump struct=task_struct\n"
-			" ./btf_dump mod=kvm struct=task_struct\n"
-			" ./btf_dump struct=ALL\n"
-			" ./btf_dump mod=kvm struct=ALL\n"
-			"\033[m");
+	fprintf(stderr,
+		"\033[2m\n"
+		"Usage: ./btf_dump struct=<ksym|ALL> func=<ksym> mod=<kmod>\n"
+		"\n"
+		"Examples:\n"
+		" ./btf_dump struct=task_struct\n"
+		" ./btf_dump mod=kvm struct=task_struct\n"
+		" ./btf_dump struct=ALL\n"
+		" ./btf_dump mod=kvm struct=ALL\n"
+		"\033[m");
 }
 
 static void dump_printf(void *ctx, const char *fmt, va_list args)
@@ -37,10 +38,19 @@ int main(int argc, char *argv[])
 	char *mod = NULL;
 	int btf_id;
 	char *sym_struct = "task_struct";
+	char *sym_func = NULL;
 
 	for (int i = 1; i < argc; i++) {
 		if (!strncmp(argv[i], "struct=", 7)) {
 			sym_struct = argv[i] + 7;
+		} else if (!strncmp(argv[i], "func=", 5)) {
+			if (sym_func) {
+				fprintf(stderr,
+					"ERROR: must specify func= once, %s\n",
+					argv[i]);
+				exit(EXIT_FAILURE);
+			}
+			sym_func = argv[i] + 5;
 		} else if (!strncmp(argv[i], "mod=", 4)) {
 			if (mod) {
 				fprintf(stderr,
@@ -71,9 +81,20 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	btf_id = btf_has_struct(sym_struct);
-	if (btf_id <= 0 && strcmp(sym_struct, "ALL"))
-		err = -ENOENT;
+	/**
+	 * It's seems like function dump nothing with btf_dump__dump_type().
+	 */
+	if (sym_func) {
+		btf_id = btf_has_kfunc(sym_func);
+		if (btf_id <= 0) {
+			fprintf(stderr, "ERROR: not found func %s\n", sym_func);
+			err = -ENOENT;
+		}
+	} else {
+		btf_id = btf_has_struct(sym_struct);
+		if (btf_id <= 0 && strcmp(sym_struct, "ALL"))
+			err = -ENOENT;
+	}
 
 	/**
 	 * If input none arguments
