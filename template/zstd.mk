@@ -11,13 +11,9 @@ ifndef _ZSTD_MK
 _ZSTD_MK = 1
 
 include ldconfig.mk
+include define.mk
 
-ZSTD := $(shell which zstd 2>/dev/null || true)
-ifeq ($(ZSTD),)
-  HAVE_ZSTD := n
-else
-  HAVE_ZSTD := y
-endif
+$(call find_cmd_and_def,zstd)
 
 HAVE_LIBZSTD := $(call have_library,libzstd.so)
 
