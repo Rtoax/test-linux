@@ -8,4 +8,11 @@ target-y += btf_ksym
 btf_dump-objs := ${BTF_HELPERS}
 btf_ksym-objs := ${BTF_HELPERS}
 
+prog-y += btf_dump
+prog-y += btf_dump.1
+prog-y += btf_dump.2
+
+PROG_ARGS_btf_dump.1 := struct=file
+PROG_ARGS_btf_dump.2 := struct=ALL
+
 LDFLAGS := -lbpf
