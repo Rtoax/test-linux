@@ -139,12 +139,14 @@ Frontier and Future Technology
    Big Data <bigdata/index>
    Cloud Native <cloud-native/index>
 
-History
-=======
+
+Misc
+====
 
 .. toctree::
    :maxdepth: 1
 
+   abbrev
    history
 
 

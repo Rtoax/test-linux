@@ -15,12 +15,12 @@ History
 * 1985: Free Software Foundation(FSF) was founded;
 * 1984: University of California at Berkeley releases `4.2BSD`, includes `TCP/IP`, new signals and much more. X/Open formed;
 * 1983: Computer Research Group (CRG), UNIX System Group (USG) and a third group merge to become UNIX System Development Lab. `AT&T` announces UNIX `System V`, the first supported release. Installed base 45,000l;
-* 1983: `MBR`s was publicly introduced in 1983 with PC DOS 2.0;
+* 1983: `MBR` s was publicly introduced in 1983 with PC DOS 2.0;
 * 1982: `AT&T`'s UNIX System Group (USG) release `System III`, the first public release outside Bell Laboratories. `SunOS 1.0` ships. HP-UX introduced. `Ultrix-11` Introduced;
 * 1982: The original version of the `MBR` was written by David Litton of IBM in June 1982;
 * 1980: `Microsoft` introduces `Xenix`. 32V and `4BSD` introduced.
 * 1975: `UNIX` leaves home. Also widely known as Version 6, this is the first to be widely available out side of Bell Labs. The first `BSD` version (1.x) was derived from V6.
-* 1973: `Unix`(Fourth Edition) was rewritten in the C, This made it portable and changed the history of OS's.
+* 1973: `Unix` (Fourth Edition) was rewritten in the C, This made it portable and changed the history of OS's.
 * 1971: Richard Stallman started his career at MIT;
-* 1970 `Unix`(First Edition) was ported to the `PDP-11`;
-* 1969: UNIX born at Bell Labs `(AT&T)`. `Ken Thompson` and `Dennis Ritchie` wrote the first version of `Unix`(The Beginning) on a `PDP-7` minicomputer;
+* 1970 `Unix` (First Edition) was ported to the `PDP-11`;
+* 1969: UNIX born at Bell Labs `(AT&T)`. `Ken Thompson` and `Dennis Ritchie` wrote the first version of `Unix` (The Beginning) on a `PDP-7` minicomputer;
