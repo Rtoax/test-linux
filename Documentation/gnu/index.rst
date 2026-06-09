@@ -10,6 +10,7 @@ under the GPL.
 .. toctree::
    :maxdepth: 1
 
+   history
    bash
    binutils
    coreutils
