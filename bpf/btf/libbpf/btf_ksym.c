@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 
 #ifdef TEST_BTF_KIND_FUNC
 #pragma message "defined TEST_BTF_KIND_FUNC"
-	btf_id = btf_has_kfunc(ksym);
+	btf_id = btf_has_kfunc(ksym, true);
 	s_type = "FUNC";
 #elif defined(TEST_BTF_KIND_STRUCT)
 #pragma message "defined TEST_BTF_KIND_STRUCT"

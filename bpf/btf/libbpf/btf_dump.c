@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 	 * It's seems like function dump nothing with btf_dump__dump_type().
 	 */
 	if (sym_func) {
-		btf_id = btf_has_kfunc(sym_func);
+		btf_id = btf_has_kfunc(sym_func, false);
 		if (btf_id <= 0) {
 			fprintf(stderr, "ERROR: not found func %s\n", sym_func);
 			err = -ENOENT;

@@ -16,8 +16,9 @@ BPF_INSN_SAMPLE_FUNC_PROTO(arena_reserve_pages)
 	int bpf_arena_reserve_pages_id;
 	int bpf_arena_free_pages_id;
 
-	bpf_arena_reserve_pages_id = btf_has_kfunc("bpf_arena_reserve_pages");
-	bpf_arena_free_pages_id = btf_has_kfunc("bpf_arena_free_pages");
+	bpf_arena_reserve_pages_id =
+		btf_has_kfunc("bpf_arena_reserve_pages", true);
+	bpf_arena_free_pages_id = btf_has_kfunc("bpf_arena_free_pages", true);
 
 	if (bpf_arena_reserve_pages_id <= 0 || bpf_arena_free_pages_id <= 0) {
 		fprintf(stderr, "ERROR: not found bpf_arena_reserve_pages kfunc.\n");

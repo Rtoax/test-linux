@@ -24,8 +24,8 @@ BPF_INSN_SAMPLE_FUNC_PROTO(task_from_pid)
 	int bpf_task_from_pid_id;
 	int bpf_task_release_id;
 
-	bpf_task_from_pid_id = btf_has_kfunc("bpf_task_from_pid");
-	bpf_task_release_id = btf_has_kfunc("bpf_task_release");
+	bpf_task_from_pid_id = btf_has_kfunc("bpf_task_from_pid", true);
+	bpf_task_release_id = btf_has_kfunc("bpf_task_release", true);
 
 	if (bpf_task_from_pid_id <= 0 || bpf_task_release_id <= 0) {
 		fprintf(stderr, "ERROR: not found bpf_task_from_pid kfunc.\n");

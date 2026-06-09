@@ -204,7 +204,7 @@ static char *value_to_str(struct btf *btf, struct value *val, char *str)
 	return str;
 }
 
-static int get_func_btf_id(struct btf *btf, const char *name)
+static int get_func_btf_id(struct btf *btf, const char *name, bool dump)
 {
 	int i, btf_id;
 	const struct btf_type *type;
@@ -217,6 +217,10 @@ static int get_func_btf_id(struct btf *btf, const char *name)
 	btf_id = btf__find_by_name_kind(btf, name, BTF_KIND_FUNC);
 	if (btf_id <= 0)
 		return -ENOENT;
+
+	if (!dump)
+		return btf_id;
+
 	type = btf__type_by_id(btf, btf_id);
 	if (!type || BTF_INFO_KIND(type->info) != BTF_KIND_FUNC)
 		return -ENOENT;
@@ -341,14 +345,14 @@ struct btf *btf_load_module(const char *module, struct btf **base)
 /**
  * Return btf id if exist, -1 if non-exist.
  */
-static int __btf_has_ksym(const char *ksym, int kind)
+static int __btf_has_ksym(const char *ksym, int kind, bool dump)
 {
 	int btf_id;
 	struct btf *btf = btf_load_vmlinux();
 
 	switch (kind) {
 	case BTF_KIND_FUNC:
-		btf_id = get_func_btf_id(btf, ksym);
+		btf_id = get_func_btf_id(btf, ksym, dump);
 		break;
 	case BTF_KIND_DECL_TAG:
 		btf_id = btf__find_by_name_kind(btf, ksym, BTF_KIND_DECL_TAG);
@@ -383,35 +387,35 @@ static int __btf_has_ksym(const char *ksym, int kind)
 
 int btf_has_ksym(const char *ksym)
 {
-	return __btf_has_ksym(ksym, BTF_KIND_UNKN);
+	return __btf_has_ksym(ksym, BTF_KIND_UNKN, true);
 }
 
-int btf_has_kfunc(const char *kfunc)
+int btf_has_kfunc(const char *kfunc, bool dump)
 {
-	return __btf_has_ksym(kfunc, BTF_KIND_FUNC);
+	return __btf_has_ksym(kfunc, BTF_KIND_FUNC, dump);
 }
 
 int btf_has_struct(const char *sname)
 {
-	return __btf_has_ksym(sname, BTF_KIND_STRUCT);
+	return __btf_has_ksym(sname, BTF_KIND_STRUCT, true);
 }
 
 int btf_has_union(const char *sname)
 {
-	return __btf_has_ksym(sname, BTF_KIND_UNION);
+	return __btf_has_ksym(sname, BTF_KIND_UNION, true);
 }
 
 int btf_has_enum(const char *sname)
 {
-	return __btf_has_ksym(sname, BTF_KIND_ENUM);
+	return __btf_has_ksym(sname, BTF_KIND_ENUM, true);
 }
 
 int btf_has_enum64(const char *sname)
 {
-	return __btf_has_ksym(sname, BTF_KIND_ENUM64);
+	return __btf_has_ksym(sname, BTF_KIND_ENUM64, true);
 }
 
 int btf_has_decl_tag(const char *ksym)
 {
-	return __btf_has_ksym(ksym, BTF_KIND_DECL_TAG);
+	return __btf_has_ksym(ksym, BTF_KIND_DECL_TAG, true);
 }

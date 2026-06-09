@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #pragma once
+#include <stdbool.h>
 
 #define SYSFS_VMLINUX "/sys/kernel/btf/vmlinux"
 
@@ -41,7 +42,7 @@ struct btf *btf_load_module(const char *module, struct btf **base);
 const char *btf_kind_name(int kind);
 
 int btf_has_ksym(const char *ksym);
-int btf_has_kfunc(const char *kfunc);
+int btf_has_kfunc(const char *kfunc, bool dump);
 int btf_has_struct(const char *sname);
 int btf_has_union(const char *sname);
 int btf_has_enum(const char *sname);
