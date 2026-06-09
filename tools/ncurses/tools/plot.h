@@ -34,7 +34,12 @@ struct plot {
 	unsigned long redrawcount;
 
 	/* Scaling plotting */
-	enum { T_NONE = 0, T_LOGARITHMIC, T_LOGARITHMIC10 } v_scaling;
+	enum {
+		T_NONE = 0,
+		T_LOGARITHMIC,
+		T_LOGARITHMIC10,
+		T_EXPONENTIAL,
+	} v_scaling;
 
 	/**
 	 * record previous keyboard event.

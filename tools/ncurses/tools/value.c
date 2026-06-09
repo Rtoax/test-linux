@@ -158,6 +158,7 @@ static int enqueue_val(struct line *l, double v)
 	new->v = v;
 	new->logarithmic_v = log(v);
 	new->logarithmic10_v = log10(v);
+	new->exponential_v = exp(v);
 	gettimeofday(&new->tv, NULL);
 	new->next = NULL;
 

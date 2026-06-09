@@ -38,6 +38,7 @@
 enum {
 	ARG_LOGARITHMIC = 200,
 	ARG_LOGARITHMIC10,
+	ARG_EXPONENTIAL,
 };
 
 const char argp_prog_doc[] =
@@ -77,6 +78,7 @@ static const struct argp_option opts[] = {
 	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1, "Use natural logarithmic" },
 	{ "logarithmic10", ARG_LOGARITHMIC10, NULL, 1,
 	  "Use base-10 logarithmic, the curve shape is exactly the same as --logarithmic, only the values of the tick labels on the axes are different." },
+	{ "exponential", ARG_EXPONENTIAL, NULL, 1, "Use base-e exponential" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{ "version", 'V', NULL, 1, "Display version" },
@@ -146,6 +148,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case ARG_LOGARITHMIC:
 		plot.v_scaling = T_LOGARITHMIC;
+		break;
+	case ARG_EXPONENTIAL:
+		plot.v_scaling = T_EXPONENTIAL;
 		break;
 	case ARG_LOGARITHMIC10:
 		plot.v_scaling = T_LOGARITHMIC10;

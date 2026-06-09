@@ -116,6 +116,10 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		max = log10(max);
 		min = log10(min);
 		break;
+	case T_EXPONENTIAL:
+		max = exp(max);
+		min = exp(min);
+		break;
 	case T_NONE:
 	default:
 		break;
@@ -127,9 +131,11 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		double plot_v = v->v;
 
 		if (p->v_scaling == T_LOGARITHMIC)
-			plot_v = log(plot_v);
+			plot_v = v->logarithmic_v;
 		else if (p->v_scaling == T_LOGARITHMIC10)
-			plot_v = log10(plot_v);
+			plot_v = v->logarithmic10_v;
+		else if (p->v_scaling == T_EXPONENTIAL)
+			plot_v = v->exponential_v;
 
 		/**
 		 * The number of data points may be greater than the horizontal
@@ -204,6 +210,8 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 			nc = snprintf(sv, 64, "log(%.3f)=%.3f", v->v, plot_v);
 		else if (p->v_scaling == T_LOGARITHMIC10)
 			nc = snprintf(sv, 64, "log10(%.3f)=%.3f", v->v, plot_v);
+		else if (p->v_scaling == T_EXPONENTIAL)
+			nc = snprintf(sv, 64, "exp(%.3f)=%.3f", v->v, plot_v);
 		else
 			nc = snprintf(sv, 64, "%.3f", v->v);
 
@@ -235,6 +243,8 @@ void plot_draw_title(const struct plot *p)
 		snprintf(buf, 128, "%s (logarithmic)", p->title);
 	else if (p->v_scaling == T_LOGARITHMIC10)
 		snprintf(buf, 128, "%s (base-10 logarithmic)", p->title);
+	else if (p->v_scaling == T_EXPONENTIAL)
+		snprintf(buf, 128, "%s (base-e exponential)", p->title);
 	else
 		title = p->title;
 	mvaddstr(0, (p->width - strlen(title)) / 2, title);

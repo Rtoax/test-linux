@@ -13,6 +13,7 @@ struct value {
 	double v;
 	double logarithmic_v; /* = log(v) */
 	double logarithmic10_v; /* = log10(v) */
+	double exponential_v; /* = exp(v) */
 	struct timeval tv;
 	struct value *next;
 };
