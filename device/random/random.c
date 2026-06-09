@@ -34,7 +34,7 @@ int random_number(int min, int max)
 	}
 
 	/* Read enough random bytes to fill an integer variable. */
-	next_random_byte = (char*)&random_value;
+	next_random_byte = (char *)&random_value;
 	bytes_to_read = sizeof(random_value);
 
 	/**
@@ -43,10 +43,9 @@ int random_number(int min, int max)
 	 * return a single random byte at a time.
 	 */
 	do {
-		int bytes_read;
-		bytes_read = read(dev_random_fd, next_random_byte, bytes_to_read);
-		bytes_to_read -= bytes_read;
-		next_random_byte += bytes_read;
+		int n = read(dev_random_fd, next_random_byte, bytes_to_read);
+		bytes_to_read -= n;
+		next_random_byte += n;
 	} while (bytes_to_read > 0);
 
 	/* Compute a random number in the correct range. */

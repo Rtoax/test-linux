@@ -1,1 +1,1 @@
-../../device/random.c
+../../device/random/random.c

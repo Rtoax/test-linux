@@ -5,9 +5,8 @@ subdir-y += input
 subdir-y += modules
 subdir-y += pty
 subdir-y += tty
+subdir-y += random
 
 target-y += cpu_dma_latency
-target-y += random
 
 prog-y += query.sh
-prog-y += random.sh
