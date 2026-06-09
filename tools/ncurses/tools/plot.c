@@ -107,7 +107,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 	int prev_h = -1;
 	chtype color = flavor[ln->color];
 
-	switch (p->logarithmic) {
+	switch (p->v_scaling) {
 	case T_LOGARITHMIC:
 		max = log(max);
 		min = log(min);
@@ -126,9 +126,9 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		double span = .0f, diff = .0f;
 		double plot_v = v->v;
 
-		if (p->logarithmic == T_LOGARITHMIC)
+		if (p->v_scaling == T_LOGARITHMIC)
 			plot_v = log(plot_v);
-		else if (p->logarithmic == T_LOGARITHMIC10)
+		else if (p->v_scaling == T_LOGARITHMIC10)
 			plot_v = log10(plot_v);
 
 		/**
@@ -200,9 +200,9 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		char sv[64];
 		int nc;
 
-		if (p->logarithmic == T_LOGARITHMIC)
+		if (p->v_scaling == T_LOGARITHMIC)
 			nc = snprintf(sv, 64, "log(%.3f)=%.3f", v->v, plot_v);
-		else if (p->logarithmic == T_LOGARITHMIC10)
+		else if (p->v_scaling == T_LOGARITHMIC10)
 			nc = snprintf(sv, 64, "log10(%.3f)=%.3f", v->v, plot_v);
 		else
 			nc = snprintf(sv, 64, "%.3f", v->v);
@@ -231,9 +231,9 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 void plot_draw_title(const struct plot *p)
 {
 	char buf[128], *title = buf;
-	if (p->logarithmic == T_LOGARITHMIC)
+	if (p->v_scaling == T_LOGARITHMIC)
 		snprintf(buf, 128, "%s (logarithmic)", p->title);
-	else if (p->logarithmic == T_LOGARITHMIC10)
+	else if (p->v_scaling == T_LOGARITHMIC10)
 		snprintf(buf, 128, "%s (base-10 logarithmic)", p->title);
 	else
 		title = p->title;

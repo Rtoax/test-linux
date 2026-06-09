@@ -145,10 +145,10 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		}
 		break;
 	case ARG_LOGARITHMIC:
-		plot.logarithmic = T_LOGARITHMIC;
+		plot.v_scaling = T_LOGARITHMIC;
 		break;
 	case ARG_LOGARITHMIC10:
-		plot.logarithmic = T_LOGARITHMIC10;
+		plot.v_scaling = T_LOGARITHMIC10;
 		break;
 	case 'I':
 		interval_sec = atoi(arg);

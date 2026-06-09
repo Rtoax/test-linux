@@ -33,8 +33,8 @@ struct plot {
 	int lgcount;
 	unsigned long redrawcount;
 
-	/* Logarithmic plotting */
-	enum { T_NONE = 0, T_LOGARITHMIC, T_LOGARITHMIC10 } logarithmic;
+	/* Scaling plotting */
+	enum { T_NONE = 0, T_LOGARITHMIC, T_LOGARITHMIC10 } v_scaling;
 
 	/**
 	 * record previous keyboard event.
