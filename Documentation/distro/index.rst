@@ -6,6 +6,7 @@ Linux Distributions
    :maxdepth: 1
 
    abbrev
+   history
    linux-reference
 
 
