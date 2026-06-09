@@ -32,7 +32,8 @@ target-y += no_instrument_function
 target-y += visibility
 target-y += packed
 
-target-bpf-${HAVE_CLANG} := preserve_access_index.bpf.o
+target-bpf-${HAVE_CLANG} += preserve_access_index.bpf.o
+target-bpf-${HAVE_CLANG} += btf_decl_tag.bpf.o
 
 ifeq ($(feature-fcf-protection),y)
   CFLAGS_nocf_check := -fcf-protection

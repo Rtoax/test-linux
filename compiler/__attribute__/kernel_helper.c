@@ -6,8 +6,7 @@
 #define kernel_helper
 #endif
 
-int bpf_probe_read (void *dst, int size, const void *unsafe_ptr)
-	kernel_helper;
+int bpf_probe_read(void *dst, int size, const void *unsafe_ptr) kernel_helper;
 
 int main(void)
 {

@@ -8,10 +8,16 @@ eBPF: Extended Berkeley Packet Filter
    bpf
    isa
    btf
+   kfunc
+   jit
    xdp
    libbpf
    bpftool
+
+
+.. toctree::
+   :maxdepth: 1
+
    bpftrace
    bcc
    cilium
-   jit
