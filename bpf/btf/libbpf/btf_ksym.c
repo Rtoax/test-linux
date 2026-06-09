@@ -52,7 +52,7 @@ int main(int argc, char **argv)
 		btf_id = btf_has_decl_tag(ksym);
 		break;
 	default:
-		btf_id = btf_has_ksym(ksym);
+		btf_id = btf_has_ksym(ksym, &kind);
 		break;
 	}
 

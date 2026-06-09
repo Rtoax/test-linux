@@ -345,7 +345,7 @@ struct btf *btf_load_module(const char *module, struct btf **base)
 /**
  * Return btf id if exist, -1 if non-exist.
  */
-static int __btf_has_ksym(const char *ksym, int kind, bool dump)
+static int __btf_has_ksym(const char *ksym, int kind, int *realkind, bool dump)
 {
 	int btf_id;
 	struct btf *btf = btf_load_vmlinux();
@@ -363,6 +363,12 @@ static int __btf_has_ksym(const char *ksym, int kind, bool dump)
 	case BTF_KIND_UNKN:
 	default:
 		btf_id = btf__find_by_name(btf, ksym);
+		if (realkind) {
+			const struct btf_type *type =
+				btf__type_by_id(btf, btf_id);
+			if (type)
+				*realkind = BTF_INFO_KIND(type->info);
+		}
 		break;
 	}
 
@@ -371,7 +377,7 @@ static int __btf_has_ksym(const char *ksym, int kind, bool dump)
 		fprintf(stderr, "ksym '%s' does not exist\n", ksym);
 #endif
 		btf__free(btf);
-		return -1;
+		return -ENOENT;
 	}
 
 #ifdef DEBUG
@@ -385,37 +391,37 @@ static int __btf_has_ksym(const char *ksym, int kind, bool dump)
 	return btf_id;
 }
 
-int btf_has_ksym(const char *ksym)
+int btf_has_ksym(const char *ksym, int *kind)
 {
-	return __btf_has_ksym(ksym, BTF_KIND_UNKN, true);
+	return __btf_has_ksym(ksym, BTF_KIND_UNKN, kind, true);
 }
 
 int btf_has_kfunc(const char *kfunc, bool dump)
 {
-	return __btf_has_ksym(kfunc, BTF_KIND_FUNC, dump);
+	return __btf_has_ksym(kfunc, BTF_KIND_FUNC, NULL, dump);
 }
 
 int btf_has_struct(const char *sname)
 {
-	return __btf_has_ksym(sname, BTF_KIND_STRUCT, true);
+	return __btf_has_ksym(sname, BTF_KIND_STRUCT, NULL, true);
 }
 
 int btf_has_union(const char *sname)
 {
-	return __btf_has_ksym(sname, BTF_KIND_UNION, true);
+	return __btf_has_ksym(sname, BTF_KIND_UNION, NULL, true);
 }
 
 int btf_has_enum(const char *sname)
 {
-	return __btf_has_ksym(sname, BTF_KIND_ENUM, true);
+	return __btf_has_ksym(sname, BTF_KIND_ENUM, NULL, true);
 }
 
 int btf_has_enum64(const char *sname)
 {
-	return __btf_has_ksym(sname, BTF_KIND_ENUM64, true);
+	return __btf_has_ksym(sname, BTF_KIND_ENUM64, NULL, true);
 }
 
 int btf_has_decl_tag(const char *ksym)
 {
-	return __btf_has_ksym(ksym, BTF_KIND_DECL_TAG, true);
+	return __btf_has_ksym(ksym, BTF_KIND_DECL_TAG, NULL, true);
 }
