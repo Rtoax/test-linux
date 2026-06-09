@@ -100,7 +100,8 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 /**
  * @max and @min is original value, if use logarithmic, must convert it youself.
  */
-static void paint_line(struct plot *p, struct line *ln, double max, double min)
+static void paint_line(struct plot *p, struct line *ln, double max, double min,
+		       bool debug)
 {
 	int i = 0;
 	int prev_h = -1;
@@ -216,11 +217,12 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min)
 			nc = strlen(ln->name);
 			if (p->bnd_prev_max.right < nc)
 				p->bnd_prev_max.right = nc;
-#ifdef DEBUG
-			mvprintw(h + 1, w + 1, "%d", ln->count);
-			mvprintw(h + 2, w + 1, "%.1f", ln->min->v);
-			mvprintw(h + 3, w + 1, "%.1f", ln->max->v);
-#endif
+
+			if (debug) {
+				mvprintw(h + 1, w + 1, "%d", ln->count);
+				mvprintw(h + 2, w + 1, "%.1f", ln->min->v);
+				mvprintw(h + 3, w + 1, "%.1f", ln->max->v);
+			}
 		}
 		attroff(color);
 	}
@@ -255,7 +257,7 @@ void plot_draw_axes(const struct plot *p)
 			 p->plotwidth + p->bnd.left, p->label_x);
 }
 
-static void __paint_plot_lg(struct plot *p, const struct lgroup *lg)
+static void __paint_plot_lg(struct plot *p, const struct lgroup *lg, bool debug)
 {
 	double max = -DBL_MAX, min = DBL_MAX;
 
@@ -278,25 +280,24 @@ static void __paint_plot_lg(struct plot *p, const struct lgroup *lg)
 	{
 		if (l->count <= 0)
 			continue;
-		paint_line(p, l, max, min);
+		paint_line(p, l, max, min, debug);
 	}
-#ifdef DEBUG
-	if (lg->ops->plot_debug)
+
+	if (debug && lg->ops->plot_debug)
 		lg->ops->plot_debug(lg, lg->ops->arg);
-#endif
 }
 
 /**
  * need erase() before, refresh() after
  */
-void paint_plot(struct plot *p)
+static void paint_plot(struct plot *p, bool debug)
 {
 	plot_draw_title(p);
 	plot_draw_axes(p);
 
 	for_each_lg(p, lg)
 	{
-		__paint_plot_lg(p, lg);
+		__paint_plot_lg(p, lg, debug);
 	}
 
 	time_t sec = time(NULL);
@@ -308,17 +309,19 @@ void paint_plot(struct plot *p)
 
 	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
 
-#ifdef DEBUG
-	mvprintw(
-		p->height - 2, 0,
-		"plot: size(%d,%d) max(%d,%d) plot(%d,%d) keyboard(count=%ld,key=%d=0x%x='%s')",
-		p->height, p->width, p->heightmax, p->widthmax, p->plotheight,
-		p->plotwidth, p->keyboard.count, p->keyboard.key,
-		p->keyboard.key, keyname(p->keyboard.key));
-	mvprintw(p->height - 1, 0, "      redraw=%ld, key(left=%ld,right=%ld)",
-		 p->redrawcount, p->keyboard.key_left_count,
-		 p->keyboard.key_right_count);
-#endif
+	if (debug) {
+		mvprintw(
+			p->height - 2, 0,
+			"plot: size(%d,%d) max(%d,%d) plot(%d,%d) keyboard(count=%ld,key=%d=0x%x='%s')",
+			p->height, p->width, p->heightmax, p->widthmax,
+			p->plotheight, p->plotwidth, p->keyboard.count,
+			p->keyboard.key, p->keyboard.key,
+			keyname(p->keyboard.key));
+		mvprintw(p->height - 1, 0,
+			 "      redraw=%ld, key(left=%ld,right=%ld)",
+			 p->redrawcount, p->keyboard.key_left_count,
+			 p->keyboard.key_right_count);
+	}
 
 	move(0, 0);
 }
@@ -339,13 +342,13 @@ void plot_update_data(struct plot *p)
 	}
 }
 
-void plot_redraw(struct plot *p)
+void plot_redraw(struct plot *p, bool debug)
 {
 	p->redrawcount++;
 
 	erase();
 
-	paint_plot(p);
+	paint_plot(p, debug);
 
 	exec_key_handler(p->keyboard.key);
 
