@@ -5,7 +5,7 @@ LD_MOLD := $(shell which mold 2>/dev/null)
 subdir-y := script
 subdir-y += LD_PRELOAD
 
-shell-y := LD_SHOW_AUXV.sh
+prog-y := LD_SHOW_AUXV.sh
 
 target-y := pushsection
 target-y += attribute

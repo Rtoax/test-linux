@@ -6,7 +6,7 @@ target-${IS_AARCH64} += march-armv8.3-a
 # FIXME: aarch64 seems like don't support -mfentry
 target-${IS_X86_64} += mfentry
 
-shell-y := info.sh
+prog-y := info.sh
 
 include compiler.mk
 

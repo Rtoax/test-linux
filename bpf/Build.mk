@@ -21,8 +21,9 @@ subdir-y += usdt
 subdir-y += xdp
 
 target-y := tcpdump
-shell-y := tcpdump.sh
 target-bpf-y := ${OUTPUT}tcpdump.bpf.o
+
+prog-y := tcpdump.sh
 
 target-post-y := post0
 target-post-y += $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
