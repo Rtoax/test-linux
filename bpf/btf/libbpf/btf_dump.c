@@ -14,13 +14,13 @@
 static void usage(void)
 {
 	fprintf(stderr, "\033[2m\n"
-			"Usage: ./btf_dump [module] [kernel symbol]\n"
+			"Usage: ./btf_dump struct=<ksym|ALL> mod=<kmod>\n"
 			"\n"
 			"Examples:\n"
-			" ./btf_dump task_struct\n"
-			" ./btf_dump kvm task_struct\n"
-			" ./btf_dump ALL\n"
-			" ./btf_dump kvm ALL\n"
+			" ./btf_dump struct=task_struct\n"
+			" ./btf_dump mod=kvm struct=task_struct\n"
+			" ./btf_dump struct=ALL\n"
+			" ./btf_dump mod=kvm struct=ALL\n"
 			"\033[m");
 }
 
@@ -29,7 +29,7 @@ static void dump_printf(void *ctx, const char *fmt, va_list args)
 	vprintf(fmt, args);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 	int err = 0;
 	struct btf *btf, *base = NULL;
@@ -38,11 +38,22 @@ int main(int argc, char **argv)
 	int btf_id;
 	char *sym_struct = "task_struct";
 
-	if (argc == 2)
-		sym_struct = argv[1];
-	else if (argc > 2) {
-		mod = argv[1];
-		sym_struct = argv[2];
+	for (int i = 1; i < argc; i++) {
+		if (!strncmp(argv[i], "struct=", 7)) {
+			sym_struct = argv[i] + 7;
+		} else if (!strncmp(argv[i], "mod=", 4)) {
+			if (mod) {
+				fprintf(stderr,
+					"ERROR: must specify mod= once, %s\n",
+					argv[i]);
+				exit(EXIT_FAILURE);
+			}
+			mod = argv[i] + 4;
+		} else {
+			usage();
+			fprintf(stderr, "ERROR: Unknown %s\n", argv[i]);
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	if (mod)
