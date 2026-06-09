@@ -1,13 +1,5 @@
 /**
  * Test btf dump
- *
- * Usage: ./btf_dump [module] [kernel symbol]
- *
- * Examples:
- *  ./btf_dump task_struct
- *  ./btf_dump kvm task_struct
- *  ./btf_dump ALL
- *  ./btf_dump kvm ALL
  */
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
@@ -18,6 +10,19 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "btf_helpers.h"
+
+static void usage(void)
+{
+	fprintf(stderr, "\033[2m\n"
+			"Usage: ./btf_dump [module] [kernel symbol]\n"
+			"\n"
+			"Examples:\n"
+			" ./btf_dump task_struct\n"
+			" ./btf_dump kvm task_struct\n"
+			" ./btf_dump ALL\n"
+			" ./btf_dump kvm ALL\n"
+			"\033[m");
+}
 
 static void dump_printf(void *ctx, const char *fmt, va_list args)
 {
@@ -95,5 +100,6 @@ int main(int argc, char **argv)
 	btf__free(btf);
 	if (base)
 		btf__free(base);
+	usage();
 	return err;
 }
