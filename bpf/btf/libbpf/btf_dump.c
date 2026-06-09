@@ -29,20 +29,20 @@ static void dump_printf(void *ctx, const char *fmt, va_list args)
 	vprintf(fmt, args);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 	int err = 0;
 	struct btf *btf, *base = NULL;
 	struct btf_dump *dump;
 	char *mod = NULL;
 	int btf_id;
-	char *sym_struct = "task_struct";
+	char *ksym = "task_struct";
 
 	if (argc == 2)
-		sym_struct = argv[1];
+		ksym = argv[1];
 	else if (argc > 2) {
 		mod = argv[1];
-		sym_struct = argv[2];
+		ksym = argv[2];
 	}
 
 	if (mod)
@@ -60,14 +60,14 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	btf_id = btf_has_struct(sym_struct);
-	if (btf_id <= 0 && strcmp(sym_struct, "ALL"))
+	btf_id = btf_has_struct(ksym);
+	if (btf_id <= 0 && strcmp(ksym, "ALL"))
 		err = -ENOENT;
 
 	/**
 	 * If input none arguments
 	 */
-	if (argc == 1 && !strcmp(sym_struct, "task_struct")) {
+	if (argc == 1 && !strcmp(ksym, "task_struct")) {
 		struct task_struct {
 			struct thread_info {
 				long unsigned int flags;
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
 				    .compact = false, .skip_names = false, );
 		btf_dump__dump_type_data(dump, btf_id, &task, sizeof(task),
 					 &opts);
-	} else if (!strcmp(sym_struct, "ALL")) {
+	} else if (!strcmp(ksym, "ALL")) {
 		for (btf_id = 0; btf_id < btf__type_cnt(btf); btf_id++)
 			btf_dump__dump_type(dump, btf_id);
 	} else {
