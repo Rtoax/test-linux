@@ -122,7 +122,10 @@ int main(int argc, char *argv[])
 		btf_dump__dump_type_data(dump, btf_id, &task, sizeof(task),
 					 &opts);
 	} else if (!strcmp(sym_struct, "ALL")) {
-		for (btf_id = 0; btf_id < btf__type_cnt(btf); btf_id++)
+		int start_id = 1;
+		if (base)
+			start_id = btf__type_cnt(base);
+		for (btf_id = start_id; btf_id < btf__type_cnt(btf); btf_id++)
 			btf_dump__dump_type(dump, btf_id);
 	} else {
 		btf_dump__dump_type(dump, btf_id);
