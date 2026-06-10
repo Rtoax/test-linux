@@ -126,6 +126,11 @@ const char *btf_kind_name(int kind)
 	abort();
 }
 
+void print_btf(const struct btf *btf)
+{
+	// TODO:
+}
+
 static void type_to_value(const struct btf *btf, char *name, __u32 type_id,
 			  struct value *val)
 {

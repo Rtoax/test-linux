@@ -5,6 +5,7 @@
 struct btf *btf_load_vmlinux(void);
 struct btf *btf_load_module(const char *module, struct btf **base);
 
+void print_btf(const struct btf *btf);
 const char *btf_kind_name(int kind);
 
 int btf_has_ksym(const struct btf *btf, const char *ksym, int *kind);
