@@ -14,7 +14,7 @@ BPF_INSN_SAMPLE_FUNC_PROTO(strnstr)
 {
 	int strnstr_id;
 
-	strnstr_id = btf_has_kfunc("bpf_strnstr", true);
+	strnstr_id = btf_has_kfunc(NULL, "bpf_strnstr", true);
 
 	if (strnstr_id <= 0) {
 		fprintf(stderr, "ERROR: not found strnstr kfunc.\n");

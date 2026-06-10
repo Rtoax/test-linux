@@ -23,7 +23,6 @@ static struct bpf_insn insns[] = {
 	BPF_EXIT_INSN(),
 };
 
-
 BPF_INSN_SAMPLE_FUNC_PROTO(trace_printk)
 {
 	*cnt = sizeof(insns) / sizeof(struct bpf_insn);

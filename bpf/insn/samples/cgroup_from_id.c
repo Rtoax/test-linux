@@ -27,8 +27,8 @@ BPF_INSN_SAMPLE_FUNC_PROTO(cgroup_from_id)
 	int bpf_cgroup_from_id_id;
 	int bpf_cgroup_release_id;
 
-	bpf_cgroup_from_id_id = btf_has_kfunc("bpf_cgroup_from_id", true);
-	bpf_cgroup_release_id = btf_has_kfunc("bpf_cgroup_release", true);
+	bpf_cgroup_from_id_id = btf_has_kfunc(NULL, "bpf_cgroup_from_id", true);
+	bpf_cgroup_release_id = btf_has_kfunc(NULL, "bpf_cgroup_release", true);
 
 	if (bpf_cgroup_from_id_id <= 0 || bpf_cgroup_release_id <= 0) {
 		fprintf(stderr, "ERROR: not found bpf_cgroup_from_id kfunc.\n");

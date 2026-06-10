@@ -21,6 +21,7 @@ int main(int argc, char **argv)
 	int btf_id;
 	const char *ksym = NULL;
 	int kind = BTF_KIND_UNKN;
+	struct btf *btf;
 
 	for (int i = 1; i < argc; i++) {
 		if (!strncmp(argv[i], "struct=", 7)) {
@@ -41,18 +42,20 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
+	btf = btf_load_vmlinux();
+
 	switch (kind) {
 	case BTF_KIND_STRUCT:
-		btf_id = btf_has_struct(ksym);
+		btf_id = btf_has_struct(btf, ksym);
 		break;
 	case BTF_KIND_FUNC:
-		btf_id = btf_has_kfunc(ksym, true);
+		btf_id = btf_has_kfunc(btf, ksym, true);
 		break;
 	case BTF_KIND_DECL_TAG:
-		btf_id = btf_has_decl_tag(ksym);
+		btf_id = btf_has_decl_tag(btf, ksym);
 		break;
 	default:
-		btf_id = btf_has_ksym(ksym, &kind);
+		btf_id = btf_has_ksym(btf, ksym, &kind);
 		break;
 	}
 
@@ -63,5 +66,7 @@ int main(int argc, char **argv)
 	} else
 		printf("Kernel symbol '%s' %s exist, btf id %d.\n", ksym,
 		       btf_kind_name(kind), btf_id);
+
+	btf__free(btf);
 	return err;
 }

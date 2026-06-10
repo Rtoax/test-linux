@@ -41,10 +41,10 @@ struct btf *btf_load_module(const char *module, struct btf **base);
 
 const char *btf_kind_name(int kind);
 
-int btf_has_ksym(const char *ksym, int *kind);
-int btf_has_kfunc(const char *kfunc, bool dump);
-int btf_has_struct(const char *sname);
-int btf_has_union(const char *sname);
-int btf_has_enum(const char *sname);
-int btf_has_enum64(const char *sname);
-int btf_has_decl_tag(const char *ksym);
+int btf_has_ksym(const struct btf *btf, const char *ksym, int *kind);
+int btf_has_kfunc(const struct btf *btf, const char *kfunc, bool dump);
+int btf_has_struct(const struct btf *btf, const char *sname);
+int btf_has_union(const struct btf *btf, const char *sname);
+int btf_has_enum(const struct btf *btf, const char *sname);
+int btf_has_enum64(const struct btf *btf, const char *sname);
+int btf_has_decl_tag(const struct btf *btf, const char *ksym);

@@ -23,9 +23,10 @@ BPF_INSN_SAMPLE_FUNC_PROTO(iter_task_vma_new)
 	int bpf_iter_task_vma_new_id;
 	int bpf_iter_task_vma_destroy_id;
 
-	bpf_iter_task_vma_new_id = btf_has_kfunc("bpf_iter_task_vma_new", true);
+	bpf_iter_task_vma_new_id =
+		btf_has_kfunc(NULL, "bpf_iter_task_vma_new", true);
 	bpf_iter_task_vma_destroy_id =
-		btf_has_kfunc("bpf_iter_task_vma_destroy", true);
+		btf_has_kfunc(NULL, "bpf_iter_task_vma_destroy", true);
 
 	if (bpf_iter_task_vma_new_id <= 0 || bpf_iter_task_vma_destroy_id <= 0) {
 		fprintf(stderr, "ERROR: not found bpf_iter_task_vma_new kfunc.\n");
