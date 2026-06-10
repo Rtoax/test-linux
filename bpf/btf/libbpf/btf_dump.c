@@ -128,6 +128,10 @@ int main(int argc, char *argv[])
 		btf_dump__dump_type(dump, btf_id);
 	}
 
+	printf("btf__type_cnt is %d, %s\n", btf__type_cnt(btf),
+	       mod ?: "vmlinux");
+	printf("btf_id = %d\n", btf_id);
+
 	btf_dump__free(dump);
 	btf__free(btf);
 	if (base)
