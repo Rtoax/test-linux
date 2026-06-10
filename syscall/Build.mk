@@ -1,5 +1,3 @@
-subdir-y := samples
-subdir-y += strace
-subdir-y += deprecated
+subdir-y := ${ALL_SUBDIR}
 
 prog-y := syscalls.sh
