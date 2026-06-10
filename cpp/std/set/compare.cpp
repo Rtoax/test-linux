@@ -10,8 +10,27 @@ struct CompareByFirst {
 	}
 };
 
+using Set = std::set<std::pair<std::string, std::string>,
+		decltype([](const auto &a, const auto &b) {
+			return a.first < b.first;
+		})>;
+
+class Class {
+public:
+	Set GenSet() const;
+};
+
+Set Class::GenSet() const {
+	Set set;
+	set.insert({ "a", "b" });
+	set.insert({ "a", "c" });
+	return set;
+}
+
 int main(void)
 {
+	Class c;
+
 	std::set<std::pair<std::string, std::string>> set1;
 	std::set<std::pair<std::string, std::string>, CompareByFirst> set2;
 
@@ -38,6 +57,8 @@ int main(void)
 	set4.insert({ "a", "b" });
 	set4.insert({ "a", "c" });
 
+	Set set5 = c.GenSet();
+
 	for (auto s : set1) {
 		std::cout << "set1: " << s.first << ", " << s.second
 			  << std::endl;
@@ -52,6 +73,10 @@ int main(void)
 	}
 	for (auto s : set4) {
 		std::cout << "set4: " << s.first << ", " << s.second
+			  << std::endl;
+	}
+	for (auto s : set5) {
+		std::cout << "set5: " << s.first << ", " << s.second
 			  << std::endl;
 	}
 
