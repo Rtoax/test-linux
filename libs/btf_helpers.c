@@ -10,6 +10,40 @@
 #include <linux/version.h>
 #include "btf_helpers.h"
 
+#define SYSFS_VMLINUX "/sys/kernel/btf/vmlinux"
+
+#define MAX_NAME 96
+#define MAX_STR 256
+#define MAX_VALUES 6
+#define MAX_ARGS (MAX_VALUES - 1)
+#define F_PTR 0x1 /* value is a pointer */
+
+/**
+ * if we can't get a type id for a type (such as module-specific type)
+ * mark it as KSNOOP_ID_UNKNOWN since BTF lookup in bpf_snprintf_btf()
+ * will fail and the data will be simply displayed as a __u64.
+ */
+#define ID_UNKNOWN 0xffffffff
+
+struct value {
+	char name[MAX_STR];
+	enum { ARG1, ARG2, ARG3, ARG4, ARG5, RETURN } base_arg;
+	__u32 offset;
+	__u32 size;
+	__u64 type_id;
+	__u64 flags;
+	__u64 predicate_value;
+};
+
+struct func {
+	char name[MAX_NAME];
+	char mod[MAX_NAME];
+	__s32 id;
+	__u8 nr_args;
+	__u64 ip;
+	struct value args[MAX_VALUES];
+};
+
 enum {
 	/**
 	 * linux commit 8fd886911a6a ("bpf: Add BTF_KIND_FLOAT to uapi")
