@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- scripts/Makefile.build: add `ALL_SUBDIR`, usage `subdir-y += ${ALL_SUBDIR}`;
 #### Changed
 #### Deprecated
 #### Doc

@@ -3,8 +3,7 @@ include compiler.mk
 
 SRC_SFX_LIST := $(shell seq 1 1 20)
 
-subdir-y := demangle
-subdir-y += std
+subdir-y := ${ALL_SUBDIR}
 
 target-cpp-y += hello
 target-cpp-y += alignas

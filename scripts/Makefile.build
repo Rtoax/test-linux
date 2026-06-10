@@ -4,9 +4,15 @@
 # subdirectory need USRC=y by default, see also top Makefile.
 USRC ?= y
 
-include output.mk
 include arch.mk
 include ansi.mk
+include dir.mk
+include output.mk
+
+# usage: subdir-y += ${ALL_SUBDIR}
+ALL_SUBDIR := $(call list_dir)
+ALL_SUBDIR := $(filter-out ${OUTPUT}, ${ALL_SUBDIR})
+ALL_SUBDIR := $(filter-out $(subst /,,${OUTPUT}), ${ALL_SUBDIR})
 
 ifeq (${USRC}, y)
   include ${CURDIR}/Build.mk

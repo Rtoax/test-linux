@@ -1,3 +1,1 @@
-subdir-y += cout
-subdir-y += set
-subdir-y += unique
+subdir-y := ${ALL_SUBDIR}
