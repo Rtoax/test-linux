@@ -5,6 +5,7 @@ include vdso.mk
 subdir-y += abi
 subdir-y += scripts
 subdir-y += test
+subdir-y += modules
 subdir-y += nvDSO
 subdir-y += vvar
 
