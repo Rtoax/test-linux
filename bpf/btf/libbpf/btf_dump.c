@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 			err = -ENOENT;
 		}
 	} else {
-		btf_id = btf_has_struct(btf, sym_struct);
+		btf_id = btf_has_struct(btf, sym_struct, false);
 		if (btf_id <= 0 && strcmp(sym_struct, "ALL"))
 			err = -ENOENT;
 	}
@@ -125,9 +125,12 @@ int main(int argc, char *argv[])
 		int start_id = 1;
 		if (base)
 			start_id = btf__type_cnt(base);
-		for (btf_id = start_id; btf_id < btf__type_cnt(btf); btf_id++)
+		for (btf_id = start_id; btf_id < btf__type_cnt(btf); btf_id++) {
+			printf("/* btf id %d */\n", btf_id);
 			btf_dump__dump_type(dump, btf_id);
+		}
 	} else {
+		printf("/* btf id %d */\n", btf_id);
 		btf_dump__dump_type(dump, btf_id);
 	}
 

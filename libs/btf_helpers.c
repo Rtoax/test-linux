@@ -293,7 +293,7 @@ static int get_func_btf_id(const struct btf *btf, const char *name, bool dump)
 	return btf_id;
 }
 
-static int get_struct_btf(const struct btf *btf, const char *name)
+static int get_struct_btf(const struct btf *btf, const char *name, bool dump)
 {
 	int i, btf_id, vlen;
 	const struct btf_type *type;
@@ -306,6 +306,9 @@ static int get_struct_btf(const struct btf *btf, const char *name)
 	type = btf__type_by_id(btf, btf_id);
 	if (!type || BTF_INFO_KIND(type->info) != BTF_KIND_STRUCT)
 		return -ENOENT;
+
+	if (!dump)
+		return btf_id;
 
 	vlen = BTF_INFO_VLEN(type->info);
 	member = (const struct btf_member *)(type + 1);
@@ -403,7 +406,7 @@ static int __btf_has_ksym(const struct btf *btf, const char *ksym, int kind,
 		btf_id = btf__find_by_name_kind(btf, ksym, BTF_KIND_DECL_TAG);
 		break;
 	case BTF_KIND_STRUCT:
-		btf_id = get_struct_btf(btf, ksym);
+		btf_id = get_struct_btf(btf, ksym, dump);
 		break;
 	case BTF_KIND_UNKN:
 	default:
@@ -448,9 +451,9 @@ int btf_has_kfunc(const struct btf *btf, const char *kfunc, bool dump)
 	return __btf_has_ksym(btf, kfunc, BTF_KIND_FUNC, NULL, dump);
 }
 
-int btf_has_struct(const struct btf *btf, const char *sname)
+int btf_has_struct(const struct btf *btf, const char *sname, bool dump)
 {
-	return __btf_has_ksym(btf, sname, BTF_KIND_STRUCT, NULL, true);
+	return __btf_has_ksym(btf, sname, BTF_KIND_STRUCT, NULL, dump);
 }
 
 int btf_has_union(const struct btf *btf, const char *sname)

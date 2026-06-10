@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
 	switch (kind) {
 	case BTF_KIND_STRUCT:
-		btf_id = btf_has_struct(btf, ksym);
+		btf_id = btf_has_struct(btf, ksym, true);
 		break;
 	case BTF_KIND_FUNC:
 		btf_id = btf_has_kfunc(btf, ksym, true);
