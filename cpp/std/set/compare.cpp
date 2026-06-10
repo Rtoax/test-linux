@@ -21,6 +21,11 @@ int main(void)
 	std::set<std::pair<std::string, std::string>,
 		 decltype(CompareByFirstLambda)> set3;
 
+	std::set<std::pair<std::string, std::string>,
+		 decltype([](const auto &a, const auto &b) {
+			return a.first < b.first;
+		 })> set4;
+
 	set1.insert({ "a", "b" });
 	set1.insert({ "a", "c" });
 
@@ -29,6 +34,9 @@ int main(void)
 
 	set3.insert({ "a", "b" });
 	set3.insert({ "a", "c" });
+
+	set4.insert({ "a", "b" });
+	set4.insert({ "a", "c" });
 
 	for (auto s : set1) {
 		std::cout << "set1: " << s.first << ", " << s.second
@@ -40,6 +48,10 @@ int main(void)
 	}
 	for (auto s : set3) {
 		std::cout << "set3: " << s.first << ", " << s.second
+			  << std::endl;
+	}
+	for (auto s : set4) {
+		std::cout << "set4: " << s.first << ", " << s.second
 			  << std::endl;
 	}
 
