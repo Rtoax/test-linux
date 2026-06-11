@@ -86,23 +86,23 @@ const char *btf_kind_name(int kind)
 {
 #define KIND(v) case v: return #v;
 	switch (kind) {
-	KIND(BTF_KIND_UNKN);
-	KIND(BTF_KIND_INT);
-	KIND(BTF_KIND_PTR);
-	KIND(BTF_KIND_ARRAY);
-	KIND(BTF_KIND_STRUCT);
-	KIND(BTF_KIND_UNION);
-	KIND(BTF_KIND_ENUM);
-	KIND(BTF_KIND_FWD);
-	KIND(BTF_KIND_TYPEDEF);
-	KIND(BTF_KIND_VOLATILE);
-	KIND(BTF_KIND_CONST);
-	KIND(BTF_KIND_RESTRICT);
-	KIND(BTF_KIND_FUNC);
-	KIND(BTF_KIND_FUNC_PROTO);
-	KIND(BTF_KIND_VAR);
-	KIND(BTF_KIND_DATASEC);
-	KIND(BTF_KIND_FLOAT);
+	KIND(BTF_KIND_UNKN); /* 0 */
+	KIND(BTF_KIND_INT); /* 1 */
+	KIND(BTF_KIND_PTR); /* 2 */
+	KIND(BTF_KIND_ARRAY); /* 3 */
+	KIND(BTF_KIND_STRUCT); /* 4 */
+	KIND(BTF_KIND_UNION); /* 5 */
+	KIND(BTF_KIND_ENUM); /* 6 */
+	KIND(BTF_KIND_FWD); /* 7 */
+	KIND(BTF_KIND_TYPEDEF); /* 8 */
+	KIND(BTF_KIND_VOLATILE); /* 9 */
+	KIND(BTF_KIND_CONST); /* 10 */
+	KIND(BTF_KIND_RESTRICT); /* 11 */
+	KIND(BTF_KIND_FUNC); /* 12 */
+	KIND(BTF_KIND_FUNC_PROTO); /* 13 */
+	KIND(BTF_KIND_VAR); /* 14 */
+	KIND(BTF_KIND_DATASEC); /* 15 */
+	KIND(BTF_KIND_FLOAT); /* 16 */
 	/**
 	 * linux commit b5ea834dde6b ("bpf: Support for new btf kind BTF_KIND_TAG")
 	 * v5.14-9734-gb5ea834dde6b
@@ -110,9 +110,9 @@ const char *btf_kind_name(int kind)
 #if LINUX_VERSION_CODE > KERNEL_VERSION(5, 14, 0) && LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0)
 	KIND(BTF_KIND_TAG);
 #endif
-	KIND(BTF_KIND_DECL_TAG);
-	KIND(BTF_KIND_TYPE_TAG);
-	KIND(BTF_KIND_ENUM64);
+	KIND(BTF_KIND_DECL_TAG); /* 17 */
+	KIND(BTF_KIND_TYPE_TAG); /* 18 */
+	KIND(BTF_KIND_ENUM64); /* 19 */
 	}
 #undef KIND
 	fprintf(stderr, "ERROR: Invalid or kernel not support kind %d\n", kind);
