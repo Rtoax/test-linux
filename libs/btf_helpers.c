@@ -382,7 +382,8 @@ struct btf *btf_load_module(const char *module, struct btf **base)
 	 * (such as `struct task_struct`), it is not redefined in the module's
 	 * BTF; instead, it is referred to by its ID in vmlinux.
 	 */
-	*base = btf_load_vmlinux();
+	if (!*base)
+		*base = btf_load_vmlinux();
 	return btf__parse_split(path, *base);
 }
 
