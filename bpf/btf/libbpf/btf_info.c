@@ -19,7 +19,9 @@ int next_btf(uint32_t *next_id)
 
 	err = bpf_btf_get_next_id(id, &id);
 	if (err) {
-		fprintf(stderr, "failed get next id.\n");
+		char buf[64];
+		libbpf_strerror(err, buf, sizeof(buf));
+		fprintf(stderr, "failed get next id %d %s.\n", id, buf);
 		exit(EXIT_FAILURE);
 	}
 
