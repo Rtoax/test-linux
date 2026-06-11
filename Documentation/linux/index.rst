@@ -21,7 +21,6 @@ Linux Tools
 .. toctree::
    :maxdepth: 1
 
-   util-linux
    binfmt
 
 

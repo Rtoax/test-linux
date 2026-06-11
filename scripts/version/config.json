@@ -1,5 +1,5 @@
 {
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -119,6 +119,16 @@
 			},
 			"extension": [ "dwz" ],
 			"keys": [ "dwarf", "dwz" ]
+		},
+		"e2fsprogs": {
+			"name": "e2fsprogs",
+			"command": [ "fsck.ext4" ],
+			"version": {
+				"command": {
+					"argument": [ "-V" ]
+				}
+			},
+			"keys": [ "fsck", "fsck.ext4" ]
 		},
 		"edk2": {
 			"name": "EDK-II",
@@ -602,7 +612,7 @@
 		"util-linux": {
 			"name": "Util-Linux",
 			"command": [ "getopt", "lscpu" ],
-			"keys": [ "util-linux", "lscpu" ]
+			"keys": [ "util-linux", "lscpu", "fsck" ]
 		},
 		"vim": {
 			"name": "VIM",
@@ -612,6 +622,16 @@
 			},
 			"extension": [ "vim" ],
 			"keys": [ "vim" ]
+		},
+		"xfsprogs": {
+			"name": "xfsprogs",
+			"command": [ "xfs_repair" ],
+			"version": {
+				"command": {
+					"argument": [ "-V" ]
+				}
+			},
+			"keys": [ "fsck.xfs" ]
 		},
 		"zlib": {
 			"name": "ZLib",
