@@ -135,16 +135,22 @@ int main(int argc, char *argv[])
 		int start_id = 1;
 		if (base)
 			start_id = btf__type_cnt(base);
-		for (btf_id = start_id; btf_id < btf__type_cnt(btf); btf_id++) {
-			dump_btf_id(btf, dump, btf_id);
+		for (int id = start_id; id < btf__type_cnt(btf); id++) {
+			dump_btf_id(btf, dump, id);
 		}
 	} else {
 		dump_btf_id(btf, dump, btf_id);
 	}
 
-	printf("btf__type_cnt is %d, %s\n", btf__type_cnt(btf),
-	       mod ?: "vmlinux");
-	printf("btf_id = %d\n", btf_id);
+	printf("%s has %d btf type", mod ?: "vmlinux", btf__type_cnt(btf));
+	if (base)
+		printf(", %s has %d btf type\n", "vmlinux",
+		       btf__type_cnt(base));
+	else
+		printf("\n");
+
+	if (btf_id > 0)
+		printf("btf_id = %d\n", btf_id);
 
 	btf_dump__free(dump);
 	btf__free(btf);
