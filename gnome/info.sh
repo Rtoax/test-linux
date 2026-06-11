@@ -3,10 +3,11 @@ set -e
 
 desktop_info() {
 	echo DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY
+	echo XDG_SESSION_TYPE=$XDG_SESSION_TYPE
 	echo XDG_CURRENT_DESKTOP=$XDG_CURRENT_DESKTOP
 	echo XDG_SESSION_DESKTOP=$XDG_SESSION_DESKTOP
 	echo WAYLAND_DISPLAY=$WAYLAND_DISPLAY
 	loginctl show-session
 }
 
-desktop_info
+desktop_info | cat

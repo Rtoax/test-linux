@@ -623,6 +623,11 @@
 			"extension": [ "vim" ],
 			"keys": [ "vim" ]
 		},
+		"wayland": {
+			"name": "WayLand",
+			"command": [ "wayland-scanner" ],
+			"keys": [ "wayland" ]
+		},
 		"xfsprogs": {
 			"name": "xfsprogs",
 			"command": [ "xfs_repair" ],

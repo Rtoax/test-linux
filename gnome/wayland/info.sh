@@ -1,5 +1,9 @@
 #!/bin/bash
 set -e
+
+wayland-info
 wayland-scanner --version
+echo XDG_SESSION_TYPE=$XDG_SESSION_TYPE
+echo XDG_CURRENT_DESKTOP=$XDG_CURRENT_DESKTOP
 echo WAYLAND_DISPLAY=$WAYLAND_DISPLAY
 echo DISPLAY=$DISPLAY

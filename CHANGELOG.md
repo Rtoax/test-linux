@@ -21,6 +21,7 @@ and this project adheres to
 #### Tools
 - util-linux: add fsck subdir;
 #### Template
+- add wayland.mk;
 
 
 ## [v2.4.7] Lamada 2026-06-09
