@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
+void ansi(void)
+{
+	int ansi = isatty(STDOUT_FILENO);
+	printf("%s/* This is C comment */%s\n", ansi ? "\033[2m" : "",
+	       ansi ? "\033[m" : "");
+}
+
 int main(void)
 {
 	FILE *fp = fopen("tmp.out", "w");
@@ -17,6 +24,8 @@ int main(void)
 #undef P
 
 	fclose(fp);
+
+	ansi();
 
 	return 0;
 }

@@ -35,8 +35,12 @@ static void dump_btf_id(const struct btf *btf, struct btf_dump *dump,
 {
 	const struct btf_type *t = btf__type_by_id(btf, btf_id);
 	const char *name = btf__name_by_offset(btf, t->name_off);
-	printf("\033[2m/* btf id %d, name %s, type %s */\033[m\n", btf_id, name,
-	       btf_kind_name(BTF_INFO_KIND(t->info)));
+	/* If redirecting, then don't use colors. */
+	int ansi = isatty(STDOUT_FILENO);
+
+	printf("%s/* btf id %d, name %s, type %s */%s\n", ansi ? "\033[2m" : "",
+	       btf_id, name, btf_kind_name(BTF_INFO_KIND(t->info)),
+	       ansi ? "\033[m" : "");
 	btf_dump__dump_type(dump, btf_id);
 }
 
