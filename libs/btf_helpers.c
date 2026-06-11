@@ -317,14 +317,16 @@ static int get_struct_btf(const struct btf *btf, const char *name, bool dump)
 	for (i = 0; i < vlen; i++) {
 		struct value val;
 		char str[MAX_STR];
-		const char *member_name = btf__name_by_offset(btf, member[i].name_off);
+		const char *member_name =
+			btf__name_by_offset(btf, member[i].name_off);
 
 		memset(&val, 0 , sizeof(val));
 		memset(&str, 0 , sizeof(str));
 
 		type_to_value(btf, NULL, member[i].type, &val);
 
-		printf("    %s %s;\n", value_to_str(btf, &val, str), member_name);
+		printf("    %s %s;\n", value_to_str(btf, &val, str),
+		       member_name);
 	}
 	printf("};\n");
 

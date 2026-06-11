@@ -30,6 +30,16 @@ static void dump_printf(void *ctx, const char *fmt, va_list args)
 	vprintf(fmt, args);
 }
 
+static void dump_btf_id(const struct btf *btf, struct btf_dump *dump,
+			int btf_id)
+{
+	const struct btf_type *t = btf__type_by_id(btf, btf_id);
+	const char *name = btf__name_by_offset(btf, t->name_off);
+	printf("\033[2m/* btf id %d, name %s, type %s */\033[m\n", btf_id, name,
+	       btf_kind_name(BTF_INFO_KIND(t->info)));
+	btf_dump__dump_type(dump, btf_id);
+}
+
 int main(int argc, char *argv[])
 {
 	int err = 0;
@@ -126,12 +136,10 @@ int main(int argc, char *argv[])
 		if (base)
 			start_id = btf__type_cnt(base);
 		for (btf_id = start_id; btf_id < btf__type_cnt(btf); btf_id++) {
-			printf("/* btf id %d */\n", btf_id);
-			btf_dump__dump_type(dump, btf_id);
+			dump_btf_id(btf, dump, btf_id);
 		}
 	} else {
-		printf("/* btf id %d */\n", btf_id);
-		btf_dump__dump_type(dump, btf_id);
+		dump_btf_id(btf, dump, btf_id);
 	}
 
 	printf("btf__type_cnt is %d, %s\n", btf__type_cnt(btf),
