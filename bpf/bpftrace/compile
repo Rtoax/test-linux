@@ -73,14 +73,14 @@ ARGUMENT
 	-t, --test              execute the bpftrace_test
 
 	-j, --jobs [N]          set number of jobs, default: ${use_jobs}
-	--llvm-version          specify LLVM Version
-	--llvm-dir              specify LLVM directory, like: /usr/lib/llvm-18/
+	--llvm-version [N]      specify LLVM Version
+	--llvm-dir [DIR]        specify LLVM directory, like: /usr/lib/llvm-18/
 	--use-system-libbpf     use system libbpf instead of submodule
 	-v, --verbose           run with verbose mode
 	-h, --help              show this info
 
 EXAMPLES
-	$ ./compile -d -c -i --llvm-version=18.1.8 --llvm-dir=/usr/lib/llvm-18/
+	$ ./compile -d -c -i --llvm-version=$(llvm-config --version) --llvm-dir=$(dirname $(llvm-config --libdir))/
 
 LINKS
 	https://github.com/bpftrace/bpftrace
