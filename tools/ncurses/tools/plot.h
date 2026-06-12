@@ -45,10 +45,9 @@ struct plot {
 	 * record previous keyboard event.
 	 */
 	struct {
-		unsigned long count;
-		unsigned long key_left_count, key_right_count;
-		unsigned long key_r_count, key_h_count, key_l_count,
-			key_enter_count;
+		struct {
+			unsigned long total, left, right, r, h, l, enter;
+		} cnt;
 		int key; /* read from STDIN/getch() or /dev/tty */
 	} keyboard;
 };

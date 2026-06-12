@@ -322,18 +322,18 @@ static void paint_plot(struct plot *p, bool debug)
 	if (debug) {
 		mvprintw(
 			p->height - 2, 0,
-			"plot: size(%d,%d) max(%d,%d) plot(%d,%d) keyboard(count=%ld,key=%d=0x%x='%s')",
+			"plot: size(%d,%d) max(%d,%d) plot(%d,%d) keyboard(cnt=%ld,key=%d=0x%x='%s')",
 			p->height, p->width, p->heightmax, p->widthmax,
-			p->plotheight, p->plotwidth, p->keyboard.count,
+			p->plotheight, p->plotwidth, p->keyboard.cnt.total,
 			p->keyboard.key, p->keyboard.key,
 			keyname(p->keyboard.key));
 		mvprintw(
 			p->height - 1, 0,
 			"      redraw=%ld, key(left=%ld,right=%ld,l=%ld,r=%ld,h=%ld,enter=%ld)",
-			p->redrawcount, p->keyboard.key_left_count,
-			p->keyboard.key_right_count, p->keyboard.key_l_count,
-			p->keyboard.key_r_count, p->keyboard.key_h_count,
-			p->keyboard.key_enter_count);
+			p->redrawcount, p->keyboard.cnt.left,
+			p->keyboard.cnt.right, p->keyboard.cnt.l,
+			p->keyboard.cnt.r, p->keyboard.cnt.h,
+			p->keyboard.cnt.enter);
 	}
 
 	move(0, 0);

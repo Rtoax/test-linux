@@ -379,13 +379,13 @@ int main(int argc, char *argv[])
 			}
 
 			if (plot.keyboard.key != ERR) {
-				plot.keyboard.count += count;
+				plot.keyboard.cnt.total += count;
 				switch (plot.keyboard.key) {
 				case KEY_LEFT:
-					plot.keyboard.key_left_count++;
+					plot.keyboard.cnt.left++;
 					break;
 				case KEY_RIGHT:
-					plot.keyboard.key_right_count++;
+					plot.keyboard.cnt.right++;
 					break;
 				case 'q':
 				case 27: /* Esc */
@@ -393,19 +393,19 @@ int main(int argc, char *argv[])
 					goto end;
 					break;
 				case 'r':
-					plot.keyboard.key_r_count++;
+					plot.keyboard.cnt.r++;
 					redraw = true;
 					break;
 				case 'h':
-					plot.keyboard.key_h_count++;
+					plot.keyboard.cnt.h++;
 					redraw = true;
 					break;
 				case 'l':
-					plot.keyboard.key_l_count++;
+					plot.keyboard.cnt.l++;
 					redraw = true;
 					break;
 				case 13: /* enter */
-					plot.keyboard.key_enter_count++;
+					plot.keyboard.cnt.enter++;
 					redraw = true;
 					break;
 				}
