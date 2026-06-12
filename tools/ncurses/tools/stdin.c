@@ -80,9 +80,10 @@ static void stdin_update(struct lgroup *lg, void *arg)
 		 * above it.
 		 */
 		if (i < narg) {
-			line_add_val(line, values[i]);
+			line_add_value(line, values[i], lg->plot->widthmax - 2);
 		} else {
-			line_add_val(line, line->tail->v);
+			line_add_value(line, line->tail->v,
+				       lg->plot->widthmax - 2);
 		}
 		i++;
 	}

@@ -224,17 +224,19 @@ double line_range_min(struct line *l, int start, int len)
 	return min;
 }
 
-void line_add_val(struct line *l, double v)
+/**
+ * @limit: max length of line (number of values)
+ */
+void line_add_value(struct line *l, double v, unsigned long limit)
 {
-	const struct plot *p = l->lg->plot;
-
 	enqueue_value_to_tail(l, v);
 
 	/**
-	 * Due to the limited width of the screen, we removed unnecessary
-	 * history records and keep the old values as much as possible.
+	 * Due to the limited width of the screen or size of memory, we
+	 * removed unnecessary history records and keep the old values as
+	 * much as possible.
 	 */
-	for (int i = p->widthmax - 2; i < l->count; i++)
+	for (int i = limit; i < l->count; i++)
 		dequeue_value_from_head(l);
 }
 
