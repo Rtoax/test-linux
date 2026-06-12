@@ -20,6 +20,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
+- add expect subdir;
 - util-linux: add fsck subdir;
 #### Template
 - add wayland.mk;

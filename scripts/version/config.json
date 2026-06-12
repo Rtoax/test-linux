@@ -155,6 +155,15 @@
 			},
 			"keys": [ "ethtool" ]
 		},
+		"expect": {
+			"name": "Expect",
+			"version": {
+				"command": {
+					"argument": [ "-v", "-version" ]
+				}
+			},
+			"keys": [ "expect" ]
+		},
 		"ffmpeg": {
 			"name": "FFmeg",
 			"version": {
