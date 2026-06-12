@@ -383,11 +383,10 @@ static void key_h(int key, void *arg)
 	int w = p->bnd.left + 1;
 
 	attron(flavor[C_BLUE] | A_BOLD);
-	/* TODO: move it as a comment macro */
-	mvprintw(h - 3, w, "'q' and Esc: quit");
-	mvprintw(h - 2, w, "'h': show the help info");
-	mvprintw(h - 1, w, "'l': display the label for each line");
-	mvprintw(h, w, "Enter: refresh plot");
+	mvprintw(h - 3, w, KEY_HELP_Q);
+	mvprintw(h - 2, w, KEY_HELP_H);
+	mvprintw(h - 1, w, KEY_HELP_L);
+	mvprintw(h, w, KEY_HELP_ENTER);
 	attroff(flavor[C_BLUE] | A_BOLD);
 }
 
