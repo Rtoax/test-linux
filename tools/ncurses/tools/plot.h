@@ -48,7 +48,7 @@ struct plot {
 		struct {
 			unsigned long total, left, right, r, h, l, enter;
 		} cnt;
-		int key; /* read from STDIN/getch() or /dev/tty */
+		int current_key; /* read from STDIN/getch() or /dev/tty */
 	} keyboard;
 };
 

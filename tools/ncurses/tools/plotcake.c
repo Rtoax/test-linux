@@ -365,22 +365,22 @@ int main(int argc, char *argv[])
 						/* Handle more here */
 						break;
 					}
-					plot.keyboard.key = key;
+					plot.keyboard.current_key = key;
 				} else {
-					plot.keyboard.key = ERR;
+					plot.keyboard.current_key = ERR;
 				}
 			/**
 			 * keyfd = STDIN_FILENO
 			 */
 			} else {
 				/* need keypad() and nodelay() */
-				plot.keyboard.key = wgetch(stdscr);
+				plot.keyboard.current_key = wgetch(stdscr);
 				count = 1;
 			}
 
-			if (plot.keyboard.key != ERR) {
+			if (plot.keyboard.current_key != ERR) {
 				plot.keyboard.cnt.total += count;
-				switch (plot.keyboard.key) {
+				switch (plot.keyboard.current_key) {
 				case KEY_LEFT:
 					plot.keyboard.cnt.left++;
 					break;

@@ -325,8 +325,8 @@ static void paint_plot(struct plot *p, bool debug)
 			"plot: size(%d,%d) max(%d,%d) plot(%d,%d) keyboard(cnt=%ld,key=%d=0x%x='%s')",
 			p->height, p->width, p->heightmax, p->widthmax,
 			p->plotheight, p->plotwidth, p->keyboard.cnt.total,
-			p->keyboard.key, p->keyboard.key,
-			keyname(p->keyboard.key));
+			p->keyboard.current_key, p->keyboard.current_key,
+			keyname(p->keyboard.current_key));
 		mvprintw(
 			p->height - 1, 0,
 			"      redraw=%ld, key(left=%ld,right=%ld,l=%ld,r=%ld,h=%ld,enter=%ld)",
@@ -363,14 +363,14 @@ void plot_redraw(struct plot *p, bool debug)
 
 	paint_plot(p, debug);
 
-	exec_key_handler(p->keyboard.key);
+	exec_key_handler(p->keyboard.current_key);
 
 	refresh();
 
 	plot_update_size(p, false);
 
 	/* do some reset */
-	p->keyboard.key = 0;
+	p->keyboard.current_key = 0;
 }
 
 /**
