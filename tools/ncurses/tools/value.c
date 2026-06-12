@@ -122,7 +122,7 @@ bool hascolor_name(const char *name)
 	return color_name2n(name) != C_UNKNOWN;
 }
 
-static int dequeue_val(struct line *l)
+static int dequeue_value_from_head(struct line *l)
 {
 	if (!l || !l->head)
 		return 0;
@@ -152,9 +152,10 @@ static int dequeue_val(struct line *l)
 	return v;
 }
 
-static int enqueue_val(struct line *l, double v)
+static int enqueue_value_to_tail(struct line *l, double v)
 {
 	struct value *new = malloc(sizeof(struct value));
+
 	new->v = v;
 	new->logarithmic_v = log(v);
 	new->logarithmic10_v = log10(v);
@@ -227,14 +228,14 @@ void line_add_val(struct line *l, double v)
 {
 	const struct plot *p = l->lg->plot;
 
-	enqueue_val(l, v);
+	enqueue_value_to_tail(l, v);
 
 	/**
 	 * Due to the limited width of the screen, we removed unnecessary
 	 * history records and keep the old values as much as possible.
 	 */
 	for (int i = p->widthmax - 2; i < l->count; i++)
-		dequeue_val(l);
+		dequeue_value_from_head(l);
 }
 
 static struct line *__create_line(const char *name, int color)
