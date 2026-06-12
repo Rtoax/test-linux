@@ -24,7 +24,7 @@ and this project adheres to
 - add expect subdir;
 - util-linux: add fsck subdir;
 #### Template
-- add wayland.mk;
+- add tmux.mk, wayland.mk;
 
 
 ## [v2.4.7] Lamada 2026-06-09

@@ -1,6 +1,7 @@
 include git.mk
 include libsmbios.mk
 include podman.mk
+include tmux.mk
 include zstd.mk
 
 subdir-y += binfmt
@@ -36,7 +37,7 @@ subdir-y += psmisc
 subdir-y += readline
 subdir-y += redis
 subdir-y += static_key
-subdir-y += tmux
+subdir-${HAVE_TMUX} += tmux
 subdir-y += util-linux
 subdir-y += vim
 subdir-y += zlib
