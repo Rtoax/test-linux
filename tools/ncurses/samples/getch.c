@@ -13,15 +13,17 @@ void handle_mouse_event(void)
 	clrtoeol();
 
 	if (event.bstate & BUTTON1_CLICKED) {
-		mvprintw(7, 0, "left row=%d, col=%d", event.y, event.x);
+		mvprintw(1, 0, "left click row=%d, col=%d", event.y, event.x);
 	} else if (event.bstate & BUTTON3_CLICKED) {
-		mvprintw(7, 0, "right click");
+		mvprintw(2, 0, "right click row=%d, col=%d", event.y, event.x);
 	} else if (event.bstate & BUTTON4_PRESSED) {
-		mvprintw(7, 0, "scroll up");
+		mvprintw(3, 0, "scroll up row=%d, col=%d", event.y, event.x);
 	} else if (event.bstate & BUTTON5_PRESSED) {
-		mvprintw(7, 0, "scroll down");
+		mvprintw(4, 0, "scroll down row=%d, col=%d", event.y, event.x);
 	} else if (event.bstate & REPORT_MOUSE_POSITION) {
-		mvprintw(7, 0, "move row=%d, col=%d", event.y, event.x);
+		mvprintw(5, 0, "move row=%d, col=%d", event.y, event.x);
+	} else {
+		mvprintw(6, 0, "??? row=%d, col=%d", event.y, event.x);
 	}
 
 	refresh();
@@ -52,8 +54,22 @@ int main(void)
 		goto end;
 	}
 #endif
+#if 0
 	mmask_t mask = BUTTON1_CLICKED | BUTTON3_CLICKED | BUTTON4_PRESSED |
 		       BUTTON5_PRESSED | REPORT_MOUSE_POSITION;
+#else
+	/**
+	 * Monitor all mouse events, at the same time require the terminal when
+	 * the mouse moves also reported position
+	 */
+	mmask_t mask = ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION;
+	/**
+	 * Sets the minimum interval between mouse events (ms, 0 for immediate
+	 * response)
+	 */
+	//mouseinterval(0);
+#endif
+
 	mmask_t oldmask;
 	if (mousemask(mask, &oldmask) == 0) {
 		fprintf(stderr, "Not support mouse event.\n");
