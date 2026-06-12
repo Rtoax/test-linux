@@ -57,6 +57,7 @@ const char argp_prog_doc[] =
 	"SHORTCUT KEY:\n"
 	"\n"
 	"   " KEY_HELP_Q "\n"
+	"   " KEY_HELP_R "\n"
 	"   " KEY_HELP_H "\n"
 	"   " KEY_HELP_L "\n"
 	"   " KEY_HELP_ENTER "\n"
@@ -390,6 +391,10 @@ int main(int argc, char *argv[])
 				case 27: /* Esc */
 					broadcast_sig(SIGINT);
 					goto end;
+					break;
+				case 'r':
+					plot.keyboard.key_r_count++;
+					redraw = true;
 					break;
 				case 'h':
 					plot.keyboard.key_h_count++;

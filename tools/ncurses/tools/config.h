@@ -6,6 +6,7 @@
 
 #define LONG_PRESS_FLICK "(long press to prevent flickering)"
 #define KEY_HELP_Q "'q' and Esc: quit"
+#define KEY_HELP_R "'r': reset plot"
 #define KEY_HELP_H "'h': show the help info" LONG_PRESS_FLICK
 #define KEY_HELP_L "'l': display the label for each line" LONG_PRESS_FLICK
 #define KEY_HELP_ENTER "Enter: refresh plot"

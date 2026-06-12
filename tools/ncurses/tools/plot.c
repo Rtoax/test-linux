@@ -329,10 +329,11 @@ static void paint_plot(struct plot *p, bool debug)
 			keyname(p->keyboard.key));
 		mvprintw(
 			p->height - 1, 0,
-			"      redraw=%ld, key(left=%ld,right=%ld,l=%ld,h=%ld,enter=%ld)",
+			"      redraw=%ld, key(left=%ld,right=%ld,l=%ld,r=%ld,h=%ld,enter=%ld)",
 			p->redrawcount, p->keyboard.key_left_count,
 			p->keyboard.key_right_count, p->keyboard.key_l_count,
-			p->keyboard.key_h_count, p->keyboard.key_enter_count);
+			p->keyboard.key_r_count, p->keyboard.key_h_count,
+			p->keyboard.key_enter_count);
 	}
 
 	move(0, 0);
@@ -383,7 +384,8 @@ static void key_h(int key, void *arg)
 	int w = p->bnd.left + 1;
 
 	attron(flavor[C_BLUE] | A_BOLD);
-	mvprintw(h - 3, w, KEY_HELP_Q);
+	mvprintw(h - 4, w, KEY_HELP_Q);
+	mvprintw(h - 3, w, KEY_HELP_R);
 	mvprintw(h - 2, w, KEY_HELP_H);
 	mvprintw(h - 1, w, KEY_HELP_L);
 	mvprintw(h, w, KEY_HELP_ENTER);
@@ -424,10 +426,19 @@ static void key_l(int key, void *arg)
 	}
 }
 
+/**
+ * Press key 'r', reset plot
+ */
+static void key_r(int key, void *arg)
+{
+	// TODO
+}
+
 void plot_init(struct plot *p)
 {
 	memset(p, 0, sizeof(struct plot));
 
+	register_key_handler('r', p, key_r);
 	register_key_handler('h', p, key_h);
 	register_key_handler('l', p, key_l);
 }
