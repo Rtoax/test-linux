@@ -383,6 +383,7 @@ static void key_h(int key, void *arg)
 	int w = p->bnd.left + 1;
 
 	attron(flavor[C_BLUE] | A_BOLD);
+	/* TODO: move it as a comment macro */
 	mvprintw(h - 3, w, "'q' and Esc: quit");
 	mvprintw(h - 2, w, "'h': show the help info");
 	mvprintw(h - 1, w, "'l': display the label for each line");

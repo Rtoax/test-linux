@@ -56,6 +56,7 @@ const char argp_prog_doc[] =
 	"\n"
 	"SHORTCUT KEY:\n"
 	"\n"
+	/* TODO: move it as a comment macro */
 	"   'q' and Esc: quit\n"
 	"   'h': show the help info\n"
 	"   'l': display the label for each line (long press to prevent flickering)\n"

@@ -7,6 +7,7 @@ include os.mk
 target-y += align
 target-y += alias
 target-y += arch
+target-y += arg
 target-y += bit
 target-y += likely
 target-y += offsetof
