@@ -612,6 +612,7 @@ pkgs_base+=( dwz )                  # DWARF optimization and duplicate removal t
 pkgs_base+=( dwarves )              # pahole
 pkgs_base+=( efivar )               # UEFI
 pkgs_base+=( elfutils )             # eu- prefix tools
+pkgs_base+=( expect )
 pkgs_base+=( flatpak )
 pkgs_base+=( gdb cgdb )
 pkgs_base+=( git )
