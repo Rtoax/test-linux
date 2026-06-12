@@ -1,0 +1,11 @@
+#!/usr/bin/expect -f
+set timeout 5
+
+# start program
+spawn top
+
+sleep 0.5
+exec kill -INT [exp_pid]
+
+expect eof
+puts "PASS"
