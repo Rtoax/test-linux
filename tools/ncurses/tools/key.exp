@@ -1,15 +1,21 @@
 #!/bin/expect -f
 # test plotcake keyboard event handle
 set timeout 5
+set title "TITLE_XXX"
+set line1 "LINE_LABEL_1"
 
-spawn bash -c "while sleep 1; do echo 1; done | ./plotcake --title TITLE_XXX -l LINE_1"
+spawn bash -c "while sleep 1; do echo 1; done |
+	./plotcake --title ${title} -l ${line1} --verbose"
 sleep 0.1
 
-expect "TITLE_XXX"
+expect {
+	"${title}" { send_user "Found title ${title}\n" }
+	timeout { send_user "FATAL: not found title\n"; exit 1 }
+}
 
 send "l"
 expect {
-	" LINE_1" { send_user "Success check line labels\n" }
+	" ${line1}" { send_user "Success check line labels\n" }
 	timeout { send_user "FATAL: key 'l' failed\n"; exit 1 }
 }
 sleep .5
