@@ -1,0 +1,25 @@
+#!/bin/expect -f
+set timeout 5
+
+spawn ./plotcake
+sleep 0.1
+
+expect "Loadavg"
+
+send "l"
+expect {
+	" load1" { send_user "Success check line labels\n" }
+	timeout { send_user "FATAL: key 'l' failed\n"; exit 1 }
+}
+sleep .5
+
+send "h"
+expect {
+	"'q' and Esc: quit" { send_user "Success check help" }
+	timeout { send_user "FATAL: key 'h' failed\n"; exit 1 }
+}
+sleep .5
+
+send "q"
+expect eof
+puts "PASS"
