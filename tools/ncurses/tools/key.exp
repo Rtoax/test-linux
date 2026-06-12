@@ -1,6 +1,6 @@
 #!/bin/expect -f
 # test plotcake keyboard event handle
-set timeout 5
+set timeout 3
 set title "TITLE_XXX"
 set line1 "LINE_LABEL_1"
 
@@ -33,6 +33,14 @@ expect {
 	timeout { send_user "FATAL: key 'r' failed\n"; exit 1 }
 }
 sleep .5
+
+# Test enter
+#send "\r"
+#expect {
+#	"enter=1" { send_user "Success enter" }
+#	timeout { send_user "FATAL: key 'enter' failed\n"; exit 1 }
+#}
+#sleep .5
 
 send "q"
 expect eof
