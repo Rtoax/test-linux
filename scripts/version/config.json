@@ -155,6 +155,12 @@
 			},
 			"keys": [ "ethtool" ]
 		},
+		"evtest": {
+			"version": {
+				"length": [ 2 ]
+			},
+			"keys": [ "evtest" ]
+		},
 		"expect": {
 			"name": "Expect",
 			"version": {

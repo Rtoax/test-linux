@@ -10,6 +10,7 @@ subdir-y += cmake
 subdir-y += coreutils
 subdir-y += code-formatter
 subdir-y += criu
+subdir-y += evtest
 subdir-y += expect
 subdir-y += ffmpeg
 subdir-y += fmtlib

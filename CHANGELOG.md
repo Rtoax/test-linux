@@ -21,7 +21,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
-- add expect subdir;
+- add expect, evtest;
 - util-linux: add fsck subdir;
 #### Template
 - add tmux.mk, wayland.mk;
