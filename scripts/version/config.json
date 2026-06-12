@@ -618,6 +618,15 @@
 			"extension": [ "service", "mount" ],
 			"keys": [ "systemd", "journalctl", "ukify" ]
 		},
+		"tmux": {
+			"version": {
+				"length": [ 2 ],
+				"command": {
+					"argument": [ "-V" ]
+				}
+			},
+			"keys": [ "tmux" ]
+		},
 		"util-linux": {
 			"name": "Util-Linux",
 			"command": [ "getopt", "lscpu" ],

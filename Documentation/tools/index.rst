@@ -7,4 +7,5 @@ Tools
 
    redis
    samba
+   tmux
    util-linux
