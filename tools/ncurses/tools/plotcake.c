@@ -73,17 +73,23 @@ static const struct argp_option opts[] = {
 	{ "llabel", 'l', "LINE NAME", 0,
 	  "Spedify line label (may be listed multiple times)" },
 	{ "ltype", 'L', "LINE TYPE", 0,
-	  "Spedify line types, if an invalid value is entered, the supported line types will be listed (may be listed multiple times)" },
+	  "Spedify line types, if an invalid value is entered, the supported "
+	  "line types will be listed (may be listed multiple times)" },
 	{ "lcolor", 'C', "LINE COLOR", 0,
-	  "Spedify line colors, if an invalid value is entered, the supported line colors will be listed, can match color prefixes, such as 'r' matching 'red' (may be listed multiple times)" },
+	  "Spedify line colors, if an invalid value is entered, the supported "
+	  "line colors will be listed, can match color prefixes, such as 'r' "
+	  "matching 'red' (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
 	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1, "Use natural logarithmic" },
 	{ "logarithmic10", ARG_LOGARITHMIC10, NULL, 1,
-	  "Use base-10 logarithmic, the curve shape is exactly the same as --logarithmic, only the values of the tick labels on the axes are different." },
+	  "Use base-10 logarithmic, the curve shape is exactly the same as "
+	  "--logarithmic, only the values of the tick labels on the axes are "
+	  "different." },
 	{ "exponential", ARG_EXPONENTIAL, NULL, 1, "Use base-e exponential" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
-	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{ "verbose", 'v', NULL, 1,
+	  "Display detail (shortcut: " KEY_HELP_v ")" },
 	{ "version", 'V', NULL, 1, "Display version" },
 	{},
 };
