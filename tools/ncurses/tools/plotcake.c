@@ -61,6 +61,8 @@ const char argp_prog_doc[] =
 	"   " KEY_HELP_H "\n"
 	"   " KEY_HELP_L "\n"
 	"   " KEY_HELP_ENTER "\n"
+	"   " KEY_HELP_UP "\n"
+	"   " KEY_HELP_DOWN "\n"
 	"\n"
 	"OPTIONS:\n";
 

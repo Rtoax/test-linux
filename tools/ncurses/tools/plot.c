@@ -103,7 +103,7 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		       bool debug)
 {
-	int i = 0;
+	int iv, iplot;
 	int prev_h = -1;
 	chtype color = flavor[ln->color];
 
@@ -125,6 +125,8 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		break;
 	}
 
+	iv = iplot = 0;
+
 	for_each_value(ln, v)
 	{
 		double span = .0f, diff = .0f;
@@ -143,14 +145,19 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		 * the data points that exceed the plotting area.
 		 *
 		 *     |------------------------| count
-		 *         |--------------------| plotwidth
+		 *         |--------------------| plotwidth * plotscaling
 		 *
 		 *     ^^^^^ skip
 		 *
 		 * see also paint_lgroup().
 		 */
-		if (i <= ln->count - p->plotwidth) {
-			i++;
+		if (iv <= ln->count - p->plotwidth * p->plotscaling) {
+			iv++;
+			continue;
+		}
+
+		if (iv % p->plotscaling != 0) {
+			iv++;
 			continue;
 		}
 
@@ -162,9 +169,11 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 			span = max - min;
 		}
 
+		int ln_scaling_count = ln->count / p->plotscaling;
+
 		int h = p->plotheight + p->bnd.top - 1 -
 			diff * (p->plotheight - 2) / span;
-		int w = p->plotwidth + p->bnd.left - ln->count + i;
+		int w = p->plotwidth + p->bnd.left - ln_scaling_count + iplot;
 
 		attron(color);
 		ln->ops->horizon(ln, h, w);
@@ -192,10 +201,11 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 
 		prev_h = h;
 
-		i++;
+		iv++;
+		iplot++;
 
 		/* set x axis */
-		if ((i - 1) % 10 == 0) {
+		if ((iplot - 1) % 10 == 0) {
 			char buf[10];
 			strftime(buf, 10, "%T", localtime(&v->tv.tv_sec));
 			mvprintw(p->height - p->bnd.bottom + 1, w, "%s", buf);
@@ -220,7 +230,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 
 		mvprintw(h, 0, "%s", sv);
 
-		if (i == ln->count) {
+		if (iv + p->plotscaling >= ln->count) {
 			mvprintw(h, w + 1, "%s", ln->name);
 			nc = strlen(ln->name);
 			if (p->bnd_prev_max.right < nc)
@@ -282,10 +292,11 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 			continue;
 
 		/* see also line count and plotwidth check in paint_line() */
-		double _max = line_range_max(l, l->count - p->plotwidth,
-					     p->plotwidth);
-		double _min = line_range_min(l, l->count - p->plotwidth,
-					     p->plotwidth);
+		int len = p->plotwidth * p->plotscaling;
+		int start = l->count - len;
+
+		double _max = line_range_max(l, start, len);
+		double _min = line_range_min(l, start, len);
 		max = max < _max ? _max : max;
 		min = min > _min ? _min : min;
 	}
@@ -390,10 +401,12 @@ static void key_h(int key, void *arg)
 	int w = p->bnd.left + 1;
 
 	attron(flavor[C_BLUE] | A_BOLD);
-	mvprintw(h - 4, w, KEY_HELP_Q);
-	mvprintw(h - 3, w, KEY_HELP_R);
-	mvprintw(h - 2, w, KEY_HELP_H);
-	mvprintw(h - 1, w, KEY_HELP_L);
+	mvprintw(h - 6, w, KEY_HELP_Q);
+	mvprintw(h - 5, w, KEY_HELP_R);
+	mvprintw(h - 4, w, KEY_HELP_H);
+	mvprintw(h - 3, w, KEY_HELP_L);
+	mvprintw(h - 2, w, KEY_HELP_UP);
+	mvprintw(h - 1, w, KEY_HELP_DOWN);
 	mvprintw(h, w, KEY_HELP_ENTER);
 	attroff(flavor[C_BLUE] | A_BOLD);
 }
@@ -443,6 +456,8 @@ static void key_r(int key, void *arg)
 void plot_init(struct plot *p)
 {
 	memset(p, 0, sizeof(struct plot));
+
+	p->plotscaling = 1;
 
 	register_key_handler('r', p, key_r);
 	register_key_handler('h', p, key_h);

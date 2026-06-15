@@ -29,7 +29,7 @@ struct plot {
 	 */
 	int plotheight, plotwidth;
 	/**
-	 * The scaling factor for the drawing. The default value is 0, which
+	 * The scaling factor for the drawing. The default value is 1, which
 	 * means no scaling. It only supports zoomed-out display, similar to
 	 * viewing "Global Routes" in map software.
 	 */
@@ -42,7 +42,9 @@ struct plot {
 	int lgcount;
 	unsigned long redrawcount;
 
-	/* Scaling plotting */
+	/**
+	 * Scaling plotting values, different from @plotscaling.
+	 */
 	enum {
 		T_NONE = 0,
 		T_LOGARITHMIC,
@@ -76,7 +78,7 @@ struct plot {
 #define plot_scaling_down(p)                          \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \
-		if (___p->plotscaling >= 1) {         \
+		if (___p->plotscaling > 1) {          \
 			___p->plotscaling--;          \
 		}                                     \
 	} while (0)
