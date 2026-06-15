@@ -103,7 +103,7 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		       bool debug)
 {
-	int iv, iplot;
+	int iv;
 	int prev_h = -1;
 	chtype color = flavor[ln->color];
 
@@ -125,7 +125,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		break;
 	}
 
-	iv = iplot = 0;
+	iv = 0;
 
 	for_each_value(ln, v)
 	{
@@ -169,11 +169,11 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 			span = max - min;
 		}
 
-		int ln_scaling_count = ln->count / p->plotscaling;
+		int ivs = (ln->count - iv) / p->plotscaling;
 
 		int h = p->plotheight + p->bnd.top - 1 -
 			diff * (p->plotheight - 2) / span;
-		int w = p->plotwidth + p->bnd.left - ln_scaling_count + iplot;
+		int w = p->plotwidth + p->bnd.left - ivs;
 
 		attron(color);
 		ln->ops->horizon(ln, h, w);
@@ -202,10 +202,9 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		prev_h = h;
 
 		iv++;
-		iplot++;
 
 		/* set x axis */
-		if ((iplot - 1) % 10 == 0) {
+		if ((ivs - 1) % 10 == 0) {
 			char buf[10];
 			strftime(buf, 10, "%T", localtime(&v->tv.tv_sec));
 			mvprintw(p->height - p->bnd.bottom + 1, w, "%s", buf);
