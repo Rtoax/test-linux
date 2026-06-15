@@ -108,19 +108,19 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 	chtype color = flavor[ln->color];
 
 	switch (p->v_scaling) {
-	case T_LOGARITHMIC:
+	case NS_LOGARITHMIC:
 		max = log(max);
 		min = log(min);
 		break;
-	case T_LOGARITHMIC10:
+	case NS_LOGARITHMIC10:
 		max = log10(max);
 		min = log10(min);
 		break;
-	case T_EXPONENTIAL:
+	case NS_EXPONENTIAL:
 		max = exp(max);
 		min = exp(min);
 		break;
-	case T_NONE:
+	case NS_NONE:
 	default:
 		break;
 	}
@@ -132,11 +132,11 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		double span = .0f, diff = .0f;
 		double plot_v = v->v;
 
-		if (p->v_scaling == T_LOGARITHMIC)
+		if (p->v_scaling == NS_LOGARITHMIC)
 			plot_v = v->logarithmic_v;
-		else if (p->v_scaling == T_LOGARITHMIC10)
+		else if (p->v_scaling == NS_LOGARITHMIC10)
 			plot_v = v->logarithmic10_v;
-		else if (p->v_scaling == T_EXPONENTIAL)
+		else if (p->v_scaling == NS_EXPONENTIAL)
 			plot_v = v->exponential_v;
 
 		/**
@@ -216,11 +216,11 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		char sv[64];
 		int nc;
 
-		if (p->v_scaling == T_LOGARITHMIC)
+		if (p->v_scaling == NS_LOGARITHMIC)
 			nc = snprintf(sv, 64, "log(%.3f)=%.3f", v->v, plot_v);
-		else if (p->v_scaling == T_LOGARITHMIC10)
+		else if (p->v_scaling == NS_LOGARITHMIC10)
 			nc = snprintf(sv, 64, "log10(%.3f)=%.3f", v->v, plot_v);
-		else if (p->v_scaling == T_EXPONENTIAL)
+		else if (p->v_scaling == NS_EXPONENTIAL)
 			nc = snprintf(sv, 64, "exp(%.3f)=%.3f", v->v, plot_v);
 		else
 			nc = snprintf(sv, 64, "%.3f", v->v);
@@ -249,11 +249,11 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 void plot_draw_title(const struct plot *p)
 {
 	char buf[128], *title = buf;
-	if (p->v_scaling == T_LOGARITHMIC)
+	if (p->v_scaling == NS_LOGARITHMIC)
 		snprintf(buf, 128, "%s (logarithmic)", p->title);
-	else if (p->v_scaling == T_LOGARITHMIC10)
+	else if (p->v_scaling == NS_LOGARITHMIC10)
 		snprintf(buf, 128, "%s (base-10 logarithmic)", p->title);
-	else if (p->v_scaling == T_EXPONENTIAL)
+	else if (p->v_scaling == NS_EXPONENTIAL)
 		snprintf(buf, 128, "%s (base-e exponential)", p->title);
 	else
 		title = p->title;

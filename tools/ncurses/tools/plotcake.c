@@ -150,13 +150,13 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		}
 		break;
 	case ARG_LOGARITHMIC:
-		plot.v_scaling = T_LOGARITHMIC;
+		plot.v_scaling = NS_LOGARITHMIC;
 		break;
 	case ARG_EXPONENTIAL:
-		plot.v_scaling = T_EXPONENTIAL;
+		plot.v_scaling = NS_EXPONENTIAL;
 		break;
 	case ARG_LOGARITHMIC10:
-		plot.v_scaling = T_LOGARITHMIC10;
+		plot.v_scaling = NS_LOGARITHMIC10;
 		break;
 	case 'I':
 		interval_sec = atoi(arg);

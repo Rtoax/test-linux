@@ -8,6 +8,17 @@
 #include "config.h"
 #include "value.h"
 
+/**
+ * Scaling plotting values, different from @plotscaling.
+ */
+enum numerical_scaling {
+	NS_NONE = 0,
+	NS_LOGARITHMIC,
+	NS_LOGARITHMIC10,
+	NS_EXPONENTIAL,
+	NS_MAX,
+};
+
 struct plot {
 	char *title;
 	char *label_x;
@@ -42,15 +53,7 @@ struct plot {
 	int lgcount;
 	unsigned long redrawcount;
 
-	/**
-	 * Scaling plotting values, different from @plotscaling.
-	 */
-	enum {
-		T_NONE = 0,
-		T_LOGARITHMIC,
-		T_LOGARITHMIC10,
-		T_EXPONENTIAL,
-	} v_scaling;
+	enum numerical_scaling v_scaling;
 
 	/**
 	 * record previous keyboard event.
