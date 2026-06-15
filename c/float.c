@@ -43,8 +43,8 @@
  *
  * Precision:
  *
- * commit ebff39b53cbf ("float.c: precision compare between CPU and different GPUs")
- * commit
+ * commit ebff39b53cbf ("float.c: precision compare between CPU and different GPUs") Mars & Nvidia H800
+ * commit f01d19e54ef4 ("float.c: precision compare between CPU and GPU (lingspeed, NVIDIA GB10)")
  *
  * Macros in this source code file:
  *
