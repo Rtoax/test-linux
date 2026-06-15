@@ -406,6 +406,11 @@ int main(int argc, char *argv[])
 					broadcast_sig(SIGINT);
 					goto end;
 					break;
+				case 'v':
+					plot.keyboard.cnt.v++;
+					redraw = true;
+					verbose = !verbose;
+					break;
 				case 'r':
 					plot.keyboard.cnt.r++;
 					redraw = true;
