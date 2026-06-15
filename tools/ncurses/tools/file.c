@@ -129,9 +129,20 @@ static int save_json(const struct plot *p)
 	json_object_put(root);
 	return 0;
 }
-#else
-#define save_json(p) 0
 #endif
+
+static struct plot_file_operations pf_ops[] = {
+	{
+		.name = "txt",
+		.save = &save_txt,
+	},
+#ifdef HAVE_JSON_C
+	{
+		.name = "json",
+		.save = &save_json,
+	},
+#endif
+};
 
 /**
  * only have one plot
@@ -139,7 +150,11 @@ static int save_json(const struct plot *p)
 int save_plot(const struct plot *p)
 {
 	int err = 0;
-	err = err ?: save_txt(p);
-	err = err ?: save_json(p);
+	for (int i = 0; i < sizeof(pf_ops) / sizeof(pf_ops[0]); i++) {
+		if (!pf_ops[i].save)
+			continue;
+		fprintf(stderr, "Save to %s\n", pf_ops[i].name);
+		err = err ?: pf_ops[i].save(p);
+	}
 	return err;
 }
