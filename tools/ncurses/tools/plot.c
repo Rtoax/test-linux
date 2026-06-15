@@ -104,6 +104,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		       bool debug)
 {
 	int iv;
+	int nvs = (ln->count + p->plotscaling - 1) / p->plotscaling;
 	int prev_h = -1;
 	chtype color = flavor[ln->color];
 
@@ -132,8 +133,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		double span = .0f, diff = .0f;
 		double plot_v = v->v;
 
-		int ivs =
-			(ln->count - iv + p->plotscaling - 1) / p->plotscaling;
+		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
 
 		/**
 		 * The number of data points may be greater than the horizontal
@@ -174,7 +174,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 
 		int h = p->plotheight + p->bnd.top - 1 -
 			diff * (p->plotheight - 2) / span;
-		int w = p->plotwidth + p->bnd.left - ivs;
+		int w = p->plotwidth + p->bnd.left - (nvs - ivs);
 
 		attron(color);
 		ln->ops->horizon(ln, h, w);
