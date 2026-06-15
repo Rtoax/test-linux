@@ -1,8 +1,12 @@
 #!/bin/bash
+# Usage: I=<.1> TMOUT=<1> ./examples.sh
+
 # -m: (set -o monitor) monitor mode
 set -em
 
-args=( --tmout 1 )
+[[ -z ${I} ]] && I=0.01
+[[ -z ${TMOUT} ]] && TMOUT=1
+args=( --tmout ${TMOUT} )
 
 # plotcake will send SIGINT to every processes in it's group, thus, we just
 # catch SIGINT wo avoid this script execute failed, just for test in Build.mk's
@@ -17,7 +21,7 @@ line_types=( $(./plotcake -L nonsense 2>/dev/null || true) )
 
 # display all line type
 run() {
-	while sleep 0.01; do
+	while sleep ${I}; do
 		seq 1 1 ${#line_types[@]}
 	done | ./plotcake ${args[@]} "${@}"
 }
