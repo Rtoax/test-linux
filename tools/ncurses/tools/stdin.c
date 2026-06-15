@@ -73,6 +73,9 @@ static void stdin_update(struct lgroup *lg, void *arg)
 	i = 0;
 	for_each_line(lg, line)
 	{
+		unsigned long limit =
+			lg->plot->widthmax * lg->plot->plotscaling - 2;
+
 		/**
 		 * The number of data items read from stdin may change. If it
 		 * is less than the previous number, then we need to add the old
@@ -80,10 +83,9 @@ static void stdin_update(struct lgroup *lg, void *arg)
 		 * above it.
 		 */
 		if (i < narg) {
-			line_add_value(line, values[i], lg->plot->widthmax - 2);
+			line_add_value(line, values[i], limit);
 		} else {
-			line_add_value(line, line->tail->v,
-				       lg->plot->widthmax - 2);
+			line_add_value(line, line->tail->v, limit);
 		}
 		i++;
 	}

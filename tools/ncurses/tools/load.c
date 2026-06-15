@@ -22,7 +22,9 @@ static void loadavg_update(struct lgroup *lg, void *arg)
 	int i = 0;
 	for_each_line(lg, line)
 	{
-		line_add_value(line, avg[i], lg->plot->widthmax - 2);
+		unsigned long limit =
+			lg->plot->widthmax * lg->plot->plotscaling - 2;
+		line_add_value(line, avg[i], limit);
 		i++;
 	}
 }
