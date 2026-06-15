@@ -378,9 +378,12 @@ void plot_redraw(struct plot *p, bool debug)
 
 	erase();
 
-	paint_plot(p, debug);
-
+	/**
+	 * Handle the keyboard first, because 'reset' need before paint.
+	 */
 	exec_key_handler(p->keyboard.current_key);
+
+	paint_plot(p, debug);
 
 	refresh();
 
@@ -451,14 +454,16 @@ static void key_l(int key, void *arg)
  */
 static void key_r(int key, void *arg)
 {
-	// TODO
+	struct plot *p = arg;
+
+	plot_scaling_init(p);
 }
 
 void plot_init(struct plot *p)
 {
 	memset(p, 0, sizeof(struct plot));
 
-	p->plotscaling = 1;
+	plot_scaling_init(p);
 
 	register_key_handler('r', p, key_r);
 	register_key_handler('h', p, key_h);

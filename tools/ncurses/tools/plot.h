@@ -70,6 +70,12 @@ struct plot {
 	for (struct lgroup *iter = ((struct plot *)(plt))->lghead; iter; \
 	     iter = iter->next)
 
+#define plot_scaling_init(p)                          \
+	do {                                          \
+		struct plot *___p = (struct plot *)p; \
+		___p->plotscaling = 1;                \
+	} while (0)
+
 #define plot_scaling_up(p)                            \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \

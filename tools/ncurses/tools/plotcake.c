@@ -401,25 +401,25 @@ int main(int argc, char *argv[])
 					plot_scaling_down(&plot);
 					redraw = true;
 					break;
-				case 'q':
+				case 'q': /* quit */
 				case 27: /* Esc */
 					broadcast_sig(SIGINT);
 					goto end;
 					break;
-				case 'v':
+				case 'v': /* verbose mode switch */
 					plot.keyboard.cnt.v++;
 					redraw = true;
 					verbose = !verbose;
 					break;
-				case 'r':
+				case 'r': /* reset plot */
 					plot.keyboard.cnt.r++;
 					redraw = true;
 					break;
-				case 'h':
+				case 'h': /* help */
 					plot.keyboard.cnt.h++;
 					redraw = true;
 					break;
-				case 'l':
+				case 'l': /* list line labels */
 					plot.keyboard.cnt.l++;
 					redraw = true;
 					break;
@@ -460,7 +460,6 @@ int main(int argc, char *argv[])
 			ssize_t cnt = read(datafd, data_from_stdin,
 					   sizeof(data_from_stdin));
 			if (cnt > 0) {
-				/* TODO: parse data and plot */
 				redraw = true;
 			}
 			plot_update_data(&plot);
