@@ -147,7 +147,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		 *
 		 *     ^^^^^ skip
 		 *
-		 * see also __paint_plot_lg().
+		 * see also paint_lgroup().
 		 */
 		if (i <= ln->count - p->plotwidth) {
 			i++;
@@ -267,11 +267,15 @@ void plot_draw_axes(const struct plot *p)
 			 p->plotwidth + p->bnd.left, p->label_x);
 }
 
-static void __paint_plot_lg(struct plot *p, const struct lgroup *lg, bool debug)
+static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 {
 	double max = -DBL_MAX, min = DBL_MAX;
 
-	/* find min and max first */
+	/**
+	 * Since we are not drawing all the data for the entire curve, we need
+	 * to first obtain the maximum and minimum values of the data for the
+	 * plotting portion.
+	 */
 	for_each_line(lg, l)
 	{
 		if (l->count <= 0)
@@ -307,7 +311,7 @@ static void paint_plot(struct plot *p, bool debug)
 
 	for_each_lg(p, lg)
 	{
-		__paint_plot_lg(p, lg, debug);
+		paint_lgroup(p, lg, debug);
 	}
 
 	time_t sec = time(NULL);
