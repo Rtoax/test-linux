@@ -169,7 +169,8 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 			span = max - min;
 		}
 
-		int ivs = (ln->count - iv) / p->plotscaling;
+		int ivs =
+			(ln->count - iv + p->plotscaling - 1) / p->plotscaling;
 
 		int h = p->plotheight + p->bnd.top - 1 -
 			diff * (p->plotheight - 2) / span;
@@ -229,7 +230,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 
 		mvprintw(h, 0, "%s", sv);
 
-		if (iv + p->plotscaling >= ln->count) {
+		if (iv + p->plotscaling > ln->count) {
 			mvprintw(h, w + 1, "%s", ln->name);
 			nc = strlen(ln->name);
 			if (p->bnd_prev_max.right < nc)
