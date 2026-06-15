@@ -21,6 +21,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
+- plotcake: support scaling;
 - add expect, evtest;
 - util-linux: add fsck subdir;
 #### Template

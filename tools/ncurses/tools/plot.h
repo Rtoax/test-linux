@@ -23,8 +23,17 @@ struct plot {
 	int heightmax, widthmax;
 	/* Current terminal size */
 	int height, width;
-	/* The size of the drawing area (excluding boundaries, axes, etc.) */
+	/**
+	 * The size of the drawing area, excluding boundaries, axes, line
+	 * labels.
+	 */
 	int plotheight, plotwidth;
+	/**
+	 * The scaling factor for the drawing. The default value is 0, which
+	 * means no scaling. It only supports zoomed-out display, similar to
+	 * viewing "Global Routes" in map software.
+	 */
+	int plotscaling;
 	struct {
 		int top, bottom, left, right;
 	} bnd, bnd_prev_max;
@@ -46,7 +55,10 @@ struct plot {
 	 */
 	struct {
 		struct {
-			unsigned long total, left, right, r, h, l, enter;
+			unsigned long total;
+			unsigned long left, right, up, down;
+			unsigned long enter;
+			unsigned long r, h, l;
 		} cnt;
 		int current_key; /* read from STDIN/getch() or /dev/tty */
 	} keyboard;
@@ -55,6 +67,19 @@ struct plot {
 #define for_each_lg(plt, iter)                                           \
 	for (struct lgroup *iter = ((struct plot *)(plt))->lghead; iter; \
 	     iter = iter->next)
+
+#define plot_scaling_up(p)                            \
+	do {                                          \
+		struct plot *___p = (struct plot *)p; \
+		___p->plotscaling++;                  \
+	} while (0)
+#define plot_scaling_down(p)                          \
+	do {                                          \
+		struct plot *___p = (struct plot *)p; \
+		if (___p->plotscaling >= 1) {         \
+			___p->plotscaling--;          \
+		}                                     \
+	} while (0)
 
 void plot_init(struct plot *p);
 

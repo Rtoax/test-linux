@@ -389,6 +389,16 @@ int main(int argc, char *argv[])
 					plot.keyboard.cnt.right++;
 					redraw = true;
 					break;
+				case KEY_UP:
+					plot.keyboard.cnt.up++;
+					plot_scaling_up(&plot);
+					redraw = true;
+					break;
+				case KEY_DOWN:
+					plot.keyboard.cnt.down++;
+					plot_scaling_down(&plot);
+					redraw = true;
+					break;
 				case 'q':
 				case 27: /* Esc */
 					broadcast_sig(SIGINT);

@@ -2,7 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
 
-#define MY_VERSION "v1.3.10"
+#define MY_VERSION "v1.3.11"
 
 #define LONG_PRESS_FLICK "(long press to prevent flickering)"
 #define KEY_HELP_Q "'q' and Esc: quit"
