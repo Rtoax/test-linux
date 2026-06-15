@@ -383,9 +383,11 @@ int main(int argc, char *argv[])
 				switch (plot.keyboard.current_key) {
 				case KEY_LEFT:
 					plot.keyboard.cnt.left++;
+					redraw = true;
 					break;
 				case KEY_RIGHT:
 					plot.keyboard.cnt.right++;
+					redraw = true;
 					break;
 				case 'q':
 				case 27: /* Esc */
