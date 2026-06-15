@@ -362,15 +362,19 @@ int main(int argc, char *argv[])
 					/* convert to ncurses KEY */
 					switch (key) {
 					case 0x444f1b:
+					case 0x445b1b:
 						key = KEY_LEFT;
 						break;
 					case 0x434f1b:
+					case 0x435b1b:
 						key = KEY_RIGHT;
 						break;
 					case 0x424f1b:
+					case 0x425b1b:
 						key = KEY_DOWN;
 						break;
 					case 0x414f1b:
+					case 0x415b1b:
 						key = KEY_UP;
 						break;
 					default:
