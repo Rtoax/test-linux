@@ -132,12 +132,8 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		double span = .0f, diff = .0f;
 		double plot_v = v->v;
 
-		if (p->v_scaling == NS_LOGARITHMIC)
-			plot_v = v->logarithmic_v;
-		else if (p->v_scaling == NS_LOGARITHMIC10)
-			plot_v = v->logarithmic10_v;
-		else if (p->v_scaling == NS_EXPONENTIAL)
-			plot_v = v->exponential_v;
+		int ivs =
+			(ln->count - iv + p->plotscaling - 1) / p->plotscaling;
 
 		/**
 		 * The number of data points may be greater than the horizontal
@@ -161,6 +157,13 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 			continue;
 		}
 
+		if (p->v_scaling == NS_LOGARITHMIC)
+			plot_v = v->logarithmic_v;
+		else if (p->v_scaling == NS_LOGARITHMIC10)
+			plot_v = v->logarithmic10_v;
+		else if (p->v_scaling == NS_EXPONENTIAL)
+			plot_v = v->exponential_v;
+
 		if (max == min || max == 0.0 || max < min) {
 			diff = 0;
 			span = 1;
@@ -168,9 +171,6 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 			diff = plot_v - min;
 			span = max - min;
 		}
-
-		int ivs =
-			(ln->count - iv + p->plotscaling - 1) / p->plotscaling;
 
 		int h = p->plotheight + p->bnd.top - 1 -
 			diff * (p->plotheight - 2) / span;
