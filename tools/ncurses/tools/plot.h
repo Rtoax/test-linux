@@ -63,7 +63,7 @@ struct plot {
 			unsigned long total;
 			unsigned long left, right, up, down;
 			unsigned long enter;
-			unsigned long h, l, r, v;
+			unsigned long h, l, r, t, v;
 		} cnt;
 		int current_key; /* read from STDIN/getch() or /dev/tty */
 	} keyboard;

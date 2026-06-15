@@ -56,10 +56,12 @@ const char argp_prog_doc[] =
 	"\n"
 	"SHORTCUT KEY:\n"
 	"\n"
-	"   " KEY_HELP_q "\n"
-	"   " KEY_HELP_r "\n"
 	"   " KEY_HELP_h "\n"
 	"   " KEY_HELP_l "\n"
+	"   " KEY_HELP_q "\n"
+	"   " KEY_HELP_r "\n"
+	"   " KEY_HELP_t "\n"
+	"   " KEY_HELP_v "\n"
 	"   " KEY_HELP_ENTER "\n"
 	"   " KEY_HELP_UP "\n"
 	"   " KEY_HELP_DOWN "\n"
@@ -81,12 +83,14 @@ static const struct argp_option opts[] = {
 	  "matching 'red' (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
-	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1, "Use natural logarithmic" },
+	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1,
+	  "Use natural logarithmic (shortcut " KEY_HELP_t ")" },
 	{ "logarithmic10", ARG_LOGARITHMIC10, NULL, 1,
 	  "Use base-10 logarithmic, the curve shape is exactly the same as "
 	  "--logarithmic, only the values of the tick labels on the axes are "
-	  "different." },
-	{ "exponential", ARG_EXPONENTIAL, NULL, 1, "Use base-e exponential" },
+	  "different (shortcut " KEY_HELP_t ")" },
+	{ "exponential", ARG_EXPONENTIAL, NULL, 1,
+	  "Use base-e exponential (shortcut " KEY_HELP_t ")" },
 	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
 	{ "verbose", 'v', NULL, 1,
 	  "Display detail (shortcut: " KEY_HELP_v ")" },
@@ -420,6 +424,12 @@ int main(int argc, char *argv[])
 				case 'r': /* reset plot */
 					plot.keyboard.cnt.r++;
 					redraw = true;
+					break;
+				case 't': /* select numerical scaling type */
+					plot.keyboard.cnt.t++;
+					redraw = true;
+					plot.v_scaling =
+						(plot.v_scaling + 1) % NS_MAX;
 					break;
 				case 'h': /* help */
 					plot.keyboard.cnt.h++;
