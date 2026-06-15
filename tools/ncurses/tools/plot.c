@@ -401,10 +401,10 @@ static void key_h(int key, void *arg)
 	int w = p->bnd.left + 1;
 
 	attron(flavor[C_BLUE] | A_BOLD);
-	mvprintw(h - 6, w, KEY_HELP_Q);
-	mvprintw(h - 5, w, KEY_HELP_R);
-	mvprintw(h - 4, w, KEY_HELP_H);
-	mvprintw(h - 3, w, KEY_HELP_L);
+	mvprintw(h - 6, w, KEY_HELP_q);
+	mvprintw(h - 5, w, KEY_HELP_r);
+	mvprintw(h - 4, w, KEY_HELP_h);
+	mvprintw(h - 3, w, KEY_HELP_l);
 	mvprintw(h - 2, w, KEY_HELP_UP);
 	mvprintw(h - 1, w, KEY_HELP_DOWN);
 	mvprintw(h, w, KEY_HELP_ENTER);
