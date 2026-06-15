@@ -44,6 +44,7 @@
  * Precision:
  *
  * commit ebff39b53cbf ("float.c: precision compare between CPU and different GPUs")
+ * commit
  *
  * Macros in this source code file:
  *
