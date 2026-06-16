@@ -217,7 +217,6 @@ static const char *const version = "v1.6.0";
 		ansi_idx++;	\
 	} while (0)
 
-
 typedef union fp128 {
 	struct {
 		#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -401,7 +400,6 @@ __myconst__ bf16_t bf16_NegMax = BF16_INITIALIZER(1, 0xfe, 0x7f);
 __myconst__ bf16_t bf16_PosMin = BF16_INITIALIZER(0, 0x1, 0);
 __myconst__ bf16_t bf16_NegMin = BF16_INITIALIZER(1, 0x1, 0);
 
-
 #ifdef IS_CUDA_COMPAT_COMPILER
 /**
  * From struct to host
@@ -420,7 +418,7 @@ __myconst__ bf16_t bf16_NegMin = BF16_INITIALIZER(1, 0x1, 0);
 # define stset(st, field, v)	st.field = v
 #endif
 
-void binprint(const void *mem, size_t bits)
+static void binprint(const void *mem, size_t bits)
 {
 	size_t i;
 	for (i = 0; i < bits; i++) {
@@ -481,7 +479,7 @@ double __mydevice__ fp64_to_double(const fp64_t *fp64)
 	return sign * e2 * fra;
 }
 
-void __myglobal__ __kernel_check_fp64(double f)
+void __myglobal__ __check_fp64(double f)
 {
 	double to;
 	fp64_t fp64;
@@ -499,7 +497,7 @@ void __myglobal__ __kernel_check_fp64(double f)
 	do {                                    \
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
-		__kernel_check_fp64 DIM (___v); \
+		__check_fp64 DIM (___v);        \
 		mysync();                       \
 		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
@@ -539,7 +537,7 @@ float __mydevice__ fp32_to_float(const fp32_t *fp32)
 	return sign * e2 * fra;
 }
 
-void __myglobal__ __kernel_check_fp32(float f)
+void __myglobal__ __check_fp32(float f)
 {
 	float to;
 	fp32_t fp32;
@@ -557,7 +555,7 @@ void __myglobal__ __kernel_check_fp32(float f)
 	do {                                    \
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
-		__kernel_check_fp32 DIM (___v); \
+		__check_fp32 DIM (___v);        \
 		mysync();                       \
 		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
@@ -657,7 +655,7 @@ compat_bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
 	return sign * e2 * fra;
 }
 
-void __myglobal__ __kernel_check_bf16(compat_bf16 f)
+void __myglobal__ __check_bf16(compat_bf16 f)
 {
 	compat_bf16 to;
 	bf16_t bf16;
@@ -672,12 +670,13 @@ void __myglobal__ __kernel_check_bf16(compat_bf16 f)
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check bf16");
 }
 
-#define check_bf16(v)	do {	\
-		printf("%s: ", #v);	\
-		typeof(v) ___v = v;	\
-		__kernel_check_bf16 DIM (___v);	\
-		mysync();	\
-		binprint(&___v, sizeof(v) * 8);	\
+#define check_bf16(v)                           \
+	do {                                    \
+		printf("%s: ", #v);             \
+		typeof(v) ___v = v;             \
+		__check_bf16 DIM (___v);        \
+		mysync();                       \
+		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
 #endif /* SUPPORT_BF16 */
 
@@ -816,7 +815,7 @@ __mydevice__ fp16_t data_fp16_weight_arr[DATA_ARRAY_SIZE];
 __mydevice__ fp64_t rslt_fp64;
 __mydevice__ fp32_t rslt_fp32;
 
-void __myglobal__ __kernel_init_all_arr_fp64(size_t size)
+void __myglobal__ init_data_arr_fp64(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
 		data_fp64_arr[i].f64 = i * 1000.0;
@@ -824,13 +823,23 @@ void __myglobal__ __kernel_init_all_arr_fp64(size_t size)
 	}
 }
 
-void __myglobal__ __kernel_init_all_arr_fp32(size_t size)
+void __myglobal__ init_data_arr_fp32(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
 		data_fp32_arr[i].f32 = i * 1000.f;
 		data_fp32_weight_arr[i].f32 = i * 1000.f;
 	}
 }
+
+#ifdef SUPPORT_FP16
+void __myglobal__ init_data_arr_fp16(size_t size, float init)
+{
+	for (size_t i = 0; i < size; i++) {
+		data_fp16_arr[i].f16 = compat_float2half(init);
+		data_fp16_weight_arr[i].f16 = compat_float2half(init);
+	}
+}
+#endif
 
 void __myglobal__ __kernel_overflow_mul_fp32(void)
 {
@@ -888,14 +897,6 @@ void __myglobal__ __kernel_muladd_arr_fp32(size_t len, size_t interval)
 }
 
 #ifdef SUPPORT_FP16
-void __myglobal__ __kernel_init_all_fp16_arr(size_t size, float init)
-{
-	for (size_t i = 0; i < size; i++) {
-		data_fp16_arr[i].f16 = compat_float2half(init);
-		data_fp16_weight_arr[i].f16 = compat_float2half(init);
-	}
-}
-
 void __myglobal__ __kernel_overflow_mul_fp16(void)
 {
 	data_fp16.f16 *= data_fp16_weight.f16;
@@ -963,7 +964,7 @@ void overflow_muladd_fp64(void)
 void muladd_arr_fp64(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
-		__kernel_init_all_arr_fp64 DIM (i);
+		init_data_arr_fp64 DIM (i);
 
 		stset(data_fp64, f64, 1);
 
@@ -1051,7 +1052,7 @@ void overflow_muladd_fp32(void)
 void muladd_arr_fp32(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
-		__kernel_init_all_arr_fp32 DIM (i);
+		init_data_arr_fp32 DIM (i);
 
 		stset(data_fp32, f32, 1);
 		stset(rslt_fp64, f64, 1);
@@ -1094,7 +1095,7 @@ void overflow_muladd_fp16(void)
 void muladd_arr_fp16(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
-		__kernel_init_all_fp16_arr DIM (i, 5.5f);
+		init_data_arr_fp16 DIM (i, 5.5f);
 
 		stset(data_fp16, f16, compat_float2half(1.f));
 		stset(rslt_fp32, f32, 1.f);
