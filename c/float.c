@@ -102,12 +102,14 @@
 # define __myglobal__	__global__
 # define __myconst__	__constant__
 # define mysync()	(void)cudaDeviceSynchronize()
+# define DEVICE "GPU"
 #else
 # define DIM
 # define __mydevice__
 # define __myglobal__
 # define __myconst__	const
 # define mysync()
+# define DEVICE "CPU"
 #endif
 
 /**
@@ -200,7 +202,7 @@ static struct {
 	.bf16 = true,
 };
 
-static const char *const version = "v1.5.0";
+static const char *const version = "v1.6.0";
 
 #define seperator() do {	\
 		if (env.nocolor) {	\
@@ -493,14 +495,14 @@ void __myglobal__ __kernel_check_fp64(double f)
 	assert(*(uint64_t *)&f == *(uint64_t *)&to && "Failed to check fp64");
 }
 
-#define check_fp64(v)	do {	\
-		printf("%s: ", #v);	\
-		typeof(v) ___v = v;	\
-		__kernel_check_fp64 DIM (___v);	\
-		mysync();	\
-		binprint(&___v, sizeof(v) * 8);	\
+#define check_fp64(v)                            \
+	do {                                     \
+		printf("[%s] %s: ", DEVICE, #v); \
+		typeof(v) ___v = v;              \
+		__kernel_check_fp64 DIM (___v);  \
+		mysync();                        \
+		binprint(&___v, sizeof(v) * 8);  \
 	} while (0)
-
 
 void __mydevice__ float_to_fp32(const float f, fp32_t *fp32)
 {
@@ -551,12 +553,13 @@ void __myglobal__ __kernel_check_fp32(float f)
 	assert(*(uint32_t *)&f == *(uint32_t *)&to && "Failed to check fp32");
 }
 
-#define check_fp32(v)	do {	\
-		printf("%s: ", #v);	\
-		typeof(v) ___v = v;	\
-		__kernel_check_fp32 DIM (___v);	\
-		mysync();	\
-		binprint(&___v, sizeof(v) * 8);	\
+#define check_fp32(v)                            \
+	do {                                     \
+		printf("[%s] %s: ", DEVICE, #v); \
+		typeof(v) ___v = v;              \
+		__kernel_check_fp32 DIM (___v);  \
+		mysync();                        \
+		binprint(&___v, sizeof(v) * 8);  \
 	} while (0)
 
 #ifdef SUPPORT_FP16
@@ -1183,6 +1186,13 @@ void fp16_precision_test(void)
 #endif
 }
 
+void usage(const char *prog)
+{
+	fprintf(stderr,
+		"\033[m\033[2mUsage: %s [fp64|fp32|fp16|bf16] [version] [nocolor]\033[m\n",
+		prog);
+}
+
 int main(int argc, char *argv[])
 {
 	int i;
@@ -1192,7 +1202,7 @@ int main(int argc, char *argv[])
 	assert(sizeof(fp16_t) == 2 && "Bad size of fp16");
 	assert(sizeof(bf16_t) == 2 && "Bad size of bf16");
 
-	fprintf(stderr, "Usage: %s [fp64|fp32|fp16|bf16] [version] [nocolor]\n", argv[0]);
+	usage(argv[0]);
 
 	for (i = 1; i < argc; i++) {
 #define arg_has(v, OP) if (!strncmp(#v, argv[i], strlen(#v))) \
@@ -1207,7 +1217,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* always show the version */
-	printf("version %s\n", version);
+	printf("version %s, %s\n", version, DEVICE);
 	if (env.version)
 		exit(0);
 
@@ -1226,5 +1236,6 @@ int main(int argc, char *argv[])
 		fp16_precision_test();
 	}
 
+	usage(argv[0]);
 	return 0;
 }
