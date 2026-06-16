@@ -1,7 +1,13 @@
 #!/bin/bash
 set -e
 
-./float-c nocolor ${@} > float-c.log
-./float nocolor ${@} > float.log
+GPU_EXE=float
 
-diff -up float.log float-c.log
+if which ls-smi; then
+	GPU_EXE=float-luca
+fi
+
+sudo ./float-c nocolor ${@} > float-cpu.log
+sudo ./${GPU_EXE} nocolor ${@} > float-gpu.log
+
+diff -up float-gpu.log float-cpu.log
