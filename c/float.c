@@ -962,16 +962,34 @@ void __myglobal__ __kernel_mul_weight_arr_fp32(size_t len, size_t interval)
 }
 
 #ifdef SUPPORT_FP16
-void __myglobal__ __kernel_mul_weight_fp16(void)
+/**
+ * rslt = rslt * weight
+ */
+void __myglobal__ __kernel_mul_weight_fp16(size_t loop, size_t interval)
 {
-	data_fp16.f16 *= data_fp16_weight.f16;
-	rslt_fp32.f32 *= compat_half2float(data_fp16_weight.f16);
+	compat_fp16 tmp;
+
+	for (size_t i = 0; i < loop; i += interval) {
+		tmp = data_fp16.f16 * data_fp16_weight.f16;
+
+		data_fp16.f16 += tmp;
+		rslt_fp32.f32 += compat_half2float(tmp);
+	}
 }
 
-void __myglobal__ __kernel_add_bias_fp16(void)
+/**
+ * rslt = rslt + bias;
+ */
+void __myglobal__ __kernel_add_bias_fp16(size_t loop, size_t interval)
 {
-	data_fp16.f16 += data_fp16_bias.f16;
-	rslt_fp32.f32 += compat_half2float(data_fp16_bias.f16);
+	compat_fp16 tmp;
+
+	for (size_t i = 0; i < loop; i += interval) {
+		tmp = data_fp16.f16 + data_fp16_bias.f16;
+
+		data_fp16.f16 += tmp;
+		rslt_fp32.f32 += compat_half2float(tmp);
+	}
 }
 
 /**
@@ -991,9 +1009,40 @@ void __myglobal__ __kernel_mul_weight_add_bias_fp16(size_t loop,
 }
 
 /**
- * rslt += a1[i] * a2[i] + bias[i]
+ * rslt += arr[i] * weight[i]
  */
-void __myglobal__ __kernel_mul_weight_add_bias_arr_fp16(size_t len, size_t interval)
+void __myglobal__ __kernel_mul_weight_arr_fp16(size_t len, size_t interval)
+{
+	compat_fp16 tmp;
+
+	for (size_t j = 0; j < len; j += interval) {
+		tmp = data_fp16_arr[j].f16 * data_fp16_weight_arr[j].f16;
+
+		data_fp16.f16 += tmp;
+		rslt_fp32.f32 += compat_half2float(tmp);
+	}
+}
+
+/**
+ * rslt += arr[i] + bias[i]
+ */
+void __myglobal__ __kernel_add_bias_arr_fp16(size_t len, size_t interval)
+{
+	compat_fp16 tmp;
+
+	for (size_t j = 0; j < len; j += interval) {
+		tmp = data_fp16_arr[j].f16 + data_fp16_bias_arr[j].f16;
+
+		data_fp16.f16 += tmp;
+		rslt_fp32.f32 += compat_half2float(tmp);
+	}
+}
+
+/**
+ * rslt += arr[i] * weight[i] + bias[i]
+ */
+void __myglobal__ __kernel_mul_weight_add_bias_arr_fp16(size_t len,
+							size_t interval)
 {
 	compat_fp16 tmp;
 
@@ -1171,12 +1220,44 @@ void muladd_arr_fp32(void)
 }
 
 #ifdef SUPPORT_FP16
-void overflow_muladd_fp16(void)
+void muladd_fp16(void)
 {
-	for (size_t i = 100; i <= 1000; i += 100) {
-		float fa = 1.2345f;
-		compat_fp16 a = compat_float2half(fa);
+	float fa = 1.2345f;
+	compat_fp16 a = compat_float2half(fa);
 
+	for (size_t i = 100; i <= 1000; i += 100) {
+		stset(data_fp16, f16, a);
+		stset(data_fp16_weight, f16, a);
+		stset(data_fp16_bias, f16, a);
+		stset(rslt_fp32, f32, fa);
+
+		__kernel_mul_weight_fp16 DIM (10, 3);
+
+		seperator();
+		TEST("fp16 mul weight", i);
+		check_fp16(st2host(data_fp16, f16));
+		check_fp32(st2host(rslt_fp32, f32));
+		reset();
+		mysync();
+	}
+
+	for (size_t i = 100; i <= 1000; i += 100) {
+		stset(data_fp16, f16, a);
+		stset(data_fp16_weight, f16, a);
+		stset(data_fp16_bias, f16, a);
+		stset(rslt_fp32, f32, fa);
+
+		__kernel_add_bias_fp16 DIM (10, 3);
+
+		seperator();
+		TEST("fp16 add bias", i);
+		check_fp16(st2host(data_fp16, f16));
+		check_fp32(st2host(rslt_fp32, f32));
+		reset();
+		mysync();
+	}
+
+	for (size_t i = 100; i <= 1000; i += 100) {
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
 		stset(data_fp16_bias, f16, a);
@@ -1195,6 +1276,38 @@ void overflow_muladd_fp16(void)
 
 void muladd_arr_fp16(void)
 {
+	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
+		init_data_arr_fp16 DIM (i, 5.5f);
+
+		stset(data_fp16, f16, compat_float2half(1.f));
+		stset(rslt_fp32, f32, 1.f);
+
+		__kernel_mul_weight_arr_fp16 DIM (i, 1);
+
+		seperator();
+		TEST("fp16 mul weight array", i);
+		check_fp16(st2host(data_fp16, f16));
+		check_fp32(st2host(rslt_fp32, f32));
+		reset();
+		mysync();
+	}
+
+	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
+		init_data_arr_fp16 DIM (i, 5.5f);
+
+		stset(data_fp16, f16, compat_float2half(1.f));
+		stset(rslt_fp32, f32, 1.f);
+
+		__kernel_add_bias_arr_fp16 DIM (i, 1);
+
+		seperator();
+		TEST("fp16 add bias array", i);
+		check_fp16(st2host(data_fp16, f16));
+		check_fp32(st2host(rslt_fp32, f32));
+		reset();
+		mysync();
+	}
+
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		init_data_arr_fp16 DIM (i, 5.5f);
 
@@ -1307,7 +1420,7 @@ void fp16_precision_test(void)
 {
 #ifdef SUPPORT_FP16
 	seperator();
-	overflow_muladd_fp16();
+	muladd_fp16();
 	seperator();
 	muladd_arr_fp16();
 	reset();
