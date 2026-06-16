@@ -16,7 +16,6 @@
 #include "print.h"
 #include "types.h"
 
-
 __global__ void k_double_types(void)
 {
 	double2 d2_pi = make_double2(PI_DOUBLE, PI_DOUBLE);

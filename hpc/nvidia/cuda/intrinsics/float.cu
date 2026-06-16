@@ -16,7 +16,6 @@
 #include "print.h"
 #include "types.h"
 
-
 __global__ void k_float_precision_mathematical(void)
 {
 	float pi = PI_FLOAT;
