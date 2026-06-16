@@ -784,6 +784,11 @@ void base_test(void)
  */
 #define DATA_ARRAY_SIZE	1000
 
+__mydevice__ fp64_t data_fp64;
+__mydevice__ fp64_t data_fp64_bias;
+__mydevice__ fp64_t data_fp64_arr[DATA_ARRAY_SIZE];
+__mydevice__ fp64_t data_fp64_bias_arr[DATA_ARRAY_SIZE];
+
 __mydevice__ fp32_t data_fp32;
 __mydevice__ fp32_t data_fp32_bias;
 __mydevice__ fp32_t data_fp32_arr[DATA_ARRAY_SIZE];
@@ -821,6 +826,14 @@ void __myglobal__ __kernel_overflow_add_fp32(void)
 {
 	data_fp32.f32 += data_fp32_bias.f32;
 	rslt_fp64.f64 += data_fp32_bias.f32;
+}
+
+void __myglobal__ __kernel_overflow_muladd_fp64(size_t loop, size_t interval)
+{
+	for (size_t i = 0; i < loop; i += interval) {
+		data_fp64.f64 *= data_fp64_bias.f64;
+		data_fp64.f64 += data_fp64_bias.f64;
+	}
 }
 
 void __myglobal__ __kernel_overflow_muladd_fp32(size_t loop, size_t interval)
@@ -888,6 +901,25 @@ void __myglobal__ __kernel_overflow_muladd_fp16_arr(size_t len, size_t interval)
 	}
 }
 #endif /* SUPPORT_FP16 */
+
+void overflow_muladd_fp64(void)
+{
+	for (size_t i = 100; i <= 1000; i += 100) {
+		double a = i * 1.123456789f;
+
+		stset(data_fp64, f64, a);
+		stset(data_fp64_bias, f64, 1.000789);
+		stset(rslt_fp64, f64, a);
+
+		__kernel_overflow_muladd_fp64 DIM (i, 3);
+
+		seperator();
+		printf("=========== fp64 muladd %ld ==========\n", i);
+		check_fp64(st2host(data_fp64, f64));
+		reset();
+		mysync();
+	}
+}
 
 #if defined(__HPCC__)
 # pragma clang diagnostic push
@@ -1091,6 +1123,13 @@ void fp32_overflow_test(void)
 	reset();
 }
 
+void fp64_precision_test(void)
+{
+	seperator();
+	overflow_muladd_fp64();
+	reset();
+}
+
 void fp32_precision_test(void)
 {
 	seperator();
@@ -1140,6 +1179,10 @@ int main(int argc, char *argv[])
 		exit(0);
 
 	base_test();
+
+	if (env.fp64) {
+		fp64_precision_test();
+	}
 
 	if (env.fp32) {
 		fp32_overflow_test();
