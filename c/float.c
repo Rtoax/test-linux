@@ -972,8 +972,8 @@ void __myglobal__ __kernel_mul_weight_fp16(size_t loop, size_t interval)
 	for (size_t i = 0; i < loop; i += interval) {
 		tmp = data_fp16.f16 * data_fp16_weight.f16;
 
-		data_fp16.f16 += tmp;
-		rslt_fp32.f32 += compat_half2float(tmp);
+		data_fp16.f16 = tmp;
+		rslt_fp32.f32 = compat_half2float(tmp);
 	}
 }
 
@@ -1222,22 +1222,24 @@ void muladd_arr_fp32(void)
 #ifdef SUPPORT_FP16
 void muladd_fp16(void)
 {
-	float fa = 1.2345f;
-	compat_fp16 a = compat_float2half(fa);
 	size_t start, end, interval;
 
-	start = 100;
-	end = DATA_ARRAY_SIZE;
-	interval = 100;
+	start = 1;
+	end = 10;
+	interval = 1;
 
 	seperator();
-	for (size_t i = start; i <= end; i += interval) {
+	/* This value and loop make fp16 almost overflow */
+	for (size_t i = 1; i <= 10; i += 1) {
+		float fa = 2.7232154321f;
+		compat_fp16 a = compat_float2half(fa);
+
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
 		stset(data_fp16_bias, f16, a);
 		stset(rslt_fp32, f32, fa);
 
-		__kernel_mul_weight_fp16 DIM (10, 3);
+		__kernel_mul_weight_fp16 DIM (i, 1);
 
 		TEST("fp16 mul weight", i);
 		check_fp16(st2host(data_fp16, f16));
@@ -1247,12 +1249,15 @@ void muladd_fp16(void)
 
 	seperator();
 	for (size_t i = start; i <= end; i += interval) {
+		float fa = 1.8432154321f;
+		compat_fp16 a = compat_float2half(fa);
+
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
 		stset(data_fp16_bias, f16, a);
 		stset(rslt_fp32, f32, fa);
 
-		__kernel_add_bias_fp16 DIM (10, 3);
+		__kernel_add_bias_fp16 DIM (i, 1);
 
 		TEST("fp16 add bias", i);
 		check_fp16(st2host(data_fp16, f16));
@@ -1262,12 +1267,15 @@ void muladd_fp16(void)
 
 	seperator();
 	for (size_t i = start; i <= end; i += interval) {
+		float fa = 1.8432154321f;
+		compat_fp16 a = compat_float2half(fa);
+
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
 		stset(data_fp16_bias, f16, a);
 		stset(rslt_fp32, f32, fa);
 
-		__kernel_mul_weight_add_bias_fp16 DIM (10, 3);
+		__kernel_mul_weight_add_bias_fp16 DIM (i, 1);
 
 		TEST("fp16 mul weight and add bias", i);
 		check_fp16(st2host(data_fp16, f16));
