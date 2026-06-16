@@ -23,10 +23,6 @@ target-y += _Generic
 target-y += _Static_assert
 target-y += goto
 target-y += float
-target-${CC___bf16} += __bf16
-target-${CC___float128} += __float128
-target-${CC__Float128} += _Float128
-target-${CC___float80} += __float80
 target-y += ptr-dim
 target-y += struct
 target-y += string
@@ -115,12 +111,4 @@ CFLAGS___STDC__.14 := -std=gnu17 -DSTD_GNU17=1
 CFLAGS___STDC__.15 := -std=gnu23 -DSTD_GNU23=1
 
 CFLAGS_float := ${cflags-support-types-y}
-CFLAGS___float128 := ${cflags-support-types-y}
-CFLAGS___float128 += ${cflags-support-headers-y}
-CFLAGS___float128 += -Wno-error=unused-variable
-LDFLAGS___float128 += ${ldflags-support-headers-y}
-CFLAGS__Float128 := ${cflags-support-types-y}
-CFLAGS__Float128 += ${cflags-support-headers-y}
-CFLAGS__Float128 += -Wno-error=unused-variable
-LDFLAGS__Float128 += ${ldflags-support-headers-y}
 LDFLAGS_float := -lm

@@ -31,10 +31,11 @@
 #endif
 
 #ifdef HAVE_quadmath_h
-#define fp128_printf(fp128, tfmt) do {	\
-		char __buf[128];	\
-		quadmath_snprintf(__buf, sizeof(__buf), tfmt, fp128);	\
-		printf(#fp128 " = %s\n", __buf);	\
+#define fp128_printf(fp128, tfmt)                                     \
+	do {                                                          \
+		char __buf[128];                                      \
+		quadmath_snprintf(__buf, sizeof(__buf), tfmt, fp128); \
+		printf(#fp128 " = %s\n", __buf);                      \
 	} while (0)
 #else
 #define fp128_printf(fp128, tfmt) do {} while (0)
@@ -43,7 +44,8 @@
 void test__float128(void)
 {
 #ifdef SUPPORT___float128
-	assert(sizeof(__float128) == 16 && "size of __float128 is not equal to 16");
+	assert(sizeof(__float128) == 16 &&
+	       "size of __float128 is not equal to 16");
 
 	__float128 pi = 3.1415926535897932384626433832795028Q;
 	__float128 e = 2.7182818284590452353602874713526624Q;
@@ -55,13 +57,13 @@ void test__float128(void)
 	fp128_printf(pi + e, "%.35Qf");
 	fp128_printf(fmaq(pi, pi, pi), "%.35Qf");
 #endif
-
 }
 
 void test_Float128(void)
 {
 #ifdef SUPPORT__Float128
-	assert(sizeof(_Float128) == 16 && "size of _Float128 is not equal to 16");
+	assert(sizeof(_Float128) == 16 &&
+	       "size of _Float128 is not equal to 16");
 
 	_Float128 pi = 3.1415926535897932384626433832795028Q;
 	_Float128 e = 2.7182818284590452353602874713526624Q;

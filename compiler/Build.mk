@@ -19,6 +19,7 @@ subdir-y += optimize
 subdir-y += pragma
 subdir-y += reloc
 subdir-y += specs
+subdir-y += types
 subdir-y += __sync
 subdir-y += Wwarn
 
