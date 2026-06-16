@@ -1101,7 +1101,7 @@ void muladd_arr_fp64(void)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wluca-compat"
 #endif
-void overflow_mul_fp32(void)
+void mul_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 
@@ -1114,7 +1114,7 @@ void overflow_mul_fp32(void)
 		__kernel_mul_w_fp32 DIM ();
 
 		seperator();
-		TEST("fp32 mul weight", i);
+		TEST("fp32 mul", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1122,7 +1122,7 @@ void overflow_mul_fp32(void)
 	}
 }
 
-void overflow_add_fp32(void)
+void add_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 	float weight = st2host(fp32_PosMax, f32) / 9.0f;
@@ -1155,10 +1155,10 @@ void muladd_fp32(void)
 		stset(data_fp32_bias, f32, 1.000789f);
 		stset(rslt_fp64, f64, a);
 
-		__kernel_mul_weight_add_bias_fp32 DIM (i, 3);
+		__kernel_mul_weight_fp32 DIM (i, 3);
 
 		seperator();
-		TEST("fp32 mul weight and add bias", i);
+		TEST("fp32 mul weight", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1173,10 +1173,10 @@ void muladd_fp32(void)
 		stset(data_fp32_bias, f32, 1.000789f);
 		stset(rslt_fp64, f64, a);
 
-		__kernel_mul_weight_fp32 DIM (i, 3);
+		__kernel_mul_weight_add_bias_fp32 DIM (i, 3);
 
 		seperator();
-		TEST("fp32 mul weight", i);
+		TEST("fp32 mul weight and add bias", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1192,10 +1192,10 @@ void muladd_arr_fp32(void)
 		stset(data_fp32, f32, 1);
 		stset(rslt_fp64, f64, 1);
 
-		__kernel_mul_weight_add_bias_arr_fp32 DIM (i, 1);
+		__kernel_mul_weight_arr_fp32 DIM (i, 1);
 
 		seperator();
-		TEST("fp32 mul weight and add bias array", i);
+		TEST("fp32 mul weight array", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1208,10 +1208,10 @@ void muladd_arr_fp32(void)
 		stset(data_fp32, f32, 1);
 		stset(rslt_fp64, f64, 1);
 
-		__kernel_mul_weight_arr_fp32 DIM (i, 1);
+		__kernel_mul_weight_add_bias_arr_fp32 DIM (i, 1);
 
 		seperator();
-		TEST("fp32 mul weight array", i);
+		TEST("fp32 mul weight and add bias array", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1389,12 +1389,6 @@ void fp32_overflow_test(void)
 	check_fp32(st2host(fp32_PosMax, f32) * 1.00000009f);
 	check_fp32(st2host(fp32_PosMax, f32) * 1.0000001f);
 
-#ifdef SUPPORT_FP16
-	seperator();
-	overflow_mul_fp32();
-	overflow_add_fp32();
-#endif
-
 	reset();
 }
 
@@ -1409,6 +1403,10 @@ void fp64_precision_test(void)
 
 void fp32_precision_test(void)
 {
+	seperator();
+	mul_fp32();
+	seperator();
+	add_fp32();
 	seperator();
 	muladd_fp32();
 	seperator();
