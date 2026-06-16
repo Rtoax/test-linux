@@ -489,8 +489,8 @@ void __myglobal__ __kernel_check_fp64(double f)
 	double_to_fp64(f, &fp64);
 	to = fp64_to_double(&fp64);
 
-	printf("%lf vs %lf (%x %x %lx) ", f, to, fp64.sign, fp64.exponent,
-		(uint64_t)fp64.fraction);
+	printf("%.17lf vs %.17lf (%x %x %lx) ", f, to, fp64.sign, fp64.exponent,
+	       (uint64_t)fp64.fraction);
 
 	assert(*(uint64_t *)&f == *(uint64_t *)&to && "Failed to check fp64");
 }
@@ -547,8 +547,8 @@ void __myglobal__ __kernel_check_fp32(float f)
 	float_to_fp32(f, &fp32);
 	to = fp32_to_float(&fp32);
 
-	printf("%f vs %f (%x %x %x) ", f, to, fp32.sign, fp32.exponent,
-		fp32.fraction);
+	printf("%.17f vs %.17f (%x %x %x) ", f, to, fp32.sign, fp32.exponent,
+	       fp32.fraction);
 
 	assert(*(uint32_t *)&f == *(uint32_t *)&to && "Failed to check fp32");
 }
@@ -690,8 +690,11 @@ void base_test(void)
 		check_fp64(0.2);
 		check_fp64(1.23456789);
 		check_fp64(0.23456789);
+		check_fp64(1.234568);
+		check_fp64(0.234568);
 		check_fp64(3.14159265);
 		check_fp64(-3.14159265);
+		check_fp64(123456789123456789.123456789123456789);
 		check_fp64(DBL_MIN);
 		check_fp64(-DBL_MIN);
 		check_fp64(DBL_MAX);
@@ -715,10 +718,13 @@ void base_test(void)
 		check_fp32(1);
 		check_fp32(1.2f);
 		check_fp32(0.2f);
+		check_fp32(1.2345678f);
+		check_fp32(0.2345678f);
 		check_fp32(1.23456789f);
 		check_fp32(0.23456789f);
 		check_fp32(3.14159265f);
 		check_fp32(-3.14159265f);
+		check_fp32(123456789123456789.123456789123456789);
 		check_fp32(FLT_MIN);
 		check_fp32(-FLT_MIN);
 		check_fp32(FLT_MAX);
