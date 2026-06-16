@@ -689,6 +689,10 @@ void base_test(void)
 		check_fp64(0.23456789);
 		check_fp64(3.14159265);
 		check_fp64(-3.14159265);
+		check_fp64(DBL_MIN);
+		check_fp64(-DBL_MIN);
+		check_fp64(DBL_MAX);
+		check_fp64(-DBL_MAX);
 		check_fp64(st2host(fp64_NaN, f64));
 		check_fp64(st2host(fp64_PosInf, f64));
 		check_fp64(st2host(fp64_NegInf, f64));
@@ -712,6 +716,10 @@ void base_test(void)
 		check_fp32(0.23456789f);
 		check_fp32(3.14159265f);
 		check_fp32(-3.14159265f);
+		check_fp32(FLT_MIN);
+		check_fp32(-FLT_MIN);
+		check_fp32(FLT_MAX);
+		check_fp32(-FLT_MAX);
 		check_fp32(st2host(fp32_PosOne, f32));
 		check_fp32(st2host(fp32_NaN, f32));
 		check_fp32(st2host(fp32_PosInf, f32));
@@ -719,9 +727,7 @@ void base_test(void)
 		check_fp32(st2host(fp32_PosZero, f32));
 		check_fp32(st2host(fp32_NegZero, f32));
 		check_fp32(st2host(fp32_PosMax, f32));
-		check_fp32(FLT_MAX);
 		check_fp32(st2host(fp32_PosMin, f32));
-		check_fp32(FLT_MIN);
 		check_fp32(st2host(fp32_NegMax, f32));
 		check_fp32(st2host(fp32_NegMin, f32));
 	}
