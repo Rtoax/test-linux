@@ -700,7 +700,7 @@ void __myglobal__ __check_bf16(compat_bf16 f)
 	} while (0)
 #endif /* SUPPORT_BF16 */
 
-void base_test(void)
+void base_tests(void)
 {
 	if (env.fp64) {
 		seperator();
@@ -1314,6 +1314,22 @@ void fp16_precision_test(void)
 #endif
 }
 
+void precision_tests(void)
+{
+	if (env.fp64) {
+		fp64_precision_test();
+	}
+
+	if (env.fp32) {
+		fp32_overflow_test();
+		fp32_precision_test();
+	}
+
+	if (env.fp16) {
+		fp16_precision_test();
+	}
+}
+
 void usage(const char *prog)
 {
 	fprintf(stderr,
@@ -1349,20 +1365,8 @@ int main(int argc, char *argv[])
 	if (env.version)
 		exit(0);
 
-	base_test();
-
-	if (env.fp64) {
-		fp64_precision_test();
-	}
-
-	if (env.fp32) {
-		fp32_overflow_test();
-		fp32_precision_test();
-	}
-
-	if (env.fp16) {
-		fp16_precision_test();
-	}
+	base_tests();
+	precision_tests();
 
 	usage(argv[0]);
 	return 0;
