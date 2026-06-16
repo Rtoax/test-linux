@@ -1227,9 +1227,10 @@ void muladd_fp16(void)
 	size_t start, end, interval;
 
 	start = 100;
-	end = 1000;
+	end = DATA_ARRAY_SIZE;
 	interval = 100;
 
+	seperator();
 	for (size_t i = start; i <= end; i += interval) {
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
@@ -1238,14 +1239,13 @@ void muladd_fp16(void)
 
 		__kernel_mul_weight_fp16 DIM (10, 3);
 
-		seperator();
 		TEST("fp16 mul weight", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		reset();
 		mysync();
 	}
 
+	seperator();
 	for (size_t i = start; i <= end; i += interval) {
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
@@ -1254,14 +1254,13 @@ void muladd_fp16(void)
 
 		__kernel_add_bias_fp16 DIM (10, 3);
 
-		seperator();
 		TEST("fp16 add bias", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		reset();
 		mysync();
 	}
 
+	seperator();
 	for (size_t i = start; i <= end; i += interval) {
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
@@ -1270,18 +1269,24 @@ void muladd_fp16(void)
 
 		__kernel_mul_weight_add_bias_fp16 DIM (10, 3);
 
-		seperator();
 		TEST("fp16 mul weight and add bias", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		reset();
 		mysync();
 	}
+	reset();
 }
 
 void muladd_arr_fp16(void)
 {
-	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
+	size_t start, end, interval;
+
+	start = 100;
+	end = DATA_ARRAY_SIZE;
+	interval = 100;
+
+	seperator();
+	for (size_t i = start; i <= end; i += interval) {
 		init_data_arr_fp16 DIM (i, 5.5f);
 
 		stset(data_fp16, f16, compat_float2half(1.f));
@@ -1289,15 +1294,14 @@ void muladd_arr_fp16(void)
 
 		__kernel_mul_weight_arr_fp16 DIM (i, 1);
 
-		seperator();
 		TEST("fp16 mul weight array", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		reset();
 		mysync();
 	}
 
-	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
+	seperator();
+	for (size_t i = start; i <= end; i += interval) {
 		init_data_arr_fp16 DIM (i, 5.5f);
 
 		stset(data_fp16, f16, compat_float2half(1.f));
@@ -1305,15 +1309,14 @@ void muladd_arr_fp16(void)
 
 		__kernel_add_bias_arr_fp16 DIM (i, 1);
 
-		seperator();
 		TEST("fp16 add bias array", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		reset();
 		mysync();
 	}
 
-	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
+	seperator();
+	for (size_t i = start; i <= end; i += interval) {
 		init_data_arr_fp16 DIM (i, 5.5f);
 
 		stset(data_fp16, f16, compat_float2half(1.f));
@@ -1321,13 +1324,12 @@ void muladd_arr_fp16(void)
 
 		__kernel_mul_weight_add_bias_arr_fp16 DIM (i, 1);
 
-		seperator();
 		TEST("fp16 mul weight and add bias array", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		reset();
 		mysync();
 	}
+	reset();
 }
 #endif /* SUPPORT_FP16 */
 
