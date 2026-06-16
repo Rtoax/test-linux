@@ -623,8 +623,8 @@ void __myglobal__ __kernel_check_fp16(compat_fp16 f)
 	float16_to_fp16(f, &fp16);
 	to = fp16_to_float16(&fp16);
 
-	printf("%f vs %f (%x %x %x) ", (float)f, (float)to,
-		fp16.sign, fp16.exponent, fp16.fraction);
+	printf("%.17f vs %.17f (%x %x %x) ", (float)f, (float)to, fp16.sign,
+	       fp16.exponent, fp16.fraction);
 
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check fp16");
 }
