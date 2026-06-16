@@ -794,19 +794,19 @@ void base_test(void)
 #define DATA_ARRAY_SIZE	1000
 
 __mydevice__ fp64_t data_fp64;
-__mydevice__ fp64_t data_fp64_bias;
+__mydevice__ fp64_t data_fp64_weight;
 __mydevice__ fp64_t data_fp64_arr[DATA_ARRAY_SIZE];
-__mydevice__ fp64_t data_fp64_bias_arr[DATA_ARRAY_SIZE];
+__mydevice__ fp64_t data_fp64_weight_arr[DATA_ARRAY_SIZE];
 
 __mydevice__ fp32_t data_fp32;
-__mydevice__ fp32_t data_fp32_bias;
+__mydevice__ fp32_t data_fp32_weight;
 __mydevice__ fp32_t data_fp32_arr[DATA_ARRAY_SIZE];
-__mydevice__ fp32_t data_fp32_bias_arr[DATA_ARRAY_SIZE];
+__mydevice__ fp32_t data_fp32_weight_arr[DATA_ARRAY_SIZE];
 
 __mydevice__ fp16_t data_fp16;
-__mydevice__ fp16_t data_fp16_bias;
+__mydevice__ fp16_t data_fp16_weight;
 __mydevice__ fp16_t data_fp16_arr[DATA_ARRAY_SIZE];
-__mydevice__ fp16_t data_fp16_bias_arr[DATA_ARRAY_SIZE];
+__mydevice__ fp16_t data_fp16_weight_arr[DATA_ARRAY_SIZE];
 
 /**
  * In addition to using fp32 to save the calculation results, fp64 is also
@@ -820,7 +820,7 @@ void __myglobal__ __kernel_init_all_arr_fp64(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
 		data_fp64_arr[i].f64 = i * 1000.0;
-		data_fp64_bias_arr[i].f64 = i * 1000.0;
+		data_fp64_weight_arr[i].f64 = i * 1000.0;
 	}
 }
 
@@ -828,52 +828,62 @@ void __myglobal__ __kernel_init_all_arr_fp32(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
 		data_fp32_arr[i].f32 = i * 1000.f;
-		data_fp32_bias_arr[i].f32 = i * 1000.f;
+		data_fp32_weight_arr[i].f32 = i * 1000.f;
 	}
 }
 
 void __myglobal__ __kernel_overflow_mul_fp32(void)
 {
-	data_fp32.f32 *= data_fp32_bias.f32;
-	rslt_fp64.f64 *= data_fp32_bias.f32;
+	data_fp32.f32 *= data_fp32_weight.f32;
+	rslt_fp64.f64 *= data_fp32_weight.f32;
 }
 
 void __myglobal__ __kernel_overflow_add_fp32(void)
 {
-	data_fp32.f32 += data_fp32_bias.f32;
-	rslt_fp64.f64 += data_fp32_bias.f32;
+	data_fp32.f32 += data_fp32_weight.f32;
+	rslt_fp64.f64 += data_fp32_weight.f32;
 }
 
 void __myglobal__ __kernel_overflow_muladd_fp64(size_t loop, size_t interval)
 {
 	for (size_t i = 0; i < loop; i += interval) {
-		data_fp64.f64 *= data_fp64_bias.f64;
-		data_fp64.f64 += data_fp64_bias.f64;
+		data_fp64.f64 *= data_fp64_weight.f64;
+		data_fp64.f64 += data_fp64_weight.f64;
 	}
 }
 
-void __myglobal__ __kernel_overflow_muladd_fp64_arr(size_t len, size_t interval)
+void __myglobal__ __kernel_muladd_arr_fp64(size_t len, size_t interval)
 {
 	for (size_t j = 0; j < len; j += interval) {
-		data_fp64.f64 += data_fp64_arr[j].f64 * data_fp64_bias_arr[j].f64;
+		data_fp64.f64 +=
+			data_fp64_arr[j].f64 * data_fp64_weight_arr[j].f64;
 	}
 }
 
+/**
+ * rslt *= weight;
+ * rslt += weight;
+ */
 void __myglobal__ __kernel_overflow_muladd_fp32(size_t loop, size_t interval)
 {
 	for (size_t i = 0; i < loop; i += interval) {
-		data_fp32.f32 *= data_fp32_bias.f32;
-		data_fp32.f32 += data_fp32_bias.f32;
-		rslt_fp64.f64 *= data_fp32_bias.f32;
-		rslt_fp64.f64 += data_fp32_bias.f32;
+		data_fp32.f32 *= data_fp32_weight.f32;
+		data_fp32.f32 += data_fp32_weight.f32;
+		rslt_fp64.f64 *= data_fp32_weight.f32;
+		rslt_fp64.f64 += data_fp32_weight.f32;
 	}
 }
 
-void __myglobal__ __kernel_overflow_muladd_fp32_arr(size_t len, size_t interval)
+/**
+ * rslt += a1[i] * a2[i]
+ */
+void __myglobal__ __kernel_muladd_arr_fp32(size_t len, size_t interval)
 {
 	for (size_t j = 0; j < len; j += interval) {
-		data_fp32.f32 += data_fp32_arr[j].f32 * data_fp32_bias_arr[j].f32;
-		rslt_fp64.f64 += data_fp32_arr[j].f32 * data_fp32_bias_arr[j].f32;
+		data_fp32.f32 +=
+			data_fp32_arr[j].f32 * data_fp32_weight_arr[j].f32;
+		rslt_fp64.f64 +=
+			data_fp32_arr[j].f32 * data_fp32_weight_arr[j].f32;
 	}
 }
 
@@ -882,44 +892,49 @@ void __myglobal__ __kernel_init_all_fp16_arr(size_t size, float init)
 {
 	for (size_t i = 0; i < size; i++) {
 		data_fp16_arr[i].f16 = compat_float2half(init);
-		data_fp16_bias_arr[i].f16 = compat_float2half(init);
+		data_fp16_weight_arr[i].f16 = compat_float2half(init);
 	}
 }
 
 void __myglobal__ __kernel_overflow_mul_fp16(void)
 {
-	data_fp16.f16 *= data_fp16_bias.f16;
-	rslt_fp32.f32 += compat_half2float(data_fp16_bias.f16);
+	data_fp16.f16 *= data_fp16_weight.f16;
+	rslt_fp32.f32 += compat_half2float(data_fp16_weight.f16);
 }
 
 void __myglobal__ __kernel_overflow_add_fp16(void)
 {
-	data_fp16.f16 += data_fp16_bias.f16;
-	rslt_fp32.f32 += compat_half2float(data_fp16_bias.f16);
+	data_fp16.f16 += data_fp16_weight.f16;
+	rslt_fp32.f32 += compat_half2float(data_fp16_weight.f16);
 }
 
+/**
+ * rslt *= weight;
+ * rslt += weight;
+ */
 void __myglobal__ __kernel_overflow_muladd_fp16(size_t loop, size_t interval)
 {
 	compat_fp16 tmp;
 
 	for (size_t i = 0; i < loop; i += interval) {
-		tmp = data_fp16.f16 * data_fp16_bias.f16;
+		tmp = data_fp16.f16 * data_fp16_weight.f16;
 
 		data_fp16.f16 += tmp;
-
 		rslt_fp32.f32 += compat_half2float(tmp);
 	}
 }
 
-void __myglobal__ __kernel_overflow_muladd_fp16_arr(size_t len, size_t interval)
+/**
+ * rslt += a1[i] * a2[i]
+ */
+void __myglobal__ __kernel_muladd_arr_fp16(size_t len, size_t interval)
 {
 	compat_fp16 tmp;
 
 	for (size_t j = 0; j < len; j += interval) {
-		tmp = data_fp16_arr[j].f16 * data_fp16_bias_arr[j].f16;
+		tmp = data_fp16_arr[j].f16 * data_fp16_weight_arr[j].f16;
 
 		data_fp16.f16 += tmp;
-
 		rslt_fp32.f32 += compat_half2float(tmp);
 	}
 }
@@ -931,7 +946,7 @@ void overflow_muladd_fp64(void)
 		double a = i * 1.123456789f;
 
 		stset(data_fp64, f64, a);
-		stset(data_fp64_bias, f64, 1.000789);
+		stset(data_fp64_weight, f64, 1.000789);
 		stset(rslt_fp64, f64, a);
 
 		__kernel_overflow_muladd_fp64 DIM (i, 3);
@@ -945,14 +960,14 @@ void overflow_muladd_fp64(void)
 	}
 }
 
-void overflow_muladd_fp64_arr(void)
+void muladd_arr_fp64(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		__kernel_init_all_arr_fp64 DIM (i);
 
 		stset(data_fp64, f64, 1);
 
-		__kernel_overflow_muladd_fp64_arr DIM (i, 1);
+		__kernel_muladd_arr_fp64 DIM (i, 1);
 
 		seperator();
 		printf("=========== fp64 muladd arr %ld on %s ==========\n", i,
@@ -976,7 +991,7 @@ void overflow_mul_fp32(void)
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 
 	stset(data_fp32, f32, a);
-	stset(data_fp32_bias, f32, 1.15f);
+	stset(data_fp32_weight, f32, 1.15f);
 	stset(rslt_fp64, f64, a);
 
 	for (int i = 0; i < 10; i++) {
@@ -994,10 +1009,10 @@ void overflow_mul_fp32(void)
 void overflow_add_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
-	float bias = st2host(fp32_PosMax, f32) / 9.0f;
+	float weight = st2host(fp32_PosMax, f32) / 9.0f;
 
 	stset(data_fp32, f32, a);
-	stset(data_fp32_bias, f32, bias);
+	stset(data_fp32_weight, f32, weight);
 	stset(rslt_fp64, f64, a);
 
 	for (int i = 0; i < 10; i++) {
@@ -1018,7 +1033,7 @@ void overflow_muladd_fp32(void)
 		float a = i * 1.123456789f;
 
 		stset(data_fp32, f32, a);
-		stset(data_fp32_bias, f32, 1.000789f);
+		stset(data_fp32_weight, f32, 1.000789f);
 		stset(rslt_fp64, f64, a);
 
 		__kernel_overflow_muladd_fp32 DIM (i, 3);
@@ -1033,7 +1048,7 @@ void overflow_muladd_fp32(void)
 	}
 }
 
-void overflow_muladd_fp32_arr(void)
+void muladd_arr_fp32(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		__kernel_init_all_arr_fp32 DIM (i);
@@ -1041,7 +1056,7 @@ void overflow_muladd_fp32_arr(void)
 		stset(data_fp32, f32, 1);
 		stset(rslt_fp64, f64, 1);
 
-		__kernel_overflow_muladd_fp32_arr DIM (i, 1);
+		__kernel_muladd_arr_fp32 DIM (i, 1);
 
 		seperator();
 		printf("=========== fp32 muladd arr %ld on %s ==========\n", i,
@@ -1061,7 +1076,7 @@ void overflow_muladd_fp16(void)
 		compat_fp16 a = compat_float2half(fa);
 
 		stset(data_fp16, f16, a);
-		stset(data_fp16_bias, f16, a);
+		stset(data_fp16_weight, f16, a);
 		stset(rslt_fp32, f32, fa);
 
 		__kernel_overflow_muladd_fp16 DIM (10, 3);
@@ -1076,7 +1091,7 @@ void overflow_muladd_fp16(void)
 	}
 }
 
-void overflow_muladd_fp16_arr(void)
+void muladd_arr_fp16(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		__kernel_init_all_fp16_arr DIM (i, 5.5f);
@@ -1084,7 +1099,7 @@ void overflow_muladd_fp16_arr(void)
 		stset(data_fp16, f16, compat_float2half(1.f));
 		stset(rslt_fp32, f32, 1.f);
 
-		__kernel_overflow_muladd_fp16_arr DIM (i, 1);
+		__kernel_muladd_arr_fp16 DIM (i, 1);
 
 		seperator();
 		printf("=========== fp16 muladd arr %ld on %s ==========\n", i,
@@ -1174,7 +1189,7 @@ void fp64_precision_test(void)
 	seperator();
 	overflow_muladd_fp64();
 	seperator();
-	overflow_muladd_fp64_arr();
+	muladd_arr_fp64();
 	reset();
 }
 
@@ -1183,7 +1198,7 @@ void fp32_precision_test(void)
 	seperator();
 	overflow_muladd_fp32();
 	seperator();
-	overflow_muladd_fp32_arr();
+	muladd_arr_fp32();
 	reset();
 }
 
@@ -1193,7 +1208,7 @@ void fp16_precision_test(void)
 	seperator();
 	overflow_muladd_fp16();
 	seperator();
-	overflow_muladd_fp16_arr();
+	muladd_arr_fp16();
 	reset();
 #endif
 }
