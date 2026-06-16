@@ -77,7 +77,8 @@
 #include <float.h>
 #include <string.h>
 
-#if defined(__HPCC__) || defined(__LUCA__) || defined(__NVCC__) || defined(__HIPCC__)
+#if defined(__HPCC__) || defined(__LUCA__) || defined(__NVCC__) || \
+    defined(__HIPCC__)
 # define IS_CUDA_COMPAT_COMPILER	1
 # include <cuda_fp16.h>
 # include <cuda_bf16.h>
@@ -111,6 +112,9 @@
 # define mysync()
 # define DEVICE "CPU"
 #endif
+
+#define TEST(title, n) \
+	printf("=========== %s on %s (%ld) ==========\n", title, DEVICE, n);
 
 /**
  * Note: Use _Float16 first
@@ -165,7 +169,8 @@
 # define compat_floattobf16(v)	__float2bfloat16(v)
 #endif
 
-#if defined(__HIPCC__) && ((HIP_VERSION_MAJOR < 5) || (HIP_VERSION_MAJOR == 5 && HIP_VERSION_MINOR <= 7))
+#if defined(__HIPCC__) && ((HIP_VERSION_MAJOR < 5) || \
+			   (HIP_VERSION_MAJOR == 5 && HIP_VERSION_MINOR <= 7))
 # ifdef SUPPORT_BF16
 #  undef SUPPORT_BF16
 # endif
@@ -204,17 +209,21 @@ static struct {
 
 static const char *const version = "v1.6.0";
 
-#define seperator() do {	\
-		if (env.nocolor) {	\
-			printf("-------------------------------------------------------------------------------\n");	\
-		} else {	\
-			printf("%s%s", reset, ansi[ansi_idx++ % ARRAY_SIZE(ansi)]);	\
-		}	\
+#define seperator()                                                            \
+	do {                                                                   \
+		if (env.nocolor) {                                             \
+			printf("-----------------------------------------\n"); \
+		} else {                                                       \
+			printf("%s%s", reset,                                  \
+			       ansi[ansi_idx++ % ARRAY_SIZE(ansi)]);           \
+		}                                                              \
 	} while (0)
-#define reset() do {	\
-		if (env.nocolor) break;	\
-		printf("%s", reset);	\
-		ansi_idx++;	\
+#define reset()                      \
+	do {                         \
+		if (env.nocolor)     \
+			break;       \
+		printf("%s", reset); \
+		ansi_idx++;          \
 	} while (0)
 
 typedef union fp128 {
@@ -387,9 +396,12 @@ __myconst__ fp16_t fp16_NegMax = FP16_INITIALIZER(1, 0x1e, 0x3ff);
 __myconst__ fp16_t fp16_PosMin = FP16_INITIALIZER(0, 0x1, 0);
 __myconst__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
 
-__myconst__ bf16_t bf16_qNaN = BF16_INITIALIZER(0, 0xff, 0x7f);	/* Quiet NaN */
-__myconst__ bf16_t bf16_sNaN = BF16_INITIALIZER(0, 0xff, 0x3f);	/* Signaling NaN */
-__myconst__ bf16_t bf16_NaN = BF16_INITIALIZER(0, 0xff, 0x7f);	/* default use qNaN */
+/* Quiet NaN */
+__myconst__ bf16_t bf16_qNaN = BF16_INITIALIZER(0, 0xff, 0x7f);
+/* Signaling NaN */
+__myconst__ bf16_t bf16_sNaN = BF16_INITIALIZER(0, 0xff, 0x3f);
+/* default use qNaN */
+__myconst__ bf16_t bf16_NaN = BF16_INITIALIZER(0, 0xff, 0x7f);
 __myconst__ bf16_t bf16_PosOne = BF16_INITIALIZER(0, 0x7f, 0);
 __myconst__ bf16_t bf16_PosZero = BF16_INITIALIZER(0, 0, 0);
 __myconst__ bf16_t bf16_NegZero = BF16_INITIALIZER(1, 0, 0);
@@ -404,18 +416,23 @@ __myconst__ bf16_t bf16_NegMin = BF16_INITIALIZER(1, 0x1, 0);
 /**
  * From struct to host
  */
-# define st2host(st, field)	({	\
-		typeof(st.field) __v;	\
-		(void)cudaMemcpyFromSymbol(&__v, st, sizeof(st.field), offsetof(typeof(st), field));	\
-		__v;	\
+# define st2host(st, field)                                              \
+	({                                                               \
+		typeof(st.field) __v;                                    \
+		(void)cudaMemcpyFromSymbol(&__v, st, sizeof(st.field),   \
+					   offsetof(typeof(st), field)); \
+		__v;                                                     \
 	})
-# define stset(st, field, v)	do {	\
-		typeof(st) __hostst = { .field = v, };	\
-		(void)cudaMemcpyToSymbol(st, &__hostst, sizeof(st));	\
+# define stset(st, field, v)                                         \
+	do {                                                         \
+		typeof(st) __hostst = {                              \
+			.field = v,                                  \
+		};                                                   \
+		(void)cudaMemcpyToSymbol(st, &__hostst, sizeof(st)); \
 	} while (0)
 #else
-# define st2host(st, field)	st.field
-# define stset(st, field, v)	st.field = v
+# define st2host(st, field) st.field
+# define stset(st, field, v) st.field = v
 #endif
 
 static void binprint(const void *mem, size_t bits)
@@ -580,7 +597,8 @@ compat_fp16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 						 fp16_NegZero.f16;
 		} else {
 			e2 = compat_fp16_exp2(compat_float2half(-14.0f));
-			fra = compat_float2half(0 + fraction_value(fp16->fraction, 10));
+			fra = compat_float2half(
+				0 + fraction_value(fp16->fraction, 10));
 		}
 	} else if (fp16->exponent == 0x1f) {
 		if (fp16->fraction == 0)
@@ -589,7 +607,8 @@ compat_fp16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 		else
 			return fp16_NaN.f16;
 	} else {
-		e2 = compat_fp16_exp2(compat_float2half(fp16->exponent - 15.0f));
+		e2 = compat_fp16_exp2(
+			compat_float2half(fp16->exponent - 15.0f));
 		fra = compat_float2half(1 + fraction_value(fp16->fraction, 10));
 	}
 
@@ -639,7 +658,8 @@ compat_bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
 						 bf16_NegZero.f16;
 		} else {
 			e2 = compat_floattobf16(exp2f(-126.0f));
-			fra = compat_floattobf16(0 + fraction_value(bf16->fraction, 7));
+			fra = compat_floattobf16(
+				0 + fraction_value(bf16->fraction, 7));
 		}
 	} else if (bf16->exponent == 0xff) {
 		if (bf16->fraction == 0)
@@ -850,19 +870,23 @@ void __myglobal__ init_data_arr_fp16(size_t size, float init)
 }
 #endif
 
-void __myglobal__ __kernel_overflow_mul_fp32(void)
+void __myglobal__ __kernel_mul_w_fp32(void)
 {
 	data_fp32.f32 *= data_fp32_weight.f32;
 	rslt_fp64.f64 *= data_fp32_weight.f32;
 }
 
-void __myglobal__ __kernel_overflow_add_fp32(void)
+void __myglobal__ __kernel_add_bias_fp32(void)
 {
 	data_fp32.f32 += data_fp32_bias.f32;
 	rslt_fp64.f64 += data_fp32_bias.f32;
 }
 
-void __myglobal__ __kernel_overflow_muladd_fp64(size_t loop, size_t interval)
+/**
+ * rslt = rslt * weight + bias
+ */
+void __myglobal__ __kernel_mul_weight_add_bias_fp64(size_t loop,
+						    size_t interval)
 {
 	for (size_t i = 0; i < loop; i += interval) {
 		data_fp64.f64 *= data_fp64_weight.f64;
@@ -870,7 +894,11 @@ void __myglobal__ __kernel_overflow_muladd_fp64(size_t loop, size_t interval)
 	}
 }
 
-void __myglobal__ __kernel_muladd_arr_fp64(size_t len, size_t interval)
+/**
+ * rslt = arr[i] * weight[i] + bias[i]
+ */
+void __myglobal__ __kernel_mul_weight_add_bias_arr_fp64(size_t len,
+							size_t interval)
 {
 	for (size_t j = 0; j < len; j += interval) {
 		data_fp64.f64 +=
@@ -882,7 +910,8 @@ void __myglobal__ __kernel_muladd_arr_fp64(size_t len, size_t interval)
 /**
  * rslt = rslt * weight + bias;
  */
-void __myglobal__ __kernel_mul_w_add_bias_fp32(size_t loop, size_t interval)
+void __myglobal__ __kernel_mul_weight_add_bias_fp32(size_t loop,
+						    size_t interval)
 {
 	for (size_t i = 0; i < loop; i += interval) {
 		data_fp32.f32 *= data_fp32_weight.f32;
@@ -895,7 +924,7 @@ void __myglobal__ __kernel_mul_w_add_bias_fp32(size_t loop, size_t interval)
 /**
  * rslt = rslt * weight;
  */
-void __myglobal__ __kernel_mul_w_fp32(size_t loop, size_t interval)
+void __myglobal__ __kernel_mul_weight_fp32(size_t loop, size_t interval)
 {
 	for (size_t i = 0; i < loop; i += interval) {
 		data_fp32.f32 *= data_fp32_weight.f32;
@@ -932,13 +961,13 @@ void __myglobal__ __kernel_mul_w_arr_fp32(size_t len, size_t interval)
 }
 
 #ifdef SUPPORT_FP16
-void __myglobal__ __kernel_overflow_mul_fp16(void)
+void __myglobal__ __kernel_mul_weight_fp16(void)
 {
 	data_fp16.f16 *= data_fp16_weight.f16;
 	rslt_fp32.f32 *= compat_half2float(data_fp16_weight.f16);
 }
 
-void __myglobal__ __kernel_overflow_add_fp16(void)
+void __myglobal__ __kernel_add_bias_fp16(void)
 {
 	data_fp16.f16 += data_fp16_bias.f16;
 	rslt_fp32.f32 += compat_half2float(data_fp16_bias.f16);
@@ -947,7 +976,8 @@ void __myglobal__ __kernel_overflow_add_fp16(void)
 /**
  * rslt = rslt * weight + bias;
  */
-void __myglobal__ __kernel_overflow_muladd_fp16(size_t loop, size_t interval)
+void __myglobal__ __kernel_mul_weight_add_bias_fp16(size_t loop,
+						    size_t interval)
 {
 	compat_fp16 tmp;
 
@@ -962,7 +992,7 @@ void __myglobal__ __kernel_overflow_muladd_fp16(size_t loop, size_t interval)
 /**
  * rslt += a1[i] * a2[i] + bias[i]
  */
-void __myglobal__ __kernel_muladd_arr_fp16(size_t len, size_t interval)
+void __myglobal__ __kernel_mul_weight_add_bias_arr_fp16(size_t len, size_t interval)
 {
 	compat_fp16 tmp;
 
@@ -986,11 +1016,10 @@ void overflow_muladd_fp64(void)
 		stset(data_fp64_bias, f64, 1.1234);
 		stset(rslt_fp64, f64, a);
 
-		__kernel_overflow_muladd_fp64 DIM (i, 3);
+		__kernel_mul_weight_add_bias_fp64 DIM (i, 3);
 
 		seperator();
-		printf("=========== fp64 muladd %ld on %s ==========\n", i,
-		       DEVICE);
+		TEST("fp64 mul weight and add bias", i);
 		check_fp64(st2host(data_fp64, f64));
 		reset();
 		mysync();
@@ -1004,11 +1033,10 @@ void muladd_arr_fp64(void)
 
 		stset(data_fp64, f64, 1);
 
-		__kernel_muladd_arr_fp64 DIM (i, 1);
+		__kernel_mul_weight_add_bias_arr_fp64 DIM (i, 1);
 
 		seperator();
-		printf("=========== fp64 muladd arr %ld on %s ==========\n", i,
-		       DEVICE);
+		TEST("fp64 mul weight and add bias array", i);
 		check_fp32(st2host(data_fp64, f64));
 		reset();
 		mysync();
@@ -1032,11 +1060,11 @@ void overflow_mul_fp32(void)
 	stset(data_fp32_bias, f32, 1.15f);
 	stset(rslt_fp64, f64, a);
 
-	for (int i = 0; i < 10; i++) {
-		__kernel_overflow_mul_fp32 DIM ();
+	for (size_t i = 0; i < 10; i++) {
+		__kernel_mul_w_fp32 DIM ();
 
 		seperator();
-		printf("=========== fp32 mul %d on %s ==========\n", i, DEVICE);
+		TEST("fp32 mul weight", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1055,11 +1083,11 @@ void overflow_add_fp32(void)
 	stset(data_fp32_bias, f32, bias);
 	stset(rslt_fp64, f64, a);
 
-	for (int i = 0; i < 10; i++) {
-		__kernel_overflow_add_fp32 DIM ();
+	for (size_t i = 0; i < 10; i++) {
+		__kernel_add_bias_fp32 DIM ();
 
 		seperator();
-		printf("=========== fp32 add %d on %s ==========\n", i, DEVICE);
+		TEST("fp32 add bias", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1077,11 +1105,10 @@ void muladd_fp32(void)
 		stset(data_fp32_bias, f32, 1.000789f);
 		stset(rslt_fp64, f64, a);
 
-		__kernel_mul_w_add_bias_fp32 DIM (i, 3);
+		__kernel_mul_weight_add_bias_fp32 DIM (i, 3);
 
 		seperator();
-		printf("=========== fp32 mul weight and add bias %ld on %s ==========\n",
-		       i, DEVICE);
+		TEST("fp32 mul weight and add bias", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1096,11 +1123,10 @@ void muladd_fp32(void)
 		stset(data_fp32_bias, f32, 1.000789f);
 		stset(rslt_fp64, f64, a);
 
-		__kernel_mul_w_fp32 DIM (i, 3);
+		__kernel_mul_weight_fp32 DIM (i, 3);
 
 		seperator();
-		printf("=========== fp32 mul weight %ld on %s ==========\n", i,
-		       DEVICE);
+		TEST("fp32 mul weight", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1119,8 +1145,7 @@ void muladd_arr_fp32(void)
 		__kernel_mul_w_add_b_arr_fp32 DIM (i, 1);
 
 		seperator();
-		printf("=========== fp32 mul weight add bias arr %ld on %s ==========\n",
-		       i, DEVICE);
+		TEST("fp32 mul weight and add bias array", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1136,8 +1161,7 @@ void muladd_arr_fp32(void)
 		__kernel_mul_w_arr_fp32 DIM (i, 1);
 
 		seperator();
-		printf("=========== fp32 mul weight arr %ld on %s ==========\n",
-		       i, DEVICE);
+		TEST("fp32 mul weight array", i);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1157,11 +1181,10 @@ void overflow_muladd_fp16(void)
 		stset(data_fp16_bias, f16, a);
 		stset(rslt_fp32, f32, fa);
 
-		__kernel_overflow_muladd_fp16 DIM (10, 3);
+		__kernel_mul_weight_add_bias_fp16 DIM (10, 3);
 
 		seperator();
-		printf("=========== fp16 muladd %ld on %s ==========\n", i,
-		       DEVICE);
+		TEST("fp16 mul weight and add bias", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
 		reset();
@@ -1177,11 +1200,10 @@ void muladd_arr_fp16(void)
 		stset(data_fp16, f16, compat_float2half(1.f));
 		stset(rslt_fp32, f32, 1.f);
 
-		__kernel_muladd_arr_fp16 DIM (i, 1);
+		__kernel_mul_weight_add_bias_arr_fp16 DIM (i, 1);
 
 		seperator();
-		printf("=========== fp16 muladd arr %ld on %s ==========\n", i,
-		       DEVICE);
+		TEST("fp16 mul weight and add bias array", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
 		reset();
