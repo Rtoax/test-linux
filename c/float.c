@@ -495,13 +495,13 @@ void __myglobal__ __kernel_check_fp64(double f)
 	assert(*(uint64_t *)&f == *(uint64_t *)&to && "Failed to check fp64");
 }
 
-#define check_fp64(v)                            \
-	do {                                     \
-		printf("[%s] %s: ", DEVICE, #v); \
-		typeof(v) ___v = v;              \
-		__kernel_check_fp64 DIM (___v);  \
-		mysync();                        \
-		binprint(&___v, sizeof(v) * 8);  \
+#define check_fp64(v)                           \
+	do {                                    \
+		printf("%s: ", #v);             \
+		typeof(v) ___v = v;             \
+		__kernel_check_fp64 DIM (___v); \
+		mysync();                       \
+		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
 
 void __mydevice__ float_to_fp32(const float f, fp32_t *fp32)
@@ -553,13 +553,13 @@ void __myglobal__ __kernel_check_fp32(float f)
 	assert(*(uint32_t *)&f == *(uint32_t *)&to && "Failed to check fp32");
 }
 
-#define check_fp32(v)                            \
-	do {                                     \
-		printf("[%s] %s: ", DEVICE, #v); \
-		typeof(v) ___v = v;              \
-		__kernel_check_fp32 DIM (___v);  \
-		mysync();                        \
-		binprint(&___v, sizeof(v) * 8);  \
+#define check_fp32(v)                           \
+	do {                                    \
+		printf("%s: ", #v);             \
+		typeof(v) ___v = v;             \
+		__kernel_check_fp32 DIM (___v); \
+		mysync();                       \
+		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
 
 #ifdef SUPPORT_FP16
@@ -937,7 +937,8 @@ void overflow_muladd_fp64(void)
 		__kernel_overflow_muladd_fp64 DIM (i, 3);
 
 		seperator();
-		printf("=========== fp64 muladd %ld ==========\n", i);
+		printf("=========== fp64 muladd %ld on %s ==========\n", i,
+		       DEVICE);
 		check_fp64(st2host(data_fp64, f64));
 		reset();
 		mysync();
@@ -954,7 +955,8 @@ void overflow_muladd_fp64_arr(void)
 		__kernel_overflow_muladd_fp64_arr DIM (i, 1);
 
 		seperator();
-		printf("=========== fp64 muladd arr %ld ==========\n", i);
+		printf("=========== fp64 muladd arr %ld on %s ==========\n", i,
+		       DEVICE);
 		check_fp32(st2host(data_fp64, f64));
 		reset();
 		mysync();
@@ -981,7 +983,7 @@ void overflow_mul_fp32(void)
 		__kernel_overflow_mul_fp32 DIM ();
 
 		seperator();
-		printf("=========== fp32 mul %d ==========\n", i);
+		printf("=========== fp32 mul %d on %s ==========\n", i, DEVICE);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1002,7 +1004,7 @@ void overflow_add_fp32(void)
 		__kernel_overflow_add_fp32 DIM ();
 
 		seperator();
-		printf("=========== fp32 add %d ==========\n", i);
+		printf("=========== fp32 add %d on %s ==========\n", i, DEVICE);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1022,7 +1024,8 @@ void overflow_muladd_fp32(void)
 		__kernel_overflow_muladd_fp32 DIM (i, 3);
 
 		seperator();
-		printf("=========== fp32 muladd %ld ==========\n", i);
+		printf("=========== fp32 muladd %ld on %s ==========\n", i,
+		       DEVICE);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1041,7 +1044,8 @@ void overflow_muladd_fp32_arr(void)
 		__kernel_overflow_muladd_fp32_arr DIM (i, 1);
 
 		seperator();
-		printf("=========== fp32 muladd arr %ld ==========\n", i);
+		printf("=========== fp32 muladd arr %ld on %s ==========\n", i,
+		       DEVICE);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1063,7 +1067,8 @@ void overflow_muladd_fp16(void)
 		__kernel_overflow_muladd_fp16 DIM (10, 3);
 
 		seperator();
-		printf("=========== fp16 muladd %ld ==========\n", i);
+		printf("=========== fp16 muladd %ld on %s ==========\n", i,
+		       DEVICE);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
 		reset();
@@ -1082,7 +1087,8 @@ void overflow_muladd_fp16_arr(void)
 		__kernel_overflow_muladd_fp16_arr DIM (i, 1);
 
 		seperator();
-		printf("=========== fp16 muladd arr %ld ==========\n", i);
+		printf("=========== fp16 muladd arr %ld on %s ==========\n", i,
+		       DEVICE);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
 		reset();
