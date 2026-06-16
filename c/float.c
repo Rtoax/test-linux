@@ -882,7 +882,7 @@ void __myglobal__ __kernel_muladd_arr_fp64(size_t len, size_t interval)
 /**
  * rslt = rslt * weight + bias;
  */
-void __myglobal__ __kernel_overflow_muladd_fp32(size_t loop, size_t interval)
+void __myglobal__ __kernel_mul_w_add_bias_fp32(size_t loop, size_t interval)
 {
 	for (size_t i = 0; i < loop; i += interval) {
 		data_fp32.f32 *= data_fp32_weight.f32;
@@ -893,9 +893,20 @@ void __myglobal__ __kernel_overflow_muladd_fp32(size_t loop, size_t interval)
 }
 
 /**
+ * rslt = rslt * weight;
+ */
+void __myglobal__ __kernel_mul_w_fp32(size_t loop, size_t interval)
+{
+	for (size_t i = 0; i < loop; i += interval) {
+		data_fp32.f32 *= data_fp32_weight.f32;
+		rslt_fp64.f64 *= data_fp32_weight.f32;
+	}
+}
+
+/**
  * rslt += a1[i] * a2[i] + bias[i]
  */
-void __myglobal__ __kernel_muladd_arr_fp32(size_t len, size_t interval)
+void __myglobal__ __kernel_mul_w_add_b_arr_fp32(size_t len, size_t interval)
 {
 	for (size_t j = 0; j < len; j += interval) {
 		data_fp32.f32 +=
@@ -904,6 +915,19 @@ void __myglobal__ __kernel_muladd_arr_fp32(size_t len, size_t interval)
 		rslt_fp64.f64 +=
 			data_fp32_arr[j].f32 * data_fp32_weight_arr[j].f32 +
 			data_fp32_bias_arr[j].f32;
+	}
+}
+
+/**
+ * rslt += a1[i] * a2[i]
+ */
+void __myglobal__ __kernel_mul_w_arr_fp32(size_t len, size_t interval)
+{
+	for (size_t j = 0; j < len; j += interval) {
+		data_fp32.f32 +=
+			data_fp32_arr[j].f32 * data_fp32_weight_arr[j].f32;
+		rslt_fp64.f64 +=
+			data_fp32_arr[j].f32 * data_fp32_weight_arr[j].f32;
 	}
 }
 
@@ -1043,7 +1067,7 @@ void overflow_add_fp32(void)
 	}
 }
 
-void overflow_muladd_fp32(void)
+void muladd_fp32(void)
 {
 	for (size_t i = 100; i <= 1000; i += 100) {
 		float a = i * 1.123456789f;
@@ -1053,10 +1077,29 @@ void overflow_muladd_fp32(void)
 		stset(data_fp32_bias, f32, 1.000789f);
 		stset(rslt_fp64, f64, a);
 
-		__kernel_overflow_muladd_fp32 DIM (i, 3);
+		__kernel_mul_w_add_bias_fp32 DIM (i, 3);
 
 		seperator();
-		printf("=========== fp32 muladd %ld on %s ==========\n", i,
+		printf("=========== fp32 mul weight and add bias %ld on %s ==========\n",
+		       i, DEVICE);
+		check_fp32(st2host(data_fp32, f32));
+		check_fp64(st2host(rslt_fp64, f64));
+		reset();
+		mysync();
+	}
+
+	for (size_t i = 100; i <= 1000; i += 100) {
+		float a = i * 1.123456789f;
+
+		stset(data_fp32, f32, a);
+		stset(data_fp32_weight, f32, 1.000789f);
+		stset(data_fp32_bias, f32, 1.000789f);
+		stset(rslt_fp64, f64, a);
+
+		__kernel_mul_w_fp32 DIM (i, 3);
+
+		seperator();
+		printf("=========== fp32 mul weight %ld on %s ==========\n", i,
 		       DEVICE);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
@@ -1073,11 +1116,28 @@ void muladd_arr_fp32(void)
 		stset(data_fp32, f32, 1);
 		stset(rslt_fp64, f64, 1);
 
-		__kernel_muladd_arr_fp32 DIM (i, 1);
+		__kernel_mul_w_add_b_arr_fp32 DIM (i, 1);
 
 		seperator();
-		printf("=========== fp32 muladd arr %ld on %s ==========\n", i,
-		       DEVICE);
+		printf("=========== fp32 mul weight add bias arr %ld on %s ==========\n",
+		       i, DEVICE);
+		check_fp32(st2host(data_fp32, f32));
+		check_fp64(st2host(rslt_fp64, f64));
+		reset();
+		mysync();
+	}
+
+	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
+		init_data_arr_fp32 DIM (i);
+
+		stset(data_fp32, f32, 1);
+		stset(rslt_fp64, f64, 1);
+
+		__kernel_mul_w_arr_fp32 DIM (i, 1);
+
+		seperator();
+		printf("=========== fp32 mul weight arr %ld on %s ==========\n",
+		       i, DEVICE);
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
@@ -1214,7 +1274,7 @@ void fp64_precision_test(void)
 void fp32_precision_test(void)
 {
 	seperator();
-	overflow_muladd_fp32();
+	muladd_fp32();
 	seperator();
 	muladd_arr_fp32();
 	reset();
