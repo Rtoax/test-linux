@@ -1224,8 +1224,13 @@ void muladd_fp16(void)
 {
 	float fa = 1.2345f;
 	compat_fp16 a = compat_float2half(fa);
+	size_t start, end, interval;
 
-	for (size_t i = 100; i <= 1000; i += 100) {
+	start = 100;
+	end = 1000;
+	interval = 100;
+
+	for (size_t i = start; i <= end; i += interval) {
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
 		stset(data_fp16_bias, f16, a);
@@ -1241,7 +1246,7 @@ void muladd_fp16(void)
 		mysync();
 	}
 
-	for (size_t i = 100; i <= 1000; i += 100) {
+	for (size_t i = start; i <= end; i += interval) {
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
 		stset(data_fp16_bias, f16, a);
@@ -1257,7 +1262,7 @@ void muladd_fp16(void)
 		mysync();
 	}
 
-	for (size_t i = 100; i <= 1000; i += 100) {
+	for (size_t i = start; i <= end; i += interval) {
 		stset(data_fp16, f16, a);
 		stset(data_fp16_weight, f16, a);
 		stset(data_fp16_bias, f16, a);
