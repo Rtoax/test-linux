@@ -935,7 +935,8 @@ void __myglobal__ __kernel_mul_weight_fp32(size_t loop, size_t interval)
 /**
  * rslt += a1[i] * a2[i] + bias[i]
  */
-void __myglobal__ __kernel_mul_w_add_b_arr_fp32(size_t len, size_t interval)
+void __myglobal__ __kernel_mul_weight_add_bias_arr_fp32(size_t len,
+							size_t interval)
 {
 	for (size_t j = 0; j < len; j += interval) {
 		data_fp32.f32 +=
@@ -950,7 +951,7 @@ void __myglobal__ __kernel_mul_w_add_b_arr_fp32(size_t len, size_t interval)
 /**
  * rslt += a1[i] * a2[i]
  */
-void __myglobal__ __kernel_mul_w_arr_fp32(size_t len, size_t interval)
+void __myglobal__ __kernel_mul_weight_arr_fp32(size_t len, size_t interval)
 {
 	for (size_t j = 0; j < len; j += interval) {
 		data_fp32.f32 +=
@@ -1142,7 +1143,7 @@ void muladd_arr_fp32(void)
 		stset(data_fp32, f32, 1);
 		stset(rslt_fp64, f64, 1);
 
-		__kernel_mul_w_add_b_arr_fp32 DIM (i, 1);
+		__kernel_mul_weight_add_bias_arr_fp32 DIM (i, 1);
 
 		seperator();
 		TEST("fp32 mul weight and add bias array", i);
@@ -1158,7 +1159,7 @@ void muladd_arr_fp32(void)
 		stset(data_fp32, f32, 1);
 		stset(rslt_fp64, f64, 1);
 
-		__kernel_mul_w_arr_fp32 DIM (i, 1);
+		__kernel_mul_weight_arr_fp32 DIM (i, 1);
 
 		seperator();
 		TEST("fp32 mul weight array", i);
