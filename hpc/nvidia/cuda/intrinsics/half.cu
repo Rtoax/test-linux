@@ -371,6 +371,12 @@ __global__ void k_half_precision_conversion(void)
 	PCHAR((sc = __half2char_rz(3.1415926f)));
 	PCHAR((uc = __half2uchar_rz(3.1415926f)));
 #endif
+}
+
+__global__ void k_half_precision_conversion_ldst(void)
+{
+	half h;
+	half2 h2;
 
 	/**
 	 * FIXME: see above: "CUDA_EXCEPTION_7, Warp Invalid Address Space."
@@ -627,6 +633,7 @@ int main(int argc, char *argv[])
 	k_half_comparision<<<1, 1>>>();
 	k_half_math<<<1, 1>>>();
 	k_half_precision_conversion<<<1, 1>>>();
+	k_half_precision_conversion_ldst<<<1, 1>>>();
 	k_half_precision_conversion_sync<<<1, 1>>>();
 
 	k_half2_arithmetic<<<1, 1>>>();
