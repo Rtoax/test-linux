@@ -354,7 +354,7 @@ __global__ void k_half_precision_conversion(void)
 	PHALF2(__float2half2_rn(3.1415926f)); /* round-to-nearest-even */
 
 	PHALF2((h2 = __floats2half2_rn(3.1415926f, 3.1415926f))); /* round-to-nearest-even */
-	PFLOAT((f = __high2float(h2)))
+	PFLOAT((f = __high2float(h2)));
 	PHALF((h = __high2half(h2)));
 	PHALF2((h2 = __high2half2(h2)));
 	PHALF2((h2 = __highs2half2(h2, h2)));

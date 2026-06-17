@@ -262,14 +262,14 @@ __global__ void k_bfloat16_precision_conversion(void)
 	PFLOAT(__bfloat162float(pi));
 
 #if !defined(__HIPCC__)
-	PUINT32(__bfloat162int_rd(pi))
-	PUINT32(__bfloat162int_rn(pi))
-	PUINT32(__bfloat162int_ru(pi))
-	PUINT32(__bfloat162int_rz(pi))
-	PUINT32(__bfloat162uint_rd(pi))
-	PUINT32(__bfloat162uint_rn(pi))
-	PUINT32(__bfloat162uint_ru(pi))
-	PUINT32(__bfloat162uint_rz(pi))
+	PUINT32(__bfloat162int_rd(pi));
+	PUINT32(__bfloat162int_rn(pi));
+	PUINT32(__bfloat162int_ru(pi));
+	PUINT32(__bfloat162int_rz(pi));
+	PUINT32(__bfloat162uint_rd(pi));
+	PUINT32(__bfloat162uint_rn(pi));
+	PUINT32(__bfloat162uint_ru(pi));
+	PUINT32(__bfloat162uint_rz(pi));
 #endif
 
 #if !defined(__HIPCC__)
