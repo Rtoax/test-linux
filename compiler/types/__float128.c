@@ -25,7 +25,12 @@ void test__float128(void)
 	fp128_printf(pi, "%.35Qg");
 	fp128_printf(e, "%.35Qf");
 	fp128_printf(pi + e, "%.35Qf");
+
 	fp128_printf(fmaq(pi, pi, pi), "%.35Qf");
+
+	fp128_printf(sinq(pi), "%.35Qf");
+	fp128_printf(cosq(pi), "%.35Qf");
+	fp128_printf(tanq(pi), "%.35Qf");
 #endif
 }
 
@@ -41,7 +46,12 @@ void test_Float128(void)
 	fp128_printf(pi, "%.35Qf");
 	fp128_printf(e, "%.35Qf");
 	fp128_printf(pi + e, "%.35Qf");
+
 	fp128_printf(fmaq(pi, pi, pi), "%.35Qf");
+
+	fp128_printf(sinq(pi), "%.35Qf");
+	fp128_printf(cosq(pi), "%.35Qf");
+	fp128_printf(tanq(pi), "%.35Qf");
 #endif
 }
 
