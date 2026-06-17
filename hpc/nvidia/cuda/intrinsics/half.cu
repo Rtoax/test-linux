@@ -375,40 +375,42 @@ __global__ void k_half_precision_conversion(void)
 
 __global__ void k_half_precision_conversion_ldst(void)
 {
-	half h = __float2half(3.1415926f);
-	half2 h2 = __half2half2(h);
+	half htmp, h = __float2half(3.1415926f);
+	half2 h2tmp, h2 = __half2half2(h);
 
 	/**
 	 * FIXME: see above: "CUDA_EXCEPTION_7, Warp Invalid Address Space."
 	 */
-	PHALF((h = __ldca(&h))); /* Generates a ld.global.ca load instruction */
-	PHALF2((h2 = __ldca(&h2)));
-	PHALF((h = __ldcg(&h))); /* Generates a ld.global.cg load instruction. */
-	PHALF2((h2 = __ldcg(&h2)));
-	PHALF((h = __ldcs(&h))); /* ld.global.cv */
-	PHALF2((h2 = __ldcs(&h2)));
+	/* Generates a ld.global.ca load instruction */
+	PHALF((htmp = __ldca(&h)));
+	PHALF2((h2tmp = __ldca(&h2)));
+	/* Generates a ld.global.cg load instruction. */
+	PHALF((htmp = __ldcg(&h)));
+	PHALF2((h2tmp = __ldcg(&h2)));
+	PHALF((htmp = __ldcs(&h))); /* ld.global.cv */
+	PHALF2((h2tmp = __ldcs(&h2)));
 #if !defined(__HIPCC__)
-	PHALF((h = __ldcv(&h))); /* ld.global.cv */
-	PHALF2((h2 = __ldcv(&h2)));
-	PHALF((h = __ldlu(&h))); /* ld.global.lu */
-	PHALF2((h2 = __ldlu(&h2)));
+	PHALF((htmp = __ldcv(&h))); /* ld.global.cv */
+	PHALF2((h2tmp = __ldcv(&h2)));
+	PHALF((htmp = __ldlu(&h))); /* ld.global.lu */
+	PHALF2((h2tmp = __ldlu(&h2)));
 #endif
-	PHALF((h = __ldg(&h))); /* ld.global.nc */
-	PHALF2((h2 = __ldg(&h2)));
+	PHALF((htmp = __ldg(&h))); /* ld.global.nc */
+	PHALF2((h2tmp = __ldg(&h2)));
 
 #if !defined(__HIPCC__)
 	/* st.global.cg */
-	__stcg(&h, h);
-	__stcg(&h2, h2);
+	__stcg(&htmp, h);
+	__stcg(&h2tmp, h2);
 	/* st.global.cs */
-	__stcs(&h, h);
-	__stcs(&h2, h2);
+	__stcs(&htmp, h);
+	__stcs(&h2tmp, h2);
 	/* st.global.wb */
-	__stwb(&h, h);
-	__stwb(&h2, h2);
+	__stwb(&htmp, h);
+	__stwb(&h2tmp, h2);
 	/* st.global.wt */
-	__stwt(&h, h);
-	__stwt(&h2, h2);
+	__stwt(&htmp, h);
+	__stwt(&h2tmp, h2);
 #endif
 }
 
