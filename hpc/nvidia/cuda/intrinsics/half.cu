@@ -375,8 +375,8 @@ __global__ void k_half_precision_conversion(void)
 
 __global__ void k_half_precision_conversion_ldst(void)
 {
-	half h;
-	half2 h2;
+	half h = __float2half(3.1415926f);
+	half2 h2 = __half2half2(h);
 
 	/**
 	 * FIXME: see above: "CUDA_EXCEPTION_7, Warp Invalid Address Space."
