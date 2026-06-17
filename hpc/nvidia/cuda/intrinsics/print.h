@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2025-2026 Rong Tao */
 /* This header must used to CUDA liked compiler. */
+/* define NOPRINT to disable print */
 #pragma once
 #include <stdio.h>
 #include <stdint.h>
@@ -218,6 +219,78 @@
 		}                                                          \
 		printf("\n");                                              \
 	} while (0)
+
+#ifdef NOPRINT
+#undef PEXPRexpr
+#undef PFP4E2M1
+#undef PFP4x2E2M1
+#undef PFP8E8M0
+#undef PFP8x2E8M0
+#undef PFP8E4M3
+#undef PFP8x2E4M3
+#undef PHALF
+#undef PHALFRAW
+#undef PHALF2
+#undef PHALF2RAW
+#undef PFLOAT
+#undef PFLOAT2
+#undef PBF16
+#undef PBF16RAW
+#undef PBF162
+#undef PBF162RAW
+#undef PDOUBLE
+#undef PDOUBLE2
+#undef PUINT32
+#undef PUINT32toINT16x2
+#undef PUINT32toINT8x4
+#undef PUINT32toUINT8x4
+#undef PUINT32toSHORT2
+#undef PINT32
+#undef PSHORT
+#undef PSHORT2
+#undef PLONG
+#undef PLONGLONG
+#undef PBOOL
+#undef PCHAR
+#undef PCOMPLEX
+#undef PCOMPLEXD
+#undef PBITS
+
+#define PEXPR(expr) (void)expr
+#define PFP4E2M1(v) (void)v
+#define PFP4x2E2M1(v) (void)v
+#define PFP8E8M0(v) (void)v
+#define PFP8x2E8M0(v) (void)v
+#define PFP8E4M3(v) (void)v
+#define PFP8x2E4M3(v) (void)v
+#define PHALF(v) (void)v
+#define PHALFRAW(v) (void)v
+#define PHALF2(v) (void)v
+#define PHALF2RAW(v) (void)v
+#define PFLOAT(v) (void)v
+#define PFLOAT2(v) (void)v
+#define PBF16(v) (void)v
+#define PBF16RAW(v) (void)v
+#define PBF162(v) (void)v
+#define PBF162RAW(v) (void)v
+#define PDOUBLE(v) (void)v
+#define PDOUBLE2(v) (void)v
+#define PUINT32(v) (void)v
+#define PUINT32toINT16x2(v) (void)v
+#define PUINT32toINT8x4(v) (void)v
+#define PUINT32toUINT8x4(v) (void)v
+#define PUINT32toSHORT2(v) (void)v
+#define PINT32(v) (void)v
+#define PSHORT(v) (void)v
+#define PSHORT2(v) (void)v
+#define PLONG(v) (void)v
+#define PLONGLONG(v) (void)v
+#define PBOOL(v) (void)v
+#define PCHAR(v) (void)v
+#define PCOMPLEX(v) (void)v
+#define PCOMPLEXD(v) (void)v
+#define PBITS(mem, nbits)
+#endif
 
 static void fpbits(FILE *fp, const void *mem, size_t bits)
 {
