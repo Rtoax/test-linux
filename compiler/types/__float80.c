@@ -47,13 +47,13 @@ void precision_error(void)
 
 	printf("FP128 Reference Add: ");
 	fp128_printf(res_add_fp128, "%.35Qf");
-	printf("CPU FP16 Test Add:  %.17Lf\n", res_add_fp80);
+	printf("CPU FP80 Test Add:  %.17Lf\n", res_add_fp80);
 	printf("Absolute Error Add: ");
 	fp128_printf(err_add, "%.35Qf");
 
 	printf("FP128 Reference Mul: ");
 	fp128_printf(res_mul_fp128, "%.35Qf");
-	printf("CPU FP16 Test Mul:  %.17Lf\n", res_mul_fp80);
+	printf("CPU FP80 Test Mul:  %.17Lf\n", res_mul_fp80);
 	printf("Absolute Error Mul: ");
 	fp128_printf(err_mul, "%.35Qf");
 #endif
