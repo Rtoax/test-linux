@@ -22,6 +22,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
+- ncurses: add tinfo subdir;
 - plotcake: support scaling;
 - add expect, evtest;
 - util-linux: add fsck subdir;
