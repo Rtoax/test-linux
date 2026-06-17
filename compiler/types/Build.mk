@@ -4,6 +4,8 @@ include compiler.mk
 target-y += double
 target-y += float
 target-${CC__Float16} += _Float16
+target-${CC__Float32} += _Float32
+target-${CC__Float64} += _Float64
 target-${CC__Float128} += _Float128
 target-${CC___float80} += __float80
 target-${CC___float128} += __float128

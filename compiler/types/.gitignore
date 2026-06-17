@@ -1,6 +1,8 @@
 /double
 /float
 /_Float16
+/_Float32
+/_Float64
 /_Float128
 /__float80
 /__float128

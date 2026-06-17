@@ -37,6 +37,8 @@ cflags-support-headers-y :=
 ldflags-support-headers-y :=
 
 cflags-support-types-${CC__Float16} += -DSUPPORT__Float16=1
+cflags-support-types-${CC__Float32} += -DSUPPORT__Float32=1
+cflags-support-types-${CC__Float64} += -DSUPPORT__Float64=1
 cflags-support-types-${CC___fp16} += -DSUPPORT___fp16=1
 cflags-support-types-${CC___bf16} += -DSUPPORT___bf16=1
 cflags-support-types-${CC___float128} += -DSUPPORT___float128=1
