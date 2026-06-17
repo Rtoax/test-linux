@@ -275,6 +275,7 @@ struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 {
 	struct line *new = __create_line(name, color);
 	new->ops = ops;
+	new->id = lg->count;
 	lgroup_add(lg, new);
 	return new;
 }

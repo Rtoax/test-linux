@@ -13,7 +13,7 @@
 
 static int save_txt(const struct plot *p)
 {
-	int lg_idx, ln_idx;
+	int lg_idx;
 	char *path = FILE_DATA;
 	FILE *fp = fopen(path, "w");
 	if (!fp) {
@@ -25,7 +25,7 @@ static int save_txt(const struct plot *p)
 	fprintf(fp, "plot %d \"%s\" \"%s\" \"%s\"\n", p->lgcount, p->title,
 		p->label_x, p->label_y);
 
-	lg_idx = ln_idx = 0;
+	lg_idx = 0;
 	for_each_lg(p, lg)
 	{
 		fprintf(fp, "#      idx nline\n");
@@ -34,17 +34,15 @@ static int save_txt(const struct plot *p)
 		for_each_line(lg, ln)
 		{
 			fprintf(fp, "#    lgidx lnidx nvals\n");
-			fprintf(fp, "line %d %d %ld\n", lg_idx, ln_idx,
+			fprintf(fp, "line %d %d %ld\n", lg_idx, ln->id,
 				ln->count);
 
 			fprintf(fp, "#     lnidx value sec usec\n");
 			for_each_value(ln, v)
 			{
-				fprintf(fp, "value %d %lf %ld %ld\n", ln_idx,
+				fprintf(fp, "value %d %lf %ld %ld\n", ln->id,
 					v->v, v->tv.tv_sec, v->tv.tv_usec);
 			}
-
-			ln_idx++;
 		}
 
 		lg_idx++;

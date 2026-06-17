@@ -33,6 +33,7 @@ enum ltype_enum {
 
 struct line {
 	const char *name;
+	int id;
 	int color; /* C_RED, ... */
 	struct value *head, *tail, *max, *min;
 	long count; /* number of value */
