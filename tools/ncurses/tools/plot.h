@@ -93,6 +93,7 @@ struct plot {
 	} while (0)
 
 void plot_init(struct plot *p);
+unsigned long plot_mem_size(const struct plot *p);
 
 #define plot_warning(p, fmt...) __plot_warning(p, fmt)
 void __plot_warning(const struct plot *p, char *fmt, ...);

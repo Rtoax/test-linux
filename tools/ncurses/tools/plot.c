@@ -350,14 +350,15 @@ static void paint_plot(struct plot *p, bool debug)
 	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
 
 	if (debug) {
-		mvprintw(p->height - 2, 0,
-			 "plot: size(%d,%d) max(%d,%d) plot(%d,%d) scale(%d) "
-			 "keyboard(cnt=%ld,key=%d=0x%x='%s')",
-			 p->height, p->width, p->heightmax, p->widthmax,
-			 p->plotheight, p->plotwidth, p->plotscaling,
-			 p->keyboard.cnt.total, p->keyboard.current_key,
-			 p->keyboard.current_key,
-			 keyname(p->keyboard.current_key));
+		mvprintw(
+			p->height - 2, 0,
+			"plot: mem(%.3f MiB) win(%d,%d) max(%d,%d) plot(%d,%d) "
+			"scale(%d) key(cnt=%ld,cur=%d=0x%x='%s')",
+			plot_mem_size(p) * 1. / 1024 / 1024, p->height,
+			p->width, p->heightmax, p->widthmax, p->plotheight,
+			p->plotwidth, p->plotscaling, p->keyboard.cnt.total,
+			p->keyboard.current_key, p->keyboard.current_key,
+			keyname(p->keyboard.current_key));
 		mvprintw(p->height - 1, 0,
 			 "      redraw=%ld, key(left=%ld,right=%ld,up=%ld,"
 			 "down=%ld,l=%ld,r=%ld,h=%ld,v=%ld,t=%ld,enter=%ld)",
@@ -485,4 +486,20 @@ void plot_init(struct plot *p)
 	register_key_handler('r', p, key_r);
 	register_key_handler('h', p, key_h);
 	register_key_handler('l', p, key_l);
+}
+
+/* Get memory bytes that plot already spent */
+unsigned long plot_mem_size(const struct plot *p)
+{
+	unsigned long bytes = sizeof(struct plot);
+	for_each_lg(p, lg)
+	{
+		bytes += sizeof(struct lgroup);
+		for_each_line(lg, ln)
+		{
+			bytes += sizeof(struct line);
+			bytes += ln->count * sizeof(struct value);
+		}
+	}
+	return bytes;
 }
