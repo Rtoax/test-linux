@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/sysinfo.h>
 #include "plot.h"
 #include "stdin.h"
@@ -97,10 +98,23 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	struct stdin_arg *a = arg;
 	struct plot *p = lg->plot;
 	int i;
+	char *buf = strdup(a->line_buff);
+	char *s = buf;
+
+	/**
+	 * Each stdin string ends with a newline character, but this affects
+	 * the output of other content when printing debug information.
+	 * Therefore, the newline character is replaced with a space.
+	 */
+	while (s && *s) {
+		if (*s == '\n')
+			*s = ' ';
+		s++;
+	}
 
 	mvprintw(0, p->bnd.left + 1, "lgroup cnt %d, arg nline %d", lg->count,
 		 a->nline);
-	mvprintw(1, p->bnd.left + 1, "stdin: '%s'", a->line_buff);
+	mvprintw(1, p->bnd.left + 1, "stdin: '%s'", buf);
 
 	i = 0;
 	for_each_line(lg, line)
@@ -115,6 +129,7 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 				 line->max->v);
 		i++;
 	}
+	free(buf);
 }
 
 static struct lgroup_operations stdin_ops = {
