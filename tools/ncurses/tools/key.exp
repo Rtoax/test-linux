@@ -4,7 +4,7 @@ set timeout 3
 set title "TITLE_XXX"
 set line1 "LINE_LABEL_1"
 
-spawn bash -c "while sleep 1; do echo 1; done |
+spawn bash -c "while sleep 0.1; do echo 1; done |
 	./plotcake --title ${title} -l ${line1} --verbose"
 sleep 0.1
 
@@ -31,6 +31,13 @@ send "r"
 expect {
 	"cur=114=" { send_user "Success reset" }
 	timeout { send_user "FATAL: key 'r' failed\n"; exit 1 }
+}
+sleep .5
+
+send "t"
+expect {
+	"logarithmic" { send_user "Success change curses type" }
+	timeout { send_user "FATAL: key 't' failed\n"; exit 1 }
 }
 sleep .5
 
