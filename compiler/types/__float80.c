@@ -9,18 +9,18 @@
 #include <stdint.h>
 #include "__float128.h"
 
-#define PI \
+#define PI100 \
 	3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
-#define __COMBINE(x, y) x##y
-#define PIQ __COMBINE(PI, Q)
+#define PI100Q \
+	3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679Q
 
 void base(void)
 {
 	assert(sizeof(__float80) == 16 &&
 	       "size of __float80 is not equal to 16");
 
-	__float80 f80 = PI;
-	_Float64x f64x = PI;
+	__float80 f80 = PI100;
+	_Float64x f64x = PI100;
 
 	printf("size of __float80 %ld\n", sizeof(f80));
 	printf("size of _Float64x %ld\n", sizeof(f64x));
@@ -33,8 +33,8 @@ void base(void)
 void precision_error(void)
 {
 #ifdef SUPPORT___float128
-	__float128 fp128 = PIQ;
-	__float80 fp80 = (__float80)PI;
+	__float128 fp128 = PI100Q;
+	__float80 fp80 = (__float80)PI100;
 
 	__float128 res_mul_fp128 = fp128 * fp128;
 	__float80 res_mul_fp80 = fp80 * fp80;
