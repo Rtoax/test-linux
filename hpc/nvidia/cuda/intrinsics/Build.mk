@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include os.mk
 include nvidia/cuda.mk
+include nvidia/device.mk
 include amd/rocm.mk
 include cestc/luca.mk
 include metax/hpcc.mk
@@ -39,6 +40,7 @@ common-cflags := ${cflags-support-types-y} -I..
 # fedora43 yet. If cuda support fedora43, then could remove OS_CFLAGS.
 # see commit c10a95f14208 ("cuda13.0: skip compile error on fedora 43")
 common-cflags += ${OS_CFLAGS}
+common-cflags += ${cflags-nvidia-device-y}
 
 CFLAGS_HIPCC := ${common-cflags}
 CFLAGS_HTCC := ${common-cflags}

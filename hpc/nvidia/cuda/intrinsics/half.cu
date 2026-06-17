@@ -359,12 +359,6 @@ __global__ void k_half_precision_conversion(void)
 	PHALF2((h2 = __high2half2(h2)));
 	PHALF2((h2 = __highs2half2(h2, h2)));
 	PFLOAT2((f2 = __half22float2(h2)));
-	/**
-	 * FIXME: CUDA_EXCEPTION_7, Warp Invalid Address Space.
-	 * kernel: NVRM: Xid (PCI:000f:01:00): 13, Graphics SM Warp Exception on (GPC 0, TPC 0, SM 0): Invalid Address Space
-	 * kernel: NVRM: Xid (PCI:000f:01:00): 13, Graphics Exception: ESR 0x505730=0x20010 0x505734=0x20 0x505728=0x1c81fb60 0x50572c=0x1174
-	 * kernel: NVRM: Xid (PCI:000f:01:00): 43, pid=1634143, name=half, channel 0x00000005
-	 */
 	PHALF2(__float22half2_rn(f2));
 
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
@@ -375,12 +369,31 @@ __global__ void k_half_precision_conversion(void)
 
 __global__ void k_half_precision_conversion_ldst(void)
 {
+/**
+ * FIXME: on Nvidia Spark DGX GB10: CUDA_EXCEPTION_7, Warp Invalid Address Space.
+ *
+ * It may not be related to Nvidia devices, but I'll skip that for now; I don't
+ * have time to deal with this issue right now.
+ *
+ * $ journalctl -k -f
+ * kernel: NVRM: Xid (PCI:000f:01:00): 13, Graphics SM Warp Exception on (GPC 0, TPC 0, SM 0): Invalid Address Space
+ * kernel: NVRM: Xid (PCI:000f:01:00): 13, Graphics Exception: ESR 0x505730=0x20010 0x505734=0x20 0x505728=0x1c81fb60 0x50572c=0x1174
+ * kernel: NVRM: Xid (PCI:000f:01:00): 43, pid=1634143, name=half, channel 0x00000005
+ *
+ * $ compute-sanitizer --tool=memcheck ./half
+ * ....
+ * ========= Invalid __global__ write of size 2 bytes
+ * =========     at k_half_precision_conversion_ldst()+0xa0
+ * =========     by thread (0,0,0) in block (0,0,0)
+ * =========     Access to 0xf001a9fffa68 is not writable
+ * =========     and is 1,058,997,850 bytes after the nearest allocation at 0xf0016ae0f400 of size 15 bytes
+ * =========     Saved host backtrace up to driver entry point at kernel launch time
+ * =========         Host Frame: main [0x140f] in half
+ */
+#if !defined(HAVE_NVIDIA_GPU_GB20B_GB10)
 	half htmp, h = __float2half(3.1415926f);
 	half2 h2tmp, h2 = __half2half2(h);
 
-	/**
-	 * FIXME: see above: "CUDA_EXCEPTION_7, Warp Invalid Address Space."
-	 */
 	/* Generates a ld.global.ca load instruction */
 	PHALF((htmp = __ldca(&h)));
 	PHALF2((h2tmp = __ldca(&h2)));
@@ -411,6 +424,7 @@ __global__ void k_half_precision_conversion_ldst(void)
 	/* st.global.wt */
 	__stwt(&htmp, h);
 	__stwt(&h2tmp, h2);
+#endif
 #endif
 }
 
