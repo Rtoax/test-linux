@@ -12,6 +12,8 @@ void base(void)
 /**
  * Assuming FP64 is an accurate value, calculate the floating-point precision
  * error of FP16.
+ *
+ * see also test-linux/hpc/nvidia/cuda/intrinsics/half.cu
  */
 void precision_error(void)
 {

@@ -70,9 +70,10 @@
 #include "print.h"
 #include "types.h"
 
-
 __global__ void k_types(void)
 {
+	half h_pi = __float2half(PI_FLOAT);
+
 	__half_raw hraw_one = { .x = USHORT_ONE_FP16, };
 	__half_raw hraw_inf = { .x = USHORT_INF_FP16, };
 
@@ -89,6 +90,7 @@ __global__ void k_types(void)
 	h2raw_2.x = __float2half(1.f);
 	h2raw_2.y = __float2half(1.f);
 
+	PHALF(h_pi);
 	PHALFRAW(hraw_one);
 	PHALFRAW(hraw_inf);
 	PBITS(&hraw_inf, 16);
@@ -111,6 +113,34 @@ __global__ void k_half_constants(void)
 	PHALF(CUDART_NEG_ZERO_FP16);
 	PHALF(CUDART_ZERO_FP16);
 	PHALF(CUDART_ONE_FP16);
+}
+
+/* see also test-linux/compiler/types/_Float16.c */
+__global__ void k_half_precision_error(void)
+{
+	double fp64 = PI;
+	half fp16 = __float2half(PI);
+
+	double res_mul_fp64 = fp64 * fp64;
+	half res_mul_fp16 = __hmul(fp16, fp16);
+
+	double res_add_fp64 = fp64 + fp64;
+	half res_add_fp16 = __hadd(fp16, fp16);
+
+	double err_add =
+		fabs(res_add_fp64 - (double)__half2float(res_add_fp16));
+	double err_mul =
+		fabs(res_mul_fp64 - (double)__half2float(res_mul_fp16));
+
+	printf("FP64 Reference Add: %.17f\n", res_add_fp64);
+	printf("CPU FP16 Test Add:  %.17f\n",
+	       (double)__half2float(res_add_fp16));
+	printf("Absolute Error Add: %e\n\n", err_add);
+
+	printf("FP64 Reference Mul: %.17f\n", res_mul_fp64);
+	printf("CPU FP16 Test Mul:  %.17f\n",
+	       (double)__half2float(res_mul_fp16));
+	printf("Absolute Error Mul: %e\n\n", err_mul);
 }
 
 __global__ void k_half_arithmetic(void)
@@ -585,6 +615,8 @@ int main(int argc, char *argv[])
 	k_types<<<1, 1>>>();
 
 	k_half_constants<<<1, 1>>>();
+	k_half_precision_error<<<1, 1>>>();
+
 	k_half_arithmetic<<<1, 1>>>();
 #if !defined(__HIPCC__)
 	(void)cudaLaunchKernel((void *)k_half_arithmetic_atomicAdd, grid, block,
