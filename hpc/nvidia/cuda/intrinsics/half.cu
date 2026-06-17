@@ -360,7 +360,7 @@ __global__ void k_half_precision_conversion(void)
 	PHALF2((h2 = __highs2half2(h2, h2)));
 	PFLOAT2((f2 = __half22float2(h2)));
 	/**
-	 * FIXME:
+	 * FIXME: CUDA_EXCEPTION_7, Warp Invalid Address Space.
 	 * kernel: NVRM: Xid (PCI:000f:01:00): 13, Graphics SM Warp Exception on (GPC 0, TPC 0, SM 0): Invalid Address Space
 	 * kernel: NVRM: Xid (PCI:000f:01:00): 13, Graphics Exception: ESR 0x505730=0x20010 0x505734=0x20 0x505728=0x1c81fb60 0x50572c=0x1174
 	 * kernel: NVRM: Xid (PCI:000f:01:00): 43, pid=1634143, name=half, channel 0x00000005
@@ -372,6 +372,9 @@ __global__ void k_half_precision_conversion(void)
 	PCHAR((uc = __half2uchar_rz(3.1415926f)));
 #endif
 
+	/**
+	 * FIXME: see above: "CUDA_EXCEPTION_7, Warp Invalid Address Space."
+	 */
 	PHALF((h = __ldca(&h))); /* Generates a ld.global.ca load instruction */
 	PHALF2((h2 = __ldca(&h2)));
 	PHALF((h = __ldcg(&h))); /* Generates a ld.global.cg load instruction. */
