@@ -23,21 +23,27 @@ trap sigint INT
 
 line_types=( $(./plotcake -L nonsense 2>/dev/null || true) )
 
-# display all line type
 run() {
+	./plotcake ${args[@]} "${@}"
+}
+
+stdin() {
 	while seq --separator=' ' 1 1 ${#line_types[@]}; do
 		sleep ${Interval}
 	done | ./plotcake ${args[@]} "${@}"
 }
 
 run --version
-run
-run --verbose
-run --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
-run $(for t in ${line_types[@]}; do echo "-L ${t}"; done)
-run --logarithmic
-run --logarithmic10
-run --exponential
+run --ram
+
+stdin --version
+stdin
+stdin --verbose
+stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
+stdin $(for t in ${line_types[@]}; do echo "-L ${t}"; done)
+stdin --logarithmic
+stdin --logarithmic10
+stdin --exponential
 
 while true; do
 	for i in 2 4 1 4 6 1 9 1 2 3 4 5; do
