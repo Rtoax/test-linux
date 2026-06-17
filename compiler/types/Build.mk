@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 
+target-y += double
 target-y += float
 target-${CC__Float16} += _Float16
 target-${CC__Float128} += _Float128
