@@ -83,6 +83,21 @@ void plot_update_size(struct plot *p, bool init)
 	p->bnd_prev_max.bottom = BND_BOTTOM;
 	p->bnd_prev_max.left = BND_LEFT;
 	p->bnd_prev_max.right = BND_RIGHT;
+
+	/**
+	 * When refreshing or modifying the drawing type, the boundary size may
+	 * change. We need to reset the maximum value to avoid excessive blank
+	 * space at the boundary.
+	 */
+	switch (p->keyboard.current_key) {
+	case 'r':
+	case 't':
+		p->bnd.top = BND_TOP;
+		p->bnd.bottom = BND_BOTTOM;
+		p->bnd.left = BND_LEFT;
+		p->bnd.right = BND_RIGHT;
+		break;
+	}
 }
 
 void __plot_warning(const struct plot *p, char *fmt, ...)
