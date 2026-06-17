@@ -29,7 +29,7 @@ sleep .5
 
 send "r"
 expect {
-	"key=114=" { send_user "Success reset" }
+	"cur=114=" { send_user "Success reset" }
 	timeout { send_user "FATAL: key 'r' failed\n"; exit 1 }
 }
 sleep .5
