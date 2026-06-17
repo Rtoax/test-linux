@@ -16,15 +16,13 @@ static void loadavg_create(struct lgroup *lg, void *arg)
 static void loadavg_update(struct lgroup *lg, void *arg)
 {
 	double avg[3];
+	int i = 0;
 
 	getloadavg(avg, 3);
 
-	int i = 0;
-	long limit = lg->plot->widthmax * lg->plot->plotscaling - 2;
-
 	for_each_line(lg, line)
 	{
-		line_add_value(line, avg[i], limit);
+		line_add_value(line, avg[i], -1);
 		i++;
 	}
 }
