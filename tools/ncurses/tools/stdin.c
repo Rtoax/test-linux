@@ -74,8 +74,7 @@ static void stdin_update(struct lgroup *lg, void *arg)
 	i = 0;
 	for_each_line(lg, line)
 	{
-		unsigned long limit =
-			lg->plot->widthmax * lg->plot->plotscaling - 2;
+		long limit = lg->plot->widthmax * lg->plot->plotscaling - 2;
 
 		/**
 		 * The number of data items read from stdin may change. If it
@@ -120,11 +119,11 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	for_each_line(lg, line)
 	{
 		if (line->count <= 0)
-			mvprintw(i + 2, p->bnd.left + 1, "%s: %d", line->name,
+			mvprintw(i + 2, p->bnd.left + 1, "%s: %ld", line->name,
 				 line->count);
 		else
 			mvprintw(i + 2, p->bnd.left + 1,
-				 "%s: %d - %f - %lf~%lf", line->name,
+				 "%s: %ld - %f - %lf~%lf", line->name,
 				 line->count, line->tail->v, line->min->v,
 				 line->max->v);
 		i++;

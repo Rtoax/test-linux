@@ -26,10 +26,11 @@ static void ram_update(struct lgroup *lg, void *arg)
 	mem[2] = si.sharedram;
 	mem[3] = si.bufferram;
 
+	long limit = lg->plot->widthmax * lg->plot->plotscaling - 2;
+
 	for_each_line(lg, line)
 	{
-		line_add_value(line, mem[i] * 1.0 / 1024 / 1024 / 1024,
-			       lg->plot->widthmax * lg->plot->plotscaling - 2);
+		line_add_value(line, mem[i] * 1.0 / 1024 / 1024 / 1024, limit);
 		i++;
 	}
 }

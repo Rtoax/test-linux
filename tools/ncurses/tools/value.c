@@ -225,9 +225,9 @@ double line_range_min(struct line *l, int start, int len)
 }
 
 /**
- * @limit: max length of line (number of values)
+ * @limit: max length of line (number of values), if < 0, means no limit.
  */
-void line_add_value(struct line *l, double v, unsigned long limit)
+void line_add_value(struct line *l, double v, long limit)
 {
 	enqueue_value_to_tail(l, v);
 
@@ -236,7 +236,9 @@ void line_add_value(struct line *l, double v, unsigned long limit)
 	 * removed unnecessary history records and keep the old values as
 	 * much as possible.
 	 */
-	for (int i = limit; i < l->count; i++)
+	if (limit < 0)
+		return;
+	for (long i = limit; i < l->count; i++)
 		dequeue_value_from_head(l);
 }
 

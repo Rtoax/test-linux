@@ -237,7 +237,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 				p->bnd_prev_max.right = nc;
 
 			if (debug) {
-				mvprintw(h + 1, w + 1, "%d", ln->count);
+				mvprintw(h + 1, w + 1, "%ld", ln->count);
 				mvprintw(h + 2, w + 1, "%.1f", ln->min->v);
 				mvprintw(h + 3, w + 1, "%.1f", ln->max->v);
 			}

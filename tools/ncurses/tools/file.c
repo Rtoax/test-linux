@@ -34,7 +34,7 @@ static int save_txt(const struct plot *p)
 		for_each_line(lg, ln)
 		{
 			fprintf(fp, "#    lgidx lnidx nvals\n");
-			fprintf(fp, "line %d %d %d\n", lg_idx, ln_idx,
+			fprintf(fp, "line %d %d %ld\n", lg_idx, ln_idx,
 				ln->count);
 
 			fprintf(fp, "#     lnidx value sec usec\n");

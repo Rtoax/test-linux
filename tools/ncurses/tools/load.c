@@ -20,10 +20,10 @@ static void loadavg_update(struct lgroup *lg, void *arg)
 	getloadavg(avg, 3);
 
 	int i = 0;
+	long limit = lg->plot->widthmax * lg->plot->plotscaling - 2;
+
 	for_each_line(lg, line)
 	{
-		unsigned long limit =
-			lg->plot->widthmax * lg->plot->plotscaling - 2;
 		line_add_value(line, avg[i], limit);
 		i++;
 	}
@@ -35,8 +35,8 @@ static void loadavg_plot_debug(const struct lgroup *lg, void *arg)
 	int i = 0;
 	for_each_line(lg, ln)
 	{
-		mvprintw(i + 1, p->bnd.left + 1, "%s: cnt=%d %lf~%lf", ln->name,
-			 ln->count, ln->min->v, ln->max->v);
+		mvprintw(i + 1, p->bnd.left + 1, "%s: cnt=%ld %lf~%lf",
+			 ln->name, ln->count, ln->min->v, ln->max->v);
 		i++;
 	}
 }
