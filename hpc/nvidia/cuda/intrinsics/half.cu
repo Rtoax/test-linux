@@ -329,6 +329,12 @@ __global__ void k_half_precision_conversion(void)
 	PHALF2((h2 = __high2half2(h2)));
 	PHALF2((h2 = __highs2half2(h2, h2)));
 	PFLOAT2((f2 = __half22float2(h2)));
+	/**
+	 * FIXME:
+	 * kernel: NVRM: Xid (PCI:000f:01:00): 13, Graphics SM Warp Exception on (GPC 0, TPC 0, SM 0): Invalid Address Space
+	 * kernel: NVRM: Xid (PCI:000f:01:00): 13, Graphics Exception: ESR 0x505730=0x20010 0x505734=0x20 0x505728=0x1c81fb60 0x50572c=0x1174
+	 * kernel: NVRM: Xid (PCI:000f:01:00): 43, pid=1634143, name=half, channel 0x00000005
+	 */
 	PHALF2(__float22half2_rn(f2));
 
 #if !defined(__HPCC__) && !defined(__LUCA__) && !defined(__HIPCC__) && (CUDA_VERSION >= 12000)
@@ -581,8 +587,8 @@ int main(int argc, char *argv[])
 	k_half_constants<<<1, 1>>>();
 	k_half_arithmetic<<<1, 1>>>();
 #if !defined(__HIPCC__)
-	(void)cudaLaunchKernel((void *)k_half_arithmetic_atomicAdd, grid, block, NULL,
-				sizeof(half), NULL);
+	(void)cudaLaunchKernel((void *)k_half_arithmetic_atomicAdd, grid, block,
+			       NULL, sizeof(half), NULL);
 #endif
 	k_half_comparision<<<1, 1>>>();
 	k_half_math<<<1, 1>>>();
@@ -592,8 +598,8 @@ int main(int argc, char *argv[])
 	k_half2_arithmetic<<<1, 1>>>();
 
 #if !defined(__HIPCC__)
-	(void)cudaLaunchKernel((void *)k_half2_arithmetic_atomicAdd, grid, block, NULL,
-				sizeof(half2), NULL);
+	(void)cudaLaunchKernel((void *)k_half2_arithmetic_atomicAdd, grid,
+			       block, NULL, sizeof(half2), NULL);
 #endif
 	k_half2_comparision<<<1, 1>>>();
 	k_half2_math<<<1, 1>>>();
