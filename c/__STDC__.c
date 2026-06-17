@@ -125,6 +125,9 @@ int main(void)
 #ifdef __HPCC__
 	printf("__HPCC__ = %d\n", __HPCC__);
 #endif
+#ifdef __LUCA__
+	printf("__LUCA__ = %d\n", __LUCA__);
+#endif
 
 /**
  * Note:

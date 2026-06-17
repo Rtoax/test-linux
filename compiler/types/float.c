@@ -1,7 +1,18 @@
+/**
+ * This source code be included in test-linux/hpc/nvidia/cuda/intrinsics/float.cu
+ */
 #include <math.h>
 #include <stdio.h>
 
+#if defined(__NVCC__) || defined(__HPCC__) || defined(__LUCA__)
+#define _CUDA_NVCC_COMPAT_COMPILER 1
+#else
+#define __global__
+#endif
+
+#ifndef PI
 #define PI 3.14159265358979323846264338327950288419716939937510
+#endif
 
 void base(void)
 {
@@ -13,7 +24,7 @@ void base(void)
  * Assuming FP64 is an accurate value, calculate the floating-point precision
  * error of FP32.
  */
-void precision_error(void)
+__global__ void precision_error(void)
 {
 	double fp64 = PI;
 	float fp32 = (float)PI;
@@ -36,9 +47,11 @@ void precision_error(void)
 	printf("Absolute Error Mul: %e\n\n", err_mul);
 }
 
+#ifndef _CUDA_NVCC_COMPAT_COMPILER
 int main(void)
 {
 	base();
 	precision_error();
 	return 0;
 }
+#endif

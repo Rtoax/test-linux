@@ -16,6 +16,8 @@
 #include "print.h"
 #include "types.h"
 
+#include "float-precision-error.c"
+
 __global__ void k_float_precision_mathematical(void)
 {
 	float pi = PI_FLOAT;
@@ -244,6 +246,8 @@ int main(int argc, char *argv[])
 {
 	assert(sizeof(float) == 4 && "bad size of float");
 	assert(sizeof(float2) == 8 && "bad size of float2");
+
+	precision_error<<<1, 1>>>();
 
 	k_float_precision_mathematical<<<1, 1>>>();
 	k_float_precision_intrinsics<<<1, 1>>>();
