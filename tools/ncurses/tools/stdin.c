@@ -42,12 +42,10 @@ static void stdin_create(struct lgroup *lg, void *arg)
 		__add_line(lg, i);
 }
 
-static void stdin_update(struct lgroup *lg, void *arg)
+static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 {
 	int i, narg;
-	struct stdin_arg *a = arg;
 	double *values = malloc(sizeof(double) * a->nline);
-	char *buf = a->line_buff;
 
 	if (*buf == '\0')
 		return;
@@ -90,6 +88,38 @@ static void stdin_update(struct lgroup *lg, void *arg)
 	free(values);
 }
 
+static void __stdin_update(struct lgroup *lg, struct stdin_arg *a)
+{
+	char *buf = strdup(a->line_buff);
+
+	if (!buf)
+		return;
+
+	char *s = buf;
+
+	/**
+	 * The buf could be "0.49 0.64 0.68\n0.49 0.64 0.68\n", split it by '\n'
+	 * first.
+	 */
+	while (s && *s != '\0') {
+		char *ln_end = strchr(s, '\n');
+		if (ln_end) {
+			*ln_end = '\0';
+			__stdin_add_data(lg, a, s);
+			s = ln_end + 1;
+		} else {
+			__stdin_add_data(lg, a, s);
+			s = NULL;
+		}
+	}
+	free(buf);
+}
+
+static void stdin_update(struct lgroup *lg, void *arg)
+{
+	__stdin_update(lg, arg);
+}
+
 static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 {
 	struct stdin_arg *a = arg;
@@ -101,11 +131,11 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	/**
 	 * Each stdin string ends with a newline character, but this affects
 	 * the output of other content when printing debug information.
-	 * Therefore, the newline character is replaced with a space.
+	 * Therefore, the newline character is replaced with a ';'.
 	 */
 	while (s && *s) {
 		if (*s == '\n')
-			*s = ' ';
+			*s = ';';
 		s++;
 	}
 

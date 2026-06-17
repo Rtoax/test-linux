@@ -2,7 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
 
-#define MY_VERSION "v1.3.15"
+#define MY_VERSION "v1.3.16"
 
 #define LONG_PRESS_FLICK "(long press to prevent flickering)"
 #define KEY_HELP_h "'h': show the help info" LONG_PRESS_FLICK
@@ -14,6 +14,16 @@
 #define KEY_HELP_ENTER "Enter: refresh plot"
 #define KEY_HELP_UP "Up: Uniform Scaling Up"
 #define KEY_HELP_DOWN "Down: Uniform Scaling Down"
+
+#define ANSI_RED "\033[1;31m"
+#define ANSI_GREEN "\033[1;32m"
+#define ANSI_YELLOW "\033[1;33m"
+#define ANSI_BLUE "\033[1;34m"
+
+#define ANSI_BOLD "\033[1m"
+#define ANSI_GRAY "\033[2m"
+
+#define ANSI_RST "\033[m"
 
 enum lcolor_enum {
 	C_GREEN,

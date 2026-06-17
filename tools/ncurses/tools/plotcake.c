@@ -41,21 +41,26 @@ enum {
 	ARG_EXPONENTIAL,
 };
 
-const char argp_prog_doc[] =
-	"USAGE: [-T|--title=<TITLE>] [-v|--verbose]\n"
+const char argp_prog_doc[] = ANSI_BOLD
+	"USAGE: " ANSI_RST "[-T|--title=<TITLE>] [-v|--verbose]\n"
+	"\n" ANSI_BOLD "EXAMPLES:\n" ANSI_RST "\n" ANSI_GREEN
+	"   $ plotcake        " ANSI_RST ANSI_GRAY
+	"# Draw loadavg graph\n" ANSI_RST ANSI_GREEN
+	"   $ plotcake -M     " ANSI_RST ANSI_GRAY
+	"# Draw memory usage graph\n" ANSI_RST "\n"
+	"   If data is retrieved from stdin, then \\n will be used as the delimiter\n"
+	"   by default, for example:\n"
 	"\n"
-	"EXAMPLES:\n"
-	"\n"
-	"   $ ./plotcake        # Draw loadavg graph\n"
-	"   $ ./plotcake -M     # Draw memory usage graph\n"
-	"\n"
-	"   # Draw opened file number\n"
+	"   " ANSI_GRAY "# Draw opened file number\n" ANSI_RST ANSI_GREEN
 	"   $ while sleep .5; do\n"
 	"	awk '{print $1}' /proc/sys/fs/file-nr\n"
-	"     done | ./plotcake --title 'Opened File Number' -l 'opened'\n"
+	"     done | plotcake --title 'Opened File Number' -l 'opened'\n" ANSI_RST
 	"\n"
-	"SHORTCUT KEY:\n"
-	"\n"
+	"   " ANSI_GRAY "# Draw one line\n" ANSI_RST ANSI_GREEN
+	"   $ seq 1 1 10 | plotcake\n" ANSI_RST "   " ANSI_GRAY
+	"# Draw ten line\n" ANSI_RST ANSI_GREEN
+	"   $ seq -s=' ' 1 1 10 | plotcake\n" ANSI_RST "\n" ANSI_BOLD
+	"SHORTCUT KEY:\n" ANSI_RST "\n"
 	"   " KEY_HELP_h "\n"
 	"   " KEY_HELP_l "\n"
 	"   " KEY_HELP_q "\n"
@@ -65,8 +70,7 @@ const char argp_prog_doc[] =
 	"   " KEY_HELP_ENTER "\n"
 	"   " KEY_HELP_UP "\n"
 	"   " KEY_HELP_DOWN "\n"
-	"\n"
-	"OPTIONS:\n";
+	"\n" ANSI_BOLD "OPTIONS:" ANSI_RST;
 
 static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Spedify title" },
