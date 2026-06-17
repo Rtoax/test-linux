@@ -10,7 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
-- compiler/types: add `_Float16.c` and move `_Float128.c`,`__bf16.c`,`__float128.c`,`__float80.c` into it;
+- compiler/types: add `_Float16.c` and move `_Float128.c`,`__bf16.c`,`__float128.c`,`__float80.c`,`__float128.h` into it;
 - macro: add arg.c;
 - scripts/Makefile.build: add `ALL_SUBDIR`, usage `subdir-y += ${ALL_SUBDIR}`;
 #### Changed
