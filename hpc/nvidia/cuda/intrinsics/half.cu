@@ -615,7 +615,6 @@ int main(int argc, char *argv[])
 	k_types<<<1, 1>>>();
 
 	k_half_constants<<<1, 1>>>();
-	k_half_precision_error<<<1, 1>>>();
 
 	k_half_arithmetic<<<1, 1>>>();
 #if !defined(__HIPCC__)
@@ -635,6 +634,8 @@ int main(int argc, char *argv[])
 #endif
 	k_half2_comparision<<<1, 1>>>();
 	k_half2_math<<<1, 1>>>();
+
+	k_half_precision_error<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;

@@ -247,10 +247,10 @@ int main(int argc, char *argv[])
 	assert(sizeof(float) == 4 && "bad size of float");
 	assert(sizeof(float2) == 8 && "bad size of float2");
 
-	precision_error<<<1, 1>>>();
-
 	k_float_precision_mathematical<<<1, 1>>>();
 	k_float_precision_intrinsics<<<1, 1>>>();
+
+	precision_error<<<1, 1>>>();
 
 	(void)cudaDeviceSynchronize();
 	return 0;
