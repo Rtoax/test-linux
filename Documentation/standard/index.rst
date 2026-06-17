@@ -13,3 +13,4 @@ Standard
    posix/index
    svr/index
    pxe
+   float-point/index
