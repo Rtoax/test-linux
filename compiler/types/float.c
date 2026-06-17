@@ -1,1 +1,44 @@
-../../c/float.c
+#include <math.h>
+#include <stdio.h>
+
+#define PI 3.141592653
+
+void base(void)
+{
+	float f32 = (float)PI;
+	printf("%.17f\n", (float)f32);
+}
+
+/**
+ * Assuming FP64 is an accurate value, calculate the floating-point precision
+ * error of FP32.
+ */
+void precision_error(void)
+{
+	double fp64 = PI;
+	float fp32 = (float)PI;
+
+	double res_mul_fp64 = fp64 * fp64;
+	float res_mul_fp32 = fp32 * fp32;
+
+	double res_add_fp64 = fp64 + fp64;
+	float res_add_fp32 = fp32 + fp32;
+
+	double err_add = fabs(res_add_fp64 - (double)res_add_fp32);
+	double err_mul = fabs(res_mul_fp64 - (double)res_mul_fp32);
+
+	printf("FP64 Reference Add: %.17f\n", res_add_fp64);
+	printf("CPU FP32 Test Add:  %.17f\n", (double)res_add_fp32);
+	printf("Absolute Error Add: %e\n\n", err_add);
+
+	printf("FP64 Reference Mul: %.17f\n", res_mul_fp64);
+	printf("CPU FP32 Test Mul:  %.17f\n", (double)res_mul_fp32);
+	printf("Absolute Error Mul: %e\n\n", err_mul);
+}
+
+int main(void)
+{
+	base();
+	precision_error();
+	return 0;
+}
