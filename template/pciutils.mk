@@ -6,6 +6,9 @@
 # - HAVE_PCIUTILS=[y|n]
 # - HAVE_PCIUTILS_PCI_H=[y|n]
 #
+# Functions:
+# - find_pci_device()=[y|n]
+#
 ifndef _PCIUTILS_MK
 _PCIUTILS_MK = 1
 
@@ -24,6 +27,15 @@ else
   $(call check_file_and_def,${PCIUTILS_PCI_H},HAVE_PCIUTILS_PCI_H)
   export HAVE_PCIUTILS := y
 endif # end of found PCIUTILS
+
+# Find pci device with Vendor ID and Device ID
+# $1: Vendor ID, Nvidia 10DE for example
+# $2: Device ID, Nvidia GB10 2e12 for example
+# return 'y' if found, 'n' if not found
+define find_pci_device
+$(shell if [[ -z $$(${LSPCI} -d ${1}:${2} 2>/dev/null) ]]; then echo n; \
+	else echo y; fi)
+endef
 
 ifdef DEBUG
   $(info HAVE_PCIUTILS = ${HAVE_PCIUTILS})

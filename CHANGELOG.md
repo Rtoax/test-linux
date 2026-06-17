@@ -26,6 +26,8 @@ and this project adheres to
 - add expect, evtest;
 - util-linux: add fsck subdir;
 #### Template
+- nvidia/device.mk: add GB20B and H800;
+- pciutils.mk: add `find_pci_device()`;
 - add tmux.mk, wayland.mk;
 
 

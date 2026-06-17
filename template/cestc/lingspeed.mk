@@ -18,6 +18,7 @@ _CESTC_LINGSPEED_MK = 1
 # CECloud Computing Technology Co., Ltd.
 # https://admin.pci-ids.ucw.cz/read/PC/20e1
 CESTC_PCI_VENDOR_ID := 20e1
+
 X710E_PCI_DEVICE_ID := 7101
 X710M_PCI_DEVICE_ID := 7103
 X710P_PCI_DEVICE_ID := 7104
