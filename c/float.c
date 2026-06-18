@@ -508,7 +508,7 @@ void __global__ __check_fp64(double f)
 	assert(*(uint64_t *)&f == *(uint64_t *)&to && "Failed to check fp64");
 }
 
-#define check_fp64(v)                           \
+#define CHECK_FP64(v)                           \
 	do {                                    \
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
@@ -566,7 +566,7 @@ void __global__ __check_fp32(float f)
 	assert(*(uint32_t *)&f == *(uint32_t *)&to && "Failed to check fp32");
 }
 
-#define check_fp32(v)                           \
+#define CHECK_FP32(v)                           \
 	do {                                    \
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
@@ -613,7 +613,7 @@ compat_fp16 __device__ fp16_to_float16(const fp16_t *fp16)
 	return sign * e2 * fra;
 }
 
-void __global__ __kernel_check_fp16(compat_fp16 f)
+void __global__ __check_fp16(compat_fp16 f)
 {
 	compat_fp16 to;
 	fp16_t fp16;
@@ -627,13 +627,13 @@ void __global__ __kernel_check_fp16(compat_fp16 f)
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check fp16");
 }
 
-#define check_fp16(v)                            \
-	do {                                     \
-		printf("%s: ", #v);              \
-		typeof(v) ___v = v;              \
-		CALL(__kernel_check_fp16, ___v); \
-		devSync();                       \
-		binprint(&___v, sizeof(v) * 8);  \
+#define CHECK_FP16(v)                           \
+	do {                                    \
+		printf("%s: ", #v);             \
+		typeof(v) ___v = v;             \
+		CALL(__check_fp16, ___v);       \
+		devSync();                      \
+		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
 #endif /* SUPPORT_FP16 */
 
@@ -689,7 +689,7 @@ void __global__ __check_bf16(compat_bf16 f)
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check bf16");
 }
 
-#define check_bf16(v)                           \
+#define CHECK_BF16(v)                           \
 	do {                                    \
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
@@ -703,97 +703,97 @@ void base_tests(void)
 {
 	if (env.fp64) {
 		seperator();
-		check_fp64(0);
-		check_fp64(1.2);
-		check_fp64(0.2);
-		check_fp64(1.23456789);
-		check_fp64(0.23456789);
-		check_fp64(1.234568);
-		check_fp64(0.234568);
-		check_fp64(3.14159265);
-		check_fp64(-3.14159265);
-		check_fp64(123456789123456789.123456789123456789);
-		check_fp64(DBL_MIN);
-		check_fp64(-DBL_MIN);
-		check_fp64(DBL_MAX);
-		check_fp64(-DBL_MAX);
-		check_fp64(st2host(fp64_NaN, f64));
-		check_fp64(st2host(fp64_PosInf, f64));
-		check_fp64(st2host(fp64_NegInf, f64));
-		check_fp64(__builtin_huge_val());
-		check_fp64(__builtin_inf());
-		check_fp64(st2host(fp64_PosZero, f64));
-		check_fp64(st2host(fp64_NegZero, f64));
-		check_fp64(st2host(fp64_PosMax, f64));
-		check_fp64(st2host(fp64_PosMin, f64));
-		check_fp64(st2host(fp64_NegMax, f64));
-		check_fp64(st2host(fp64_NegMin, f64));
+		CHECK_FP64(0);
+		CHECK_FP64(1.2);
+		CHECK_FP64(0.2);
+		CHECK_FP64(1.23456789);
+		CHECK_FP64(0.23456789);
+		CHECK_FP64(1.234568);
+		CHECK_FP64(0.234568);
+		CHECK_FP64(3.14159265);
+		CHECK_FP64(-3.14159265);
+		CHECK_FP64(123456789123456789.123456789123456789);
+		CHECK_FP64(DBL_MIN);
+		CHECK_FP64(-DBL_MIN);
+		CHECK_FP64(DBL_MAX);
+		CHECK_FP64(-DBL_MAX);
+		CHECK_FP64(st2host(fp64_NaN, f64));
+		CHECK_FP64(st2host(fp64_PosInf, f64));
+		CHECK_FP64(st2host(fp64_NegInf, f64));
+		CHECK_FP64(__builtin_huge_val());
+		CHECK_FP64(__builtin_inf());
+		CHECK_FP64(st2host(fp64_PosZero, f64));
+		CHECK_FP64(st2host(fp64_NegZero, f64));
+		CHECK_FP64(st2host(fp64_PosMax, f64));
+		CHECK_FP64(st2host(fp64_PosMin, f64));
+		CHECK_FP64(st2host(fp64_NegMax, f64));
+		CHECK_FP64(st2host(fp64_NegMin, f64));
 	}
 
 	if (env.fp32) {
 		seperator();
-		check_fp32(0);
-		check_fp32(1);
-		check_fp32(1.2f);
-		check_fp32(0.2f);
-		check_fp32(1.2345678f);
-		check_fp32(0.2345678f);
-		check_fp32(1.23456789f);
-		check_fp32(0.23456789f);
-		check_fp32(3.14159265f);
-		check_fp32(-3.14159265f);
-		check_fp32(123456789123456789.123456789123456789);
-		check_fp32(FLT_MIN);
-		check_fp32(-FLT_MIN);
-		check_fp32(FLT_MAX);
-		check_fp32(-FLT_MAX);
-		check_fp32(st2host(fp32_PosOne, f32));
-		check_fp32(st2host(fp32_NaN, f32));
-		check_fp32(st2host(fp32_PosInf, f32));
-		check_fp32(st2host(fp32_NegInf, f32));
-		check_fp32(st2host(fp32_PosZero, f32));
-		check_fp32(st2host(fp32_NegZero, f32));
-		check_fp32(st2host(fp32_PosMax, f32));
-		check_fp32(st2host(fp32_PosMin, f32));
-		check_fp32(st2host(fp32_NegMax, f32));
-		check_fp32(st2host(fp32_NegMin, f32));
+		CHECK_FP32(0);
+		CHECK_FP32(1);
+		CHECK_FP32(1.2f);
+		CHECK_FP32(0.2f);
+		CHECK_FP32(1.2345678f);
+		CHECK_FP32(0.2345678f);
+		CHECK_FP32(1.23456789f);
+		CHECK_FP32(0.23456789f);
+		CHECK_FP32(3.14159265f);
+		CHECK_FP32(-3.14159265f);
+		CHECK_FP32(123456789123456789.123456789123456789);
+		CHECK_FP32(FLT_MIN);
+		CHECK_FP32(-FLT_MIN);
+		CHECK_FP32(FLT_MAX);
+		CHECK_FP32(-FLT_MAX);
+		CHECK_FP32(st2host(fp32_PosOne, f32));
+		CHECK_FP32(st2host(fp32_NaN, f32));
+		CHECK_FP32(st2host(fp32_PosInf, f32));
+		CHECK_FP32(st2host(fp32_NegInf, f32));
+		CHECK_FP32(st2host(fp32_PosZero, f32));
+		CHECK_FP32(st2host(fp32_NegZero, f32));
+		CHECK_FP32(st2host(fp32_PosMax, f32));
+		CHECK_FP32(st2host(fp32_PosMin, f32));
+		CHECK_FP32(st2host(fp32_NegMax, f32));
+		CHECK_FP32(st2host(fp32_NegMin, f32));
 	}
 
 #ifdef SUPPORT_FP16
 	if (env.fp16) {
 		seperator();
-		check_fp16(compat_float2half(0.0));
-		check_fp16(compat_float2half(1.2));
-		check_fp16(compat_float2half(0.2));
-		check_fp16(compat_float2half(1.23456789));
-		check_fp16(compat_float2half(0.23456789));
-		check_fp16(compat_float2half(3.14159265));
-		check_fp16(compat_float2half(-3.14159265));
-		check_fp16(st2host(fp16_NaN, f16));
-		check_fp16(st2host(fp16_PosInf, f16));
-		check_fp16(st2host(fp16_NegInf, f16));
-		check_fp16(st2host(fp16_PosZero, f16));
-		check_fp16(st2host(fp16_NegZero, f16));
-		check_fp16(st2host(fp16_PosMax, f16));
-		check_fp16(st2host(fp16_NegMax, f16));
-		check_fp16(st2host(fp16_PosMin, f16));
-		check_fp16(st2host(fp16_NegMin, f16));
+		CHECK_FP16(compat_float2half(0.0));
+		CHECK_FP16(compat_float2half(1.2));
+		CHECK_FP16(compat_float2half(0.2));
+		CHECK_FP16(compat_float2half(1.23456789));
+		CHECK_FP16(compat_float2half(0.23456789));
+		CHECK_FP16(compat_float2half(3.14159265));
+		CHECK_FP16(compat_float2half(-3.14159265));
+		CHECK_FP16(st2host(fp16_NaN, f16));
+		CHECK_FP16(st2host(fp16_PosInf, f16));
+		CHECK_FP16(st2host(fp16_NegInf, f16));
+		CHECK_FP16(st2host(fp16_PosZero, f16));
+		CHECK_FP16(st2host(fp16_NegZero, f16));
+		CHECK_FP16(st2host(fp16_PosMax, f16));
+		CHECK_FP16(st2host(fp16_NegMax, f16));
+		CHECK_FP16(st2host(fp16_PosMin, f16));
+		CHECK_FP16(st2host(fp16_NegMin, f16));
 	}
 #endif
 
 #ifdef SUPPORT_BF16
 	if (env.bf16) {
 		seperator();
-		check_bf16(compat_floattobf16(0));
-		check_bf16(compat_floattobf16(1.0));
-		check_bf16(compat_floattobf16(3.141592653f));
-		check_bf16(compat_floattobf16(-3.141592653f));
-		check_bf16(st2host(bf16_PosOne, f16));
-		check_bf16(st2host(bf16_NaN, f16));
-		check_bf16(st2host(bf16_PosZero, f16));
-		check_bf16(st2host(bf16_NegZero, f16));
-		check_bf16(st2host(bf16_PosInf, f16));
-		check_bf16(st2host(bf16_NegInf, f16));
+		CHECK_BF16(compat_floattobf16(0));
+		CHECK_BF16(compat_floattobf16(1.0));
+		CHECK_BF16(compat_floattobf16(3.141592653f));
+		CHECK_BF16(compat_floattobf16(-3.141592653f));
+		CHECK_BF16(st2host(bf16_PosOne, f16));
+		CHECK_BF16(st2host(bf16_NaN, f16));
+		CHECK_BF16(st2host(bf16_PosZero, f16));
+		CHECK_BF16(st2host(bf16_NegZero, f16));
+		CHECK_BF16(st2host(bf16_PosInf, f16));
+		CHECK_BF16(st2host(bf16_NegInf, f16));
 	}
 #endif
 	reset();
@@ -1070,7 +1070,7 @@ void overflow_muladd_fp64(void)
 
 		seperator();
 		TEST("fp64 mul weight and add bias", i);
-		check_fp64(st2host(data_fp64, f64));
+		CHECK_FP64(st2host(data_fp64, f64));
 		reset();
 		devSync();
 	}
@@ -1087,7 +1087,7 @@ void muladd_arr_fp64(void)
 
 		seperator();
 		TEST("fp64 mul weight and add bias array", i);
-		check_fp32(st2host(data_fp64, f64));
+		CHECK_FP32(st2host(data_fp64, f64));
 		reset();
 		devSync();
 	}
@@ -1115,8 +1115,8 @@ void mul_fp32(void)
 
 		seperator();
 		TEST("fp32 mul", i);
-		check_fp32(st2host(data_fp32, f32));
-		check_fp64(st2host(rslt_fp64, f64));
+		CHECK_FP32(st2host(data_fp32, f32));
+		CHECK_FP64(st2host(rslt_fp64, f64));
 		reset();
 		devSync();
 	}
@@ -1138,8 +1138,8 @@ void add_fp32(void)
 
 		seperator();
 		TEST("fp32 add bias", i);
-		check_fp32(st2host(data_fp32, f32));
-		check_fp64(st2host(rslt_fp64, f64));
+		CHECK_FP32(st2host(data_fp32, f32));
+		CHECK_FP64(st2host(rslt_fp64, f64));
 		reset();
 		devSync();
 	}
@@ -1159,8 +1159,8 @@ void muladd_fp32(void)
 
 		seperator();
 		TEST("fp32 mul weight", i);
-		check_fp32(st2host(data_fp32, f32));
-		check_fp64(st2host(rslt_fp64, f64));
+		CHECK_FP32(st2host(data_fp32, f32));
+		CHECK_FP64(st2host(rslt_fp64, f64));
 		reset();
 		devSync();
 	}
@@ -1177,8 +1177,8 @@ void muladd_fp32(void)
 
 		seperator();
 		TEST("fp32 mul weight and add bias", i);
-		check_fp32(st2host(data_fp32, f32));
-		check_fp64(st2host(rslt_fp64, f64));
+		CHECK_FP32(st2host(data_fp32, f32));
+		CHECK_FP64(st2host(rslt_fp64, f64));
 		reset();
 		devSync();
 	}
@@ -1196,8 +1196,8 @@ void muladd_arr_fp32(void)
 
 		seperator();
 		TEST("fp32 mul weight array", i);
-		check_fp32(st2host(data_fp32, f32));
-		check_fp64(st2host(rslt_fp64, f64));
+		CHECK_FP32(st2host(data_fp32, f32));
+		CHECK_FP64(st2host(rslt_fp64, f64));
 		reset();
 		devSync();
 	}
@@ -1212,8 +1212,8 @@ void muladd_arr_fp32(void)
 
 		seperator();
 		TEST("fp32 mul weight and add bias array", i);
-		check_fp32(st2host(data_fp32, f32));
-		check_fp64(st2host(rslt_fp64, f64));
+		CHECK_FP32(st2host(data_fp32, f32));
+		CHECK_FP64(st2host(rslt_fp64, f64));
 		reset();
 		devSync();
 	}
@@ -1242,8 +1242,8 @@ void muladd_fp16(void)
 		CALL(__kernel_mul_weight_fp16, i, 1);
 
 		TEST("fp16 mul weight", i);
-		check_fp16(st2host(data_fp16, f16));
-		check_fp32(st2host(rslt_fp32, f32));
+		CHECK_FP16(st2host(data_fp16, f16));
+		CHECK_FP32(st2host(rslt_fp32, f32));
 		devSync();
 	}
 
@@ -1260,8 +1260,8 @@ void muladd_fp16(void)
 		CALL(__kernel_add_bias_fp16, i, 1);
 
 		TEST("fp16 add bias", i);
-		check_fp16(st2host(data_fp16, f16));
-		check_fp32(st2host(rslt_fp32, f32));
+		CHECK_FP16(st2host(data_fp16, f16));
+		CHECK_FP32(st2host(rslt_fp32, f32));
 		devSync();
 	}
 
@@ -1278,8 +1278,8 @@ void muladd_fp16(void)
 		CALL(__kernel_mul_weight_add_bias_fp16, i, 1);
 
 		TEST("fp16 mul weight and add bias", i);
-		check_fp16(st2host(data_fp16, f16));
-		check_fp32(st2host(rslt_fp32, f32));
+		CHECK_FP16(st2host(data_fp16, f16));
+		CHECK_FP32(st2host(rslt_fp32, f32));
 		devSync();
 	}
 	reset();
@@ -1303,8 +1303,8 @@ void muladd_arr_fp16(void)
 		CALL(__kernel_mul_weight_arr_fp16, i, 1);
 
 		TEST("fp16 mul weight array", i);
-		check_fp16(st2host(data_fp16, f16));
-		check_fp32(st2host(rslt_fp32, f32));
+		CHECK_FP16(st2host(data_fp16, f16));
+		CHECK_FP32(st2host(rslt_fp32, f32));
 		devSync();
 	}
 
@@ -1318,8 +1318,8 @@ void muladd_arr_fp16(void)
 		CALL(__kernel_add_bias_arr_fp16, i, 1);
 
 		TEST("fp16 add bias array", i);
-		check_fp16(st2host(data_fp16, f16));
-		check_fp32(st2host(rslt_fp32, f32));
+		CHECK_FP16(st2host(data_fp16, f16));
+		CHECK_FP32(st2host(rslt_fp32, f32));
 		devSync();
 	}
 
@@ -1333,8 +1333,8 @@ void muladd_arr_fp16(void)
 		CALL(__kernel_mul_weight_add_bias_arr_fp16, i, 1);
 
 		TEST("fp16 mul weight and add bias array", i);
-		check_fp16(st2host(data_fp16, f16));
-		check_fp32(st2host(rslt_fp32, f32));
+		CHECK_FP16(st2host(data_fp16, f16));
+		CHECK_FP32(st2host(rslt_fp32, f32));
 		devSync();
 	}
 	reset();
@@ -1349,33 +1349,33 @@ void fp32_overflow_test(void)
 {
 	seperator();
 
-	check_fp32(st2host(fp32_PosMax, f32));
-	check_fp32(st2host(fp32_PosMax, f32) + 0.1f);
-	check_fp32(st2host(fp32_PosMax, f32) - 0.1f);
-	check_fp32(st2host(fp32_PosMax, f32) + 0.2f);
-	check_fp32(st2host(fp32_PosMax, f32) / 2.0f);
+	CHECK_FP32(st2host(fp32_PosMax, f32));
+	CHECK_FP32(st2host(fp32_PosMax, f32) + 0.1f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) - 0.1f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) + 0.2f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) / 2.0f);
 
 	seperator();
 
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000000001f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000001f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000001f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000001f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000011f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000055f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000058f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000595f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059604f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596045f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596046f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005960463f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005960464f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059604644f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596046445f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000000001f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000001f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000001f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000001f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000011f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000005f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000055f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000058f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000059f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000595f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000596f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000059604f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000596045f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000596046f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000005960463f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000005960464f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000059604644f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000596046445f);
 
 	seperator();
 	/**
@@ -1383,26 +1383,26 @@ void fp32_overflow_test(void)
 	 * CPU: Intel i7-10710U, AMD EPYC 7763
 	 * GPU: Mars X203
 	 */
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596046449f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059604645f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005960465f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005960469f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596047f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000596049f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059605f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059606f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.000000059609f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005961f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005963f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005965f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000005969f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000597f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000598f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000000599f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000006f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000007f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.00000009f);
-	check_fp32(st2host(fp32_PosMax, f32) * 1.0000001f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000596046449f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000059604645f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000005960465f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000005960469f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000596047f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000596049f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000059605f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000059606f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.000000059609f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000005961f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000005963f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000005965f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000005969f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000597f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000598f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000000599f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000006f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000007f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.00000009f);
+	CHECK_FP32(st2host(fp32_PosMax, f32) * 1.0000001f);
 
 	reset();
 }
