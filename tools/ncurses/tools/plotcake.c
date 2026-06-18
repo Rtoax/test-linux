@@ -6,7 +6,7 @@
  * The default plot is loadavg, loadavg graph of 1, 5, 15 minutes.
  *
  * see also
- * https://github.com/rtoax/ncurses-tools
+ * https://github.com/rtoax/plotcake
  * https://github.com/rtoax/test-linux scripts/loadavg.sh
  *
  * relative repository:
