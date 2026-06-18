@@ -3,6 +3,7 @@
 #pragma once
 
 #define MY_VERSION "v1.4.1"
+#define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
 #define KEY_HELP_l "'l': show the label for each line"

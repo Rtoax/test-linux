@@ -10,7 +10,7 @@
 #include "keyboard.h"
 
 chtype flavor[C_MAX] = { 0 };
-static const char *verstring = "github.com/rtoax/test-linux " MY_VERSION;
+static const char *verstring = GIT_REPO " " MY_VERSION;
 
 int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
