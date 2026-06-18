@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include "config.h"
+#include "keyboard.h"
 #include "value.h"
 #include "utils.h"
 
@@ -56,18 +57,7 @@ struct plot {
 
 	enum numerical_scaling v_scaling;
 
-	/**
-	 * record previous keyboard event.
-	 */
-	struct {
-		struct {
-			unsigned long total;
-			unsigned long left, right, up, down;
-			unsigned long enter;
-			unsigned long h, l, r, t, v;
-		} cnt;
-		int current_key; /* read from STDIN/getch() or /dev/tty */
-	} keyboard;
+	struct keyboard keyboard;
 
 	/**
 	 * If this value is greater than the current time, help information
