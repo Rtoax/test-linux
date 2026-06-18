@@ -404,6 +404,12 @@ static void __plot_redraw(struct plot *p, bool debug)
 
 	paint_plot(p, debug);
 
+	if (p->help_expired_usec && p->help_expired_usec > usecs()) {
+		plot_help(p);
+	} else {
+		p->help_expired_usec = 0;
+	}
+
 	refresh();
 
 	plot_update_size(p, false);
@@ -422,13 +428,8 @@ void plot_redraw(struct plot *p, bool debug)
 	}
 }
 
-/**
- * Press key 'h', display the help info
- */
-static void key_h(int key, void *arg)
+void plot_help(const struct plot *p)
 {
-	struct plot *p = arg;
-
 	int h = p->plotheight + p->bnd.top - 1;
 	int w = p->bnd.left + 1;
 
@@ -443,6 +444,16 @@ static void key_h(int key, void *arg)
 	mvprintw(h - 1, w, KEY_HELP_DOWN);
 	mvprintw(h, w, KEY_HELP_ENTER);
 	attroff(flavor[C_BLUE] | A_BOLD);
+}
+
+/**
+ * Press key 'h', display the help info
+ */
+static void key_h(int key, void *arg)
+{
+	struct plot *p = arg;
+	p->help_expired_usec = usecs() + 10e6;
+	plot_help(p);
 }
 
 /**
@@ -487,6 +498,7 @@ static void key_r(int key, void *arg)
 	struct plot *p = arg;
 
 	plot_scaling_init(p);
+	p->help_expired_usec = 0;
 }
 
 void plot_init(struct plot *p)

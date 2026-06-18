@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include "config.h"
 #include "value.h"
+#include "utils.h"
 
 /**
  * Scaling plotting values, different from @plotscaling.
@@ -69,6 +70,12 @@ struct plot {
 	} keyboard;
 
 	/**
+	 * If this value is greater than the current time, help information
+	 * will be displayed.
+	 */
+	unsigned long help_expired_usec;
+
+	/**
 	 * When something happens internally, such as a change in the drawing
 	 * boundary, we need to redraw, rather than letting external conditions
 	 * trigger a redraw.
@@ -113,6 +120,7 @@ void plot_draw_title(const struct plot *p);
 
 void plot_create_data(struct plot *p);
 void plot_update_data(struct plot *p);
+void plot_help(const struct plot *p);
 void plot_redraw(struct plot *p, bool debug);
 
 void init_flavor(void);
