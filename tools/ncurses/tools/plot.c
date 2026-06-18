@@ -410,6 +410,12 @@ static void __plot_redraw(struct plot *p, bool debug)
 		p->help_expired_usec = 0;
 	}
 
+	if (p->llabel_expired_usec && p->llabel_expired_usec > usecs()) {
+		plot_llabel(p);
+	} else {
+		p->llabel_expired_usec = 0;
+	}
+
 	refresh();
 
 	plot_update_size(p, false);
@@ -446,22 +452,8 @@ void plot_help(const struct plot *p)
 	attroff(flavor[C_BLUE] | A_BOLD);
 }
 
-/**
- * Press key 'h', display the help info
- */
-static void key_h(int key, void *arg)
+void plot_llabel(const struct plot *p)
 {
-	struct plot *p = arg;
-	p->help_expired_usec = usecs() + 10e6;
-	plot_help(p);
-}
-
-/**
- * Press key 'l', display the label for each line.
- */
-static void key_l(int key, void *arg)
-{
-	struct plot *p = arg;
 	int i, nline = 0;
 
 	for_each_lg(p, lg)
@@ -491,6 +483,26 @@ static void key_l(int key, void *arg)
 }
 
 /**
+ * Press key 'h', display the help info
+ */
+static void key_h(int key, void *arg)
+{
+	struct plot *p = arg;
+	p->help_expired_usec = usecs() + 10e6;
+	plot_help(p);
+}
+
+/**
+ * Press key 'l', display the label for each line.
+ */
+static void key_l(int key, void *arg)
+{
+	struct plot *p = arg;
+	p->llabel_expired_usec = usecs() + 10e6;
+	plot_llabel(p);
+}
+
+/**
  * Press key 'r', reset plot
  */
 static void key_r(int key, void *arg)
@@ -499,6 +511,7 @@ static void key_r(int key, void *arg)
 
 	plot_scaling_init(p);
 	p->help_expired_usec = 0;
+	p->llabel_expired_usec = 0;
 }
 
 void plot_init(struct plot *p)

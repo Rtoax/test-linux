@@ -74,6 +74,7 @@ struct plot {
 	 * will be displayed.
 	 */
 	unsigned long help_expired_usec;
+	unsigned long llabel_expired_usec;
 
 	/**
 	 * When something happens internally, such as a change in the drawing
@@ -121,6 +122,7 @@ void plot_draw_title(const struct plot *p);
 void plot_create_data(struct plot *p);
 void plot_update_data(struct plot *p);
 void plot_help(const struct plot *p);
+void plot_llabel(const struct plot *p);
 void plot_redraw(struct plot *p, bool debug);
 
 void init_flavor(void);
