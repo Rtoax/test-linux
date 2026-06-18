@@ -64,12 +64,13 @@ endif
 ifneq ($(call kver_uapi_gt,1,1,1),y)
   $(error "call kver_uapi_gt failed")
 endif
-# newest kernel is v7.0 right now
-ifneq ($(call kver_lt,7,1,0),y)
-  $(error "call kver_lt failed, kver >= 7.1.0")
+# Newest kernel is v7.1
+# see https://github.com/torvalds/linux
+ifneq ($(call kver_lt,7,2,0),y)
+  $(error "call kver_lt failed, kver >= 7.2.0")
 endif
-ifneq ($(call kver_uapi_lt,7,1,0),y)
-  $(error "call kver_uapi_lt failed, kuapi version >= 7.1.0")
+ifneq ($(call kver_uapi_lt,7,2,0),y)
+  $(error "call kver_uapi_lt failed, kuapi version >= 7.2.0")
 endif
 ifneq (${KVERSION_CODE},${kver_VERSION_CODE})
   $(error define_version failed for kver)
