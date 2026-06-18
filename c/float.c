@@ -841,6 +841,13 @@ __mydevice__ fp16_t data_fp16_bias_arr[DATA_ARRAY_SIZE];
 __mydevice__ fp64_t rslt_fp64;
 __mydevice__ fp32_t rslt_fp32;
 
+void __myglobal__ init_data_fp64(double init)
+{
+	data_fp64.f64 = init;
+	data_fp64_weight.f64 = init;
+	data_fp64_bias.f64 = init;
+}
+
 void __myglobal__ init_data_arr_fp64(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
@@ -1061,9 +1068,7 @@ void overflow_muladd_fp64(void)
 	for (size_t i = 100; i <= 1000; i += 100) {
 		double a = i * 1.123456789f;
 
-		stset(data_fp64, fp64_t, f64, a);
-		stset(data_fp64_weight, fp64_t, f64, 1.000789);
-		stset(data_fp64_bias, fp64_t, f64, 1.1234);
+		init_data_fp64 DIM (a);
 
 		__kernel_mul_weight_add_bias_fp64 DIM (i, 3);
 
@@ -1080,7 +1085,7 @@ void muladd_arr_fp64(void)
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		init_data_arr_fp64 DIM (i);
 
-		stset(data_fp64, fp64_t, f64, 1);
+		init_data_fp64 DIM (1);
 
 		__kernel_mul_weight_add_bias_arr_fp64 DIM (i, 1);
 
