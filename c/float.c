@@ -98,15 +98,15 @@
 #  endif
 # elif defined(__HIPCC__)	/* AMD ROCm HIP */
 # endif
-# define DIM	<<<1, 1>>>
-# define mysync()	(void)cudaDeviceSynchronize()
+# define DIM <<<1, 1>>>
+# define devSync() (void)cudaDeviceSynchronize()
 # define DEVICE "GPU"
 #else
 # define DIM
 # define __device__
 # define __global__
-# define __constant__	const
-# define mysync()
+# define __constant__ const
+# define devSync()
 # define DEVICE "CPU"
 #endif
 
@@ -512,7 +512,7 @@ void __global__ __check_fp64(double f)
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
 		__check_fp64 DIM (___v);        \
-		mysync();                       \
+		devSync();                      \
 		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
 
@@ -570,7 +570,7 @@ void __global__ __check_fp32(float f)
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
 		__check_fp32 DIM (___v);        \
-		mysync();                       \
+		devSync();                      \
 		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
 
@@ -626,12 +626,13 @@ void __global__ __kernel_check_fp16(compat_fp16 f)
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check fp16");
 }
 
-#define check_fp16(v)	do {	\
-		printf("%s: ", #v);	\
-		typeof(v) ___v = v;	\
-		__kernel_check_fp16 DIM (___v);	\
-		mysync();	\
-		binprint(&___v, sizeof(v) * 8);	\
+#define check_fp16(v)                           \
+	do {                                    \
+		printf("%s: ", #v);             \
+		typeof(v) ___v = v;             \
+		__kernel_check_fp16 DIM (___v); \
+		devSync();                      \
+		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
 #endif /* SUPPORT_FP16 */
 
@@ -692,7 +693,7 @@ void __global__ __check_bf16(compat_bf16 f)
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
 		__check_bf16 DIM (___v);        \
-		mysync();                       \
+		devSync();                      \
 		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
 #endif /* SUPPORT_BF16 */
@@ -1070,7 +1071,7 @@ void overflow_muladd_fp64(void)
 		TEST("fp64 mul weight and add bias", i);
 		check_fp64(st2host(data_fp64, f64));
 		reset();
-		mysync();
+		devSync();
 	}
 }
 
@@ -1087,7 +1088,7 @@ void muladd_arr_fp64(void)
 		TEST("fp64 mul weight and add bias array", i);
 		check_fp32(st2host(data_fp64, f64));
 		reset();
-		mysync();
+		devSync();
 	}
 }
 
@@ -1116,7 +1117,7 @@ void mul_fp32(void)
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
-		mysync();
+		devSync();
 	}
 }
 
@@ -1139,7 +1140,7 @@ void add_fp32(void)
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
-		mysync();
+		devSync();
 	}
 }
 
@@ -1160,7 +1161,7 @@ void muladd_fp32(void)
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
-		mysync();
+		devSync();
 	}
 
 	for (size_t i = 100; i <= 1000; i += 100) {
@@ -1178,7 +1179,7 @@ void muladd_fp32(void)
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
-		mysync();
+		devSync();
 	}
 }
 
@@ -1197,7 +1198,7 @@ void muladd_arr_fp32(void)
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
-		mysync();
+		devSync();
 	}
 
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
@@ -1213,7 +1214,7 @@ void muladd_arr_fp32(void)
 		check_fp32(st2host(data_fp32, f32));
 		check_fp64(st2host(rslt_fp64, f64));
 		reset();
-		mysync();
+		devSync();
 	}
 }
 
@@ -1242,7 +1243,7 @@ void muladd_fp16(void)
 		TEST("fp16 mul weight", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		mysync();
+		devSync();
 	}
 
 	seperator();
@@ -1260,7 +1261,7 @@ void muladd_fp16(void)
 		TEST("fp16 add bias", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		mysync();
+		devSync();
 	}
 
 	seperator();
@@ -1278,7 +1279,7 @@ void muladd_fp16(void)
 		TEST("fp16 mul weight and add bias", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		mysync();
+		devSync();
 	}
 	reset();
 }
@@ -1303,7 +1304,7 @@ void muladd_arr_fp16(void)
 		TEST("fp16 mul weight array", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		mysync();
+		devSync();
 	}
 
 	seperator();
@@ -1318,7 +1319,7 @@ void muladd_arr_fp16(void)
 		TEST("fp16 add bias array", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		mysync();
+		devSync();
 	}
 
 	seperator();
@@ -1333,7 +1334,7 @@ void muladd_arr_fp16(void)
 		TEST("fp16 mul weight and add bias array", i);
 		check_fp16(st2host(data_fp16, f16));
 		check_fp32(st2host(rslt_fp32, f32));
-		mysync();
+		devSync();
 	}
 	reset();
 }
