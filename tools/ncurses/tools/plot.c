@@ -79,11 +79,6 @@ void plot_update_size(struct plot *p, bool init)
 	if (p->widthmax < p->width)
 		p->widthmax = p->width;
 
-	p->bnd_prev_max.top = BND_TOP;
-	p->bnd_prev_max.bottom = BND_BOTTOM;
-	p->bnd_prev_max.left = BND_LEFT;
-	p->bnd_prev_max.right = BND_RIGHT;
-
 	/**
 	 * When refreshing or modifying the drawing type, the boundary size may
 	 * change. We need to reset the maximum value to avoid excessive blank
@@ -92,12 +87,18 @@ void plot_update_size(struct plot *p, bool init)
 	switch (p->keyboard.current_key) {
 	case 'r':
 	case 't':
-		p->bnd.top = BND_TOP;
-		p->bnd.bottom = BND_BOTTOM;
-		p->bnd.left = BND_LEFT;
-		p->bnd.right = BND_RIGHT;
+		p->bnd.top = p->bnd_prev_max.top;
+		p->bnd.bottom = p->bnd_prev_max.bottom;
+		p->bnd.left = p->bnd_prev_max.left;
+		p->bnd.right = p->bnd_prev_max.right;
+		p->need_redraw = true;
 		break;
 	}
+
+	p->bnd_prev_max.top = BND_TOP;
+	p->bnd_prev_max.bottom = BND_BOTTOM;
+	p->bnd_prev_max.left = BND_LEFT;
+	p->bnd_prev_max.right = BND_RIGHT;
 }
 
 void __plot_warning(const struct plot *p, char *fmt, ...)
@@ -389,8 +390,9 @@ void plot_update_data(struct plot *p)
 	}
 }
 
-void plot_redraw(struct plot *p, bool debug)
+static void __plot_redraw(struct plot *p, bool debug)
 {
+	p->need_redraw = false;
 	p->redrawcount++;
 
 	erase();
@@ -408,6 +410,15 @@ void plot_redraw(struct plot *p, bool debug)
 
 	/* do some reset */
 	p->keyboard.current_key = 0;
+}
+
+void plot_redraw(struct plot *p, bool debug)
+{
+	__plot_redraw(p, debug);
+
+	if (p->need_redraw) {
+		__plot_redraw(p, debug);
+	}
 }
 
 /**

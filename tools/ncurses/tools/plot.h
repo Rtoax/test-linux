@@ -67,6 +67,13 @@ struct plot {
 		} cnt;
 		int current_key; /* read from STDIN/getch() or /dev/tty */
 	} keyboard;
+
+	/**
+	 * When something happens internally, such as a change in the drawing
+	 * boundary, we need to redraw, rather than letting external conditions
+	 * trigger a redraw.
+	 */
+	bool need_redraw;
 };
 
 #define for_each_lg(plt, iter)                                           \
