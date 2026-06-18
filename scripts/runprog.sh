@@ -132,3 +132,8 @@ if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 else
 	echo -e "Run '\033[32m${CMD}\033[m' success in ${PWD}" >> ${LOG_CMD_FILE}
 fi
+
+# If you run with sudo, then we need to reset the owner of the log file.
+if [[ ${SUDO_USER} ]]; then
+	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${LOG_CMD_FILE}
+fi

@@ -5,7 +5,7 @@
 #
 # Output definitions:
 # - SUDO=[sudo]
-# - SUDO_NON_INTERACTIVE=[y]
+# - SUDO_NON_INTERACTIVE=[y|n]
 #
 ifndef _SUDO_MK
 _SUDO_MK = 1
