@@ -5,7 +5,7 @@ set title "TITLE_XXX"
 set line1 "LINE_LABEL_1"
 
 spawn bash -c "while sleep 0.1; do echo 1; done |
-	./plotcake --title ${title} -l ${line1} --verbose"
+	./plotcake --title $title -l $line1 --verbose"
 sleep 0.1
 
 proc test_init {pattern} {
@@ -42,11 +42,11 @@ test_init "$line1"
 test_init "plot:"
 
 # Verify keys
-test_key "l" " ${line1}" "check line labels"
+test_key "l" " $line1" "check line labels"
 test_key "h" "'q' and Esc: quit" "check help"
 test_key "r" "cur=114=" "reset"
-test_key "t" "(logarithmic)" "change curses type to (logarithmic)"
-test_key "t" "(base-10 logarithmic)" "change curses type to (base-10 logarithmic)"
+test_key "t" "\(logarithmic\)" "change curses type to (logarithmic)"
+test_key "t" "\(base-10 logarithmic\)" "change curses type to (base-10 logarithmic)"
 
 # Test enter
 #send "\r"
