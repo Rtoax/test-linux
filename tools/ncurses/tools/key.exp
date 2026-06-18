@@ -1,6 +1,6 @@
 #!/bin/expect -f
 # test plotcake keyboard event handle
-set timeout 3
+set timeout 4
 set title "TITLE_XXX"
 set line1 "LINE_LABEL_1"
 
@@ -36,7 +36,14 @@ sleep .5
 
 send "t"
 expect {
-	"logarithmic" { send_user "Success change curses type" }
+	"(logarithmic)" { send_user "Success change curses type" }
+	timeout { send_user "FATAL: key 't' failed\n"; exit 1 }
+}
+sleep .5
+
+send "t"
+expect {
+	"(base-10 logarithmic)" { send_user "Success change curses type" }
 	timeout { send_user "FATAL: key 't' failed\n"; exit 1 }
 }
 sleep .5
