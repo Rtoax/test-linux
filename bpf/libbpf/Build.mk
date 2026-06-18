@@ -123,9 +123,9 @@ target-bpf-y += sched_cls.bpf.o
 target-bpf-y += sched_act.bpf.o
 
 target-prep-y += ${HELPERS}
-target-post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.disasm,$(target-bpf-y))
-target-post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.s,$(target-bpf-y))
-target-post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.bc,$(target-bpf-y))
+post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.disasm,$(target-bpf-y))
+post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.s,$(target-bpf-y))
+post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.bc,$(target-bpf-y))
 
 $(foreach t, ${target-y}, $(eval ${t}-objs := ${HELPERS}))
 

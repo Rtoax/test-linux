@@ -2,7 +2,7 @@ target-y += dummy dummy-fork dummy-vfork dummy-popen
 target-y += setns
 target-y += unshare unshare-execve
 
-target-post-y := post0
+post-y := post0
 
 dummy-fork-objs := helpers.o
 dummy-vfork-objs := helpers.o

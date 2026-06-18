@@ -106,7 +106,7 @@ ifneq (${KMOD}${USRC},)
 endif
 
 target-prep-y := reset
-target-post-y := done
+post-y := done
 
 prog-y := abbrev.sh
 prog-y += history.sh

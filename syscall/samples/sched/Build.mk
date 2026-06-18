@@ -18,7 +18,7 @@ target-y += sched_yield
 target-y += taskset
 target-y += daemon
 
-target-post-y := post0
+post-y := post0
 
 str2cpuset-objs := ${SCHED_HELPERS}
 getcpu-objs := ${SCHED_HELPERS}

@@ -18,4 +18,4 @@ helpers-y += get_current_task_btf
 target-bpf-y := $(patsubst %,${OUTPUT}%.bpf.o,${kfuncs-y})
 target-bpf-y += $(patsubst %,${OUTPUT}%.bpf.o,${helpers-y})
 
-target-post-y := $(patsubst ${OUTPUT}%.bpf.o,${OUTPUT}%.bpf.disasm,$(target-bpf-y))
+post-y := $(patsubst ${OUTPUT}%.bpf.o,${OUTPUT}%.bpf.disasm,$(target-bpf-y))

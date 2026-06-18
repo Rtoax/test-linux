@@ -17,6 +17,6 @@ ifeq (${feature-annobin},y)
   target-y += hello
 endif
 
-target-post-y := $(patsubst %,%.annocheck.log,$(target-y))
+post-y := $(patsubst %,%.annocheck.log,$(target-y))
 
 CFLAGS += -specs=$(ANNOBIN)

@@ -21,9 +21,9 @@ common-objs-y += simd
 
 target-nvcc-${HAVE_CUDA} := $(common-objs-y)
 
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx,$(target-nvcc-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
+post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
+post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx,$(target-nvcc-y))
+post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
 
 target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs-y))
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs-y))

@@ -20,6 +20,6 @@ ifeq (${CONFIG_ANON_VMA_NAME},y)
   CFLAGS += -DCONFIG_ANON_VMA_NAME=1
 endif
 
-target-post-y += virt2phy
-target-post-y += post-nvdso
+post-y += virt2phy
+post-y += post-nvdso
 target-clean-y += clean-nvdso

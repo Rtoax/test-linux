@@ -2,7 +2,7 @@ target-y += hello
 target-y += hello.dw4
 target-y += hello.dw5
 
-target-post-y := hello.dwz hello.strip
+post-y := hello.dwz hello.strip
 
 target-clean-y := clean0
 

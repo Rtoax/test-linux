@@ -11,7 +11,7 @@ target-y += MPI_Send MPI_Send-2 MPI_Send-3
 target-y += MPI_Sendrecv MPI_Sendrecv_replace
 target-y += MPI_Wtime MPI_Wtick
 
-target-post-y := post0
+post-y := post0
 
 # -O3:
 #   glibc 2.28: /usr/include/features.h

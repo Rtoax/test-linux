@@ -39,33 +39,33 @@ nvidia-fatbin-${HAVE_CUDA} := hello.cu.fatbin
 nvidia-fatbin-${HAVE_CUDA} += parallel.cu.fatbin
 nvidia-fatbin-${HAVE_CUDA} += parallel.nv_fatbin
 nvidia-fatbin-${HAVE_CUDA} += parallel.nvFatBinSegment
-target-post-${HAVE_CUDA} := $(patsubst %,${OUTPUT}%.E.cu,$(common-exe))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(common-exe))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(common-exe))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx,$(common-exe))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(common-exe))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-cubin-y))
-target-post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin-y))
+post-${HAVE_CUDA} := $(patsubst %,${OUTPUT}%.E.cu,$(common-exe))
+post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.sass.dump,$(common-exe))
+post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx.dump,$(common-exe))
+post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx,$(common-exe))
+post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(common-exe))
+post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-cubin-y))
+post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%,$(nvidia-fatbin-y))
 
 # AMD ROCm
 target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-exe))
-target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%-hip.hip_fatbin,$(common-exe))
-target-post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%-hip.hipFatBinSegment,$(common-exe))
+post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%-hip.hip_fatbin,$(common-exe))
+post-${HAVE_HIP} += $(patsubst %,${OUTPUT}%-hip.hipFatBinSegment,$(common-exe))
 
 # HPCC
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-exe))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.E.hpcc,$(common-exe))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.hpcc.devbin,$(common-exe))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.hpcc.fatbin,$(common-exe))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%-hpcc.hpcc.hc_fatbin,$(common-exe))
-target-post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%-hpcc.hpcc.hcFatBinSegment,$(common-exe))
+post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.E.hpcc,$(common-exe))
+post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.hpcc.devbin,$(common-exe))
+post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%.hpcc.fatbin,$(common-exe))
+post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%-hpcc.hpcc.hc_fatbin,$(common-exe))
+post-${HAVE_HPCC} += $(patsubst %,${OUTPUT}%-hpcc.hpcc.hcFatBinSegment,$(common-exe))
 
 # LUCA
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-exe))
-target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.bitcode,$(common-exe))
-target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.devbin,$(common-exe))
-target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbin,$(common-exe))
-target-post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbc,$(common-exe))
+post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.bitcode,$(common-exe))
+post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.devbin,$(common-exe))
+post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbin,$(common-exe))
+post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbc,$(common-exe))
 
 # Pure C
 target-y := matrix-c-fp32 matrix-c-fp64

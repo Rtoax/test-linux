@@ -84,7 +84,7 @@ CFLAGS_cond_broadcast := -DCOND_ATTR=1
 CFLAGS_cond_signal := -DCOND_ATTR=1
 CFLAGS_create := -DNR_THREADS=5
 
-target-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${target-y}))
+post-y := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${target-y}))
 prog-y := list-tunables.sh
 
 create_thread-objs := ${PTHREAD_HELPERS}

@@ -6,4 +6,4 @@ target-y += usdt_semaphore_test
 target-y += usdt_sized_args
 target-y += libbpf
 
-target-post-y := help
+post-y := help

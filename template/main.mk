@@ -96,7 +96,7 @@ endif
 
 # %post means post in current directory, it's must be in front of subdir, when
 # current directory done first, subdir startup.
-build-targets += $(target-post-y)
+build-targets += $(post-y)
 build-targets += $(subdir-y-build)
 
 $(if ${DRY_RUN}, $(eval build-targets := $(subdir-y-build)))

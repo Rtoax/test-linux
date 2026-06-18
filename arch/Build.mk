@@ -7,4 +7,4 @@ subdir-${IS_SW_64} += sw_64
 subdir-${IS_LOONGARCH64} += loongarch64
 subdir-${IS_RISCV64} += riscv64
 
-target-post-y := $(patsubst %,${OUTPUT}%.c.s,${target-y})
+post-y := $(patsubst %,${OUTPUT}%.c.s,${target-y})

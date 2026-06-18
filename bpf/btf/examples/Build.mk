@@ -4,5 +4,5 @@
 target-bpf-y := ${OUTPUT}t1.bpf.o
 target-bpf-y += ${OUTPUT}t2.bpf.o
 
-target-post-y := ${OUTPUT}t1.bpf.btf
-target-post-y += ${OUTPUT}t2.bpf.s
+post-y := ${OUTPUT}t1.bpf.btf
+post-y += ${OUTPUT}t2.bpf.s
