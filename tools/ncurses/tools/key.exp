@@ -8,9 +8,17 @@ spawn bash -c "while sleep 0.1; do echo 1; done |
 	./plotcake --title ${title} -l ${line1} --verbose"
 sleep 0.1
 
-expect {
-	"${title}" { send_user "Found title ${title}\n" }
-	timeout { send_user "FATAL: not found title\n"; exit 1 }
+proc test_init {pattern} {
+	global timeout
+	expect {
+		-re "$pattern" {
+			send_user "Found pattern '$pattern'\n"
+		}
+		timeout {
+			send_user "FATAL: not found pattern '$pattern'\n"
+			exit 1
+		}
+	}
 }
 
 proc test_key {key pattern success_msg} {
@@ -21,13 +29,19 @@ proc test_key {key pattern success_msg} {
 			send_user "Success: $success_msg\n"
 		}
 		timeout {
-			send_user "Fatal: key '$key' failed - expect pattern '$pattern'\n"
+			send_user "Fatal: key '$key' failed, expect '$pattern'\n"
 		}
 	}
 	# Allow UI to refresh
 	sleep 0.5
 }
 
+# Verify initial plot
+test_init "$title"
+test_init "$line1"
+test_init "plot:"
+
+# Verify keys
 test_key "l" " ${line1}" "check line labels"
 test_key "h" "'q' and Esc: quit" "check help"
 test_key "r" "cur=114=" "reset"
