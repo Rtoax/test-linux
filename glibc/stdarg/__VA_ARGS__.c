@@ -1,3 +1,10 @@
+/**
+ * __VA_ARGS__
+ *
+ * Refs:
+ * - https://en.wikipedia.org/wiki/Variadic_macro
+ */
+
 #include <stdio.h>
 
 #define print1(fmt, ...) printf(fmt, __VA_ARGS__)

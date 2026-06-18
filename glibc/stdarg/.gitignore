@@ -2,6 +2,7 @@
 /delete_files
 /sum_int
 /__VA_ARGS__
+/__VA_OPT__
 /va_start
 /va_arg
 /va_copy

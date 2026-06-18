@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- add `__VA_OPT__.cpp` test;
 - compiler/types: add `double.c`,`_Float16.c`,`_Float32.c`,`_Float64.c` and move `_Float128.c`,`__bf16.c`,`__float128.c`,`__float80.c`,`__float128.h` into it;
 - macro: add arg.c;
 - scripts/Makefile.build: add `ALL_SUBDIR`, usage `subdir-y += ${ALL_SUBDIR}`;
