@@ -29,10 +29,12 @@ __global__ void precision_error(void)
 	double fp64 = PI;
 	double res_mul_fp64 = fp64;
 	double res_add_fp64 = fp64;
+	double res_muladd_fp64 = fp64;
 
 	float fp32 = (float)PI;
 	float res_mul_fp32 = fp32;
 	float res_add_fp32 = fp32;
+	float res_muladd_fp32 = fp32;
 
 	for (int i = 0; i < 20; i++) {
 		res_mul_fp64 *= fp64;
@@ -44,8 +46,14 @@ __global__ void precision_error(void)
 		res_add_fp32 += fp32;
 	}
 
+	for (int i = 0; i < 21; i++) {
+		res_muladd_fp64 = res_muladd_fp64 * fp64 + fp64;
+		res_muladd_fp32 = res_muladd_fp32 * fp32 + fp32;
+	}
+
 	double err_add = fabs(res_add_fp64 - (double)res_add_fp32);
 	double err_mul = fabs(res_mul_fp64 - (double)res_mul_fp32);
+	double err_muladd = fabs(res_muladd_fp64 - (double)res_muladd_fp32);
 
 	printf("FP64 Reference Add: %.17f\n", res_add_fp64);
 	printf("CPU FP32 Test Add:  %.17f\n", (double)res_add_fp32);
@@ -54,6 +62,10 @@ __global__ void precision_error(void)
 	printf("FP64 Reference Mul: %.17f\n", res_mul_fp64);
 	printf("CPU FP32 Test Mul:  %.17f\n", (double)res_mul_fp32);
 	printf("Absolute Error Mul: %e\n\n", err_mul);
+
+	printf("FP64 Reference Mul&Add: %.17f\n", res_muladd_fp64);
+	printf("CPU FP32 Test Mul&Add:  %.17f\n", (double)res_muladd_fp32);
+	printf("Absolute Error Mul&Add: %e\n\n", err_muladd);
 }
 
 #ifndef _CUDA_NVCC_COMPAT_COMPILER
