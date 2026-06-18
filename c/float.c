@@ -106,6 +106,7 @@
 # define CALL(func, ...) func(__VA_ARGS__)
 # define __device__
 # define __global__
+# define __host__
 # define __constant__ const
 # define devSync()
 # define DEVICE "CPU"
@@ -1059,7 +1060,11 @@ void __global__ __kernel_mul_weight_add_bias_arr_fp16(size_t len,
 }
 #endif /* SUPPORT_FP16 */
 
-void overflow_muladd_fp64(void)
+/******************************************************************************\
+ *                           Host Functions                                   *
+\******************************************************************************/
+
+__host__ void muladd_fp64(void)
 {
 	for (size_t i = 100; i <= 1000; i += 100) {
 		double a = i * 1.123456789f;
@@ -1076,7 +1081,7 @@ void overflow_muladd_fp64(void)
 	}
 }
 
-void muladd_arr_fp64(void)
+__host__ void muladd_arr_fp64(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		CALL(init_data_arr_fp64, i);
@@ -1101,7 +1106,8 @@ void muladd_arr_fp64(void)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wluca-compat"
 #endif
-void mul_fp32(void)
+
+__host__ void mul_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 
@@ -1122,7 +1128,7 @@ void mul_fp32(void)
 	}
 }
 
-void add_fp32(void)
+__host__ void add_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 	float weight = st2host(fp32_PosMax, f32) / 9.0f;
@@ -1145,7 +1151,7 @@ void add_fp32(void)
 	}
 }
 
-void muladd_fp32(void)
+__host__ void muladd_fp32(void)
 {
 	for (size_t i = 100; i <= 1000; i += 100) {
 		float a = i * 1.123456789f;
@@ -1184,7 +1190,7 @@ void muladd_fp32(void)
 	}
 }
 
-void muladd_arr_fp32(void)
+__host__ void muladd_arr_fp32(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		CALL(init_data_arr_fp32, i);
@@ -1220,7 +1226,7 @@ void muladd_arr_fp32(void)
 }
 
 #ifdef SUPPORT_FP16
-void muladd_fp16(void)
+__host__ void muladd_fp16(void)
 {
 	size_t start, end, interval;
 
@@ -1285,7 +1291,7 @@ void muladd_fp16(void)
 	reset();
 }
 
-void muladd_arr_fp16(void)
+__host__ void muladd_arr_fp16(void)
 {
 	size_t start, end, interval;
 
@@ -1410,7 +1416,7 @@ void fp32_overflow_test(void)
 void fp64_precision_test(void)
 {
 	seperator();
-	overflow_muladd_fp64();
+	muladd_fp64();
 	seperator();
 	muladd_arr_fp64();
 	reset();
