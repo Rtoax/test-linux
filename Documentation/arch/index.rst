@@ -13,3 +13,9 @@ Test Linux CPU Architectures
    riscv/index
    sw_64/index
    x86/index
+
+
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
