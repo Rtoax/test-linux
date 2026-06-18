@@ -4,9 +4,8 @@
 
 #define MY_VERSION "v1.4.1"
 
-#define LONG_PRESS_FLICK "(long press to prevent flickering)"
-#define KEY_HELP_h "'h': show the help info" LONG_PRESS_FLICK
-#define KEY_HELP_l "'l': display the label for each line" LONG_PRESS_FLICK
+#define KEY_HELP_h "'h': show the help info"
+#define KEY_HELP_l "'l': show the label for each line"
 #define KEY_HELP_q "'q' and Esc: quit"
 #define KEY_HELP_r "'r': reset plot"
 #define KEY_HELP_t "'t': change numerical scaling for paint"
