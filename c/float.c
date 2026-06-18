@@ -423,16 +423,16 @@ __myconst__ bf16_t bf16_NegMin = BF16_INITIALIZER(1, 0x1, 0);
 					   offsetof(typeof(st), field)); \
 		__v;                                                     \
 	})
-# define stset(st, field, v)                                         \
+# define stset(st, type, field, v)                                   \
 	do {                                                         \
-		typeof(st) __hostst = {                              \
+		type __hostst = {                                    \
 			.field = v,                                  \
 		};                                                   \
 		(void)cudaMemcpyToSymbol(st, &__hostst, sizeof(st)); \
 	} while (0)
 #else
 # define st2host(st, field) st.field
-# define stset(st, field, v) st.field = v
+# define stset(st, type, field, v) st.field = v
 #endif
 
 static void binprint(const void *mem, size_t bits)
@@ -1061,10 +1061,9 @@ void overflow_muladd_fp64(void)
 	for (size_t i = 100; i <= 1000; i += 100) {
 		double a = i * 1.123456789f;
 
-		stset(data_fp64, f64, a);
-		stset(data_fp64_weight, f64, 1.000789);
-		stset(data_fp64_bias, f64, 1.1234);
-		stset(rslt_fp64, f64, a);
+		stset(data_fp64, fp64_t, f64, a);
+		stset(data_fp64_weight, fp64_t, f64, 1.000789);
+		stset(data_fp64_bias, fp64_t, f64, 1.1234);
 
 		__kernel_mul_weight_add_bias_fp64 DIM (i, 3);
 
@@ -1081,7 +1080,7 @@ void muladd_arr_fp64(void)
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		init_data_arr_fp64 DIM (i);
 
-		stset(data_fp64, f64, 1);
+		stset(data_fp64, fp64_t, f64, 1);
 
 		__kernel_mul_weight_add_bias_arr_fp64 DIM (i, 1);
 
@@ -1105,10 +1104,10 @@ void mul_fp32(void)
 {
 	float a = st2host(fp32_PosMax, f32) / 2.0f;
 
-	stset(data_fp32, f32, a);
-	stset(data_fp32_weight, f32, 1.15f);
-	stset(data_fp32_bias, f32, 1.15f);
-	stset(rslt_fp64, f64, a);
+	stset(data_fp32, fp32_t, f32, a);
+	stset(data_fp32_weight, fp32_t, f32, 1.15f);
+	stset(data_fp32_bias, fp32_t, f32, 1.15f);
+	stset(rslt_fp64, fp64_t, f64, a);
 
 	for (size_t i = 0; i < 10; i++) {
 		__kernel_mul_w_fp32 DIM ();
@@ -1128,10 +1127,10 @@ void add_fp32(void)
 	float weight = st2host(fp32_PosMax, f32) / 9.0f;
 	float bias = st2host(fp32_PosMax, f32) / 9.0f;
 
-	stset(data_fp32, f32, a);
-	stset(data_fp32_weight, f32, weight);
-	stset(data_fp32_bias, f32, bias);
-	stset(rslt_fp64, f64, a);
+	stset(data_fp32, fp32_t, f32, a);
+	stset(data_fp32_weight, fp32_t, f32, weight);
+	stset(data_fp32_bias, fp32_t, f32, bias);
+	stset(rslt_fp64, fp64_t, f64, a);
 
 	for (size_t i = 0; i < 10; i++) {
 		__kernel_add_bias_fp32 DIM ();
@@ -1150,10 +1149,10 @@ void muladd_fp32(void)
 	for (size_t i = 100; i <= 1000; i += 100) {
 		float a = i * 1.123456789f;
 
-		stset(data_fp32, f32, a);
-		stset(data_fp32_weight, f32, 1.000789f);
-		stset(data_fp32_bias, f32, 1.000789f);
-		stset(rslt_fp64, f64, a);
+		stset(data_fp32, fp32_t, f32, a);
+		stset(data_fp32_weight, fp32_t, f32, 1.000789f);
+		stset(data_fp32_bias, fp32_t, f32, 1.000789f);
+		stset(rslt_fp64, fp64_t, f64, a);
 
 		__kernel_mul_weight_fp32 DIM (i, 3);
 
@@ -1168,10 +1167,10 @@ void muladd_fp32(void)
 	for (size_t i = 100; i <= 1000; i += 100) {
 		float a = i * 1.123456789f;
 
-		stset(data_fp32, f32, a);
-		stset(data_fp32_weight, f32, 1.000789f);
-		stset(data_fp32_bias, f32, 1.000789f);
-		stset(rslt_fp64, f64, a);
+		stset(data_fp32, fp32_t, f32, a);
+		stset(data_fp32_weight, fp32_t, f32, 1.000789f);
+		stset(data_fp32_bias, fp32_t, f32, 1.000789f);
+		stset(rslt_fp64, fp64_t, f64, a);
 
 		__kernel_mul_weight_add_bias_fp32 DIM (i, 3);
 
@@ -1189,8 +1188,8 @@ void muladd_arr_fp32(void)
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		init_data_arr_fp32 DIM (i);
 
-		stset(data_fp32, f32, 1);
-		stset(rslt_fp64, f64, 1);
+		stset(data_fp32, fp32_t, f32, 1);
+		stset(rslt_fp64, fp64_t, f64, 1);
 
 		__kernel_mul_weight_arr_fp32 DIM (i, 1);
 
@@ -1205,8 +1204,8 @@ void muladd_arr_fp32(void)
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		init_data_arr_fp32 DIM (i);
 
-		stset(data_fp32, f32, 1);
-		stset(rslt_fp64, f64, 1);
+		stset(data_fp32, fp32_t, f32, 1);
+		stset(rslt_fp64, fp64_t, f64, 1);
 
 		__kernel_mul_weight_add_bias_arr_fp32 DIM (i, 1);
 
@@ -1234,10 +1233,10 @@ void muladd_fp16(void)
 		float fa = 2.7232154321f;
 		compat_fp16 a = compat_float2half(fa);
 
-		stset(data_fp16, f16, a);
-		stset(data_fp16_weight, f16, a);
-		stset(data_fp16_bias, f16, a);
-		stset(rslt_fp32, f32, fa);
+		stset(data_fp16, fp16_t, f16, a);
+		stset(data_fp16_weight, fp16_t, f16, a);
+		stset(data_fp16_bias, fp16_t, f16, a);
+		stset(rslt_fp32, fp32_t, f32, fa);
 
 		__kernel_mul_weight_fp16 DIM (i, 1);
 
@@ -1252,10 +1251,10 @@ void muladd_fp16(void)
 		float fa = 1.8432154321f;
 		compat_fp16 a = compat_float2half(fa);
 
-		stset(data_fp16, f16, a);
-		stset(data_fp16_weight, f16, a);
-		stset(data_fp16_bias, f16, a);
-		stset(rslt_fp32, f32, fa);
+		stset(data_fp16, fp16_t, f16, a);
+		stset(data_fp16_weight, fp16_t, f16, a);
+		stset(data_fp16_bias, fp16_t, f16, a);
+		stset(rslt_fp32, fp32_t, f32, fa);
 
 		__kernel_add_bias_fp16 DIM (i, 1);
 
@@ -1270,10 +1269,10 @@ void muladd_fp16(void)
 		float fa = 1.8432154321f;
 		compat_fp16 a = compat_float2half(fa);
 
-		stset(data_fp16, f16, a);
-		stset(data_fp16_weight, f16, a);
-		stset(data_fp16_bias, f16, a);
-		stset(rslt_fp32, f32, fa);
+		stset(data_fp16, fp16_t, f16, a);
+		stset(data_fp16_weight, fp16_t, f16, a);
+		stset(data_fp16_bias, fp16_t, f16, a);
+		stset(rslt_fp32, fp32_t, f32, fa);
 
 		__kernel_mul_weight_add_bias_fp16 DIM (i, 1);
 
@@ -1297,8 +1296,8 @@ void muladd_arr_fp16(void)
 	for (size_t i = start; i <= end; i += interval) {
 		init_data_arr_fp16 DIM (i, 5.5f);
 
-		stset(data_fp16, f16, compat_float2half(1.f));
-		stset(rslt_fp32, f32, 1.f);
+		stset(data_fp16, fp16_t, f16, compat_float2half(1.f));
+		stset(rslt_fp32, fp32_t, f32, 1.f);
 
 		__kernel_mul_weight_arr_fp16 DIM (i, 1);
 
@@ -1312,8 +1311,8 @@ void muladd_arr_fp16(void)
 	for (size_t i = start; i <= end; i += interval) {
 		init_data_arr_fp16 DIM (i, 5.5f);
 
-		stset(data_fp16, f16, compat_float2half(1.f));
-		stset(rslt_fp32, f32, 1.f);
+		stset(data_fp16, fp16_t, f16, compat_float2half(1.f));
+		stset(rslt_fp32, fp32_t, f32, 1.f);
 
 		__kernel_add_bias_arr_fp16 DIM (i, 1);
 
@@ -1327,8 +1326,8 @@ void muladd_arr_fp16(void)
 	for (size_t i = start; i <= end; i += interval) {
 		init_data_arr_fp16 DIM (i, 5.5f);
 
-		stset(data_fp16, f16, compat_float2half(1.f));
-		stset(rslt_fp32, f32, 1.f);
+		stset(data_fp16, fp16_t, f16, compat_float2half(1.f));
+		stset(rslt_fp32, fp32_t, f32, 1.f);
 
 		__kernel_mul_weight_add_bias_arr_fp16 DIM (i, 1);
 
