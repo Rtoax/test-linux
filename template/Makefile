@@ -2,11 +2,13 @@
 # Copyright (C) 2025-2026 Rong Tao
 # Test all template mk
 #
-# Usage: $ make MK=[os.mk] DEBUG=1
+# Usage: $ make {mk|MK}=<os.mk> [DEBUG=1]
 #
 OUTPUT := .output/
 
 V ?= 1
+
+$(if ${mk}, $(eval MK := ${mk}))
 
 ifdef MK
   MK_ALL := ${MK}
