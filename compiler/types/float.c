@@ -27,13 +27,22 @@ void base(void)
 __global__ void precision_error(void)
 {
 	double fp64 = PI;
+	double res_mul_fp64 = fp64;
+	double res_add_fp64 = fp64;
+
 	float fp32 = (float)PI;
+	float res_mul_fp32 = fp32;
+	float res_add_fp32 = fp32;
 
-	double res_mul_fp64 = fp64 * fp64;
-	float res_mul_fp32 = fp32 * fp32;
+	for (int i = 0; i < 20; i++) {
+		res_mul_fp64 *= fp64;
+		res_mul_fp32 *= fp32;
+	}
 
-	double res_add_fp64 = fp64 + fp64;
-	float res_add_fp32 = fp32 + fp32;
+	for (int i = 0; i < 10000000; i++) {
+		res_add_fp64 += fp64;
+		res_add_fp32 += fp32;
+	}
 
 	double err_add = fabs(res_add_fp64 - (double)res_add_fp32);
 	double err_mul = fabs(res_mul_fp64 - (double)res_mul_fp32);

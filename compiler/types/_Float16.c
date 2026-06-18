@@ -6,7 +6,7 @@
 void base(void)
 {
 	_Float16 f16 = (_Float16)PI;
-	printf("%.17f\n", (float)f16);
+	printf("PI: %.17f\n", (float)f16);
 }
 
 /**
