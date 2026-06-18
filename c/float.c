@@ -99,16 +99,13 @@
 # elif defined(__HIPCC__)	/* AMD ROCm HIP */
 # endif
 # define DIM	<<<1, 1>>>
-# define __mydevice__	__device__
-# define __myglobal__	__global__
-# define __myconst__	__constant__
 # define mysync()	(void)cudaDeviceSynchronize()
 # define DEVICE "GPU"
 #else
 # define DIM
-# define __mydevice__
-# define __myglobal__
-# define __myconst__	const
+# define __device__
+# define __global__
+# define __constant__	const
 # define mysync()
 # define DEVICE "CPU"
 #endif
@@ -338,79 +335,79 @@ typedef union bfloat16 {
 
 
 /* https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
-__myconst__ fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
+__constant__ fp64_t fp64_NaN = FP64_INITIALIZER(1, 0x7ff, 0xfffffffffffff);
 /* See also __builtin_huge_val() */
-__myconst__ fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
-__myconst__ fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
-__myconst__ fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
-__myconst__ fp64_t fp64_NegZero = FP64_INITIALIZER(1, 0, 0);
+__constant__ fp64_t fp64_PosInf = FP64_INITIALIZER(0, 0x7ff, 0);
+__constant__ fp64_t fp64_NegInf = FP64_INITIALIZER(1, 0x7ff, 0);
+__constant__ fp64_t fp64_PosZero = FP64_INITIALIZER(0, 0, 0);
+__constant__ fp64_t fp64_NegZero = FP64_INITIALIZER(1, 0, 0);
 /* ≈ 1.7976931348623157 × 10³⁰⁸ */
-__myconst__ fp64_t fp64_PosMax = FP64_INITIALIZER(0, 0x7fe, 0xFFFFFFFFFFFFF);
-__myconst__ fp64_t fp64_NegMax = FP64_INITIALIZER(1, 0x7fe, 0xFFFFFFFFFFFFF);
+__constant__ fp64_t fp64_PosMax = FP64_INITIALIZER(0, 0x7fe, 0xFFFFFFFFFFFFF);
+__constant__ fp64_t fp64_NegMax = FP64_INITIALIZER(1, 0x7fe, 0xFFFFFFFFFFFFF);
 /* ≈ 2.2250738585072014 × 10⁻³⁰⁸ */
-__myconst__ fp64_t fp64_PosMin = FP64_INITIALIZER(0, 1, 0);
-__myconst__ fp64_t fp64_NegMin = FP64_INITIALIZER(1, 1, 0);
+__constant__ fp64_t fp64_PosMin = FP64_INITIALIZER(0, 1, 0);
+__constant__ fp64_t fp64_NegMin = FP64_INITIALIZER(1, 1, 0);
 
 /* https://en.wikipedia.org/wiki/Single-precision_floating-point_format */
-__myconst__ fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
-__myconst__ fp32_t fp32_PosOne = FP32_INITIALIZER(0, 0x7f, 0);
-__myconst__ fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
-__myconst__ fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
-__myconst__ fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
-__myconst__ fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
+__constant__ fp32_t fp32_NaN = FP32_INITIALIZER(1, 0xff, 0xff);
+__constant__ fp32_t fp32_PosOne = FP32_INITIALIZER(0, 0x7f, 0);
+__constant__ fp32_t fp32_PosInf = FP32_INITIALIZER(0, 0xff, 0);
+__constant__ fp32_t fp32_NegInf = FP32_INITIALIZER(1, 0xff, 0);
+__constant__ fp32_t fp32_PosZero = FP32_INITIALIZER(0, 0, 0);
+__constant__ fp32_t fp32_NegZero = FP32_INITIALIZER(1, 0, 0);
 /**
  * See also FLT_MAX and FLT_MIN
  */
 /* ≈ ±3.4028235 × 10³⁸ */
-__myconst__ fp32_t fp32_PosMax = FP32_INITIALIZER(0, 0xfe, 0x7fffff);
-__myconst__ fp32_t fp32_NegMax = FP32_INITIALIZER(1, 0xfe, 0x7fffff);
+__constant__ fp32_t fp32_PosMax = FP32_INITIALIZER(0, 0xfe, 0x7fffff);
+__constant__ fp32_t fp32_NegMax = FP32_INITIALIZER(1, 0xfe, 0x7fffff);
 /* ≈ ±1.17549435 × 10⁻³⁸ */
-__myconst__ fp32_t fp32_PosMin = FP32_INITIALIZER(0, 0x1, 0);
-__myconst__ fp32_t fp32_NegMin = FP32_INITIALIZER(1, 0x1, 0);
-__myconst__ fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
+__constant__ fp32_t fp32_PosMin = FP32_INITIALIZER(0, 0x1, 0);
+__constant__ fp32_t fp32_NegMin = FP32_INITIALIZER(1, 0x1, 0);
+__constant__ fp32_t fp32_0dot15625 = FP32_INITIALIZER(0, 0x7c, 0x200000);
 
 /* https://en.wikipedia.org/wiki/Half-precision_floating-point_format */
 /**
  * #define CUDART_NAN_FP16 __ushort_as_half((unsigned short)0x7FFFU)
  */
-__myconst__ fp16_t fp16_NaN = FP16_INITIALIZER(1, 0x1f, 0x3ff);
+__constant__ fp16_t fp16_NaN = FP16_INITIALIZER(1, 0x1f, 0x3ff);
 /**
  * #define CUDART_INF_FP16 __ushort_as_half((unsigned short)0x7C00U)
  */
-__myconst__ fp16_t fp16_PosInf = FP16_INITIALIZER(0, 0x1f, 0);
-__myconst__ fp16_t fp16_NegInf = FP16_INITIALIZER(1, 0x1f, 0);
+__constant__ fp16_t fp16_PosInf = FP16_INITIALIZER(0, 0x1f, 0);
+__constant__ fp16_t fp16_NegInf = FP16_INITIALIZER(1, 0x1f, 0);
 /**
  * #define CUDART_ZERO_FP16 __ushort_as_half((unsigned short)0x0000U)
  * #define CUDART_NEG_ZERO_FP16 __ushort_as_half((unsigned short)0x8000U)
  */
-__myconst__ fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
-__myconst__ fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
+__constant__ fp16_t fp16_PosZero = FP16_INITIALIZER(0, 0, 0);
+__constant__ fp16_t fp16_NegZero = FP16_INITIALIZER(1, 0, 0);
 /**
  * #define CUDART_MAX_NORMAL_FP16 __ushort_as_half((unsigned short)0x7BFFU)
  * #define CUDART_MIN_DENORM_FP16 __ushort_as_half((unsigned short)0x0001U)
  */
 /* ± 65504.0 */
-__myconst__ fp16_t fp16_PosMax = FP16_INITIALIZER(0, 0x1e, 0x3ff);
-__myconst__ fp16_t fp16_NegMax = FP16_INITIALIZER(1, 0x1e, 0x3ff);
+__constant__ fp16_t fp16_PosMax = FP16_INITIALIZER(0, 0x1e, 0x3ff);
+__constant__ fp16_t fp16_NegMax = FP16_INITIALIZER(1, 0x1e, 0x3ff);
 /* ± 2^(-14) ≈ 6.103515625 × 10^(-5) */
-__myconst__ fp16_t fp16_PosMin = FP16_INITIALIZER(0, 0x1, 0);
-__myconst__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
+__constant__ fp16_t fp16_PosMin = FP16_INITIALIZER(0, 0x1, 0);
+__constant__ fp16_t fp16_NegMin = FP16_INITIALIZER(1, 0x1, 0);
 
 /* Quiet NaN */
-__myconst__ bf16_t bf16_qNaN = BF16_INITIALIZER(0, 0xff, 0x7f);
+__constant__ bf16_t bf16_qNaN = BF16_INITIALIZER(0, 0xff, 0x7f);
 /* Signaling NaN */
-__myconst__ bf16_t bf16_sNaN = BF16_INITIALIZER(0, 0xff, 0x3f);
+__constant__ bf16_t bf16_sNaN = BF16_INITIALIZER(0, 0xff, 0x3f);
 /* default use qNaN */
-__myconst__ bf16_t bf16_NaN = BF16_INITIALIZER(0, 0xff, 0x7f);
-__myconst__ bf16_t bf16_PosOne = BF16_INITIALIZER(0, 0x7f, 0);
-__myconst__ bf16_t bf16_PosZero = BF16_INITIALIZER(0, 0, 0);
-__myconst__ bf16_t bf16_NegZero = BF16_INITIALIZER(1, 0, 0);
-__myconst__ bf16_t bf16_PosInf = BF16_INITIALIZER(0, 0xff, 0);
-__myconst__ bf16_t bf16_NegInf = BF16_INITIALIZER(1, 0xff, 0);
-__myconst__ bf16_t bf16_PosMax = BF16_INITIALIZER(0, 0xfe, 0x7f);
-__myconst__ bf16_t bf16_NegMax = BF16_INITIALIZER(1, 0xfe, 0x7f);
-__myconst__ bf16_t bf16_PosMin = BF16_INITIALIZER(0, 0x1, 0);
-__myconst__ bf16_t bf16_NegMin = BF16_INITIALIZER(1, 0x1, 0);
+__constant__ bf16_t bf16_NaN = BF16_INITIALIZER(0, 0xff, 0x7f);
+__constant__ bf16_t bf16_PosOne = BF16_INITIALIZER(0, 0x7f, 0);
+__constant__ bf16_t bf16_PosZero = BF16_INITIALIZER(0, 0, 0);
+__constant__ bf16_t bf16_NegZero = BF16_INITIALIZER(1, 0, 0);
+__constant__ bf16_t bf16_PosInf = BF16_INITIALIZER(0, 0xff, 0);
+__constant__ bf16_t bf16_NegInf = BF16_INITIALIZER(1, 0xff, 0);
+__constant__ bf16_t bf16_PosMax = BF16_INITIALIZER(0, 0xfe, 0x7f);
+__constant__ bf16_t bf16_NegMax = BF16_INITIALIZER(1, 0xfe, 0x7f);
+__constant__ bf16_t bf16_PosMin = BF16_INITIALIZER(0, 0x1, 0);
+__constant__ bf16_t bf16_NegMin = BF16_INITIALIZER(1, 0x1, 0);
 
 #ifdef IS_CUDA_COMPAT_COMPILER
 /**
@@ -447,7 +444,7 @@ static void binprint(const void *mem, size_t bits)
 }
 
 /* Could use to both float and double */
-double __mydevice__ fraction_value(uint64_t fraction, uint64_t nbits)
+double __device__ fraction_value(uint64_t fraction, uint64_t nbits)
 {
 	uint32_t tmp, i;
 	double fra = 0.0f;
@@ -461,7 +458,7 @@ double __mydevice__ fraction_value(uint64_t fraction, uint64_t nbits)
 	return fra;
 }
 
-void __mydevice__ double_to_fp64(const double d, fp64_t *fp64)
+void __device__ double_to_fp64(const double d, fp64_t *fp64)
 {
 	double tmp = d;
 	int64_t i64 = *(int64_t *)&tmp;
@@ -469,7 +466,7 @@ void __mydevice__ double_to_fp64(const double d, fp64_t *fp64)
 	*fp64 = *(fp64_t *)&i64;
 }
 
-double __mydevice__ fp64_to_double(const fp64_t *fp64)
+double __device__ fp64_to_double(const fp64_t *fp64)
 {
 	double sign = 1 - 2 * (fp64->sign % 2);
 	double e2, fra;
@@ -496,7 +493,7 @@ double __mydevice__ fp64_to_double(const fp64_t *fp64)
 	return sign * e2 * fra;
 }
 
-void __myglobal__ __check_fp64(double f)
+void __global__ __check_fp64(double f)
 {
 	double to;
 	fp64_t fp64;
@@ -519,7 +516,7 @@ void __myglobal__ __check_fp64(double f)
 		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
 
-void __mydevice__ float_to_fp32(const float f, fp32_t *fp32)
+void __device__ float_to_fp32(const float f, fp32_t *fp32)
 {
 	float tmp = f;
 	int32_t i32 = *(int32_t *)&tmp;
@@ -527,7 +524,7 @@ void __mydevice__ float_to_fp32(const float f, fp32_t *fp32)
 	*fp32 = *(fp32_t *)&i32;
 }
 
-float __mydevice__ fp32_to_float(const fp32_t *fp32)
+float __device__ fp32_to_float(const fp32_t *fp32)
 {
 	float sign = 1 - 2 * (fp32->sign % 2);
 	float e2, fra;
@@ -554,7 +551,7 @@ float __mydevice__ fp32_to_float(const fp32_t *fp32)
 	return sign * e2 * fra;
 }
 
-void __myglobal__ __check_fp32(float f)
+void __global__ __check_fp32(float f)
 {
 	float to;
 	fp32_t fp32;
@@ -578,7 +575,7 @@ void __myglobal__ __check_fp32(float f)
 	} while (0)
 
 #ifdef SUPPORT_FP16
-void __mydevice__ float16_to_fp16(const compat_fp16 f, fp16_t *fp16)
+void __device__ float16_to_fp16(const compat_fp16 f, fp16_t *fp16)
 {
 	compat_fp16 tmp = f;
 	int16_t i16 = *(int16_t *)&tmp;
@@ -586,7 +583,7 @@ void __mydevice__ float16_to_fp16(const compat_fp16 f, fp16_t *fp16)
 	*fp16 = *(fp16_t *)&i16;
 }
 
-compat_fp16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
+compat_fp16 __device__ fp16_to_float16(const fp16_t *fp16)
 {
 	compat_fp16 sign = compat_float2half(1 - 2 * (fp16->sign % 2));
 	compat_fp16 e2, fra;
@@ -615,7 +612,7 @@ compat_fp16 __mydevice__ fp16_to_float16(const fp16_t *fp16)
 	return sign * e2 * fra;
 }
 
-void __myglobal__ __kernel_check_fp16(compat_fp16 f)
+void __global__ __kernel_check_fp16(compat_fp16 f)
 {
 	compat_fp16 to;
 	fp16_t fp16;
@@ -639,7 +636,7 @@ void __myglobal__ __kernel_check_fp16(compat_fp16 f)
 #endif /* SUPPORT_FP16 */
 
 #ifdef SUPPORT_BF16
-void __mydevice__ bfloat16_to_bf16(const compat_bf16 f, bf16_t *bf16)
+void __device__ bfloat16_to_bf16(const compat_bf16 f, bf16_t *bf16)
 {
 	compat_bf16 tmp = f;
 	int16_t i16 = *(int16_t *)&tmp;
@@ -647,7 +644,7 @@ void __mydevice__ bfloat16_to_bf16(const compat_bf16 f, bf16_t *bf16)
 	*bf16 = *(bf16_t *)&i16;
 }
 
-compat_bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
+compat_bf16 __device__ bf16_to_bfloat16(const bf16_t *bf16)
 {
 	compat_bf16 sign = compat_floattobf16(1 - 2 * (bf16->sign % 2));
 	compat_bf16 e2, fra;
@@ -675,7 +672,7 @@ compat_bf16 __mydevice__ bf16_to_bfloat16(const bf16_t *bf16)
 	return sign * e2 * fra;
 }
 
-void __myglobal__ __check_bf16(compat_bf16 f)
+void __global__ __check_bf16(compat_bf16 f)
 {
 	compat_bf16 to;
 	bf16_t bf16;
@@ -808,47 +805,47 @@ void base_tests(void)
  * To enable computation on the GPU, we use the __device__ variable to ensure
  * that all computations occur in the GPU FP rather than on the CPU.
  *
- * If testing on the CPU, __mydevice__ is empty.
+ * If testing on the CPU, __device__ is empty.
  */
 #define DATA_ARRAY_SIZE	1000
 
-__mydevice__ fp64_t data_fp64;
-__mydevice__ fp64_t data_fp64_weight;
-__mydevice__ fp64_t data_fp64_bias;
-__mydevice__ fp64_t data_fp64_arr[DATA_ARRAY_SIZE];
-__mydevice__ fp64_t data_fp64_weight_arr[DATA_ARRAY_SIZE];
-__mydevice__ fp64_t data_fp64_bias_arr[DATA_ARRAY_SIZE];
+__device__ fp64_t data_fp64;
+__device__ fp64_t data_fp64_weight;
+__device__ fp64_t data_fp64_bias;
+__device__ fp64_t data_fp64_arr[DATA_ARRAY_SIZE];
+__device__ fp64_t data_fp64_weight_arr[DATA_ARRAY_SIZE];
+__device__ fp64_t data_fp64_bias_arr[DATA_ARRAY_SIZE];
 
-__mydevice__ fp32_t data_fp32;
-__mydevice__ fp32_t data_fp32_weight;
-__mydevice__ fp32_t data_fp32_bias;
-__mydevice__ fp32_t data_fp32_arr[DATA_ARRAY_SIZE];
-__mydevice__ fp32_t data_fp32_weight_arr[DATA_ARRAY_SIZE];
-__mydevice__ fp32_t data_fp32_bias_arr[DATA_ARRAY_SIZE];
+__device__ fp32_t data_fp32;
+__device__ fp32_t data_fp32_weight;
+__device__ fp32_t data_fp32_bias;
+__device__ fp32_t data_fp32_arr[DATA_ARRAY_SIZE];
+__device__ fp32_t data_fp32_weight_arr[DATA_ARRAY_SIZE];
+__device__ fp32_t data_fp32_bias_arr[DATA_ARRAY_SIZE];
 
-__mydevice__ fp16_t data_fp16;
-__mydevice__ fp16_t data_fp16_weight;
-__mydevice__ fp16_t data_fp16_bias;
-__mydevice__ fp16_t data_fp16_arr[DATA_ARRAY_SIZE];
-__mydevice__ fp16_t data_fp16_weight_arr[DATA_ARRAY_SIZE];
-__mydevice__ fp16_t data_fp16_bias_arr[DATA_ARRAY_SIZE];
+__device__ fp16_t data_fp16;
+__device__ fp16_t data_fp16_weight;
+__device__ fp16_t data_fp16_bias;
+__device__ fp16_t data_fp16_arr[DATA_ARRAY_SIZE];
+__device__ fp16_t data_fp16_weight_arr[DATA_ARRAY_SIZE];
+__device__ fp16_t data_fp16_bias_arr[DATA_ARRAY_SIZE];
 
 /**
  * In addition to using fp32 to save the calculation results, fp64 is also
  * used to save the calculation results in order to obtain the calculation
  * results when there is no overflow, as a comparison.
  */
-__mydevice__ fp64_t rslt_fp64;
-__mydevice__ fp32_t rslt_fp32;
+__device__ fp64_t rslt_fp64;
+__device__ fp32_t rslt_fp32;
 
-void __myglobal__ init_data_fp64(double init)
+void __global__ init_data_fp64(double init)
 {
 	data_fp64.f64 = init;
 	data_fp64_weight.f64 = init;
 	data_fp64_bias.f64 = init;
 }
 
-void __myglobal__ init_data_arr_fp64(size_t size)
+void __global__ init_data_arr_fp64(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
 		data_fp64_arr[i].f64 = i * 1000.0;
@@ -857,7 +854,7 @@ void __myglobal__ init_data_arr_fp64(size_t size)
 	}
 }
 
-void __myglobal__ init_data_arr_fp32(size_t size)
+void __global__ init_data_arr_fp32(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
 		data_fp32_arr[i].f32 = i * 1000.f;
@@ -867,7 +864,7 @@ void __myglobal__ init_data_arr_fp32(size_t size)
 }
 
 #ifdef SUPPORT_FP16
-void __myglobal__ init_data_arr_fp16(size_t size, float init)
+void __global__ init_data_arr_fp16(size_t size, float init)
 {
 	for (size_t i = 0; i < size; i++) {
 		data_fp16_arr[i].f16 = compat_float2half(init);
@@ -877,13 +874,13 @@ void __myglobal__ init_data_arr_fp16(size_t size, float init)
 }
 #endif
 
-void __myglobal__ __kernel_mul_w_fp32(void)
+void __global__ __kernel_mul_w_fp32(void)
 {
 	data_fp32.f32 *= data_fp32_weight.f32;
 	rslt_fp64.f64 *= data_fp32_weight.f32;
 }
 
-void __myglobal__ __kernel_add_bias_fp32(void)
+void __global__ __kernel_add_bias_fp32(void)
 {
 	data_fp32.f32 += data_fp32_bias.f32;
 	rslt_fp64.f64 += data_fp32_bias.f32;
@@ -892,8 +889,7 @@ void __myglobal__ __kernel_add_bias_fp32(void)
 /**
  * rslt = rslt * weight + bias
  */
-void __myglobal__ __kernel_mul_weight_add_bias_fp64(size_t loop,
-						    size_t interval)
+void __global__ __kernel_mul_weight_add_bias_fp64(size_t loop, size_t interval)
 {
 	for (size_t i = 0; i < loop; i += interval) {
 		data_fp64.f64 *= data_fp64_weight.f64;
@@ -904,8 +900,8 @@ void __myglobal__ __kernel_mul_weight_add_bias_fp64(size_t loop,
 /**
  * rslt = arr[i] * weight[i] + bias[i]
  */
-void __myglobal__ __kernel_mul_weight_add_bias_arr_fp64(size_t len,
-							size_t interval)
+void __global__ __kernel_mul_weight_add_bias_arr_fp64(size_t len,
+						      size_t interval)
 {
 	for (size_t j = 0; j < len; j += interval) {
 		data_fp64.f64 +=
@@ -917,8 +913,7 @@ void __myglobal__ __kernel_mul_weight_add_bias_arr_fp64(size_t len,
 /**
  * rslt = rslt * weight + bias;
  */
-void __myglobal__ __kernel_mul_weight_add_bias_fp32(size_t loop,
-						    size_t interval)
+void __global__ __kernel_mul_weight_add_bias_fp32(size_t loop, size_t interval)
 {
 	for (size_t i = 0; i < loop; i += interval) {
 		data_fp32.f32 *= data_fp32_weight.f32;
@@ -931,7 +926,7 @@ void __myglobal__ __kernel_mul_weight_add_bias_fp32(size_t loop,
 /**
  * rslt = rslt * weight;
  */
-void __myglobal__ __kernel_mul_weight_fp32(size_t loop, size_t interval)
+void __global__ __kernel_mul_weight_fp32(size_t loop, size_t interval)
 {
 	for (size_t i = 0; i < loop; i += interval) {
 		data_fp32.f32 *= data_fp32_weight.f32;
@@ -942,8 +937,8 @@ void __myglobal__ __kernel_mul_weight_fp32(size_t loop, size_t interval)
 /**
  * rslt += a1[i] * a2[i] + bias[i]
  */
-void __myglobal__ __kernel_mul_weight_add_bias_arr_fp32(size_t len,
-							size_t interval)
+void __global__ __kernel_mul_weight_add_bias_arr_fp32(size_t len,
+						      size_t interval)
 {
 	for (size_t j = 0; j < len; j += interval) {
 		data_fp32.f32 +=
@@ -958,7 +953,7 @@ void __myglobal__ __kernel_mul_weight_add_bias_arr_fp32(size_t len,
 /**
  * rslt += a1[i] * a2[i]
  */
-void __myglobal__ __kernel_mul_weight_arr_fp32(size_t len, size_t interval)
+void __global__ __kernel_mul_weight_arr_fp32(size_t len, size_t interval)
 {
 	for (size_t j = 0; j < len; j += interval) {
 		data_fp32.f32 +=
@@ -972,7 +967,7 @@ void __myglobal__ __kernel_mul_weight_arr_fp32(size_t len, size_t interval)
 /**
  * rslt = rslt * weight
  */
-void __myglobal__ __kernel_mul_weight_fp16(size_t loop, size_t interval)
+void __global__ __kernel_mul_weight_fp16(size_t loop, size_t interval)
 {
 	compat_fp16 tmp;
 
@@ -987,7 +982,7 @@ void __myglobal__ __kernel_mul_weight_fp16(size_t loop, size_t interval)
 /**
  * rslt = rslt + bias;
  */
-void __myglobal__ __kernel_add_bias_fp16(size_t loop, size_t interval)
+void __global__ __kernel_add_bias_fp16(size_t loop, size_t interval)
 {
 	compat_fp16 tmp;
 
@@ -1002,8 +997,7 @@ void __myglobal__ __kernel_add_bias_fp16(size_t loop, size_t interval)
 /**
  * rslt = rslt * weight + bias;
  */
-void __myglobal__ __kernel_mul_weight_add_bias_fp16(size_t loop,
-						    size_t interval)
+void __global__ __kernel_mul_weight_add_bias_fp16(size_t loop, size_t interval)
 {
 	compat_fp16 tmp;
 
@@ -1018,7 +1012,7 @@ void __myglobal__ __kernel_mul_weight_add_bias_fp16(size_t loop,
 /**
  * rslt += arr[i] * weight[i]
  */
-void __myglobal__ __kernel_mul_weight_arr_fp16(size_t len, size_t interval)
+void __global__ __kernel_mul_weight_arr_fp16(size_t len, size_t interval)
 {
 	compat_fp16 tmp;
 
@@ -1033,7 +1027,7 @@ void __myglobal__ __kernel_mul_weight_arr_fp16(size_t len, size_t interval)
 /**
  * rslt += arr[i] + bias[i]
  */
-void __myglobal__ __kernel_add_bias_arr_fp16(size_t len, size_t interval)
+void __global__ __kernel_add_bias_arr_fp16(size_t len, size_t interval)
 {
 	compat_fp16 tmp;
 
@@ -1048,8 +1042,8 @@ void __myglobal__ __kernel_add_bias_arr_fp16(size_t len, size_t interval)
 /**
  * rslt += arr[i] * weight[i] + bias[i]
  */
-void __myglobal__ __kernel_mul_weight_add_bias_arr_fp16(size_t len,
-							size_t interval)
+void __global__ __kernel_mul_weight_add_bias_arr_fp16(size_t len,
+						      size_t interval)
 {
 	compat_fp16 tmp;
 
