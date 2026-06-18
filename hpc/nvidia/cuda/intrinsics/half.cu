@@ -119,13 +119,22 @@ __global__ void k_half_constants(void)
 __global__ void k_half_precision_error(void)
 {
 	double fp64 = PI;
+	double res_mul_fp64 = fp64;
+	double res_add_fp64 = fp64;
+
 	half fp16 = __float2half(PI);
+	half res_mul_fp16 = fp16;
+	half res_add_fp16 = fp16;
 
-	double res_mul_fp64 = fp64 * fp64;
-	half res_mul_fp16 = __hmul(fp16, fp16);
+	for (int i = 0; i < 8; i++) {
+		res_mul_fp64 *= fp64;
+		res_mul_fp16 = __hmul(res_mul_fp16, fp16);
+	}
 
-	double res_add_fp64 = fp64 + fp64;
-	half res_add_fp16 = __hadd(fp16, fp16);
+	for (int i = 0; i < 1000; i++) {
+		res_add_fp64 += fp64;
+		res_add_fp16 = __hadd(res_add_fp16, fp16);
+	}
 
 	double err_add =
 		fabs(res_add_fp64 - (double)__half2float(res_add_fp16));

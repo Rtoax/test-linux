@@ -18,13 +18,22 @@ void base(void)
 void precision_error(void)
 {
 	double fp64 = PI;
+	double res_mul_fp64 = fp64;
+	double res_add_fp64 = fp64;
+
 	_Float16 fp16 = (_Float16)PI;
+	_Float16 res_mul_fp16 = fp16;
+	_Float16 res_add_fp16 = fp16;
 
-	double res_mul_fp64 = fp64 * fp64;
-	_Float16 res_mul_fp16 = fp16 * fp16;
+	for (int i = 0; i < 8; i++) {
+		res_mul_fp64 *= fp64;
+		res_mul_fp16 *= fp16;
+	}
 
-	double res_add_fp64 = fp64 + fp64;
-	_Float16 res_add_fp16 = fp16 + fp16;
+	for (int i = 0; i < 1000; i++) {
+		res_add_fp64 += fp64;
+		res_add_fp16 += fp16;
+	}
 
 	double err_add = fabs(res_add_fp64 - (double)res_add_fp16);
 	double err_mul = fabs(res_mul_fp64 - (double)res_mul_fp16);
