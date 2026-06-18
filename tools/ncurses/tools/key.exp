@@ -13,40 +13,26 @@ expect {
 	timeout { send_user "FATAL: not found title\n"; exit 1 }
 }
 
-send "l"
-expect {
-	" ${line1}" { send_user "Success check line labels\n" }
-	timeout { send_user "FATAL: key 'l' failed\n"; exit 1 }
+proc test_key {key pattern success_msg} {
+	global timeout
+	send "$key"
+	expect {
+		-re "$pattern" {
+			send_user "Success: $success_msg\n"
+		}
+		timeout {
+			send_user "Fatal: key '$key' failed - expect pattern '$pattern'\n"
+		}
+	}
+	# Allow UI to refresh
+	sleep 0.5
 }
-sleep .5
 
-send "h"
-expect {
-	"'q' and Esc: quit" { send_user "Success check help" }
-	timeout { send_user "FATAL: key 'h' failed\n"; exit 1 }
-}
-sleep .5
-
-send "r"
-expect {
-	"cur=114=" { send_user "Success reset" }
-	timeout { send_user "FATAL: key 'r' failed\n"; exit 1 }
-}
-sleep .5
-
-send "t"
-expect {
-	"(logarithmic)" { send_user "Success change curses type" }
-	timeout { send_user "FATAL: key 't' failed\n"; exit 1 }
-}
-sleep .5
-
-send "t"
-expect {
-	"(base-10 logarithmic)" { send_user "Success change curses type" }
-	timeout { send_user "FATAL: key 't' failed\n"; exit 1 }
-}
-sleep .5
+test_key "l" " ${line1}" "check line labels"
+test_key "h" "'q' and Esc: quit" "check help"
+test_key "r" "cur=114=" "reset"
+test_key "t" "(logarithmic)" "change curses type to (logarithmic)"
+test_key "t" "(base-10 logarithmic)" "change curses type to (base-10 logarithmic)"
 
 # Test enter
 #send "\r"
