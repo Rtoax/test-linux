@@ -4,7 +4,7 @@ include ncurses.mk
 target-y += plotcake
 
 prog-y += examples.sh
-prog-y += key.exp
+prog-y += examples.exp
 
 $(foreach obj, plotcake keyboard file load value plot ram stdin lines, \
   $(eval plotcake-objs += ${obj}.o))
