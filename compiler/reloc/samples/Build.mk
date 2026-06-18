@@ -23,7 +23,7 @@ CFLAGS_testcase-now := -Wl,-z,relro,-z,now
 
 LDFLAGS_nostdlib := -nostdlib
 
-target-prep-y := relocs-gen.h
+prep-y := relocs-gen.h
 
 # TODO: use it
 define print_elf

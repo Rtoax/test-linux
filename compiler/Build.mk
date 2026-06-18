@@ -29,4 +29,4 @@ target-y += __VERSION__
 
 prog-y := info.sh
 
-target-prep-y := $(CC)-macros.h
+prep-y := $(CC)-macros.h

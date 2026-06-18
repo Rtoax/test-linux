@@ -9,7 +9,7 @@ target-y += daxpy
 
 target-cpp-y := global-var
 
-target-prep-y := hello.strip
+prep-y := hello.strip
 
 prog-y := $(shell ls *.sh)
 

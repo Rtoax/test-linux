@@ -21,7 +21,7 @@ obj-s-o += R_X86_64_REX_GOTPCRELX.s.o
 obj-s-o += R_X86_64_PLT32.s.o
 obj-s-o += R_X86_64_PLTOFF64.s.o
 
-target-prep-y := $(patsubst %,${OUTPUT}%, ${obj-o} ${obj-s-o})
+prep-y := $(patsubst %,${OUTPUT}%, ${obj-o} ${obj-s-o})
 
 prog-y := R_X86_64_64.sh
 prog-y += R_X86_64_PC32.sh

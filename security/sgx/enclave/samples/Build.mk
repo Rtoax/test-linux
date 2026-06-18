@@ -4,8 +4,8 @@ include intel/linux-sgx.mk
 # TODO: link error
 #target-y := app
 
-target-prep-y := enclave_u.c enclave_u.h
-target-prep-y += enclave_t.c enclave_t.h
+prep-y := enclave_u.c enclave_u.h
+prep-y += enclave_t.c enclave_t.h
 
 app-objs := enclave_u.o enclave_t.o
 

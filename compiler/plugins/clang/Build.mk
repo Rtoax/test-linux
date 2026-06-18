@@ -13,7 +13,7 @@ clang-codes += ${CLANG_SRC_ROOT}/examples/Attribute/Attribute.cpp
 
 SRCS := $(notdir $(clang-codes))
 
-target-prep-y := ${SRCS}
+prep-y := ${SRCS}
 
 target-libso-cpp-y := PrintFunctionNames.so
 target-libso-cpp-y += AnnotateFunctions.so

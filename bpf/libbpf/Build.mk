@@ -122,7 +122,7 @@ target-bpf-y += map_bloom_filter.bpf.o
 target-bpf-y += sched_cls.bpf.o
 target-bpf-y += sched_act.bpf.o
 
-target-prep-y += ${HELPERS}
+prep-y += ${HELPERS}
 post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.disasm,$(target-bpf-y))
 post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.s,$(target-bpf-y))
 post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.bc,$(target-bpf-y))

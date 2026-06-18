@@ -7,7 +7,7 @@ target-y += container
 target-y += uts_hostname
 target-y += CLONE_
 
-target-prep-y := CLONE_.h
+prep-y := CLONE_.h
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -pthread

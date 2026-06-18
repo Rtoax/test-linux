@@ -35,8 +35,8 @@ $(foreach mk, ${MK_TST} ${MK_TST}, $(call include_stat,${mk}))
 
 subdir-y := targets/test/
 
-target-prep-y += log
-target-prep-y += logo
+prep-y += log
+prep-y += logo
 
 # __main__
 $(call include_stat,main.mk)

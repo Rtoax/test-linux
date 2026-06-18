@@ -22,7 +22,7 @@ include log.mk
 
 $(if $(subdir-y), $(eval include targets/subdir-header.mk))
 
-build-targets += $(target-prep-y)
+build-targets += $(prep-y)
 build-targets += $(OUTPUT)
 build-targets += $(target-liba-y) $(target-libso-y) $(target-libso-cpp-y)
 build-targets += $(target-y)

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 target-y := main
 target-libso-y := libhello.so
-target-prep-y := default.lds
+prep-y := default.lds
 
 target-asm-${IS_X86_64} += hello
 

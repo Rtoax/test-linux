@@ -46,7 +46,7 @@ target-y += strspn
 
 target-cpp-y := strstr-cpp
 
-target-prep-y := sig.h
+prep-y := sig.h
 
 memcpy-stress-objs := ${PROC_HELPERS}
 strstr-cpp-objs := strstr.cpp.o

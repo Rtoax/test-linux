@@ -123,5 +123,5 @@ CFLAGS += -pthread
 
 CXXFLAGS_readlink2 := -std=c++17 -lstdc++
 
-target-prep-y := nr.h
+prep-y := nr.h
 target-clean-y := clean0

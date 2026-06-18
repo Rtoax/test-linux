@@ -16,7 +16,7 @@ target-y += pthread_create
 target-y += multi-thread
 target-y += ptrace-strace
 
-target-prep-y := nr.h
+prep-y := nr.h
 
 PTRACE_GETREGS-objs := ptrace_helpers.o
 PTRACE_GETREGSET-objs := ptrace_helpers.o

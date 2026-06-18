@@ -12,7 +12,7 @@ fsmount-objs := mnt_helpers.o
 ramdisk-objs := tmpfs_helpers.o
 tmpfs-objs := tmpfs_helpers.o
 
-target-prep-y := fs.ext4
+prep-y := fs.ext4
 
 CFLAGS += -pthread
 CFLAGS += -I../../libs/

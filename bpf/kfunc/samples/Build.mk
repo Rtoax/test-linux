@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include bpf/kfunc.mk
 
-target-prep-y := vmlinux.h
+prep-y := vmlinux.h
 
 kfuncs-${SUPPORT_BPF_TASK_FROM_PID} := task_from_pid
 kfuncs-${SUPPORT_BPF_CGROUP_FROM_ID} += cgroup_from_id

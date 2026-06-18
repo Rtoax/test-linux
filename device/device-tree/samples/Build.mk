@@ -1,1 +1,1 @@
-target-prep-y := helloworld.dtb
+prep-y := helloworld.dtb

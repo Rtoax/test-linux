@@ -105,7 +105,7 @@ ifneq (${KMOD}${USRC},)
                         if [[ -e $$d/Build.mk ]]; then echo "$$d"; fi; done)
 endif
 
-target-prep-y := reset
+prep-y := reset
 post-y := done
 
 prog-y := abbrev.sh
