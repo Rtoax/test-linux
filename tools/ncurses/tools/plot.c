@@ -417,6 +417,7 @@ void plot_redraw(struct plot *p, bool debug)
 	__plot_redraw(p, debug);
 
 	if (p->need_redraw) {
+		plot_update_size(p, false);
 		__plot_redraw(p, debug);
 	}
 }
