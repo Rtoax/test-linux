@@ -68,6 +68,7 @@
  * - https://clang.llvm.org/docs/LanguageExtensions.html
  */
 #include <assert.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -98,11 +99,11 @@
 #  endif
 # elif defined(__HIPCC__)	/* AMD ROCm HIP */
 # endif
-# define DIM <<<1, 1>>>
+# define CALL(func, ...) func<<<1, 1>>>(__VA_ARGS__)
 # define devSync() (void)cudaDeviceSynchronize()
 # define DEVICE "GPU"
 #else
-# define DIM
+# define CALL(func, ...) func(__VA_ARGS__)
 # define __device__
 # define __global__
 # define __constant__ const
@@ -511,7 +512,7 @@ void __global__ __check_fp64(double f)
 	do {                                    \
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
-		__check_fp64 DIM (___v);        \
+		CALL(__check_fp64, ___v);       \
 		devSync();                      \
 		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
@@ -569,7 +570,7 @@ void __global__ __check_fp32(float f)
 	do {                                    \
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
-		__check_fp32 DIM (___v);        \
+		CALL(__check_fp32, ___v);       \
 		devSync();                      \
 		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
@@ -626,13 +627,13 @@ void __global__ __kernel_check_fp16(compat_fp16 f)
 	assert(*(uint16_t *)&f == *(uint16_t *)&to && "Failed to check fp16");
 }
 
-#define check_fp16(v)                           \
-	do {                                    \
-		printf("%s: ", #v);             \
-		typeof(v) ___v = v;             \
-		__kernel_check_fp16 DIM (___v); \
-		devSync();                      \
-		binprint(&___v, sizeof(v) * 8); \
+#define check_fp16(v)                            \
+	do {                                     \
+		printf("%s: ", #v);              \
+		typeof(v) ___v = v;              \
+		CALL(__kernel_check_fp16, ___v); \
+		devSync();                       \
+		binprint(&___v, sizeof(v) * 8);  \
 	} while (0)
 #endif /* SUPPORT_FP16 */
 
@@ -692,7 +693,7 @@ void __global__ __check_bf16(compat_bf16 f)
 	do {                                    \
 		printf("%s: ", #v);             \
 		typeof(v) ___v = v;             \
-		__check_bf16 DIM (___v);        \
+		CALL(__check_bf16, ___v);       \
 		devSync();                      \
 		binprint(&___v, sizeof(v) * 8); \
 	} while (0)
@@ -1063,9 +1064,9 @@ void overflow_muladd_fp64(void)
 	for (size_t i = 100; i <= 1000; i += 100) {
 		double a = i * 1.123456789f;
 
-		init_data_fp64 DIM (a);
+		CALL(init_data_fp64, a);
 
-		__kernel_mul_weight_add_bias_fp64 DIM (i, 3);
+		CALL(__kernel_mul_weight_add_bias_fp64, i, 3);
 
 		seperator();
 		TEST("fp64 mul weight and add bias", i);
@@ -1078,11 +1079,11 @@ void overflow_muladd_fp64(void)
 void muladd_arr_fp64(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
-		init_data_arr_fp64 DIM (i);
+		CALL(init_data_arr_fp64, i);
 
-		init_data_fp64 DIM (1);
+		CALL(init_data_fp64, 1);
 
-		__kernel_mul_weight_add_bias_arr_fp64 DIM (i, 1);
+		CALL(__kernel_mul_weight_add_bias_arr_fp64, i, 1);
 
 		seperator();
 		TEST("fp64 mul weight and add bias array", i);
@@ -1110,7 +1111,7 @@ void mul_fp32(void)
 	stset(rslt_fp64, fp64_t, f64, a);
 
 	for (size_t i = 0; i < 10; i++) {
-		__kernel_mul_w_fp32 DIM ();
+		CALL(__kernel_mul_w_fp32);
 
 		seperator();
 		TEST("fp32 mul", i);
@@ -1133,7 +1134,7 @@ void add_fp32(void)
 	stset(rslt_fp64, fp64_t, f64, a);
 
 	for (size_t i = 0; i < 10; i++) {
-		__kernel_add_bias_fp32 DIM ();
+		CALL(__kernel_add_bias_fp32);
 
 		seperator();
 		TEST("fp32 add bias", i);
@@ -1154,7 +1155,7 @@ void muladd_fp32(void)
 		stset(data_fp32_bias, fp32_t, f32, 1.000789f);
 		stset(rslt_fp64, fp64_t, f64, a);
 
-		__kernel_mul_weight_fp32 DIM (i, 3);
+		CALL(__kernel_mul_weight_fp32, i, 3);
 
 		seperator();
 		TEST("fp32 mul weight", i);
@@ -1172,7 +1173,7 @@ void muladd_fp32(void)
 		stset(data_fp32_bias, fp32_t, f32, 1.000789f);
 		stset(rslt_fp64, fp64_t, f64, a);
 
-		__kernel_mul_weight_add_bias_fp32 DIM (i, 3);
+		CALL(__kernel_mul_weight_add_bias_fp32, i, 3);
 
 		seperator();
 		TEST("fp32 mul weight and add bias", i);
@@ -1186,12 +1187,12 @@ void muladd_fp32(void)
 void muladd_arr_fp32(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
-		init_data_arr_fp32 DIM (i);
+		CALL(init_data_arr_fp32, i);
 
 		stset(data_fp32, fp32_t, f32, 1);
 		stset(rslt_fp64, fp64_t, f64, 1);
 
-		__kernel_mul_weight_arr_fp32 DIM (i, 1);
+		CALL(__kernel_mul_weight_arr_fp32, i, 1);
 
 		seperator();
 		TEST("fp32 mul weight array", i);
@@ -1202,12 +1203,12 @@ void muladd_arr_fp32(void)
 	}
 
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
-		init_data_arr_fp32 DIM (i);
+		CALL(init_data_arr_fp32, i);
 
 		stset(data_fp32, fp32_t, f32, 1);
 		stset(rslt_fp64, fp64_t, f64, 1);
 
-		__kernel_mul_weight_add_bias_arr_fp32 DIM (i, 1);
+		CALL(__kernel_mul_weight_add_bias_arr_fp32, i, 1);
 
 		seperator();
 		TEST("fp32 mul weight and add bias array", i);
@@ -1238,7 +1239,7 @@ void muladd_fp16(void)
 		stset(data_fp16_bias, fp16_t, f16, a);
 		stset(rslt_fp32, fp32_t, f32, fa);
 
-		__kernel_mul_weight_fp16 DIM (i, 1);
+		CALL(__kernel_mul_weight_fp16, i, 1);
 
 		TEST("fp16 mul weight", i);
 		check_fp16(st2host(data_fp16, f16));
@@ -1256,7 +1257,7 @@ void muladd_fp16(void)
 		stset(data_fp16_bias, fp16_t, f16, a);
 		stset(rslt_fp32, fp32_t, f32, fa);
 
-		__kernel_add_bias_fp16 DIM (i, 1);
+		CALL(__kernel_add_bias_fp16, i, 1);
 
 		TEST("fp16 add bias", i);
 		check_fp16(st2host(data_fp16, f16));
@@ -1274,7 +1275,7 @@ void muladd_fp16(void)
 		stset(data_fp16_bias, fp16_t, f16, a);
 		stset(rslt_fp32, fp32_t, f32, fa);
 
-		__kernel_mul_weight_add_bias_fp16 DIM (i, 1);
+		CALL(__kernel_mul_weight_add_bias_fp16, i, 1);
 
 		TEST("fp16 mul weight and add bias", i);
 		check_fp16(st2host(data_fp16, f16));
@@ -1294,12 +1295,12 @@ void muladd_arr_fp16(void)
 
 	seperator();
 	for (size_t i = start; i <= end; i += interval) {
-		init_data_arr_fp16 DIM (i, 5.5f);
+		CALL(init_data_arr_fp16, i, 5.5f);
 
 		stset(data_fp16, fp16_t, f16, compat_float2half(1.f));
 		stset(rslt_fp32, fp32_t, f32, 1.f);
 
-		__kernel_mul_weight_arr_fp16 DIM (i, 1);
+		CALL(__kernel_mul_weight_arr_fp16, i, 1);
 
 		TEST("fp16 mul weight array", i);
 		check_fp16(st2host(data_fp16, f16));
@@ -1309,12 +1310,12 @@ void muladd_arr_fp16(void)
 
 	seperator();
 	for (size_t i = start; i <= end; i += interval) {
-		init_data_arr_fp16 DIM (i, 5.5f);
+		CALL(init_data_arr_fp16, i, 5.5f);
 
 		stset(data_fp16, fp16_t, f16, compat_float2half(1.f));
 		stset(rslt_fp32, fp32_t, f32, 1.f);
 
-		__kernel_add_bias_arr_fp16 DIM (i, 1);
+		CALL(__kernel_add_bias_arr_fp16, i, 1);
 
 		TEST("fp16 add bias array", i);
 		check_fp16(st2host(data_fp16, f16));
@@ -1324,12 +1325,12 @@ void muladd_arr_fp16(void)
 
 	seperator();
 	for (size_t i = start; i <= end; i += interval) {
-		init_data_arr_fp16 DIM (i, 5.5f);
+		CALL(init_data_arr_fp16, i, 5.5f);
 
 		stset(data_fp16, fp16_t, f16, compat_float2half(1.f));
 		stset(rslt_fp32, fp32_t, f32, 1.f);
 
-		__kernel_mul_weight_add_bias_arr_fp16 DIM (i, 1);
+		CALL(__kernel_mul_weight_add_bias_arr_fp16, i, 1);
 
 		TEST("fp16 mul weight and add bias array", i);
 		check_fp16(st2host(data_fp16, f16));
