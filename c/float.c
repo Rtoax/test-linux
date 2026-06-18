@@ -857,6 +857,14 @@ void __global__ init_data_arr_fp64(size_t size)
 	}
 }
 
+void __global__ init_data_fp32(float init)
+{
+	data_fp32.f32 = init;
+	data_fp32_weight.f32 = init;
+	data_fp32_bias.f32 = init;
+	rslt_fp64.f64 = init;
+}
+
 void __global__ init_data_arr_fp32(size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
@@ -1084,9 +1092,8 @@ __host__ void muladd_fp64(void)
 __host__ void muladd_arr_fp64(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
-		CALL(init_data_arr_fp64, i);
-
 		CALL(init_data_fp64, 1);
+		CALL(init_data_arr_fp64, i);
 
 		CALL(__kernel_mul_weight_add_bias_arr_fp64, i, 1);
 
@@ -1109,12 +1116,7 @@ __host__ void muladd_arr_fp64(void)
 
 __host__ void mul_fp32(void)
 {
-	float a = st2host(fp32_PosMax, f32) / 2.0f;
-
-	stset(data_fp32, fp32_t, f32, a);
-	stset(data_fp32_weight, fp32_t, f32, 1.15f);
-	stset(data_fp32_bias, fp32_t, f32, 1.15f);
-	stset(rslt_fp64, fp64_t, f64, a);
+	CALL(init_data_fp32, 1.2345f);
 
 	for (size_t i = 0; i < 10; i++) {
 		CALL(__kernel_mul_w_fp32);
@@ -1130,14 +1132,7 @@ __host__ void mul_fp32(void)
 
 __host__ void add_fp32(void)
 {
-	float a = st2host(fp32_PosMax, f32) / 2.0f;
-	float weight = st2host(fp32_PosMax, f32) / 9.0f;
-	float bias = st2host(fp32_PosMax, f32) / 9.0f;
-
-	stset(data_fp32, fp32_t, f32, a);
-	stset(data_fp32_weight, fp32_t, f32, weight);
-	stset(data_fp32_bias, fp32_t, f32, bias);
-	stset(rslt_fp64, fp64_t, f64, a);
+	CALL(init_data_fp32, 1.2345f);
 
 	for (size_t i = 0; i < 10; i++) {
 		CALL(__kernel_add_bias_fp32);
@@ -1154,12 +1149,7 @@ __host__ void add_fp32(void)
 __host__ void muladd_fp32(void)
 {
 	for (size_t i = 100; i <= 1000; i += 100) {
-		float a = i * 1.123456789f;
-
-		stset(data_fp32, fp32_t, f32, a);
-		stset(data_fp32_weight, fp32_t, f32, 1.000789f);
-		stset(data_fp32_bias, fp32_t, f32, 1.000789f);
-		stset(rslt_fp64, fp64_t, f64, a);
+		CALL(init_data_fp32, 1.2345f);
 
 		CALL(__kernel_mul_weight_fp32, i, 3);
 
@@ -1172,12 +1162,7 @@ __host__ void muladd_fp32(void)
 	}
 
 	for (size_t i = 100; i <= 1000; i += 100) {
-		float a = i * 1.123456789f;
-
-		stset(data_fp32, fp32_t, f32, a);
-		stset(data_fp32_weight, fp32_t, f32, 1.000789f);
-		stset(data_fp32_bias, fp32_t, f32, 1.000789f);
-		stset(rslt_fp64, fp64_t, f64, a);
+		CALL(init_data_fp32, 1.2345f);
 
 		CALL(__kernel_mul_weight_add_bias_fp32, i, 3);
 
@@ -1194,9 +1179,7 @@ __host__ void muladd_arr_fp32(void)
 {
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		CALL(init_data_arr_fp32, i);
-
-		stset(data_fp32, fp32_t, f32, 1);
-		stset(rslt_fp64, fp64_t, f64, 1);
+		CALL(init_data_fp32, 1);
 
 		CALL(__kernel_mul_weight_arr_fp32, i, 1);
 
@@ -1210,9 +1193,7 @@ __host__ void muladd_arr_fp32(void)
 
 	for (size_t i = 100; i <= DATA_ARRAY_SIZE; i += 100) {
 		CALL(init_data_arr_fp32, i);
-
-		stset(data_fp32, fp32_t, f32, 1);
-		stset(rslt_fp64, fp64_t, f64, 1);
+		CALL(init_data_fp32, 1);
 
 		CALL(__kernel_mul_weight_add_bias_arr_fp32, i, 1);
 
