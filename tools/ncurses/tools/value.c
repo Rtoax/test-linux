@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
+#include <assert.h>
 #include <float.h>
 #include <malloc.h>
 #include <math.h>
@@ -190,20 +191,21 @@ static int enqueue_value_to_tail(struct line *l, double v)
 
 double line_range_avg(struct line *l, int start, int len)
 {
-	int i = 0;
-	double avg = 0;
+	int i = 0, n = 0;
+	double sum = 0;
 	struct value *v = l->head;
 	if (start < 0)
 		start = 0;
 	while (v) {
 		if (i >= start && i < start + len) {
-			avg += v->v;
+			n++;
+			sum += v->v;
 		}
 		i++;
 		v = v->next;
 	}
-	avg /= len;
-	return avg;
+	assert(n != 0 && "line_range_max: not found values in range");
+	return sum / n;
 }
 
 double line_range_max(struct line *l, int start, int len)

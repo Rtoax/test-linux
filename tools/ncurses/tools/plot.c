@@ -147,7 +147,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 	for_each_value(ln, v)
 	{
 		double span = .0f, diff = .0f;
-		double plot_v = v->v;
+		double plot_v = line_range_avg(ln, iv, p->plotscaling);
 
 		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
 
