@@ -147,6 +147,10 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 	for_each_value(ln, v)
 	{
 		double span = .0f, diff = .0f;
+		/**
+		 * Some time, use average value make plot different from
+		 * original values, but use average value is more meaningful.
+		 */
 		double plot_v = line_range_avg(ln, iv, p->plotscaling);
 
 		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
@@ -239,7 +243,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		else if (p->v_scaling == NS_EXPONENTIAL)
 			nc = snprintf(sv, 64, "exp(%.3f)=%.3f", v->v, plot_v);
 		else
-			nc = snprintf(sv, 64, "%.3f", v->v);
+			nc = snprintf(sv, 64, "%.3f", plot_v);
 
 		if (p->bnd_prev_max.left < nc)
 			p->bnd_prev_max.left = nc;
