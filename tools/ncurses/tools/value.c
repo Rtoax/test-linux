@@ -188,6 +188,24 @@ static int enqueue_value_to_tail(struct line *l, double v)
 	return 0;
 }
 
+double line_range_avg(struct line *l, int start, int len)
+{
+	int i = 0;
+	double avg = 0;
+	struct value *v = l->head;
+	if (start < 0)
+		start = 0;
+	while (v) {
+		if (i >= start && i < start + len) {
+			avg += v->v;
+		}
+		i++;
+		v = v->next;
+	}
+	avg /= len;
+	return avg;
+}
+
 double line_range_max(struct line *l, int start, int len)
 {
 	int i = 0;

@@ -103,6 +103,7 @@ bool hascolor_name(const char *name);
 enum lcolor_enum nextcolor(enum lcolor_enum c);
 
 void line_add_value(struct line *l, double v, long limit);
+double line_range_avg(struct line *l, int start, int len);
 double line_range_max(struct line *l, int start, int len);
 double line_range_min(struct line *l, int start, int len);
 
