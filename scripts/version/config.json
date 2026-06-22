@@ -578,6 +578,11 @@
 			},
 			"keys": [ "ostree" ]
 		},
+		"rpmbuild": {
+			"name": "RPM-Build",
+			"extension": [ "spec" ],
+			"keys": [ "rpm", "dnf" ]
+		},
 		"rust": {
 			"name": "Rust",
 			"command": [ "rustc" ],
