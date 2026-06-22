@@ -507,6 +507,11 @@ end:
 	close(sig_wr_fd);
 	endwin();
 
+	if (verbose) {
+		struct plot *_p = &plot;
+		fprintf(stderr, PLOT_INF0_FMT "\n", PLOT_INF0_ARG(_p));
+		fprintf(stderr, PLOT_INF1_FMT "\n", PLOT_INF1_ARG(_p));
+	}
 	save_plot(&plot);
 	return 0;
 }

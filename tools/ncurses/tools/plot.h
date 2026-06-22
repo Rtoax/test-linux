@@ -72,6 +72,23 @@ struct plot {
 	 * trigger a redraw.
 	 */
 	bool need_redraw;
+
+#define PLOT_INF0_FMT \
+	"plot: mem(%.3f MiB) win(%d,%d) max(%d,%d) plot(%d,%d) scale(%d) key(cnt=%ld,cur=%d=0x%x='%s')"
+#define PLOT_INF0_ARG(p)                                                \
+	plot_mem_size(p) * 1. / 1024 / 1024, p->height, p->width,       \
+		p->heightmax, p->widthmax, p->plotheight, p->plotwidth, \
+		p->plotscaling, p->keyboard.cnt.total,                  \
+		p->keyboard.current_key, p->keyboard.current_key,       \
+		keyname(p->keyboard.current_key)
+
+#define PLOT_INF1_FMT \
+	"redraw=%ld, key(left=%ld,right=%ld,up=%ld,down=%ld,l=%ld,r=%ld,h=%ld,v=%ld,t=%ld,enter=%ld)"
+#define PLOT_INF1_ARG(p)                                                     \
+	p->redrawcount, p->keyboard.cnt.left, p->keyboard.cnt.right,         \
+		p->keyboard.cnt.up, p->keyboard.cnt.down, p->keyboard.cnt.l, \
+		p->keyboard.cnt.r, p->keyboard.cnt.h, p->keyboard.cnt.v,     \
+		p->keyboard.cnt.t, p->keyboard.cnt.enter
 };
 
 #define for_each_lg(plt, iter)                                           \

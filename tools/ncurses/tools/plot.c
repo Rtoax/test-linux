@@ -351,24 +351,8 @@ static void paint_plot(struct plot *p, bool debug)
 	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
 
 	if (debug) {
-		mvprintw(
-			p->height - 2, 0,
-			"plot: mem(%.3f MiB) win(%d,%d) max(%d,%d) plot(%d,%d) "
-			"scale(%d) key(cnt=%ld,cur=%d=0x%x='%s')",
-			plot_mem_size(p) * 1. / 1024 / 1024, p->height,
-			p->width, p->heightmax, p->widthmax, p->plotheight,
-			p->plotwidth, p->plotscaling, p->keyboard.cnt.total,
-			p->keyboard.current_key, p->keyboard.current_key,
-			keyname(p->keyboard.current_key));
-		mvprintw(p->height - 1, 0,
-			 "      redraw=%ld, key(left=%ld,right=%ld,up=%ld,"
-			 "down=%ld,l=%ld,r=%ld,h=%ld,v=%ld,t=%ld,enter=%ld)",
-			 p->redrawcount, p->keyboard.cnt.left,
-			 p->keyboard.cnt.right, p->keyboard.cnt.up,
-			 p->keyboard.cnt.down, p->keyboard.cnt.l,
-			 p->keyboard.cnt.r, p->keyboard.cnt.h,
-			 p->keyboard.cnt.v, p->keyboard.cnt.t,
-			 p->keyboard.cnt.enter);
+		mvprintw(p->height - 2, 0, PLOT_INF0_FMT, PLOT_INF0_ARG(p));
+		mvprintw(p->height - 1, 0, PLOT_INF1_FMT, PLOT_INF1_ARG(p));
 	}
 
 	move(0, 0);
