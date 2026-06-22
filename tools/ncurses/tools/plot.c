@@ -147,11 +147,7 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 	for_each_value(ln, v)
 	{
 		double span = .0f, diff = .0f;
-		/**
-		 * Some time, use average value make plot different from
-		 * original values, but use average value is more meaningful.
-		 */
-		double plot_v = line_range_avg(ln, iv, p->plotscaling);
+		double plot_v = v->v;
 
 		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
 
