@@ -8,3 +8,4 @@ const char *vstrcat(int nstr, ...);
 const char *vstrcat_r(char buf[], int nstr, ...);
 
 unsigned long str2size(const char *str);
+unsigned long str2nsecs(const char *str);

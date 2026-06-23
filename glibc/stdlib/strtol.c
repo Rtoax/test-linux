@@ -4,10 +4,11 @@
 
 int main(void)
 {
+	char *str = "123abc";
 	char *ret;
-	long int li = strtol("123abc", &ret, 10);
+	long int li = strtol(str, &ret, 10);
 
-	printf("%ld, %s\n", li, ret);
+	printf("%s : %ld, %s\n", str, li, ret);
 
 	return 0;
 }

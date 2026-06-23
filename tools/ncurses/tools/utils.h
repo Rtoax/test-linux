@@ -3,3 +3,5 @@
 #pragma once
 
 unsigned long usecs(void);
+
+unsigned long str2nsecs(const char *str);

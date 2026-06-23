@@ -75,7 +75,7 @@ unsigned long str2size(const char *str)
 	unsigned long size = 0;
 
 	if (!str) {
-		errno = EINVAL;
+		errno = -EINVAL;
 		return 0;
 	}
 
@@ -94,6 +94,43 @@ unsigned long str2size(const char *str)
 	return size;
 }
 
+/**
+ * string to nanoseconds
+ */
+unsigned long str2nsecs(const char *str)
+{
+	unsigned long ns = 0;
+	char *endptr = NULL;
+
+	if (!str) {
+		errno = -EINVAL;
+		return 0;
+	}
+
+	if (str[0] == '0' && str[1] == 'x')
+		ns = strtoull(str, &endptr, 16);
+	else
+		ns = strtoull(str, &endptr, 10);
+
+	if (!endptr || (endptr && *endptr == '\0')) {
+		/* do nothing */
+	} else if (!strcasecmp(endptr, "s"))
+		ns *= 1000000000UL;
+	else if (!strcasecmp(endptr, "ms"))
+		ns *= 1000000UL;
+	else if (!strcasecmp(endptr, "us"))
+		ns *= 1000UL;
+	else if (!strcasecmp(endptr, "ns"))
+		ns *= 1UL;
+	else {
+		fprintf(stderr, "str2nsecs() is not support string format");
+		errno = -EINVAL;
+		return 0;
+	}
+
+	return ns;
+}
+
 #ifdef TEST_MAIN
 int main(void)
 {
@@ -102,6 +139,24 @@ int main(void)
 	printf("%s->%s\n", str, strcaseswap(str, strlen(str)));
 
 	printf("%ld\n", str2size("1MB"));
+
+#define STR2NSECS(s, v)                                                       \
+	do {                                                                  \
+		unsigned long __v = str2nsecs(s);                             \
+		if (__v != v) {                                               \
+			fprintf(stderr,                                       \
+				"ERROR: str2nsecs(\"%s\") = %ld != %ld\n", s, \
+				__v, v);                                      \
+			abort();                                              \
+		}                                                             \
+	} while (0)
+	STR2NSECS("1", 1UL);
+	STR2NSECS("111", 111UL);
+	STR2NSECS("999", 999UL);
+	STR2NSECS("1S", 1000000000UL);
+	STR2NSECS("1s", 1000000000UL);
+	STR2NSECS("1MS", 1000000UL);
+	STR2NSECS("1ms", 1000000UL);
 
 	char cmd[256];
 	memset(cmd, 0, 256);

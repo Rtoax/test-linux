@@ -19,11 +19,12 @@ int test_1(void)
 
 int main(void)
 {
+	char *str = "123abc";
 	char *ret;
 
-	unsigned long int li = strtoul("123abc", &ret, 10);
+	unsigned long int li = strtoul(str, &ret, 10);
 
-	printf("%ld, %s\n", li, ret);
+	printf("%s : %ld, %s\n", str, li, ret);
 
 	return 0;
 }
