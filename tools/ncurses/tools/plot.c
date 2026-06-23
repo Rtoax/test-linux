@@ -84,7 +84,7 @@ void plot_update_size(struct plot *p, bool init)
 	 * change. We need to reset the maximum value to avoid excessive blank
 	 * space at the boundary.
 	 */
-	switch (p->keyboard.current_key) {
+	switch (p->kb->current_key) {
 	case 'r':
 	case 't':
 		p->bnd.top = p->bnd_prev_max.top;
@@ -352,7 +352,8 @@ static void paint_plot(struct plot *p, bool debug)
 
 	if (debug) {
 		mvprintw(p->height - 2, 0, PLOT_INF0_FMT, PLOT_INF0_ARG(p));
-		mvprintw(p->height - 1, 0, PLOT_INF1_FMT, PLOT_INF1_ARG(p));
+		mvprintw(p->height - 1, 0, KEYBOARD_INF0_FMT,
+			 KEYBOARD_INF0_ARG(p->kb));
 	}
 
 	move(0, 0);
@@ -384,7 +385,7 @@ static void __plot_redraw(struct plot *p, bool debug)
 	/**
 	 * Handle the keyboard first, because 'reset' need before paint.
 	 */
-	exec_key_handler(p->keyboard.current_key);
+	exec_key_handler(p->kb->current_key);
 
 	paint_plot(p, debug);
 
@@ -405,7 +406,7 @@ static void __plot_redraw(struct plot *p, bool debug)
 	plot_update_size(p, false);
 
 	/* do some reset */
-	p->keyboard.current_key = 0;
+	p->kb->current_key = 0;
 }
 
 void plot_redraw(struct plot *p, bool debug)
@@ -498,11 +499,13 @@ static void key_r(int key, void *arg)
 	p->llabel_expired_usec = 0;
 }
 
-void plot_init(struct plot *p)
+void plot_init(struct plot *p, struct keyboard *kb)
 {
 	memset(p, 0, sizeof(struct plot));
 
 	plot_scaling_init(p);
+
+	p->kb = kb;
 
 	register_key_handler('r', p, key_r);
 	register_key_handler('h', p, key_h);

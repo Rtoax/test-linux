@@ -10,6 +10,14 @@ struct keyboard {
 		unsigned long h, l, r, t, v;
 	} cnt;
 	int current_key; /* read from STDIN/getch() or /dev/tty */
+
+#define KEYBOARD_INF0_FMT \
+	"key(left=%ld,right=%ld,up=%ld,down=%ld,l=%ld,r=%ld,h=%ld,v=%ld,t=%ld,enter=%ld cnt=%ld,cur=%d=0x%x='%s')"
+#define KEYBOARD_INF0_ARG(kb)                                              \
+	kb->cnt.left, kb->cnt.right, kb->cnt.up, kb->cnt.down, kb->cnt.l,  \
+		kb->cnt.r, kb->cnt.h, kb->cnt.v, kb->cnt.t, kb->cnt.enter, \
+		kb->cnt.total, kb->current_key, kb->current_key,           \
+		keyname(kb->current_key)
 };
 
 typedef void (*key_handler_fn)(int key, void *arg);

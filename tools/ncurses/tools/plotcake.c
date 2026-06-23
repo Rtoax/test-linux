@@ -112,6 +112,7 @@ static int interval_sec = 1;
 static char data_from_stdin[256] = { 0 };
 
 struct plot plot = { 0 };
+struct keyboard keyboard = { 0 };
 
 void sig_handler(int signo)
 {
@@ -212,7 +213,7 @@ int main(int argc, char *argv[])
 	int sigpipe[2];
 	fd_set readfds;
 
-	plot_init(&plot);
+	plot_init(&plot, &keyboard);
 	keyboard_init();
 
 	int err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
@@ -385,37 +386,37 @@ int main(int argc, char *argv[])
 						/* Handle more here */
 						break;
 					}
-					plot.keyboard.current_key = key;
+					plot.kb->current_key = key;
 				} else {
-					plot.keyboard.current_key = ERR;
+					plot.kb->current_key = ERR;
 				}
 			/**
 			 * keyfd = STDIN_FILENO
 			 */
 			} else {
 				/* need keypad() and nodelay() */
-				plot.keyboard.current_key = wgetch(stdscr);
+				plot.kb->current_key = wgetch(stdscr);
 				count = 1;
 			}
 
-			if (plot.keyboard.current_key != ERR) {
-				plot.keyboard.cnt.total += count;
-				switch (plot.keyboard.current_key) {
+			if (plot.kb->current_key != ERR) {
+				plot.kb->cnt.total += count;
+				switch (plot.kb->current_key) {
 				case KEY_LEFT:
-					plot.keyboard.cnt.left++;
+					plot.kb->cnt.left++;
 					redraw = true;
 					break;
 				case KEY_RIGHT:
-					plot.keyboard.cnt.right++;
+					plot.kb->cnt.right++;
 					redraw = true;
 					break;
 				case KEY_UP:
-					plot.keyboard.cnt.up++;
+					plot.kb->cnt.up++;
 					plot_scaling_up(&plot);
 					redraw = true;
 					break;
 				case KEY_DOWN:
-					plot.keyboard.cnt.down++;
+					plot.kb->cnt.down++;
 					plot_scaling_down(&plot);
 					redraw = true;
 					break;
@@ -425,30 +426,30 @@ int main(int argc, char *argv[])
 					goto end;
 					break;
 				case 'v': /* verbose mode switch */
-					plot.keyboard.cnt.v++;
+					plot.kb->cnt.v++;
 					redraw = true;
 					verbose = !verbose;
 					break;
 				case 'r': /* reset plot */
-					plot.keyboard.cnt.r++;
+					plot.kb->cnt.r++;
 					redraw = true;
 					break;
 				case 't': /* select numerical scaling type */
-					plot.keyboard.cnt.t++;
+					plot.kb->cnt.t++;
 					redraw = true;
 					plot.v_scaling =
 						(plot.v_scaling + 1) % NS_MAX;
 					break;
 				case 'h': /* help */
-					plot.keyboard.cnt.h++;
+					plot.kb->cnt.h++;
 					redraw = true;
 					break;
 				case 'l': /* list line labels */
-					plot.keyboard.cnt.l++;
+					plot.kb->cnt.l++;
 					redraw = true;
 					break;
 				case 13: /* enter */
-					plot.keyboard.cnt.enter++;
+					plot.kb->cnt.enter++;
 					redraw = true;
 					break;
 				}
@@ -510,7 +511,8 @@ end:
 	if (verbose) {
 		struct plot *_p = &plot;
 		fprintf(stderr, PLOT_INF0_FMT "\n", PLOT_INF0_ARG(_p));
-		fprintf(stderr, PLOT_INF1_FMT "\n", PLOT_INF1_ARG(_p));
+		fprintf(stderr, KEYBOARD_INF0_FMT "\n",
+			KEYBOARD_INF0_ARG(_p->kb));
 	}
 	save_plot(&plot);
 	return 0;
