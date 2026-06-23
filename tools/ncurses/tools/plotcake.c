@@ -113,8 +113,6 @@ static int verbose = false;
 static unsigned long tmout_nsecs = 0;
 static unsigned long interval_nsecs = 1000000000UL;
 
-static char data_from_stdin[256] = { 0 };
-
 struct plot plot = { 0 };
 struct keyboard keyboard = { 0 };
 
@@ -226,6 +224,7 @@ int main(int argc, char *argv[])
 	int timerfd, keyfd, datafd, tmoutfd;
 	int sigpipe[2];
 	fd_set readfds;
+	char stdin_buffer[4096] = { 0 };
 
 	keyboard_init(&keyboard);
 	plot_init(&plot, &keyboard);
@@ -345,7 +344,7 @@ int main(int argc, char *argv[])
 	} else {
 		struct stdin_arg stdarg = {
 			.nline = 1, /* at least one line */
-			.line_buff = data_from_stdin,
+			.line_buff = stdin_buffer,
 		};
 		plot.title = plot.title ?: "stdin";
 		plot.label_x = plot.label_x ?: "Time";
@@ -490,9 +489,9 @@ int main(int argc, char *argv[])
 				}
 			}
 		} else if (ret > 0 && datafd != -1 && FD_ISSET(datafd, &fds)) {
-			memset(data_from_stdin, 0, sizeof(data_from_stdin));
-			ssize_t cnt = read(datafd, data_from_stdin,
-					   sizeof(data_from_stdin));
+			memset(stdin_buffer, 0, sizeof(stdin_buffer));
+			ssize_t cnt = read(datafd, stdin_buffer,
+					   sizeof(stdin_buffer));
 			if (cnt > 0) {
 				redraw = true;
 			}
