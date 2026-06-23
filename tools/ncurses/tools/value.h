@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
+#include <math.h>
 #include <stdbool.h>
 #include <sys/time.h>
 #include <time.h>
@@ -11,8 +12,8 @@ struct ldraw_ops;
 
 struct value {
 	double v;
-	double logarithmic_v; /* = log(v) */
-	double logarithmic10_v; /* = log10(v) */
+	double logarithmic_v; /* = sign(v) * log(1 + |v|) */
+	double logarithmic10_v; /* = sign(v) * log10(1 + |v|) */
 	double exponential_v; /* = exp(v) */
 	struct timeval tv;
 	struct value *next;
@@ -77,6 +78,27 @@ struct lgroup {
 #define for_each_line(lg, iter)                                       \
 	for (struct line *iter = ((struct lgroup *)(lg))->head; iter; \
 	     iter = iter->next)
+
+/**
+ * For unbounded data streams generated in real time (containing negative, zero,
+ * and positive numbers), directly taking log(x) of the original value will
+ * result in a mathematical error or infinity (because x≤0 is meaningless).
+ *
+ * Scheme: Signed logarithmic transformation
+ *
+ *     y = sign(x) * log(1 + |x|)
+ */
+static inline double signed_log_trans(double x)
+{
+	int sign = signbit(x) ? -1 : 1;
+	return sign * log(1 + fabs(x));
+}
+
+static inline double signed_log10_trans(double x)
+{
+	int sign = signbit(x) ? -1 : 1;
+	return sign * log10(1 + fabs(x));
+}
 
 extern const struct ldraw_ops unicode_bold_line_ops;
 extern const struct ldraw_ops unicode_bold_dashed_line_ops;

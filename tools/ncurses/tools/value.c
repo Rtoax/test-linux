@@ -158,8 +158,8 @@ static int enqueue_value_to_tail(struct line *l, double v)
 	struct value *new = malloc(sizeof(struct value));
 
 	new->v = v;
-	new->logarithmic_v = log(v);
-	new->logarithmic10_v = log10(v);
+	new->logarithmic_v = signed_log_trans(v);
+	new->logarithmic10_v = signed_log10_trans(v);
 	new->exponential_v = exp(v);
 	gettimeofday(&new->tv, NULL);
 	new->next = NULL;

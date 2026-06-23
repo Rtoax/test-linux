@@ -126,12 +126,12 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 
 	switch (p->v_scaling) {
 	case NS_LOGARITHMIC:
-		max = log(max);
-		min = log(min);
+		max = signed_log_trans(max);
+		min = signed_log_trans(min);
 		break;
 	case NS_LOGARITHMIC10:
-		max = log10(max);
-		min = log10(min);
+		max = signed_log10_trans(max);
+		min = signed_log10_trans(min);
 		break;
 	case NS_EXPONENTIAL:
 		max = exp(max);
@@ -233,9 +233,11 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		int nc;
 
 		if (p->v_scaling == NS_LOGARITHMIC)
-			nc = snprintf(sv, 64, "log(%.3f)=%.3f", v->v, plot_v);
+			nc = snprintf(sv, 64, "s*log(1+|%.3f|)=%.3f", v->v,
+				      plot_v);
 		else if (p->v_scaling == NS_LOGARITHMIC10)
-			nc = snprintf(sv, 64, "log10(%.3f)=%.3f", v->v, plot_v);
+			nc = snprintf(sv, 64, "s*log10(1+|%.3f|)=%.3f", v->v,
+				      plot_v);
 		else if (p->v_scaling == NS_EXPONENTIAL)
 			nc = snprintf(sv, 64, "exp(%.3f)=%.3f", v->v, plot_v);
 		else
@@ -266,9 +268,12 @@ void plot_draw_title(const struct plot *p)
 {
 	char buf[128], *title = buf;
 	if (p->v_scaling == NS_LOGARITHMIC)
-		snprintf(buf, 128, "%s (logarithmic)", p->title);
+		snprintf(buf, 128, "%s (signed ogarithmic transformation)",
+			 p->title);
 	else if (p->v_scaling == NS_LOGARITHMIC10)
-		snprintf(buf, 128, "%s (base-10 logarithmic)", p->title);
+		snprintf(buf, 128,
+			 "%s (base-10 signed logarithmic transformation)",
+			 p->title);
 	else if (p->v_scaling == NS_EXPONENTIAL)
 		snprintf(buf, 128, "%s (base-e exponential)", p->title);
 	else
