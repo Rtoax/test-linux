@@ -28,6 +28,6 @@ struct key_handler {
 	key_handler_fn handler;
 };
 
-int keyboard_init(void);
+int keyboard_init(struct keyboard *k);
 int register_key_handler(int key, void *arg, key_handler_fn handler);
 int exec_key_handler(int key);

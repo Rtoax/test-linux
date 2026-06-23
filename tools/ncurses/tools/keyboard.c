@@ -4,11 +4,18 @@
 #include <errno.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <string.h>
 #include "keyboard.h"
 #include "plot.h"
 
 static struct key_handler *handlers = NULL;
 static int nr_handlers = 0;
+
+int keyboard_init(struct keyboard *k)
+{
+	memset(k, 0, sizeof(*k));
+	return 0;
+}
 
 static int key_cmp(const void *k1, const void *k2)
 {
@@ -46,10 +53,5 @@ int exec_key_handler(int key)
 		return -ENOENT;
 	}
 	handler->handler(key, handler->arg);
-	return 0;
-}
-
-int keyboard_init(void)
-{
 	return 0;
 }

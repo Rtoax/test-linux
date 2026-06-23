@@ -213,8 +213,8 @@ int main(int argc, char *argv[])
 	int sigpipe[2];
 	fd_set readfds;
 
+	keyboard_init(&keyboard);
 	plot_init(&plot, &keyboard);
-	keyboard_init();
 
 	int err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
