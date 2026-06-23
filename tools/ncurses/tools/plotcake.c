@@ -224,6 +224,9 @@ int main(int argc, char *argv[])
 
 	setlocale(LC_ALL, "");
 
+	signal(SIGINT, sig_handler);
+	signal(SIGWINCH, sig_handler);
+
 	if (pipe(sigpipe) != 0) {
 		perror("pipe");
 		exit(EXIT_FAILURE);
@@ -288,9 +291,6 @@ int main(int argc, char *argv[])
 	FD_SET(sig_rd_fd, &readfds);
 	if (maxfd < sig_rd_fd)
 		maxfd = sig_rd_fd;
-
-	signal(SIGINT, sig_handler);
-	signal(SIGWINCH, sig_handler);
 
 	/* curses start from here */
 
