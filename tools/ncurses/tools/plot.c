@@ -174,11 +174,11 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		}
 
 		if (p->v_scaling == NS_LOGARITHMIC)
-			plot_v = v->logarithmic_v;
+			plot_v = v->log_v;
 		else if (p->v_scaling == NS_LOGARITHMIC10)
-			plot_v = v->logarithmic10_v;
+			plot_v = v->log10_v;
 		else if (p->v_scaling == NS_EXPONENTIAL)
-			plot_v = v->exponential_v;
+			plot_v = v->exp_v;
 
 		if (max == min || max == 0.0 || max < min) {
 			diff = 0;
