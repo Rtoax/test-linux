@@ -187,7 +187,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		verbose = true;
 		break;
 	case 'V':
-		printf("%s\n", MY_VERSION);
+		printf("%s %s\n", GIT_REPO, MY_VERSION);
 		exit(EXIT_SUCCESS);
 		break;
 	case ARGP_KEY_ARG:

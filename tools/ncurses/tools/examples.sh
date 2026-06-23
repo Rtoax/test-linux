@@ -9,7 +9,8 @@ set -em
 
 Interval=${I}
 
-args=( --tmout ${TMOUT} )
+args=( -t ${TMOUT} --tmout ${TMOUT} )
+args+=( -v --verbose )
 args+=( ${@} )
 
 # plotcake will send SIGINT to every processes in it's group, thus, we just
@@ -33,12 +34,14 @@ stdin() {
 	done | ./plotcake ${args[@]} "${@}"
 }
 
-run --version
-run --ram
+run -? --help
+run --usage
+run -V --version
+run -I 1 --interval=1
+run -M --ram
 
-stdin --version
-stdin
-stdin --verbose
+stdin -V --version
+stdin --usage
 stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
 stdin $(for t in ${line_types[@]}; do echo "-L ${t}"; done)
 stdin --logarithmic
