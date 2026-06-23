@@ -96,6 +96,9 @@ unsigned long str2size(const char *str)
 
 /**
  * string to nanoseconds
+ *
+ * Refs:
+ * - tools/ncurses/tools/utils.c
  */
 unsigned long str2nsecs(const char *str)
 {
@@ -123,7 +126,7 @@ unsigned long str2nsecs(const char *str)
 	else if (!strcasecmp(endptr, "ns"))
 		ns *= 1UL;
 	else {
-		fprintf(stderr, "str2nsecs() is not support string format");
+		fprintf(stderr, "str2nsecs() is not support string format\n");
 		errno = -EINVAL;
 		return 0;
 	}

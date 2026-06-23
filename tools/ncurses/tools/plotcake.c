@@ -86,7 +86,9 @@ static const struct argp_option opts[] = {
 	  "line colors will be listed, can match color prefixes, such as 'r' "
 	  "matching 'red' (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
-	{ "interval", 'I', "INTERVAL SEC", 0, "Spedify interval seconds" },
+	{ "interval", 'I', "INTERVAL SEC", 0,
+	  "Spedify interval time, the default unit is nanoseconds, but units "
+	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
 	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1,
 	  "Use natural logarithmic (shortcut " KEY_HELP_t ")" },
 	{ "logarithmic10", ARG_LOGARITHMIC10, NULL, 1,
@@ -95,7 +97,9 @@ static const struct argp_option opts[] = {
 	  "different (shortcut " KEY_HELP_t ")" },
 	{ "exponential", ARG_EXPONENTIAL, NULL, 1,
 	  "Use base-e exponential (shortcut " KEY_HELP_t ")" },
-	{ "tmout", 't', "TIMEOUT SEC", 0, "Spedify timeout seconds" },
+	{ "tmout", 't', "TIMEOUT SEC", 0,
+	  "Spedify timeout time, the default unit is nanoseconds, but units "
+	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
 	{ "verbose", 'v', NULL, 1,
 	  "Display detail (shortcut: " KEY_HELP_v ")" },
 	{ "version", 'V', NULL, 1, "Display version" },
@@ -106,8 +110,8 @@ static int sig_rd_fd, sig_wr_fd;
 static int done = false;
 static int ram = false;
 static int verbose = false;
-static int tmout_sec = -1;
-static int interval_sec = 1;
+static unsigned long tmout_nsecs = 0;
+static unsigned long interval_nsecs = 1000000000UL;
 
 static char data_from_stdin[256] = { 0 };
 
@@ -158,8 +162,8 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		plot.label_y = arg;
 		break;
 	case 't':
-		tmout_sec = atoi(arg);
-		if (tmout_sec <= 0) {
+		tmout_nsecs = str2nsecs(arg);
+		if (tmout_nsecs == 0) {
 			fprintf(stderr, "ERROR: bad -t value\n");
 			exit(EXIT_FAILURE);
 		}
@@ -174,8 +178,8 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		plot.v_scaling = NS_LOGARITHMIC10;
 		break;
 	case 'I':
-		interval_sec = atoi(arg);
-		if (interval_sec <= 0) {
+		interval_nsecs = str2nsecs(arg);
+		if (interval_nsecs == 0) {
 			fprintf(stderr, "ERROR: bad -I value\n");
 			exit(EXIT_FAILURE);
 		}
@@ -205,6 +209,16 @@ static const struct argp argp = {
 	.parser = parse_arg,
 	.doc = argp_prog_doc,
 };
+
+static int new_timerfd(unsigned long nsecs)
+{
+	int timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
+	unsigned long secs = nsecs / 1000000000UL;
+	nsecs -= secs * 1000000000UL;
+	struct itimerspec to = { { secs, nsecs }, { secs, nsecs } };
+	timerfd_settime(timerfd, 0, &to, NULL);
+	return timerfd;
+}
 
 int main(int argc, char *argv[])
 {
@@ -270,19 +284,14 @@ int main(int argc, char *argv[])
 		 * When we read data from stdin, we no longer need a timer to
 		 * trigger the update.
 		 */
-		timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
-		struct itimerspec to = { { interval_sec, 0 },
-					 { interval_sec, 0 } };
-		timerfd_settime(timerfd, 0, &to, NULL);
+		timerfd = new_timerfd(interval_nsecs);
 		FD_SET(timerfd, &readfds);
 		if (maxfd < timerfd)
 			maxfd = timerfd;
 	}
 
-	if (tmout_sec != -1) {
-		tmoutfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
-		struct itimerspec to = { { tmout_sec, 0 }, { tmout_sec, 0 } };
-		timerfd_settime(tmoutfd, 0, &to, NULL);
+	if (tmout_nsecs != 0) {
+		tmoutfd = new_timerfd(tmout_nsecs);
 		FD_SET(tmoutfd, &readfds);
 		if (maxfd < tmoutfd)
 			maxfd = tmoutfd;

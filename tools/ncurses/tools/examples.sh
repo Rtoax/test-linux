@@ -1,11 +1,11 @@
 #!/bin/bash
-# Usage: I=<.1> TMOUT=<1> ./examples.sh
+# Usage: I=<0.1> TMOUT=<1s> ./examples.sh
 
 # -m: (set -o monitor) monitor mode
 set -em
 
 [[ -z ${I} ]] && I=0.01
-[[ -z ${TMOUT} ]] && TMOUT=1
+[[ -z ${TMOUT} ]] && TMOUT=1s
 
 Interval=${I}
 
@@ -25,7 +25,7 @@ trap sigint INT
 line_types=( $(./plotcake -L nonsense 2>/dev/null || true) )
 
 run() {
-	./plotcake ${args[@]} "${@}"
+	./plotcake ${args[@]} -I 10ms --interval=10ms "${@}"
 }
 
 stdin() {
@@ -37,7 +37,6 @@ stdin() {
 run -? --help
 run --usage
 run -V --version
-run -I 1 --interval=1
 run -M --ram
 
 stdin -V --version
