@@ -6,4 +6,4 @@ define rpmbuild
 $(shell ${RUNPROG} -- ${RPMBUILD} -ba --define \"_topdir ${CURDIR}\" ${1})
 endef
 
-$(call rpmbuild,Conflicts.spec)
+log := $(call rpmbuild,Conflicts.spec)
