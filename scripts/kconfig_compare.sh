@@ -5,6 +5,7 @@
 #
 set -e
 
+readonly KCFGCMP_ROOT=$(dirname $(realpath $0))
 readonly prog=$0
 readonly NOT_DEF=x
 
@@ -17,6 +18,8 @@ display=diff
 verbose=
 
 name_len_max=0
+
+. ${KCFGCMP_ROOT}/liblog.sh
 
 __usage__()
 {
@@ -67,6 +70,10 @@ while true; do
 		;;
 	-c | --config)
 		shift
+		if [[ ! -z ${config_file_cmp} ]] && \
+		   [[ ${1} != ${config_file_cmp} ]]; then
+			error "already set config to ${config_file_cmp}, duplicate ${1}"
+		fi
 		config_file_cmp=$1
 		shift
 		;;
