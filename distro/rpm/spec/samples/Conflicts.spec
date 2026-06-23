@@ -14,3 +14,5 @@ Conflicts: iptables < 1.3.2-1
 %files
 
 %changelog
+* Tue Jun 23 2026 Rong Tao <rtoax@foxmail.com> - 0.0.1-0
+- First commit.
