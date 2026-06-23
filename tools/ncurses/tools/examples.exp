@@ -48,6 +48,7 @@ test_key "h" "'q' and Esc: quit" "check help"
 test_key "r" "cur=114=" "reset"
 test_key "t" "\(signed logarithmic transformation\)" "change curses type to log()"
 test_key "t" "\(base-10 signed logarithmic transformation\)" "change curses type to log10()"
+test_key "t" "\(base-e exponential\)" "change curses type to exp()"
 
 # Test enter
 #send "\r"
