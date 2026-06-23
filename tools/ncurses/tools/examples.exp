@@ -30,6 +30,7 @@ proc test_key {key pattern success_msg} {
 		}
 		timeout {
 			send_user "Fatal: key '$key' failed, expect '$pattern'\n"
+			exit 1
 		}
 	}
 	# Allow UI to refresh

@@ -268,7 +268,7 @@ void plot_draw_title(const struct plot *p)
 {
 	char buf[128], *title = buf;
 	if (p->v_scaling == NS_LOGARITHMIC)
-		snprintf(buf, 128, "%s (signed ogarithmic transformation)",
+		snprintf(buf, 128, "%s (signed logarithmic transformation)",
 			 p->title);
 	else if (p->v_scaling == NS_LOGARITHMIC10)
 		snprintf(buf, 128,
