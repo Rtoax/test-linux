@@ -110,7 +110,7 @@ unsigned long plot_mem_size(const struct plot *p);
 #define plot_warning(p, fmt...) __plot_warning(p, fmt)
 void __plot_warning(const struct plot *p, char *fmt, ...);
 
-int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg);
+int plot_add_lgrp(struct plot *p, struct lgroup *lg, void *lg_ops_arg);
 
 void plot_update_size(struct plot *p, bool init);
 void plot_draw_axes(const struct plot *p);

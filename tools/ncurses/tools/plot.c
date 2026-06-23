@@ -12,7 +12,7 @@
 chtype flavor[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
-int plot_add(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
+int plot_add_lgrp(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
 	assert(lg->ops->create && "lgroup ops is not set, set it first");
 
