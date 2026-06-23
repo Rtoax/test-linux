@@ -1,5 +1,8 @@
 #!/bin/bash
+# Compare linux kernel config file
+#
 # Copyright (C) 2025-2026 Rong Tao
+#
 set -e
 
 readonly prog=$0
@@ -105,7 +108,6 @@ fi
 config_line_base=( $(grep ^CONFIG ${config_file_base} | grep -E "[y|m]$" | sort) )
 
 declare -a configs values values1
-
 
 for config in ${config_line_base[@]}
 do
