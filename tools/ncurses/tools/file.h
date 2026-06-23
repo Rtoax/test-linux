@@ -9,3 +9,5 @@ struct plot_file_operations {
 };
 
 int save_plot(const struct plot *p);
+
+extern struct lgroup lg_file;

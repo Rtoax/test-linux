@@ -156,3 +156,28 @@ int save_plot(const struct plot *p)
 	}
 	return err;
 }
+
+static void file_create(struct lgroup *lg, void *arg)
+{
+	// TODO
+}
+
+static void file_update(struct lgroup *lg, void *arg)
+{
+	// TODO
+}
+
+static void file_plot_debug(const struct lgroup *lg, void *arg)
+{
+	// TODO
+}
+
+static struct lgroup_operations file_ops = {
+	.create = file_create,
+	.update = file_update,
+	.plot_debug = file_plot_debug,
+};
+
+struct lgroup lg_file = {
+	.ops = &file_ops,
+};
