@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -13,13 +14,13 @@ void assert_find(const char *ksym)
 	long addr = ksym_addr(ksyms, ksym);
 
 	if (addr == INVALID_ADDR || addr == -EINVAL) {
-		printf("%s is not found.\n", ksym);
+		fprintf(stderr, "%s is not found.\n", ksym);
 		return;
 	}
 
 	/* If no permission read /proc/kallsyms, the address is zero */
 	if (addr == 0) {
-		printf("%s 0x%lx\n", ksym, addr);
+		fprintf(stderr, "%s 0x%lx\n", ksym, addr);
 		return;
 	}
 
@@ -27,9 +28,11 @@ void assert_find(const char *ksym)
 
 	printf("%s 0x%lx (%s+%#lx)\n", ksym, addr, name, off);
 
-	if (strcmp(name, ksym) || off != off2)
+	if (strcmp(name, ksym) || off != off2) {
 		fprintf(stderr, "ERROR: %s != %s or 0x%lx != 0x%lx\n",
 			ksym, name, off, off2);
+		exit(EXIT_FAILURE);
+	}
 }
 
 int main(int argc, char *argv[])
