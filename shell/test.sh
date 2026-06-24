@@ -14,3 +14,10 @@ elif [[ __not_exist__ -ot __not_exist__ ]]; then
 else
 	echo "__not_exist__ non newer neither older"
 fi
+
+if [[ /var/log/messages -nt /bin/ls ]]; then
+	echo newer
+else
+	echo "FATAL: /var/log/messages should newer than /bin/ls"
+	exit 1
+fi
