@@ -5,10 +5,12 @@ ifndef _COMPILER_STD_MK
 _COMPILER_STD_MK = 1
 
 include compiler/check.mk
+include file.mk
 
 cachefile := ${TOPDIR}/template/compiler/.std.mk.cache
+origfile := ${TOPDIR}/template/compiler/std.mk
 
-ifneq ($(wildcard ${cachefile}),)
+ifeq ($(call is_newer,${cachefile},${origfile}),y)
   include ${cachefile}
 else
 include bits/mk-cache.mk

@@ -8,10 +8,12 @@ ifndef _PYTHON_PYTORCH_MK
 _PYTHON_PYTORCH_MK = 1
 
 include dir.mk
+include file.mk
 
 cachefile := ${TOPDIR}/template/python/.pytorch.mk.cache
+origfile := ${TOPDIR}/template/python/pytorch.mk
 
-ifneq ($(wildcard ${cachefile}),)
+ifeq ($(call is_newer,${cachefile},${origfile}),y)
   include ${cachefile}
 else
 

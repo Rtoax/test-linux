@@ -31,7 +31,7 @@ and this project adheres to
 - add expect, evtest;
 - util-linux: add fsck subdir;
 #### Template
-- file.mk: add `is_newer()` function;
+- file.mk: add `is_newer()` function and apply to mk cache;
 - rename `target-prep-y` to `prep-y`;
 - rename `target-post-y` to `post-y`;
 - nvidia/device.mk: add GB20B and H800;

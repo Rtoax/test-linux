@@ -12,10 +12,13 @@ include dir.mk
 include kernel.mk
 include string.mk
 include bpf/btf.mk
+include file.mk
 
 # Use cache first if it's exist, because it's fast,
 cachefile := ${TOPDIR}/template/bpf/.iter.mk.cache
-ifneq ($(wildcard ${cachefile}),)
+origfile := ${TOPDIR}/template/bpf/iter.mk
+
+ifeq ($(call is_newer,${cachefile},${origfile}),y)
   include ${cachefile}
 else
 

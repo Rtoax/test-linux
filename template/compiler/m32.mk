@@ -6,10 +6,12 @@ _COMPILER_M32_MK = 1
 
 include dir.mk
 include compiler/check.mk
+include file.mk
 
 cachefile := ${TOPDIR}/template/compiler/.m32.mk.cache
+origfile := ${TOPDIR}/template/compiler/m32.mk
 
-ifneq ($(wildcard ${cachefile}),)
+ifeq ($(call is_newer,${cachefile},${origfile}),y)
   include ${cachefile}
 else
 include bits/mk-cache.mk

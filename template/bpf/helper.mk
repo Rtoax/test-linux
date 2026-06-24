@@ -17,11 +17,13 @@ _BPF_HELPER_MK = 1
 _BPF_KFUNC_MK = 1
 
 include dir.mk
+include file.mk
 
 # Use cache first if it's exist, because it's fast,
 # see commit d48999813cd4 ("bpf/helper.mk: support cache")
 cachefile := ${TOPDIR}/template/bpf/.helper.mk.cache
-ifneq ($(wildcard ${cachefile}),)
+origfile := ${TOPDIR}/template/bpf/helper.mk
+ifeq ($(call is_newer,${cachefile},${origfile}),y)
   include ${cachefile}
 else
 

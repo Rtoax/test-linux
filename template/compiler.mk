@@ -25,10 +25,12 @@ include compiler/std.mk
 include compiler/m32.mk
 include compiler/macros.mk
 include compiler/types.mk
+include file.mk
 
 cachefile := ${TOPDIR}/template/.compiler.mk.cache
+origfile := ${TOPDIR}/template/compiler.mk
 
-ifneq ($(wildcard ${cachefile}),)
+ifeq ($(call is_newer,${cachefile},${origfile}),y)
   include ${cachefile}
 else
 
