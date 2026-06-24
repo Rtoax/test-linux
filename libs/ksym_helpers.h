@@ -6,7 +6,6 @@
 
 #define INVALID_ADDR	(-1)
 
-struct ksym;
 struct ksyms;
 
 struct ksyms *load_kallsyms(void);

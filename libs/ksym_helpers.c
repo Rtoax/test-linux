@@ -10,12 +10,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <search.h>
-
 #include "ksym_helpers.h"
 
 #define PROC_KALLSYMS	"/proc/kallsyms"
 #define DEFAULT_KMOD	"vmlinux"
-
 
 enum ksym_type {
 	KSYM_LOCAL_ABS = 1,	/* a */

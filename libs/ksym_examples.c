@@ -32,13 +32,18 @@ void assert_find(const char *ksym)
 			ksym, name, off, off2);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	ksyms = load_kallsyms();
 
-	assert_find("schedule");
-	assert_find("net_tx_action");
-	assert_find("net_rx_action");
+	if (argc > 1) {
+		for (int i = 1; i < argc; i++)
+			assert_find(argv[i]);
+	} else {
+		assert_find("schedule");
+		assert_find("net_tx_action");
+		assert_find("net_rx_action");
+	}
 
 	free_kallsyms(ksyms);
 
