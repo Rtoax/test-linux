@@ -40,8 +40,8 @@ endif
 ifneq ($(call is_newer,__non_exist__/nonsense,/etc/os-release),n)
   $(error is_newer: expect n, but y)
 endif
-ifneq ($(call is_newer,/var/log/messages,/etc/os-release),y)
-  $(error is_newer: /var/log/messages should newer than /etc/os-release)
+ifneq ($(call is_newer,/proc/self/stat,/etc/os-release),y)
+  $(error is_newer: /proc/self/stat should newer than /etc/os-release)
 endif
 
 endif
