@@ -18,7 +18,7 @@ $(if ${DEBUG}, $(info RUNPROG = ${RUNPROG}))
 
 export RUNPROG
 
-ifneq ($(shell ${RUNPROG} -- ls -d ${TOPDIR}),${TOPDIR})
+ifneq ($(shell ${RUNPROG} --nolog --nocmdlog -- ls -d ${TOPDIR}),${TOPDIR})
   $(error "ERROR: ${RUNPROG} -- ls -d ${TOPDIR} failed.")
 endif
 

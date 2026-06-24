@@ -9,8 +9,8 @@ set -e
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly TEST_LINUX_ROOT=$(realpath ${WHERE_AM_I}/../)
-readonly LOG_CMD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
 readonly prog_name=runprog
+LOG_CMD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
 LOG_FILE=runprog.log
 declare -a ENVS
 verbose=
@@ -27,6 +27,8 @@ __usage__()
 --maybe-sudo           running with superuser if possible
 
 -l, --log [FILE]       set log file name
+    --nolog            skipping log
+    --nocmdlog         skipping cmd log file
 
 -v, --verbose          run verbose mode
 -h, --help             show this help information
@@ -38,6 +40,8 @@ __usage__()
 GETOPT_ARGS=$(getopt \
 	--options l:e:T:vh \
 	--long log: \
+	--long nolog \
+	--long nocmdlog \
 	--long timeout: \
 	--long env: \
 	--long help \
@@ -55,6 +59,14 @@ while true; do
 		shift
 		LOG_FILE=$1
 		shift
+		;;
+	--nolog)
+		shift
+		LOG_FILE=
+		;;
+	--nocmdlog)
+		shift
+		LOG_CMD_FILE=
 		;;
 	-T | --timeout)
 		shift
@@ -124,16 +136,24 @@ CMD+="${TMOUT:+timeout ${TMOUT} }"
 CMD+="${SHEBANG:+${SHEBANG} }"
 CMD+="${LEFT_ARGS[@]}"
 
-eval "${CMD}" | tee ${LOG_FILE}
+if [[ ${LOG_FILE} ]]; then
+	eval "${CMD}" | tee ${LOG_FILE}
+else
+	eval "${CMD}"
+fi
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-	rm -f ${LOG_FILE}
-	echo -e "Run '\033[31m${CMD}\033[m' failed in ${PWD}" >> ${LOG_CMD_FILE}
+	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
+	if [[ ${LOG_CMD_FILE} ]]; then
+		echo -e "Run '\033[31m${CMD}\033[m' failed in ${PWD}" >> ${LOG_CMD_FILE}
+	fi
 	error "${@}: run failed"
 else
-	echo -e "Run '\033[32m${CMD}\033[m' success in ${PWD}" >> ${LOG_CMD_FILE}
+	if [[ ${LOG_CMD_FILE} ]]; then
+		echo -e "Run '\033[32m${CMD}\033[m' success in ${PWD}" >> ${LOG_CMD_FILE}
+	fi
 fi
 
 # If you run with sudo, then we need to reset the owner of the log file.
-if [[ ${SUDO_USER} ]]; then
+if [[ ${SUDO_USER} ]] && [[ ${LOG_CMD_FILE} ]]; then
 	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${LOG_CMD_FILE}
 fi
