@@ -1,5 +1,6 @@
 include bpf/bpftrace.mk
 
+subdir-y += string
 subdir-y += struct
 
 bpftrace-y += arithmetic.bt

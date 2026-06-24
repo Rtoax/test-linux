@@ -1,0 +1,8 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	$hello = "hello" + " " + "world";
+	print($hello);
+	exit();
+}
