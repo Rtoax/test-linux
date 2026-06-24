@@ -26,6 +26,7 @@ shell-y += select.sh
 shell-y += shebang.sh
 shell-y += stat.sh
 shell-y += sudo.sh
+shell-y += test.sh
 shell-y += tracing.sh
 shell-y += trap.sh
 shell-y += while.sh

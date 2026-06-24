@@ -3,6 +3,7 @@
 #
 # Export functions:
 # - reset_file($file)
+# - is_newer($file1, $file2)=[y|n]
 #
 ifndef _FILE_MK
 _FILE_MK = 1
@@ -22,5 +23,22 @@ define reset_file
   }; \
   __reset_file $1
 endef
+
+# FILE1 is newer (modification date) than FILE2
+# $1: FILE1
+# $2: FILE2
+# @return: if FILE1 newer then FILE2, return 'y', else or if file not exist,
+#          return 'n'.
+define is_newer
+$(shell if [[ ${1} -nt ${2} ]]; then echo y; else echo n; fi)
+endef
+
+# do some tests
+ifneq ($(call is_newer,/etc/os-release,/etc/os-release),n)
+  $(error is_newer: expect n, but y)
+endif
+ifneq ($(call is_newer,__non_exist__/nonsense,/etc/os-release),n)
+  $(error is_newer: expect n, but y)
+endif
 
 endif
