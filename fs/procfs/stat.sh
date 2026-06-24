@@ -1,7 +1,8 @@
 #!/bin/bash
 # Get cpu idle percent
 # see also: mpstat -P ALL 1
-# could use for test-linux/tools/ncurses/tools: plotcake
+# Refs:
+# - plotcake: test-linux/tools/ncurses/tools/tools/cpu.sh
 set -e
 
 cpus=( $(grep -Eo '^cpu[0-9]+' /proc/stat) )

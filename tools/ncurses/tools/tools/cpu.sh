@@ -1,6 +1,12 @@
 #!/bin/bash
+# Plot CPU usage
+#
+# see also test-linux/fs/procfs/stat.sh
+#
 # Usage: [I=<secs>] ./cpu.sh [cpu indexes]
-# Example: I=1 ./cpu.sh 1 2 3
+# Example:
+# $ I=1 ./cpu.sh 0 1 2 3
+# $ taskset -c 0 bash -c 'while :; do sleep 0.002; done'
 set -e
 
 [[ -z ${I} ]] && I=1
