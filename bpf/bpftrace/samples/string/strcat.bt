@@ -2,8 +2,10 @@
 
 BEGIN
 {
-	let $s1 : string[1024];
+	let $s1 : string[256];
 	let $s2 : string[32];
+
+	$s2 = "s2";
 
 	$sz1 = strcap($s1);
 	$len1 = strlen($s1);
