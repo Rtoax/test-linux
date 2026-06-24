@@ -177,8 +177,6 @@ CFLAGS_ring_buffer := ${CFLAGS_socket_filter} -DRING_BUFFER=1
 CFLAGS_BPF_ring_buffer := ${CFLAGS_ring_buffer}
 CFLAGS_tracepoint := -DMAP_HASH -DTRACEPOINT=1 -DSEC_DEF_TRACEPOINT=1 -DPARSE_AUXV=1
 CFLAGS_BPF_tracepoint := ${CFLAGS_tracepoint}
-# Kill process with signal.
-CFLAGS_BPF_tracepoint += -DBPF_SEND_SIGNAL=1
 CFLAGS_raw_tracepoint := -DSEC_DEF_RAW_TRACEPOINT=1
 CFLAGS_BPF_raw_tracepoint := ${CFLAGS_raw_tracepoint}
 CFLAGS_tp_btf := -DSEC_DEF_TP_BTF=1

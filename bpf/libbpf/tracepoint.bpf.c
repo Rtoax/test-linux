@@ -175,7 +175,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 
 	pevent->ret = ctx->ret;
 
-#if defined(BPF_SEND_SIGNAL)
+#if defined(SUPPORT_BPF_SEND_SIGNAL)
 	bool should_kill = false;
 # if defined(SUPPORT_BPF_STRCMP)
 	should_kill |= !bpf_strcmp(pevent->comm, "free");

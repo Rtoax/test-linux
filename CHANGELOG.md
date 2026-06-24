@@ -10,7 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
-- bpf: kfunc: test `bpf_strlen()` and `bpf_strnlen()`;
+- bpf: kfunc: test `bpf_strlen()`, `bpf_strnlen()`, `bpf_send_signal()`, `bpf_send_signal_thread()`;
 - bpftrace/samples: add string subdir;
 - rpm: add spec subdir;
 - add `__VA_OPT__.cpp` test;

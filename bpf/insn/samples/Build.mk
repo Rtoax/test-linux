@@ -22,6 +22,8 @@ helpers-${SUPPORT_BPF_STRLEN} += strlen
 helpers-${SUPPORT_BPF_STRNLEN} += strnlen
 helpers-y += strnstr
 helpers-y += iter_task_vma_new
+helpers-y += send_signal
+helpers-y += send_signal_thread
 
 $(info helpers-y = ${helpers-y})
 

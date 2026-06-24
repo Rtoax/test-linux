@@ -59,6 +59,20 @@ ifeq ($(call kver_gt,5,12,0),y)
   $(call bpf_def_helper,bpf_snprintf)
 endif
 
+# linux v5.2-rc1-220-g8b401f9ed244
+# commit 8b401f9ed244 ("bpf: implement bpf_send_signal() helper")
+# https://docs.ebpf.io/linux/helper-function/bpf_send_signal/
+ifeq ($(call kver_gt,5,2,0),y)
+  $(call bpf_def_helper,bpf_send_signal)
+endif
+
+# linux v5.5-rc4-897-g8482941f0906
+# commit 8482941f0906 ("bpf: Add bpf_send_signal_thread() helper")
+# https://docs.ebpf.io/linux/helper-function/bpf_send_signal_thread/
+ifeq ($(call kver_gt,5,4,0),y)
+  $(call bpf_def_helper,bpf_send_signal_thread)
+endif
+
 # linux v5.15-12938-ge6f2dd0f8067
 # commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
 ifeq ($(call kver_ge,5,16,0),y) # failed on 5.15.131

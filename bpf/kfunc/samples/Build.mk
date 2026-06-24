@@ -15,6 +15,8 @@ helpers-y += cgrp_storage_get
 helpers-y += get_func_ip
 helpers-y += loop
 helpers-y += get_current_task_btf
+helpers-y += send_signal
+helpers-y += send_signal_thread
 
 target-bpf-y := $(patsubst %,${OUTPUT}%.bpf.o,${kfuncs-y})
 target-bpf-y += $(patsubst %,${OUTPUT}%.bpf.o,${helpers-y})

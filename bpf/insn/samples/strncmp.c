@@ -3,9 +3,8 @@
 #include <linux/bpf.h>
 #include "bpf_insn_samples.h"
 
-
 /* TODO: load failed */
-struct bpf_insn insns[] = {
+static struct bpf_insn insns[] = {
 	/**
 	 * WARNING: ERROR: failed to load prog 'Permission denied'
 	 * the s2 of bpf_strncmp() must be static/global variable, and

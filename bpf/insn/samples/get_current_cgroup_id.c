@@ -8,11 +8,11 @@
 #include "bpf_insn_samples.h"
 
 static struct bpf_insn insns[] = {
-	BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 0, 0, BPF_FUNC_get_current_cgroup_id),
+	BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 0, 0,
+		     BPF_FUNC_get_current_cgroup_id),
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
 };
-
 
 BPF_INSN_SAMPLE_FUNC_PROTO(get_current_cgroup_id)
 {
