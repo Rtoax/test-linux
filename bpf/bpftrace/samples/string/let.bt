@@ -1,0 +1,11 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	let $s1 : string[256];
+
+	$s1 = "a";
+
+	print($s1);
+	exit();
+}
