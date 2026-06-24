@@ -1,11 +1,35 @@
 #!/bin/env bpftrace
 
-BEGIN
+macro test0()
 {
 	let $s1 : string[256];
-
 	$s1 = "a";
+	print($s1);
+}
+
+macro test1()
+{
+	/**
+	 * MUST be 256, see bpftrace::src/ast/irbuilderbpf.cpp::
+	 *  IRBuilderBPF::CreateAllocaBPF() {
+	 *    // Anything this large should be allocated in a scratch map instead
+	 *    assert(module_.getDataLayout().getTypeAllocSize(ty) <= 256);
+	 *  }
+	 */
+	let $s1 : string[256];
+	let $s2 : string[32];
+
+	$s1 = "hello";
+	$s2 = "world";
+	$s1 = $s2;
 
 	print($s1);
+}
+
+BEGIN
+{
+	test0();
+	test1();
+
 	exit();
 }
