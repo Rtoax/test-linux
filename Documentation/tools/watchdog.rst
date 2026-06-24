@@ -1,5 +1,5 @@
 Linux Watchdog
-================
+==============
 
 Linux has three watchdog:
 
@@ -8,7 +8,8 @@ Linux has three watchdog:
 3. hardlockup 监测机制
 
 
-# 配置
+Configration
+------------
 
 - `/proc/sys/kernel/watchdog_thresh`
 - `/proc/sys/kernel/watchdog_threshold`

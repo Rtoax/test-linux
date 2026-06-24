@@ -18,7 +18,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Doc
-- add tmux.rst, float-point/index.rst;
+- add tmux.rst, float-point/index.rst, watchdog.rst;
 #### Fixed
 #### Linux Kernel
 #### Removed
