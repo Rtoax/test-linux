@@ -12,8 +12,8 @@
 #include <search.h>
 #include "ksym_helpers.h"
 
-#define PROC_KALLSYMS	"/proc/kallsyms"
-#define DEFAULT_KMOD	"vmlinux"
+#define PROC_KALLSYMS "/proc/kallsyms"
+#define DEFAULT_KMOD "vmlinux"
 
 enum ksym_type {
 	KSYM_LOCAL_ABS = 1,	/* a */
@@ -52,7 +52,10 @@ struct ksyms_array {
 };
 
 struct ksyms {
-	struct ksyms_tree nkta, name, addr;
+	/**
+	 * nmta: name+module+type+address
+	 */
+	struct ksyms_tree nmta, name, addr;
 	struct ksyms_array arr_addr;
 };
 
@@ -70,7 +73,7 @@ static int ksym_cmp_name(const void *a1, const void *a2)
 	return strcmp(s1->name, s2->name);
 }
 
-static int ksym_cmp_nkta(const void *a1, const void *a2)
+static int ksym_cmp_nmta(const void *a1, const void *a2)
 {
 	int cmp;
 	const struct ksym *s1 = a1, *s2 = a2;
@@ -98,10 +101,10 @@ static void walk_action(const void *nodep, VISIT which, void *closure)
 }
 
 static const struct ksyms default_zero_ksyms = {
-	.nkta = {
+	.nmta = {
 		.nsyms = 0,
 		.root = NULL,
-		.compare = ksym_cmp_nkta,
+		.compare = ksym_cmp_nmta,
 		.walk = walk_action,
 	},
 	.name = {
@@ -117,7 +120,6 @@ static const struct ksyms default_zero_ksyms = {
 		.walk = walk_action,
 	},
 };
-
 
 static enum ksym_type c2type(char c_type)
 {
@@ -218,7 +220,7 @@ static void free_ksym(struct ksym *ksym)
 	free(ksym);
 }
 
-static void free_ksym_t(void *p)
+static inline void free_ksym_fn(void *p)
 {
 	free_ksym(p);
 }
@@ -304,12 +306,13 @@ struct ksyms *load_kallsyms(void)
 		memset(s_name, 0, sizeof(s_name));
 		memset(s_kmod, 0, sizeof(s_kmod));
 
-		n = sscanf(line, "%lx %c %s %s\n", &addr, &c_type, s_name, s_kmod);
+		n = sscanf(line, "%lx %c %s %s\n", &addr, &c_type, s_name,
+			   s_kmod);
 		if (n != 4 && n != 3)
 			continue;
 
 		struct ksym *new = alloc_ksym(addr, c2type(c_type), s_name,
-				n == 4 ? s_kmod : NULL);
+					      n == 4 ? s_kmod : NULL);
 		if (!new) {
 #ifdef DEBUG
 			fprintf(stderr, "Failed alloc symbol %s\n", s_name);
@@ -318,7 +321,7 @@ struct ksyms *load_kallsyms(void)
 		}
 
 		insert_to_array(&ksyms->arr_addr, new);
-		insert_to_tree(&ksyms->nkta, new);
+		insert_to_tree(&ksyms->nmta, new);
 		insert_to_tree(&ksyms->name, new);
 		if (new->addr != 0) {
 			insert_to_tree(&ksyms->addr, new);
@@ -330,10 +333,10 @@ struct ksyms *load_kallsyms(void)
 	sort_array(&ksyms->arr_addr);
 
 #ifdef DEBUG
-	fprintf(stderr, "kallsyms nkta %ld, name %ld, addr %ld symbols\n",
-		ksyms->nkta.nsyms, ksyms->name.nsyms, ksyms->addr.nsyms);
+	fprintf(stderr, "kallsyms nmta %ld, name %ld, addr %ld symbols\n",
+		ksyms->nmta.nsyms, ksyms->name.nsyms, ksyms->addr.nsyms);
 # if DEBUG >= 2
-	walk_tree(&ksyms->nkta);
+	walk_tree(&ksyms->nmta);
 	walk_tree(&ksyms->name);
 	walk_tree(&ksyms->addr);
 # endif
@@ -346,9 +349,9 @@ exit:
 
 void free_kallsyms(struct ksyms *ksyms)
 {
-	tdestroy(ksyms->nkta.root, free_ksym_t);
-	tdestroy(ksyms->name.root, free_ksym_t);
-	tdestroy(ksyms->addr.root, free_ksym_t);
+	tdestroy(ksyms->nmta.root, free_ksym_fn);
+	tdestroy(ksyms->name.root, free_ksym_fn);
+	tdestroy(ksyms->addr.root, free_ksym_fn);
 	free(ksyms->arr_addr.array);
 }
 
