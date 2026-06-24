@@ -20,7 +20,7 @@ BPF_TARGET_ARCH := $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/riscv64/riscv/' \
 			 | sed 's/loongarch64/loongarch/')
 ifeq (${BPF_TARGET_ARCH},$(shell uname -m))
-  $(error Not handle arch ${shell uname -m} yet, please do)
+  $(error Not handle arch ${shell uname -m} yet, please add it)
 endif
 
 bpf-cflags += -D__TARGET_ARCH_$(BPF_TARGET_ARCH)

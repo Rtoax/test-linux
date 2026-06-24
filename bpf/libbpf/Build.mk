@@ -78,8 +78,6 @@ target-y += $(kobjs-y)
 target-y += map_array map_prog_array map_percpu_array
 target-y += xdp_xskmap
 
-CFLAGS_BPF += ${bpf-helper-cflags}
-
 # linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
 # v6.2-rc7-1572-gbd1279ae8a69
 ifeq ($(call kver_gt,6,2,0),y)
@@ -138,17 +136,9 @@ LDFLAGS += -pthread
 
 CFLAGS += -DCONFIG_BPF_SYSCALL=$(CONFIG_BPF_SYSCALL)
 
-CFLAGS += $(KFLAGS)
-CFLAGS_BPF += $(KFLAGS)
-CFLAGS += $(bpf-cflags)
-CFLAGS_BPF += $(bpf-cflags)
-
 ifdef DEBUG
   CLANG_V = -v
 endif
-
-CFLAGS += ${pahole-cflags}
-CFLAGS_BPF += ${pahole-cflags}
 
 CFLAGS_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
 CFLAGS_BPF_kprobe := -D'KSYM_DO_EXECVEAT_COMMON="${KSYM_DO_EXECVEAT_COMMON}"' -DKPROBE=1
@@ -244,6 +234,13 @@ CFLAGS_BPF_rbtree-raw-map := ${CFLAGS_rbtree-raw-map}
 CFLAGS_spin_lock := -DTEST_SPIN_LOCK=1
 CFLAGS_BPF_spin_lock := ${CFLAGS_spin_lock}
 
+CFLAGS += $(KFLAGS)
+CFLAGS_BPF += $(KFLAGS)
+CFLAGS += $(bpf-cflags)
+CFLAGS_BPF += $(bpf-cflags)
 CFLAGS += $(libbpf-cflags)
 CFLAGS_BPF += $(libbpf-cflags)
+CFLAGS += ${pahole-cflags}
+CFLAGS_BPF += ${pahole-cflags}
+CFLAGS_BPF += ${bpf-helper-cflags}
 LDFLAGS += -Wl,-rpath,$(shell pwd)
