@@ -8,4 +8,5 @@ GPU (Graph Process Unit)
 
    amd/index
    nvidia/index
+   huawei/index
    opencl
