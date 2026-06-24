@@ -1,0 +1,17 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	let $s1 = "hello";
+	$len1 = strlen($s1);
+
+	for $i : ((uint64)0)..((uint64)$len1) {
+		/**
+		 * TODO: bpf Verifier failed
+		 * math between fp pointer and register with unbounded min value is not allowed
+		 */
+		printf("%c\n", $s1[$i]);
+	}
+
+	exit();
+}
