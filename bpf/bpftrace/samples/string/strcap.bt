@@ -1,0 +1,14 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	let $s1 : string[256];
+
+	$s1 = "rongtao";
+
+	$sz = strcap($s1);
+	$len = strlen($s1);
+
+	printf("%d %d\n", $sz, $len);
+	exit();
+}
