@@ -1,11 +1,11 @@
 #pragma once
 #include <bpf/bpf_tracing.h>
 
+static __always_inline bool str_eq(const char *a, const char *b, int len)
+{
 /**
  * use bpf_strncmp() first
  */
-static __always_inline bool str_eq(const char *a, const char *b, int len)
-{
 #if defined(SUPPORT_BPF_STRNCMP)
 	return !bpf_strncmp(a, len, b);
 #else
@@ -20,11 +20,13 @@ static __always_inline bool str_eq(const char *a, const char *b, int len)
 #endif
 }
 
-/**
- * FIXME: Use __builtin_strlen() instead?
- */
-static __always_inline int str_len(char *s, int max_len)
+static __always_inline int strlen(char *s, int max_len)
 {
+#if defined(SUPPORT_BPF_STRNLEN)
+	return bpf_strnlen(s, max_len);
+#elif defined(SUPPORT_BPF_STRLEN)
+	return bpf_strlen(s);
+#else
 	int i;
 	for (i = 0; i < max_len; i++) {
 		if (s[i] == '\0')
@@ -33,6 +35,7 @@ static __always_inline int str_len(char *s, int max_len)
 	if (s[max_len - 1] != '\0')
 		return max_len;
 	return 0;
+#endif
 }
 
 /**

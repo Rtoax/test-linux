@@ -38,6 +38,7 @@ Commit Tags
 Private Tags
 ~~~~~~~~~~~~
 
+- **Linux**: This tag indicates the linux upstream commit or link.
 - **Envs**: This tag indicates the env of your system.
 - **Vers**: This tag indicates the software/hardware version of your system.
 

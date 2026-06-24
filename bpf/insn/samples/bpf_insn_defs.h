@@ -9,6 +9,8 @@ BPF_INSN_SAMPLE(get_current_task_btf)
 BPF_INSN_SAMPLE(strncmp)
 #endif
 BPF_INSN_SAMPLE(strnstr)
+BPF_INSN_SAMPLE(strlen)
+BPF_INSN_SAMPLE(strnlen)
 /**
  * linux v5.15-12938-ge6f2dd0f8067
  * commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")

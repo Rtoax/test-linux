@@ -194,6 +194,9 @@ ifeq ($(call kver_gt,6,16,0),y)
   ifeq ($(call vmlinux_has_sym_shell,bpf_strcmp),y)
     $(call bpf_def_helper,bpf_strcmp)
   endif
+  ifeq ($(call vmlinux_has_sym_shell,bpf_strlen),y)
+    $(call bpf_def_helper,bpf_strlen)
+  endif
   ifeq ($(call vmlinux_has_sym_shell,bpf_strnlen),y)
     $(call bpf_def_helper,bpf_strnlen)
   endif

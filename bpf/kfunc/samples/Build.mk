@@ -8,7 +8,8 @@ kfuncs-${SUPPORT_BPF_CGROUP_FROM_ID} += cgroup_from_id
 kfuncs-${SUPPORT_BPF_CGROUP_ACQUIRE} += cgroup_acquire
 kfuncs-${SUPPORT_BPF_ITER_TASK_VMA_NEW} += iter_task_vma_new
 
-helpers-y := trace_printk
+helpers-y += trace_printk
+helpers-y += strlen strnlen
 helpers-y += strncmp
 helpers-y += cgrp_storage_get
 helpers-y += get_func_ip

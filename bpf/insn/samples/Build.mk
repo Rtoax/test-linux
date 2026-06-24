@@ -18,6 +18,8 @@ helpers-$(SUPPORT_BPF_CGRP_STORAGE_GET) += cgrp_storage_get
 helpers-y += get_func_ip
 helpers-$(SUPPORT_BPF_LOOP) += loop
 helpers-y += arena_alloc_pages arena_reserve_pages
+helpers-${SUPPORT_BPF_STRLEN} += strlen
+helpers-${SUPPORT_BPF_STRNLEN} += strnlen
 helpers-y += strnstr
 helpers-y += iter_task_vma_new
 
@@ -28,3 +30,6 @@ dynamic-objs := $(patsubst %,%.so.o,${helpers-y})
 
 libbpf_insn_samples.a-objs := ${static-objs} bpf_insn_samples.a.o
 libbpf_insn_samples.so-objs := ${dynamic-objs} bpf_insn_samples.so.o
+
+CFLAGS_A += ${bpf-helper-cflags}
+CFLAGS_SO += ${bpf-helper-cflags}
