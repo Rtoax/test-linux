@@ -18,7 +18,8 @@ BEGIN
 	 * https://github.com/Rtoax/bpftrace/commit/95bf746af7501df777e02919eef39b1033e4c0f1
 	 */
 	for $i : ((uint64)0)..((uint64)$len2) {
-		//$s1[$len1 + $i] = $s2[$i];
+		// ERROR: syntax: invalid assignment target
+		// $s1[$len1 + $i] = $s2[$i];
 		$s1 = $s2;
 		if ($s1[0] != $s1[1]) {}
 	}

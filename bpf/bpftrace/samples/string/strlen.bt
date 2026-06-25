@@ -1,1 +1,12 @@
-strcap.bt
+#!/bin/env bpftrace
+
+BEGIN
+{
+	let $s1 : string[256];
+
+	$s1 = "Hello! Rong Tao";
+	$len1 = strlen($s1);
+
+	printf("%s %s\n", $s1, $len1);
+	exit();
+}
