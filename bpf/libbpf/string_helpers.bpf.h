@@ -52,6 +52,6 @@ static __always_inline void __bpf_str_append(char *dst__ign, size_t dst_sz,
 
 	# pragma unroll
 	for (i = dst_len, j = 0;
-	     i < dst_sz && j < src_sz && src__ign[j] != '\0'; j++, i++)
+	     i < dst_sz && j < src_len && src__ign[j] != '\0'; j++, i++)
 		dst__ign[i] = src__ign[j];
 }
