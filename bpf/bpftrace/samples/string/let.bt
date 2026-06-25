@@ -1,13 +1,13 @@
 #!/bin/env bpftrace
 
-macro test0()
+macro test_base()
 {
-	let $s1 : string[256];
+	let $s1 : string[64];
 	$s1 = "a";
 	print($s1);
 }
 
-macro test1()
+macro test_size()
 {
 	/**
 	 * MUST be 256, see bpftrace::src/ast/irbuilderbpf.cpp::
@@ -26,10 +26,32 @@ macro test1()
 	print($s1);
 }
 
+let @map_str = lruhash(4096);
+
+macro test_map(@map)
+{
+	let $s : string[256];
+	$s = "$s";
+	@map[0] = "0";
+	@map[1] = "01";
+	@map[2] = "012";
+	@map[3] = comm;
+	@map[4] = $s;
+
+	/* strcap() of @map is max length of it's item */
+	print(strcap(@map[0]));
+}
+
 BEGIN
 {
-	test0();
-	test1();
+	test_base();
+	test_size();
+	test_map(@map_str);
 
 	exit();
+}
+
+END
+{
+	clear(@map_str);
 }
