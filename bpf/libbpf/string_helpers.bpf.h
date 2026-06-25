@@ -20,15 +20,14 @@ static __always_inline bool str_eq(const char *a, const char *b, int len)
 #endif
 }
 
-static __always_inline int strlen(char *s, int max_len)
+static __always_inline size_t strlen(char *s, size_t max_len)
 {
 #if defined(SUPPORT_BPF_STRNLEN)
 	return bpf_strnlen(s, max_len);
 #elif defined(SUPPORT_BPF_STRLEN)
 	return bpf_strlen(s);
 #else
-	int i;
-	for (i = 0; i < max_len; i++) {
+	for (size_t i = 0; i < max_len; i++) {
 		if (s[i] == '\0')
 			return i;
 	}
@@ -45,12 +44,14 @@ static __always_inline int strlen(char *s, int max_len)
 static void __bpf_str_append(char *dst__ign, size_t dst_sz,
 			     const char *src__ign, size_t src_sz)
 {
-	int i, j;
-	int dst_len = strlen(dst__ign, dst_sz);
-	int src_len = strlen(src__ign, src_sz);
+	__u8 i, j;
+	size_t dst_len = strlen(dst__ign, dst_sz);
+	size_t src_len = strlen(src__ign, src_sz);
 
 	# pragma unroll
 	for (i = dst_len, j = 0;
-	     i < dst_sz && j < src_len && src__ign[j] != '\0'; j++, i++)
+	     i < dst_sz - 1 && j < src_len && j < src_sz && src__ign[j] != '\0';
+	     j++, i++)
 		dst__ign[i] = src__ign[j];
+	dst__ign[i] = '\0';
 }
