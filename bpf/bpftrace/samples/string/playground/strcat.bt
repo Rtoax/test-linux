@@ -1,4 +1,7 @@
 #!/bin/env bpftrace
+/**
+ * It can be implemented in C language, see bpf/libbpf/string_helpers.bpf.h
+ */
 
 BEGIN
 {

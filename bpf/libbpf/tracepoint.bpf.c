@@ -208,8 +208,9 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	 * test string_helpers.bpf.h
 	 */
 	{
-		char src[5] = ".elf";
-		__bpf_str_append(pevent->comm, sizeof(pevent->comm), src, sizeof(src));
+		char src[10] = ".elf";
+		__bpf_str_append(pevent->comm, sizeof(pevent->comm), src,
+				 sizeof(src));
 	}
 
 	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent,
