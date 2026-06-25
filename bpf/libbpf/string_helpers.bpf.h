@@ -64,9 +64,9 @@ static void __bpf_str_prepend(char *dst__ign, size_t dst_sz,
 		return;
 	}
 
-	/* TODO: need revert */
 	for (i = 0; i < dst_len && dst__ign[i] != '\0'; i++) {
-		dst__ign[src_len + i] = dst__ign[i];
+		__u8 idx = dst_len - i - 1;
+		dst__ign[src_len + idx] = dst__ign[idx];
 	}
 
 	for (i = 0; i < src_len && i < dst_sz && src__ign[i] != '\0'; i++) {
