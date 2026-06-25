@@ -34,6 +34,10 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
   include ${cachefile}
 else
 
+include bits/mk-cache.mk
+
+$(call make_gen_cachefile,${cachefile})
+
 cflags-support-types-y :=
 cflags-support-headers-y :=
 ldflags-support-headers-y :=
@@ -58,7 +62,6 @@ CC_MINOR := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$2}')
 CC_PATCHLEVEL := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$3}')
 
 # Save to cache
-include bits/mk-cache.mk
 $(call make_append_var_to_file,cflags-support-types-y,${cachefile})
 $(call make_append_var_to_file,cflags-support-headers-y,${cachefile})
 $(call make_append_var_to_file,ldflags-support-headers-y,${cachefile})

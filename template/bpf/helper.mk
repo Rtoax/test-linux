@@ -34,6 +34,8 @@ include bpf/btf.mk
 
 include bits/mk-cache.mk
 
+$(call make_gen_cachefile,${cachefile})
+
 bpf-helper-cflags :=
 
 # $1 - helper or kfunc name in lowercase

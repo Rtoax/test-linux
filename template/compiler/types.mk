@@ -15,6 +15,10 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
   include ${cachefile}
 else
 
+include bits/mk-cache.mk
+
+$(call make_gen_cachefile,${cachefile})
+
 # see https://clang.llvm.org/docs/LanguageExtensions.html
 CC__Float16 := $(findstring y,$(call compiler_support_type,$(CC),_Float16))
 CC__Float32 := $(findstring y,$(call compiler_support_type,$(CC),_Float32))
@@ -33,8 +37,6 @@ CC___uint128_t := $(findstring y,$(call compiler_support_type,$(CC),__uint128_t)
 
 CC_lquadmath := $(findstring y,$(call compiler_support_option_link,$(CC),-lquadmath))
 CC_H_quadmath_h := $(findstring y,$(call compiler_support_header,$(CC),quadmath.h))
-
-include bits/mk-cache.mk
 
 $(call make_append_var_to_file,CC__Float16,${cachefile})
 $(call make_append_var_to_file,CC__Float32,${cachefile})

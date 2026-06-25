@@ -16,6 +16,8 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
 else
 include bits/mk-cache.mk
 
+$(call make_gen_cachefile,${cachefile})
+
 CC_M32 := $(findstring y,$(call compiler_support_option_link,$(CC),-m32))
 
 $(call make_append_var_to_file,CC_M32,${cachefile})

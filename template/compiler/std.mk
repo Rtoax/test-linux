@@ -15,6 +15,8 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
 else
 include bits/mk-cache.mk
 
+$(call make_gen_cachefile,${cachefile})
+
 CC_STD_C11 := $(findstring y,$(call compiler_support_option,$(CC),-std=c11))
 CC_STD_GNU11 := $(findstring y,$(call compiler_support_option,$(CC),-std=gnu11))
 CC_STD_C17 := $(findstring y,$(call compiler_support_option,$(CC),-std=c17))

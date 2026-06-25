@@ -31,6 +31,7 @@ and this project adheres to
 - add expect, evtest;
 - util-linux: add fsck subdir;
 #### Template
+- mk-cache.mk: add `make_gen_cachefile()` and apply;
 - file.mk: add `is_newer()` function and apply to mk cache;
 - rename `target-prep-y` to `prep-y`;
 - rename `target-post-y` to `post-y`;

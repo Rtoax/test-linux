@@ -24,6 +24,8 @@ else
 
 include bits/mk-cache.mk
 
+$(call make_gen_cachefile,${cachefile})
+
 # $1 - iter name in lowercase
 # $2 - iter name in uppercase
 define ___bpf_def_iter

@@ -19,6 +19,8 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
 else
 include bits/mk-cache.mk
 
+$(call make_gen_cachefile,${cachefile})
+
 feature-mavx2 := $(findstring y,$(call compiler_support_option,$(CC),-mavx2))
 feature-mfentry := $(findstring y,$(call compiler_support_option,$(CC),-mfentry))
 feature-sve2 := $(findstring y,$(call compiler_support_option,$(CC),-march=armv8-a+sve+sve2))
