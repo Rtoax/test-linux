@@ -42,15 +42,13 @@ static __always_inline size_t strlen(char *s, size_t max_len)
  * see https://github.com/bpftrace/bpftrace/pull/4601
  */
 static void __bpf_str_append(char *dst__ign, size_t dst_sz,
-			     const char *src__ign, size_t src_sz)
+			     const char *src__ign)
 {
 	__u8 i, j;
 	size_t dst_len = strlen(dst__ign, dst_sz);
-	size_t src_len = strlen(src__ign, src_sz);
 
 	# pragma unroll
-	for (i = dst_len, j = 0;
-	     i < dst_sz - 1 && j < src_len && j < src_sz && src__ign[j] != '\0';
+	for (i = dst_len, j = 0; i < dst_sz - 1 && src__ign[j] != '\0';
 	     j++, i++)
 		dst__ign[i] = src__ign[j];
 	dst__ign[i] = '\0';

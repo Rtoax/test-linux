@@ -210,8 +210,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	{
 		/* beyond the boundary of comm[] */
 		char src[20] = ".elf.1.2.3.4.5";
-		__bpf_str_append(pevent->comm, sizeof(pevent->comm), src,
-				 sizeof(src));
+		__bpf_str_append(pevent->comm, sizeof(pevent->comm), src);
 	}
 
 	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent,
