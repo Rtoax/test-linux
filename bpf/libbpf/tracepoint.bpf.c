@@ -208,6 +208,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	 * test string_helpers.bpf.h
 	 */
 	{
+		__bpf_str_prepend(pevent->comm, sizeof(pevent->comm), "/", 2);
 		__bpf_str_append(pevent->comm, sizeof(pevent->comm), ".elf");
 		/* beyond the boundary of comm[] */
 		__bpf_str_append(pevent->comm, sizeof(pevent->comm),

@@ -52,3 +52,24 @@ static void __bpf_str_append(char *dst__ign, size_t dst_sz,
 		dst__ign[i] = src__ign[j];
 	dst__ign[i] = '\0';
 }
+
+static void __bpf_str_prepend(char *dst__ign, size_t dst_sz,
+			      const char *src__ign, size_t src_sz)
+{
+	__u8 i;
+	const __u8 dst_len = strlen(dst__ign, dst_sz);
+	const __u8 src_len = strlen(src__ign, src_sz);
+
+	if (dst_len + src_len > dst_sz - 1) {
+		return;
+	}
+
+	/* TODO: need revert */
+	for (i = 0; i < dst_len && dst__ign[i] != '\0'; i++) {
+		dst__ign[src_len + i] = dst__ign[i];
+	}
+
+	for (i = 0; i < src_len && i < dst_sz && src__ign[i] != '\0'; i++) {
+		dst__ign[i] = src__ign[i];
+	}
+}
