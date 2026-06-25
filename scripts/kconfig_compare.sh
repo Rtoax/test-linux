@@ -81,8 +81,7 @@ while true; do
 		shift
 		display=$1
 		if ! [[ " ${DISPLAYERS[@]} " =~ " ${display} " ]]; then
-			echo >&2 "ERROR: display only support '${DISPLAYERS[@]}'"
-			exit 1
+			error "display only support '${DISPLAYERS[@]}'"
 		fi
 		shift
 		;;
@@ -99,20 +98,19 @@ while true; do
 		break
 		;;
 	*)
-		echo >&2 "ERROR: unknown $1"
-		exit 1
+		error "unknown $1"
 		;;
 	esac
 done
 
 if [[ -z ${config_file_base} ]] || [[ -z ${config_file_cmp} ]]; then
-	echo >&2 "ERROR: must specify config file"
-	exit 1
+	error "must specify config file"
 fi
 
 # ${str%%=*}: get config name
 # ${str##*=}: get config value
 config_line_base=( $(grep ^CONFIG ${config_file_base} | grep -E "[y|m]$" | sort) )
+config_line_cmp=( $(grep ^CONFIG ${config_file_cmp} | grep -E "[y|m]$" | sort) )
 
 declare -a configs values values1
 
@@ -129,7 +127,8 @@ do
 	do
 		cmp_config_line=$( grep ^"${name}=" ${file} || : )
 
-		if [[ ${display} == missing ]] && [[ ${cmp_config_line##*=} ]]; then
+		if [[ ${display} == missing ]] &&
+		   [[ ${cmp_config_line##*=} ]]; then
 			continue
 		fi
 
@@ -163,9 +162,11 @@ for ((i = 0; i < ${#configs[@]}; i++))
 do
 	color=
 	reset=
+	# Missing
 	if [[ ${values1[$i]} == ${NOT_DEF} ]]; then
 		color="\033[1;31m" # red
 		reset="\033[m"
+	# Same
 	elif [[ ${values[$i]} == ${values1[$i]} ]]; then
 		color="\033[2m" # gray
 		reset="\033[m"
