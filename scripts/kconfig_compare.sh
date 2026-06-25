@@ -7,7 +7,7 @@ set -e
 
 readonly KCFGCMP_ROOT=$(dirname $(realpath $0))
 readonly prog=$0
-readonly NOT_DEF=x
+readonly NOT_DEF=-
 
 config_file_base=
 config_file_cmp=
@@ -133,15 +133,18 @@ do
 			continue
 		fi
 
+		# Not found config in config 2, set it to undefined
 		if [[ -z ${cmp_config_line##*=} ]]; then
 			cmp_config_line="${name}=${NOT_DEF}"
 		fi
 
-		if [[ ${display} == ym ]] && [[ ${val}${cmp_config_line##*=} != ym ]]; then
+		if [[ ${display} == ym ]] &&
+		   [[ ${val}${cmp_config_line##*=} != ym ]]; then
 			continue
 		fi
 
-		if [[ ${display} != all ]] && [[ ${val} == ${cmp_config_line##*=} ]]; then
+		if [[ ${display} != all ]] &&
+		   [[ ${val} == ${cmp_config_line##*=} ]]; then
 			continue
 		fi
 
