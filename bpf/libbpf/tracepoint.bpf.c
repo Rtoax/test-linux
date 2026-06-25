@@ -209,8 +209,11 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	 */
 	{
 		__bpf_str_prepend(pevent->comm, sizeof(pevent->comm), "/", 2);
+		/* beyond the boundary of comm[], skip */
+		__bpf_str_prepend(pevent->comm, sizeof(pevent->comm),
+				  "12345678901234567890", 21);
 		__bpf_str_append(pevent->comm, sizeof(pevent->comm), ".elf");
-		/* beyond the boundary of comm[] */
+		/* beyond the boundary of comm[], truncate */
 		__bpf_str_append(pevent->comm, sizeof(pevent->comm),
 				 ".1.2.3.4.5.6.7.8.9.0");
 	}

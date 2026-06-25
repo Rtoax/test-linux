@@ -40,9 +40,11 @@ static __always_inline size_t strlen(char *s, size_t max_len)
 /**
  * Append src string to dst string
  * see https://github.com/bpftrace/bpftrace/pull/4601
+ *
+ * return the append bytes size.
  */
-static void __bpf_str_append(char *dst__ign, size_t dst_sz,
-			     const char *src__ign)
+static size_t __bpf_str_append(char *dst__ign, size_t dst_sz,
+			       const char *src__ign)
 {
 	__u8 i, j;
 	size_t dst_len = strlen(dst__ign, dst_sz);
@@ -50,26 +52,32 @@ static void __bpf_str_append(char *dst__ign, size_t dst_sz,
 	for (i = dst_len, j = 0; i < dst_sz - 1 && src__ign[j] != '\0';
 	     j++, i++)
 		dst__ign[i] = src__ign[j];
+
 	dst__ign[i] = '\0';
+
+	return j;
 }
 
-static void __bpf_str_prepend(char *dst__ign, size_t dst_sz,
-			      const char *src__ign, size_t src_sz)
+static size_t __bpf_str_prepend(char *dst__ign, size_t dst_sz,
+				const char *src__ign, size_t src_sz)
 {
 	__u8 i;
 	const __u8 dst_len = strlen(dst__ign, dst_sz);
 	const __u8 src_len = strlen(src__ign, src_sz);
 
 	if (dst_len + src_len > dst_sz - 1) {
-		return;
+		return 0;
 	}
 
 	for (i = 0; i < dst_len && dst__ign[i] != '\0'; i++) {
 		__u8 idx = dst_len - i - 1;
 		dst__ign[src_len + idx] = dst__ign[idx];
 	}
+	dst__ign[src_len + dst_len] = '\0';
 
 	for (i = 0; i < src_len && i < dst_sz && src__ign[i] != '\0'; i++) {
 		dst__ign[i] = src__ign[i];
 	}
+
+	return src_len;
 }
