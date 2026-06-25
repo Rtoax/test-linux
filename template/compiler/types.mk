@@ -36,15 +36,15 @@ CC_H_quadmath_h := $(findstring y,$(call compiler_support_header,$(CC),quadmath.
 
 include bits/mk-cache.mk
 
-$(call mk_cache_var,CC__Float16,${cachefile})
-$(call mk_cache_var,CC__Float32,${cachefile})
-$(call mk_cache_var,CC__Float64,${cachefile})
-$(call mk_cache_var,CC___fp16,${cachefile})
-$(call mk_cache_var,CC___bf16,${cachefile})
-$(call mk_cache_var,CC___float128,${cachefile})
-$(call mk_cache_var,CC__Float128,${cachefile})
-$(call mk_cache_var,CC___float80,${cachefile})
-$(call mk_cache_var,CC___uint128_t,${cachefile})
+$(call make_append_var_to_file,CC__Float16,${cachefile})
+$(call make_append_var_to_file,CC__Float32,${cachefile})
+$(call make_append_var_to_file,CC__Float64,${cachefile})
+$(call make_append_var_to_file,CC___fp16,${cachefile})
+$(call make_append_var_to_file,CC___bf16,${cachefile})
+$(call make_append_var_to_file,CC___float128,${cachefile})
+$(call make_append_var_to_file,CC__Float128,${cachefile})
+$(call make_append_var_to_file,CC___float80,${cachefile})
+$(call make_append_var_to_file,CC___uint128_t,${cachefile})
 
 endif # end of cache file exist
 

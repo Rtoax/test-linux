@@ -45,7 +45,7 @@ define ___bpf_def_helper
 endef
 define bpf_def_helper
   $(eval $(call ___bpf_def_helper,${1},$(call toupper_shell,${1})))
-  $(call mk_cache_var,SUPPORT_$(call toupper_shell,${1}),${cachefile})
+  $(call make_append_var_to_file,SUPPORT_$(call toupper_shell,${1}),${cachefile})
 endef
 
 # linux v3.18-rc4-943-gd0003ec01c66
@@ -263,7 +263,7 @@ ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_fr
   bpf-helper-cflags += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
 endif
 
-$(call mk_cache_var,bpf-helper-cflags,${cachefile})
+$(call make_append_var_to_file,bpf-helper-cflags,${cachefile})
 
 endif # end of include cache file
 

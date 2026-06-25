@@ -59,15 +59,15 @@ CC_PATCHLEVEL := $(shell echo ${CC_FULLVERSION} | awk -F '.' '{print $$3}')
 
 # Save to cache
 include bits/mk-cache.mk
-$(call mk_cache_var,cflags-support-types-y,${cachefile})
-$(call mk_cache_var,cflags-support-headers-y,${cachefile})
-$(call mk_cache_var,ldflags-support-headers-y,${cachefile})
+$(call make_append_var_to_file,cflags-support-types-y,${cachefile})
+$(call make_append_var_to_file,cflags-support-headers-y,${cachefile})
+$(call make_append_var_to_file,ldflags-support-headers-y,${cachefile})
 
-$(call mk_cache_var,CC_FULLVERSION,${cachefile})
-$(call mk_cache_var,CC_VERSION,${cachefile})
-$(call mk_cache_var,CC_MAJOR,${cachefile})
-$(call mk_cache_var,CC_MINOR,${cachefile})
-$(call mk_cache_var,CC_PATCHLEVEL,${cachefile})
+$(call make_append_var_to_file,CC_FULLVERSION,${cachefile})
+$(call make_append_var_to_file,CC_VERSION,${cachefile})
+$(call make_append_var_to_file,CC_MAJOR,${cachefile})
+$(call make_append_var_to_file,CC_MINOR,${cachefile})
+$(call make_append_var_to_file,CC_PATCHLEVEL,${cachefile})
 
 endif # end of cache file exist
 

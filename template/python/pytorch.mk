@@ -22,7 +22,7 @@ include bits/mk-cache.mk
 
 HAVE_PYTORCH := $(call python_has_module,torch)
 
-$(call mk_cache_var,HAVE_PYTORCH,${cachefile})
+$(call make_append_var_to_file,HAVE_PYTORCH,${cachefile})
 
 endif # End of cache
 

@@ -33,7 +33,7 @@ define ___bpf_def_iter
 endef
 define bpf_def_iter
   $(eval $(call ___bpf_def_iter,${1},$(call toupper_shell,${1})))
-  $(call mk_cache_var,SUPPORT_$(call toupper_shell,${1}),${cachefile})
+  $(call make_append_var_to_file,SUPPORT_$(call toupper_shell,${1}),${cachefile})
 endef
 
 # linux v5.7-rc2-1178-g6086d29def80
@@ -64,7 +64,7 @@ ifeq ($(call kver_gt,6,12,73),y)
   $(call bpf_def_iter,iter_kmem_cache)
 endif
 
-$(call mk_cache_var,bpf-iter-cflags,${cachefile})
+$(call make_append_var_to_file,bpf-iter-cflags,${cachefile})
 
 endif # end of include cache file
 

@@ -27,13 +27,13 @@ feature-lse := $(findstring y,$(call compiler_support_option,$(CC),-march=armv8-
 feature-fcf-protection := $(findstring y,$(call compiler_support_option,$(CC),-fcf-protection))
 feature-fpatchable-function-entry := $(findstring y,$(call compiler_support_option,$(CC),-fpatchable-function-entry=5,2))
 
-$(call mk_cache_var,feature-mavx2,${cachefile})
-$(call mk_cache_var,feature-mfentry,${cachefile})
-$(call mk_cache_var,feature-sve2,${cachefile})
-$(call mk_cache_var,feature-mavx512f,${cachefile})
-$(call mk_cache_var,feature-lse,${cachefile})
-$(call mk_cache_var,feature-fcf-protection,${cachefile})
-$(call mk_cache_var,feature-fpatchable-function-entry,${cachefile})
+$(call make_append_var_to_file,feature-mavx2,${cachefile})
+$(call make_append_var_to_file,feature-mfentry,${cachefile})
+$(call make_append_var_to_file,feature-sve2,${cachefile})
+$(call make_append_var_to_file,feature-mavx512f,${cachefile})
+$(call make_append_var_to_file,feature-lse,${cachefile})
+$(call make_append_var_to_file,feature-fcf-protection,${cachefile})
+$(call make_append_var_to_file,feature-fpatchable-function-entry,${cachefile})
 
 endif # end of cache file exist
 

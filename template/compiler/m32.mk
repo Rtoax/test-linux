@@ -18,7 +18,7 @@ include bits/mk-cache.mk
 
 CC_M32 := $(findstring y,$(call compiler_support_option_link,$(CC),-m32))
 
-$(call mk_cache_var,CC_M32,${cachefile})
+$(call make_append_var_to_file,CC_M32,${cachefile})
 
 endif # end of cache file exist
 
