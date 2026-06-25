@@ -4,8 +4,6 @@
 
 int main(void)
 {
-	Pd(INT_MAX);
-	Pld(LONG_MAX);
-	Plld(LLONG_MAX);
+	Pd(PATH_MAX);
 	return 0;
 }
