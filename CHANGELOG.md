@@ -10,6 +10,21 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Doc
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Tools
+#### Template
+
+
+## [v2.4.8] Memory 2026-06-25
+
+#### Breaking Changes
+#### Added
 - bpf: kfunc: test `bpf_strlen()`, `bpf_strnlen()`, `bpf_send_signal()`, `bpf_send_signal_thread()`;
 - bpftrace/samples: add string subdir;
 - rpm: add spec subdir;
