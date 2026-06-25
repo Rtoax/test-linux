@@ -13,7 +13,7 @@ config_file_base=
 config_file_cmp=
 
 # ym: 'y' -> 'm'
-readonly DISPLAYERS=( all diff missing ym )
+readonly DISPLAYERS=( all diff missing ym extra )
 display=diff
 verbose=
 
@@ -36,7 +36,10 @@ DESCRIPTION
 
 	-d, --display [ITEM]   specify what to display, default: ${display}
 	                       support: ${DISPLAYERS[@]}
+	                        diff: base and config is different
 	                        ym: base=y, config=m
+	                        missing: base=<y|m>, config=
+				extra: base=, config=<y|m>
 
 	-h, --help             show help
 	-v, --verbose          display verbose
@@ -92,6 +95,7 @@ while true; do
 	-v | --verbose)
 		shift
 		verbose=YES
+		DEBUG=YES
 		;;
 	--)
 		shift
@@ -114,36 +118,38 @@ config_line_cmp=( $(grep ^CONFIG ${config_file_cmp} | grep -E "[y|m]$" | sort) )
 
 declare -a configs values values1
 
-for config in ${config_line_base[@]}
-do
-	name=${config%%=*}
-	val=${config##*=}
-
-	if [[ ${verbose} ]]; then
-		echo >&2 "${name}=${val}"
-	fi
-
-	for file in ${config_file_cmp[@]}
+# Iterate all base configs
+get_diff()
+{
+	local config
+	for config in ${config_line_base[@]}
 	do
-		cmp_config_line=$( grep ^"${name}=" ${file} || : )
+		local name=${config%%=*}
+		local val=${config##*=}
+
+		if [[ ${verbose} ]]; then
+			debug "${name}=${val}"
+		fi
+
+		local match_config=$( grep ^"${name}=" ${config_file_cmp} || : )
 
 		if [[ ${display} == missing ]] &&
-		   [[ ${cmp_config_line##*=} ]]; then
+		   [[ ${match_config##*=} ]]; then
 			continue
 		fi
 
 		# Not found config in config 2, set it to undefined
-		if [[ -z ${cmp_config_line##*=} ]]; then
-			cmp_config_line="${name}=${NOT_DEF}"
+		if [[ -z ${match_config##*=} ]]; then
+			match_config="${name}=${NOT_DEF}"
 		fi
 
 		if [[ ${display} == ym ]] &&
-		   [[ ${val}${cmp_config_line##*=} != ym ]]; then
+		   [[ ${val}${match_config##*=} != ym ]]; then
 			continue
 		fi
 
 		if [[ ${display} != all ]] &&
-		   [[ ${val} == ${cmp_config_line##*=} ]]; then
+		   [[ ${val} == ${match_config##*=} ]]; then
 			continue
 		fi
 
@@ -153,22 +159,62 @@ do
 
 		configs+=( ${name} )
 		values+=( ${val} )
-		values1+=( ${cmp_config_line##*=} )
-
+		values1+=( ${match_config##*=} )
 	done
-done
+}
+
+# In config2, but no in base config
+get_extra()
+{
+	local config
+	for config in ${config_line_cmp[@]}
+	do
+		local name=${config%%=*}
+		local val=${config##*=}
+
+		if [[ ${verbose} ]]; then
+			debug "${name}=${val}"
+		fi
+
+		local match_config=$( grep ^"${name}=" ${config_file_base} || : )
+
+		# Skipping matched config, because it's already handled above.
+		if [[ ${match_config} ]]; then
+			continue
+		fi
+
+		if [[ ${#name} -gt ${name_len_max} ]]; then
+			name_len_max=${#name}
+		fi
+
+		configs+=( ${name} )
+		values+=( ${NOT_DEF} )
+		values1+=( ${val} )
+	done
+}
+
+if [[ ${display} == extra ]]; then
+	get_extra
+else
+	get_diff
+fi
 
 for ((i = 0; i < ${#configs[@]}; i++))
 do
 	color=
 	reset=
+
 	# Missing
 	if [[ ${values1[$i]} == ${NOT_DEF} ]]; then
-		color="\033[1;31m" # red
+		color="\033[1;31m" # bold and red
 		reset="\033[m"
 	# Same
 	elif [[ ${values[$i]} == ${values1[$i]} ]]; then
 		color="\033[2m" # gray
+		reset="\033[m"
+	# Only in config2
+	elif [[ ${values[$i]} == ${NOT_DEF} ]]; then
+		color="\033[32m" # green
 		reset="\033[m"
 	fi
 	printf "${color}%-4d %-*.*s %-4s %-4s${reset}\n" \
