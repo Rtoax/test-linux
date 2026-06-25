@@ -42,9 +42,8 @@ static __always_inline int strlen(char *s, int max_len)
  * Append src string to dst string
  * see https://github.com/bpftrace/bpftrace/pull/4601
  */
-static __always_inline void __bpf_str_append(char *dst__ign, size_t dst_sz,
-					     const char *src__ign,
-					     size_t src_sz)
+static void __bpf_str_append(char *dst__ign, size_t dst_sz,
+			     const char *src__ign, size_t src_sz)
 {
 	int i, j;
 	int dst_len = strlen(dst__ign, dst_sz);

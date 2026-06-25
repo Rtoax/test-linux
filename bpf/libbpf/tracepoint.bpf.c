@@ -208,7 +208,8 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	 * test string_helpers.bpf.h
 	 */
 	{
-		char src[10] = ".elf";
+		/* beyond the boundary of comm[] */
+		char src[20] = ".elf.1.2.3.4.5";
 		__bpf_str_append(pevent->comm, sizeof(pevent->comm), src,
 				 sizeof(src));
 	}
