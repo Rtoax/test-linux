@@ -58,6 +58,12 @@ static size_t __bpf_str_append(char *dst__ign, size_t dst_sz,
 	return j;
 }
 
+/**
+ * Prepend src string in front of dst string
+ * see https://github.com/bpftrace/bpftrace/pull/4601
+ *
+ * return the prepend bytes size.
+ */
 static size_t __bpf_str_prepend(char *dst__ign, size_t dst_sz,
 				const char *src__ign, size_t src_sz)
 {
