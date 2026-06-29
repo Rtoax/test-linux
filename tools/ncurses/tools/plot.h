@@ -74,7 +74,7 @@ struct plot {
 	bool need_redraw;
 
 #define PLOT_INF0_FMT \
-	"plot: redraw=%ld mem(%.3f MiB) win(%d,%d) max(%d,%d) plot(%d,%d) scale(%d)"
+	"plot(redraw=%ld, %.3f MiB, win[%d,%d], max[%d,%d], plot[%d,%d], scale %d)"
 #define PLOT_INF0_ARG(p)                                                \
 	p->redrawcount, plot_mem_size(p) * 1. / 1024 / 1024, p->height, \
 		p->width, p->heightmax, p->widthmax, p->plotheight,     \
