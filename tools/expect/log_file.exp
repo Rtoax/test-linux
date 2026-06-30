@@ -1,0 +1,5 @@
+#!/usr/bin/expect -f
+log_file -noappend log_file.exp.log
+spawn echo "Hello"
+expect eof
+puts "PASS"

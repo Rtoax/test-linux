@@ -6,6 +6,8 @@ set timeout 4
 # enough to display the expected information.
 set stty_init "rows 64 cols 132"
 
+log_file -noappend examples.exp.log
+
 set title "TITLE_XXX"
 set line1 "LINE_LABEL_1"
 
@@ -16,9 +18,7 @@ sleep 0.1
 proc test_init {pattern} {
 	global timeout
 	expect {
-		-re "$pattern" {
-			send_user "Found pattern '$pattern'\n"
-		}
+		-re "$pattern" {}
 		timeout {
 			send_user "FATAL: not found pattern '$pattern'\n"
 			exit 1
@@ -30,9 +30,7 @@ proc test_key {key pattern success_msg} {
 	global timeout
 	send "$key"
 	expect {
-		-re "$pattern" {
-			send_user "Success: $success_msg\n"
-		}
+		-re "$pattern" {}
 		timeout {
 			send_user "Fatal: key '$key' failed, expect '$pattern'\n"
 			exit 1
