@@ -46,5 +46,6 @@ static struct lgroup_operations loadavg_ops = {
 };
 
 struct lgroup lg_loadavg = {
+	.name = "loadavg",
 	.ops = &loadavg_ops,
 };

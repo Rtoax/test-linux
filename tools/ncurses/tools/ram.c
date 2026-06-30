@@ -40,5 +40,6 @@ static struct lgroup_operations ram_ops = {
 };
 
 struct lgroup lg_ram = {
+	.name = "ram",
 	.ops = &ram_ops,
 };

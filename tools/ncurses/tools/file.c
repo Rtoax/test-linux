@@ -35,8 +35,8 @@ static int save_txt(const struct plot *p)
 	lg_idx = 0;
 	for_each_lg(p, lg)
 	{
-		fprintf(fp, "#      idx nline\n");
-		fprintf(fp, "lgroup %d %d\n", lg_idx, lg->count);
+		fprintf(fp, "#      name idx nline\n");
+		fprintf(fp, "lgroup %s %d %d\n", lg->name, lg_idx, lg->count);
 
 		for_each_line(lg, ln)
 		{
@@ -150,6 +150,8 @@ static int save_json(const struct plot *p)
 		json_object *lines = json_object_new_object();
 
 		json_object_object_add(plot, "lgroup", lgroup);
+		json_object_object_add(lgroup, "name",
+				       json_object_new_string(lg->name));
 		json_object_object_add(lgroup, "lncount",
 				       json_object_new_int(lg->count));
 		json_object_object_add(lgroup, "lines", lines);

@@ -68,6 +68,7 @@ struct lgroup_operations {
 
 struct plot;
 struct lgroup {
+	const char *name;
 	struct line *head, *tail;
 	int count; /* number of lines */
 	struct lgroup_operations *ops;

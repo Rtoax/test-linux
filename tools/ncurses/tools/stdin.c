@@ -166,5 +166,6 @@ static struct lgroup_operations stdin_ops = {
 };
 
 struct lgroup lg_stdin = {
+	.name = "stdin",
 	.ops = &stdin_ops,
 };
