@@ -73,21 +73,21 @@ const char argp_prog_doc[] = ANSI_BOLD
 	"\n" ANSI_BOLD "OPTIONS:" ANSI_RST;
 
 static const struct argp_option opts[] = {
-	{ "title", 'T', "TITLE", 0, "Spedify title" },
-	{ "xlabel", 'x', "X LABEL", 0, "Spedify x axis label" },
-	{ "ylabel", 'y', "Y LABEL", 0, "Spedify y axis label" },
+	{ "title", 'T', "TITLE", 0, "Specify title" },
+	{ "xlabel", 'x', "X LABEL", 0, "Specify x axis label" },
+	{ "ylabel", 'y', "Y LABEL", 0, "Specify y axis label" },
 	{ "llabel", 'l', "LINE NAME", 0,
-	  "Spedify line label (may be listed multiple times)" },
+	  "Specify line label (may be listed multiple times)" },
 	{ "ltype", 'L', "LINE TYPE", 0,
-	  "Spedify line types, if an invalid value is entered, the supported "
+	  "Specify line types, if an invalid value is entered, the supported "
 	  "line types will be listed (may be listed multiple times)" },
 	{ "lcolor", 'C', "LINE COLOR", 0,
-	  "Spedify line colors, if an invalid value is entered, the supported "
+	  "Specify line colors, if an invalid value is entered, the supported "
 	  "line colors will be listed, can match color prefixes, such as 'r' "
 	  "matching 'red' (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "INTERVAL SEC", 0,
-	  "Spedify interval time, the default unit is nanoseconds, but units "
+	  "Specify interval time, the default unit is nanoseconds, but units "
 	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
 	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1,
 	  "Use natural logarithmic (shortcut " KEY_HELP_t ")" },
@@ -98,7 +98,7 @@ static const struct argp_option opts[] = {
 	{ "exponential", ARG_EXPONENTIAL, NULL, 1,
 	  "Use base-e exponential (shortcut " KEY_HELP_t ")" },
 	{ "tmout", 't', "TIMEOUT SEC", 0,
-	  "Spedify timeout time, the default unit is nanoseconds, but units "
+	  "Specify timeout time, the default unit is nanoseconds, but units "
 	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
 	{ "verbose", 'v', NULL, 1,
 	  "Display detail (shortcut: " KEY_HELP_v ")" },
