@@ -134,7 +134,10 @@ static int load_txt(struct plot *p, const char *file)
 		} else if (!strncmp(line, "line ", 5)) {
 			char *start = line, *end;
 			int idx;
+			char *lname, *lcolor;
+			struct lgroup *lg = NULL;
 
+			/* lgroup index */
 			start = strchr(start, ' ') + 1;
 			Check(start - 1, ' ');
 			end = strchr(start, ' ');
@@ -142,17 +145,55 @@ static int load_txt(struct plot *p, const char *file)
 			*end = '\0';
 
 			idx = atoi(start);
-			if (!plot_lgroup(p, idx)) {
-				fprintf(stderr, "ERROR not found lgroup %d.\n",
+			lg = plot_lgroup(p, idx);
+			if (!lg) {
+				fprintf(stderr, "ERROR: not found lgroup %d.\n",
 					idx);
 				err = -EINVAL;
 				break;
 			}
 
+			/* line index */
+			start = end + 1;
+			end = strchr(start + 1, ' ');
+			Check(end, ' ');
+			*end = '\0';
+
+			/* line name */
+			start = end + 1;
+			start = strchr(start, '"') + 1;
+			Check(start - 1, '"');
+			end = strchr(start, '"');
+			Check(end, '"');
+			*end = '\0';
+			lname = start;
+			(void)lname;
+			end++; /* skip '"' */
+
+			/* line values count */
+			start = end + 1;
+			end = strchr(start, ' ');
+			Check(end, ' ');
+
+			/* line color */
+			start = end + 1;
+			end = strchr(start, ' ');
+			Check(end, ' ');
+			*end = '\0';
+			lcolor = start;
+			if (!hascolor_name(lcolor)) {
+				fprintf(stderr, "ERROR: unknown color '%s'.\n",
+					lcolor);
+				err = -EINVAL;
+				break;
+			}
+
+			/* line draw operation */
 			start = strrchr(line, ' ') + 1;
 			Check(start - 1, ' ');
-			/* TODO */
 
+			new_line(lg, lname, color_name2num(lcolor));
+			/* FIXME: duplicate lines */
 		} else if (!strncmp(line, "value ", 6)) {
 			/* TODO */
 		} else {
