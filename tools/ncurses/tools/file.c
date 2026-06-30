@@ -89,7 +89,7 @@ static int load_txt(struct plot *p, const char *file)
 		break;                                              \
 	}
 			start = strchr(start, '"') + 1;
-			Check(start, '"');
+			Check(start - 1, '"');
 			end = strchr(start, '"');
 			Check(end, '"');
 			*end = '\0';
@@ -97,7 +97,7 @@ static int load_txt(struct plot *p, const char *file)
 
 			start = end + 1;
 			start = strchr(start, '"') + 1;
-			Check(start, '"');
+			Check(start - 1, '"');
 			end = strchr(start, '"');
 			Check(end, '"');
 			*end = '\0';
@@ -105,7 +105,7 @@ static int load_txt(struct plot *p, const char *file)
 
 			start = end + 1;
 			start = strchr(start, '"') + 1;
-			Check(start, '"');
+			Check(start - 1, '"');
 			end = strchr(start, '"');
 			Check(end, '"');
 			*end = '\0';
@@ -115,7 +115,7 @@ static int load_txt(struct plot *p, const char *file)
 			char *start = line, *end;
 
 			start = strchr(start, ' ') + 1;
-			Check(start, ' ');
+			Check(start - 1, ' ');
 			end = strchr(start, ' ');
 			Check(end, ' ');
 			*end = '\0';
@@ -131,7 +131,27 @@ static int load_txt(struct plot *p, const char *file)
 				break;
 			}
 		} else if (!strncmp(line, "line ", 5)) {
+			char *start = line, *end;
+			int idx;
+
+			start = strchr(start, ' ') + 1;
+			Check(start - 1, ' ');
+			end = strchr(start, ' ');
+			Check(end, ' ');
+			*end = '\0';
+
+			idx = atoi(start);
+			if (!plot_lgroup(p, idx)) {
+				fprintf(stderr, "ERROR not found lgroup %d.\n",
+					idx);
+				err = -EINVAL;
+				break;
+			}
+
+			start = strrchr(line, ' ') + 1;
+			Check(start - 1, ' ');
 			/* TODO */
+
 		} else if (!strncmp(line, "value ", 6)) {
 			/* TODO */
 		} else {
