@@ -6,15 +6,20 @@
 #include "plot.h"
 #ifdef HAVE_JSON_C
 #include <json-c/json.h>
-#define FILE_JSON "plotcake.json"
 #endif
 
-#define FILE_DATA "plotcake.dat"
+#define FILE_TXT "plotcake.txt"
+#define FILE_JSON "plotcake.json"
+
+struct plot_file_operations {
+	const char *name;
+	int (*save)(const struct plot *p);
+};
 
 static int save_txt(const struct plot *p)
 {
 	int lg_idx;
-	char *path = FILE_DATA;
+	char *path = FILE_TXT;
 	FILE *fp = fopen(path, "w");
 	if (!fp) {
 		fprintf(stderr, "ERROR: open %s failed, %m\n", path);
