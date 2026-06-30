@@ -243,14 +243,14 @@ int main(int argc, char *argv[])
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
-		fprintf(stderr, "argp_parse return %d\n", err);
+		fprintf(stderr, "args parse failed %d\n", err);
 		return -err;
 	}
 
 	keyboard_init(&keyboard);
 	err = plot_init(&plot, &keyboard, file);
 	if (err) {
-		fprintf(stderr, "plot init failed, %d\n", err);
+		fprintf(stderr, "plot init failed, %s\n", strerror(-err));
 		return err;
 	}
 
@@ -350,14 +350,14 @@ int main(int argc, char *argv[])
 
 	if (datafd == -1) {
 		if (ram) {
-			plot.title = title ?: "Memory Usage";
-			plot.label_x = xlabel ?: "Time";
-			plot.label_y = ylabel ?: "Size(MB)";
+			plot.title = plot.title ?: (title ?: "Memory Usage");
+			plot.label_x = plot.label_x ?: (xlabel ?: "Time");
+			plot.label_y = plot.label_y ?: (ylabel ?: "Size(MB)");
 			plot_add_lgrp(&plot, &lg_ram, NULL);
 		} else {
-			plot.title = title ?: "Loadavg";
-			plot.label_x = xlabel ?: "Time";
-			plot.label_y = ylabel ?: "Load";
+			plot.title = plot.title ?: (title ?: "Loadavg");
+			plot.label_x = plot.label_x ?: (xlabel ?: "Time");
+			plot.label_y = plot.label_y ?: (ylabel ?: "Load");
 			plot_add_lgrp(&plot, &lg_loadavg, NULL);
 		}
 	} else {
@@ -365,9 +365,9 @@ int main(int argc, char *argv[])
 			.nline = 1, /* at least one line */
 			.line_buff = stdin_buffer,
 		};
-		plot.title = title ?: "stdin";
-		plot.label_x = xlabel ?: "Time";
-		plot.label_y = ylabel ?: "Value";
+		plot.title = plot.title ?: (title ?: "stdin");
+		plot.label_x = plot.label_x ?: (xlabel ?: "Time");
+		plot.label_y = plot.label_y ?: (ylabel ?: "Value");
 		plot_add_lgrp(&plot, &lg_stdin, &stdarg);
 	}
 

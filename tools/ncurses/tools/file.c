@@ -28,7 +28,7 @@ static int save_txt(const struct plot *p)
 		return -errno;
 	}
 
-	fprintf(fp, "#    lgroup title xlabel ylabel\n");
+	fprintf(fp, "#    nlgroup title xlabel ylabel\n");
 	fprintf(fp, "plot %d \"%s\" \"%s\" \"%s\"\n", p->lgcount, p->title,
 		p->label_x, p->label_y);
 
@@ -61,16 +61,69 @@ static int save_txt(const struct plot *p)
 
 static int load_txt(struct plot *p, const char *file)
 {
-	FILE *fp = fopen(file, "r");
+	int ln, err = 0;
+	char line[256];
+	FILE *fp;
+
+	fp = fopen(file, "r");
 	if (!fp) {
 		fprintf(stderr, "ERROR: open file %s failed, %m\n", file);
 		return -errno;
 	}
 
-	/* TODO */
+	ln = 0;
+	while (fgets(line, sizeof(line), fp) != NULL) {
+		ln++;
+		if (line[0] == '#')
+			continue;
+
+		if (!strncmp(line, "plot ", 5)) {
+			char *start = line, *end;
+#define Quota(s)                                                               \
+	if (s == NULL) {                                                       \
+		fprintf(stderr, "Missing double quotation marks in line %d\n", \
+			ln);                                                   \
+		err = -EINVAL;                                                 \
+		break;                                                         \
+	}
+			start = strchr(start, '"') + 1;
+			Quota(start);
+			end = strchr(start, '"');
+			Quota(end);
+			*end = '\0';
+			p->title = strdup(start);
+
+			start = end + 1;
+			start = strchr(start, '"') + 1;
+			Quota(start);
+			end = strchr(start, '"');
+			Quota(end);
+			*end = '\0';
+			p->label_x = strdup(start);
+
+			start = end + 1;
+			start = strchr(start, '"') + 1;
+			Quota(start);
+			end = strchr(start, '"');
+			Quota(end);
+			*end = '\0';
+			p->label_y = strdup(start);
+
+#undef Quota
+		} else if (!strncmp(line, "lgroup ", 7)) {
+			/* TODO */
+		} else if (!strncmp(line, "line ", 5)) {
+			/* TODO */
+		} else if (!strncmp(line, "value ", 6)) {
+			/* TODO */
+		} else {
+			err = -EINVAL;
+			break;
+		}
+	}
 
 	fclose(fp);
-	return 0;
+	return err;
 }
 
 #ifdef HAVE_JSON_C
@@ -151,7 +204,8 @@ static int save_json(const struct plot *p)
 
 static int load_json(struct plot *p, const char *file)
 {
-	return 0;
+	fprintf(stderr, "ERROR: Not support input json yet.\n");
+	return -ENOTSUP;
 }
 #endif
 
