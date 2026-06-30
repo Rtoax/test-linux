@@ -94,7 +94,7 @@ enum lcolor_enum nextcolor(enum lcolor_enum c)
 	return c % C_MAX;
 }
 
-const static char *color_names[C_MAX] = {
+const char *color_names[C_MAX] = {
 	[C_GREEN] = "green",   [C_RED] = "red",		[C_CYAN] = "cyan",
 	[C_WHITE] = "white",   [C_MAGENTA] = "magenta", [C_BLUE] = "blue",
 	[C_YELLOW] = "yellow",
@@ -103,7 +103,7 @@ const static char *color_names[C_MAX] = {
 /**
  * @return: return C_UNKNOWN if not found.
  */
-enum lcolor_enum color_name2n(const char *name)
+enum lcolor_enum color_name2num(const char *name)
 {
 	for (int i = 0; i < C_MAX; i++)
 		if (!strncasecmp(color_names[i], name, strlen(name)))
@@ -120,7 +120,7 @@ enum lcolor_enum color_name2n(const char *name)
 
 bool hascolor_name(const char *name)
 {
-	return color_name2n(name) != C_UNKNOWN;
+	return color_name2num(name) != C_UNKNOWN;
 }
 
 static int dequeue_value_from_head(struct line *l)

@@ -162,7 +162,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	case 'C':
 		if (!hascolor_name(arg))
 			exit(EXIT_FAILURE);
-		enqueue_lcolor(color_name2n(arg));
+		enqueue_lcolor(color_name2num(arg));
 		break;
 	case 'x':
 		xlabel = arg;

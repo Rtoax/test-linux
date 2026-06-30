@@ -36,6 +36,7 @@ enum lcolor_enum {
 	C_MAX,
 	C_UNKNOWN = C_MAX,
 };
+extern const char *color_names[C_MAX];
 
 /* Initial plot boundary */
 #define BND_TOP 1

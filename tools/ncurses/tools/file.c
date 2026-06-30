@@ -40,9 +40,9 @@ static int save_txt(const struct plot *p)
 
 		for_each_line(lg, ln)
 		{
-			fprintf(fp, "#    lgidx lnidx nvals\n");
-			fprintf(fp, "line %d %d %ld\n", lg->id, ln->id,
-				ln->count);
+			fprintf(fp, "#    lgidx lnidx nvals color\n");
+			fprintf(fp, "line %d %d %ld %s\n", lg->id, ln->id,
+				ln->count, color_names[ln->color]);
 
 			fprintf(fp, "#     lnidx value timeval{ sec usec }\n");
 			for_each_value(ln, v)
@@ -181,6 +181,9 @@ static int save_json(const struct plot *p)
 
 			json_object_object_add(lines, lns, line);
 
+			json_object_object_add(
+				line, "color",
+				json_object_new_string(color_names[ln->color]));
 			json_object_object_add(line, "vcount",
 					       json_object_new_int(ln->count));
 
