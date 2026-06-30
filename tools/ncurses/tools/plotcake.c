@@ -238,7 +238,7 @@ int main(int argc, char *argv[])
 	char stdin_buffer[4096] = { 0 };
 
 	keyboard_init(&keyboard);
-	plot_init(&plot, &keyboard);
+	plot_init(&plot, &keyboard, file);
 
 	int err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {

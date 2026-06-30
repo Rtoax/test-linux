@@ -104,7 +104,7 @@ struct plot {
 		}                                     \
 	} while (0)
 
-void plot_init(struct plot *p, struct keyboard *k);
+void plot_init(struct plot *p, struct keyboard *k, const char *file);
 unsigned long plot_mem_size(const struct plot *p);
 
 #define plot_warning(p, fmt...) __plot_warning(p, fmt)

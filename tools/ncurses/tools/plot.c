@@ -504,7 +504,7 @@ static void key_r(int key, void *arg)
 	p->llabel_expired_usec = 0;
 }
 
-void plot_init(struct plot *p, struct keyboard *kb)
+void plot_init(struct plot *p, struct keyboard *kb, const char *file)
 {
 	memset(p, 0, sizeof(struct plot));
 
@@ -515,6 +515,8 @@ void plot_init(struct plot *p, struct keyboard *kb)
 	register_key_handler('r', p, key_r);
 	register_key_handler('h', p, key_h);
 	register_key_handler('l', p, key_l);
+
+	/* TODO: Load data from file */
 }
 
 /* Get memory bytes that plot already spent */
