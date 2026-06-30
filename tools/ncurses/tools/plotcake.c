@@ -120,6 +120,9 @@ static int verbose = false;
 static unsigned long tmout_nsecs = 0;
 static unsigned long interval_nsecs = 1000000000UL;
 static char *file = NULL;
+static char *title = NULL;
+static char *xlabel = NULL;
+static char *ylabel = NULL;
 
 struct plot plot = { 0 };
 struct keyboard keyboard = { 0 };
@@ -146,7 +149,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 {
 	switch (opt) {
 	case 'T':
-		plot.title = arg;
+		title = arg;
 		break;
 	case 'l':
 		enqueue_llabel(arg);
@@ -162,10 +165,10 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		enqueue_lcolor(color_name2n(arg));
 		break;
 	case 'x':
-		plot.label_x = arg;
+		xlabel = arg;
 		break;
 	case 'y':
-		plot.label_y = arg;
+		ylabel = arg;
 		break;
 	case 't':
 		tmout_nsecs = str2nsecs(arg);
@@ -347,14 +350,14 @@ int main(int argc, char *argv[])
 
 	if (datafd == -1) {
 		if (ram) {
-			plot.title = plot.title ?: "Memory Usage";
-			plot.label_x = plot.label_x ?: "Time";
-			plot.label_y = plot.label_y ?: "Size(MB)";
+			plot.title = title ?: "Memory Usage";
+			plot.label_x = xlabel ?: "Time";
+			plot.label_y = ylabel ?: "Size(MB)";
 			plot_add_lgrp(&plot, &lg_ram, NULL);
 		} else {
-			plot.title = plot.title ?: "Loadavg";
-			plot.label_x = plot.label_x ?: "Time";
-			plot.label_y = plot.label_y ?: "Load";
+			plot.title = title ?: "Loadavg";
+			plot.label_x = xlabel ?: "Time";
+			plot.label_y = ylabel ?: "Load";
 			plot_add_lgrp(&plot, &lg_loadavg, NULL);
 		}
 	} else {
@@ -362,9 +365,9 @@ int main(int argc, char *argv[])
 			.nline = 1, /* at least one line */
 			.line_buff = stdin_buffer,
 		};
-		plot.title = plot.title ?: "stdin";
-		plot.label_x = plot.label_x ?: "Time";
-		plot.label_y = plot.label_y ?: "Value";
+		plot.title = title ?: "stdin";
+		plot.label_x = xlabel ?: "Time";
+		plot.label_y = ylabel ?: "Value";
 		plot_add_lgrp(&plot, &lg_stdin, &stdarg);
 	}
 
