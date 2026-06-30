@@ -1,6 +1,11 @@
 #!/bin/expect -f
 # test plotcake keyboard event handle
 set timeout 4
+# If the window is too small, the expected output information will be covered
+# by other information. Therefore, we need to set a window size that is large
+# enough to display the expected information.
+set stty_init "rows 64 cols 132"
+
 set title "TITLE_XXX"
 set line1 "LINE_LABEL_1"
 

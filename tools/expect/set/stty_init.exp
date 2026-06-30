@@ -1,0 +1,11 @@
+#!/usr/bin/expect -f
+set stty_init "rows 10 cols 200"
+
+# start program
+spawn top
+
+sleep 0.5
+exec kill -INT [exp_pid]
+
+expect eof
+puts "PASS"
