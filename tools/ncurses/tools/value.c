@@ -153,7 +153,7 @@ static int dequeue_value_from_head(struct line *l)
 	return v;
 }
 
-static int enqueue_value_to_tail(struct line *l, double v)
+static int enqueue_value_to_tail(struct line *l, double v, struct timeval *tv)
 {
 	struct value *new = malloc(sizeof(struct value));
 
@@ -161,7 +161,10 @@ static int enqueue_value_to_tail(struct line *l, double v)
 	new->log_v = signed_log_trans(v);
 	new->log10_v = signed_log10_trans(v);
 	new->exp_v = exp(v);
-	gettimeofday(&new->tv, NULL);
+	if (tv)
+		memcpy(&new->tv, tv, sizeof(struct timeval));
+	else
+		gettimeofday(&new->tv, NULL);
 	new->next = NULL;
 
 	if (!l->head) {
@@ -246,10 +249,11 @@ double line_range_min(struct line *l, int start, int len)
 
 /**
  * @limit: max length of line (number of values), if < 0, means no limit.
+ * @tv: set timeval.
  */
-void line_add_value(struct line *l, double v, long limit)
+void line_add_value(struct line *l, double v, long limit, struct timeval *tv)
 {
-	enqueue_value_to_tail(l, v);
+	enqueue_value_to_tail(l, v, tv);
 
 	/**
 	 * Due to the limited width of the screen or size of memory, we

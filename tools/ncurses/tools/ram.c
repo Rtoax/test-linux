@@ -28,7 +28,8 @@ static void ram_update(struct lgroup *lg, void *arg)
 
 	for_each_line(lg, line)
 	{
-		line_add_value(line, mem[i] * 1.0 / 1024 / 1024 / 1024, -1);
+		line_add_value(line, mem[i] * 1.0 / 1024 / 1024 / 1024, -1,
+			       NULL);
 		i++;
 	}
 }
