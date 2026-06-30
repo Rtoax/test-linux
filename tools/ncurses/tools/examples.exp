@@ -40,7 +40,7 @@ proc test_key {key pattern success_msg} {
 # Verify initial plot
 test_init "$title"
 test_init "$line1"
-test_init "plot:"
+test_init "redraw="
 
 # Verify keys
 test_key "l" " $line1" "check line labels"
