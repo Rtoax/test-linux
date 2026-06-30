@@ -33,7 +33,7 @@ static void loadavg_plot_debug(const struct lgroup *lg, void *arg)
 	int i = 0;
 	for_each_line(lg, ln)
 	{
-		mvprintw(i + 1, p->bnd.left + 1, "%s: cnt=%ld %lf~%lf",
+		mvprintw(i + 2, p->bnd.left + 1, "%s: cnt=%ld %lf~%lf",
 			 ln->name, ln->count, ln->min->v, ln->max->v);
 		i++;
 	}

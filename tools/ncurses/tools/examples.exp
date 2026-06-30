@@ -9,10 +9,13 @@ set stty_init "rows 64 cols 132"
 log_file -noappend examples.exp.log
 
 set title "TITLE_XXX"
+set xlabel "LABEL_X"
+set ylabel "LABEL_Y"
 set line1 "LINE_LABEL_1"
 
 spawn bash -c "while sleep 0.1; do echo 1; done |
-	./plotcake --title $title -l $line1 --verbose"
+	./plotcake --title $title --xlabel $xlabel --ylabel $ylabel \
+		-l $line1 --verbose"
 sleep 0.1
 
 proc test_init {pattern} {
@@ -42,6 +45,7 @@ proc test_key {key pattern success_msg} {
 
 # Verify initial plot
 test_init "$title"
+# test_init "$ylabel"
 test_init "$line1"
 test_init "redraw="
 

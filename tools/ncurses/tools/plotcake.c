@@ -74,8 +74,8 @@ const char argp_prog_doc[] = ANSI_BOLD
 
 static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Specify title" },
-	{ "xlabel", 'x', "X LABEL", 0, "Specify x axis label" },
-	{ "ylabel", 'y', "Y LABEL", 0, "Specify y axis label" },
+	{ "xlabel", 'x', "X-LABEL", 0, "Specify x axis label" },
+	{ "ylabel", 'y', "Y-LABEL", 0, "Specify y axis label" },
 	{ "llabel", 'l', "LINE NAME", 0,
 	  "Specify line label (may be listed multiple times)" },
 	{ "ltype", 'L', "LINE TYPE", 0,

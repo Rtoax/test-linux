@@ -139,18 +139,18 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 		s++;
 	}
 
-	mvprintw(0, p->bnd.left + 1, "lgroup cnt %d, arg nline %d", lg->count,
+	mvprintw(2, p->bnd.left + 1, "lgroup cnt %d, arg nline %d", lg->count,
 		 a->nline);
-	mvprintw(1, p->bnd.left + 1, "stdin: '%s'", buf);
+	mvprintw(3, p->bnd.left + 1, "stdin: '%s'", buf);
 
 	i = 0;
 	for_each_line(lg, line)
 	{
 		if (line->count <= 0)
-			mvprintw(i + 2, p->bnd.left + 1, "%s: %ld", line->name,
+			mvprintw(i + 4, p->bnd.left + 1, "%s: %ld", line->name,
 				 line->count);
 		else
-			mvprintw(i + 2, p->bnd.left + 1,
+			mvprintw(i + 5, p->bnd.left + 1,
 				 "%s: %ld - %f - %lf~%lf", line->name,
 				 line->count, line->tail->v, line->min->v,
 				 line->max->v);
