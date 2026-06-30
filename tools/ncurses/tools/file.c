@@ -5,6 +5,8 @@
 #include <string.h>
 #include "file.h"
 #include "plot.h"
+#include "load.h"
+#include "ram.h"
 #ifdef HAVE_JSON_C
 #include <json-c/json.h>
 #endif
@@ -79,39 +81,54 @@ static int load_txt(struct plot *p, const char *file)
 
 		if (!strncmp(line, "plot ", 5)) {
 			char *start = line, *end;
-#define Quota(s)                                                               \
-	if (s == NULL) {                                                       \
-		fprintf(stderr, "Missing double quotation marks in line %d\n", \
-			ln);                                                   \
-		err = -EINVAL;                                                 \
-		break;                                                         \
+#define Check(s, c)                                                 \
+	if (s == NULL) {                                            \
+		fprintf(stderr, "Missing %s in line %d\n", #c, ln); \
+		err = -EINVAL;                                      \
+		break;                                              \
 	}
 			start = strchr(start, '"') + 1;
-			Quota(start);
+			Check(start, '"');
 			end = strchr(start, '"');
-			Quota(end);
+			Check(end, '"');
 			*end = '\0';
 			p->title = strdup(start);
 
 			start = end + 1;
 			start = strchr(start, '"') + 1;
-			Quota(start);
+			Check(start, '"');
 			end = strchr(start, '"');
-			Quota(end);
+			Check(end, '"');
 			*end = '\0';
 			p->label_x = strdup(start);
 
 			start = end + 1;
 			start = strchr(start, '"') + 1;
-			Quota(start);
+			Check(start, '"');
 			end = strchr(start, '"');
-			Quota(end);
+			Check(end, '"');
 			*end = '\0';
 			p->label_y = strdup(start);
 
-#undef Quota
 		} else if (!strncmp(line, "lgroup ", 7)) {
-			/* TODO */
+			char *start = line, *end;
+
+			start = strchr(start, ' ') + 1;
+			Check(start, ' ');
+			end = strchr(start, ' ');
+			Check(end, ' ');
+			*end = '\0';
+
+			if (!strcmp(start, "loadavg")) {
+				plot_add_lgrp(p, &lg_loadavg, NULL);
+			} else if (!strcmp(start, "ram")) {
+				plot_add_lgrp(p, &lg_ram, NULL);
+			} else {
+				fprintf(stderr, "ERROR not support '%s' yet.\n",
+					start);
+				err = -EINVAL;
+				break;
+			}
 		} else if (!strncmp(line, "line ", 5)) {
 			/* TODO */
 		} else if (!strncmp(line, "value ", 6)) {
@@ -120,6 +137,7 @@ static int load_txt(struct plot *p, const char *file)
 			err = -EINVAL;
 			break;
 		}
+#undef Check
 	}
 
 	fclose(fp);
