@@ -21,7 +21,7 @@ static int save_txt(const struct plot *p)
 		return -errno;
 	}
 
-	fprintf(fp, "#    lgroup title\n");
+	fprintf(fp, "#    lgroup title xlabel ylabel\n");
 	fprintf(fp, "plot %d \"%s\" \"%s\" \"%s\"\n", p->lgcount, p->title,
 		p->label_x, p->label_y);
 
@@ -37,7 +37,7 @@ static int save_txt(const struct plot *p)
 			fprintf(fp, "line %d %d %ld\n", lg_idx, ln->id,
 				ln->count);
 
-			fprintf(fp, "#     lnidx value sec usec\n");
+			fprintf(fp, "#     lnidx value timeval{ sec usec }\n");
 			for_each_value(ln, v)
 			{
 				fprintf(fp, "value %d %lf %ld %ld\n", ln->id,

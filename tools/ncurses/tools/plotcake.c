@@ -100,6 +100,13 @@ static const struct argp_option opts[] = {
 	{ "tmout", 't', "TIMEOUT SEC", 0,
 	  "Specify timeout time, the default unit is nanoseconds, but units "
 	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
+	{ "file", 'f', "FILE", 0,
+	  "Specify input file, the format must conform to the plotcake file "
+	  "format. You can run plotcake once to view the generated files (txt"
+#ifdef HAVE_JSON_C
+	  " and json"
+#endif
+	  ")." },
 	{ "verbose", 'v', NULL, 1,
 	  "Display detail (shortcut: " KEY_HELP_v ")" },
 	{ "version", 'V', NULL, 1, "Display version" },
@@ -112,6 +119,7 @@ static int ram = false;
 static int verbose = false;
 static unsigned long tmout_nsecs = 0;
 static unsigned long interval_nsecs = 1000000000UL;
+static char *file = NULL;
 
 struct plot plot = { 0 };
 struct keyboard keyboard = { 0 };
@@ -184,6 +192,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case 'M':
 		ram = true;
+		break;
+	case 'f':
+		file = strdup(arg);
 		break;
 	case 'v':
 		verbose = true;
@@ -515,6 +526,9 @@ end:
 	close(sig_rd_fd);
 	close(sig_wr_fd);
 	endwin();
+
+	if (file)
+		free(file);
 
 	if (verbose) {
 		struct plot *_p = &plot;
