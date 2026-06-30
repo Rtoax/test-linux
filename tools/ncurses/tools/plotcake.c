@@ -231,19 +231,24 @@ static int new_timerfd(unsigned long nsecs)
 
 int main(int argc, char *argv[])
 {
+	int err = 0;
 	int maxfd = 0;
 	int timerfd, keyfd, datafd, tmoutfd;
 	int sigpipe[2];
 	fd_set readfds;
 	char stdin_buffer[4096] = { 0 };
 
-	keyboard_init(&keyboard);
-	plot_init(&plot, &keyboard, file);
-
-	int err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
 		fprintf(stderr, "argp_parse return %d\n", err);
 		return -err;
+	}
+
+	keyboard_init(&keyboard);
+	err = plot_init(&plot, &keyboard, file);
+	if (err) {
+		fprintf(stderr, "plot init failed, %d\n", err);
+		return err;
 	}
 
 	setlocale(LC_ALL, "");

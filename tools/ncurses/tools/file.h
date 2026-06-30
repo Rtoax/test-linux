@@ -4,5 +4,6 @@
 #include "value.h"
 
 int save_plot(const struct plot *p);
+int load_plot(struct plot *p, const char *file);
 
 extern struct lgroup lg_file;

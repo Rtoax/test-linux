@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include "file.h"
 #include "plot.h"
 #include "keyboard.h"
 
@@ -504,8 +505,10 @@ static void key_r(int key, void *arg)
 	p->llabel_expired_usec = 0;
 }
 
-void plot_init(struct plot *p, struct keyboard *kb, const char *file)
+int plot_init(struct plot *p, struct keyboard *kb, const char *file)
 {
+	int err = 0;
+
 	memset(p, 0, sizeof(struct plot));
 
 	plot_scaling_init(p);
@@ -516,7 +519,10 @@ void plot_init(struct plot *p, struct keyboard *kb, const char *file)
 	register_key_handler('h', p, key_h);
 	register_key_handler('l', p, key_l);
 
-	/* TODO: Load data from file */
+	if (file)
+		err = err ?: load_plot(p, file);
+
+	return err;
 }
 
 /* Get memory bytes that plot already spent */

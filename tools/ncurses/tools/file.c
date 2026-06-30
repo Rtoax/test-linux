@@ -2,6 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #include <errno.h>
 #include <stdio.h>
+#include <string.h>
 #include "file.h"
 #include "plot.h"
 #ifdef HAVE_JSON_C
@@ -14,6 +15,7 @@
 struct plot_file_operations {
 	const char *name;
 	int (*save)(const struct plot *p);
+	int (*load)(struct plot *p, const char *file);
 };
 
 static int save_txt(const struct plot *p)
@@ -52,6 +54,20 @@ static int save_txt(const struct plot *p)
 
 		lg_idx++;
 	}
+
+	fclose(fp);
+	return 0;
+}
+
+static int load_txt(struct plot *p, const char *file)
+{
+	FILE *fp = fopen(file, "r");
+	if (!fp) {
+		fprintf(stderr, "ERROR: open file %s failed, %m\n", file);
+		return -errno;
+	}
+
+	/* TODO */
 
 	fclose(fp);
 	return 0;
@@ -132,17 +148,24 @@ static int save_json(const struct plot *p)
 	json_object_put(root);
 	return 0;
 }
+
+static int load_json(struct plot *p, const char *file)
+{
+	return 0;
+}
 #endif
 
 static struct plot_file_operations pf_ops[] = {
 	{
 		.name = "txt",
 		.save = &save_txt,
+		.load = &load_txt,
 	},
 #ifdef HAVE_JSON_C
 	{
 		.name = "json",
 		.save = &save_json,
+		.load = &load_json,
 	},
 #endif
 };
@@ -160,6 +183,37 @@ int save_plot(const struct plot *p)
 		err = err ?: pf_ops[i].save(p);
 	}
 	return err;
+}
+
+int load_plot(struct plot *p, const char *file)
+{
+	const struct plot_file_operations *ops = NULL;
+
+	for (int i = 0; i < sizeof(pf_ops) / sizeof(pf_ops[0]); i++) {
+		if (!pf_ops[i].load)
+			continue;
+		const char *ext = strrchr(file, '.');
+		if (ext)
+			ext++;
+		else {
+			fprintf(stderr,
+				"ERROR: Not found extension of file %s\n",
+				file);
+			return -EINVAL;
+		}
+		if (!strcmp(ext, pf_ops[i].name)) {
+			ops = &pf_ops[i];
+			break;
+		}
+	}
+	if (!ops) {
+		fprintf(stderr,
+			"ERROR: Not found plot file operation for file %s\n",
+			file);
+		return -ENOENT;
+	}
+
+	return ops->load(p, file);
 }
 
 static void file_create(struct lgroup *lg, void *arg)
