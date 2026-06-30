@@ -280,7 +280,7 @@ static struct line *__create_line(const char *name, int color)
 	return new;
 }
 
-static int lgroup_add(struct lgroup *lg, struct line *l)
+static int __lgroup_add_line(struct lgroup *lg, struct line *l)
 {
 	if (!lg->head) {
 		lg->head = l;
@@ -298,9 +298,9 @@ struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 			  const struct ldraw_ops *ops)
 {
 	struct line *new = __create_line(name, color);
+	__lgroup_add_line(lg, new);
 	new->ops = ops;
 	new->id = lg->count;
-	lgroup_add(lg, new);
 	return new;
 }
 

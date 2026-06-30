@@ -26,6 +26,7 @@ int plot_add_lgrp(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 	}
 	p->lgtail = lg;
 	lg->plot = p;
+	lg->id = p->lgcount;
 	lg->ops->arg = lg_ops_arg;
 	return 0;
 }

@@ -22,7 +22,6 @@ struct plot_file_operations {
 
 static int save_txt(const struct plot *p)
 {
-	int lg_idx;
 	char *path = FILE_TXT;
 	FILE *fp = fopen(path, "w");
 	if (!fp) {
@@ -34,16 +33,15 @@ static int save_txt(const struct plot *p)
 	fprintf(fp, "plot %d \"%s\" \"%s\" \"%s\"\n", p->lgcount, p->title,
 		p->label_x, p->label_y);
 
-	lg_idx = 0;
 	for_each_lg(p, lg)
 	{
 		fprintf(fp, "#      name idx nline\n");
-		fprintf(fp, "lgroup %s %d %d\n", lg->name, lg_idx, lg->count);
+		fprintf(fp, "lgroup %s %d %d\n", lg->name, lg->id, lg->count);
 
 		for_each_line(lg, ln)
 		{
 			fprintf(fp, "#    lgidx lnidx nvals\n");
-			fprintf(fp, "line %d %d %ld\n", lg_idx, ln->id,
+			fprintf(fp, "line %d %d %ld\n", lg->id, ln->id,
 				ln->count);
 
 			fprintf(fp, "#     lnidx value timeval{ sec usec }\n");
@@ -53,8 +51,6 @@ static int save_txt(const struct plot *p)
 					v->v, v->tv.tv_sec, v->tv.tv_usec);
 			}
 		}
-
-		lg_idx++;
 	}
 
 	fclose(fp);
@@ -170,6 +166,8 @@ static int save_json(const struct plot *p)
 		json_object_object_add(plot, "lgroup", lgroup);
 		json_object_object_add(lgroup, "name",
 				       json_object_new_string(lg->name));
+		json_object_object_add(lgroup, "id",
+				       json_object_new_int(lg->id));
 		json_object_object_add(lgroup, "lncount",
 				       json_object_new_int(lg->count));
 		json_object_object_add(lgroup, "lines", lines);
