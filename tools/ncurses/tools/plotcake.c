@@ -349,12 +349,12 @@ int main(int argc, char *argv[])
 	init_flavor();
 
 	if (datafd == -1) {
-		if (ram) {
+		if (!file && ram) {
 			plot.title = plot.title ?: (title ?: "Memory Usage");
 			plot.label_x = plot.label_x ?: (xlabel ?: "Time");
 			plot.label_y = plot.label_y ?: (ylabel ?: "Size(MB)");
 			plot_add_lgrp(&plot, &lg_ram, NULL);
-		} else {
+		} else if (!file) {
 			plot.title = plot.title ?: (title ?: "Loadavg");
 			plot.label_x = plot.label_x ?: (xlabel ?: "Time");
 			plot.label_y = plot.label_y ?: (ylabel ?: "Load");
