@@ -37,7 +37,7 @@ static int save_txt(const struct plot *p)
 	fprintf(fp, "plot %d \"%s\" \"%s\" \"%s\"\n", p->lgcount, p->title,
 		p->label_x, p->label_y);
 
-	for_each_lg(p, lg)
+	for_each_lgroup(p, lg)
 	{
 		fprintf(fp, "#      name idx nline\n");
 		fprintf(fp, "lgroup %s %d %d\n", lg->name, lg->id, lg->count);
@@ -121,9 +121,9 @@ static int load_txt(struct plot *p, const char *file)
 			*end = '\0';
 
 			if (!strcmp(start, "loadavg")) {
-				plot_add_lgrp(p, &lg_loadavg, NULL);
+				plot_add_lgroup(p, &lg_loadavg, NULL);
 			} else if (!strcmp(start, "ram")) {
-				plot_add_lgrp(p, &lg_ram, NULL);
+				plot_add_lgroup(p, &lg_ram, NULL);
 			} else {
 				fprintf(stderr, "ERROR not support '%s' yet.\n",
 					start);
@@ -163,7 +163,7 @@ static int save_json(const struct plot *p)
 	json_object_object_add(plot, "lgcount",
 			       json_object_new_int(p->lgcount));
 
-	for_each_lg(p, lg)
+	for_each_lgroup(p, lg)
 	{
 		json_object *lgroup = json_object_new_object();
 		json_object *lines = json_object_new_object();

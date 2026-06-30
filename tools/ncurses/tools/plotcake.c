@@ -353,12 +353,12 @@ int main(int argc, char *argv[])
 			plot.title = plot.title ?: (title ?: "Memory Usage");
 			plot.label_x = plot.label_x ?: (xlabel ?: "Time");
 			plot.label_y = plot.label_y ?: (ylabel ?: "Size(MB)");
-			plot_add_lgrp(&plot, &lg_ram, NULL);
+			plot_add_lgroup(&plot, &lg_ram, NULL);
 		} else if (!file) {
 			plot.title = plot.title ?: (title ?: "Loadavg");
 			plot.label_x = plot.label_x ?: (xlabel ?: "Time");
 			plot.label_y = plot.label_y ?: (ylabel ?: "Load");
-			plot_add_lgrp(&plot, &lg_loadavg, NULL);
+			plot_add_lgroup(&plot, &lg_loadavg, NULL);
 		}
 	} else {
 		struct stdin_arg stdarg = {
@@ -368,7 +368,7 @@ int main(int argc, char *argv[])
 		plot.title = plot.title ?: (title ?: "stdin");
 		plot.label_x = plot.label_x ?: (xlabel ?: "Time");
 		plot.label_y = plot.label_y ?: (ylabel ?: "Value");
-		plot_add_lgrp(&plot, &lg_stdin, &stdarg);
+		plot_add_lgroup(&plot, &lg_stdin, &stdarg);
 	}
 
 	plot_create_data(&plot);

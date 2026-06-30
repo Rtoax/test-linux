@@ -13,7 +13,7 @@
 chtype flavor[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
-int plot_add_lgrp(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
+int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
 	assert(lg->ops->create && "lgroup ops is not set, set it first");
 
@@ -29,6 +29,16 @@ int plot_add_lgrp(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 	lg->id = p->lgcount;
 	lg->ops->arg = lg_ops_arg;
 	return 0;
+}
+
+struct lgroup *plot_lgroup(const struct plot *p, int idx)
+{
+	for_each_lgroup(p, lg)
+	{
+		if (lg->id == idx)
+			return lg;
+	}
+	return NULL;
 }
 
 void init_flavor(void)
@@ -343,7 +353,7 @@ static void paint_plot(struct plot *p, bool debug)
 	plot_draw_title(p);
 	plot_draw_axes(p);
 
-	for_each_lg(p, lg)
+	for_each_lgroup(p, lg)
 	{
 		paint_lgroup(p, lg, debug);
 	}
@@ -368,7 +378,7 @@ static void paint_plot(struct plot *p, bool debug)
 
 void plot_create_data(struct plot *p)
 {
-	for_each_lg(p, lg)
+	for_each_lgroup(p, lg)
 	{
 		lg->ops->create(lg, lg->ops->arg);
 	}
@@ -376,7 +386,7 @@ void plot_create_data(struct plot *p)
 
 void plot_update_data(struct plot *p)
 {
-	for_each_lg(p, lg)
+	for_each_lgroup(p, lg)
 	{
 		lg->ops->update(lg, lg->ops->arg);
 	}
@@ -448,7 +458,7 @@ void plot_llabel(const struct plot *p)
 {
 	int i, nline = 0;
 
-	for_each_lg(p, lg)
+	for_each_lgroup(p, lg)
 	{
 		nline += lg->count;
 	}
@@ -457,7 +467,7 @@ void plot_llabel(const struct plot *p)
 	int w = p->bnd.left + 1;
 
 	i = 0;
-	for_each_lg(p, lg)
+	for_each_lgroup(p, lg)
 	{
 		for_each_line(lg, ln)
 		{
@@ -530,7 +540,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file)
 unsigned long plot_mem_size(const struct plot *p)
 {
 	unsigned long bytes = sizeof(struct plot);
-	for_each_lg(p, lg)
+	for_each_lgroup(p, lg)
 	{
 		bytes += sizeof(struct lgroup);
 		for_each_line(lg, ln)
