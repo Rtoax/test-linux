@@ -67,7 +67,8 @@ $(foreach so, ${target-libso-y} ${target-libso-cpp-y}, \
       $(if ${DEBUG}, $(info Not found ${obj}.d)) \
     ) \
   ) \
-  $(if ${${so}-deps}, $(eval ${so}: ${${so}-deps})) \
+  $(if ${${so}-deps}, $(eval ${so}: ${${so}-deps}) \
+    $(if ${DEBUG}, $(info ${so} = ${${so}-deps}))) \
 )
 
 endif

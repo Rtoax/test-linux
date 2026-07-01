@@ -37,7 +37,8 @@ $(foreach a, ${target-liba-y}, \
       $(if ${DEBUG}, $(info Not found ${obj}.d)) \
     ) \
   ) \
-  $(if ${${a}-deps}, $(eval ${a}: ${${a}-deps})) \
+  $(if ${${a}-deps}, $(eval ${a}: ${${a}-deps}) \
+    $(if ${DEBUG}, $(info ${a}: ${${a}-deps}))) \
 )
 
 endif
