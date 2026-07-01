@@ -34,6 +34,7 @@ enum ltype_enum {
 
 struct line {
 	const char *name;
+	/* The line ID is unique only within the lgroup. */
 	int id;
 	int color; /* C_RED, ... */
 	struct value *head, *tail, *max, *min;

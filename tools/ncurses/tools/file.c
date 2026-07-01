@@ -50,11 +50,13 @@ static int save_txt(const struct plot *p)
 				ln->id, ln->name, ln->count,
 				color_names[ln->color], ln->ops->name);
 
-			fprintf(fp, "#     lnidx value timeval{ sec usec }\n");
+			fprintf(fp,
+				"#     lgidx lnidx value timeval{ sec usec }\n");
 			for_each_value(ln, v)
 			{
-				fprintf(fp, "value %d %lf %ld %ld\n", ln->id,
-					v->v, v->tv.tv_sec, v->tv.tv_usec);
+				fprintf(fp, "value %d %d %lf %ld %ld\n", lg->id,
+					ln->id, v->v, v->tv.tv_sec,
+					v->tv.tv_usec);
 			}
 		}
 	}
@@ -193,7 +195,7 @@ static int load_txt(struct plot *p, const char *file)
 			Check(start - 1, ' ');
 
 			new_line(lg, lname, color_name2num(lcolor));
-			/* FIXME: duplicate lines */
+
 		} else if (!strncmp(line, "value ", 6)) {
 			/* TODO */
 		} else {
@@ -250,6 +252,10 @@ static int save_json(const struct plot *p)
 
 			json_object_object_add(
 				line, "name", json_object_new_string(ln->name));
+			json_object_object_add(line, "id",
+					       json_object_new_int(ln->id));
+			json_object_object_add(line, "lgroup-id",
+					       json_object_new_int(lg->id));
 			json_object_object_add(
 				line, "color",
 				json_object_new_string(color_names[ln->color]));
@@ -270,6 +276,12 @@ static int save_json(const struct plot *p)
 				json_object *value = json_object_new_object();
 				json_object_object_add(values, vs, value);
 
+				json_object_object_add(
+					value, "line-id",
+					json_object_new_int(ln->id));
+				json_object_object_add(
+					value, "lgroup-id",
+					json_object_new_int(lg->id));
 				json_object_object_add(
 					value, "v",
 					json_object_new_double(v->v));
