@@ -371,7 +371,10 @@ int main(int argc, char *argv[])
 		plot_add_lgroup(&plot, &lg_stdin, &stdarg);
 	}
 
-	plot_create_data(&plot);
+	/* Read from 'file' instead of create() */
+	if (!file) {
+		plot_create_data(&plot);
+	}
 	plot_update_size(&plot, true);
 	plot_update_data(&plot);
 	plot_redraw(&plot, verbose);
