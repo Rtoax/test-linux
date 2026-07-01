@@ -170,6 +170,7 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		 *         |--------------------| plotwidth * plotscaling
 		 *
 		 *         ^ start
+		 *                              ^ start + len
 		 *
 		 *     ^^^^^ skip
 		 *
@@ -515,6 +516,7 @@ static void key_r(int key, void *arg)
 	plot_scaling_init(p);
 	p->help_expired_usec = 0;
 	p->llabel_expired_usec = 0;
+	p->plot_shift_left = 0;
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file)
