@@ -11,6 +11,9 @@ target-liba-y := numa.a
 numa.a-deps := numa_mem.h
 numa.a-objs := numa_mem.a.o
 
+# TODO: add object's depends in template/targets/liba.mk
+numa_mem.a.o-deps := numa_mem.h
+
 CFLAGS += -g
 LDFLAGS += -lnuma
 

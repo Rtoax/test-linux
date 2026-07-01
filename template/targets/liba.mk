@@ -13,10 +13,18 @@ ifdef DEBUG
   $(info CFLAGS_A = ${CFLAGS_A})
 endif
 
-# append ${OUTPUT} for each object
+# append ${OUTPUT} for each library objects, for example:
+#
+#   target-liba-y := libx.a
+#   libx.a-objs := x.a.o
+#
+# Then, add ${OUTPUT} prefix:
+#
+#   libx.a-objs := ${OUTPUT}x.a.o
+#
 $(foreach a, ${target-liba-y} ${target-liba-cpp-y}, \
   $(eval ${a}-objs := $(call append_output_prefix,${${a}-objs})) \
-  $(if ${DEBUG},$(info ${a}-objs = ${${a}-objs})) \
+  $(if ${DEBUG},$(info liba: ${a}-objs = ${${a}-objs})) \
 )
 
 $(foreach lib, ${target-liba-y}, $(eval ${lib}: $${${lib}-objs}))
@@ -29,12 +37,26 @@ $(target-liba-y): %:
 	$(call log_tgt,AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
+# Auto add library object.d and object's depends, for example:
+#
+#   target-liba-y := libx.a
+#   libx.a-objs := ${OUTPUT}x.a.o # add ${OUTPUT} above
+#   x.a.o-deps := x.h y.h z.h
+#
+# Then:
+#
+#   ${OUTPUT}x.a.o: x.h y.h z.h
+#
 $(foreach a, ${target-liba-y}, \
   $(foreach obj, ${${a}-objs}, \
     $(if $(shell test -f ${obj}.d && echo yes), \
       $(if ${DEBUG}, $(info Include ${obj}.d)) \
       $(eval include ${obj}.d), \
       $(if ${DEBUG}, $(info Not found ${obj}.d)) \
+    ) \
+    $(eval _obj := $(call strip_output_prefix,${obj})) \
+    $(if ${${_obj}-deps}, $(eval ${obj}: ${${_obj}-deps})\
+      $(if ${DEBUG}, $(info ${obj}: ${${_obj}-deps})) \
     ) \
   ) \
   $(if ${${a}-deps}, $(eval ${a}: ${${a}-deps}) \
