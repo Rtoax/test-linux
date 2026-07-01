@@ -297,8 +297,10 @@ int main(int argc, char *argv[])
 		FD_SET(stdinfd, &readfds);
 		if (maxfd < stdinfd)
 			maxfd = stdinfd;
-	} else {
+	} else if (!file) {
 		/**
+		 * Not create fresh timer if read data from file.
+		 *
 		 * Note: When we read data from stdin, we no longer need this
 		 * timer to trigger the update.
 		 */
@@ -371,12 +373,12 @@ int main(int argc, char *argv[])
 		plot_add_lgroup(&plot, &lg_stdin, &stdarg);
 	}
 
-	/* Read from 'file' instead of create() */
+	/* Read from 'file' instead of create()/update() */
 	if (!file) {
 		plot_create_data(&plot);
+		plot_update_data(&plot);
 	}
 	plot_update_size(&plot, true);
-	plot_update_data(&plot);
 	plot_redraw(&plot, verbose);
 
 	/* main loop */
