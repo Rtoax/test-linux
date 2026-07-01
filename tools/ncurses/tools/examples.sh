@@ -4,8 +4,8 @@
 # -m: (set -o monitor) monitor mode
 set -em
 
-[[ -z ${I} ]] && I=0.01
-[[ -z ${TMOUT} ]] && TMOUT=1s
+[[ -z ${I} ]] && I=0.001
+[[ -z ${TMOUT} ]] && TMOUT=200ms
 
 Interval=${I}
 
