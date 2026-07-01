@@ -262,7 +262,7 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 
 		mvprintw(h, 0, "%s", sv);
 
-		if (iv + p->plotscaling > ln->count) {
+		if (iv + 1 + p->plotscaling > ln->count) {
 			mvprintw(h, w + 1, "%s", ln->name);
 			nc = strlen(ln->name);
 			if (p->bnd_prev_max.right < nc)
