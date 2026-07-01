@@ -56,7 +56,7 @@ test_init "github.com/rtoax/plotcake"
 # Verify keys
 test_key "l" " $line0"
 test_key "l" " $line1"
-test_key "h" "'q' and Esc: quit"
+test_key "h" "'q': quit"
 test_key "r" "cur=114="
 test_key "t" "(signed logarithmic transformation)"
 test_key "t" "(base-10 signed logarithmic transformation)"

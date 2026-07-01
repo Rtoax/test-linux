@@ -2,12 +2,12 @@
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
 
-#define MY_VERSION "v1.5.8"
+#define MY_VERSION "v1.5.9"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
 #define KEY_HELP_l "'l': show the label for each line"
-#define KEY_HELP_q "'q' and Esc: quit"
+#define KEY_HELP_q "'q': quit"
 #define KEY_HELP_r "'r': reset plot"
 #define KEY_HELP_t "'t': change numerical scaling for paint"
 #define KEY_HELP_v "'v': turn on/off the verbose mode"
