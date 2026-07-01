@@ -131,7 +131,7 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
  * @max and @min is original value, if use logarithmic, must convert it youself.
  */
 static void __paint_line(struct plot *p, struct line *ln, int start, int len,
-			 double max, double min, bool debug)
+			 int shift, double max, double min, bool debug)
 {
 	int iv;
 	int prev_h = -1;
@@ -155,7 +155,8 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		break;
 	}
 
-	const int nvs = (ln->count + p->plotscaling - 1) / p->plotscaling;
+	const long ln_shift_count = ln->count - shift;
+	const int nvs = (ln_shift_count + p->plotscaling - 1) / p->plotscaling;
 
 	iv = -1;
 	for_each_value(ln, v)
@@ -166,11 +167,16 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		 * size of the plotting area, so it is necessary to first skip
 		 * the data points that exceed the plotting area.
 		 *
-		 *     |------------------------| count
-		 *         |--------------------| plotwidth * plotscaling
+		 * line: |------------------------| line count
 		 *
-		 *         ^ start
-		 *                              ^ start + len
+		 *                      <--shift--> plotshift * plotscaling
+		 *
+		 *       |--------------|           @ln_shift_count
+		 *
+		 * plot:        |=======|           plotwidth * plotscaling
+		 *
+		 *              ^ start
+		 *                      ^ start + len
 		 *
 		 *     ^^^^^ skip
 		 *
@@ -262,7 +268,7 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 
 		mvprintw(h, 0, "%s", sv);
 
-		if (iv + 1 + p->plotscaling > ln->count) {
+		if (iv + 1 + p->plotscaling > ln_shift_count) {
 			mvprintw(h, w + 1, "%s", ln->name);
 			nc = strlen(ln->name);
 			if (p->bnd_prev_max.right < nc)
@@ -315,8 +321,9 @@ void plot_draw_axes(const struct plot *p)
 static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 {
 	double max = -DBL_MAX, min = DBL_MAX;
-	int len = p->plotwidth * p->plotscaling;
 	int start = -1;
+	int len = p->plotwidth * p->plotscaling;
+	unsigned long shift = plot_shift(p);
 
 	/**
 	 * Since we are not drawing all the data for the entire curve, we need
@@ -328,7 +335,17 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 		if (l->count <= 0)
 			continue;
 
-		start = l->count - len;
+		/**
+		 * If the amount of data is insufficient to fill a screen, then
+		 * @shift is meaningless, so clear it.
+		 */
+		const int _nvs =
+			(l->count + p->plotscaling - 1) / p->plotscaling;
+		if (p->plotwidth > _nvs) {
+			p->plotshift = shift = 0;
+		}
+
+		start = l->count - len - shift;
 
 		double _max = line_range_max(l, start, len);
 		double _min = line_range_min(l, start, len);
@@ -340,7 +357,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 	{
 		if (l->count <= 0)
 			continue;
-		__paint_line(p, l, start, len, max, min, debug);
+		__paint_line(p, l, start, len, shift, max, min, debug);
 	}
 
 	if (debug && lg->ops->plot_debug)
