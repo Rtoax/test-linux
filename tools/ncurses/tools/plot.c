@@ -536,6 +536,26 @@ static void key_r(int key, void *arg)
 	p->plotshift = 0;
 }
 
+static void key_up(int key, void *arg)
+{
+	plot_scaling_up(arg);
+}
+
+static void key_down(int key, void *arg)
+{
+	plot_scaling_down(arg);
+}
+
+static void key_left(int key, void *arg)
+{
+	plot_shift_left(arg);
+}
+
+static void key_right(int key, void *arg)
+{
+	plot_shift_right(arg);
+}
+
 int plot_init(struct plot *p, struct keyboard *kb, const char *file)
 {
 	int err = 0;
@@ -549,6 +569,10 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file)
 	register_key_handler('r', p, key_r);
 	register_key_handler('h', p, key_h);
 	register_key_handler('l', p, key_l);
+	register_key_handler(KEY_UP, p, key_up);
+	register_key_handler(KEY_DOWN, p, key_down);
+	register_key_handler(KEY_RIGHT, p, key_right);
+	register_key_handler(KEY_LEFT, p, key_left);
 
 	if (file)
 		err = err ?: load_plot(p, file);

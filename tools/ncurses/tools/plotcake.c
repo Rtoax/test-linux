@@ -444,22 +444,18 @@ int main(int argc, char *argv[])
 				switch (plot.kb->current_key) {
 				case KEY_LEFT:
 					plot.kb->cnt.left++;
-					plot_shift_left(&plot);
 					redraw = true;
 					break;
 				case KEY_RIGHT:
 					plot.kb->cnt.right++;
-					plot_shift_right(&plot);
 					redraw = true;
 					break;
 				case KEY_UP:
 					plot.kb->cnt.up++;
-					plot_scaling_up(&plot);
 					redraw = true;
 					break;
 				case KEY_DOWN:
 					plot.kb->cnt.down++;
-					plot_scaling_down(&plot);
 					redraw = true;
 					break;
 				case 'q': /* quit */
