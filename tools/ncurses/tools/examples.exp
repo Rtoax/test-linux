@@ -40,7 +40,7 @@ proc test_key {key pattern} {
 		}
 	}
 	# Allow UI to refresh
-	sleep 0.5
+	sleep 0.1
 }
 
 # Verify initial plot
@@ -49,6 +49,7 @@ test_init "$title"
 test_init "$line1"
 test_init "plot(redraw="
 test_init "key(left="
+test_init "enter="
 test_init "github.com/rtoax/plotcake"
 
 # Verify keys
@@ -58,14 +59,10 @@ test_key "r" "cur=114="
 test_key "t" "(signed logarithmic transformation)"
 test_key "t" "(base-10 signed logarithmic transformation)"
 test_key "t" "(base-e exponential)"
-
-# Test enter
-#send "\r"
-#expect {
-#	"enter=1" { send_user "Success enter" }
-#	timeout { send_user "FATAL: key 'enter' failed\n"; exit 1 }
-#}
-#sleep .5
+# First enter
+test_key "\r" "1 "
+# Another enter
+test_key "\r" "cur=13="
 
 send "q"
 expect eof
