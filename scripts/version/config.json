@@ -196,7 +196,7 @@
 				}
 			},
 			"extension": [ "c", "cpp", "h", "hpp", "c++" ],
-			"keys": [ "compiler", "elf", "gcc" ]
+			"keys": [ "compiler", "cpp", "c++", "elf", "gcc" ]
 		},
 		"gdb": {
 			"name": "GDB",
