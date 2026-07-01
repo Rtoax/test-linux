@@ -49,10 +49,10 @@ struct plot {
 	int plotscaling;
 	/**
 	 * As the amount of data increases, we may need to view historical data.
-	 * @plot_shift_left records the number of points moved to the left, and
-	 * this number of points will be scaled by @plotscaling.
+	 * @plotshift records the number of points moved to the left, and this
+	 * number of points will be scaled by @plotscaling.
 	 */
-	unsigned long plot_shift_left;
+	unsigned long plotshift;
 	struct {
 		int top, bottom, left, right;
 	} bnd, bnd_prev_max;
@@ -79,12 +79,13 @@ struct plot {
 	 */
 	bool need_redraw;
 
-#define PLOT_INF0_FMT \
-	"plot(redraw=%ld, %.3f MiB, win[%d,%d], max[%d,%d], plot[%d,%d], scale %d, shft %ld)"
+#define PLOT_INF0_FMT                                                      \
+	"plot(redraw=%ld, %.3f MiB, win[%d,%d], max[%d,%d], plot[%d,%d], " \
+	"scale %d, shft %ld/%ld)"
 #define PLOT_INF0_ARG(p)                                                \
 	p->redrawcount, plot_mem_size(p) * 1. / 1024 / 1024, p->height, \
 		p->width, p->heightmax, p->widthmax, p->plotheight,     \
-		p->plotwidth, p->plotscaling, p->plot_shift_left
+		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p)
 };
 
 #define for_each_lgroup(plt, iter)                                       \
@@ -113,15 +114,21 @@ struct plot {
 #define plot_shift_left(p)                            \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \
-		___p->plot_shift_left++;              \
+		___p->plotshift++;                    \
 	} while (0)
 
 #define plot_shift_right(p)                           \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \
-		if (___p->plot_shift_left >= 1)       \
-			___p->plot_shift_left--;      \
+		if (___p->plotshift >= 1)             \
+			___p->plotshift--;            \
 	} while (0)
+
+#define plot_shift(p)                                 \
+	({                                            \
+		struct plot *___p = (struct plot *)p; \
+		___p->plotshift * ___p->plotscaling;  \
+	})
 
 int plot_init(struct plot *p, struct keyboard *k, const char *file);
 unsigned long plot_mem_size(const struct plot *p);

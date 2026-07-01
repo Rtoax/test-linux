@@ -516,7 +516,7 @@ static void key_r(int key, void *arg)
 	plot_scaling_init(p);
 	p->help_expired_usec = 0;
 	p->llabel_expired_usec = 0;
-	p->plot_shift_left = 0;
+	p->plotshift = 0;
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file)
