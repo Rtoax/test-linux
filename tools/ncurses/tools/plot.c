@@ -509,7 +509,7 @@ void plot_llabel(const struct plot *p)
 static void key_h(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->help_expired_usec = usecs() + 10e6;
+	p->help_expired_usec = usecs() + 1000000UL;
 	plot_help(p);
 }
 
@@ -519,7 +519,7 @@ static void key_h(int key, void *arg)
 static void key_l(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->llabel_expired_usec = usecs() + 10e6;
+	p->llabel_expired_usec = usecs() + 1000000UL;
 	plot_llabel(p);
 }
 
