@@ -134,7 +134,6 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 			 double max, double min, bool debug)
 {
 	int iv;
-	int nvs = (ln->count + p->plotscaling - 1) / p->plotscaling;
 	int prev_h = -1;
 	chtype color = flavor[ln->color];
 
@@ -156,15 +155,12 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		break;
 	}
 
-	iv = 0;
+	const int nvs = (ln->count + p->plotscaling - 1) / p->plotscaling;
 
+	iv = -1;
 	for_each_value(ln, v)
 	{
-		double span = .0f, diff = .0f;
-		double plot_v = v->v;
-
-		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
-
+		iv++;
 		/**
 		 * The number of data points may be greater than the horizontal
 		 * size of the plotting area, so it is necessary to first skip
@@ -180,14 +176,15 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		 * see also paint_lgroup().
 		 */
 		if (iv <= start || iv >= start + len) {
-			iv++;
 			continue;
 		}
 
 		if (iv % p->plotscaling != 0) {
-			iv++;
 			continue;
 		}
+
+		double span = .0f, diff = .0f;
+		double plot_v = v->v;
 
 		if (p->v_scaling == NS_LOGARITHMIC)
 			plot_v = v->log_v;
@@ -203,6 +200,8 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 			diff = plot_v - min;
 			span = max - min;
 		}
+
+		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
 
 		int h = p->plotheight + p->bnd.top - 1 -
 			diff * (p->plotheight - 2) / span;
@@ -233,8 +232,6 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		}
 
 		prev_h = h;
-
-		iv++;
 
 		/* set x axis */
 		if ((ivs - 1) % 10 == 0) {
