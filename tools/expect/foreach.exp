@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+
+set keys [list "l" "h" "r" "t" "t" "t"]
+foreach key $keys {
+	send_user "$key\n"
+}
+
+set tests {
+	"l"      " line"
+	"h"      "'q' and Esc: quit"
+	"r"      "cur=114="
+	"t"      "(signed logarithmic transformation)"
+	"t"      "(base-10 signed logarithmic transformation)"
+	"t"      "(base-e exponential)"
+}
+foreach {key pattern} $tests {
+	send_user "$key : $pattern\n"
+}
