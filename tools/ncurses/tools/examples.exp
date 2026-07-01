@@ -21,7 +21,7 @@ sleep 0.1
 proc test_init {pattern} {
 	global timeout
 	expect {
-		-re "$pattern" {}
+		"$pattern" {}
 		timeout {
 			send_user "FATAL: not found pattern '$pattern'\n"
 			exit 1
@@ -29,11 +29,11 @@ proc test_init {pattern} {
 	}
 }
 
-proc test_key {key pattern success_msg} {
+proc test_key {key pattern} {
 	global timeout
 	send "$key"
 	expect {
-		-re "$pattern" {}
+		"$pattern" {}
 		timeout {
 			send_user "Fatal: key '$key' failed, expect '$pattern'\n"
 			exit 1
@@ -50,12 +50,12 @@ test_init "$line1"
 test_init "redraw="
 
 # Verify keys
-test_key "l" " $line1" "check line labels"
-test_key "h" "'q' and Esc: quit" "check help"
-test_key "r" "cur=114=" "reset"
-test_key "t" "\(signed logarithmic transformation\)" "change curses type to log()"
-test_key "t" "\(base-10 signed logarithmic transformation\)" "change curses type to log10()"
-test_key "t" "\(base-e exponential\)" "change curses type to exp()"
+test_key "l" " $line1"
+test_key "h" "'q' and Esc: quit"
+test_key "r" "cur=114="
+test_key "t" "(signed logarithmic transformation)"
+test_key "t" "(base-10 signed logarithmic transformation)"
+test_key "t" "(base-e exponential)"
 
 # Test enter
 #send "\r"
