@@ -16,14 +16,18 @@
 
 struct plot_file_operations {
 	const char *name;
-	int (*save)(const struct plot *p);
+	int (*save)(const struct plot *p, const char *filename);
 	int (*load)(struct plot *p, const char *file);
 };
 
-static int save_txt(const struct plot *p)
+static int save_txt(const struct plot *p, const char *filename)
 {
-	char *path = FILE_TXT;
-	FILE *fp = fopen(path, "w");
+	char path[256];
+	FILE *fp;
+
+	sprintf(path, "%s.txt", filename);
+
+	fp = fopen(path, "w");
 	if (!fp) {
 		fprintf(stderr, "ERROR: open %s failed, %m\n", path);
 		return -errno;
@@ -279,8 +283,12 @@ static int load_txt(struct plot *p, const char *file)
 }
 
 #ifdef HAVE_JSON_C
-static int save_json(const struct plot *p)
+static int save_json(const struct plot *p, const char *filename)
 {
+	char path[256];
+
+	sprintf(path, "%s.json", filename);
+
 	json_object *root, *plot;
 
 	root = json_object_new_object();
@@ -371,7 +379,7 @@ static int save_json(const struct plot *p)
 		}
 	}
 
-	json_object_to_file_ext(FILE_JSON, root, JSON_C_TO_STRING_PRETTY);
+	json_object_to_file_ext(path, root, JSON_C_TO_STRING_PRETTY);
 	json_object_put(root);
 	return 0;
 }
@@ -400,15 +408,16 @@ static struct plot_file_operations pf_ops[] = {
 
 /**
  * only have one plot
+ * @filename: file name without extension.
  */
-int save_plot(const struct plot *p)
+int save_plot(const struct plot *p, const char *filename)
 {
 	int err = 0;
 	for (int i = 0; i < sizeof(pf_ops) / sizeof(pf_ops[0]); i++) {
 		if (!pf_ops[i].save)
 			continue;
 		fprintf(stderr, "Save to %s\n", pf_ops[i].name);
-		err = err ?: pf_ops[i].save(p);
+		err = err ?: pf_ops[i].save(p, filename ?: "plotcake");
 	}
 	return err;
 }

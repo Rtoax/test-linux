@@ -38,6 +38,8 @@ run -? --help
 run --usage
 run -V --version
 run -M --ram
+run -o data
+run -f data.txt
 
 stdin -V --version
 stdin --usage

@@ -3,7 +3,7 @@
 #pragma once
 #include "value.h"
 
-int save_plot(const struct plot *p);
+int save_plot(const struct plot *p, const char *filename);
 int load_plot(struct plot *p, const char *file);
 
 extern struct lgroup lg_file;

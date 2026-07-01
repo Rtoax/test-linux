@@ -74,19 +74,19 @@ const char argp_prog_doc[] = ANSI_BOLD
 
 static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Specify title" },
-	{ "xlabel", 'x', "X-LABEL", 0, "Specify x axis label" },
-	{ "ylabel", 'y', "Y-LABEL", 0, "Specify y axis label" },
-	{ "llabel", 'l', "LINE NAME", 0,
+	{ "xlabel", 'x', "LABEL", 0, "Specify x axis label" },
+	{ "ylabel", 'y', "LABEL", 0, "Specify y axis label" },
+	{ "llabel", 'l', "NAME", 0,
 	  "Specify line label (may be listed multiple times)" },
-	{ "ltype", 'L', "LINE TYPE", 0,
+	{ "ltype", 'L', "TYPE", 0,
 	  "Specify line types, if an invalid value is entered, the supported "
 	  "line types will be listed (may be listed multiple times)" },
-	{ "lcolor", 'C', "LINE COLOR", 0,
+	{ "lcolor", 'C', "COLOR", 0,
 	  "Specify line colors, if an invalid value is entered, the supported "
 	  "line colors will be listed, can match color prefixes, such as 'r' "
 	  "matching 'red' (may be listed multiple times)" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
-	{ "interval", 'I', "INTERVAL SEC", 0,
+	{ "interval", 'I', "SEC", 0,
 	  "Specify interval time, the default unit is nanoseconds, but units "
 	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
 	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1,
@@ -97,9 +97,11 @@ static const struct argp_option opts[] = {
 	  "different (shortcut " KEY_HELP_t ")" },
 	{ "exponential", ARG_EXPONENTIAL, NULL, 1,
 	  "Use base-e exponential (shortcut " KEY_HELP_t ")" },
-	{ "tmout", 't', "TIMEOUT SEC", 0,
+	{ "tmout", 't', "SEC", 0,
 	  "Specify timeout time, the default unit is nanoseconds, but units "
 	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
+	{ "ofile", 'o', "OFILE", 0,
+	  "Specify the output file name, excluding the extension." },
 	{ "file", 'f', "FILE", 0,
 	  "Specify input file, the format must conform to the plotcake file "
 	  "format. You can run plotcake once to view the generated files (txt"
@@ -119,6 +121,7 @@ static int ram = false;
 static int verbose = false;
 static unsigned long tmout_nsecs = 0;
 static unsigned long interval_nsecs = 1000000000UL;
+static char *output_file_prefix = NULL;
 static char *file = NULL;
 static char *title = NULL;
 static char *xlabel = NULL;
@@ -198,6 +201,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case 'f':
 		file = strdup(arg);
+		break;
+	case 'o':
+		output_file_prefix = strdup(arg);
 		break;
 	case 'v':
 		verbose = true;
@@ -550,6 +556,8 @@ end:
 		fprintf(stderr, KEYBOARD_INF0_FMT "\n",
 			KEYBOARD_INF0_ARG(_p->kb));
 	}
-	save_plot(&plot);
+	save_plot(&plot, output_file_prefix);
+	if (output_file_prefix)
+		free(output_file_prefix);
 	return 0;
 }
