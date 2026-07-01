@@ -18,6 +18,10 @@ ifneq ($(patsubst %,%.c,a b),a.c b.c)
   $(error patsubst failed)
 endif
 
+ifneq ($(patsubst .output/%,%,.output/a .output/b c),a b c)
+  $(error patsubst strip prefix failed)
+endif
+
 DEPS := $(subst $(SRCROOT),$(DEPROOT),$(OBJS))
 DEPS_NAMES := $(subst $(DEPROOT),,$(DEPS))
 
