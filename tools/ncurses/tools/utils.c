@@ -11,7 +11,7 @@ unsigned long usecs(void)
 {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
-	return tv.tv_sec * 10e6 + tv.tv_usec;
+	return tv.tv_sec * 1000000UL + tv.tv_usec;
 }
 
 unsigned long str2nsecs(const char *str)

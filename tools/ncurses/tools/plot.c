@@ -437,6 +437,11 @@ static void __plot_redraw(struct plot *p, bool debug)
 		p->expired_usec.llabel = 0;
 	}
 
+	if (p->expired_usec.shift && p->expired_usec.shift < usecs()) {
+		p->plotshift = 0;
+		p->expired_usec.shift = 0;
+	}
+
 	refresh();
 
 	plot_update_size(p, false);
@@ -509,7 +514,7 @@ void plot_llabel(const struct plot *p)
 static void key_h(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->expired_usec.help = usecs() + 1000000UL;
+	p->expired_usec.help = usecs() + EXPIRED_USECS_HELP;
 	plot_help(p);
 }
 
@@ -519,7 +524,7 @@ static void key_h(int key, void *arg)
 static void key_l(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->expired_usec.llabel = usecs() + 1000000UL;
+	p->expired_usec.llabel = usecs() + EXPIRED_USECS_LLABEL;
 	plot_llabel(p);
 }
 
@@ -533,6 +538,7 @@ static void key_r(int key, void *arg)
 	plot_scaling_init(p);
 	p->expired_usec.help = 0;
 	p->expired_usec.llabel = 0;
+	p->expired_usec.shift = 0;
 	p->plotshift = 0;
 }
 
@@ -548,12 +554,18 @@ static void key_down(int key, void *arg)
 
 static void key_left(int key, void *arg)
 {
-	plot_shift_left(arg);
+	struct plot *p = arg;
+	/* 10 seconds */
+	p->expired_usec.shift = usecs() + EXPIRED_USECS_SHIFT;
+	plot_shift_left(p);
 }
 
 static void key_right(int key, void *arg)
 {
-	plot_shift_right(arg);
+	struct plot *p = arg;
+	/* 10 seconds */
+	p->expired_usec.shift = usecs() + EXPIRED_USECS_SHIFT;
+	plot_shift_right(p);
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file)
