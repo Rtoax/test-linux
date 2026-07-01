@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 {
 	int err = 0;
 	int maxfd = 0;
-	int timerfd, keyfd, datafd, tmoutfd;
+	int freshtimerfd, keyfd, datafd, tmoutfd;
 	int sigpipe[2];
 	fd_set readfds;
 	char stdin_buffer[4096] = { 0 };
@@ -267,7 +267,7 @@ int main(int argc, char *argv[])
 	sig_rd_fd = sigpipe[0];
 	sig_wr_fd = sigpipe[1];
 
-	tmoutfd = timerfd = keyfd = datafd = -1;
+	tmoutfd = freshtimerfd = keyfd = datafd = -1;
 
 	FD_ZERO(&readfds);
 
@@ -302,10 +302,10 @@ int main(int argc, char *argv[])
 		 * When we read data from stdin, we no longer need a timer to
 		 * trigger the update.
 		 */
-		timerfd = new_timerfd(interval_nsecs);
-		FD_SET(timerfd, &readfds);
-		if (maxfd < timerfd)
-			maxfd = timerfd;
+		freshtimerfd = new_timerfd(interval_nsecs);
+		FD_SET(freshtimerfd, &readfds);
+		if (maxfd < freshtimerfd)
+			maxfd = freshtimerfd;
 	}
 
 	if (tmout_nsecs != 0) {
@@ -484,9 +484,9 @@ int main(int argc, char *argv[])
 					break;
 				}
 			}
-		} else if (ret > 0 && FD_ISSET(timerfd, &fds)) {
+		} else if (ret > 0 && FD_ISSET(freshtimerfd, &fds)) {
 			uint64_t exp;
-			read(timerfd, &exp, sizeof(exp));
+			read(freshtimerfd, &exp, sizeof(exp));
 			redraw = true;
 			plot_update_data(&plot);
 		} else if (ret > 0 && FD_ISSET(tmoutfd, &fds)) {
@@ -528,8 +528,8 @@ int main(int argc, char *argv[])
 end:
 	if (datafd != -1)
 		close(datafd);
-	if (timerfd != -1)
-		close(timerfd);
+	if (freshtimerfd != -1)
+		close(freshtimerfd);
 	if (tmoutfd != -1)
 		close(tmoutfd);
 	if (keyfd != STDIN_FILENO && keyfd != -1)
