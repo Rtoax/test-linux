@@ -66,6 +66,8 @@ test_key "\r" "1 "
 # Another enter
 test_key "\r" "cur=13="
 
+test_key "\033" "cur=27="
+
 test_key "\033\[B" "cur=258="
 test_key "\033\[B" "KEY_DOWN"
 
