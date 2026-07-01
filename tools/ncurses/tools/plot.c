@@ -126,10 +126,12 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 }
 
 /**
+ * @start: start point of line.
+ * @len: number of value to plot.
  * @max and @min is original value, if use logarithmic, must convert it youself.
  */
-static void paint_line(struct plot *p, struct line *ln, double max, double min,
-		       bool debug)
+static void __paint_line(struct plot *p, struct line *ln, int start, int len,
+			 double max, double min, bool debug)
 {
 	int iv;
 	int nvs = (ln->count + p->plotscaling - 1) / p->plotscaling;
@@ -171,11 +173,13 @@ static void paint_line(struct plot *p, struct line *ln, double max, double min,
 		 *     |------------------------| count
 		 *         |--------------------| plotwidth * plotscaling
 		 *
+		 *         ^ start
+		 *
 		 *     ^^^^^ skip
 		 *
 		 * see also paint_lgroup().
 		 */
-		if (iv <= ln->count - p->plotwidth * p->plotscaling) {
+		if (iv <= start || iv >= start + len) {
 			iv++;
 			continue;
 		}
@@ -313,6 +317,8 @@ void plot_draw_axes(const struct plot *p)
 static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 {
 	double max = -DBL_MAX, min = DBL_MAX;
+	int len = p->plotwidth * p->plotscaling;
+	int start = -1;
 
 	/**
 	 * Since we are not drawing all the data for the entire curve, we need
@@ -324,9 +330,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 		if (l->count <= 0)
 			continue;
 
-		/* see also line count and plotwidth check in paint_line() */
-		int len = p->plotwidth * p->plotscaling;
-		int start = l->count - len;
+		start = l->count - len;
 
 		double _max = line_range_max(l, start, len);
 		double _min = line_range_min(l, start, len);
@@ -338,7 +342,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 	{
 		if (l->count <= 0)
 			continue;
-		paint_line(p, l, max, min, debug);
+		__paint_line(p, l, start, len, max, min, debug);
 	}
 
 	if (debug && lg->ops->plot_debug)
@@ -348,7 +352,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 /**
  * need erase() before, refresh() after
  */
-static void paint_plot(struct plot *p, bool debug)
+static void __paint_plot(struct plot *p, bool debug)
 {
 	plot_draw_title(p);
 	plot_draw_axes(p);
@@ -404,7 +408,7 @@ static void __plot_redraw(struct plot *p, bool debug)
 	 */
 	exec_key_handler(p->kb->current_key);
 
-	paint_plot(p, debug);
+	__paint_plot(p, debug);
 
 	if (p->help_expired_usec && p->help_expired_usec > usecs()) {
 		plot_help(p);
