@@ -65,10 +65,14 @@ test_key "t" "(base-e exponential)"
 test_key "\r" "1 "
 # Another enter
 test_key "\r" "cur=13="
-test_key "\033\[A" "KEY_UP"
+test_key "\033\[B" "cur=258="
 test_key "\033\[B" "KEY_DOWN"
-test_key "\033\[C" "KEY_RIGHT"
+test_key "\033\[A" "cur=259="
+test_key "\033\[A" "KEY_UP"
+test_key "\033\[D" "cur=260="
 test_key "\033\[D" "KEY_LEFT"
+test_key "\033\[C" "cur=261="
+test_key "\033\[C" "KEY_RIGHT"
 
 send "q"
 expect eof
