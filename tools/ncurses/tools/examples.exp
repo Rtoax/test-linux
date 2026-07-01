@@ -11,11 +11,12 @@ log_file -noappend examples.exp.log
 set title "TITLE_XXX"
 set xlabel "LABEL_X"
 set ylabel "LABEL_Y"
-set line1 "LINE_LABEL_1"
+set line0 "LLABEL_0"
+set line1 "LLABEL_1"
 
-spawn bash -c "while sleep 0.1; do echo 1; done |
+spawn bash -c "while sleep 0.01; do echo 1 2; done |
 	./plotcake --title $title --xlabel $xlabel --ylabel $ylabel \
-		-l $line1 --verbose"
+		-l $line0 -l $line1 --verbose"
 sleep 0.1
 
 proc test_init {pattern} {
@@ -46,13 +47,14 @@ proc test_key {key pattern} {
 # Verify initial plot
 test_init "$title"
 # test_init "$ylabel"
-test_init "$line1"
+test_init "$line0"
 test_init "plot(redraw="
 test_init "key(left="
 test_init "enter="
 test_init "github.com/rtoax/plotcake"
 
 # Verify keys
+test_key "l" " $line0"
 test_key "l" " $line1"
 test_key "h" "'q' and Esc: quit"
 test_key "r" "cur=114="
