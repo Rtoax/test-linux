@@ -2,7 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
 
-#define MY_VERSION "v1.5.4"
+#define MY_VERSION "v1.5.5"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -14,6 +14,8 @@
 #define KEY_HELP_ENTER "Enter: refresh plot"
 #define KEY_HELP_UP "Up: Uniform Scaling Up"
 #define KEY_HELP_DOWN "Down: Uniform Scaling Down"
+#define KEY_HELP_LEFT "Left: Curve shifts to the right (todo)"
+#define KEY_HELP_RIGHT "Right: Curve shifts to the left (todo)"
 
 #define ANSI_RED "\033[1;31m"
 #define ANSI_GREEN "\033[1;32m"

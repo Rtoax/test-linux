@@ -70,6 +70,8 @@ const char argp_prog_doc[] = ANSI_BOLD
 	"   " KEY_HELP_ENTER "\n"
 	"   " KEY_HELP_UP "\n"
 	"   " KEY_HELP_DOWN "\n"
+	"   " KEY_HELP_LEFT "\n"
+	"   " KEY_HELP_RIGHT "\n"
 	"\n" ANSI_BOLD "OPTIONS:" ANSI_RST;
 
 static const struct argp_option opts[] = {

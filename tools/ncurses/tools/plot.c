@@ -436,21 +436,21 @@ void plot_redraw(struct plot *p, bool debug)
 	}
 }
 
+static const char *key_helps[] = {
+	KEY_HELP_h,    KEY_HELP_l,     KEY_HELP_q,     KEY_HELP_r,
+	KEY_HELP_t,    KEY_HELP_v,     KEY_HELP_UP,    KEY_HELP_DOWN,
+	KEY_HELP_LEFT, KEY_HELP_RIGHT, KEY_HELP_ENTER,
+};
+
 void plot_help(const struct plot *p)
 {
 	int h = p->plotheight + p->bnd.top - 1;
 	int w = p->bnd.left + 1;
+	int n = sizeof(key_helps) / sizeof(key_helps[0]);
 
 	attron(flavor[C_BLUE] | A_BOLD);
-	mvprintw(h - 8, w, KEY_HELP_h);
-	mvprintw(h - 7, w, KEY_HELP_l);
-	mvprintw(h - 6, w, KEY_HELP_q);
-	mvprintw(h - 5, w, KEY_HELP_r);
-	mvprintw(h - 4, w, KEY_HELP_t);
-	mvprintw(h - 3, w, KEY_HELP_v);
-	mvprintw(h - 2, w, KEY_HELP_UP);
-	mvprintw(h - 1, w, KEY_HELP_DOWN);
-	mvprintw(h, w, KEY_HELP_ENTER);
+	for (int i = n - 1; i >= 0; i--)
+		mvprintw(h - i, w, key_helps[n - i - 1]);
 	attroff(flavor[C_BLUE] | A_BOLD);
 }
 
