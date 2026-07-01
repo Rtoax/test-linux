@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 {
 	int err = 0;
 	int maxfd = 0;
-	int freshtimerfd, keyfd, datafd, tmoutfd;
+	int freshtimerfd, keyfd, stdinfd, tmoutfd;
 	int sigpipe[2];
 	fd_set readfds;
 	char stdin_buffer[4096] = { 0 };
@@ -267,7 +267,7 @@ int main(int argc, char *argv[])
 	sig_rd_fd = sigpipe[0];
 	sig_wr_fd = sigpipe[1];
 
-	tmoutfd = freshtimerfd = keyfd = datafd = -1;
+	tmoutfd = freshtimerfd = keyfd = stdinfd = -1;
 
 	FD_ZERO(&readfds);
 
@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "ERROR: open /dev/tty failed, %m\n");
 			exit(EXIT_FAILURE);
 		}
-		datafd = STDIN_FILENO;
+		stdinfd = STDIN_FILENO;
 	} else
 		keyfd = STDIN_FILENO;
 
@@ -293,14 +293,14 @@ int main(int argc, char *argv[])
 	if (maxfd < keyfd)
 		maxfd = keyfd;
 
-	if (datafd != -1) {
-		FD_SET(datafd, &readfds);
-		if (maxfd < datafd)
-			maxfd = datafd;
+	if (stdinfd != -1) {
+		FD_SET(stdinfd, &readfds);
+		if (maxfd < stdinfd)
+			maxfd = stdinfd;
 	} else {
 		/**
-		 * When we read data from stdin, we no longer need a timer to
-		 * trigger the update.
+		 * Note: When we read data from stdin, we no longer need this
+		 * timer to trigger the update.
 		 */
 		freshtimerfd = new_timerfd(interval_nsecs);
 		FD_SET(freshtimerfd, &readfds);
@@ -348,7 +348,7 @@ int main(int argc, char *argv[])
 
 	init_flavor();
 
-	if (datafd == -1) {
+	if (stdinfd == -1) {
 		if (!file && ram) {
 			plot.title = plot.title ?: (title ?: "Memory Usage");
 			plot.label_x = plot.label_x ?: (xlabel ?: "Time");
@@ -510,9 +510,10 @@ int main(int argc, char *argv[])
 					redraw = true;
 				}
 			}
-		} else if (ret > 0 && datafd != -1 && FD_ISSET(datafd, &fds)) {
+		} else if (ret > 0 && stdinfd != -1 &&
+			   FD_ISSET(stdinfd, &fds)) {
 			memset(stdin_buffer, 0, sizeof(stdin_buffer));
-			ssize_t cnt = read(datafd, stdin_buffer,
+			ssize_t cnt = read(stdinfd, stdin_buffer,
 					   sizeof(stdin_buffer));
 			if (cnt > 0) {
 				redraw = true;
@@ -526,8 +527,8 @@ int main(int argc, char *argv[])
 	}
 
 end:
-	if (datafd != -1)
-		close(datafd);
+	if (stdinfd != -1)
+		close(stdinfd);
 	if (freshtimerfd != -1)
 		close(freshtimerfd);
 	if (tmoutfd != -1)
