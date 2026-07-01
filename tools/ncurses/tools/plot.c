@@ -469,7 +469,7 @@ void plot_help(const struct plot *p)
 
 	attron(flavor[C_BLUE] | A_BOLD);
 	for (int i = n - 1; i >= 0; i--)
-		mvprintw(h - i, w, key_helps[n - i - 1]);
+		mvprintw(h - i, w, "%s", key_helps[n - i - 1]);
 	attroff(flavor[C_BLUE] | A_BOLD);
 }
 
