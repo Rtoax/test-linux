@@ -2,6 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "file.h"
 #include "plot.h"
