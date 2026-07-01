@@ -68,7 +68,7 @@ static int save_txt(const struct plot *p)
 static int load_txt(struct plot *p, const char *file)
 {
 	int ln, err = 0;
-	char line[256];
+	char linebuf[256];
 	FILE *fp;
 
 	fp = fopen(file, "r");
@@ -78,18 +78,19 @@ static int load_txt(struct plot *p, const char *file)
 	}
 
 	ln = 0;
-	while (fgets(line, sizeof(line), fp) != NULL) {
+	while (fgets(linebuf, sizeof(linebuf), fp) != NULL) {
 		ln++;
-		if (line[0] == '#')
+		if (linebuf[0] == '#')
 			continue;
 
-		if (!strncmp(line, "plot ", 5)) {
-			char *start = line, *end;
-#define Check(s, c)                                                 \
-	if (s == NULL) {                                            \
-		fprintf(stderr, "Missing %s in line %d\n", #c, ln); \
-		err = -EINVAL;                                      \
-		break;                                              \
+		if (!strncmp(linebuf, "plot ", 5)) {
+			char *start = linebuf, *end;
+#define Check(s, c)                                                      \
+	if (s == NULL) {                                                 \
+		fprintf(stderr, "[%d] Missing %s in line %d, col %ld\n", \
+			__LINE__, #c, ln, (unsigned long)(s - linebuf)); \
+		err = -EINVAL;                                           \
+		break;                                                   \
 	}
 			start = strchr(start, '"') + 1;
 			Check(start - 1, '"');
@@ -114,8 +115,8 @@ static int load_txt(struct plot *p, const char *file)
 			*end = '\0';
 			p->label_y = strdup(start);
 
-		} else if (!strncmp(line, "lgroup ", 7)) {
-			char *start = line, *end;
+		} else if (!strncmp(linebuf, "lgroup ", 7)) {
+			char *start = linebuf, *end;
 
 			start = strchr(start, ' ') + 1;
 			Check(start - 1, ' ');
@@ -133,8 +134,8 @@ static int load_txt(struct plot *p, const char *file)
 				err = -EINVAL;
 				break;
 			}
-		} else if (!strncmp(line, "line ", 5)) {
-			char *start = line, *end;
+		} else if (!strncmp(linebuf, "line ", 5)) {
+			char *start = linebuf, *end;
 			int idx;
 			char *lname, *lcolor;
 			struct lgroup *lg = NULL;
@@ -191,13 +192,81 @@ static int load_txt(struct plot *p, const char *file)
 			}
 
 			/* line draw operation */
-			start = strrchr(line, ' ') + 1;
+			start = strrchr(linebuf, ' ') + 1;
 			Check(start - 1, ' ');
 
 			new_line(lg, lname, color_name2num(lcolor));
 
-		} else if (!strncmp(line, "value ", 6)) {
-			/* TODO */
+		} else if (!strncmp(linebuf, "value ", 6)) {
+			char *start = linebuf, *end;
+			struct lgroup *lg = NULL;
+			struct line *line = NULL;
+			int idx;
+			double v;
+			struct timeval tv;
+
+			/* lgroup index */
+			start = strchr(start, ' ') + 1;
+			Check(start - 1, ' ');
+			end = strchr(start, ' ');
+			Check(end, ' ');
+			*end = '\0';
+
+			idx = atoi(start);
+			lg = plot_lgroup(p, idx);
+			if (!lg) {
+				fprintf(stderr, "ERROR: not found lgroup %d.\n",
+					idx);
+				err = -EINVAL;
+				break;
+			}
+
+			/* line index */
+			start = end + 1;
+			end = strchr(start + 1, ' ');
+			Check(end, ' ');
+			*end = '\0';
+
+			idx = atoi(start);
+			line = lgroup_line(lg, idx);
+			if (!line) {
+				fprintf(stderr, "ERROR: not found line %d.\n",
+					idx);
+				err = -EINVAL;
+				break;
+			}
+
+			/* value */
+			start = end + 1;
+			end = strchr(start + 1, ' ');
+			Check(end, ' ');
+			*end = '\0';
+
+			if (sscanf(start, "%lf", &v) != 1) {
+				fprintf(stderr,
+					"ERROR: not found value in line %d.\n",
+					ln);
+				err = -EINVAL;
+				break;
+			}
+
+			/* timeval sec */
+			start = end + 1;
+			end = strchr(start + 1, ' ');
+			Check(end, ' ');
+			*end = '\0';
+
+			tv.tv_sec = strtoul(start, NULL, 10);
+
+			/* timeval usec */
+			start = end + 1;
+			end = strchr(start + 1, '\n');
+			Check(end, ' ');
+			*end = '\0';
+
+			tv.tv_usec = strtoul(start, NULL, 10);
+
+			line_add_value(line, v, -1, &tv);
 		} else {
 			err = -EINVAL;
 			break;

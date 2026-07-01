@@ -308,3 +308,14 @@ struct line *new_line(struct lgroup *lg, const char *name, int color)
 {
 	return new_line_ops(lg, name, color, ldraw_type2ops(dequeue_ltype()));
 }
+
+/* Get lgroup's line from index */
+struct line *lgroup_line(const struct lgroup *lg, int idx)
+{
+	for_each_line(lg, ln)
+	{
+		if (ln->id == idx)
+			return ln;
+	}
+	return NULL;
+}

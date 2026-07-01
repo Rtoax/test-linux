@@ -135,3 +135,5 @@ double line_range_min(struct line *l, int start, int len);
 struct line *new_line(struct lgroup *lg, const char *name, int color);
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 			  const struct ldraw_ops *ops);
+
+struct line *lgroup_line(const struct lgroup *lg, int idx);
