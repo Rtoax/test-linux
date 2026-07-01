@@ -47,7 +47,9 @@ proc test_key {key pattern} {
 test_init "$title"
 # test_init "$ylabel"
 test_init "$line1"
-test_init "redraw="
+test_init "plot(redraw="
+test_init "key(left="
+test_init "github.com/rtoax/plotcake"
 
 # Verify keys
 test_key "l" " $line1"
