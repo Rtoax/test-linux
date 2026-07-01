@@ -425,16 +425,16 @@ static void __plot_redraw(struct plot *p, bool debug)
 
 	__paint_plot(p, debug);
 
-	if (p->help_expired_usec && p->help_expired_usec > usecs()) {
+	if (p->expired_usec.help && p->expired_usec.help > usecs()) {
 		plot_help(p);
 	} else {
-		p->help_expired_usec = 0;
+		p->expired_usec.help = 0;
 	}
 
-	if (p->llabel_expired_usec && p->llabel_expired_usec > usecs()) {
+	if (p->expired_usec.llabel && p->expired_usec.llabel > usecs()) {
 		plot_llabel(p);
 	} else {
-		p->llabel_expired_usec = 0;
+		p->expired_usec.llabel = 0;
 	}
 
 	refresh();
@@ -509,7 +509,7 @@ void plot_llabel(const struct plot *p)
 static void key_h(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->help_expired_usec = usecs() + 1000000UL;
+	p->expired_usec.help = usecs() + 1000000UL;
 	plot_help(p);
 }
 
@@ -519,7 +519,7 @@ static void key_h(int key, void *arg)
 static void key_l(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->llabel_expired_usec = usecs() + 1000000UL;
+	p->expired_usec.llabel = usecs() + 1000000UL;
 	plot_llabel(p);
 }
 
@@ -531,8 +531,8 @@ static void key_r(int key, void *arg)
 	struct plot *p = arg;
 
 	plot_scaling_init(p);
-	p->help_expired_usec = 0;
-	p->llabel_expired_usec = 0;
+	p->expired_usec.help = 0;
+	p->expired_usec.llabel = 0;
 	p->plotshift = 0;
 }
 

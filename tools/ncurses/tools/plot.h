@@ -66,11 +66,12 @@ struct plot {
 	struct keyboard *kb;
 
 	/**
-	 * If this value is greater than the current time, help information
-	 * will be displayed.
+	 * Some information needs to be displayed for a longer time, so we set
+	 * a timeout.
 	 */
-	unsigned long help_expired_usec;
-	unsigned long llabel_expired_usec;
+	struct {
+		unsigned long help, llabel;
+	} expired_usec;
 
 	/**
 	 * When something happens internally, such as a change in the drawing
