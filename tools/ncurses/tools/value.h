@@ -16,6 +16,17 @@ struct value {
 };
 
 /**
+ * if value don't have next value, NaN returned, use isnan() check.
+ */
+static inline double delta_v(struct value *v)
+{
+	if (v->next)
+		return v->next->v - v->v;
+	else
+		return nan("NAN");
+}
+
+/**
  * For unbounded data streams generated in real time (containing negative, zero,
  * and positive numbers), directly taking log(x) of the original value will
  * result in a mathematical error or infinity (because x≤0 is meaningless).

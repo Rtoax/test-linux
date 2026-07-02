@@ -4,6 +4,6 @@
 int main(void)
 {
 	float a = nan("NAN");
-	printf("a = %f\n", a);
+	printf("a = %f, %d\n", a, isnan(a));
 	return 0;
 }
