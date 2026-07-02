@@ -107,6 +107,8 @@ void line_add_value(struct line *l, double v, long limit, struct timeval *tv);
 double line_range_avg(struct line *l, int start, int len);
 double line_range_max(struct line *l, int start, int interval, int len);
 double line_range_min(struct line *l, int start, int interval, int len);
+double line_range_delta_max(struct line *l, int start, int interval, int len);
+double line_range_delta_min(struct line *l, int start, int interval, int len);
 
 struct line *new_line(struct lgroup *lg, const char *name, int color);
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,

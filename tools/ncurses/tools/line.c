@@ -220,6 +220,8 @@ double line_range_avg(struct line *l, int start, int len)
 enum range_op {
 	RANGE_OP_MAX,
 	RANGE_OP_MIN,
+	RANGE_OP_DELTA_MAX, /* see delta_v() */
+	RANGE_OP_DELTA_MIN, /* see delta_v() */
 };
 
 static double __line_range_rslt(struct line *l, int start, int interval,
@@ -230,9 +232,11 @@ static double __line_range_rslt(struct line *l, int start, int interval,
 
 	switch (op) {
 	case RANGE_OP_MAX:
+	case RANGE_OP_DELTA_MAX:
 		rslt = -DBL_MAX;
 		break;
 	case RANGE_OP_MIN:
+	case RANGE_OP_DELTA_MIN:
 		rslt = DBL_MAX;
 		break;
 	}
@@ -244,6 +248,7 @@ static double __line_range_rslt(struct line *l, int start, int interval,
 
 	while (v) {
 		if (i >= start && i < start + len) {
+			double delta = delta_v(v);
 			switch (op) {
 			case RANGE_OP_MAX:
 				if (rslt < v->v)
@@ -252,6 +257,20 @@ static double __line_range_rslt(struct line *l, int start, int interval,
 			case RANGE_OP_MIN:
 				if (rslt > v->v)
 					rslt = v->v;
+				break;
+			case RANGE_OP_DELTA_MAX:
+				if (isnan(delta)) {
+					continue;
+				}
+				if (rslt < delta)
+					rslt = delta;
+				break;
+			case RANGE_OP_DELTA_MIN:
+				if (isnan(delta)) {
+					continue;
+				}
+				if (rslt > delta)
+					rslt = delta;
 				break;
 			}
 		}
@@ -276,9 +295,19 @@ double line_range_max(struct line *l, int start, int interval, int len)
 	return __line_range_rslt(l, start, interval, len, RANGE_OP_MAX);
 }
 
+double line_range_delta_max(struct line *l, int start, int interval, int len)
+{
+	return __line_range_rslt(l, start, interval, len, RANGE_OP_DELTA_MAX);
+}
+
 double line_range_min(struct line *l, int start, int interval, int len)
 {
 	return __line_range_rslt(l, start, interval, len, RANGE_OP_MIN);
+}
+
+double line_range_delta_min(struct line *l, int start, int interval, int len)
+{
+	return __line_range_rslt(l, start, interval, len, RANGE_OP_DELTA_MIN);
 }
 
 /**
