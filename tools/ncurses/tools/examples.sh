@@ -3,6 +3,7 @@
 
 # -m: (set -o monitor) monitor mode
 set -em
+readonly LOG=${0}.log
 readonly PLOTCAKE=./plotcake
 
 readonly LINE_TYPES=( $(${PLOTCAKE} -L nonsense 2>/dev/null || true) )
@@ -29,8 +30,13 @@ sigint() {
 }
 trap sigint INT
 
+_eval() {
+	eval "${@}"
+	echo "${@}" | tee --append ${LOG}
+}
+
 run() {
-	${PLOTCAKE} ${args[@]} -I 10ms --interval=10ms "${@}"
+	_eval ${PLOTCAKE} ${args[@]} -I 10ms --interval=10ms "${@}"
 }
 
 # $1: line number
@@ -39,12 +45,15 @@ __stdin() {
 	shift
 	while seq --separator=' ' 1 1 ${NUM}; do
 		sleep ${Interval}
-	done | ${PLOTCAKE} ${args[@]} "${@}"
+	done | _eval ${PLOTCAKE} ${args[@]} "${@}"
 }
 stdin() {
 	__stdin ${#LINE_TYPES[@]} "${@}"
 	__stdin ${#LINE_COLORS[@]} "${@}"
 }
+
+# __main__
+rm -f ${LOG}
 
 run -? --help
 run --usage
