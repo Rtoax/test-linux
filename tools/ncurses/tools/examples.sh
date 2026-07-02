@@ -35,6 +35,21 @@ _eval() {
 	echo "${@}" | tee --append ${LOG}
 }
 
+# $1: type: none
+#     none: 1 2 3 4 ...
+# $2: num
+_seq() {
+	local TYPE=$1
+	shift
+	local NUM=$1
+	shift
+	case $TYPE in
+	none | *)
+		seq --separator=' ' 1 1 ${NUM}
+		;;
+	esac
+}
+
 run() {
 	_eval ${PLOTCAKE} ${args[@]} -I 10ms --interval=10ms "${@}"
 }
@@ -43,7 +58,7 @@ run() {
 __stdin() {
 	local NUM=$1
 	shift
-	while seq --separator=' ' 1 1 ${NUM}; do
+	while _seq none ${NUM}; do
 		sleep ${Interval}
 	done | _eval ${PLOTCAKE} ${args[@]} "${@}"
 }
