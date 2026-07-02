@@ -3,6 +3,7 @@
 
 # -m: (set -o monitor) monitor mode
 set -em
+readonly PLOTCAKE=./plotcake
 
 [[ -z ${I} ]] && I=0.001
 [[ -z ${TMOUT} ]] && TMOUT=200ms
@@ -22,16 +23,16 @@ sigint() {
 }
 trap sigint INT
 
-line_types=( $(./plotcake -L nonsense 2>/dev/null || true) )
+readonly line_types=( $(${PLOTCAKE} -L nonsense 2>/dev/null || true) )
 
 run() {
-	./plotcake ${args[@]} -I 10ms --interval=10ms "${@}"
+	${PLOTCAKE} ${args[@]} -I 10ms --interval=10ms "${@}"
 }
 
 stdin() {
 	while seq --separator=' ' 1 1 ${#line_types[@]}; do
 		sleep ${Interval}
-	done | ./plotcake ${args[@]} "${@}"
+	done | ${PLOTCAKE} ${args[@]} "${@}"
 }
 
 run -? --help
@@ -54,6 +55,6 @@ while true; do
 		seq --separator=' ' 1 1 $i
 		sleep ${Interval}
 	done
-done | ./plotcake ${args[@]}
+done | ${PLOTCAKE} ${args[@]}
 
 echo "Byebye"
