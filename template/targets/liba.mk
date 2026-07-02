@@ -40,12 +40,15 @@ $(target-liba-y): %:
 # Auto add library object.d and object's depends, for example:
 #
 #   target-liba-y := libx.a
+#   libx.a-deps := x.h
 #   libx.a-objs := ${OUTPUT}x.a.o # add ${OUTPUT} above
 #   x.a.o-deps := x.h y.h z.h
 #
 # Then:
 #
+#   include ${OUTPUT}x.a.o.d
 #   ${OUTPUT}x.a.o: x.h y.h z.h
+#   libx.a: x.h
 #
 $(foreach a, ${target-liba-y}, \
   $(foreach obj, ${${a}-objs}, \
