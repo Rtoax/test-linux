@@ -13,12 +13,12 @@
 /**
  * Scaling plotting values, different from @plotscaling.
  */
-enum numerical_scaling {
-	NS_NONE = 0,
-	NS_LOGARITHMIC,
-	NS_LOGARITHMIC10,
-	NS_EXPONENTIAL,
-	NS_MAX,
+enum curve_type {
+	CURVE_TYPE_NONE = 0,
+	CURVE_TYPE_LOGARITHMIC,
+	CURVE_TYPE_LOGARITHMIC10,
+	CURVE_TYPE_EXPONENTIAL,
+	CURVE_TYPE_MAX,
 };
 
 struct plot {
@@ -61,7 +61,7 @@ struct plot {
 	int lgcount;
 	unsigned long redrawcount;
 
-	enum numerical_scaling v_scaling;
+	enum curve_type curve_type;
 
 	struct keyboard *kb;
 

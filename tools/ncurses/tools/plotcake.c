@@ -189,13 +189,13 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		}
 		break;
 	case ARG_LOGARITHMIC:
-		plot.v_scaling = NS_LOGARITHMIC;
+		plot.curve_type = CURVE_TYPE_LOGARITHMIC;
 		break;
 	case ARG_EXPONENTIAL:
-		plot.v_scaling = NS_EXPONENTIAL;
+		plot.curve_type = CURVE_TYPE_EXPONENTIAL;
 		break;
 	case ARG_LOGARITHMIC10:
-		plot.v_scaling = NS_LOGARITHMIC10;
+		plot.curve_type = CURVE_TYPE_LOGARITHMIC10;
 		break;
 	case ARG_LINE_TYPES:
 		ltype_print_names(stdout);
@@ -474,8 +474,9 @@ int main(int argc, char *argv[])
 				case 't': /* select numerical scaling type */
 					plot.kb->cnt.t++;
 					redraw = true;
-					plot.v_scaling =
-						(plot.v_scaling + 1) % NS_MAX;
+					plot.curve_type =
+						(plot.curve_type + 1) %
+						CURVE_TYPE_MAX;
 					break;
 				case 'h': /* help */
 					plot.kb->cnt.h++;

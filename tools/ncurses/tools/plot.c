@@ -137,20 +137,20 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 	int prev_h = -1;
 	chtype color = flavor[ln->color];
 
-	switch (p->v_scaling) {
-	case NS_LOGARITHMIC:
+	switch (p->curve_type) {
+	case CURVE_TYPE_LOGARITHMIC:
 		max = signed_log_trans(max);
 		min = signed_log_trans(min);
 		break;
-	case NS_LOGARITHMIC10:
+	case CURVE_TYPE_LOGARITHMIC10:
 		max = signed_log10_trans(max);
 		min = signed_log10_trans(min);
 		break;
-	case NS_EXPONENTIAL:
+	case CURVE_TYPE_EXPONENTIAL:
 		max = exp(max);
 		min = exp(min);
 		break;
-	case NS_NONE:
+	case CURVE_TYPE_NONE:
 	default:
 		break;
 	}
@@ -193,11 +193,11 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		double span = .0f, diff = .0f;
 		double plot_v = v->v;
 
-		if (p->v_scaling == NS_LOGARITHMIC)
+		if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
 			plot_v = v->log_v;
-		else if (p->v_scaling == NS_LOGARITHMIC10)
+		else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
 			plot_v = v->log10_v;
-		else if (p->v_scaling == NS_EXPONENTIAL)
+		else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 			plot_v = v->exp_v;
 
 		if (max == min || max == 0.0 || max < min) {
@@ -252,13 +252,13 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		char sv[64];
 		int nc;
 
-		if (p->v_scaling == NS_LOGARITHMIC)
+		if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
 			nc = snprintf(sv, 64, "s*log(1+|%.3f|)=%.3f", v->v,
 				      plot_v);
-		else if (p->v_scaling == NS_LOGARITHMIC10)
+		else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
 			nc = snprintf(sv, 64, "s*log10(1+|%.3f|)=%.3f", v->v,
 				      plot_v);
-		else if (p->v_scaling == NS_EXPONENTIAL)
+		else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 			nc = snprintf(sv, 64, "exp(%.3f)=%.3f", v->v, plot_v);
 		else
 			nc = snprintf(sv, 64, "%.3f", plot_v);
@@ -287,14 +287,14 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 void plot_draw_title(const struct plot *p)
 {
 	char buf[128], *title = buf;
-	if (p->v_scaling == NS_LOGARITHMIC)
+	if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
 		snprintf(buf, 128, "%s (signed logarithmic transformation)",
 			 p->title);
-	else if (p->v_scaling == NS_LOGARITHMIC10)
+	else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
 		snprintf(buf, 128,
 			 "%s (base-10 signed logarithmic transformation)",
 			 p->title);
-	else if (p->v_scaling == NS_EXPONENTIAL)
+	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 		snprintf(buf, 128, "%s (base-e exponential)", p->title);
 	else
 		title = p->title;
