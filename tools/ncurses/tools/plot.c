@@ -269,7 +269,7 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 			nc = snprintf(sv, 64, "exp(%.3f)=%.3f", v->v, plot_v);
 		else if (p->curve_type == CURVE_TYPE_DELTA)
-			nc = snprintf(sv, 64, "delta(%.3f - %.3f)=%.3f",
+			nc = snprintf(sv, 64, "delta(%.3f-%.3f)=%.3f",
 				      v->next->v, v->v, plot_v);
 		else
 			nc = snprintf(sv, 64, "%.3f", plot_v);
