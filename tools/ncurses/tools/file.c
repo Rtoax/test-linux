@@ -7,6 +7,7 @@
 #include "file.h"
 #include "plot.h"
 #include "load.h"
+#include "line.h"
 #include "ram.h"
 #ifdef HAVE_JSON_C
 #include <json-c/json.h>

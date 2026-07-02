@@ -6,7 +6,7 @@
 #include <math.h>
 #include <ncurses.h>
 #include <string.h>
-#include "value.h"
+#include "line.h"
 #include "plot.h"
 
 static char **llabels = NULL;

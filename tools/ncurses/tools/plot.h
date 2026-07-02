@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include "config.h"
 #include "keyboard.h"
-#include "value.h"
+#include "line.h"
 #include "utils.h"
 
 /**

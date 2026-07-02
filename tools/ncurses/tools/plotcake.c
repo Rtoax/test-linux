@@ -30,7 +30,7 @@
 #include "file.h"
 #include "load.h"
 #include "keyboard.h"
-#include "value.h"
+#include "line.h"
 #include "plot.h"
 #include "ram.h"
 #include "stdin.h"

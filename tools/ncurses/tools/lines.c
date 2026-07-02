@@ -5,7 +5,7 @@
 #include <string.h>
 #include "config.h"
 #include "plot.h"
-#include "value.h"
+#include "line.h"
 
 static void nothing(struct line *ln, int y, int x)
 {

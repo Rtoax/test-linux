@@ -2,7 +2,7 @@
 // Copyright (C) 2026 Rong Tao
 #include <stdlib.h>
 #include <unistd.h>
-#include "value.h"
+#include "line.h"
 #include "plot.h"
 #include "load.h"
 
