@@ -39,6 +39,7 @@ enum {
 	ARG_LOGARITHMIC = 200,
 	ARG_LOGARITHMIC10,
 	ARG_EXPONENTIAL,
+	ARG_LINE_TYPES,
 };
 
 const char argp_prog_doc[] = ANSI_BOLD
@@ -82,7 +83,9 @@ static const struct argp_option opts[] = {
 	  "Specify line label (may be listed multiple times)" },
 	{ "ltype", 'L', "TYPE", 0,
 	  "Specify line types, if an invalid value is entered, the supported "
-	  "line types will be listed (may be listed multiple times)" },
+	  "line types will be listed or use --ltypes show all types supported "
+	  "(may be listed multiple times)" },
+	{ "ltypes", ARG_LINE_TYPES, NULL, 1, "show line types for --ltype" },
 	{ "lcolor", 'C', "COLOR", 0,
 	  "Specify line colors, if an invalid value is entered, the supported "
 	  "line colors will be listed, can match color prefixes, such as 'r' "
@@ -190,6 +193,10 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case ARG_LOGARITHMIC10:
 		plot.v_scaling = NS_LOGARITHMIC10;
+		break;
+	case ARG_LINE_TYPES:
+		ldraw_print_names(stdout);
+		exit(EXIT_SUCCESS);
 		break;
 	case 'I':
 		interval_nsecs = str2nsecs(arg);

@@ -6,7 +6,7 @@ set -em
 readonly LOG=${0}.log
 readonly PLOTCAKE=./plotcake
 
-readonly LINE_TYPES=( $(${PLOTCAKE} -L nonsense 2>/dev/null || true) )
+readonly LINE_TYPES=( $(${PLOTCAKE} --ltypes 2>/dev/null || true) )
 readonly LINE_TYPES_ARGS=( $(for t in ${LINE_TYPES[@]}; do echo "-L ${t}"; done) )
 
 readonly LINE_COLORS=( $(${PLOTCAKE} -C nonsense 2>/dev/null || true) )
