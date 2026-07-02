@@ -1,6 +1,6 @@
-=====
-Regex
-=====
+===========
+SHELL Regex
+===========
 
 - `.`: matches any single character;
 - `.*`: matches any character of any length;

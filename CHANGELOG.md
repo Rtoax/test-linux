@@ -12,7 +12,8 @@ and this project adheres to
 #### Added
 #### Changed
 #### Deprecated
-#### Doc
+#### Documentation
+- shell: add env.rst;
 #### Fixed
 #### Linux Kernel
 #### Removed
