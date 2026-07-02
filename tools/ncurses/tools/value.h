@@ -3,6 +3,7 @@
 #pragma once
 #include <math.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <sys/time.h>
 #include <time.h>
 #include "config.h"
@@ -109,6 +110,7 @@ extern const struct ldraw_ops unicode_line_ops;
 extern const struct ldraw_ops unicode_dashed_line_ops;
 extern const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX];
 
+int ldraw_print_names(FILE *fp);
 bool ldraw_hasname(const char *name);
 enum ltype_enum ldraw_name2type(const char *name);
 const struct ldraw_ops *ldraw_type2ops(enum ltype_enum t);

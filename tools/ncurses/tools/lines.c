@@ -251,6 +251,14 @@ const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_HEART_UNICODE] = &unicode_heart_line_ops,
 };
 
+int ldraw_print_names(FILE *fp)
+{
+	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++) {
+		fprintf(fp, "\t%s\n", ldraw_operations[i]->name);
+	}
+	return 0;
+}
+
 bool ldraw_hasname(const char *name)
 {
 	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++)
@@ -261,9 +269,7 @@ bool ldraw_hasname(const char *name)
 	 */
 	fprintf(stderr, "ERROR: not support line type '%s', please use:\n",
 		name);
-	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++) {
-		fprintf(stdout, "\t%s\n", ldraw_operations[i]->name);
-	}
+	ldraw_print_names(stdout);
 	return false;
 }
 
