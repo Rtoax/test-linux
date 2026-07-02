@@ -55,6 +55,16 @@ stdin() {
 # __main__
 rm -f ${LOG}
 
+if [[ " ${LINE_TYPES[@]} " != " unicode-bold unicode-bold-dashed unicode-boldbold unicode unicode-dashed unicode-area-chart utf8 unicode-heart " ]]; then
+	echo >&2 "ERROR: lint types not match!"
+	exit 1
+fi
+
+if [[ " ${LINE_COLORS[@]} " != " green red cyan white magenta blue yellow " ]]; then
+	echo >&2 "ERROR: lint color not match!"
+	exit 1
+fi
+
 run -? --help
 run --usage
 run -V --version
