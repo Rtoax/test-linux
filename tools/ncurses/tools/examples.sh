@@ -8,6 +8,9 @@ readonly PLOTCAKE=./plotcake
 readonly LINE_TYPES=( $(${PLOTCAKE} -L nonsense 2>/dev/null || true) )
 readonly LINE_TYPES_ARGS=( $(for t in ${LINE_TYPES[@]}; do echo "-L ${t}"; done) )
 
+readonly LINE_COLORS=( $(${PLOTCAKE} -C nonsense 2>/dev/null || true) )
+readonly LINE_COLORS_ARGS=( $(for t in ${LINE_COLORS[@]}; do echo "-C ${t}"; done) )
+
 [[ -z ${I} ]] && I=0.001
 [[ -z ${TMOUT} ]] && TMOUT=200ms
 
@@ -30,17 +33,24 @@ run() {
 	${PLOTCAKE} ${args[@]} -I 10ms --interval=10ms "${@}"
 }
 
-stdin() {
-	while seq --separator=' ' 1 1 ${#LINE_TYPES[@]}; do
+# $1: line number
+__stdin() {
+	local NUM=$1
+	shift
+	while seq --separator=' ' 1 1 ${NUM}; do
 		sleep ${Interval}
 	done | ${PLOTCAKE} ${args[@]} "${@}"
+}
+stdin() {
+	__stdin ${#LINE_TYPES[@]} "${@}"
+	__stdin ${#LINE_COLORS[@]} "${@}"
 }
 
 run -? --help
 run --usage
 run -V --version
 run -M --ram
-run ${LINE_TYPES_ARGS[@]}
+run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
 run -o data
 run -f data.txt
 
