@@ -86,7 +86,7 @@ enum lcolor_enum dequeue_lcolor(void)
 	return lcolors[++idx_lcolors];
 }
 
-enum lcolor_enum nextcolor(enum lcolor_enum c)
+enum lcolor_enum nextlcolor(enum lcolor_enum c)
 {
 	enum lcolor_enum color = dequeue_lcolor();
 	if (color != C_UNKNOWN)
@@ -100,7 +100,7 @@ const char *color_names[C_MAX] = {
 	[C_YELLOW] = "yellow",
 };
 
-int color_print_names(FILE *fp)
+int lcolor_print_names(FILE *fp)
 {
 	for (int i = 0; i < C_MAX; i++) {
 		fprintf(fp, "\t%s\n", color_names[i]);
@@ -111,7 +111,7 @@ int color_print_names(FILE *fp)
 /**
  * @return: return C_UNKNOWN if not found.
  */
-enum lcolor_enum color_name2num(const char *name)
+enum lcolor_enum lcolor_name2num(const char *name)
 {
 	for (int i = 0; i < C_MAX; i++)
 		if (!strncasecmp(color_names[i], name, strlen(name)))
@@ -120,13 +120,13 @@ enum lcolor_enum color_name2num(const char *name)
 	 * print error to stderr, hint to stdout.
 	 */
 	fprintf(stderr, "ERROR: not support color '%s', please use:\n", name);
-	color_print_names(stdout);
+	lcolor_print_names(stdout);
 	return C_UNKNOWN;
 }
 
-bool hascolor_name(const char *name)
+bool lcolor_hasname(const char *name)
 {
-	return color_name2num(name) != C_UNKNOWN;
+	return lcolor_name2num(name) != C_UNKNOWN;
 }
 
 static int dequeue_value_from_head(struct line *l)

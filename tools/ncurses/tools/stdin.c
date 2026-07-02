@@ -22,7 +22,7 @@ static void __add_line(struct lgroup *lg, int i)
 {
 	char name[64] = { 0 };
 	snprintf(name, 64, "line%d", i);
-	enum lcolor_enum color = nextcolor(i);
+	enum lcolor_enum color = nextlcolor(i);
 
 	if (i < get_nr_ltypes())
 		new_line(lg, name, color);

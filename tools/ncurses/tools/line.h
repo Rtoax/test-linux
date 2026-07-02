@@ -98,10 +98,10 @@ const char *dequeue_llabel(void);
 int enqueue_lcolor(enum lcolor_enum c);
 enum lcolor_enum dequeue_lcolor(void);
 int get_nr_lcolors(void);
-int color_print_names(FILE *fp);
-enum lcolor_enum color_name2num(const char *name);
-bool hascolor_name(const char *name);
-enum lcolor_enum nextcolor(enum lcolor_enum c);
+int lcolor_print_names(FILE *fp);
+enum lcolor_enum lcolor_name2num(const char *name);
+bool lcolor_hasname(const char *name);
+enum lcolor_enum nextlcolor(enum lcolor_enum c);
 
 void line_add_value(struct line *l, double v, long limit, struct timeval *tv);
 double line_range_avg(struct line *l, int start, int len);

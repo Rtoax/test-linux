@@ -191,7 +191,7 @@ static int load_txt(struct plot *p, const char *file)
 			Check(end, ' ');
 			*end = '\0';
 			lcolor = start;
-			if (!hascolor_name(lcolor)) {
+			if (!lcolor_hasname(lcolor)) {
 				fprintf(stderr, "ERROR: unknown color '%s'.\n",
 					lcolor);
 				err = -EINVAL;
@@ -202,7 +202,7 @@ static int load_txt(struct plot *p, const char *file)
 			start = strrchr(linebuf, ' ') + 1;
 			Check(start - 1, ' ');
 
-			new_line(lg, lname, color_name2num(lcolor));
+			new_line(lg, lname, lcolor_name2num(lcolor));
 
 		} else if (!strncmp(linebuf, "value ", 6)) {
 			char *start = linebuf, *end;

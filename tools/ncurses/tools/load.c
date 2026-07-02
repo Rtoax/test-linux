@@ -8,9 +8,9 @@
 
 static void loadavg_create(struct lgroup *lg, void *arg)
 {
-	new_line(lg, "load1", nextcolor(C_RED));
-	new_line(lg, "load5", nextcolor(C_GREEN));
-	new_line(lg, "load15", nextcolor(C_BLUE));
+	new_line(lg, "load1", nextlcolor(C_RED));
+	new_line(lg, "load5", nextlcolor(C_GREEN));
+	new_line(lg, "load15", nextlcolor(C_BLUE));
 }
 
 static void loadavg_update(struct lgroup *lg, void *arg)
