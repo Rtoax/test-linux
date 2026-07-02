@@ -150,6 +150,7 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		max = exp(max);
 		min = exp(min);
 		break;
+	case CURVE_TYPE_DELTA:
 	case CURVE_TYPE_NONE:
 	default:
 		break;
@@ -199,6 +200,14 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 			plot_v = v->log10_v;
 		else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 			plot_v = v->exp_v;
+		else if (p->curve_type == CURVE_TYPE_DELTA) {
+			plot_v = delta_v(v);
+			/* touch the end of line */
+			if (isnan(plot_v)) {
+				iv = ln_shift_count;
+				goto print_llabel;
+			}
+		}
 
 		if (max == min || max == 0.0 || max < min) {
 			diff = 0;
@@ -248,7 +257,6 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 		}
 
 		/* set y axis */
-		attron(color);
 		char sv[64];
 		int nc;
 
@@ -260,14 +268,21 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 				      plot_v);
 		else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 			nc = snprintf(sv, 64, "exp(%.3f)=%.3f", v->v, plot_v);
+		else if (p->curve_type == CURVE_TYPE_DELTA)
+			nc = snprintf(sv, 64, "delta(%.3f - %.3f)=%.3f",
+				      v->next->v, v->v, plot_v);
 		else
 			nc = snprintf(sv, 64, "%.3f", plot_v);
 
 		if (p->bnd_prev_max.left < nc)
 			p->bnd_prev_max.left = nc;
 
+		attron(color);
 		mvprintw(h, 0, "%s", sv);
+		attroff(color);
 
+print_llabel:
+		attron(color);
 		if (iv + 1 + p->plotscaling > ln_shift_count) {
 			mvprintw(h, w + 1, "%s", ln->name);
 			nc = strlen(ln->name);
@@ -296,6 +311,8 @@ void plot_draw_title(const struct plot *p)
 			 p->title);
 	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 		snprintf(buf, 128, "%s (base-e exponential)", p->title);
+	else if (p->curve_type == CURVE_TYPE_DELTA)
+		snprintf(buf, 128, "%s (delta)", p->title);
 	else
 		title = p->title;
 	mvaddstr(0, (p->width - strlen(title)) / 2, title);
@@ -348,8 +365,15 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 		start = l->count - len - shift;
 
 		double _max, _min;
-		_max = line_range_max(l, start, p->plotscaling, len);
-		_min = line_range_min(l, start, p->plotscaling, len);
+		if (p->curve_type == CURVE_TYPE_DELTA) {
+			_max = line_range_delta_max(l, start, p->plotscaling,
+						    len);
+			_min = line_range_delta_min(l, start, p->plotscaling,
+						    len);
+		} else {
+			_max = line_range_max(l, start, p->plotscaling, len);
+			_min = line_range_min(l, start, p->plotscaling, len);
+		}
 		max = max < _max ? _max : max;
 		min = min > _min ? _min : min;
 	}

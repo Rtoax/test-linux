@@ -105,6 +105,7 @@ run -f data.txt
 run --logarithmic
 run --logarithmic10
 run --exponential
+run --delta
 
 stdin -V --version
 stdin --usage
@@ -114,6 +115,7 @@ stdin ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
 stdin --logarithmic
 stdin --logarithmic10
 stdin --exponential
+stdin --delta
 
 while true; do
 	for i in 2 4 1 4 6 1 9 1 2 3 4 5; do

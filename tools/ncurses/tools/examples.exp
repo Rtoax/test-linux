@@ -61,6 +61,7 @@ test_key "r" "cur=114="
 test_key "t" "(signed logarithmic transformation)"
 test_key "t" "(base-10 signed logarithmic transformation)"
 test_key "t" "(base-e exponential)"
+test_key "t" "(delta)"
 # First enter
 test_key "\r" "1 "
 # Another enter

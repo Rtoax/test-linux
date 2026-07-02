@@ -260,14 +260,14 @@ static double __line_range_rslt(struct line *l, int start, int interval,
 				break;
 			case RANGE_OP_DELTA_MAX:
 				if (isnan(delta)) {
-					continue;
+					break;
 				}
 				if (rslt < delta)
 					rslt = delta;
 				break;
 			case RANGE_OP_DELTA_MIN:
 				if (isnan(delta)) {
-					continue;
+					break;
 				}
 				if (rslt > delta)
 					rslt = delta;

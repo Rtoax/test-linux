@@ -39,6 +39,7 @@ enum {
 	ARG_LOGARITHMIC = 200,
 	ARG_LOGARITHMIC10,
 	ARG_EXPONENTIAL,
+	ARG_DELTA,
 	ARG_LINE_TYPES,
 	ARG_LINE_COLORS,
 };
@@ -105,6 +106,8 @@ static const struct argp_option opts[] = {
 	  "different (shortcut " KEY_HELP_t ")" },
 	{ "exponential", ARG_EXPONENTIAL, NULL, 1,
 	  "Use base-e exponential (shortcut " KEY_HELP_t ")" },
+	{ "delta", ARG_DELTA, NULL, 1,
+	  "Use delta value (shortcut " KEY_HELP_t ")" },
 	{ "tmout", 't', "SEC", 0,
 	  "Specify timeout time, the default unit is nanoseconds, but units "
 	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
@@ -134,6 +137,7 @@ static char *file = NULL;
 static char *title = NULL;
 static char *xlabel = NULL;
 static char *ylabel = NULL;
+static enum curve_type curve_type = CURVE_TYPE_NONE;
 
 struct plot plot = { 0 };
 struct keyboard keyboard = { 0 };
@@ -189,13 +193,16 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		}
 		break;
 	case ARG_LOGARITHMIC:
-		plot.curve_type = CURVE_TYPE_LOGARITHMIC;
-		break;
-	case ARG_EXPONENTIAL:
-		plot.curve_type = CURVE_TYPE_EXPONENTIAL;
+		curve_type = CURVE_TYPE_LOGARITHMIC;
 		break;
 	case ARG_LOGARITHMIC10:
-		plot.curve_type = CURVE_TYPE_LOGARITHMIC10;
+		curve_type = CURVE_TYPE_LOGARITHMIC10;
+		break;
+	case ARG_EXPONENTIAL:
+		curve_type = CURVE_TYPE_EXPONENTIAL;
+		break;
+	case ARG_DELTA:
+		curve_type = CURVE_TYPE_DELTA;
 		break;
 	case ARG_LINE_TYPES:
 		ltype_print_names(stdout);
@@ -357,6 +364,8 @@ int main(int argc, char *argv[])
 	nodelay(stdscr, TRUE);
 
 	init_flavor();
+
+	plot.curve_type = curve_type;
 
 	if (stdinfd == -1) {
 		if (!file && ram) {
