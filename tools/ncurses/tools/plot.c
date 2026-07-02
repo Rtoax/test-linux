@@ -347,8 +347,8 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 
 		start = l->count - len - shift;
 
-		double _max = line_range_max(l, start, len);
-		double _min = line_range_min(l, start, len);
+		double _max = line_range_max(l, start, p->plotscaling, len);
+		double _min = line_range_min(l, start, p->plotscaling, len);
 		max = max < _max ? _max : max;
 		min = min > _min ? _min : min;
 	}

@@ -217,25 +217,37 @@ double line_range_avg(struct line *l, int start, int len)
 	return sum / n;
 }
 
-double line_range_max(struct line *l, int start, int len)
+double line_range_max(struct line *l, int start, int interval, int len)
 {
 	int i = 0;
 	double max = -DBL_MAX;
 	struct value *v = l->head;
+
 	if (start < 0)
 		start = 0;
+
 	while (v) {
 		if (i >= start && i < start + len) {
 			if (max < v->v)
 				max = v->v;
 		}
-		i++;
-		v = v->next;
+		if (i < start) {
+			i++;
+			v = v->next;
+		} else {
+			for (int j = 0; j < interval; j++) {
+				v = v->next;
+				if (!v)
+					goto end_loop;
+			}
+			i += interval;
+		}
 	}
+end_loop:
 	return max;
 }
 
-double line_range_min(struct line *l, int start, int len)
+double line_range_min(struct line *l, int start, int interval, int len)
 {
 	int i = 0;
 	double min = DBL_MAX;
@@ -247,9 +259,19 @@ double line_range_min(struct line *l, int start, int len)
 			if (min > v->v)
 				min = v->v;
 		}
-		i++;
-		v = v->next;
+		if (i < start) {
+			i++;
+			v = v->next;
+		} else {
+			for (int j = 0; j < interval; j++) {
+				v = v->next;
+				if (!v)
+					goto end_loop;
+			}
+			i += interval;
+		}
 	}
+end_loop:
 	return min;
 }
 
