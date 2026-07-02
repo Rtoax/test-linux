@@ -35,8 +35,9 @@ _eval() {
 	echo "${@}" | tee --append ${LOG}
 }
 
-# $1: type: none
+# $1: type: none rand
 #     none: 1 2 3 4 ...
+#     rand: R1 R2 R3 R4 ...
 # $2: num
 _seq() {
 	local TYPE=$1
@@ -44,6 +45,14 @@ _seq() {
 	local NUM=$1
 	shift
 	case $TYPE in
+	rand)
+		local x
+		for x in $(seq 1 1 ${NUM})
+		do
+			printf "$RANDOM "
+		done
+		echo
+		;;
 	none | *)
 		seq --separator=' ' 1 1 ${NUM}
 		;;
@@ -55,16 +64,19 @@ run() {
 }
 
 # $1: line number
+# $2: seq type, see _seq()'s type param
 __stdin() {
 	local NUM=$1
 	shift
-	while _seq none ${NUM}; do
+	local SEQ_TYPE=$1
+	shift
+	while _seq ${SEQ_TYPE} ${NUM}; do
 		sleep ${Interval}
 	done | _eval ${PLOTCAKE} ${args[@]} "${@}"
 }
 stdin() {
-	__stdin ${#LINE_TYPES[@]} "${@}"
-	__stdin ${#LINE_COLORS[@]} "${@}"
+	__stdin ${#LINE_TYPES[@]} none "${@}"
+	__stdin ${#LINE_COLORS[@]} none "${@}"
 }
 
 # __main__
