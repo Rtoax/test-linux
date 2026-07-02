@@ -69,14 +69,19 @@ run -? --help
 run --usage
 run -V --version
 run -M --ram
+stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
 run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
 run -o data
 run -f data.txt
+run --logarithmic
+run --logarithmic10
+run --exponential
 
 stdin -V --version
 stdin --usage
+stdin -? --help
 stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
-stdin ${LINE_TYPES_ARGS[@]}
+stdin ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
 stdin --logarithmic
 stdin --logarithmic10
 stdin --exponential
