@@ -32,7 +32,7 @@ trap sigint INT
 
 _eval() {
 	eval "${@}"
-	echo "${@}" | tee --append ${LOG}
+	echo -e "[${USER}]\033[1;32m$ ${@}\033[m" | tee --append ${LOG}
 }
 
 # $1: type: none rand
