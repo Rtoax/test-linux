@@ -542,6 +542,15 @@ static void key_r(int key, void *arg)
 	p->plotshift = 0;
 }
 
+/**
+ * Press key 't', change curve type
+ */
+static void key_t(int key, void *arg)
+{
+	struct plot *p = arg;
+	p->curve_type = (p->curve_type + 1) % CURVE_TYPE_MAX;
+}
+
 static void key_up(int key, void *arg)
 {
 	plot_scaling_up(arg);
@@ -579,6 +588,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file)
 	p->kb = kb;
 
 	register_key_handler('r', p, key_r);
+	register_key_handler('t', p, key_t);
 	register_key_handler('h', p, key_h);
 	register_key_handler('l', p, key_l);
 	register_key_handler(KEY_UP, p, key_up);

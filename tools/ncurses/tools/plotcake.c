@@ -474,9 +474,6 @@ int main(int argc, char *argv[])
 				case 't': /* select numerical scaling type */
 					plot.kb->cnt.t++;
 					redraw = true;
-					plot.curve_type =
-						(plot.curve_type + 1) %
-						CURVE_TYPE_MAX;
 					break;
 				case 'h': /* help */
 					plot.kb->cnt.h++;
