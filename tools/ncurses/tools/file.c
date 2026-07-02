@@ -339,7 +339,7 @@ static int save_json(const struct plot *p, const char *filename)
 				line, "name", json_object_new_string(ln->name));
 			json_object_object_add(line, "id",
 					       json_object_new_int(ln->id));
-			json_object_object_add(line, "lgroup-id",
+			json_object_object_add(line, "gid",
 					       json_object_new_int(lg->id));
 			json_object_object_add(
 				line, "color",
@@ -362,10 +362,10 @@ static int save_json(const struct plot *p, const char *filename)
 				json_object_object_add(values, vs, value);
 
 				json_object_object_add(
-					value, "line-id",
+					value, "lid",
 					json_object_new_int(ln->id));
 				json_object_object_add(
-					value, "lgroup-id",
+					value, "gid",
 					json_object_new_int(lg->id));
 				json_object_object_add(
 					value, "v",
