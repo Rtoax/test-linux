@@ -5,6 +5,9 @@
 set -em
 readonly PLOTCAKE=./plotcake
 
+readonly LINE_TYPES=( $(${PLOTCAKE} -L nonsense 2>/dev/null || true) )
+readonly LINE_TYPES_ARGS=( $(for t in ${LINE_TYPES[@]}; do echo "-L ${t}"; done) )
+
 [[ -z ${I} ]] && I=0.001
 [[ -z ${TMOUT} ]] && TMOUT=200ms
 
@@ -23,14 +26,12 @@ sigint() {
 }
 trap sigint INT
 
-readonly line_types=( $(${PLOTCAKE} -L nonsense 2>/dev/null || true) )
-
 run() {
 	${PLOTCAKE} ${args[@]} -I 10ms --interval=10ms "${@}"
 }
 
 stdin() {
-	while seq --separator=' ' 1 1 ${#line_types[@]}; do
+	while seq --separator=' ' 1 1 ${#LINE_TYPES[@]}; do
 		sleep ${Interval}
 	done | ${PLOTCAKE} ${args[@]} "${@}"
 }
@@ -39,13 +40,14 @@ run -? --help
 run --usage
 run -V --version
 run -M --ram
+run ${LINE_TYPES_ARGS[@]}
 run -o data
 run -f data.txt
 
 stdin -V --version
 stdin --usage
 stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
-stdin $(for t in ${line_types[@]}; do echo "-L ${t}"; done)
+stdin ${LINE_TYPES_ARGS[@]}
 stdin --logarithmic
 stdin --logarithmic10
 stdin --exponential
