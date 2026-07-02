@@ -29,7 +29,7 @@ static void __add_line(struct lgroup *lg, int i)
 	else {
 		int idx = (i - get_nr_ltypes()) / C_MAX;
 		idx %= LINE_TYPE_MAX;
-		new_line_ops(lg, name, color, ldraw_type2ops(idx));
+		new_line_ops(lg, name, color, ltype_type2ops(idx));
 	}
 }
 

@@ -166,9 +166,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		enqueue_llabel(arg);
 		break;
 	case 'L':
-		if (!ldraw_hasname(arg))
+		if (!ltype_hasname(arg))
 			exit(EXIT_FAILURE);
-		enqueue_ltype(ldraw_name2type(arg));
+		enqueue_ltype(ltype_name2type(arg));
 		break;
 	case 'C':
 		if (!hascolor_name(arg))
@@ -198,7 +198,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		plot.v_scaling = NS_LOGARITHMIC10;
 		break;
 	case ARG_LINE_TYPES:
-		ldraw_print_names(stdout);
+		ltype_print_names(stdout);
 		exit(EXIT_SUCCESS);
 		break;
 	case ARG_LINE_COLORS:

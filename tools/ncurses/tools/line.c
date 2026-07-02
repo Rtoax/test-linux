@@ -301,7 +301,7 @@ static int __lgroup_add_line(struct lgroup *lg, struct line *l)
 }
 
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
-			  const struct ldraw_ops *ops)
+			  const struct ltype_ops *ops)
 {
 	struct line *new = __create_line(name, color);
 	__lgroup_add_line(lg, new);
@@ -312,7 +312,7 @@ struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 
 struct line *new_line(struct lgroup *lg, const char *name, int color)
 {
-	return new_line_ops(lg, name, color, ldraw_type2ops(dequeue_ltype()));
+	return new_line_ops(lg, name, color, ltype_type2ops(dequeue_ltype()));
 }
 
 /* Get lgroup's line from index */

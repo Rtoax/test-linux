@@ -10,7 +10,7 @@
 #include "value.h"
 
 struct lgroup;
-struct ldraw_ops;
+struct ltype_ops;
 
 enum ltype_enum {
 	LINE_TYPE_DEFAULT = 0,
@@ -34,10 +34,10 @@ struct line {
 	long count; /* number of value */
 	struct line *next; /* maybe line in group */
 	struct lgroup *lg; /* belongs to */
-	const struct ldraw_ops *ops;
+	const struct ltype_ops *ops;
 };
 
-struct ldraw_ops {
+struct ltype_ops {
 	char *name;
 	void (*horizon)(struct line *ln, int y, int x);
 	void (*vertical)(struct line *ln, int y, int x, int n);
@@ -75,24 +75,25 @@ struct lgroup {
 	for (struct line *iter = ((struct lgroup *)(lg))->head; iter; \
 	     iter = iter->next)
 
-extern const struct ldraw_ops unicode_bold_line_ops;
-extern const struct ldraw_ops unicode_bold_dashed_line_ops;
-extern const struct ldraw_ops unicode_line_ops;
-extern const struct ldraw_ops unicode_dashed_line_ops;
-extern const struct ldraw_ops *ldraw_operations[LINE_TYPE_MAX];
+extern const struct ltype_ops unicode_bold_line_ops;
+extern const struct ltype_ops unicode_bold_dashed_line_ops;
+extern const struct ltype_ops unicode_line_ops;
+extern const struct ltype_ops unicode_dashed_line_ops;
+extern const struct ltype_ops *ltype_operations[LINE_TYPE_MAX];
 
-int ldraw_print_names(FILE *fp);
-bool ldraw_hasname(const char *name);
-enum ltype_enum ldraw_name2type(const char *name);
-const struct ldraw_ops *ldraw_type2ops(enum ltype_enum t);
-const struct ldraw_ops *ldraw_name2ops(const char *name);
-const char *ldraw_type2name(enum ltype_enum t);
+int ltype_print_names(FILE *fp);
+bool ltype_hasname(const char *name);
+enum ltype_enum ltype_name2type(const char *name);
+const struct ltype_ops *ltype_type2ops(enum ltype_enum t);
+const struct ltype_ops *ltype_name2ops(const char *name);
+const char *ltype_type2name(enum ltype_enum t);
 
-int enqueue_llabel(const char *name);
-const char *dequeue_llabel(void);
 int enqueue_ltype(enum ltype_enum t);
 enum ltype_enum dequeue_ltype(void);
 int get_nr_ltypes(void);
+
+int enqueue_llabel(const char *name);
+const char *dequeue_llabel(void);
 
 int enqueue_lcolor(enum lcolor_enum c);
 enum lcolor_enum dequeue_lcolor(void);
@@ -109,6 +110,6 @@ double line_range_min(struct line *l, int start, int len);
 
 struct line *new_line(struct lgroup *lg, const char *name, int color);
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
-			  const struct ldraw_ops *ops);
+			  const struct ltype_ops *ops);
 
 struct line *lgroup_line(const struct lgroup *lg, int idx);

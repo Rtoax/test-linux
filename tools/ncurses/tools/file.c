@@ -51,7 +51,7 @@ static int save_txt(const struct plot *p, const char *filename)
 		for_each_line(lg, ln)
 		{
 			fprintf(fp,
-				"#    lgidx lnidx lname nvals color ldraw-ops\n");
+				"#    lgidx lnidx lname nvals color ltype-ops\n");
 			fprintf(fp, "line %d %d \"%s\" %ld %s %s\n", lg->id,
 				ln->id, ln->name, ln->count,
 				color_names[ln->color], ln->ops->name);
@@ -339,7 +339,7 @@ static int save_json(const struct plot *p, const char *filename)
 				line, "color",
 				json_object_new_string(color_names[ln->color]));
 			json_object_object_add(
-				line, "ldraw-ops",
+				line, "ltype-ops",
 				json_object_new_string(ln->ops->name));
 			json_object_object_add(line, "vcount",
 					       json_object_new_int(ln->count));
