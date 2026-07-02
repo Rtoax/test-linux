@@ -213,7 +213,7 @@ double line_range_avg(struct line *l, int start, int len)
 		i++;
 		v = v->next;
 	}
-	assert(n != 0 && "line_range_max: not found values in range");
+	assert(n != 0 && "line_range_avg: not found values in range");
 	return sum / n;
 }
 
