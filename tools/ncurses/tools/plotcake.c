@@ -40,6 +40,7 @@ enum {
 	ARG_LOGARITHMIC10,
 	ARG_EXPONENTIAL,
 	ARG_LINE_TYPES,
+	ARG_LINE_COLORS,
 };
 
 const char argp_prog_doc[] = ANSI_BOLD
@@ -90,6 +91,8 @@ static const struct argp_option opts[] = {
 	  "Specify line colors, if an invalid value is entered, the supported "
 	  "line colors will be listed, can match color prefixes, such as 'r' "
 	  "matching 'red' (may be listed multiple times)" },
+	{ "lcolors", ARG_LINE_COLORS, NULL, 1,
+	  "show line colors for --lcolor" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "SEC", 0,
 	  "Specify interval time, the default unit is nanoseconds, but units "
@@ -196,6 +199,10 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case ARG_LINE_TYPES:
 		ldraw_print_names(stdout);
+		exit(EXIT_SUCCESS);
+		break;
+	case ARG_LINE_COLORS:
+		color_print_names(stdout);
 		exit(EXIT_SUCCESS);
 		break;
 	case 'I':

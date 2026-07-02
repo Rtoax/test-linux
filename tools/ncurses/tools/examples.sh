@@ -9,7 +9,7 @@ readonly PLOTCAKE=./plotcake
 readonly LINE_TYPES=( $(${PLOTCAKE} --ltypes 2>/dev/null || true) )
 readonly LINE_TYPES_ARGS=( $(for t in ${LINE_TYPES[@]}; do echo "-L ${t}"; done) )
 
-readonly LINE_COLORS=( $(${PLOTCAKE} -C nonsense 2>/dev/null || true) )
+readonly LINE_COLORS=( $(${PLOTCAKE} --lcolors 2>/dev/null || true) )
 readonly LINE_COLORS_ARGS=( $(for t in ${LINE_COLORS[@]}; do echo "-C ${t}"; done) )
 
 [[ -z ${I} ]] && I=0.001

@@ -100,6 +100,14 @@ const char *color_names[C_MAX] = {
 	[C_YELLOW] = "yellow",
 };
 
+int color_print_names(FILE *fp)
+{
+	for (int i = 0; i < C_MAX; i++) {
+		fprintf(fp, "\t%s\n", color_names[i]);
+	}
+	return 0;
+}
+
 /**
  * @return: return C_UNKNOWN if not found.
  */
@@ -112,9 +120,7 @@ enum lcolor_enum color_name2num(const char *name)
 	 * print error to stderr, hint to stdout.
 	 */
 	fprintf(stderr, "ERROR: not support color '%s', please use:\n", name);
-	for (int i = 0; i < C_MAX; i++) {
-		fprintf(stdout, "\t%s\n", color_names[i]);
-	}
+	color_print_names(stdout);
 	return C_UNKNOWN;
 }
 
