@@ -414,11 +414,12 @@ static struct plot_file_operations pf_ops[] = {
 int save_plot(const struct plot *p, const char *filename)
 {
 	int err = 0;
+	const char *name = filename ?: "plotcake";
 	for (int i = 0; i < sizeof(pf_ops) / sizeof(pf_ops[0]); i++) {
 		if (!pf_ops[i].save)
 			continue;
-		fprintf(stderr, "Save to %s\n", pf_ops[i].name);
-		err = err ?: pf_ops[i].save(p, filename ?: "plotcake");
+		fprintf(stderr, "Save to %s.%s\n", name, pf_ops[i].name);
+		err = err ?: pf_ops[i].save(p, name);
 	}
 	return err;
 }
