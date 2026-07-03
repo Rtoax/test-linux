@@ -52,7 +52,7 @@ static int save_txt(const struct plot *p, const char *filename, bool debug)
 		for_each_line(lg, ln)
 		{
 			fprintf(fp,
-				"#    lgidx lnidx lname nvals color ltype-ops\n");
+				"#    lgidx lnidx lname nvals color type\n");
 			fprintf(fp, "line %d %d \"%s\" %ld %s %s\n", lg->id,
 				ln->id, ln->name, ln->count,
 				color_names[ln->color], ln->ops->name);
@@ -344,13 +344,11 @@ static int save_json(const struct plot *p, const char *filename, bool debug)
 				line, "name", json_object_new_string(ln->name));
 			json_object_object_add(line, "id",
 					       json_object_new_int(ln->id));
-			json_object_object_add(line, "gid",
-					       json_object_new_int(lg->id));
 			json_object_object_add(
 				line, "color",
 				json_object_new_string(color_names[ln->color]));
 			json_object_object_add(
-				line, "ltype-ops",
+				line, "type",
 				json_object_new_string(ln->ops->name));
 			json_object_object_add(line, "vcount",
 					       json_object_new_int(ln->count));
@@ -395,7 +393,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	int err;
 	char *json;
 
-	json_object *root, *info, *plot, *lgroups;
+	json_object *root, *info, *plot, *lgroups, *lines;
 
 	err = alloc_buf_read_file(file, &json);
 	if (err < 0) {
@@ -413,7 +411,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 
 #define J_INT(name)        \
 	json_object *name; \
-	int *name##_i
+	int name##_i
 
 #define J_GET_VALUE(obj, key, value)                                        \
 	if (!json_object_object_get_ex(obj, key, &value)) {                 \
@@ -421,39 +419,85 @@ static int load_json(struct plot *p, const char *file, bool debug)
 		goto done;                                                  \
 	}
 
-#define J_GET_STRING(value, str)                         \
-	str = json_object_get_string(value);             \
-	if (debug) {                                     \
-		fprintf(stderr, "%s %s\n", #value, str); \
+#define J_GET_STRING(value)                                    \
+	value##_s = json_object_get_string(value);             \
+	if (debug) {                                           \
+		fprintf(stderr, "%s %s\n", #value, value##_s); \
 	}
 
-#define J_GET_INT(value, i)                            \
-	str = json_object_get_int(value);              \
-	if (debug) {                                   \
-		fprintf(stderr, "%s %d\n", #value, i); \
+#define J_GET_INT(value)                                       \
+	value##_i = json_object_get_int(value);                \
+	if (debug) {                                           \
+		fprintf(stderr, "%s %d\n", #value, value##_i); \
 	}
 
 	J_STRING(version);
 	J_GET_VALUE(info, "version", version);
-	J_GET_STRING(version, version_s);
+	J_GET_STRING(version);
 
 	J_STRING(title);
 	J_GET_VALUE(plot, "title", title);
-	J_GET_STRING(title, title_s);
+	J_GET_STRING(title);
 
 	J_STRING(xlabel);
 	J_GET_VALUE(plot, "xlabel", xlabel);
-	J_GET_STRING(xlabel, xlabel_s);
+	J_GET_STRING(xlabel);
 
 	J_STRING(ylabel);
 	J_GET_VALUE(plot, "ylabel", ylabel);
-	J_GET_STRING(ylabel, ylabel_s);
+	J_GET_STRING(ylabel);
 
-	J_STRING(lgcount);
+	J_INT(lgcount);
 	J_GET_VALUE(plot, "lgcount", lgcount);
-	J_GET_STRING(lgcount, lgcount_s);
+	J_GET_INT(lgcount);
 
 	J_GET_VALUE(plot, "lgroups", lgroups);
+
+	json_object_object_foreach(lgroups, gid_s, lgroup)
+	{
+		if (debug)
+			printf("lgroup id %s\n", gid_s);
+
+		J_STRING(lgname);
+		J_GET_VALUE(lgroup, "name", lgname);
+		J_GET_STRING(lgname);
+
+		J_INT(lgid);
+		J_GET_VALUE(lgroup, "id", lgid);
+		J_GET_INT(lgid);
+
+		J_INT(lncount);
+		J_GET_VALUE(lgroup, "lncount", lncount);
+		J_GET_INT(lncount);
+
+		J_GET_VALUE(lgroup, "lines", lines);
+
+		json_object_object_foreach(lines, lid_s, line)
+		{
+			if (debug)
+				printf("line id %s\n", lid_s);
+
+			J_STRING(lname);
+			J_GET_VALUE(line, "name", lname);
+			J_GET_STRING(lname);
+
+			J_INT(lid);
+			J_GET_VALUE(line, "id", lid);
+			J_GET_INT(lid);
+
+			J_STRING(lcolor);
+			J_GET_VALUE(line, "color", lcolor);
+			J_GET_STRING(lcolor);
+
+			J_STRING(ltype);
+			J_GET_VALUE(line, "type", ltype);
+			J_GET_STRING(ltype);
+
+			J_INT(vcount);
+			J_GET_VALUE(line, "vcount", vcount);
+			J_GET_INT(vcount);
+		}
+	}
 
 	/* TODO: parse json */
 
