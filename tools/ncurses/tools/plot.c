@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
 #include <assert.h>
+#include <errno.h>
 #include <ctype.h>
 #include <float.h>
 #include <math.h>
@@ -639,6 +640,9 @@ static void key_right(int key, void *arg)
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug)
 {
 	int err = 0;
+
+	if (!p)
+		return -EINVAL;
 
 	memset(p, 0, sizeof(struct plot));
 

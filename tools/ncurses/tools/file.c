@@ -679,6 +679,9 @@ int load_plot(struct plot *p, const char *file, bool debug)
 {
 	const struct plot_file_operations *ops = NULL;
 
+	if (!p || !file)
+		return -EINVAL;
+
 	for (int i = 0; i < sizeof(pf_ops) / sizeof(pf_ops[0]); i++) {
 		if (!pf_ops[i].load)
 			continue;
@@ -696,6 +699,7 @@ int load_plot(struct plot *p, const char *file, bool debug)
 			break;
 		}
 	}
+
 	if (!ops) {
 		fprintf(stderr,
 			"ERROR: Not found plot file operation for file %s\n",
