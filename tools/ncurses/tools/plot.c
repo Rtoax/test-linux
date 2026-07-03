@@ -649,7 +649,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug)
 {
 	int err = 0;
 
-	if (!p)
+	if (!p || !kb)
 		return -EINVAL;
 
 	memset(p, 0, sizeof(struct plot));
