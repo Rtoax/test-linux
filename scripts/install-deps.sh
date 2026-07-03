@@ -1146,6 +1146,8 @@ apt_add_packages()
 	pkgs_base+=( libmpfr-dev )
 	pkgs_base+=( libmpich-dev )         # MPI
 	pkgs_base+=( libncurses-dev )
+	pkgs_base+=( libnotcurses-dev ) # Ubuntu, not debian
+	pkgs_base+=( libnotcurses-core-dev ) # Ubuntu, not debian
 	pkgs_base+=( libopenmpi-dev )
 	pkgs_base+=( libosinfo-bin )
 	pkgs_base+=( libpam0g )
@@ -1162,6 +1164,7 @@ apt_add_packages()
 	fi
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( ncal )
+	pkgs_base+=( notcurses-bin ) # Ubuntu, not debian
 	pkgs_base+=( parallel )
 	pkgs_base+=( passwd )
 	pkgs_base+=( procps )
