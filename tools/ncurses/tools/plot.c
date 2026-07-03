@@ -138,8 +138,9 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
  * @len: number of value to plot.
  * @max and @min is original value, if use logarithmic, must convert it youself.
  */
-static void __paint_line(struct plot *p, struct line *ln, int start, int len,
-			 int shift, double max, double min, bool debug)
+static void __paint_line(struct plot *p, const struct lgroup *lg,
+			 struct line *ln, int start, int len, int shift,
+			 double max, double min, bool debug)
 {
 	int iv;
 	int prev_h = -1;
@@ -391,7 +392,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 	{
 		if (l->count <= 0)
 			continue;
-		__paint_line(p, l, start, len, shift, max, min, debug);
+		__paint_line(p, lg, l, start, len, shift, max, min, debug);
 	}
 
 	if (debug && lg->ops && lg->ops->plot_debug)
