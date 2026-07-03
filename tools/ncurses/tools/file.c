@@ -398,8 +398,8 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	char *json;
 
 	json_object *root, *info, *plot;
-	json_object *version;
-	const char *version_s;
+	json_object *version, *title;
+	const char *version_s, *title_s;
 
 	err = alloc_buf_read_file(file, &json);
 	if (err < 0) {
@@ -411,17 +411,27 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	json_object_object_get_ex(root, "plotcake", &info);
 	json_object_object_get_ex(root, "plot", &plot);
 
-	if (!json_object_object_get_ex(info, "version", &version)) {
-		fprintf(stderr, "ERROR: not found version in %s.\n", file);
-		goto done;
+#define J_GET_VALUE(obj, key, value)                                        \
+	if (!json_object_object_get_ex(obj, key, &value)) {                 \
+		fprintf(stderr, "ERROR: not found %s in %s.\n", key, #obj); \
+		goto done;                                                  \
 	}
-	version_s = json_object_get_string(version);
-	if (debug) {
-		fprintf(stderr, "version %s\n", version_s);
+#define J_GET_STRING(value, str)                         \
+	str = json_object_get_string(value);             \
+	if (debug) {                                     \
+		fprintf(stderr, "%s %s\n", #value, str); \
 	}
+
+	J_GET_VALUE(info, "version", version);
+	J_GET_STRING(version, version_s);
+
+	J_GET_VALUE(plot, "title", title);
+	J_GET_STRING(title, title_s);
 
 	/* TODO: parse json */
 
+#undef J_GET_VALUE
+#undef J_GET_STRING
 done:
 	free(json);
 	fprintf(stderr, "ERROR: Not support input json yet.\n");
