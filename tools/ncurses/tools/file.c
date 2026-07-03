@@ -104,7 +104,7 @@ static int load_txt(struct plot *p, const char *file, bool debug)
 			end = strchr(start, '"');
 			Check(end, '"');
 			*end = '\0';
-			p->title = strdup(start);
+			set_plot_title(p, start);
 
 			start = end + 1;
 			start = strchr(start, '"') + 1;
@@ -458,6 +458,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	J_STRING(title);
 	J_GET_VALUE(plot, "title", title);
 	J_GET_STRING(title);
+	set_plot_title(p, title_s);
 
 	J_STRING(xlabel);
 	J_GET_VALUE(plot, "xlabel", xlabel);

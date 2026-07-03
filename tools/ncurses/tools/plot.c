@@ -304,26 +304,29 @@ print_llabel:
 	}
 }
 
-void plot_draw_title(const struct plot *p)
+static void __draw_title(const struct plot *p)
 {
-	char buf[128], *title = buf;
+	char buf[sizeof(p->title) + 128];
+	char *title = buf;
+
 	if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
-		snprintf(buf, 128, "%s (signed logarithmic transformation)",
-			 p->title);
+		snprintf(buf, sizeof(buf),
+			 "%s (signed logarithmic transformation)", p->title);
 	else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
-		snprintf(buf, 128,
+		snprintf(buf, sizeof(buf),
 			 "%s (base-10 signed logarithmic transformation)",
 			 p->title);
 	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
-		snprintf(buf, 128, "%s (base-e exponential)", p->title);
+		snprintf(buf, sizeof(buf), "%s (base-e exponential)", p->title);
 	else if (p->curve_type == CURVE_TYPE_DELTA)
-		snprintf(buf, 128, "%s (delta)", p->title);
+		snprintf(buf, sizeof(buf), "%s (delta)", p->title);
 	else
-		title = p->title;
+		title = (char *)p->title;
+
 	mvaddstr(0, (p->width - strlen(title)) / 2, title);
 }
 
-void plot_draw_axes(const struct plot *p)
+static void __draw_axes(const struct plot *p)
 {
 	mvhline(p->plotheight + p->bnd.top, p->bnd.left, T_HLINE, p->plotwidth);
 	mvvline(p->bnd.top, p->bnd.left, T_VLINE, p->plotheight);
@@ -421,8 +424,8 @@ void __plot_debug_llabel(const struct lgroup *lg, int height)
  */
 static void __paint_plot(struct plot *p, bool debug)
 {
-	plot_draw_title(p);
-	plot_draw_axes(p);
+	__draw_title(p);
+	__draw_axes(p);
 
 	for_each_lgroup(p, lg)
 	{

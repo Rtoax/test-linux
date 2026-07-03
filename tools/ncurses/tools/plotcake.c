@@ -369,12 +369,12 @@ int main(int argc, char *argv[])
 
 	if (stdinfd == -1) {
 		if (!file && ram) {
-			plot.title = plot.title ?: (title ?: "Memory Usage");
+			set_plot_title(&plot, title ?: "Memory Usage");
 			plot.label_x = plot.label_x ?: (xlabel ?: "Time");
 			plot.label_y = plot.label_y ?: (ylabel ?: "Size(MB)");
 			plot_add_lgroup(&plot, &lg_ram, NULL);
 		} else if (!file) {
-			plot.title = plot.title ?: (title ?: "Loadavg");
+			set_plot_title(&plot, title ?: "Loadavg");
 			plot.label_x = plot.label_x ?: (xlabel ?: "Time");
 			plot.label_y = plot.label_y ?: (ylabel ?: "Load");
 			plot_add_lgroup(&plot, &lg_loadavg, NULL);
@@ -384,7 +384,7 @@ int main(int argc, char *argv[])
 			.nline = 1, /* at least one line */
 			.line_buff = stdin_buffer,
 		};
-		plot.title = plot.title ?: (title ?: "stdin");
+		set_plot_title(&plot, title ?: "stdin");
 		plot.label_x = plot.label_x ?: (xlabel ?: "Time");
 		plot.label_y = plot.label_y ?: (ylabel ?: "Value");
 		plot_add_lgroup(&plot, &lg_stdin, &stdarg);

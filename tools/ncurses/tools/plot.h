@@ -23,7 +23,7 @@ enum curve_type {
 };
 
 struct plot {
-	char *title;
+	char title[128];
 	char *label_x;
 	char *label_y;
 	/**
@@ -132,6 +132,14 @@ struct plot {
 		___p->plotshift * ___p->plotscaling;  \
 	})
 
+static inline void set_plot_title(struct plot *p, const char *title)
+{
+	/* already set title */
+	if (p->title[0] != '\0')
+		return;
+	snprintf(p->title, sizeof(p->title) - 1, "%s", title);
+}
+
 int plot_init(struct plot *p, struct keyboard *k, const char *file, bool debug);
 unsigned long plot_mem_size(const struct plot *p);
 
@@ -142,8 +150,6 @@ int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg);
 struct lgroup *plot_lgroup(const struct plot *p, int idx);
 
 void plot_update_size(struct plot *p, bool init);
-void plot_draw_axes(const struct plot *p);
-void plot_draw_title(const struct plot *p);
 
 void plot_create_data(struct plot *p);
 void plot_update_data(struct plot *p);
