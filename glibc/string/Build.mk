@@ -51,6 +51,9 @@ prep-y := sig.h
 memcpy-stress-objs := ${PROC_HELPERS}
 strstr-cpp-objs := strstr.cpp.o
 
+CFLAGS_strcat := -Wno-error=stringop-overflow
+CFLAGS_strcpy := -Wno-error=stringop-overflow
+
 CFLAGS += -I../../../
 LDFLAGS += -lm
 
