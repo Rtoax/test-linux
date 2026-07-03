@@ -1,6 +1,9 @@
 #!/bin/expect -f
 # test plotcake keyboard event handle
 set timeout 4
+set init_rows [stty rows]
+set init_cols [stty columns]
+
 # If the window is too small, the expected output information will be covered
 # by other information. Therefore, we need to set a window size that is large
 # enough to display the expected information.
@@ -83,4 +86,5 @@ test_key "\033\[C" "KEY_RIGHT"
 
 send "q"
 expect eof
+set stty_init "rows $init_rows cols $init_cols"
 puts "PASS"

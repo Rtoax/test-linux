@@ -1,0 +1,17 @@
+#!/usr/bin/expect -f
+set terminal_size [stty size]
+set rows [lindex $terminal_size 0]
+set cols [lindex $terminal_size 1]
+set rows2 [stty rows]
+set cols2 [stty columns]
+
+# start program
+spawn top
+
+sleep 0.5
+exec kill -INT [exp_pid]
+
+expect eof
+puts "$rows $rows2"
+puts "$cols $cols2"
+puts "PASS"
