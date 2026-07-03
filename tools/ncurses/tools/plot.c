@@ -139,7 +139,7 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
  * @max and @min is original value, if use logarithmic, must convert it youself.
  */
 static void __paint_line(struct plot *p, const struct lgroup *lg,
-			 struct line *ln, int start, int len, int shift,
+			 const struct line *ln, int start, int len, int shift,
 			 double max, double min, bool debug)
 {
 	int iv;
