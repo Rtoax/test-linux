@@ -1,5 +1,10 @@
 #!/bin/bash
 set -e
 
-ncplayer -t 0.5 -s scale ../../../gnu/gnu.webp
-ncplayer -t 0.5 -s scale ../../../bpf/cilium/cilium.png
+scale() {
+	ncplayer -t 0.5 -s scale ${@}
+}
+
+scale ../../../gnu/gnu.webp
+scale ../../../bpf/cilium/cilium.png
+scale ../../../Documentation/images/logo.svg

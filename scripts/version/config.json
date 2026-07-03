@@ -468,7 +468,7 @@
 				}
 			},
 			"library": [ "libnotcurses.so" ],
-			"keys": [ "notcurses" ]
+			"keys": [ "notcurses", "ncplayer", "ncneofetch" ]
 		},
 		"nginx": {
 			"name": "Nginx",
