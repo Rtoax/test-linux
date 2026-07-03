@@ -336,8 +336,7 @@ static struct line *__create_line(const char *name, int color)
 
 	memset(new, 0, sizeof(struct line));
 
-	/* FIXME: memleak here */
-	new->name = arg_name ?: strdup(name);
+	set_line_name(new, arg_name ?: name);
 	new->color = color;
 
 	return new;

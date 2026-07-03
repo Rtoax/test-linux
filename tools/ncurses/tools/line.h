@@ -26,7 +26,7 @@ enum ltype_enum {
 };
 
 struct line {
-	const char *name;
+	char name[64];
 	/* The line ID is unique only within the lgroup. */
 	int id;
 	int color; /* C_RED, ... */
@@ -115,3 +115,11 @@ struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 			  const struct ltype_ops *ops);
 
 struct line *lgroup_line(const struct lgroup *lg, int idx);
+
+static inline void set_line_name(struct line *ln, const char *name)
+{
+	/* already set name */
+	if (ln->name[0] != '\0')
+		return;
+	snprintf(ln->name, sizeof(ln->name) - 1, "%s", name);
+}
