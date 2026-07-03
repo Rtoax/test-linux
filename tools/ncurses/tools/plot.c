@@ -629,7 +629,7 @@ static void key_right(int key, void *arg)
 	plot_shift_right(p);
 }
 
-int plot_init(struct plot *p, struct keyboard *kb, const char *file)
+int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug)
 {
 	int err = 0;
 
@@ -649,7 +649,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file)
 	register_key_handler(KEY_LEFT, p, key_left);
 
 	if (file)
-		err = err ?: load_plot(p, file);
+		err = err ?: load_plot(p, file, debug);
 
 	return err;
 }

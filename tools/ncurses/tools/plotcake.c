@@ -277,7 +277,7 @@ int main(int argc, char *argv[])
 	}
 
 	keyboard_init(&keyboard);
-	err = plot_init(&plot, &keyboard, file);
+	err = plot_init(&plot, &keyboard, file, verbose);
 	if (err) {
 		fprintf(stderr, "plot init failed, %s\n", strerror(-err));
 		return err;
@@ -569,7 +569,7 @@ end:
 		fprintf(stderr, KEYBOARD_INF0_FMT "\n",
 			KEYBOARD_INF0_ARG(_p->kb));
 	}
-	save_plot(&plot, output_file_prefix);
+	save_plot(&plot, output_file_prefix, verbose);
 	if (output_file_prefix)
 		free(output_file_prefix);
 	return 0;

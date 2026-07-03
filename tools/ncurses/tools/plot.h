@@ -132,7 +132,7 @@ struct plot {
 		___p->plotshift * ___p->plotscaling;  \
 	})
 
-int plot_init(struct plot *p, struct keyboard *k, const char *file);
+int plot_init(struct plot *p, struct keyboard *k, const char *file, bool debug);
 unsigned long plot_mem_size(const struct plot *p);
 
 #define plot_warning(p, fmt...) __plot_warning(p, fmt)

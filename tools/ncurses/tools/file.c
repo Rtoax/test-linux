@@ -18,11 +18,11 @@
 
 struct plot_file_operations {
 	const char *name;
-	int (*save)(const struct plot *p, const char *filename);
-	int (*load)(struct plot *p, const char *file);
+	int (*save)(const struct plot *p, const char *filename, bool debug);
+	int (*load)(struct plot *p, const char *file, bool debug);
 };
 
-static int save_txt(const struct plot *p, const char *filename)
+static int save_txt(const struct plot *p, const char *filename, bool debug)
 {
 	char path[256];
 	FILE *fp;
@@ -72,7 +72,7 @@ static int save_txt(const struct plot *p, const char *filename)
 	return 0;
 }
 
-static int load_txt(struct plot *p, const char *file)
+static int load_txt(struct plot *p, const char *file, bool debug)
 {
 	int ln, err = 0;
 	char linebuf[256];
@@ -286,7 +286,7 @@ static int load_txt(struct plot *p, const char *file)
 }
 
 #ifdef HAVE_JSON_C
-static int save_json(const struct plot *p, const char *filename)
+static int save_json(const struct plot *p, const char *filename, bool debug)
 {
 	char path[256];
 
@@ -392,7 +392,7 @@ static int save_json(const struct plot *p, const char *filename)
 	return 0;
 }
 
-static int load_json(struct plot *p, const char *file)
+static int load_json(struct plot *p, const char *file, bool debug)
 {
 	int err;
 	char *json;
@@ -416,7 +416,9 @@ static int load_json(struct plot *p, const char *file)
 		goto done;
 	}
 	version_s = json_object_get_string(version);
-	(void)version_s;
+	if (debug) {
+		fprintf(stderr, "version %s\n", version_s);
+	}
 
 	/* TODO: parse json */
 
@@ -446,7 +448,7 @@ static struct plot_file_operations pf_ops[] = {
  * only have one plot
  * @filename: file name without extension.
  */
-int save_plot(const struct plot *p, const char *filename)
+int save_plot(const struct plot *p, const char *filename, bool debug)
 {
 	int err = 0;
 	const char *name = filename ?: "plotcake";
@@ -454,12 +456,12 @@ int save_plot(const struct plot *p, const char *filename)
 		if (!pf_ops[i].save)
 			continue;
 		fprintf(stderr, "Save to %s.%s\n", name, pf_ops[i].name);
-		err = err ?: pf_ops[i].save(p, name);
+		err = err ?: pf_ops[i].save(p, name, debug);
 	}
 	return err;
 }
 
-int load_plot(struct plot *p, const char *file)
+int load_plot(struct plot *p, const char *file, bool debug)
 {
 	const struct plot_file_operations *ops = NULL;
 
@@ -487,7 +489,7 @@ int load_plot(struct plot *p, const char *file)
 		return -ENOENT;
 	}
 
-	return ops->load(p, file);
+	return ops->load(p, file, debug);
 }
 
 static void file_create(struct lgroup *lg, void *arg)
