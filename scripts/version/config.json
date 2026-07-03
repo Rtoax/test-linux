@@ -1,5 +1,5 @@
 {
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -458,6 +458,17 @@
 				}
 			},
 			"keys": [ "ncurses" ]
+		},
+		"notcurses": {
+			"name": "Notcurses",
+			"command": [ "ncls" ],
+			"version": {
+				"command": {
+					"argument": [ "--version" ]
+				}
+			},
+			"library": [ "libnotcurses.so" ],
+			"keys": [ "notcurses" ]
 		},
 		"nginx": {
 			"name": "Nginx",

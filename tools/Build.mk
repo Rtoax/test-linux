@@ -30,6 +30,7 @@ subdir-y += memcached
 subdir-y += nasm
 subdir-y += NetworkManager
 subdir-y += ncurses
+subdir-y += notcurses
 subdir-y += nginx
 subdir-y += ostree
 subdir-y += perf
