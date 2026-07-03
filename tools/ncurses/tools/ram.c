@@ -5,7 +5,7 @@
 #include "ram.h"
 #include "plot.h"
 
-static void ram_create(struct lgroup *lg, void *arg)
+static void ram_create_lines(struct lgroup *lg, void *arg)
 {
 	new_line(lg, "total", nextlcolor(C_RED));
 	new_line(lg, "free", nextlcolor(C_GREEN));
@@ -13,7 +13,7 @@ static void ram_create(struct lgroup *lg, void *arg)
 	new_line(lg, "buff", nextlcolor(C_CYAN));
 }
 
-static void ram_update(struct lgroup *lg, void *arg)
+static void ram_update_data(struct lgroup *lg, void *arg)
 {
 	struct sysinfo si;
 	int i = 0;
@@ -41,8 +41,8 @@ static void ram_plot_debug(const struct lgroup *lg, void *arg)
 }
 
 static struct lgroup_operations ram_ops = {
-	.create = ram_create,
-	.update = ram_update,
+	.create_lines = ram_create_lines,
+	.update_data = ram_update_data,
 	.plot_debug = ram_plot_debug,
 };
 

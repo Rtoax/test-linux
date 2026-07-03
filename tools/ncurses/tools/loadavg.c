@@ -6,14 +6,14 @@
 #include "plot.h"
 #include "loadavg.h"
 
-static void loadavg_create(struct lgroup *lg, void *arg)
+static void loadavg_create_lines(struct lgroup *lg, void *arg)
 {
 	new_line(lg, "load1", nextlcolor(C_RED));
 	new_line(lg, "load5", nextlcolor(C_GREEN));
 	new_line(lg, "load15", nextlcolor(C_BLUE));
 }
 
-static void loadavg_update(struct lgroup *lg, void *arg)
+static void loadavg_update_data(struct lgroup *lg, void *arg)
 {
 	double avg[3];
 	int i = 0;
@@ -34,8 +34,8 @@ static void loadavg_plot_debug(const struct lgroup *lg, void *arg)
 }
 
 static struct lgroup_operations loadavg_ops = {
-	.create = loadavg_create,
-	.update = loadavg_update,
+	.create_lines = loadavg_create_lines,
+	.update_data = loadavg_update_data,
 	.plot_debug = loadavg_plot_debug,
 };
 

@@ -407,7 +407,7 @@ int main(int argc, char *argv[])
 		plot_add_lgroup(&plot, &lg_stdin, &stdarg);
 	}
 
-	/* Read from 'file' instead of create()/update() */
+	/* Read from 'file' instead of line group */
 	if (!file) {
 		plot_create_lines(&plot);
 		plot_update_data(&plot);

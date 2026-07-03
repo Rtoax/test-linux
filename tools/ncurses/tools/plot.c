@@ -455,9 +455,9 @@ void plot_create_lines(struct plot *p)
 {
 	for_each_lgroup(p, lg)
 	{
-		if (!lg->ops || !lg->ops->create)
+		if (!lg->ops || !lg->ops->create_lines)
 			continue;
-		lg->ops->create(lg, lg->ops->arg);
+		lg->ops->create_lines(lg, lg->ops->arg);
 	}
 }
 
@@ -465,9 +465,9 @@ void plot_update_data(struct plot *p)
 {
 	for_each_lgroup(p, lg)
 	{
-		if (!lg->ops || !lg->ops->update)
+		if (!lg->ops || !lg->ops->update_data)
 			continue;
-		lg->ops->update(lg, lg->ops->arg);
+		lg->ops->update_data(lg, lg->ops->arg);
 	}
 }
 

@@ -710,12 +710,12 @@ int load_plot(struct plot *p, const char *file, bool debug)
 	return ops->load(p, file, debug);
 }
 
-static void file_create(struct lgroup *lg, void *arg)
+static void file_create_lines(struct lgroup *lg, void *arg)
 {
 	// TODO
 }
 
-static void file_update(struct lgroup *lg, void *arg)
+static void file_update_data(struct lgroup *lg, void *arg)
 {
 	// TODO
 }
@@ -726,8 +726,8 @@ static void file_plot_debug(const struct lgroup *lg, void *arg)
 }
 
 static struct lgroup_operations file_ops = {
-	.create = file_create,
-	.update = file_update,
+	.create_lines = file_create_lines,
+	.update_data = file_update_data,
 	.plot_debug = file_plot_debug,
 };
 
