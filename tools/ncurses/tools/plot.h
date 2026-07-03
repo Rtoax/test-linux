@@ -153,3 +153,5 @@ void plot_redraw(struct plot *p, bool debug);
 
 void init_flavor(void);
 chtype getflavor(enum lcolor_enum color);
+
+void __plot_debug_llabel(const struct lgroup *lg, int height);

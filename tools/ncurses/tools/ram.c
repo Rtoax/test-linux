@@ -34,9 +34,16 @@ static void ram_update(struct lgroup *lg, void *arg)
 	}
 }
 
+static void ram_plot_debug(const struct lgroup *lg, void *arg)
+{
+	struct plot *p = lg->plot;
+	__plot_debug_llabel(lg, p->bnd.top + 1);
+}
+
 static struct lgroup_operations ram_ops = {
 	.create = ram_create,
 	.update = ram_update,
+	.plot_debug = ram_plot_debug,
 };
 
 struct lgroup lg_ram = {

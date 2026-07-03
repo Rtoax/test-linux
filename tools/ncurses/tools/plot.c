@@ -394,6 +394,28 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 		lg->ops->plot_debug(lg, lg->ops->arg);
 }
 
+void __plot_debug_llabel(const struct lgroup *lg, int height)
+{
+	int i = 0;
+	struct plot *p = lg->plot;
+
+	for_each_line(lg, ln)
+	{
+		chtype color = getflavor(ln->color);
+		attron(color);
+		if (ln->count <= 0)
+			mvprintw(i + height, p->bnd.left + 1, "%d: %s: %ld",
+				 ln->id, ln->name, ln->count);
+		else
+			mvprintw(i + height, p->bnd.left + 1,
+				 "%d: %s: %ld %f - %lf~%lf", ln->id, ln->name,
+				 ln->count, ln->tail->v, ln->min->v,
+				 ln->max->v);
+		attroff(color);
+		i++;
+	}
+}
+
 /**
  * need erase() before, refresh() after
  */

@@ -124,7 +124,6 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 {
 	struct stdin_arg *a = arg;
 	struct plot *p = lg->plot;
-	int i;
 	char *buf = strdup(a->line_buff);
 	char *s = buf;
 
@@ -139,26 +138,12 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 		s++;
 	}
 
-	mvprintw(2, p->bnd.left + 1, "lgroup cnt %d, arg nline %d", lg->count,
-		 a->nline);
-	mvprintw(3, p->bnd.left + 1, "stdin: '%s'", buf);
+	mvprintw(p->bnd.top + 1, p->bnd.left + 1, "lgroup cnt %d, arg nline %d",
+		 lg->count, a->nline);
+	mvprintw(p->bnd.top + 2, p->bnd.left + 1, "stdin: '%s'", buf);
 
-	i = 0;
-	for_each_line(lg, ln)
-	{
-		chtype color = getflavor(ln->color);
-		attron(color);
-		if (ln->count <= 0)
-			mvprintw(i + 4, p->bnd.left + 1, "%s: %d %ld", ln->name,
-				 ln->id, ln->count);
-		else
-			mvprintw(i + 5, p->bnd.left + 1,
-				 "%s: %d %ld %f - %lf~%lf", ln->name, ln->id,
-				 ln->count, ln->tail->v, ln->min->v,
-				 ln->max->v);
-		attroff(color);
-		i++;
-	}
+	__plot_debug_llabel(lg, p->bnd.top + 4);
+
 	free(buf);
 }
 
