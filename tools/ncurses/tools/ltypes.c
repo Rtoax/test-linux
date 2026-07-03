@@ -160,7 +160,7 @@ static void unicode_heart_vertical(struct line *ln, int y, int x, int n)
 	mvvline_set(y, x, &wch_vline, n);
 }
 
-const struct ltype_ops unicode_heart_line_ops = {
+static const struct ltype_ops unicode_heart_line_ops = {
 	.name = "unicode-heart",
 	.horizon = unicode_heart,
 	.vertical = unicode_heart_vertical,
@@ -170,7 +170,7 @@ const struct ltype_ops unicode_heart_line_ops = {
 	.lrcorner = unicode_heart,
 };
 
-const struct ltype_ops unicode_boldbold_line_ops = {
+static const struct ltype_ops unicode_boldbold_line_ops = {
 	.name = "unicode-boldbold",
 	.horizon = unicode_boldbold_horizon,
 	.vertical = unicode_boldbold_vertical,
@@ -180,7 +180,7 @@ const struct ltype_ops unicode_boldbold_line_ops = {
 	.lrcorner = unicode_boldbold_corner2,
 };
 
-const struct ltype_ops unicode_bold_line_ops = {
+static const struct ltype_ops unicode_bold_line_ops = {
 	.name = "unicode-bold",
 	.horizon = unicode_bold_horizon,
 	.vertical = unicode_bold_vertical,
@@ -190,7 +190,7 @@ const struct ltype_ops unicode_bold_line_ops = {
 	.lrcorner = unicode_bold_lrcorner,
 };
 
-const struct ltype_ops unicode_bold_dashed_line_ops = {
+static const struct ltype_ops unicode_bold_dashed_line_ops = {
 	.name = "unicode-bold-dashed",
 	.horizon = unicode_bold_horizon_dashed_line,
 	.vertical = unicode_bold_vertical_dashed_line,
@@ -200,7 +200,7 @@ const struct ltype_ops unicode_bold_dashed_line_ops = {
 	.lrcorner = unicode_bold_lrcorner,
 };
 
-const struct ltype_ops unicode_line_ops = {
+static const struct ltype_ops unicode_line_ops = {
 	.name = "unicode",
 	.horizon = unicode_horizon,
 	.vertical = unicode_vertical,
@@ -210,7 +210,7 @@ const struct ltype_ops unicode_line_ops = {
 	.lrcorner = unicode_lrcorner,
 };
 
-const struct ltype_ops unicode_dashed_line_ops = {
+static const struct ltype_ops unicode_dashed_line_ops = {
 	.name = "unicode-dashed",
 	.horizon = unicode_horizon_dashed_line,
 	.vertical = unicode_vertical_dashed_line,
@@ -220,7 +220,7 @@ const struct ltype_ops unicode_dashed_line_ops = {
 	.lrcorner = unicode_lrcorner,
 };
 
-const struct ltype_ops unicode_area_chart_ops = {
+static const struct ltype_ops unicode_area_chart_ops = {
 	.name = "unicode-area-chart",
 	.horizon = unicode_area_chart_horizon,
 	.vertical = nothing_v,
@@ -230,7 +230,7 @@ const struct ltype_ops unicode_area_chart_ops = {
 	.lrcorner = nothing,
 };
 
-const struct ltype_ops utf8_line_ops = {
+static const struct ltype_ops utf8_line_ops = {
 	.name = "utf8",
 	.horizon = utf8_horizon,
 	.vertical = utf8_vertical,
@@ -240,7 +240,7 @@ const struct ltype_ops utf8_line_ops = {
 	.lrcorner = utf8_cross,
 };
 
-const struct ltype_ops *ltype_operations[LINE_TYPE_MAX] = {
+static const struct ltype_ops *ltype_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_line_ops,
 	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_line_ops,
 	[LINE_TYPE_BOLDBOLD_UNICODE] = &unicode_boldbold_line_ops,

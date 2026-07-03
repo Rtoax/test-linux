@@ -54,12 +54,6 @@ struct ltype_ops {
 	for (struct value *iter = ((struct line *)(l))->head; iter; \
 	     iter = iter->next)
 
-extern const struct ltype_ops unicode_bold_line_ops;
-extern const struct ltype_ops unicode_bold_dashed_line_ops;
-extern const struct ltype_ops unicode_line_ops;
-extern const struct ltype_ops unicode_dashed_line_ops;
-extern const struct ltype_ops *ltype_operations[LINE_TYPE_MAX];
-
 int ltype_print_names(FILE *fp);
 bool ltype_hasname(const char *name);
 enum ltype_enum ltype_name2type(const char *name);
