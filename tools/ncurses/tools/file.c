@@ -112,7 +112,7 @@ static int load_txt(struct plot *p, const char *file, bool debug)
 			end = strchr(start, '"');
 			Check(end, '"');
 			*end = '\0';
-			p->label_x = strdup(start);
+			set_plot_xlabel(p, start);
 
 			start = end + 1;
 			start = strchr(start, '"') + 1;
@@ -120,7 +120,7 @@ static int load_txt(struct plot *p, const char *file, bool debug)
 			end = strchr(start, '"');
 			Check(end, '"');
 			*end = '\0';
-			p->label_y = strdup(start);
+			set_plot_ylabel(p, start);
 
 		} else if (!strncmp(linebuf, "lgroup ", 7)) {
 			char *start = linebuf, *end;

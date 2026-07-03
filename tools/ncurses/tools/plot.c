@@ -334,13 +334,11 @@ static void __draw_axes(const struct plot *p)
 
 	mvaddch(p->bnd.top, p->bnd.left, T_UARR);
 	mvprintw(p->bnd.top, p->bnd.left, U25B2);
-	if (p->label_y)
-		mvaddstr(p->bnd.top - 1, p->bnd.left, p->label_y);
+	mvaddstr(p->bnd.top - 1, p->bnd.left, p->label_y);
 
 	mvprintw(p->plotheight + p->bnd.top, p->plotwidth + p->bnd.left, U25BA);
-	if (p->label_x)
-		mvaddstr(p->plotheight + p->bnd.top + 1,
-			 p->plotwidth + p->bnd.left, p->label_x);
+	mvaddstr(p->plotheight + p->bnd.top + 1, p->plotwidth + p->bnd.left,
+		 p->label_x);
 }
 
 static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)

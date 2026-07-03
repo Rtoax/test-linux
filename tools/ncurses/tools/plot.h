@@ -24,8 +24,8 @@ enum curve_type {
 
 struct plot {
 	char title[128];
-	char *label_x;
-	char *label_y;
+	char label_x[64];
+	char label_y[64];
 	/**
 	 * max indicates the maximum value your terminal has reached during the
 	 * entire program run (you can use the mouse to drag and adjust the
@@ -138,6 +138,22 @@ static inline void set_plot_title(struct plot *p, const char *title)
 	if (p->title[0] != '\0')
 		return;
 	snprintf(p->title, sizeof(p->title) - 1, "%s", title);
+}
+
+static inline void set_plot_xlabel(struct plot *p, const char *label)
+{
+	/* already set x label */
+	if (p->label_x[0] != '\0')
+		return;
+	snprintf(p->label_x, sizeof(p->label_x) - 1, "%s", label);
+}
+
+static inline void set_plot_ylabel(struct plot *p, const char *label)
+{
+	/* already set y label */
+	if (p->label_y[0] != '\0')
+		return;
+	snprintf(p->label_y, sizeof(p->label_y) - 1, "%s", label);
 }
 
 int plot_init(struct plot *p, struct keyboard *k, const char *file, bool debug);
