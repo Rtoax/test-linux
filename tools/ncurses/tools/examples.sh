@@ -72,7 +72,7 @@ __stdin() {
 	shift
 	while _seq ${SEQ_TYPE} ${NUM}; do
 		sleep ${Interval}
-	done | _eval ${PLOTCAKE} ${args[@]} "${@}"
+	done | _eval ${PLOTCAKE} ${args[@]} -o stdin "${@}"
 }
 stdin() {
 	__stdin ${#LINE_TYPES[@]} none "${@}"
@@ -126,6 +126,6 @@ while true; do
 		seq --separator=' ' 1 1 $i
 		sleep ${Interval}
 	done
-done | ${PLOTCAKE} ${args[@]}
+done | ${PLOTCAKE} -o stdin ${args[@]}
 
 echo "Byebye"
