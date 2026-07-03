@@ -4,6 +4,11 @@
 #include <unistd.h>
 #include "color.h"
 
+int rgb_to_256(int r, int g, int b)
+{
+	return 16 + (r * 6 / 256) * 36 + (g * 6 / 256) * 6 + (b * 6 / 256);
+}
+
 void print_colors(void)
 {
 	clear();
@@ -13,15 +18,18 @@ void print_colors(void)
 	int max_y, max_x;
 	getmaxyx(stdscr, max_y, max_x);
 	(void)max_y;
+
 	for (int i = 0; i < max_x; i++) {
-		int red = (i * 1000) / max_x;
-		init_color(COLOR_RED, red, 0, 0);
-		init_pair(i, COLOR_RED, COLOR_BLACK);
+		int red = (i * 255) / max_x;
+		int color_idx = rgb_to_256(red, 0, 0);
+
+		init_pair(i + 1, color_idx, COLOR_BLACK);
+
 		chtype color = COLOR_PAIR(i + 1);
 
-		attron(color);
+		attron(color | A_REVERSE);
 		printw("X");
-		attroff(color);
+		attroff(color | A_REVERSE);
 	}
 
 	refresh();
