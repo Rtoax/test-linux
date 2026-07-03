@@ -395,17 +395,33 @@ static int save_json(const struct plot *p, const char *filename)
 static int load_json(struct plot *p, const char *file)
 {
 	int err;
-	char *buf;
+	char *json;
 
-	err = alloc_buf_read_file(file, &buf);
+	json_object *root, *info, *plot;
+	json_object *version;
+	const char *version_s;
+
+	err = alloc_buf_read_file(file, &json);
 	if (err < 0) {
 		fprintf(stderr, "ERROR: read json %s failed.\n", file);
 		return err;
 	}
 
+	root = json_tokener_parse(json);
+	json_object_object_get_ex(root, "plotcake", &info);
+	json_object_object_get_ex(root, "plot", &plot);
+
+	if (!json_object_object_get_ex(info, "version", &version)) {
+		fprintf(stderr, "ERROR: not found version in %s.\n", file);
+		goto done;
+	}
+	version_s = json_object_get_string(version);
+	(void)version_s;
+
 	/* TODO: parse json */
 
-	free(buf);
+done:
+	free(json);
 	fprintf(stderr, "ERROR: Not support input json yet.\n");
 	return -ENOTSUP;
 }
