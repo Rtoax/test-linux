@@ -207,6 +207,7 @@ static int load_txt(struct plot *p, const char *file, bool debug)
 			/* line draw operation */
 			start = strrchr(linebuf, ' ') + 1;
 			Check(start - 1, ' ');
+			/* TODO: set line type */
 
 			new_line(lg, lname, lcolor_name2num(lcolor));
 
@@ -540,6 +541,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 			J_STRING(ltype);
 			J_GET_VALUE(line, "type", ltype);
 			J_GET_STRING(ltype);
+			/* TODO: set line type */
 
 			/* Create new line */
 			new_line(lg, lname_s, lcolor_name2num(lcolor_s));
@@ -552,6 +554,9 @@ static int load_json(struct plot *p, const char *file, bool debug)
 
 			json_object_object_foreach(values, vid_s, value)
 			{
+				struct timeval timev;
+				struct line *line;
+
 				if (debug)
 					printf("value id %s\n", vid_s);
 
@@ -589,6 +594,20 @@ static int load_json(struct plot *p, const char *file, bool debug)
 
 				J_GET_U64(sec);
 				J_GET_U64(usec);
+				timev.tv_sec = sec_u64;
+				timev.tv_usec = usec_u64;
+
+				line = lgroup_line(lg, lid_i);
+				if (!line) {
+					fprintf(stderr,
+						"ERROR: not found line %d.\n",
+						lid_i);
+					err = -ENOENT;
+					goto done;
+				}
+
+				/* insert value to line */
+				line_add_value(line, v_d, -1, &timev);
 			}
 		}
 	}
@@ -601,9 +620,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 
 done:
 	free(json);
-	/* TODO: return err */
-	fprintf(stderr, "ERROR: Not support input json yet.\n");
-	return -ENOTSUP;
+	return err;
 }
 #endif
 

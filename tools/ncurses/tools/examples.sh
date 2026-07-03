@@ -100,8 +100,12 @@ run -V --version
 run -M --ram
 stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
 run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
-run -o data
-run -f data.txt
+run -o loadavg
+run -f loadavg.txt
+run -f loadavg.json
+run --ram -o memory
+run --ram -f memory.txt
+run --ram -f memory.json
 run --logarithmic
 run --logarithmic10
 run --exponential
