@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include "line.h"
 #include "plot.h"
-#include "load.h"
+#include "loadavg.h"
 
 static void loadavg_create(struct lgroup *lg, void *arg)
 {

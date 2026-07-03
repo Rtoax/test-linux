@@ -28,7 +28,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include "file.h"
-#include "load.h"
+#include "loadavg.h"
 #include "keyboard.h"
 #include "line.h"
 #include "plot.h"

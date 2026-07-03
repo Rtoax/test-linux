@@ -6,7 +6,7 @@
 #include <string.h>
 #include "file.h"
 #include "plot.h"
-#include "load.h"
+#include "loadavg.h"
 #include "line.h"
 #include "ram.h"
 #include "stdin.h"
