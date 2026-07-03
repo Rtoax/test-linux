@@ -413,6 +413,10 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	json_object *name; \
 	int name##_i
 
+#define J_DOUBLE(name)     \
+	json_object *name; \
+	double name##_d
+
 #define J_GET_VALUE(obj, key, value)                                        \
 	if (!json_object_object_get_ex(obj, key, &value)) {                 \
 		fprintf(stderr, "ERROR: not found %s in %s.\n", key, #obj); \
@@ -429,6 +433,12 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	value##_i = json_object_get_int(value);                \
 	if (debug) {                                           \
 		fprintf(stderr, "%s %d\n", #value, value##_i); \
+	}
+
+#define J_GET_DOUBLE(value)                                     \
+	value##_d = json_object_get_double(value);              \
+	if (debug) {                                            \
+		fprintf(stderr, "%s %lf\n", #value, value##_d); \
 	}
 
 	J_STRING(version);
@@ -503,6 +513,10 @@ static int load_json(struct plot *p, const char *file, bool debug)
 			{
 				if (debug)
 					printf("value id %s\n", vid_s);
+
+				J_DOUBLE(v);
+				J_GET_VALUE(value, "v", v);
+				J_GET_DOUBLE(v);
 			}
 		}
 	}

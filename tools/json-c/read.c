@@ -30,6 +30,14 @@ int main(void)
 		printf("age field not found\n");
 	}
 
+	json_object *tall_obj;
+	if (json_object_object_get_ex(header, "tall", &tall_obj)) {
+		double m = json_object_get_double(tall_obj);
+		printf("tall: %lf m\n", m);
+	} else {
+		printf("tall field not found\n");
+	}
+
 	json_object *array_obj;
 	if (json_object_object_get_ex(header, "array", &array_obj) &&
 	    json_object_get_type(array_obj) == json_type_array) {

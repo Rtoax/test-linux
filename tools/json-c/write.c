@@ -17,6 +17,7 @@ int main(void)
 	json_object_object_add(header, "author",
 			       json_object_new_string("Rong Tao"));
 	json_object_object_add(header, "age", json_object_new_int(18));
+	json_object_object_add(header, "tall", json_object_new_double(1.695));
 
 	array = json_object_new_array();
 	json_object_array_add(array, json_object_new_int(1));
