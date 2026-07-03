@@ -58,7 +58,6 @@ void print_attr(void)
 			attroff(c | a);
 		}
 	}
-	printw("\nPress 'q' or ctrl-c to quit\n");
 	refresh();
 }
 
@@ -70,9 +69,9 @@ int main(void)
 
 	print_attr();
 
-	while (getch() != 'q') {
-		sleep(1);
-	}
+	printw("\nPress any key to quit\n");
+	refresh();
+	getch();
 
 	endwin();
 	return 0;
