@@ -101,11 +101,11 @@ run -M --ram
 stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
 run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
 run -o loadavg
-run -f loadavg.txt
-run -f loadavg.json
+run -o loadavg2 -f loadavg.txt
+run -o loadavg3 -f loadavg.json
 run --ram -o memory
-run --ram -f memory.txt
-run --ram -f memory.json
+run --ram -o memory2 -f memory.txt
+run --ram -o memory3 -f memory.json
 run --logarithmic
 run --logarithmic10
 run --exponential

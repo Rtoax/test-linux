@@ -342,15 +342,13 @@ int main(int argc, char *argv[])
 		FD_SET(stdinfd, &readfds);
 		if (maxfd < stdinfd)
 			maxfd = stdinfd;
-	} else if (!file) {
+	} else {
 		/**
-		 * Not create fresh timer if read data from file.
-		 *
-		 * TODO: Perhaps we should support allowing the drawing to
-		 * continue?
-		 *
 		 * Note: When we read data from stdin, we no longer need this
 		 * timer to trigger the update.
+		 *
+		 * TODO: Perhaps we should support allowing the drawing to
+		 * continue for stdin if plot/line information matched.
 		 */
 		freshtimerfd = new_timerfd(interval_nsecs);
 		FD_SET(freshtimerfd, &readfds);
