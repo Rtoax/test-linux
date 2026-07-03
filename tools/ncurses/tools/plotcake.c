@@ -409,7 +409,7 @@ int main(int argc, char *argv[])
 
 	/* Read from 'file' instead of create()/update() */
 	if (!file) {
-		plot_create_data(&plot);
+		plot_create_lines(&plot);
 		plot_update_data(&plot);
 	}
 	plot_update_size(&plot, true);

@@ -167,7 +167,7 @@ struct lgroup *plot_lgroup(const struct plot *p, int idx);
 
 void plot_update_size(struct plot *p, bool init);
 
-void plot_create_data(struct plot *p);
+void plot_create_lines(struct plot *p);
 void plot_update_data(struct plot *p);
 void plot_help(const struct plot *p);
 void plot_llabel(const struct plot *p);

@@ -451,7 +451,7 @@ static void __paint_plot(struct plot *p, bool debug)
 	move(0, 0);
 }
 
-void plot_create_data(struct plot *p)
+void plot_create_lines(struct plot *p)
 {
 	for_each_lgroup(p, lg)
 	{
