@@ -511,6 +511,14 @@ static int load_json(struct plot *p, const char *file, bool debug)
 			if (debug)
 				printf("line id %s\n", lid_s);
 
+			struct lgroup *lg = plot_lgroup(p, lgid_i);
+			if (!lg) {
+				fprintf(stderr, "ERROR: not found lgroup %d.\n",
+					lgid_i);
+				err = -ENOENT;
+				goto done;
+			}
+
 			J_STRING(lname);
 			J_GET_VALUE(line, "name", lname);
 			J_GET_STRING(lname);
@@ -522,10 +530,19 @@ static int load_json(struct plot *p, const char *file, bool debug)
 			J_STRING(lcolor);
 			J_GET_VALUE(line, "color", lcolor);
 			J_GET_STRING(lcolor);
+			if (!lcolor_hasname(lcolor_s)) {
+				fprintf(stderr, "ERROR: unknown color '%s'.\n",
+					lcolor_s);
+				err = -ENOENT;
+				goto done;
+			}
 
 			J_STRING(ltype);
 			J_GET_VALUE(line, "type", ltype);
 			J_GET_STRING(ltype);
+
+			/* Create new line */
+			new_line(lg, lname_s, lcolor_name2num(lcolor_s));
 
 			J_INT(vcount);
 			J_GET_VALUE(line, "vcount", vcount);
