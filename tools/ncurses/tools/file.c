@@ -393,7 +393,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	int err;
 	char *json;
 
-	json_object *root, *info, *plot, *lgroups, *lines;
+	json_object *root, *info, *plot, *lgroups, *lines, *values;
 
 	err = alloc_buf_read_file(file, &json);
 	if (err < 0) {
@@ -496,6 +496,14 @@ static int load_json(struct plot *p, const char *file, bool debug)
 			J_INT(vcount);
 			J_GET_VALUE(line, "vcount", vcount);
 			J_GET_INT(vcount);
+
+			J_GET_VALUE(line, "values", values);
+
+			json_object_object_foreach(values, vid_s, value)
+			{
+				if (debug)
+					printf("value id %s\n", vid_s);
+			}
 		}
 	}
 
