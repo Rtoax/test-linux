@@ -8,11 +8,11 @@ set stty_init "rows 64 cols 132"
 
 log_file -noappend examples.exp.log
 
-set title "TITLE_XXX"
-set xlabel "LABEL_X"
-set ylabel "LABEL_Y"
-set line0 "LLABEL_0"
-set line1 "LLABEL_1"
+set title "TITLE_XYZ"
+set xlabel "AXIS_X"
+set ylabel "AXIS_Y"
+set line0 "LINE_0"
+set line1 "LINE_1"
 
 spawn bash -c "while sleep 0.01; do echo 1 2; done |
 	./plotcake --title $title --xlabel $xlabel --ylabel $ylabel \
