@@ -8,9 +8,6 @@
 #include "keyboard.h"
 #include "plot.h"
 
-static struct key_handler *handlers = NULL;
-static int nr_handlers = 0;
-
 int keyboard_init(struct keyboard *k)
 {
 	memset(k, 0, sizeof(*k));
@@ -23,32 +20,50 @@ static int key_cmp(const void *k1, const void *k2)
 	       ((struct key_handler *)k2)->key;
 }
 
-int register_key_handler(int key, void *arg, key_handler_fn handler)
+static struct key_handler *find_handler(struct keyboard *k, int key)
+{
+	struct key_handler find = {
+		.key = key,
+	};
+
+	return bsearch(&find, k->handlers, k->nr_handlers,
+		       sizeof(struct key_handler), key_cmp);
+}
+
+int register_key_handler(struct keyboard *k, int key, void *arg,
+			 key_handler_fn handler)
 {
 	struct key_handler *news, *new;
 
-	news = realloc(handlers, sizeof(struct key_handler) * ++nr_handlers);
+	if (!k)
+		return -EINVAL;
+
+	/* already register */
+	if (find_handler(k, key))
+		return -EEXIST;
+
+	news = realloc(k->handlers,
+		       sizeof(struct key_handler) * ++k->nr_handlers);
 	assert(news && "Alloc key handler failed");
 
-	handlers = news;
-	new = &handlers[nr_handlers - 1];
+	k->handlers = news;
+	new = &k->handlers[k->nr_handlers - 1];
 
 	new->key = key;
 	new->arg = arg;
 	new->handler = handler;
 
-	qsort(handlers, nr_handlers, sizeof(struct key_handler), key_cmp);
+	qsort(k->handlers, k->nr_handlers, sizeof(struct key_handler), key_cmp);
 
 	return 0;
 }
 
-int exec_key_handler(int key)
+int exec_key_handler(struct keyboard *k, int key)
 {
-	struct key_handler *handler, find = {
-		.key = key,
-	};
-	handler = bsearch(&find, handlers, nr_handlers,
-			  sizeof(struct key_handler), key_cmp);
+	if (!k)
+		return -EINVAL;
+
+	struct key_handler *handler = find_handler(k, key);
 	if (!handler) {
 		return -ENOENT;
 	}

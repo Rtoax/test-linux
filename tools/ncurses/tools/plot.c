@@ -481,7 +481,7 @@ static void __plot_redraw(struct plot *p, bool debug)
 	/**
 	 * Handle the keyboard first, because 'reset' need before paint.
 	 */
-	exec_key_handler(p->kb->current_key);
+	exec_key_handler(p->kb, p->kb->current_key);
 
 	__paint_plot(p, debug);
 
@@ -650,16 +650,16 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug)
 
 	p->kb = kb;
 
-	register_key_handler('r', p, key_r);
-	register_key_handler('t', p, key_t);
-	register_key_handler('h', p, key_h);
-	register_key_handler('l', p, key_l);
-	register_key_handler(KEY_UP, p, key_up);
-	register_key_handler(KEY_DOWN, p, key_down);
-	register_key_handler(KEY_RIGHT, p, key_right);
-	register_key_handler(KEY_LEFT, p, key_left);
+	err = err ?: register_key_handler(kb, 'r', p, key_r);
+	err = err ?: register_key_handler(kb, 't', p, key_t);
+	err = err ?: register_key_handler(kb, 'h', p, key_h);
+	err = err ?: register_key_handler(kb, 'l', p, key_l);
+	err = err ?: register_key_handler(kb, KEY_UP, p, key_up);
+	err = err ?: register_key_handler(kb, KEY_DOWN, p, key_down);
+	err = err ?: register_key_handler(kb, KEY_RIGHT, p, key_right);
+	err = err ?: register_key_handler(kb, KEY_LEFT, p, key_left);
 
-	if (file)
+	if (file && !err)
 		err = err ?: load_plot(p, file, debug);
 
 	return err;
