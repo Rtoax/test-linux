@@ -9,6 +9,7 @@
 #include "config.h"
 #include "value.h"
 
+struct plot;
 struct lgroup;
 struct ltype_ops;
 
@@ -38,7 +39,7 @@ struct line {
 };
 
 struct ltype_ops {
-	char *name;
+	const char name[64];
 	void (*horizon)(struct line *ln, int y, int x);
 	void (*vertical)(struct line *ln, int y, int x, int n);
 	void (*ulcorner)(struct line *ln, int y, int x); /* upper left corner */
@@ -60,9 +61,8 @@ struct lgroup_operations {
 	void (*plot_debug)(const struct lgroup *self, void *arg);
 };
 
-struct plot;
 struct lgroup {
-	const char *name;
+	const char name[64];
 	int id;
 	struct line *head, *tail;
 	int count; /* number of lines */
