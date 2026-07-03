@@ -22,6 +22,19 @@ struct plot_file_operations {
 	int (*load)(struct plot *p, const char *file, bool debug);
 };
 
+static int __create_lgroup(struct plot *p, const char *lname)
+{
+	if (!strcmp(lname, "loadavg")) {
+		plot_add_lgroup(p, &lg_loadavg, NULL);
+	} else if (!strcmp(lname, "ram")) {
+		plot_add_lgroup(p, &lg_ram, NULL);
+	} else {
+		fprintf(stderr, "ERROR: not support '%s' yet.\n", lname);
+		return -EINVAL;
+	}
+	return 0;
+}
+
 static int save_txt(const struct plot *p, const char *filename, bool debug)
 {
 	char path[256];
@@ -131,16 +144,9 @@ static int load_txt(struct plot *p, const char *file, bool debug)
 			Check(end, ' ');
 			*end = '\0';
 
-			if (!strcmp(start, "loadavg")) {
-				plot_add_lgroup(p, &lg_loadavg, NULL);
-			} else if (!strcmp(start, "ram")) {
-				plot_add_lgroup(p, &lg_ram, NULL);
-			} else {
-				fprintf(stderr, "ERROR not support '%s' yet.\n",
-					start);
-				err = -EINVAL;
+			err = __create_lgroup(p, start);
+			if (err)
 				break;
-			}
 		} else if (!strncmp(linebuf, "line ", 5)) {
 			char *start = linebuf, *end;
 			int idx;
@@ -424,6 +430,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 #define J_GET_VALUE(obj, key, value)                                        \
 	if (!json_object_object_get_ex(obj, key, &value)) {                 \
 		fprintf(stderr, "ERROR: not found %s in %s.\n", key, #obj); \
+		err = -ENOENT;                                              \
 		goto done;                                                  \
 	}
 
@@ -463,10 +470,12 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	J_STRING(xlabel);
 	J_GET_VALUE(plot, "xlabel", xlabel);
 	J_GET_STRING(xlabel);
+	set_plot_xlabel(p, xlabel_s);
 
 	J_STRING(ylabel);
 	J_GET_VALUE(plot, "ylabel", ylabel);
 	J_GET_STRING(ylabel);
+	set_plot_ylabel(p, ylabel_s);
 
 	J_INT(lgcount);
 	J_GET_VALUE(plot, "lgcount", lgcount);
@@ -482,6 +491,10 @@ static int load_json(struct plot *p, const char *file, bool debug)
 		J_STRING(lgname);
 		J_GET_VALUE(lgroup, "name", lgname);
 		J_GET_STRING(lgname);
+
+		err = __create_lgroup(p, lgname_s);
+		if (err)
+			goto done;
 
 		J_INT(lgid);
 		J_GET_VALUE(lgroup, "id", lgid);
@@ -571,6 +584,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 
 done:
 	free(json);
+	/* TODO: return err */
 	fprintf(stderr, "ERROR: Not support input json yet.\n");
 	return -ENOTSUP;
 }
