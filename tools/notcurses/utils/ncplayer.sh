@@ -2,6 +2,9 @@
 set -e
 
 scale() {
+	# -k: keep after quit
+	# -t: Delay seconds
+	# -s scale: scale mode
 	ncplayer -t 0.5 -s scale ${@}
 }
 
