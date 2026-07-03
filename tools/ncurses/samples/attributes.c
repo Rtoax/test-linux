@@ -71,7 +71,9 @@ int main(void)
 
 	print_attr();
 
-	sleep(2);
+	while (getch() != 'q') {
+		sleep(1);
+	}
 
 	endwin();
 	return 0;
