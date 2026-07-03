@@ -162,22 +162,24 @@ void broadcast_sig(int signo)
 
 static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 {
+	int err = 0;
+
 	switch (opt) {
 	case 'T':
 		title = arg;
 		break;
 	case 'l':
-		enqueue_llabel(arg);
+		err = err ?: enqueue_llabel(arg);
 		break;
 	case 'L':
 		if (!ltype_hasname(arg))
 			exit(EXIT_FAILURE);
-		enqueue_ltype(ltype_name2type(arg));
+		err = err ?: enqueue_ltype(ltype_name2type(arg));
 		break;
 	case 'C':
 		if (!lcolor_hasname(arg))
 			exit(EXIT_FAILURE);
-		enqueue_lcolor(lcolor_name2num(arg));
+		err = err ?: enqueue_lcolor(lcolor_name2num(arg));
 		break;
 	case 'x':
 		xlabel = arg;
@@ -242,7 +244,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	default:
 		return ARGP_ERR_UNKNOWN;
 	}
-	return 0;
+	return err;
 }
 
 static const struct argp argp = {

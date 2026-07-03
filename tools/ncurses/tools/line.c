@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao */
 #include <assert.h>
+#include <errno.h>
 #include <float.h>
 #include <malloc.h>
 #include <math.h>
@@ -27,8 +28,12 @@ static int idx_lcolors = -1;
  */
 int enqueue_llabel(const char *name)
 {
+	if (!name)
+		return -EINVAL;
+
 	nr_llabels++;
 	llabels = (char **)realloc(llabels, nr_llabels * sizeof(char *));
+
 	/* FIXME: memleak here */
 	llabels[nr_llabels - 1] = strdup(name);
 	return 0;
@@ -43,6 +48,9 @@ const char *dequeue_llabel(void)
 
 int enqueue_ltype(enum ltype_enum t)
 {
+	if (t >= LINE_TYPE_MAX || t < LINE_TYPE_DEFAULT)
+		return -EINVAL;
+
 	nr_ltypes++;
 	ltypes = (enum ltype_enum *)realloc(
 		ltypes, nr_ltypes * sizeof(enum ltype_enum));
@@ -64,6 +72,9 @@ enum ltype_enum dequeue_ltype(void)
 
 int enqueue_lcolor(enum lcolor_enum c)
 {
+	if (c >= C_MAX || c < C_GREEN)
+		return -EINVAL;
+
 	nr_lcolors++;
 	lcolors = (enum lcolor_enum *)realloc(
 		lcolors, nr_lcolors * sizeof(enum lcolor_enum));
