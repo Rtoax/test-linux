@@ -19,7 +19,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
-- ncurses: test attribute.c, color.c;
+- ncurses: test attribute.c, color.c, color.h;
 - plotcake: Release v1.6.8, v1.6.7, v1.6.6, v1.6.5, v1.6.4, v1.6.3;
 #### Template
 
