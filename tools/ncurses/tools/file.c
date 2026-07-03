@@ -326,11 +326,10 @@ static int save_json(const struct plot *p, const char *filename, bool debug)
 				       json_object_new_int(lg->count));
 		json_object_object_add(lgroup, "lines", lines);
 
-		int lnidx = 0;
 		for_each_line(lg, ln)
 		{
 			char lns[16];
-			snprintf(lns, 16, "%d", lnidx);
+			snprintf(lns, 16, "%d", ln->id);
 			json_object *line = json_object_new_object();
 
 			json_object_object_add(lines, lns, line);
@@ -362,12 +361,6 @@ static int save_json(const struct plot *p, const char *filename, bool debug)
 				json_object_object_add(values, vs, value);
 
 				json_object_object_add(
-					value, "lid",
-					json_object_new_int(ln->id));
-				json_object_object_add(
-					value, "gid",
-					json_object_new_int(lg->id));
-				json_object_object_add(
 					value, "v",
 					json_object_new_double(v->v));
 
@@ -383,7 +376,6 @@ static int save_json(const struct plot *p, const char *filename, bool debug)
 
 				vidx++;
 			}
-			lnidx++;
 		}
 	}
 
