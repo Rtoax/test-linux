@@ -10,7 +10,7 @@
 #include "plot.h"
 #include "keyboard.h"
 
-chtype flavor[C_MAX] = { 0 };
+chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
 int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
@@ -50,7 +50,7 @@ void init_flavor(void)
 		start_color();
 #define SET_COLOR(num, fg)                        \
 	init_pair(num + 1, (short)fg, (short)bg); \
-	flavor[num] |= (chtype)COLOR_PAIR(num + 1)
+	colors[num] |= (chtype)COLOR_PAIR(num + 1)
 
 		SET_COLOR(C_GREEN, COLOR_GREEN);
 		SET_COLOR(C_RED, COLOR_RED);
@@ -65,7 +65,7 @@ void init_flavor(void)
 
 chtype getflavor(enum lcolor_enum color)
 {
-	return flavor[color];
+	return colors[color];
 }
 
 void plot_update_size(struct plot *p, bool init)
@@ -127,9 +127,9 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 	va_start(va, fmt);
 	vsnprintf(buff, 256, fmt, va);
 	va_end(va);
-	attron(flavor[C_RED] | A_BOLD);
+	attron(colors[C_RED] | A_BOLD);
 	mvaddstr(p->height / 2, (p->width - strlen(buff)) / 2, buff);
-	attroff(flavor[C_RED] | A_BOLD);
+	attroff(colors[C_RED] | A_BOLD);
 }
 
 /**
@@ -142,7 +142,7 @@ static void __paint_line(struct plot *p, struct line *ln, int start, int len,
 {
 	int iv;
 	int prev_h = -1;
-	chtype color = flavor[ln->color];
+	chtype color = colors[ln->color];
 
 	switch (p->curve_type) {
 	case CURVE_TYPE_LOGARITHMIC:
@@ -531,10 +531,10 @@ void plot_help(const struct plot *p)
 	int w = p->bnd.left + 1;
 	int n = sizeof(key_helps) / sizeof(key_helps[0]);
 
-	attron(flavor[C_BLUE] | A_BOLD);
+	attron(colors[C_BLUE] | A_BOLD);
 	for (int i = n - 1; i >= 0; i--)
 		mvprintw(h - i, w, "%s", key_helps[n - i - 1]);
-	attroff(flavor[C_BLUE] | A_BOLD);
+	attroff(colors[C_BLUE] | A_BOLD);
 }
 
 void plot_llabel(const struct plot *p)
@@ -557,11 +557,11 @@ void plot_llabel(const struct plot *p)
 			int hi = h - nline + i + 1;
 			const int n = 6;
 
-			attron(flavor[ln->color] | A_BOLD);
+			attron(colors[ln->color] | A_BOLD);
 			for (int x = 0; x < n; x++)
 				ln->ops->horizon(ln, hi, w + x);
 			mvprintw(hi, w + n + 1, " %s", ln->name);
-			attroff(flavor[ln->color] | A_BOLD);
+			attroff(colors[ln->color] | A_BOLD);
 			i++;
 		}
 	}
