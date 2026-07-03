@@ -312,12 +312,18 @@ static int save_json(const struct plot *p, const char *filename, bool debug)
 	json_object_object_add(plot, "lgcount",
 			       json_object_new_int(p->lgcount));
 
+	json_object *lgroups = json_object_new_object();
+	json_object_object_add(plot, "lgroups", lgroups);
+
 	for_each_lgroup(p, lg)
 	{
-		json_object *lgroup = json_object_new_object();
 		json_object *lines = json_object_new_object();
 
-		json_object_object_add(plot, "lgroup", lgroup);
+		char lgs[16];
+		snprintf(lgs, 16, "%d", lg->id);
+		json_object *lgroup = json_object_new_object();
+		json_object_object_add(lgroups, lgs, lgroup);
+
 		json_object_object_add(lgroup, "name",
 				       json_object_new_string(lg->name));
 		json_object_object_add(lgroup, "id",
@@ -389,7 +395,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	int err;
 	char *json;
 
-	json_object *root, *info, *plot;
+	json_object *root, *info, *plot, *lgroups;
 
 	err = alloc_buf_read_file(file, &json);
 	if (err < 0) {
@@ -446,6 +452,8 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	J_STRING(lgcount);
 	J_GET_VALUE(plot, "lgcount", lgcount);
 	J_GET_STRING(lgcount, lgcount_s);
+
+	J_GET_VALUE(plot, "lgroups", lgroups);
 
 	/* TODO: parse json */
 
