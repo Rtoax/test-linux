@@ -31,6 +31,10 @@ int enqueue_llabel(const char *name)
 	if (!name)
 		return -EINVAL;
 
+	for (int i = 0; i < nr_llabels; i++)
+		if (!strcmp(name, llabels[i]))
+			return -EEXIST;
+
 	nr_llabels++;
 	llabels = (char **)realloc(llabels, nr_llabels * sizeof(char *));
 
