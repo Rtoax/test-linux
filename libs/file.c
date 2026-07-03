@@ -8,31 +8,37 @@
 #include <unistd.h>
 
 /**
- * @return: need free()
+ * use to
+ * - plotcake::utils.c
  */
-char *alloc_buf_read_file(const char *filename)
+/**
+ * @buf: need free()
+ * @return: -errno if failed, file size if success
+ */
+long alloc_buf_read_file(const char *filename, char **buf)
 {
 	FILE *fp = fopen(filename, "rb");
 	if (!fp) {
-		perror("fopen");
-		return NULL;
+		fprintf(stderr, "open %s failed, %m\n", filename);
+		return -errno;
 	}
 
 	fseek(fp, 0, SEEK_END);
 	long size = ftell(fp);
 	fseek(fp, 0, SEEK_SET);
 
-	char *buffer = (char *)malloc(size + 1);
-	if (!buffer) {
-		perror("malloc");
+	*buf = (char *)malloc(size + 1);
+	if (!buf) {
+		fprintf(stderr, "alloc memory failed, %m.\n");
 		fclose(fp);
-		return NULL;
+		return -errno;
 	}
 
-	fread(buffer, 1, size, fp);
-	buffer[size] = '\0';
+	fread(*buf, 1, size, fp);
+	(*buf)[size] = '\0';
 	fclose(fp);
-	return buffer;
+
+	return size;
 }
 
 int open_secure_temp_file(char filename[128])
@@ -79,13 +85,14 @@ int main(void)
 	int err;
 	char filename[128];
 	int fd = open_secure_temp_file(filename);
+	char *buf;
 
 	err = write(fd, "Hello", 6);
 	printf("write(%d, ...) = %d\n", fd, err);
 
 	close(fd);
 
-	char *buf = alloc_buf_read_file(filename);
+	alloc_buf_read_file(filename, &buf);
 
 	printf("buf: %s\n", buf);
 	if (strcmp(buf, "Hello")) {

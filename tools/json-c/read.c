@@ -4,7 +4,10 @@
 
 int main(void)
 {
-	char *json = alloc_buf_read_file("tmp.json");
+	char *json;
+
+	alloc_buf_read_file("tmp.json", &json);
+
 	json_object *root, *header, *body;
 
 	root = json_tokener_parse(json);

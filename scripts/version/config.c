@@ -315,6 +315,7 @@ int json_software(struct json *j, json_object *s)
 int main(int argc, char *argv[])
 {
 	int err;
+	char *content;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -326,7 +327,12 @@ int main(int argc, char *argv[])
 		return -ENOENT;
 	}
 
-	char *content = alloc_buf_read_file(json);
+	err = alloc_buf_read_file(json, &content);
+	if (err <= 0) {
+		fprintf(stderr, "read json %s failed.\n", json);
+		return err;
+	}
+
 	json_object *root, *version, *common, *software;
 
 	struct json *j = malloc(sizeof(struct json));

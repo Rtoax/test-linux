@@ -5,3 +5,5 @@
 unsigned long usecs(void);
 
 unsigned long str2nsecs(const char *str);
+
+long alloc_buf_read_file(const char *filename, char **buf);

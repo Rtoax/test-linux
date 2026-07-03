@@ -394,6 +394,18 @@ static int save_json(const struct plot *p, const char *filename)
 
 static int load_json(struct plot *p, const char *file)
 {
+	int err;
+	char *buf;
+
+	err = alloc_buf_read_file(file, &buf);
+	if (err < 0) {
+		fprintf(stderr, "ERROR: read json %s failed.\n", file);
+		return err;
+	}
+
+	/* TODO: parse json */
+
+	free(buf);
 	fprintf(stderr, "ERROR: Not support input json yet.\n");
 	return -ENOTSUP;
 }

@@ -47,3 +47,36 @@ unsigned long str2nsecs(const char *str)
 
 	return ns;
 }
+
+/**
+ * see test-linux libs/file.c
+ */
+/**
+ * @buf: need free()
+ * @return: -errno if failed, file size if success
+ */
+long alloc_buf_read_file(const char *filename, char **buf)
+{
+	FILE *fp = fopen(filename, "rb");
+	if (!fp) {
+		fprintf(stderr, "open %s failed, %m\n", filename);
+		return -errno;
+	}
+
+	fseek(fp, 0, SEEK_END);
+	long size = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+
+	*buf = (char *)malloc(size + 1);
+	if (!buf) {
+		fprintf(stderr, "alloc memory failed, %m.\n");
+		fclose(fp);
+		return -errno;
+	}
+
+	fread(*buf, 1, size, fp);
+	(*buf)[size] = '\0';
+	fclose(fp);
+
+	return size;
+}
