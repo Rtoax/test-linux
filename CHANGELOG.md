@@ -19,6 +19,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
+- plotcake: Release v1.6.3;
 #### Template
 
 
