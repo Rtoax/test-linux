@@ -1,6 +1,7 @@
 include ncurses.mk
 
 target-y += attributes
+target-y += color
 target-y += getch
 target-y += getmaxyx
 target-y += keyname

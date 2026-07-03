@@ -66,10 +66,9 @@ const char *attr_name(chtype a)
 void init_colors(void)
 {
 	if (has_colors()) {
-		int bg = COLOR_BLACK;
 		start_color();
-#define SET_COLOR(num, fg)                        \
-	init_pair(num + 1, (short)fg, (short)bg); \
+#define SET_COLOR(num, fg)                                 \
+	init_pair(num + 1, (short)fg, (short)COLOR_BLACK); \
 	colors[num] |= (chtype)COLOR_PAIR(num + 1)
 
 		SET_COLOR(C_GREEN, COLOR_GREEN);
