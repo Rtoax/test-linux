@@ -61,6 +61,11 @@ void init_flavor(void)
 	}
 }
 
+chtype getflavor(enum lcolor_enum color)
+{
+	return flavor[color];
+}
+
 void plot_update_size(struct plot *p, bool init)
 {
 	if (init) {

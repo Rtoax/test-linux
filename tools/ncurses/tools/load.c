@@ -33,8 +33,11 @@ static void loadavg_plot_debug(const struct lgroup *lg, void *arg)
 	int i = 0;
 	for_each_line(lg, ln)
 	{
+		chtype color = getflavor(ln->color);
+		attron(color);
 		mvprintw(i + 2, p->bnd.left + 1, "%s: %d %ld %lf~%lf", ln->name,
 			 ln->id, ln->count, ln->min->v, ln->max->v);
+		attroff(color);
 		i++;
 	}
 }

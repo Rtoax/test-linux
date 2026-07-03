@@ -146,6 +146,8 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	i = 0;
 	for_each_line(lg, ln)
 	{
+		chtype color = getflavor(ln->color);
+		attron(color);
 		if (ln->count <= 0)
 			mvprintw(i + 4, p->bnd.left + 1, "%s: %d %ld", ln->name,
 				 ln->id, ln->count);
@@ -154,6 +156,7 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 				 "%s: %d %ld %f - %lf~%lf", ln->name, ln->id,
 				 ln->count, ln->tail->v, ln->min->v,
 				 ln->max->v);
+		attroff(color);
 		i++;
 	}
 	free(buf);
