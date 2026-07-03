@@ -362,13 +362,23 @@ static struct line *__create_line(const char *name, int color)
 	return new;
 }
 
+/**
+ * If the line is already exist in line group, return NULL.
+ */
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 			  const struct ltype_ops *ops)
 {
-	struct line *new = __create_line(name, color);
-	lgroup_add_line(lg, new);
+	struct line *old, *new;
+
+	old = lgroup_get_line_from_name(lg, name);
+	if (old)
+		return NULL;
+
+	new = __create_line(name, color);
 	new->ops = ops;
-	new->id = lg->count;
+
+	lgroup_add_line(lg, new);
+
 	return new;
 }
 

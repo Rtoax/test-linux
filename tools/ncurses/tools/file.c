@@ -254,7 +254,7 @@ static int load_txt(struct plot *p, const char *file, bool debug)
 			*end = '\0';
 
 			idx = atoi(start);
-			line = lgroup_line(lg, idx);
+			line = lgroup_get_line_from_id(lg, idx);
 			if (!line) {
 				fprintf(stderr, "ERROR: not found line %d.\n",
 					idx);
@@ -616,7 +616,7 @@ static int load_json(struct plot *p, const char *file, bool debug)
 				timev.tv_sec = sec_u64;
 				timev.tv_usec = usec_u64;
 
-				line = lgroup_line(lg, lid_i);
+				line = lgroup_get_line_from_id(lg, lid_i);
 				if (!line) {
 					fprintf(stderr,
 						"ERROR: not found line %d.\n",
@@ -710,9 +710,10 @@ int load_plot(struct plot *p, const char *file, bool debug)
 	return ops->load(p, file, debug);
 }
 
-static void file_create_lines(struct lgroup *lg, void *arg)
+static int file_create_lines(struct lgroup *lg, void *arg)
 {
 	// TODO
+	return 0;
 }
 
 static void file_update_data(struct lgroup *lg, void *arg)

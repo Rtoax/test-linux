@@ -451,14 +451,24 @@ static void __paint_plot(struct plot *p, bool debug)
 	move(0, 0);
 }
 
-void plot_create_lines(struct plot *p)
+/**
+ * return the number of lines be created.
+ */
+int plot_create_lines(struct plot *p)
 {
+	int err = 0, n = 0;
 	for_each_lgroup(p, lg)
 	{
 		if (!lg->ops || !lg->ops->create_lines)
 			continue;
-		lg->ops->create_lines(lg, lg->ops->arg);
+		err = lg->ops->create_lines(lg, lg->ops->arg);
+		if (n < 0) {
+			err = n;
+			break;
+		} else if (n > 0)
+			n += err;
 	}
+	return err;
 }
 
 void plot_update_data(struct plot *p)

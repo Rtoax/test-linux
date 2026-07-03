@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (C) 2026 Rong Tao
 #include <ctype.h>
+#include <errno.h>
 #include <unistd.h>
 #include <malloc.h>
 #include <stdlib.h>
@@ -18,28 +19,36 @@ static char *skip(char *buf)
 	return buf;
 }
 
-static void __add_line(struct lgroup *lg, int i)
+static int __add_line(struct lgroup *lg, int i)
 {
 	char name[64] = { 0 };
 	snprintf(name, 64, "line%d", i);
 	enum lcolor_enum color = nextlcolor(i);
 
 	if (i < get_nr_ltypes())
-		new_line(lg, name, color);
+		return new_line(lg, name, color) ? 0 : -EEXIST;
 	else {
 		int idx = (i - get_nr_ltypes()) / C_MAX;
 		idx %= LINE_TYPE_MAX;
-		new_line_ops(lg, name, color, ltype_type2ops(idx));
+		return new_line_ops(lg, name, color, ltype_type2ops(idx)) ?
+			       0 :
+			       -EEXIST;
 	}
 }
 
-static void stdin_create_lines(struct lgroup *lg, void *arg)
+static int stdin_create_lines(struct lgroup *lg, void *arg)
 {
-	int i;
+	int i, err = 0, n = 0;
 	struct stdin_arg *a = arg;
 
-	for (i = 0; i < a->nline; i++)
-		__add_line(lg, i);
+	for (i = 0; i < a->nline; i++) {
+		err = __add_line(lg, i);
+		if (err < 0)
+			return err;
+		else
+			n++;
+	}
+	return n;
 }
 
 static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)

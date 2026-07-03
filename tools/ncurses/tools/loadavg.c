@@ -1,16 +1,26 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (C) 2026 Rong Tao
+#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "line.h"
 #include "plot.h"
 #include "loadavg.h"
 
-static void loadavg_create_lines(struct lgroup *lg, void *arg)
+static int loadavg_create_lines(struct lgroup *lg, void *arg)
 {
-	new_line(lg, "load1", nextlcolor(C_RED));
-	new_line(lg, "load5", nextlcolor(C_GREEN));
-	new_line(lg, "load15", nextlcolor(C_BLUE));
+	int n = 0;
+	n = new_line(lg, "load1", nextlcolor(C_RED)) ? n + 1 : -EEXIST;
+	if (n < 0)
+		goto done;
+	n = new_line(lg, "load5", nextlcolor(C_GREEN)) ? n + 1 : -EEXIST;
+	if (n < 0)
+		goto done;
+	n = new_line(lg, "load15", nextlcolor(C_BLUE)) ? n + 1 : -EEXIST;
+	if (n < 0)
+		goto done;
+done:
+	return n;
 }
 
 static void loadavg_update_data(struct lgroup *lg, void *arg)

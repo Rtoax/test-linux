@@ -18,7 +18,10 @@ struct lgroup {
 
 struct lgroup_operations {
 	void *arg; /* pass to every fn */
-	void (*create_lines)(struct lgroup *self, void *arg);
+	/**
+	 * Return the number of lines, -errno if failed.
+	 */
+	int (*create_lines)(struct lgroup *self, void *arg);
 	void (*update_data)(struct lgroup *self, void *arg);
 	void (*plot_debug)(const struct lgroup *self, void *arg);
 };
@@ -28,4 +31,6 @@ struct lgroup_operations {
 	     iter = iter->next)
 
 int lgroup_add_line(struct lgroup *lg, struct line *l);
-struct line *lgroup_line(const struct lgroup *lg, int idx);
+struct line *lgroup_get_line_from_id(const struct lgroup *lg, int id);
+struct line *lgroup_get_line_from_name(const struct lgroup *lg,
+				       const char *name);

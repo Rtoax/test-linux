@@ -1,16 +1,28 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (C) 2026 Rong Tao
+#include <errno.h>
 #include <unistd.h>
 #include <sys/sysinfo.h>
 #include "ram.h"
 #include "plot.h"
 
-static void ram_create_lines(struct lgroup *lg, void *arg)
+static int ram_create_lines(struct lgroup *lg, void *arg)
 {
-	new_line(lg, "total", nextlcolor(C_RED));
-	new_line(lg, "free", nextlcolor(C_GREEN));
-	new_line(lg, "shared", nextlcolor(C_BLUE));
-	new_line(lg, "buff", nextlcolor(C_CYAN));
+	int n = 0;
+	n += new_line(lg, "total", nextlcolor(C_RED)) ? n + 1 : -EEXIST;
+	if (n < 0)
+		goto done;
+	n += new_line(lg, "free", nextlcolor(C_GREEN)) ? n + 1 : -EEXIST;
+	if (n < 0)
+		goto done;
+	n += new_line(lg, "shared", nextlcolor(C_BLUE)) ? n + 1 : -EEXIST;
+	if (n < 0)
+		goto done;
+	n += new_line(lg, "buff", nextlcolor(C_CYAN)) ? n + 1 : -EEXIST;
+	if (n < 0)
+		goto done;
+done:
+	return n;
 }
 
 static void ram_update_data(struct lgroup *lg, void *arg)

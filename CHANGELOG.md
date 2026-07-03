@@ -21,7 +21,7 @@ and this project adheres to
 #### Tools
 - add notcurses;
 - ncurses: test attribute.c, color.c, color.h;
-- plotcake: Release v1.6.10;
+- plotcake: Release v1.6.11;
 #### Template
 
 
