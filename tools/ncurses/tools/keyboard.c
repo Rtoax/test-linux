@@ -67,6 +67,5 @@ int exec_key_handler(struct keyboard *k, int key)
 	if (!handler) {
 		return -ENOENT;
 	}
-	handler->handler(key, handler->arg);
-	return 0;
+	return handler->handler(key, handler->arg);
 }

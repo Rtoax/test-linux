@@ -25,7 +25,7 @@ struct keyboard {
 	int nr_handlers;
 };
 
-typedef void (*key_handler_fn)(int key, void *arg);
+typedef int (*key_handler_fn)(int key, void *arg);
 
 struct key_handler {
 	int key;

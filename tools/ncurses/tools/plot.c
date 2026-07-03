@@ -571,27 +571,29 @@ void plot_llabel(const struct plot *p)
 /**
  * Press key 'h', display the help info
  */
-static void key_h(int key, void *arg)
+static int key_h(int key, void *arg)
 {
 	struct plot *p = arg;
 	p->expired_usec.help = usecs() + EXPIRED_USECS_HELP;
 	plot_help(p);
+	return 0;
 }
 
 /**
  * Press key 'l', display the label for each line.
  */
-static void key_l(int key, void *arg)
+static int key_l(int key, void *arg)
 {
 	struct plot *p = arg;
 	p->expired_usec.llabel = usecs() + EXPIRED_USECS_LLABEL;
 	plot_llabel(p);
+	return 0;
 }
 
 /**
  * Press key 'r', reset plot
  */
-static void key_r(int key, void *arg)
+static int key_r(int key, void *arg)
 {
 	struct plot *p = arg;
 
@@ -600,41 +602,47 @@ static void key_r(int key, void *arg)
 	p->expired_usec.llabel = 0;
 	p->expired_usec.shift = 0;
 	p->plotshift = 0;
+	return 0;
 }
 
 /**
  * Press key 't', change curve type
  */
-static void key_t(int key, void *arg)
+static int key_t(int key, void *arg)
 {
 	struct plot *p = arg;
 	p->curve_type = (p->curve_type + 1) % CURVE_TYPE_MAX;
+	return 0;
 }
 
-static void key_up(int key, void *arg)
+static int key_up(int key, void *arg)
 {
 	plot_scaling_up(arg);
+	return 0;
 }
 
-static void key_down(int key, void *arg)
+static int key_down(int key, void *arg)
 {
 	plot_scaling_down(arg);
+	return 0;
 }
 
-static void key_left(int key, void *arg)
+static int key_left(int key, void *arg)
 {
 	struct plot *p = arg;
 	/* 10 seconds */
 	p->expired_usec.shift = usecs() + EXPIRED_USECS_SHIFT;
 	plot_shift_left(p);
+	return 0;
 }
 
-static void key_right(int key, void *arg)
+static int key_right(int key, void *arg)
 {
 	struct plot *p = arg;
 	/* 10 seconds */
 	p->expired_usec.shift = usecs() + EXPIRED_USECS_SHIFT;
 	plot_shift_right(p);
+	return 0;
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug)
