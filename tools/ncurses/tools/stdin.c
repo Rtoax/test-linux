@@ -157,3 +157,7 @@ struct lgroup lg_stdin = {
 	.name = "stdin",
 	.ops = &stdin_ops,
 };
+
+struct lgroup lg_stdin_no_ops = {
+	.name = "stdin",
+};

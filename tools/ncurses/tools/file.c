@@ -30,7 +30,7 @@ static int __create_lgroup(struct plot *p, const char *lname)
 	} else if (!strcmp(lname, "ram")) {
 		plot_add_lgroup(p, &lg_ram, NULL);
 	} else if (!strcmp(lname, "stdin")) {
-		plot_add_lgroup(p, &lg_stdin, NULL);
+		plot_add_lgroup(p, &lg_stdin_no_ops, NULL);
 	} else {
 		fprintf(stderr, "ERROR: not support '%s' yet.\n", lname);
 		return -EINVAL;

@@ -15,8 +15,6 @@ static const char *verstring = GIT_REPO " " MY_VERSION;
 
 int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
-	assert(lg->ops->create && "lgroup ops is not set, set it first");
-
 	if (!p->lghead) {
 		p->lghead = lg;
 		p->lgcount = 1;
@@ -27,7 +25,11 @@ int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 	p->lgtail = lg;
 	lg->plot = p;
 	lg->id = p->lgcount;
-	lg->ops->arg = lg_ops_arg;
+	if (lg->ops) {
+		lg->ops->arg = lg_ops_arg;
+	}
+
+	assert(!(!lg->ops && lg_ops_arg) && "not allow none-ops with ops arg");
 	return 0;
 }
 
@@ -391,7 +393,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 		__paint_line(p, l, start, len, shift, max, min, debug);
 	}
 
-	if (debug && lg->ops->plot_debug)
+	if (debug && lg->ops && lg->ops->plot_debug)
 		lg->ops->plot_debug(lg, lg->ops->arg);
 }
 
@@ -452,6 +454,8 @@ void plot_create_data(struct plot *p)
 {
 	for_each_lgroup(p, lg)
 	{
+		if (!lg->ops || !lg->ops->create)
+			continue;
 		lg->ops->create(lg, lg->ops->arg);
 	}
 }
@@ -460,6 +464,8 @@ void plot_update_data(struct plot *p)
 {
 	for_each_lgroup(p, lg)
 	{
+		if (!lg->ops || !lg->ops->update)
+			continue;
 		lg->ops->update(lg, lg->ops->arg);
 	}
 }

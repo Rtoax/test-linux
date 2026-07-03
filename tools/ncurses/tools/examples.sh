@@ -127,9 +127,8 @@ while true; do
 		sleep ${Interval}
 	done
 done | ${PLOTCAKE} -o stdin ${args[@]}
-# Test file load for each stdin test
-# TODO: segvfault here
-# run -f stdin.txt
-# run -f stdin.json
+# Test file load for each stdin test from above test
+run -f stdin.txt
+run -f stdin.json
 
 echo "Byebye"

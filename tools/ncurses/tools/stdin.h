@@ -9,3 +9,4 @@ struct stdin_arg {
 };
 
 extern struct lgroup lg_stdin;
+extern struct lgroup lg_stdin_no_ops;
