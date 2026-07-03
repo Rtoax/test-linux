@@ -342,25 +342,11 @@ static struct line *__create_line(const char *name, int color)
 	return new;
 }
 
-static int __lgroup_add_line(struct lgroup *lg, struct line *l)
-{
-	if (!lg->head) {
-		lg->head = l;
-		lg->count = 1;
-	} else {
-		lg->tail->next = l;
-		lg->count++;
-	}
-	lg->tail = l;
-	l->lg = lg;
-	return 0;
-}
-
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 			  const struct ltype_ops *ops)
 {
 	struct line *new = __create_line(name, color);
-	__lgroup_add_line(lg, new);
+	lgroup_add_line(lg, new);
 	new->ops = ops;
 	new->id = lg->count;
 	return new;
@@ -369,15 +355,4 @@ struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 struct line *new_line(struct lgroup *lg, const char *name, int color)
 {
 	return new_line_ops(lg, name, color, ltype_type2ops(dequeue_ltype()));
-}
-
-/* Get lgroup's line from index */
-struct line *lgroup_line(const struct lgroup *lg, int idx)
-{
-	for_each_line(lg, ln)
-	{
-		if (ln->id == idx)
-			return ln;
-	}
-	return NULL;
 }

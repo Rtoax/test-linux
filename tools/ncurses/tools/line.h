@@ -8,9 +8,9 @@
 #include <time.h>
 #include "config.h"
 #include "value.h"
+#include "lgroup.h"
 
 struct plot;
-struct lgroup;
 struct ltype_ops;
 
 enum ltype_enum {
@@ -54,27 +54,6 @@ struct ltype_ops {
 	for (struct value *iter = ((struct line *)(l))->head; iter; \
 	     iter = iter->next)
 
-struct lgroup_operations {
-	void *arg; /* pass to every fn */
-	void (*create)(struct lgroup *self, void *arg);
-	void (*update)(struct lgroup *self, void *arg);
-	void (*plot_debug)(const struct lgroup *self, void *arg);
-};
-
-struct lgroup {
-	const char name[64];
-	int id;
-	struct line *head, *tail;
-	int count; /* number of lines */
-	struct lgroup_operations *ops;
-	struct lgroup *next;
-	struct plot *plot; /* belongs to */
-};
-
-#define for_each_line(lg, iter)                                       \
-	for (struct line *iter = ((struct lgroup *)(lg))->head; iter; \
-	     iter = iter->next)
-
 extern const struct ltype_ops unicode_bold_line_ops;
 extern const struct ltype_ops unicode_bold_dashed_line_ops;
 extern const struct ltype_ops unicode_line_ops;
@@ -113,8 +92,6 @@ double line_range_delta_min(struct line *l, int start, int interval, int len);
 struct line *new_line(struct lgroup *lg, const char *name, int color);
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 			  const struct ltype_ops *ops);
-
-struct line *lgroup_line(const struct lgroup *lg, int idx);
 
 static inline void set_line_name(struct line *ln, const char *name)
 {

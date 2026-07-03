@@ -6,7 +6,8 @@ target-y += plotcake
 prog-y += examples.sh
 prog-y += examples.exp
 
-$(foreach obj, plotcake keyboard file load line plot ram stdin ltypes utils, \
+$(foreach obj, plotcake keyboard file load lgroup line plot ram stdin ltypes \
+          utils, \
   $(eval plotcake-objs += ${obj}.o))
 
 CFLAGS += ${json-c-cflags}
