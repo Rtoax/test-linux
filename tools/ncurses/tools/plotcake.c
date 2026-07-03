@@ -330,6 +330,9 @@ int main(int argc, char *argv[])
 		/**
 		 * Not create fresh timer if read data from file.
 		 *
+		 * TODO: Perhaps we should support allowing the drawing to
+		 * continue?
+		 *
 		 * Note: When we read data from stdin, we no longer need this
 		 * timer to trigger the update.
 		 */
