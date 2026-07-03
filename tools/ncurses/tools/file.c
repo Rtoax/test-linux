@@ -405,6 +405,10 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	json_object *name; \
 	const char *name##_s
 
+#define J_INT(name)        \
+	json_object *name; \
+	int *name##_i
+
 #define J_GET_VALUE(obj, key, value)                                        \
 	if (!json_object_object_get_ex(obj, key, &value)) {                 \
 		fprintf(stderr, "ERROR: not found %s in %s.\n", key, #obj); \
@@ -415,6 +419,12 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	str = json_object_get_string(value);             \
 	if (debug) {                                     \
 		fprintf(stderr, "%s %s\n", #value, str); \
+	}
+
+#define J_GET_INT(value, i)                            \
+	str = json_object_get_int(value);              \
+	if (debug) {                                   \
+		fprintf(stderr, "%s %d\n", #value, i); \
 	}
 
 	J_STRING(version);
@@ -433,11 +443,17 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	J_GET_VALUE(plot, "ylabel", ylabel);
 	J_GET_STRING(ylabel, ylabel_s);
 
+	J_STRING(lgcount);
+	J_GET_VALUE(plot, "lgcount", lgcount);
+	J_GET_STRING(lgcount, lgcount_s);
+
 	/* TODO: parse json */
 
 #undef J_STRING
+#undef J_INT
 #undef J_GET_VALUE
 #undef J_GET_STRING
+#undef J_GET_INT
 done:
 	free(json);
 	fprintf(stderr, "ERROR: Not support input json yet.\n");
