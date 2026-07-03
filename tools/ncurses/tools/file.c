@@ -413,6 +413,10 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	json_object *name; \
 	int name##_i
 
+#define J_U64(name)        \
+	json_object *name; \
+	uint64_t name##_u64
+
 #define J_DOUBLE(name)     \
 	json_object *name; \
 	double name##_d
@@ -433,6 +437,12 @@ static int load_json(struct plot *p, const char *file, bool debug)
 	value##_i = json_object_get_int(value);                \
 	if (debug) {                                           \
 		fprintf(stderr, "%s %d\n", #value, value##_i); \
+	}
+
+#define J_GET_U64(value)                                          \
+	value##_u64 = json_object_get_int(value);                 \
+	if (debug) {                                              \
+		fprintf(stderr, "%s %ld\n", #value, value##_u64); \
 	}
 
 #define J_GET_DOUBLE(value)                                     \
@@ -517,17 +527,47 @@ static int load_json(struct plot *p, const char *file, bool debug)
 				J_DOUBLE(v);
 				J_GET_VALUE(value, "v", v);
 				J_GET_DOUBLE(v);
+
+				json_object *tv;
+				J_GET_VALUE(value, "tv", tv);
+
+				if (json_object_get_type(tv) !=
+				    json_type_array) {
+					fprintf(stderr,
+						"ERROR: tv is not arrary\n");
+					goto done;
+				}
+				int len = json_object_array_length(tv);
+				if (len != 2) {
+					fprintf(stderr,
+						"ERROR: tv must has two value\n");
+					goto done;
+				}
+
+				J_U64(sec);
+				J_U64(usec);
+
+				sec = json_object_array_get_idx(tv, 0);
+				usec = json_object_array_get_idx(tv, 1);
+
+				if (!sec || !usec) {
+					fprintf(stderr,
+						"ERROR: get tv failed\n");
+					goto done;
+				}
+
+				J_GET_U64(sec);
+				J_GET_U64(usec);
 			}
 		}
 	}
-
-	/* TODO: parse json */
 
 #undef J_STRING
 #undef J_INT
 #undef J_GET_VALUE
 #undef J_GET_STRING
 #undef J_GET_INT
+
 done:
 	free(json);
 	fprintf(stderr, "ERROR: Not support input json yet.\n");

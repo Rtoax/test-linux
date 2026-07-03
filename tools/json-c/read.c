@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <json-c/json.h>
 #include "file.h"
 
@@ -36,6 +37,14 @@ int main(void)
 		printf("tall: %lf m\n", m);
 	} else {
 		printf("tall field not found\n");
+	}
+
+	json_object *cell_obj;
+	if (json_object_object_get_ex(header, "cell", &cell_obj)) {
+		uint64_t c = json_object_get_uint64(cell_obj);
+		printf("cell: %ld\n", c);
+	} else {
+		printf("cell field not found\n");
 	}
 
 	json_object *array_obj;
