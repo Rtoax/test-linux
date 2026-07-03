@@ -150,7 +150,7 @@ static int load_txt(struct plot *p, const char *file, bool debug)
 		} else if (!strncmp(linebuf, "line ", 5)) {
 			char *start = linebuf, *end;
 			int idx;
-			char *lname, *lcolor;
+			char *lname, *lcolor, *ltype;
 			struct lgroup *lg = NULL;
 
 			/* lgroup index */
@@ -205,11 +205,20 @@ static int load_txt(struct plot *p, const char *file, bool debug)
 			}
 
 			/* line draw operation */
-			start = strrchr(linebuf, ' ') + 1;
-			Check(start - 1, ' ');
-			/* TODO: set line type */
+			start = end + 1;
+			end = strchr(start, '\n');
+			*end = '\0';
+			ltype = start;
+			if (!ltype_hasname(ltype)) {
+				fprintf(stderr,
+					"ERROR: unknown line type '%s'.\n",
+					ltype);
+				err = -EINVAL;
+				break;
+			}
 
-			new_line(lg, lname, lcolor_name2num(lcolor));
+			new_line_ops(lg, lname, lcolor_name2num(lcolor),
+				     ltype_name2ops(ltype));
 
 		} else if (!strncmp(linebuf, "value ", 6)) {
 			char *start = linebuf, *end;
@@ -541,10 +550,17 @@ static int load_json(struct plot *p, const char *file, bool debug)
 			J_STRING(ltype);
 			J_GET_VALUE(line, "type", ltype);
 			J_GET_STRING(ltype);
-			/* TODO: set line type */
+			if (!ltype_hasname(ltype_s)) {
+				fprintf(stderr,
+					"ERROR: unknown line type '%s'.\n",
+					ltype_s);
+				err = -ENOENT;
+				goto done;
+			}
 
 			/* Create new line */
-			new_line(lg, lname_s, lcolor_name2num(lcolor_s));
+			new_line_ops(lg, lname_s, lcolor_name2num(lcolor_s),
+				     ltype_name2ops(ltype_s));
 
 			J_INT(vcount);
 			J_GET_VALUE(line, "vcount", vcount);
