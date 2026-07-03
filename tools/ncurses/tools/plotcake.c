@@ -173,12 +173,12 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case 'L':
 		if (!ltype_hasname(arg))
-			exit(EXIT_FAILURE);
+			err = -EINVAL;
 		err = err ?: enqueue_ltype(ltype_name2type(arg));
 		break;
 	case 'C':
 		if (!lcolor_hasname(arg))
-			exit(EXIT_FAILURE);
+			err = -EINVAL;
 		err = err ?: enqueue_lcolor(lcolor_name2num(arg));
 		break;
 	case 'x':
@@ -191,7 +191,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		tmout_nsecs = str2nsecs(arg);
 		if (tmout_nsecs == 0) {
 			fprintf(stderr, "ERROR: bad -t value\n");
-			exit(EXIT_FAILURE);
+			err = -EINVAL;
 		}
 		break;
 	case ARG_LOGARITHMIC:
@@ -218,7 +218,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		interval_nsecs = str2nsecs(arg);
 		if (interval_nsecs == 0) {
 			fprintf(stderr, "ERROR: bad -I value\n");
-			exit(EXIT_FAILURE);
+			err = -EINVAL;
 		}
 		break;
 	case 'M':
@@ -274,8 +274,9 @@ int main(int argc, char *argv[])
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
-		fprintf(stderr, "args parse failed %d\n", err);
-		return -err;
+		fprintf(stderr, "args parse failed %d, %s\n", err,
+			strerror(-err));
+		return err;
 	}
 
 	keyboard_init(&keyboard);
