@@ -9,6 +9,7 @@
 #include "load.h"
 #include "line.h"
 #include "ram.h"
+#include "stdin.h"
 #ifdef HAVE_JSON_C
 #include <json-c/json.h>
 #endif
@@ -28,6 +29,8 @@ static int __create_lgroup(struct plot *p, const char *lname)
 		plot_add_lgroup(p, &lg_loadavg, NULL);
 	} else if (!strcmp(lname, "ram")) {
 		plot_add_lgroup(p, &lg_ram, NULL);
+	} else if (!strcmp(lname, "stdin")) {
+		plot_add_lgroup(p, &lg_stdin, NULL);
 	} else {
 		fprintf(stderr, "ERROR: not support '%s' yet.\n", lname);
 		return -EINVAL;

@@ -315,6 +315,19 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 		}
 		stdinfd = STDIN_FILENO;
+
+		/**
+		 * The data in stdin may be completely different from the data
+		 * in the file, so this is prohibited.
+		 *
+		 * TODO: Perhaps we could add a parameter, such as
+		 * `--allow-stdin-and-file`, to allow users to do so.
+		 */
+		if (file) {
+			fprintf(stderr,
+				"ERROR: not support stdin-input and file-input at the same time.\n");
+			exit(EXIT_FAILURE);
+		}
 	} else
 		keyfd = STDIN_FILENO;
 
