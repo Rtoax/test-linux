@@ -29,8 +29,10 @@ prog-y += test-env.sh.1
 prog-y += test-env.sh.2
 prog-y += test-args.sh
 
+PROG_ENVS := -e PROG_ENVS=1
 PROG_ENVS_test-env.sh := -e TEST_LINUX_TEMPLATE_TARGETS_SHELL_ENV=rtoax
 PROG_ENVS_test-env.sh.1 := ${PROG_ENVS_test-env.sh}
 PROG_ENVS_test-env.sh.2 := ${PROG_ENVS_test-env.sh}
 
+PROG_ARGS := PROG_ARGS
 PROG_ARGS_test-args.sh := RRRRRRRRRRRRR TTTTTTTTTTT
