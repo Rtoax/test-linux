@@ -62,4 +62,4 @@ while true; do
 		echo "${percent_idle[@]}"
 	fi
 	sleep ${I}
-done | ../plotcake --title 'CPU Loads %idle' --ylabel '%idle' ${labels[@]} ${@}
+done | ../plotcake --title 'CPU Loads %idle' --ylabel '%idle' -o cpu ${labels[@]} ${@}
