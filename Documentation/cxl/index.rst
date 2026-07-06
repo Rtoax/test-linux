@@ -8,5 +8,6 @@ CXL (Compute Express Link)
    abbrev
    acpi
    cxl
+   pcie
    qemu
    history

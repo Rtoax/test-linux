@@ -14,10 +14,12 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- cxl: add pcie.rst;
 - shell: add env.rst;
 #### Fixed
 #### Linux Kernel
 #### Removed
+- cxl: remove README;
 #### Security
 #### Tools
 - add notcurses;

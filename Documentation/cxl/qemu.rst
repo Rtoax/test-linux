@@ -2,8 +2,11 @@
 Qemu CXL
 ========
 
-Must enable linux CONFIG_CXL_REGION_INVALIDATION_TEST if Qemu, see
-https://lore.kernel.org/all/CAGEDW0dVEk-QXuL=DPVvSP4t5cafz6N-r_SrCxgFnBfFOsixSA@mail.gmail.com/.
+Must enable linux config `CONFIG_CXL_REGION_INVALIDATION_TEST` if Qemu, see:
+
+- https://lore.kernel.org/all/CAGEDW0dVEk-QXuL=DPVvSP4t5cafz6N-r_SrCxgFnBfFOsixSA@mail.gmail.com/
+- test-linux commit 6f08f902ef5c ("cxl: vm: Report error: cxl region0: Failed to synchronize CPU cache state (todo)")
+- test-linux commit c3f026dc37c9 ("cxl: vm: kconfig: Fix error: cxl region0: Failed to synchronize CPU cache state")
 
 
 - QEMU CCIX patches
