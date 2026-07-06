@@ -1,3 +1,4 @@
+===========================
 VFIO - Virtual Function I/O
 ===========================
 
@@ -8,7 +9,15 @@ The main purpose of VFIO is to provide userspace processes and virtual machines 
 VFIO is often used in conjunction with QEMU and KVM to implement hardware-accelerated virtualization on Linux systems. By using VFIO, virtual machines can take advantage of hardware capabilities and achieve performance levels similar to native applications running directly on the host system.
 
 
-# Links
+ioctl
+-----
+
+- `VFIO_SET_IOMMU`
+- `VFIO_DEVICE_SET_IRQS`
+- `VFIO_DEVICE_GET_REGION_INFO`
+
+
+Links
+-----
 
 - https://docs.kernel.org/driver-api/vfio.html
-

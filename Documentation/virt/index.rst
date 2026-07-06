@@ -2,6 +2,9 @@
 Virtualization
 ==============
 
+Technology
+----------
+
 .. toctree::
    :maxdepth: 1
 
@@ -9,11 +12,16 @@ Virtualization
    sr-iov
    virtio
    vhost
+   vfio
    xen
 
+
+Software
+--------
 
 .. toctree::
    :maxdepth: 1
 
    Qemu <qemu/index>
    libvirt
+   virt-install
