@@ -1,7 +1,15 @@
 #!/bin/bash
-# ref: https://github.com/pmem/run_qemu
+# Test CXL devices with Qemu.
 #
-# usage: [NOCXL=1] [DEP=1] [GDB=1] [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+# Usage: [NOCXL=1] [DEP=1] [GDB=1] [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+#
+#   DEP=1: install depends first.
+#   GDB=1: enable gdb.
+#
+# Copyright (C) 2025-2026 Rong Tao
+#
+# Refs:
+# - https://github.com/pmem/run_qemu
 #
 set -e
 . /etc/os-release
