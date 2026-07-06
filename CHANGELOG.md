@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- scripts/git: add commit-message-stat.sh;
 #### Changed
 #### Deprecated
 #### Documentation
