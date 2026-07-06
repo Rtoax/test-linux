@@ -6,10 +6,6 @@
  *
  * 2025-11-01	Rong Tao	Create this.
  */
-config = {
-  missing_probes = warn;
-}
-
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
 #endif
@@ -24,6 +20,10 @@ struct {
 union {
 	int a;
 };
+
+config = {
+  missing_probes = warn;
+}
 
 macro name() {
 	"Rong Tao"
