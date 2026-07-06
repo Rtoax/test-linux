@@ -1,0 +1,18 @@
+#!/bin/env bpftrace
+
+struct s0 {
+	int a;
+};
+
+struct s1 {
+	int a;
+	struct s0 *s0;
+};
+
+BEGIN
+{
+	$s1 = (struct s1 *)0;
+	$s0 = $s1->s0;
+	printf("%d\n", container_of($s0, typeof(struct s1), s0));
+	exit();
+}
