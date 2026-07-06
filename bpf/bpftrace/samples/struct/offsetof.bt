@@ -1,0 +1,13 @@
+#!/bin/env bpftrace
+
+struct s0 {
+	int a;
+	char b;
+	int c;
+};
+
+BEGIN
+{
+	printf("%d\n", offsetof(struct s0, b));
+	exit();
+}

@@ -38,7 +38,7 @@ syntax keyword btFunction	hist lhist max min stats sum tseries
 syntax keyword btPatterns	BEGIN END begin end
 
 syntax keyword btConstant	enable err false true warn
-syntax keyword btType		bool int int8 int16 int32 int64 uint8 uint16 uint32 uint64 string
+syntax keyword btType		bool char int int8 int16 int32 int64 uint8 uint16 uint32 uint64 string
 syntax keyword btType		signed unsigned
 syntax keyword btStructure	union struct
 
