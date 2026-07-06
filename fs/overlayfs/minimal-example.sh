@@ -12,7 +12,10 @@ sudo mount upper.ext4 upper
 sudo chown "$USER:$USER" lower upper
 
 printf 'lower-content' > lower/lower-file
-mkdir upper/upper upper/work
+mkdir lower/tmp/
+
+# Note: workdir and upperdir must reside under the same mount.
+mkdir upper/{upper,work}
 printf 'upper-content' > upper/upper/upper-file
 
 # Work must be empty. E.g. this would be bad:
