@@ -49,6 +49,7 @@ sudo mount -t overlay overlay \
 
 # Create files in overlayfs
 printf 'overlay-content' > merged/overlay-file
+touch merged/tmp/$(mktemp -u file-XXXXXX)
 
 echo "--------- merged ---------"
 sudo tree lower upper/upper upper/work merged
