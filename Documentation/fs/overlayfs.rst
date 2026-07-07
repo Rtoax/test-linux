@@ -52,3 +52,6 @@ FAQ
 
     touch /tmp/xyz
     # touch: cannot touch '/tmp/xyz': No such file or directory
+
+    # Recover: drop dentry cache
+    echo 2 | sudo tee /proc/sys/vm/drop_caches
