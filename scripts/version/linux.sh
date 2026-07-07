@@ -3,7 +3,7 @@
 #
 set -e
 
-readonly version=$(uname -r | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null || true | head -1)
+readonly version=$(uname -r | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null | head -1)
 readonly major=${version%%.*}
 readonly major_patchlevel=${version%.*}
 readonly patchlevel=${major_patchlevel##*.}

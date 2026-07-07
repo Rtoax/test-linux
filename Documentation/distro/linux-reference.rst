@@ -55,5 +55,6 @@ Linux Kernel Reference
 * 5.14.21 (opensuse-leap15.5)
 * 5.14.0 (almalinux9.7,centos9)
 * 5.10.13 ()
+* 5.4.119 (tencentos3.1)
 * 4.19.90 (kylinV10)
 * 4.18.0 (cclinux21.08.2)
