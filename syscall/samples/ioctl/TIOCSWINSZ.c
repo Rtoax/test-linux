@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <sys/ioctl.h>
+#include <unistd.h>
 
 /**
  * Window size changed
