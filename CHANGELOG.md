@@ -14,6 +14,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- tools: add git.rst;
 - cxl: add pcie.rst;
 - shell: add env.rst;
 #### Fixed

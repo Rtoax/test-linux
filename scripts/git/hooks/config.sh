@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://git-scm.com/docs/githooks
 set -e
 
 # Skip if none git

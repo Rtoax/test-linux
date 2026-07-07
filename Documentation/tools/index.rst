@@ -7,6 +7,7 @@ User Space
 .. toctree::
    :maxdepth: 1
 
+   git
    redis
    samba
    tmux
