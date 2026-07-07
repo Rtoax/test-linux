@@ -119,7 +119,7 @@ ifeq ($(shell uname -m),riscv64)
 endif
 
 CFLAGS += -I../../
-CFLAGS += -pthread
+LDFLAGS += -pthread
 
 CXXFLAGS_readlink2 := -std=c++17 -lstdc++
 
