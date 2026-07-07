@@ -9,3 +9,5 @@ subdir-y += sysfs
 subdir-y += tracefs
 subdir-y += vfs
 subdir-y += xfs
+
+prog-y += inode.sh

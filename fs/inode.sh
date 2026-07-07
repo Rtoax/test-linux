@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 path2inode()
 {
@@ -9,7 +10,7 @@ inode2path()
 {
 	local ino=$1
 	# FIXME: change the directory
-	find / -xdev -inum ${ino}
+	sudo find / -xdev -inum ${ino}
 }
 
 list_inodes()
@@ -17,5 +18,9 @@ list_inodes()
 	sudo find /etc/ -type f -exec stat -c %i {} \;
 }
 
-path2inode "$@"
-
+if [[ ${1} ]]; then
+	path2inode "${1}"
+else
+	ino=$(path2inode "/etc/os-release")
+	inode2path ${ino}
+fi
