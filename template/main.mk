@@ -22,6 +22,7 @@ include log.mk
 
 $(if $(subdir-y), $(eval include targets/subdir-header.mk))
 
+# %prep means prep in current directory, it's must be in front of all targets.
 build-targets += $(prep-y)
 build-targets += $(OUTPUT)
 build-targets += $(target-liba-y) $(target-libso-y) $(target-libso-cpp-y)
