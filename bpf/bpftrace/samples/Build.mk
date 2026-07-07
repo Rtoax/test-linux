@@ -1,5 +1,6 @@
 include bpf/bpftrace.mk
 
+subdir-y += macro
 subdir-y += string
 subdir-y += struct
 

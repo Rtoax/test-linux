@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- bpftrace/samples: add macro subdir;
 - scripts/git: add commit-message-stat.sh;
 #### Changed
 #### Deprecated

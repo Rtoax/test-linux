@@ -1,0 +1,12 @@
+#!/bin/env bpftrace
+
+macro name()
+{
+	"Rong Tao"
+}
+
+BEGIN
+{
+	printf("%s\n", name);
+	exit();
+}
