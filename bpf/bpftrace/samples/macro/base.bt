@@ -1,12 +1,12 @@
 #!/bin/env bpftrace
 
-macro name()
+macro name(/**/)
 {
 	"Rong Tao"
 }
 
 BEGIN
 {
-	printf("%s\n", name);
+	printf("%s, %s\n", name, name(/**/));
 	exit();
 }
