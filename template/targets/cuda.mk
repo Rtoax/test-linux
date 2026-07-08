@@ -18,7 +18,6 @@
 # - .E.cu
 # - target-nvcc-y
 # - target-nvcc-libso-y
-# - target-nvcc-liba-y
 #
 # Input definitions:
 # - HAVE_NVIDIA_GPU
@@ -152,18 +151,13 @@ $(target-nvcc-libso-y): %:
 	$(call log_tgt,${NVCC} SO,$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC_SO) $(LDFLAGS_NVCC_SO$(*))
 
-$(target-nvcc-liba-y): %:
-	$(call log_tgt,AR,$(@))
-	${Q}ar rcs $(@) $(^)
-
 # append ${OUTPUT} for each object
-$(foreach lib, ${target-nvcc-libso-y} ${target-nvcc-liba-y}, \
+$(foreach lib, ${target-nvcc-libso-y}, \
   $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
   $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
 )
 
 $(foreach lib, ${target-nvcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
-$(foreach lib, ${target-nvcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 
 # TODO: need include ${t}-objs .d file
 $(foreach t, ${target-nvcc-y}, \
@@ -184,7 +178,7 @@ $(foreach t, ${target-nvcc-y}, \
 )
 
 # TODO: need include ${so}-objs .d file
-$(foreach so, ${target-nvcc-libso-y} ${target-nvcc-liba-y}, \
+$(foreach so, ${target-nvcc-libso-y}, \
   $(foreach obj, ${${so}-objs}, \
     $(if $(shell test -f ${obj}.d && echo yes), \
       $(if ${DEBUG}, $(info Include ${obj}.d)) \

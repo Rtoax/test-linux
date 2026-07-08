@@ -63,7 +63,7 @@ target-libso-y += libcgroup_helpers.so
 target-libso-${HAVE_NCURSES_H} += libncurses_helpers.so
 
 target-nvcc-libso-${HAVE_CUDA} := libcuda_helpers.so
-target-nvcc-liba-${HAVE_CUDA} := libcuda_helpers.a
+target-liba-${HAVE_CUDA} := libcuda_helpers.a
 target-hipcc-libso-${HAVE_HIP} := libhip_helpers.so
 target-liba-${HAVE_HIP} := libhip_helpers.a
 target-htcc-libso-${HAVE_HPCC} := libhpcc_helpers.so
