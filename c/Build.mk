@@ -45,9 +45,9 @@ target-y += __STDC__
 target-y += __STDC__c89 __STDC__gnu89
 target-y += __STDC__c90 __STDC__gnu90
 target-y += __STDC__c99 __STDC__gnu99
-target-${CC_STD_C11} += __STDC__c11 __STDC__gnu11
-target-${CC_STD_C17} += __STDC__c17 __STDC__gnu17
-target-${CC_STD_C23} += __STDC__c23 __STDC__gnu23
+target-${CC_SUPPORT_STD_C11} += __STDC__c11 __STDC__gnu11
+target-${CC_SUPPORT_STD_C17} += __STDC__c17 __STDC__gnu17
+target-${CC_SUPPORT_STD_C23} += __STDC__c23 __STDC__gnu23
 target-y += include_next
 target-y += unsigned
 target-y += restrict
@@ -86,7 +86,7 @@ CFLAGS_assignment := -Wno-error=uninitialized
 CFLAGS_auto := -Wno-error=implicit-int
 CFLAGS_param-pass := -O0 -I../macro/
 CFLAGS_param-pass += -Wno-error=strict-prototypes
-ifeq (${CC_STD_GNU17},y)
+ifeq (${CC_SUPPORT_STD_GNU17},y)
   CFLAGS_alignas := -std=gnu17
 endif
 CFLAGS_if := -Wno-error=unused-value -Wno-unused-value

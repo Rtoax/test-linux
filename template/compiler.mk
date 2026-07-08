@@ -42,15 +42,15 @@ cflags-support-types-y :=
 cflags-support-headers-y :=
 ldflags-support-headers-y :=
 
-cflags-support-types-${CC__Float16} += -DSUPPORT__Float16=1
-cflags-support-types-${CC__Float32} += -DSUPPORT__Float32=1
-cflags-support-types-${CC__Float64} += -DSUPPORT__Float64=1
-cflags-support-types-${CC___fp16} += -DSUPPORT___fp16=1
-cflags-support-types-${CC___bf16} += -DSUPPORT___bf16=1
-cflags-support-types-${CC___float128} += -DSUPPORT___float128=1
-cflags-support-types-${CC__Float128} += -DSUPPORT__Float128=1
-cflags-support-types-${CC___float80} += -DSUPPORT___float80=1
-cflags-support-types-${CC___uint128_t} += -DSUPPORT___uint128_t=1
+cflags-support-types-${CC_SUPPORT_TYPE__Float16} += -DSUPPORT__Float16=1
+cflags-support-types-${CC_SUPPORT_TYPE__Float32} += -DSUPPORT__Float32=1
+cflags-support-types-${CC_SUPPORT_TYPE__Float64} += -DSUPPORT__Float64=1
+cflags-support-types-${CC_SUPPORT_TYPE___fp16} += -DSUPPORT___fp16=1
+cflags-support-types-${CC_SUPPORT_TYPE___bf16} += -DSUPPORT___bf16=1
+cflags-support-types-${CC_SUPPORT_TYPE___float128} += -DSUPPORT___float128=1
+cflags-support-types-${CC_SUPPORT_TYPE__Float128} += -DSUPPORT__Float128=1
+cflags-support-types-${CC_SUPPORT_TYPE__float80} += -DSUPPORT___float80=1
+cflags-support-types-${CC_SUPPORT_TYPE___uint128_t} += -DSUPPORT___uint128_t=1
 
 cflags-support-headers-${CC_H_quadmath_h} += -DSUPPORT_quadmath_h=1
 ldflags-support-headers-${CC_lquadmath} += -lquadmath

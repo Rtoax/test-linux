@@ -2,7 +2,7 @@
 include compiler.mk
 
 target-y += _GLOBAL_OFFSET_TABLE_
-target-${CC_M32} += _GLOBAL_OFFSET_TABLE_-32
+target-${CC_SUPPORT_m32} += _GLOBAL_OFFSET_TABLE_-32
 
 CFLAGS := -O0 -g -ggdb
 

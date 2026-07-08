@@ -52,7 +52,7 @@ ifdef M32
   CFLAGS += -m32 -DM32=1
   LDFLAGS += -m32
   $(info Compile 32bit ELF)
-  ifneq (${CC_M32},1)
+  ifneq (${CC_SUPPORT_m32},1)
     $(error ${CC} not support -m32)
   endif
 endif

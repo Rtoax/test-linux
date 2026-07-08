@@ -18,7 +18,7 @@ target-y += __restrict__
 target-y += __func__
 target-y += __linux__
 target-y += __WORDSIZE
-target-${CC_M32} += __WORDSIZE-32
+target-${CC_SUPPORT_m32} += __WORDSIZE-32
 target-y += __TIME__
 target-y += __VERSION__
 target-y += __FILE__
@@ -39,7 +39,7 @@ target-y += splice
 target-y += os
 
 target-${IS_X86_64} += __x86_64__
-target-${CC_M32} += __i386__
+target-${CC_SUPPORT_m32} += __i386__
 target-${IS_AARCH64} += __aarch64__
 target-${IS_LOONGARCH64} += __loongarch64
 

@@ -15,7 +15,7 @@ common-objs-y += bfloat16
 common-objs-y += complex
 common-objs-y += float
 common-objs-y += double
-common-objs-${CC__Float128} += fp128
+common-objs-${CC_SUPPORT_TYPE__Float128} += fp128
 common-objs-y += int
 common-objs-y += simd
 
