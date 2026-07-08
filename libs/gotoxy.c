@@ -30,12 +30,12 @@ void fang(unsigned short row, unsigned short col, int bnd, int color, int us)
 		P(color, us);
 	}
 
-	for (y = y; y >= bnd; y--) {
+	for (; y >= bnd; y--) {
 		gotoxy(x, y);
 		P(color, us);
 	}
 
-	for (x = x; x >= bnd; x--) {
+	for (; x >= bnd; x--) {
 		gotoxy(x, y);
 		P(color, us);
 	}
