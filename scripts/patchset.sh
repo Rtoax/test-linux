@@ -50,7 +50,7 @@ ${BOLD}ARGUMENT${RST}
 	-o, --output [DIR]       specify output directory, default: ${output_dir}
 
 	${BOLD}Patch operate arguments:${RST}
-	-p, --patch [FILE]       specify a patch file
+	-p, --patch [FILE]       specify a patch file to extra 'Subject'.
 
 	${BOLD}Common arguments:${RST}
 	-n, --dry-run            dump command instead execute
@@ -291,6 +291,4 @@ if [[ ${downer_commit} ]] || [[ ${upper_commit} ]]; then
 	generate_patchset
 fi
 
-if [[ ${patch_files} ]]; then
-	patch_operate
-fi
+patch_operate
