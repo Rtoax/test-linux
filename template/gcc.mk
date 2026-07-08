@@ -12,6 +12,7 @@
 # - GCC_MAJOR=
 # - GCC_MINOR=
 # - GCC_PATCHLEVEL=
+# - GCC_MACHINE=[x86_64-linux-gnu]
 #
 # Functions:
 # - gcc_{gt,ge,eq,lt,le}()=[y|n]
@@ -36,6 +37,7 @@ GCC_VERSION := $(shell ${gccversh})
 GCC_MAJOR := $(shell ${gccversh} --major)
 GCC_MINOR := $(shell ${gccversh} --minor)
 GCC_PATCHLEVEL := $(shell ${gccversh} --patchlevel)
+GCC_MACHINE := $(shell ${GCC} -dumpmachine)
 
 include compiler.mk
 
@@ -45,6 +47,7 @@ ifdef DEBUG
   $(info GCC = ${GCC})
   $(info GXX = ${GXX})
   $(info GCC_VERSION = ${GCC_VERSION} (${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL}))
+  $(info GCC_MACHINE = ${GCC_MACHINE})
 endif
 
 # Do some checks

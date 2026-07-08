@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
 #
+# Definitions:
+# - CC_SUPPORT_m32=[y]
+# - CC_MACHINE=[x86_64-linux-gnu]
+#
 ifndef _COMPILER_MACHINE_MK
 _COMPILER_MACHINE_MK = 1
 
@@ -19,14 +23,17 @@ include bits/mk-cache.mk
 $(call make_gen_cachefile,${cachefile})
 
 CC_SUPPORT_m32 := $(findstring y,$(call compiler_support_option_link,$(CC),-m32))
+CC_MACHINE := $(shell ${CC} -dumpmachine)
 
 $(call make_append_var_to_file,CC_SUPPORT_m32,${cachefile})
+$(call make_append_var_to_file,CC_MACHINE,${cachefile})
 
 endif # end of cache file exist
 
 ifdef DEBUG
   $(info CC: ${CC})
   $(info CC_SUPPORT_m32: ${CC_SUPPORT_m32})
+  $(info CC_MACHINE: ${CC_MACHINE})
 endif
 
 endif

@@ -6,6 +6,7 @@
 # - HAVE_CLANGXX=[y|n]
 # - CLANG=[/usr/bin/clang]
 # - CLANGXX=[/usr/bin/clang++]
+# - CLANG_MACHINE=[x86_64-pc-linux-gnu]
 #
 # Functions:
 #
@@ -21,8 +22,14 @@ $(call find_cmd_and_def,clang++,clangxx)
 CC ?= ${CLANG}
 CXX ?= ${CLANGXX}
 
+CLANG_MACHINE := $(shell ${CLANG} -dumpmachine)
+
 ifeq ($(CLANG),)
   $(warning Not found clang, please install clang first)
+endif
+
+ifdef DEBUG
+  $(info CLANG_MACHINE = ${CLANG_MACHINE})
 endif
 
 endif # end of _CLANG_MK
