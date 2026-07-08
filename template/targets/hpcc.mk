@@ -17,7 +17,6 @@
 # - .hpcc.hcFatBinSegment
 # - target-htcc-y
 # - target-htcc-libso-y
-# - target-htcc-liba-y
 #
 # Input definitions:
 # - HPCC_ROOT
@@ -157,18 +156,13 @@ $(target-htcc-libso-y): %:
 	$(call log_tgt,${HTCC} SO,$(@))
 	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC_SO) $(LDFLAGS_HTCC_SO$(*))
 
-$(target-htcc-liba-y): %:
-	$(call log_tgt,AR,$(@))
-	${Q}ar rcs $(@) $(^)
-
 # append ${OUTPUT} for each object
-$(foreach lib, ${target-htcc-libso-y} ${target-htcc-liba-y}, \
+$(foreach lib, ${target-htcc-libso-y}, \
   $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
   $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
 )
 
 $(foreach lib, ${target-htcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
-$(foreach lib, ${target-htcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 
 # Depends, like:
 # hello: hello.hpcc.o
@@ -201,7 +195,7 @@ $(foreach t, ${target-htcc-y}, \
 )
 
 # TODO: need include ${so}-objs .d file
-$(foreach so, ${target-htcc-libso-y} ${target-htcc-liba-y}, \
+$(foreach so, ${target-htcc-libso-y}, \
   $(foreach obj, ${${so}-objs}, \
     $(if $(shell test -f ${obj}.d && echo yes), \
       $(if ${DEBUG}, $(info Include ${obj}.d)) \

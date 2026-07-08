@@ -34,6 +34,7 @@ and this project adheres to
 #### Template
 - targets/hipcc.mk: remove `target-hipcc-liba-y`, use `target-liba-y` instead;
 - targets/luca.mk: remove `target-lscc-liba-y`, use `target-liba-y` instead;
+- targets/hpcc.mk: remove `target-htcc-liba-y`, use `target-liba-y` instead;
 - targets/c.mk: support specify CC for each target with `CC_${target}=clang`;
 - string.mk: add `c_ident()` function;
 

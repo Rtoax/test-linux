@@ -67,7 +67,7 @@ target-nvcc-liba-${HAVE_CUDA} := libcuda_helpers.a
 target-hipcc-libso-${HAVE_HIP} := libhip_helpers.so
 target-liba-${HAVE_HIP} := libhip_helpers.a
 target-htcc-libso-${HAVE_HPCC} := libhpcc_helpers.so
-target-htcc-liba-${HAVE_HPCC} := libhpcc_helpers.a
+target-liba-${HAVE_HPCC} := libhpcc_helpers.a
 target-lscc-libso-${HAVE_LUCA} := libluca_helpers.so
 target-liba-${HAVE_LUCA} := libluca_helpers.a
 
