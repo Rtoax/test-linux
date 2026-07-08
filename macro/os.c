@@ -3,7 +3,7 @@
 
 void display(void)
 {
-	/* see os.mk */
+	/* see template/os.mk */
 	printf("ID=%s\n", __stringify(OS_ID));
 #ifdef __fedora__
 	printf("OS is Fedora\n");
@@ -15,6 +15,8 @@ void display(void)
 	printf("OS is CCLinux\n");
 #elif defined(__centos__)
 	printf("OS is CentOS\n");
+#elif defined(__openEuler__)
+	printf("OS is openEuler\n");
 #else
 #error Must define OS_$distro
 #endif
