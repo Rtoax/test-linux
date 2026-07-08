@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
 #
-ifndef _COMPILER_M32_MK
-_COMPILER_M32_MK = 1
+ifndef _COMPILER_MACHINE_MK
+_COMPILER_MACHINE_MK = 1
 
 include dir.mk
 include compiler/check.mk
 include file.mk
 
-cachefile := ${TOPDIR}/template/compiler/.m32.mk.cache
-origfile := ${TOPDIR}/template/compiler/m32.mk
+cachefile := ${TOPDIR}/template/compiler/.machine.mk.cache
+origfile := ${TOPDIR}/template/compiler/machine.mk
 
 ifeq ($(call is_newer,${cachefile},${origfile}),y)
   include ${cachefile}

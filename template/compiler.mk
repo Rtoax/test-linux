@@ -22,7 +22,7 @@ _COMPILER_MK = 1
 include shell.mk
 include compiler/feature.mk
 include compiler/std.mk
-include compiler/m32.mk
+include compiler/machine.mk
 include compiler/macros.mk
 include compiler/types.mk
 include file.mk

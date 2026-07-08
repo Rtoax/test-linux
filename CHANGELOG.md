@@ -32,6 +32,7 @@ and this project adheres to
 - ncurses: test attribute.c, color.c, color.h;
 - plotcake: Release v1.6.11;
 #### Template
+- compiler: rename m32.mk to machine.mk;
 - add bits/targets.mk `add_target_objects()` and `add_library_objects()`;
 - output.mk: add `target_objects_append_output_prefix()` function;
 - targets/hipcc.mk: remove `target-hipcc-liba-y`, use `target-liba-y` instead;
