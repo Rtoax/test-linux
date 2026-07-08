@@ -51,3 +51,14 @@ libfoobar.so-objs += foo.so.o bar.so.o
 clang.1-objs := clang.1.o
 
 CC_clang := clang
+
+target-cpp-y += main-cpp
+
+target-liba-y += libfoobar++.a
+target-libso-cpp-y += libfoobar++.so
+
+main-cpp-objs += foo-cpp.cpp.o
+main-cpp-objs += bar-cpp.cpp.o
+
+libfoobar++.a-objs += foo-cpp.cpp.o bar-cpp.cpp.o
+libfoobar++.so-objs += foo-cpp.cpp.so.o bar-cpp.cpp.so.o
