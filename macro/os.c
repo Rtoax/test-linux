@@ -15,6 +15,8 @@ void display(void)
 	printf("OS is Debian\n");
 #elif defined(__fedora__)
 	printf("OS is Fedora\n");
+#elif defined(__kylin__)
+	printf("OS is Kylin\n");
 #elif defined(__ubuntu__)
 	printf("OS is Ubuntu\n");
 #elif defined(__openEuler__)
