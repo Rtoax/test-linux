@@ -9,6 +9,7 @@
 /GCC_ivdep
 /GCC_novector
 /_Pragma
+/clang_loop_unroll
 /pack
 /push_macro
 /message
