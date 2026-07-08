@@ -10,7 +10,7 @@
 #
 set -e
 
-readonly VERSION="v1.1.2"
+readonly VERSION="v1.1.3"
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 subject_prefix=
@@ -18,6 +18,7 @@ downer_commit=
 upper_commit=
 
 pure_diff=
+single_diff=
 no_cover_letter=
 
 dry_run=
@@ -47,6 +48,7 @@ ${BOLD}ARGUMENT${RST}
 	--to [COMMIT]            specify upper/newer commit, see git log --oneline
 	--no-cover-letter        no cover letter
 	--pure-diff              Output pure 'diff' format.
+	--single-diff            Output single diff to stdout.
 	-o, --output [DIR]       specify output directory, default: ${output_dir}
 
 	${BOLD}Patch operate arguments:${RST}
@@ -118,6 +120,7 @@ __patchset_getopt__()
 		--long to: \
 		--long no-cover-letter \
 		--long pure-diff \
+		--long single-diff \
 		--long output: \
 		--long patch: \
 		--long dry-run \
@@ -160,6 +163,10 @@ __patchset_getopt__()
 		--pure-diff)
 			shift
 			pure_diff=YES
+			;;
+		--single-diff)
+			shift
+			single_diff=YES
 			;;
 		-o|--output)
 			shift
@@ -215,16 +222,21 @@ file2commits() {
 	git log --follow --abbrev=12 --pretty=format:%h $1 2>/dev/null
 }
 
+check_two_commits()
+{
+	if [[ -z ${downer_commit} ]] || [[ -z ${upper_commit} ]]; then
+		__patchset_usage__ | cat
+		error "Must specify --from and --to at the same time"
+	fi
+}
+
 # Submit multi-patches at one time
 # ref: https://kernelnewbies.org/FirstKernelPatch
 generate_patchset()
 {
 	local args
 
-	if [[ -z ${downer_commit} ]] || [[ -z ${upper_commit} ]]; then
-		__patchset_usage__ | cat
-		error "Must specify --from and --to at the same time"
-	fi
+	check_two_commits
 
 	if [[ -e ${output_dir} ]] && [[ ! -d ${output_dir} ]]; then
 		error "${output_dir} is already exist and is not directory"
@@ -253,6 +265,15 @@ generate_patchset()
 		${subject_prefix:+--subject-prefix="'${subject_prefix}'"} \
 		${downer_commit}^..${upper_commit} \
 		-o ${output_dir}
+}
+
+generate_single_diff()
+{
+	check_two_commits
+
+	my_eval git diff \
+		${args[@]} \
+		${downer_commit} ${upper_commit}
 }
 
 patch_operate()
@@ -288,7 +309,11 @@ if [[ " ${@} " =~ " -- " ]]; then
 fi
 
 if [[ ${downer_commit} ]] || [[ ${upper_commit} ]]; then
-	generate_patchset
+	if [[ ${single_diff} ]]; then
+		generate_single_diff
+	else
+		generate_patchset
+	fi
 fi
 
 patch_operate

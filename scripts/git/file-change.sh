@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 from_commit=54feea9d059b
 to_comit=fb40e1052905

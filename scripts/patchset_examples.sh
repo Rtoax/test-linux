@@ -24,3 +24,7 @@ set -e
 		exit 1
 	fi
 }
+
+# single diff
+./patchset.sh --from=73f4e4b5d15b --to=dcbc5cf45eb1 --single-diff > opencloudos8.10.patch
+./patchset.sh --from=v2.4.7-Lamada --to=v2.4.8-Memory --single-diff > v2.4.7-v2.4.8.patch
