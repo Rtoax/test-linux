@@ -13,6 +13,8 @@ void display(void)
 	printf("OS is Debian\n");
 #elif defined(__cclinux__)
 	printf("OS is CCLinux\n");
+#elif defined(__centos__)
+	printf("OS is CentOS\n");
 #else
 #error Must define OS_$distro
 #endif
