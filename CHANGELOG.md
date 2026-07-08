@@ -31,6 +31,7 @@ and this project adheres to
 - ncurses: test attribute.c, color.c, color.h;
 - plotcake: Release v1.6.11;
 #### Template
+- targets/c.mk: support specify CC for each target with `CC_${target}=clang`;
 - string.mk: add `c_ident()` function;
 
 

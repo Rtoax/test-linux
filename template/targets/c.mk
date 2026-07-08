@@ -9,7 +9,7 @@ include cflags.mk
 
 ${OUTPUT}%.o: %.c | ${OUTPUT}
 	$(call log_obj,CC,$(@))
-	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(if ${CC_${*}},${CC_${*}},${CC}) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.o.bin: ${OUTPUT}%.o
 	$(call log_obj,OBJCOPY BIN,$(@))
@@ -20,21 +20,21 @@ ${OUTPUT}%.o.bin: ${OUTPUT}%.o
 define c_obj_x
 $${OUTPUT}%.${1}.o: %.c | $${OUTPUT}
 	$$(call log_obj,CC.${1},$$(@))
-	$${Q}$$(CC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS) $$(CFLAGS_$$(*).${1})
+	$${Q}$$(if $${CC_$${*}},$${CC_$${*}},$${CC}) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS) $$(CFLAGS_$$(*).${1})
 endef
 $(foreach i, ${SRC_SFX_LIST}, $(eval $(call c_obj_x,${i})))
 
 ${OUTPUT}%.E.c: %.c | ${OUTPUT}
 	$(call log_obj,CC E,$(@))
-	${Q}$(CC) -E -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(if ${CC_${*}},${CC_${*}},${CC}) -E -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.c.s: %.c | ${OUTPUT}
 	$(call log_obj,CC S,$(@))
-	${Q}$(CC) -S -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
+	${Q}$(if ${CC_${*}},${CC_${*}},${CC}) -S -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(target-y): %:
 	$(call log_tgt,LD,$(@))
-	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
+	${Q}$(if ${CC_${*}},${CC_${*}},${CC}) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 $(foreach t, ${target-y}, \
   $(eval ${t}-objs := $(call append_output_prefix,${${t}-objs})) \

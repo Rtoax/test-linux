@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 target-y += GCC_error
 target-y += GCC_poison
-target-y += GCC_diagnostic
+target-y += GCC_diagnostic clang_diagnostic
 target-y += GCC_dependency
 target-y += GCC_system_header
 target-y += GCC_target
@@ -14,7 +14,8 @@ target-y += push_macro
 target-y += message
 target-y += _Pragma
 
-include compiler.mk
+CC_clang_loop_unroll := clang
+CC_clang_diagnostic := clang
 
 CFLAGS += -Werror=unknown-pragmas
 CFLAGS += -I../../
@@ -30,3 +31,4 @@ CFLAGS_GCC_dependency := -Wno-error
 CFLAGS__Pragma := -Wno-error
 
 CFLAGS_GCC_diagnostic := -pg -Wno-error=pragmas -Wno-error=uninitialized
+CFLAGS_clang_diagnostic := ${CFLAGS_GCC_diagnostic}
