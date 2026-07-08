@@ -19,6 +19,8 @@ void display(void)
 	printf("OS is Kylin\n");
 #elif defined(__ubuntu__)
 	printf("OS is Ubuntu\n");
+#elif defined(__opencloudos__)
+	printf("OS is OpenCloudOS\n");
 #elif defined(__openEuler__)
 	printf("OS is openEuler\n");
 #elif defined(__opensuse_leap__)
