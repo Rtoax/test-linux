@@ -37,8 +37,11 @@ PROG_ENVS_test-env.sh.2 := ${PROG_ENVS_test-env.sh}
 PROG_ARGS := PROG_ARGS
 PROG_ARGS_test-args.sh := RRRRRRRRRRRRR TTTTTTTTTTT
 
+target-y += main
 target-y += gcc
 target-y += clang clang.1
+
+main-objs := foo.o bar.o
 
 clang.1-objs := clang.1.o
 
