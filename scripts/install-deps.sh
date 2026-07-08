@@ -1345,6 +1345,10 @@ zypper_add_packages()
 	pkgs_storage+=( gptfdisk )
 
 	pkgs_virt+=( qemu-linux-user )
+
+	if [[ ${force} ]]; then
+		zypper_args+=( --force )
+	fi
 	return 0
 }
 
