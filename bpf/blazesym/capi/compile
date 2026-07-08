@@ -6,7 +6,10 @@ set -e
 cargo build -j6
 cargo tree --target all --prefix none
 
-# maybe need: cargo install cbuild
+# install depends:
+#   cargo install cbuild
+# or:
+#   cargo install cargo-c
 cargo cbuild -j6 --prefix=/usr --libdir=/usr/lib64/ --includedir=/usr/include --pkgconfigdir=/usr/lib64/pkgconfig/
 
 cargo package -l
