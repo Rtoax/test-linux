@@ -12,20 +12,25 @@
 ifndef _PCIUTILS_MK
 _PCIUTILS_MK = 1
 
+include arch.mk
 include dir.mk
 include shell.mk
 include define.mk
 
 $(call find_cmd_and_def,lspci)
 
-PCIUTILS_PCI_H := /usr/include/pci/pci.h
-
 ifeq (${LSPCI},)
   $(warning Not found pciutils, please install first)
   export HAVE_PCIUTILS := n
 else
-  $(call check_file_and_def,${PCIUTILS_PCI_H},HAVE_PCIUTILS_PCI_H)
   export HAVE_PCIUTILS := y
+  ifneq ($(wildcard /usr/include/pci/pci.h),)
+    # Fedora
+    $(call check_file_and_def,/usr/include/pci/pci.h,HAVE_PCIUTILS_PCI_H)
+  else ifneq ($(wildcard /usr/include/${CPU_ARCH}-linux-gnu/pci/pci.h),)
+    # Ubuntu
+    $(call check_file_and_def,/usr/include/${CPU_ARCH}-linux-gnu/pci/pci.h,HAVE_PCIUTILS_PCI_H)
+  endif
 endif # end of found PCIUTILS
 
 # Find pci device with Vendor ID and Device ID
