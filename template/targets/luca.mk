@@ -185,11 +185,7 @@ $(target-lscc-libso-y): %:
 	$(call log_tgt,${LSCC} SO,$(@))
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC_SO) $(LDFLAGS_LSCC_SO_$(*))
 
-# append ${OUTPUT} for each object
-$(foreach lib, ${target-lscc-libso-y}, \
-  $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
-  $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
-)
+$(call target_objects_append_output_prefix,${target-lscc-libso-y})
 
 $(foreach lib, ${target-lscc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
 

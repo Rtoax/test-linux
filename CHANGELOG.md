@@ -32,6 +32,7 @@ and this project adheres to
 - ncurses: test attribute.c, color.c, color.h;
 - plotcake: Release v1.6.11;
 #### Template
+- output.mk: add `target_objects_append_output_prefix()` function;
 - targets/hipcc.mk: remove `target-hipcc-liba-y`, use `target-liba-y` instead;
 - targets/luca.mk: remove `target-lscc-liba-y`, use `target-liba-y` instead;
 - targets/hpcc.mk: remove `target-htcc-liba-y`, use `target-liba-y` instead;

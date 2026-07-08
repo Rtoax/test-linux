@@ -37,8 +37,9 @@ $(target-y): %:
 	$(call log_tgt,${REAL_COMPILER_CC} LD,$(@))
 	${Q}$(REAL_COMPILER_CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
+$(call target_objects_append_output_prefix,${target-y})
+
 $(foreach t, ${target-y}, \
-  $(eval ${t}-objs := $(call append_output_prefix,${${t}-objs})) \
   $(if ${DEBUG},$(info ${t}-objs = ${${t}-objs})) \
   $(if $(shell test -f ${t}.c && echo yes), \
     $(eval ${t}: ${OUTPUT}${t}.o $${${t}-objs}), \

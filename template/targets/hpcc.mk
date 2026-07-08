@@ -156,11 +156,7 @@ $(target-htcc-libso-y): %:
 	$(call log_tgt,${HTCC} SO,$(@))
 	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC_SO) $(LDFLAGS_HTCC_SO$(*))
 
-# append ${OUTPUT} for each object
-$(foreach lib, ${target-htcc-libso-y}, \
-  $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
-  $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
-)
+$(call target_objects_append_output_prefix,${target-htcc-libso-y})
 
 $(foreach lib, ${target-htcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
 

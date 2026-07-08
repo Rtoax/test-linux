@@ -13,19 +13,7 @@ ifdef DEBUG
   $(info CFLAGS_A = ${CFLAGS_A})
 endif
 
-# append ${OUTPUT} for each library objects, for example:
-#
-#   target-liba-y := libx.a
-#   libx.a-objs := x.a.o
-#
-# Then, add ${OUTPUT} prefix:
-#
-#   libx.a-objs := ${OUTPUT}x.a.o
-#
-$(foreach a, ${target-liba-y}, \
-  $(eval ${a}-objs := $(call append_output_prefix,${${a}-objs})) \
-  $(if ${DEBUG},$(info liba: ${a}-objs = ${${a}-objs})) \
-)
+$(call target_objects_append_output_prefix,${target-liba-y})
 
 $(foreach lib, ${target-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 

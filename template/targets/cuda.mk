@@ -151,11 +151,7 @@ $(target-nvcc-libso-y): %:
 	$(call log_tgt,${NVCC} SO,$(@))
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC_SO) $(LDFLAGS_NVCC_SO$(*))
 
-# append ${OUTPUT} for each object
-$(foreach lib, ${target-nvcc-libso-y}, \
-  $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
-  $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
-)
+$(call target_objects_append_output_prefix,${target-nvcc-libso-y})
 
 $(foreach lib, ${target-nvcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
 

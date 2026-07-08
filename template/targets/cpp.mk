@@ -27,8 +27,9 @@ ${target-cpp-y}: %:
 	$(call log_tgt,${CXX} LD,$(@))
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
+$(call target_objects_append_output_prefix,${target-cpp-y})
+
 $(foreach t, ${target-cpp-y}, \
-  $(eval ${t}-objs := $(call append_output_prefix,${${t}-objs})) \
   $(if ${DEBUG},$(info ${t}-objs = ${${t}-objs})) \
   $(if $(shell test -f ${t}.cpp && echo yes), \
     $(eval ${t}: ${OUTPUT}${t}.cpp.o $${${t}-objs}), \
