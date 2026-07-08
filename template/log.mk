@@ -33,11 +33,11 @@ $(if ${DEBUG},[$(shell date '+%Y/%m/%d %H:%M:%S')])
 endef
 
 define log_obj
-@printf "$(call LOG_PFX) %-16s $(call bold,%s)\n" "$(call toupper_shell,${1})" "$(2)"
+@printf "$(call LOG_PFX) %-16s $(call bold,%s)\n" "$(call toupper_shell,$(notdir ${1}))" "$(2)"
 endef
 
 define log_tgt
-@printf "$(call LOG_PFX) %-16s $(call bgreen,%s)\n" "$(call toupper_shell,${1})" "$(2)"
+@printf "$(call LOG_PFX) %-16s $(call bgreen,%s)\n" "$(call toupper_shell,$(notdir ${1}))" "$(2)"
 endef
 
 define log_info
