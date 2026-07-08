@@ -28,6 +28,7 @@ and this project adheres to
 - ncurses: test attribute.c, color.c, color.h;
 - plotcake: Release v1.6.11;
 #### Template
+- string.mk: add `c_ident()` function;
 
 
 ## [v2.4.8] Memory 2026-06-25
