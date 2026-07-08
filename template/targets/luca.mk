@@ -24,6 +24,7 @@
 ifndef _TARGET_LUCA_MK
 _TARGET_LUCA_MK = 1
 
+include bits/targets.mk
 include cestc/luca.mk
 include cflags.mk
 include dir.mk
@@ -186,8 +187,7 @@ $(target-lscc-libso-y): %:
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC_SO) $(LDFLAGS_LSCC_SO_$(*))
 
 $(call target_objects_append_output_prefix,${target-lscc-libso-y})
-
-$(foreach lib, ${target-lscc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
+$(call add_library_objects,${target-lscc-libso-y})
 
 # Depends, like:
 # hello: hello.luca.o

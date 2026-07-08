@@ -138,6 +138,7 @@ $(foreach lib, ${target-hipcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
 # Depends, like:
 # hello: hello.hip.o
 # hello-hip: hello.hip.o
+# FIXME: use add_target_objects()
 $(foreach t, ${target-hipcc-y}, \
   $(if $(shell test -f ${t}.cu && echo yes), \
     $(eval ${t}: ${OUTPUT}${t}.hip.o $${${t}-objs} ${HIP_HELPERS}), \

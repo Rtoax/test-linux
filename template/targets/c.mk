@@ -6,6 +6,7 @@ CC ?= gcc
 OBJCOPY ?= objcopy
 REAL_COMPILER_CC = $(or $(CC_$*),$(CC))
 
+include bits/targets.mk
 include cflags.mk
 
 ${OUTPUT}%.o: %.c | ${OUTPUT}
@@ -38,13 +39,10 @@ $(target-y): %:
 	${Q}$(REAL_COMPILER_CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 $(call target_objects_append_output_prefix,${target-y})
+$(call add_target_objects,.c,.o,${target-y})
 
 $(foreach t, ${target-y}, \
-  $(if ${DEBUG},$(info ${t}-objs = ${${t}-objs})) \
-  $(if $(shell test -f ${t}.c && echo yes), \
-    $(eval ${t}: ${OUTPUT}${t}.o $${${t}-objs}), \
-    $(eval ${t}: $${${t}-objs}) \
-  ) \
+  $(if ${DEBUG}, $(info ${t}: $(eval ${${t}-deps}))) \
   $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
 )
 

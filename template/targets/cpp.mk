@@ -4,6 +4,7 @@ _TARGET_CPP_MK = 1
 
 CXX ?= g++
 
+include bits/targets.mk
 include cflags.mk
 
 ${OUTPUT}%.cpp.o: %.cpp | ${OUTPUT}
@@ -29,16 +30,13 @@ ${target-cpp-y}: %:
 
 $(call target_objects_append_output_prefix,${target-cpp-y})
 
+$(call add_target_objects,.cpp,.cpp.o,${target-cpp-y})
+
 $(foreach t, ${target-cpp-y}, \
-  $(if ${DEBUG},$(info ${t}-objs = ${${t}-objs})) \
-  $(if $(shell test -f ${t}.cpp && echo yes), \
-    $(eval ${t}: ${OUTPUT}${t}.cpp.o $${${t}-objs}), \
-    $(eval ${t}: $${${t}-objs}) \
-  ) \
   $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
 )
 
-# TODO: need include ${t}-objs .d file
+# TODO: need include ${t}-objs's .d file
 $(foreach t, ${target-cpp-y}, \
   $(if $(shell test -f ${OUTPUT}${t}.cpp.o.d && echo yes), \
     $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.cpp.o.d)) \

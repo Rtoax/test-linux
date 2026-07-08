@@ -27,6 +27,7 @@ AS ?= as
 NASM ?= nasm
 OBJCOPY ?= objcopy
 
+include bits/targets.mk
 include cflags.mk
 
 # More to see 'nasm -felf64 -y'
@@ -78,13 +79,9 @@ ${target-as-y}: %:
 	${Q}$(LD) -lc -o $(@) $(^) $(ASLDFLAGS) $(ASLDFLAGS_$(*))
 
 $(call target_objects_append_output_prefix,${target-asm-y} ${target-asm-std-y})
+$(call add_target_objects,.asm,.asm.o,${target-asm-y} ${target-asm-std-y})
 
 $(foreach t, ${target-asm-y} ${target-asm-std-y}, \
-  $(if ${DEBUG},$(info ${t}-objs = ${${t}-objs})) \
-  $(if $(shell test -f ${t}.asm && echo yes), \
-    $(eval ${t}: ${OUTPUT}${t}.asm.o $${${t}-objs}), \
-    $(eval ${t}: $${${t}-objs}) \
-  ) \
   $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
 )
 
@@ -95,15 +92,11 @@ $(foreach t, ${target-as-y}, \
   $(if $(shell test -f ${t}.S && test -f ${t}.s && echo yes), \
     $(error Not allow ${t}.S and ${t}.s exist at the same time) \
   ) \
-  $(if $(shell test -f ${t}.s && echo yes), \
-    $(eval ${t}: ${OUTPUT}${t}.s.o $${${t}-objs}), \
-    $(eval ${t}: $${${t}-objs}) \
-  ) \
-  $(if $(shell test -f ${t}.S && echo yes), \
-    $(eval ${t}: ${OUTPUT}${t}.S.o $${${t}-objs}), \
-    $(eval ${t}: $${${t}-objs}) \
-  ) \
-  $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
 )
+
+$(call add_target_objects,.s,.s.o,${target-as-y})
+$(call add_target_objects,.S,.S.o,${target-as-y})
+
+$(foreach t, ${target-as-y}, $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})))
 
 endif

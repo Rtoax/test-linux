@@ -2,6 +2,7 @@
 ifndef _TARGET_LIBA_MK
 _TARGET_LIBA_MK = 1
 
+include bits/targets.mk
 include cflags.mk
 
 CC ?= gcc
@@ -14,8 +15,7 @@ ifdef DEBUG
 endif
 
 $(call target_objects_append_output_prefix,${target-liba-y})
-
-$(foreach lib, ${target-liba-y}, $(eval ${lib}: $${${lib}-objs}))
+$(call add_library_objects,${target-liba-y})
 
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	$(call log_obj,${CC} A.o,$(@))

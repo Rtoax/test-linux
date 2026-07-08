@@ -24,8 +24,7 @@ ifdef DEBUG
 endif
 
 $(call target_objects_append_output_prefix,${target-libso-y} ${target-libso-cpp-y})
-
-$(foreach lib, ${target-libso-y} ${target-libso-cpp-y}, $(eval ${lib}: $${${lib}-objs}))
+$(call add_library_objects,${target-libso-y} ${target-libso-cpp-y})
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_obj,${CC},$(@))

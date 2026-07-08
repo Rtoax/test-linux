@@ -58,6 +58,7 @@ ${target-llvm-ll-y}: %:
 	${Q}$(CLANG) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 # depends on .llvm.ll
+# FIXME: use add_target_objects()
 $(foreach t, ${target-llvm-ll-y}, \
   $(if $(shell test -f ${t}.llvm.ll && echo yes), \
     $(eval ${t}: ${t}.llvm.ll $${${t}-objs}), \

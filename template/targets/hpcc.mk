@@ -25,6 +25,7 @@
 ifndef _TARGET_HPCC_MK
 _TARGET_HPCC_MK = 1
 
+include bits/targets.mk
 include metax/hpcc.mk
 include cflags.mk
 include dir.mk
@@ -157,8 +158,7 @@ $(target-htcc-libso-y): %:
 	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC_SO) $(LDFLAGS_HTCC_SO$(*))
 
 $(call target_objects_append_output_prefix,${target-htcc-libso-y})
-
-$(foreach lib, ${target-htcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
+$(call add_library_objects,,,${target-htcc-libso-y})
 
 # Depends, like:
 # hello: hello.hpcc.o

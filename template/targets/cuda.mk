@@ -25,6 +25,7 @@
 ifndef _TARGET_NVIDIA_MK
 _TARGET_NVIDIA_MK = 1
 
+include bits/targets.mk
 include cflags.mk
 include dir.mk
 include nvidia/cuda.mk
@@ -152,8 +153,7 @@ $(target-nvcc-libso-y): %:
 	${Q}$(NVCC) -o $(@) $(^) $(LDFLAGS_NVCC_SO) $(LDFLAGS_NVCC_SO$(*))
 
 $(call target_objects_append_output_prefix,${target-nvcc-libso-y})
-
-$(foreach lib, ${target-nvcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
+$(call add_library_objects,${target-nvcc-libso-y})
 
 # TODO: need include ${t}-objs .d file
 $(foreach t, ${target-nvcc-y}, \
