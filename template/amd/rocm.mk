@@ -13,11 +13,6 @@
 # - ROCM_PATH=[/usr]
 # - rocm-cflags=
 #
-# Modify definitions:
-# - target-hipcc-y
-# - target-hipcc-liba-y
-# - target-hipcc-libso-y
-#
 # Functions:
 # - gen_hipcc_macro_hdr()
 #

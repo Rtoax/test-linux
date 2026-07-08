@@ -9,7 +9,6 @@
 # %.hipFatBinSegment
 # target-hipcc-y
 # target-hipcc-libso-y
-# target-hipcc-liba-y
 #
 # Input definitions:
 # - HAVE_HIPSOLVER=
@@ -132,18 +131,13 @@ $(target-hipcc-libso-y): %:
 	$(call log_tgt,${HIPCC} SO,$(@))
 	${Q}$(HIPCC) -o $(@) $(^) $(LDFLAGS_HIPCC_SO) $(LDFLAGS_HIPCC_SO$(*))
 
-$(target-hipcc-liba-y): %:
-	$(call log_tgt,AR,$(@))
-	${Q}ar rcs $(@) $(^)
-
 # append ${OUTPUT} for each object
-$(foreach lib, ${target-hipcc-libso-y} ${target-hipcc-liba-y}, \
+$(foreach lib, ${target-hipcc-libso-y}, \
   $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
   $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
 )
 
 $(foreach lib, ${target-hipcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
-$(foreach lib, ${target-hipcc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 
 # Depends, like:
 # hello: hello.hip.o
@@ -172,7 +166,7 @@ $(foreach t, ${target-hipcc-y}, \
   ) \
 )
 
-$(foreach so, ${target-hipcc-libso-y} ${target-hipcc-liba-y}, \
+$(foreach so, ${target-hipcc-libso-y}, \
   $(foreach obj, ${${so}-objs}, \
     $(if $(shell test -f ${obj}.d && echo yes), \
       $(if ${DEBUG}, $(info Include ${obj}.d)) \

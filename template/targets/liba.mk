@@ -21,7 +21,7 @@ endif
 #
 #   libx.a-objs := ${OUTPUT}x.a.o
 #
-$(foreach a, ${target-liba-y} ${target-liba-cpp-y}, \
+$(foreach a, ${target-liba-y}, \
   $(eval ${a}-objs := $(call append_output_prefix,${${a}-objs})) \
   $(if ${DEBUG},$(info liba: ${a}-objs = ${${a}-objs})) \
 )
