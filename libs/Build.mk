@@ -6,6 +6,7 @@ include amd/rocm.mk
 include metax/hpcc.mk
 include cestc/luca.mk
 include ncurses.mk
+include pciutils.mk
 
 target-y += byte
 target-y += endian
@@ -32,7 +33,7 @@ target-liba-y += libproc_helpers.a
 target-liba-y += libksym_helpers.a
 target-liba-y += libsocket_helpers.a
 target-liba-y += libpthread_helpers.a
-target-liba-y += libpcie_helpers.a
+target-liba-${HAVE_PCIUTILS_PCI_H} += libpcie_helpers.a
 target-liba-y += libsched_helpers.a
 target-liba-y += libmmap_helpers.a
 target-liba-${HAVE_LIBBPF_H} += libtrace_helpers.a
@@ -44,7 +45,7 @@ target-liba-y += libreboot_helpers.a
 target-liba-y += libcgroup_helpers.a
 target-liba-${HAVE_NCURSES_H} += libncurses_helpers.a
 
-target-libso-y += ${libpcie-helpers}
+target-libso-${HAVE_PCIUTILS_PCI_H} += ${libpcie-helpers}
 target-libso-y += ${libproc-helpers}
 target-libso-y += ${libtest-linux-c}
 target-libso-y += libksym_helpers.so
