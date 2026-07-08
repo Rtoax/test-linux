@@ -41,7 +41,12 @@ target-y += main
 target-y += gcc
 target-y += clang clang.1
 
+target-liba-y += libfoobar.a
+target-libso-y += libfoobar.so
+
 main-objs := foo.o bar.o
+libfoobar.a-objs += foo.a.o bar.a.o
+libfoobar.so-objs += foo.so.o bar.so.o
 
 clang.1-objs := clang.1.o
 
