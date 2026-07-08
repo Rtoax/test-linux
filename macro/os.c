@@ -19,6 +19,8 @@ void display(void)
 	printf("OS is openEuler\n");
 #elif defined(__tencentos__)
 	printf("OS is TencentOS\n");
+#elif defined(__opensuse_leap__)
+	printf("OS is openSUSE Leap\n");
 #else
 #error Must define __${distro}__, see template/os.mk
 #endif

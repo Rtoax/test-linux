@@ -9,20 +9,22 @@
 # - __cclinux__=1
 # - __kylin__=1
 # - __ubuntu__=1
+# - __opensuse_leap__=1
 #
-# - OS_VERSION_ID=[43|24.04]
-# - __os_major__=[43|24]
-# - __os_minor__=[0|04]
+#   C source code should use OS_ID like:
+#   #ifdef __fedora__
+#   #pragma message fedora
+#   #endif
+#
+# - OS_VERSION_ID=[43|24.04|15.5]
+# - __os_major__=[43|24|15]
+# - __os_minor__=[0|04|5]
 #
 # - OS_CFLAGS+=-DOS_ID=${OS_ID}
 #   OS_CFLAGS+=-DOS_VERSION_ID=${OS_VERSION_ID}
 #   OS_CFLAGS+=-D__${OS_ID}__=1
 #   OS_CFLAGS+=-D__os_major__=[43|24]
 #   OS_CFLAGS+=-D__os_minor__=[|04]
-#      C source code should use OS_ID like:
-#      #ifdef __fedora__
-#      #pragma message fedora
-#      #endif
 #
 # Functions:
 # - is_os(fedora[ debian ...])=[y|n]
@@ -31,13 +33,14 @@ ifndef _OS_MK
 _OS_MK = 1
 
 include shell.mk
+include string.mk
 
 OS_CFLAGS :=
 
 get_distr_info = $(patsubst "%",%,$(shell grep $(1) /etc/os-release 2>/dev/null | \
 					awk -F'=' '{print $$2}'))
 
-OS_ID := $(call get_distr_info, '^ID=')
+OS_ID := $(call c_ident,$(call get_distr_info, '^ID='))
 ifeq ($(OS_ID),)
   $(error Not found ID in /etc/os-release)
 endif
