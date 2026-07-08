@@ -127,6 +127,7 @@ Tools
    Grub <grub/index>
    Systemd <systemd/index>
    Tools <tools/index>
+   vDSO <vdso/index>
 
 
 Frontier and Future Technology
