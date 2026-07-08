@@ -14,7 +14,6 @@
 # - .luca.lcFatBinSegment
 # - target-lscc-y
 # - target-lscc-libso-y
-# - target-lscc-liba-y
 #
 # Input definitions:
 # - LUCA_ROOT=[/opt/luca/]
@@ -186,18 +185,13 @@ $(target-lscc-libso-y): %:
 	$(call log_tgt,${LSCC} SO,$(@))
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC_SO) $(LDFLAGS_LSCC_SO_$(*))
 
-$(target-lscc-liba-y): %:
-	$(call log_tgt,AR,$(@))
-	${Q}ar rcs $(@) $(^)
-
 # append ${OUTPUT} for each object
-$(foreach lib, ${target-lscc-libso-y} ${target-lscc-liba-y}, \
+$(foreach lib, ${target-lscc-libso-y}, \
   $(eval ${lib}-objs := $(call append_output_prefix,${${lib}-objs})) \
   $(if ${DEBUG},$(info ${lib}-objs = ${${lib}-objs})) \
 )
 
 $(foreach lib, ${target-lscc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
-$(foreach lib, ${target-lscc-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 
 # Depends, like:
 # hello: hello.luca.o
@@ -229,7 +223,7 @@ $(foreach t, ${target-lscc-y}, \
   ) \
 )
 
-$(foreach so, ${target-lscc-libso-y} ${target-lscc-liba-y}, \
+$(foreach so, ${target-lscc-libso-y}, \
   $(foreach obj, ${${so}-objs}, \
     $(if $(shell test -f ${obj}.d && echo yes), \
       $(if ${DEBUG}, $(info Include ${obj}.d)) \

@@ -69,7 +69,7 @@ target-liba-${HAVE_HIP} := libhip_helpers.a
 target-htcc-libso-${HAVE_HPCC} := libhpcc_helpers.so
 target-htcc-liba-${HAVE_HPCC} := libhpcc_helpers.a
 target-lscc-libso-${HAVE_LUCA} := libluca_helpers.so
-target-lscc-liba-${HAVE_LUCA} := libluca_helpers.a
+target-liba-${HAVE_LUCA} := libluca_helpers.a
 
 objs-dynamic += byte.so.o
 objs-dynamic += endian.so.o

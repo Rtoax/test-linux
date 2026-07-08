@@ -33,6 +33,7 @@ and this project adheres to
 - plotcake: Release v1.6.11;
 #### Template
 - targets/hipcc.mk: remove `target-hipcc-liba-y`, use `target-liba-y` instead;
+- targets/luca.mk: remove `target-lscc-liba-y`, use `target-liba-y` instead;
 - targets/c.mk: support specify CC for each target with `CC_${target}=clang`;
 - string.mk: add `c_ident()` function;
 
