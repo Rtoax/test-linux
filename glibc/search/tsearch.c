@@ -8,6 +8,14 @@
 #include <stdlib.h>
 #include <time.h>
 
+/**
+ * glibc glibc-2.29.9000-225-g7b807a35a8dc
+ * commit 7b807a35a8dc ("misc: Add twalk_r function")
+ */
+#if __GLIBC_PREREQ(2, 29)
+#define USE_TWALK_R 1
+#endif
+
 static void *root = NULL;
 
 static void *xmalloc(size_t n)
@@ -30,7 +38,11 @@ static int compare(const void *pa, const void *pb)
 	return 0;
 }
 
-static void action(const void *nodep, VISIT which, int depth)
+#ifdef USE_TWALK_R
+static void walk_action(const void *nodep, VISIT which, void *closure)
+#else
+static void walk_action(const void *nodep, VISIT which, int depth)
+#endif
 {
 	int *datap;
 
@@ -65,7 +77,11 @@ int main(void)
 		if (*val != ptr)
 			free(ptr);
 	}
-	twalk(root, action);
+#ifdef USE_TWALK_R
+	twalk_r(root, walk_action, NULL);
+#else
+	twalk(root, walk_action);
+#endif
 	tdestroy(root, free);
 	exit(EXIT_SUCCESS);
 }

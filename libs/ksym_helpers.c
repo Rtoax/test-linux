@@ -15,6 +15,14 @@
 #define PROC_KALLSYMS "/proc/kallsyms"
 #define DEFAULT_KMOD "vmlinux"
 
+/**
+ * glibc glibc-2.29.9000-225-g7b807a35a8dc
+ * commit 7b807a35a8dc ("misc: Add twalk_r function")
+ */
+#if __GLIBC_PREREQ(2, 29)
+#define HAVE_TWALK_R 1
+#endif
+
 enum ksym_type {
 	KSYM_LOCAL_ABS = 1,	/* a */
 	KSYM_GLOBAL_ABS,	/* A */
@@ -43,7 +51,11 @@ struct ksyms_tree {
 	size_t nsyms;
 	void *root;
 	int (*compare)(const void *, const void *);
+#ifdef HAVE_TWALK_R
 	void (*walk)(const void *, VISIT, void *);
+#else
+	void (*walk)(const void *, VISIT, int);
+#endif
 };
 
 struct ksyms_array {
@@ -90,7 +102,11 @@ static int ksym_cmp_nmta(const void *a1, const void *a2)
 	return ksym_cmp_addr(s1, s2);
 }
 
+#ifdef HAVE_TWALK_R
 static void walk_action(const void *nodep, VISIT which, void *closure)
+#else
+static void walk_action(const void *nodep, VISIT which, int depth)
+#endif
 {
 	const struct ksym *sym = *(struct ksym **)nodep;
 
@@ -277,7 +293,11 @@ static int sort_array(struct ksyms_array *arr)
 
 static void __attribute__((unused)) walk_tree(struct ksyms_tree *tree)
 {
+#ifdef HAVE_TWALK_R
 	twalk_r(tree->root, tree->walk, NULL);
+#else
+	twalk(tree->root, tree->walk);
+#endif
 }
 
 struct ksyms *load_kallsyms(void)
