@@ -12,11 +12,11 @@ lib${VDSO_NAME}.copy.so: ${KVDSO64}
 	$(Q)ln -s lib${VDSO_NAME}.copy.so ${VDSO_NAME}.copy
 
 main-custom: lib${VDSO_NAME}.custom.so
-	$(call log_tgt,LD,$(@))
+	$(call log_tgt,VDSO LD,$(@))
 	$(Q)gcc main.c -o $(@) -L. -l${VDSO_NAME}.custom -DCUSTOM_VDSO
 	$(Q)LD_LIBRARY_PATH=. ldd $(@)
 
 main-kernel: lib${VDSO_NAME}.copy.so
-	$(call log_tgt,LD,$(@))
+	$(call log_tgt,VDSO LD,$(@))
 	$(Q)gcc main.c -o $(@) -L .${VDSO_NAME}.copy -DKERNEL_VDSO64
 	$(Q)LD_LIBRARY_PATH=. ldd $(@)

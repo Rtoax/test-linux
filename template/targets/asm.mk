@@ -41,40 +41,40 @@ endif
 
 # M32: -felf32
 ${OUTPUT}%.asm.o: %.asm | ${OUTPUT}
-	$(call log_obj,NASM,$(@))
+	$(call log_obj,${NASM},$(@))
 	${Q}${NASM} -o $(@) $(<) $(ASMFLAGS) $(ASMFLAGS_$(*))
 
 ${OUTPUT}%.asm.o.bin: ${OUTPUT}%.asm.o
-	$(call log_obj,OBJCOPY NASM BIN,$(@))
+	$(call log_obj,${OBJCOPY} NASM BIN,$(@))
 	${Q}${OBJCOPY} -O binary $(<) $(@)
 
 # Same as: ld -m elf_i386 a.o -o a
 ${target-asm-y}: %:
-	$(call log_tgt,LD ASM,$(@))
+	$(call log_tgt,${LD} ASM,$(@))
 	${Q}$(LD) -o $(@) $(^) $(ASMLDFLAGS) $(ASMLDFLAGS_$(*))
 
 $(target-asm-std-y): %:
-	$(call log_tgt,LD ASM STD,$(@))
+	$(call log_tgt,${CC} ASM STD,$(@))
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 # .S files can be compiled directly with GCC because .S files can use GCC's
 # preprocessing capabilities, while .s files will treat the preprocessor's '#'
 # symbol as a comment and will not perform any processing.
 ${OUTPUT}%.S.o: %.S | ${OUTPUT}
-	$(call log_obj,CC S,$(@))
+	$(call log_obj,${CC} S,$(@))
 	${Q}${CC} -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.s.o: %.s | ${OUTPUT}
-	$(call log_obj,AS,$(@))
+	$(call log_obj,${AS},$(@))
 	${Q}${AS} -o $(@) $(<) $(ASFLAGS) $(ASFLAGS_$(*))
 
 ${OUTPUT}%.s.o.bin: ${OUTPUT}%.s.o
-	$(call log_obj,OBJCOPY BIN,$(@))
+	$(call log_obj,${OBJCOPY} BIN,$(@))
 	${Q}${OBJCOPY} -O binary $(<) $(@)
 
 # Default _start() entry and link libc
 ${target-as-y}: %:
-	$(call log_tgt,LD S,$(@))
+	$(call log_tgt,${LD} S,$(@))
 	${Q}$(LD) -lc -o $(@) $(^) $(ASLDFLAGS) $(ASLDFLAGS_$(*))
 
 $(foreach t, ${target-asm-y} ${target-asm-std-y}, \

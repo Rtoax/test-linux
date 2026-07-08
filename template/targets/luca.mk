@@ -124,39 +124,39 @@ endif
 # $1 - suffix of file: cu, luca
 define luca_obj
 $${OUTPUT}%.E.luca: %.${1} | $${OUTPUT}
-	$(call log_obj,LSCC E,$$(@))
+	$(call log_obj,${LSCC} E,$$(@))
 	$${Q}$$(LSCC) -E -o $$(@) -c $$(<) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.o: %.${1} | $${OUTPUT}
-	$(call log_obj,LSCC,$$(@))
+	$(call log_obj,${LSCC},$$(@))
 	$${Q}$$(LSCC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.bitcode: %.${1} | $${OUTPUT}
-	$(call log_obj,LSCC BC,$$(@))
+	$(call log_obj,${LSCC} BC,$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-bitcode) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.devbin: %.${1} | $${OUTPUT}
-	$(call log_obj,LSCC DEVBIN,$$(@))
+	$(call log_obj,${LSCC} DEVBIN,$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-devbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.fatbin: %.${1} | $${OUTPUT}
-	$(call log_obj,LSCC FATBIN,$$(@))
+	$(call log_obj,${LSCC} FATBIN,$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-fatbin) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 
 $${OUTPUT}%.luca.fatbc: %.${1} | $${OUTPUT}
-	$(call log_obj,LSCC FATBC,$$(@))
+	$(call log_obj,${LSCC} FATBC,$$(@))
 	$${Q}$$(LSCC) -o $$(@) -c $$(<) $$(cflags-lscc-fatbc) $$(CFLAGS_LSCC) $$(CFLAGS_LSCC_$$(*))
 endef
 # $1 - suffix of file: cu, luca
 define luca_obj_so
 $${OUTPUT}%.luca.so.o: %.${1} | $${OUTPUT}
-	$(call log_obj,LSCC CC SO,$$(@))
+	$(call log_obj,${LSCC} SO,$$(@))
 	$${Q}$$(LSCC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS_LSCC_SO) $$(CFLAGS_LSCC_SO_$$(*))
 endef
 # $1 - suffix of file: cu, luca
 define luca_obj_a
 $${OUTPUT}%.luca.a.o: %.${1} | $${OUTPUT}
-	$(call log_obj,LSCC CC A,$$(@))
+	$(call log_obj,${LSCC} A,$$(@))
 	$${Q}$$(LSCC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS_LSCC_A) $$(CFLAGS_LSCC_A_$$(*))
 endef
 $(eval $(call luca_obj,cu))
@@ -170,24 +170,24 @@ $(eval $(call luca_obj_a,luca))
 # commit 798dd703bcc9 ("targets/hpcc.mk: add .lc_fatbin and .lcFatBinSegment targets")
 # TODO: section name .lc_fatbin will be renamed.
 ${OUTPUT}%.luca.lc_fatbin: % | ${OUTPUT}
-	$(call log_obj,HC FATBIN,$(@))
+	$(call log_obj,${OBJCOPY} FATBIN,$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.lc_fatbin $(<) $(@)
 
 # TODO: section name .lcFatBinSegment will be renamed.
 ${OUTPUT}%.luca.lcFatBinSegment: % | ${OUTPUT}
-	$(call log_obj,HC FATBIN SEG,$(@))
+	$(call log_obj,${OBJCOPY} FATBIN SEG,$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.lcFatBinSegment $(<) $(@)
 
 $(target-lscc-y): %:
-	$(call log_tgt,LSCC LD,$(@))
+	$(call log_tgt,${LSCC} LD,$(@))
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC) $(LDFLAGS_LSCC_$(*))
 
 $(target-lscc-libso-y): %:
-	$(call log_tgt,LSCC SO,$(@))
+	$(call log_tgt,${LSCC} SO,$(@))
 	${Q}$(LSCC) -o $(@) $(^) $(LDFLAGS_LSCC_SO) $(LDFLAGS_LSCC_SO_$(*))
 
 $(target-lscc-liba-y): %:
-	$(call log_tgt,LSCC AR,$(@))
+	$(call log_tgt,AR,$(@))
 	${Q}ar rcs $(@) $(^)
 
 # append ${OUTPUT} for each object

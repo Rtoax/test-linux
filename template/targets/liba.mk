@@ -5,7 +5,6 @@ _TARGET_LIBA_MK = 1
 include cflags.mk
 
 CC ?= gcc
-Q ?= @
 
 CFLAGS_A += -fPIC
 
@@ -30,7 +29,7 @@ $(foreach a, ${target-liba-y} ${target-liba-cpp-y}, \
 $(foreach lib, ${target-liba-y}, $(eval ${lib}: $${${lib}-objs}))
 
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
-	$(call log_obj,CC A.o,$(@))
+	$(call log_obj,${CC} A.o,$(@))
 	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
 $(target-liba-y): %:

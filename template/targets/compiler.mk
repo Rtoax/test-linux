@@ -8,7 +8,7 @@ _TARGET_COMPILER_MK = 1
 include compiler/macros.mk
 
 $(CC)-macros.h:
-	$(call log_tgt,HDR,$(@))
+	$(call log_tgt,MACRO HDR,$(@))
 	$(call gen_compiler_macro_hdr,$(@))
 
 endif

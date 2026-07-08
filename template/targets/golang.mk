@@ -10,7 +10,7 @@ ifneq ($(target-go-y),)
 endif
 
 ${target-go-y}: %:
-	$(call log_tgt,GO,$(@))
+	$(call log_tgt,${GO},$(@))
 	${Q}$(GO) build $(@).go
 
 endif

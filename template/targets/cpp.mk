@@ -7,24 +7,24 @@ CXX ?= g++
 include cflags.mk
 
 ${OUTPUT}%.cpp.o: %.cpp | ${OUTPUT}
-	$(call log_obj,CXX,$(@))
+	$(call log_obj,${CXX},$(@))
 	${Q}$(CXX) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
 ${OUTPUT}%.cpp.s: %.cpp | ${OUTPUT}
-	$(call log_obj,CXX S,$(@))
+	$(call log_obj,${CXX} S,$(@))
 	${Q}$(CXX) -S -o $(@) $(<) $(CXXFLAGS) $(CXXFLAGS_$(*))
 
 # Compile .cpp to .<N>.cpp.o, this use to compile single source code to more
 # than one object file.
 define cpp_obj_x
 $${OUTPUT}%.${1}.cpp.o: %.cpp | ${OUTPUT}
-	$$(call log_obj,CXX.${1},$$(@))
+	$$(call log_obj,${CXX},$$(@))
 	$${Q}$$(CXX) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CXXFLAGS) $$(CXXFLAGS_$$(*).${1})
 endef
 $(foreach i, ${SRC_SFX_LIST}, $(eval $(call cpp_obj_x,${i})))
 
 ${target-cpp-y}: %:
-	$(call log_tgt,LD CXX,$(@))
+	$(call log_tgt,${CXX} LD,$(@))
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
 $(foreach t, ${target-cpp-y}, \

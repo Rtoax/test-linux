@@ -32,13 +32,11 @@ $(foreach so, ${target-libso-y} ${target-libso-cpp-y}, \
 $(foreach lib, ${target-libso-y} ${target-libso-cpp-y}, $(eval ${lib}: $${${lib}-objs}))
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
-	$(call log_obj,CC SO.o,$(@))
-	$(shell mkdir -p $(shell dirname $(@)))
+	$(call log_obj,${CC},$(@))
 	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS_SO) $(CFLAGS_SO_$(*))
 
 ${OUTPUT}%.cpp.so.o: %.cpp | ${OUTPUT}
-	$(call log_obj,CXX SO.o,$(@))
-	$(shell mkdir -p $(shell dirname $(@)))
+	$(call log_obj,${CXX},$(@))
 	${Q}$(CXX) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CXXFLAGS_SO) $(CXXFLAGS_SO_$(*))
 
 # All symlinks depends on original dynamic target, thus, if some one need the
@@ -50,12 +48,12 @@ $(foreach so, ${target-libso-y} ${target-libso-cpp-y}, \
 )
 
 $(target-libso-y): %:
-	$(call log_tgt,SO,$(@))
+	$(call log_tgt,${CC} SO,$(@))
 	${Q}$(CC) -o $(@) $(^) $(LDFLAGS_SO) $(LDFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
 
 $(target-libso-cpp-y): %:
-	$(call log_tgt,SO CPP,$(@))
+	$(call log_tgt,${CXX} SO,$(@))
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS_SO) $(LDXXFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
 

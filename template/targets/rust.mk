@@ -7,7 +7,7 @@ _TARGET_RUST_MK = 1
 include rust.mk
 
 $(target-rust-y): %:
-	$(call log_tgt,RUSTC,$(@))
+	$(call log_tgt,${RUSTC},$(@))
 	${Q}$(RUSTC) -o $(@) $(^)
 
 $(foreach t, ${target-rust-y}, \
