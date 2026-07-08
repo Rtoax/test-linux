@@ -18,6 +18,7 @@ include dir.mk
 include ansi.mk
 include file.mk
 include shell.mk
+include string.mk
 
 LOG_FILE_INFO := $(TOPDIR)/info.log
 LOG_FILE_FAILED := $(TOPDIR)/failed.log
@@ -32,11 +33,11 @@ $(if ${DEBUG},[$(shell date '+%Y/%m/%d %H:%M:%S')])
 endef
 
 define log_obj
-@printf "$(call LOG_PFX) %-8s $(call bold,%s)\n" "${1}" "$(2)"
+@printf "$(call LOG_PFX) %-16s $(call bold,%s)\n" "$(call toupper_shell,${1})" "$(2)"
 endef
 
 define log_tgt
-@printf "$(call LOG_PFX) %-8s $(call bgreen,%s)\n" "${1}" "$(2)"
+@printf "$(call LOG_PFX) %-16s $(call bgreen,%s)\n" "$(call toupper_shell,${1})" "$(2)"
 endef
 
 define log_info

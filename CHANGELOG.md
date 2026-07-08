@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+- make: test `$(or)`;
 - clang: test #pragma clang loop unroll(disable);
 - patchset.sh: add --single-diff argument;
 - bpftrace/samples: add macro subdir;
