@@ -5,6 +5,7 @@ _TARGET_LIBA_MK = 1
 include cflags.mk
 
 CC ?= gcc
+AR ?= ar
 
 CFLAGS_A += -fPIC
 
@@ -33,8 +34,8 @@ ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
 $(target-liba-y): %:
-	$(call log_tgt,AR,$(@))
-	${Q}ar rcs $(@) $(^)
+	$(call log_tgt,${AR},$(@))
+	${Q}${AR} rcs $(@) $(^)
 
 # Auto add library object.d and object's depends, for example:
 #
