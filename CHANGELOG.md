@@ -16,6 +16,7 @@ and this project adheres to
 - bpftrace/samples: add macro subdir;
 - scripts/git: add commit-message-stat.sh;
 #### Changed
+- top Makefile: rename `ERROR_STOP` to `ERROR_ABORT`;
 #### Deprecated
 #### Documentation
 - add vDSO;

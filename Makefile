@@ -86,7 +86,7 @@ help:
 	@echo >&2 -e "***  V=1           enable verbose mode"
 	@echo >&2 -e "***  DEBUG=1       enable debug mode"
 	@echo >&2 -e "***  ERROR=1       enable error mode"
-	@echo >&2 -e "***  ERROR_STOP=1  stop immediately when an error occurs"
+	@echo >&2 -e "***  ERROR_ABORT=1 abort when an error occurs"
 	@echo >&2 -e "***  FORCE=1       enable force mode"
 	@echo >&2 -e "***  M32=1         compile in -m32 if possible"
 	@echo >&2 -e "***  [PIE|NOPIE]=1 compile PIE or no-PIE execution"

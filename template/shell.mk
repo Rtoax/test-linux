@@ -9,7 +9,7 @@ ifndef _SHELL_MK
 _SHELL_MK = 1
 
 SHELL := bash
-ifneq ($(ERROR_STOP),)
+ifneq ($(ERROR_ABORT),)
   .SHELLFLAGS := -eu -o pipefail -c
 endif
 

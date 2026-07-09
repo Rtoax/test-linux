@@ -9,7 +9,7 @@ include emoji.mk
 include mkflags.mk
 include make.mk
 
-ifneq ($(ERROR_STOP),)
+ifneq ($(ERROR_ABORT),)
   define _exit
     exit ${1}
   endef

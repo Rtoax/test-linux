@@ -71,7 +71,7 @@ Stop immediately when an error occurs:
 
 .. code-block:: bash
 
-    $ make build ERROR_STOP=1
+    $ make build ERROR_ABORT=1
 
 Compile without subdirectories:
 
