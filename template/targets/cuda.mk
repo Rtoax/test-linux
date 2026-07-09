@@ -154,34 +154,9 @@ $(target-nvcc-libso-y): %:
 
 $(call target_objects_append_output_prefix,${target-nvcc-libso-y})
 $(call add_library_objects,${target-nvcc-libso-y})
+$(call add_library_depends,${target-nvcc-libso-y},.d)
 
-# TODO: need include ${t}-objs .d file
-$(foreach t, ${target-nvcc-y}, \
-  $(if $(shell test -f ${t}.cu && echo yes), \
-    $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${t}.cu.o $${${t}-objs} ${CUDA_HELPERS})) \
-    $(eval ${t}: ${OUTPUT}${t}.cu.o $${${t}-objs} ${CUDA_HELPERS}), \
-    $(if ${DEBUG}, $(info Dep ${t}: $${${t}-objs} ${CUDA_HELPERS})) \
-    $(eval ${t}: $${${t}-objs} ${CUDA_HELPERS}) \
-  ) \
-)
-
-$(foreach t, ${target-nvcc-y}, \
-  $(if $(shell test -f ${OUTPUT}${t}.cu.o.d && echo yes), \
-    $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.cu.o.d)) \
-    $(eval include ${OUTPUT}${t}.cu.o.d), \
-    $(if ${DEBUG}, $(info Not found ${OUTPUT}${t}.cu.o.d)) \
-  ) \
-)
-
-# TODO: need include ${so}-objs .d file
-$(foreach so, ${target-nvcc-libso-y}, \
-  $(foreach obj, ${${so}-objs}, \
-    $(if $(shell test -f ${obj}.d && echo yes), \
-      $(if ${DEBUG}, $(info Include ${obj}.d)) \
-      $(eval include ${obj}.d), \
-      $(if ${DEBUG}, $(info Not found ${obj}.d)) \
-    ) \
-  ) \
-)
+$(call add_target_objects,.cu,.cu.o,${target-nvcc-y},${CUDA_HELPERS})
+$(call add_target_depends,${target-nvcc-y},.cu.o.d,.d)
 
 endif
