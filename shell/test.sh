@@ -15,9 +15,11 @@ else
 	echo "__not_exist__ non newer neither older"
 fi
 
-if [[ /var/log/messages -nt /bin/ls ]]; then
-	echo newer
+dmesg=/var/log/dmesg
+[[ -e /var/log/messages ]] && dmesg=/var/log/messages
+if [[ ${dmesg} -nt /bin/ls ]]; then
+	echo ${dmesg} newer than /bin/ls
 else
-	echo "FATAL: /var/log/messages should newer than /bin/ls"
+	echo "FATAL: ${dmesg} should newer than /bin/ls"
 	exit 1
 fi
