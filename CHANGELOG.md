@@ -10,6 +10,21 @@ and this project adheres to
 ## Unreleased
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Documentation
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Tools
+#### Template
+
+
+## [v2.4.9] Namespace 2026-07-09
+
+#### Breaking Changes
+#### Added
 - make: test `$(or)`;
 - clang: test #pragma clang loop unroll(disable);
 - patchset.sh: add --single-diff argument;
