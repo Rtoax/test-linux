@@ -12,3 +12,9 @@ target-nvcc-${HAVE_CUDA} := ${common-objs}
 target-hipcc-${HAVE_HIPSOLVER} := $(patsubst %,%-hip,$(common-objs))
 target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs))
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
+
+$(foreach obj, ${common-objs}, \
+  $(eval ${obj}-luca-objs := ${obj}.luca.o) \
+  $(eval ${obj}-hpcc-objs := ${obj}.hpcc.o) \
+  $(eval ${obj}-hip-objs := ${obj}.hip.o) \
+)

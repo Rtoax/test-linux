@@ -20,15 +20,19 @@ common-objs-y += int
 common-objs-y += simd
 
 target-nvcc-${HAVE_CUDA} := $(common-objs-y)
+target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs-y))
+target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs-y))
+target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs-y))
+
+$(foreach obj, ${common-objs-y}, \
+  $(eval ${obj}-luca-objs := ${obj}.luca.o) \
+  $(eval ${obj}-hpcc-objs := ${obj}.hpcc.o) \
+  $(eval ${obj}-hip-objs := ${obj}.hip.o) \
+)
 
 post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.E.cu,$(target-nvcc-y))
 post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.ptx,$(target-nvcc-y))
 post-${HAVE_CUDA} += $(patsubst %,${OUTPUT}%.cu.cpp.ii,$(target-nvcc-y))
-
-target-hipcc-${HAVE_HIP} := $(patsubst %,%-hip,$(common-objs-y))
-target-htcc-${HAVE_HPCC} := $(patsubst %,%-hpcc,$(common-objs-y))
-
-target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs-y))
 
 # Skip warnings
 # warning: designated initializers are a C++20 extension [-Wc++20-designator]

@@ -67,6 +67,12 @@ post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.devbin,$(common-exe))
 post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbin,$(common-exe))
 post-${HAVE_LUCA} += $(patsubst %,${OUTPUT}%.luca.fatbc,$(common-exe))
 
+$(foreach obj, ${common-exe}, \
+  $(eval ${obj}-luca-objs := ${obj}.luca.o) \
+  $(eval ${obj}-hpcc-objs := ${obj}.hpcc.o) \
+  $(eval ${obj}-hip-objs := ${obj}.hip.o) \
+)
+
 # Pure C
 target-y := matrix-c-fp32 matrix-c-fp64
 target-y += float-c

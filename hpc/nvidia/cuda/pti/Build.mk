@@ -14,3 +14,7 @@ cuda-objs += range
 target-nvcc-${HAVE_CUPTI} := ${common-objs}
 target-nvcc-${HAVE_CUPTI} += ${cuda-objs}
 target-lscc-${HAVE_LCPTI} := $(patsubst %,%-luca,$(common-objs))
+
+$(foreach obj, ${common-objs}, \
+  $(eval ${obj}-luca-objs := ${obj}.luca.o) \
+)

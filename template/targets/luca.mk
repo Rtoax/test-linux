@@ -190,34 +190,8 @@ $(call target_objects_append_output_prefix,${target-lscc-libso-y})
 $(call add_library_objects,${target-lscc-libso-y})
 $(call add_library_depends,${target-lscc-libso-y},.d)
 
-# Depends, like:
-# hello: hello.luca.o
-# hello-luca: hello.luca.o
-$(foreach t, ${target-lscc-y}, \
-  $(if $(shell test -f ${t}.cu && echo yes), \
-    $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${t}.luca.o $${${t}-objs} ${LUCA_HELPERS})) \
-    $(eval ${t}: ${OUTPUT}${t}.luca.o $${${t}-objs} ${LUCA_HELPERS}), \
-    $(eval tname := $(call strip_tail,${t},-luca)) \
-    $(if $(shell test -f ${tname}.cu && echo yes), \
-      $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${tname}.luca.o $${${t}-objs} ${LUCA_HELPERS})) \
-      $(eval ${t}: ${OUTPUT}${tname}.luca.o $${${t}-objs} ${LUCA_HELPERS}), \
-      $(if ${DEBUG}, $(info Dep(${tname}) ${t}: $${${t}-objs} ${LUCA_HELPERS})) \
-      $(eval ${t}: $${${t}-objs} ${LUCA_HELPERS}) \
-    ) \
-  ) \
-)
-
-$(foreach t, ${target-lscc-y}, \
-  $(if $(shell test -f ${OUTPUT}${t}.luca.o.d && echo yes), \
-    $(if ${DEBUG}, $(info Include ${OUTPUT}${t}.luca.o.d)) \
-    $(eval include ${OUTPUT}${t}.luca.o.d), \
-    $(eval depname := ${OUTPUT}$(call strip_tail,${t},-luca).luca.o.d) \
-    $(if $(shell test -f ${depname} && echo yes), \
-      $(if ${DEBUG}, $(info Include ${depname})) \
-      $(eval include ${depname}), \
-      $(if ${DEBUG}, $(info Not found ${depname})) \
-    ) \
-  ) \
-)
+$(call target_objects_append_output_prefix,${target-lscc-y})
+$(call add_target_objects,.cu,.luca.o,${target-lscc-y},${LUCA_HELPERS})
+$(call add_target_depends,${target-lscc-y},.luca.o.d,.d)
 
 endif

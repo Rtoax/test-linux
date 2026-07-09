@@ -5,3 +5,7 @@ include compiler.mk
 common-objs := vpu
 
 target-lscc-${HAVE_LUCA} := $(patsubst %,%-luca,$(common-objs))
+
+$(foreach obj, ${common-objs}, \
+  $(eval ${obj}-luca-objs := ${obj}.luca.o) \
+)
