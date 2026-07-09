@@ -23,12 +23,12 @@ with open(file, "w") as f:
             return {i}; \n\
         }}\n"
         )
-    f.write(f"static unsigned long __attribute__((optimize(\"-O0\"))) \n\
-        call_big_text2(void) {{ \n\
-        unsigned long volatile count = 0; \n\
-        return 0; \n\
-    ")
+    f.write(f"\n\
+static unsigned long __attribute__((optimize(\"-O0\"))) \n\
+call_big_text2(void) {{ \n\
+\tunsigned long volatile count = 0; \n\
+")
     for i in range(num):
-        f.write(f"count += func_{i}(); \n")
-    f.write(f"return count; \n")
+        f.write(f"\tcount += func_{i}(); \n")
+    f.write(f"\treturn count; \n")
     f.write(f"}} \n")
