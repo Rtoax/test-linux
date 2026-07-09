@@ -8,7 +8,9 @@ devices+=( mem )
 devices+=( null )
 devices+=( urandom random )
 devices+=( zero )
-devices+=( snapshot )
+if [[ -e /dev/snapshot ]]; then
+	devices+=( snapshot )
+fi
 
 for dev in ${devices[@]}
 do
