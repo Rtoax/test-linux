@@ -34,7 +34,7 @@ and this project adheres to
 #### Template
 - add `CC_MACHINE`, `GCC_MACHINE`, `CLANG_MACHINE`;
 - compiler: rename m32.mk to machine.mk;
-- add bits/targets.mk `add_target_objects()` and `add_library_objects()`;
+- add bits/targets.mk `add_target_objects()`, `add_target_depends()` and `add_library_objects()`;
 - output.mk: add `target_objects_append_output_prefix()` function;
 - targets/hipcc.mk: remove `target-hipcc-liba-y`, use `target-liba-y` instead;
 - targets/luca.mk: remove `target-lscc-liba-y`, use `target-liba-y` instead;
