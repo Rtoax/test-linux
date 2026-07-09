@@ -46,11 +46,15 @@ target-libso-y += libfoobar.so
 
 main-objs := foo.o bar.o
 main-deps := foo.h bar.h
-foo.o-deps += foo.h
-bar.o-deps += bar.h
-main.o-deps += foo.h bar.h
+foo.o-deps := foo.h
+bar.o-deps := bar.h
+main.o-deps := foo.h bar.h
 libfoobar.a-objs += foo.a.o bar.a.o
 libfoobar.so-objs += foo.so.o bar.so.o
+foo.a.o-deps := foo.h
+bar.a.o-deps := bar.h
+foo.so.o-deps := foo.h
+bar.so.o-deps := bar.h
 
 clang.1-objs := clang.1.o
 
@@ -69,3 +73,5 @@ cpp.cpp.o-deps := foo.hpp bar.hpp
 
 libfoobar++.a-objs += foo.cpp.o bar.cpp.o
 libfoobar++.so-objs += foo.cpp.so.o bar.cpp.so.o
+foo.cpp.so.o-deps := foo.hpp
+bar.cpp.so.o-deps := bar.hpp

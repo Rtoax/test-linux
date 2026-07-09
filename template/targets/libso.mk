@@ -25,6 +25,7 @@ endif
 
 $(call target_objects_append_output_prefix,${target-libso-y} ${target-libso-cpp-y})
 $(call add_library_objects,${target-libso-y} ${target-libso-cpp-y})
+$(call add_target_depends,${target-libso-y} ${target-libso-cpp-y},,.d)
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_obj,${CC},$(@))
@@ -51,17 +52,5 @@ $(target-libso-cpp-y): %:
 	$(call log_tgt,${CXX} SO,$(@))
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS_SO) $(LDXXFLAGS_SO_$(*)) -Wl,-soname=$(@)
 	${Q}${SHELL} ${LIBSO_SH} multi-version $(@)
-
-$(foreach so, ${target-libso-y} ${target-libso-cpp-y}, \
-  $(foreach obj, ${${so}-objs}, \
-    $(if $(shell test -f ${obj}.d && echo yes), \
-      $(if ${DEBUG}, $(info Include ${obj}.d)) \
-      $(eval include ${obj}.d), \
-      $(if ${DEBUG}, $(info Not found ${obj}.d)) \
-    ) \
-  ) \
-  $(if ${${so}-deps}, $(eval ${so}: ${${so}-deps}) \
-    $(if ${DEBUG}, $(info ${so} = ${${so}-deps}))) \
-)
 
 endif
