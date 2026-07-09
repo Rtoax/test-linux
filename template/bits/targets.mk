@@ -54,11 +54,11 @@ $(foreach tgt, ${1}, \
 endef
 
 # Add library objects depends
-# $1: targets
+# $1: target list
 # $2: default depends, could be empty.
 #     for examples: HELPERS
 define add_library_objects
-$(call add_target_objects,,,$1,$2)
+$(call add_target_objects,___shoud_not_exist___,,$1,$2)
 endef
 
 endif # end of _BITS_TARGETS_MK
