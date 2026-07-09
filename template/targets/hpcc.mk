@@ -158,47 +158,11 @@ $(target-htcc-libso-y): %:
 	${Q}$(HTCC) -o $(@) $(^) $(LDFLAGS_HTCC_SO) $(LDFLAGS_HTCC_SO$(*))
 
 $(call target_objects_append_output_prefix,${target-htcc-libso-y})
-$(call add_library_objects,,,${target-htcc-libso-y})
+$(call add_library_objects,${target-htcc-libso-y})
+$(call add_library_depends,${target-htcc-libso-y},.d)
 
-# Depends, like:
-# hello: hello.hpcc.o
-# hello-hpcc: hello.hpcc.o
-$(foreach t, ${target-htcc-y}, \
-  $(if $(shell test -f ${t}.cu && echo yes), \
-    $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${t}.hpcc.o $${${t}-objs} ${HPCC_HELPERS})) \
-    $(eval ${t}: ${OUTPUT}${t}.hpcc.o $${${t}-objs} ${HPCC_HELPERS}), \
-    $(eval tname := $(call strip_tail,${t},-hpcc)) \
-    $(if $(shell test -f ${tname}.cu && echo yes), \
-      $(if ${DEBUG}, $(info Dep ${t}: ${OUTPUT}${tname}.hpcc.o $${${t}-objs} ${HPCC_HELPERS})) \
-      $(eval ${t}: ${OUTPUT}${tname}.hpcc.o $${${t}-objs} ${HPCC_HELPERS}), \
-      $(if ${DEBUG}, $(info Dep(${tname}) ${t}: $${${t}-objs} ${HPCC_HELPERS})) \
-      $(eval ${t}: $${${t}-objs} ${HPCC_HELPERS}) \
-    ) \
-  ) \
-)
-
-$(foreach t, ${target-htcc-y}, \
-  $(if $(shell test -f ${OUTPUT}${t}.hpcc.o.d && echo yes), \
-    $(if ${DEBUG}, $(info Include ${OUTPUT}${t}.hpcc.o.d)) \
-    $(eval include ${OUTPUT}${t}.hpcc.o.d), \
-    $(eval depname := ${OUTPUT}$(call strip_tail,${t},-hpcc).hpcc.o.d) \
-    $(if $(shell test -f ${depname} && echo yes), \
-      $(if ${DEBUG}, $(info Include ${depname})) \
-      $(eval include ${depname}), \
-      $(if ${DEBUG}, $(info Not found ${depname})) \
-    ) \
-  ) \
-)
-
-# TODO: need include ${so}-objs .d file
-$(foreach so, ${target-htcc-libso-y}, \
-  $(foreach obj, ${${so}-objs}, \
-    $(if $(shell test -f ${obj}.d && echo yes), \
-      $(if ${DEBUG}, $(info Include ${obj}.d)) \
-      $(eval include ${obj}.d), \
-      $(if ${DEBUG}, $(info Not found ${obj}.d)) \
-    ) \
-  ) \
-)
+$(call target_objects_append_output_prefix,${target-htcc-y})
+$(call add_target_objects,.cu,.hpcc.o,${target-htcc-y},${LUCA_HELPERS})
+$(call add_target_depends,${target-htcc-y},.hpcc.o.d,.d)
 
 endif
