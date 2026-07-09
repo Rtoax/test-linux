@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
 include helpers.mk
 
-target-y += fork sys_fork
-target-y += vfork sys_vfork
+target-y += fork
+target-${IS_X86_64} += sys_fork
+target-y += vfork
+target-${IS_X86_64} += sys_vfork
 target-y += fork-share
 target-y += fork-ENOMEM fork-ENOMEM-2
 target-y += fork_twice
