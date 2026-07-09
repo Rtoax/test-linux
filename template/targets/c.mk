@@ -42,8 +42,8 @@ $(call target_objects_append_output_prefix,${target-y})
 $(call add_target_objects,.c,.o,${target-y})
 
 $(foreach t, ${target-y}, \
-  $(if ${DEBUG}, $(info ${t}: $(eval ${${t}-deps}))) \
-  $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
+  $(if ${DEBUG}, $(info ${t}: ${${t}-deps})) \
+  $(if ${${t}-deps}, $(eval ${t}: $${${t}-deps})) \
 )
 
 $(foreach t, ${target-y}, \

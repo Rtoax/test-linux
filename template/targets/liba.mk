@@ -46,7 +46,8 @@ $(foreach a, ${target-liba-y}, \
       $(if ${DEBUG}, $(info Not found ${obj}.d)) \
     ) \
     $(eval _obj := $(call strip_output_prefix,${obj})) \
-    $(if ${${_obj}-deps}, $(eval ${obj}: ${${_obj}-deps})\
+    $(if ${${_obj}-deps}, \
+      $(eval ${obj}: ${${_obj}-deps})\
       $(if ${DEBUG}, $(info ${obj}: ${${_obj}-deps})) \
     ) \
   ) \

@@ -8,7 +8,6 @@ target-y := numa_mem
 target-y += memory
 target-liba-y := numa.a
 
-numa.a-deps := numa_mem.h
 numa.a-objs := numa_mem.a.o
 
 numa_mem.a.o-deps := numa_mem.h

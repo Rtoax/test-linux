@@ -20,9 +20,9 @@ define add_target_objects
 $(foreach tgt, ${3}, \
   $(if ${DEBUG},$(info ${tgt}-objs = ${${tgt}-objs})) \
   $(if $(shell test -f ${tgt}${1} && echo yes), \
-    $(if ${DEBUG},$(info ${tgt}: ${OUTPUT}${tgt}${2} $(eval $${${tgt}-objs}) ${4})) \
+    $(if ${DEBUG},$(info ${tgt}: ${OUTPUT}${tgt}${2} ${${tgt}-objs} ${4})) \
     $(eval ${tgt}: ${OUTPUT}${tgt}${2} $${${tgt}-objs} ${4}), \
-    $(if ${DEBUG},$(info ${tgt}: $(eval $${${tgt}-objs}) ${4})) \
+    $(if ${DEBUG},$(info ${tgt}: ${${tgt}-objs} ${4})) \
     $(eval ${tgt}: $${${tgt}-objs} ${4}) \
   ) \
 )
