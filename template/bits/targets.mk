@@ -36,9 +36,11 @@ $(foreach tgt, ${3}, \
 )
 endef
 
-# Add target depends
+# Add target depends and include depends file (like include x.o.d)
 #
 # $1: target list
+# $2: target depend extension, like .o.d of main.o.d
+# $3: object depend extension, like .d of foo.o.d (main-objs := foo.o)
 define add_target_depends
 $(foreach tgt, ${1}, \
   $(if ${DEBUG}, $(info ${tgt}: ${${tgt}-deps})) \
@@ -48,6 +50,22 @@ $(foreach tgt, ${1}, \
     $(if ${${_obj}-deps}, \
       $(eval ${obj}: ${${_obj}-deps})\
       $(if ${DEBUG}, $(info ${obj}: ${${_obj}-deps})) \
+    ) \
+  ) \
+  $(if ${2}, \
+    $(if $(shell test -f ${OUTPUT}${tgt}${2} && echo yes), \
+      $(if ${DEBUG}, $(info Found ${tgt}'s dep ${OUTPUT}${tgt}${2})) \
+      $(eval include ${OUTPUT}${tgt}${2}), \
+      $(if ${DEBUG}, $(info Not found ${OUTPUT}${tgt}${2})) \
+    ) \
+  ) \
+  $(if ${3}, \
+    $(foreach tobj, ${${tgt}-objs}, \
+      $(if $(shell test -f ${tobj}${3} && echo yes), \
+        $(if ${DEBUG}, $(info Found ${tgt}'s obj dep ${tobj}${3})) \
+        $(eval include ${tobj}${3}) \
+        $(if ${DEBUG}, $(info Not found ${tgt}'s obj dep ${tobj}${3})) \
+      ) \
     ) \
   ) \
 )

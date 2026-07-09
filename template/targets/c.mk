@@ -40,20 +40,6 @@ $(target-y): %:
 
 $(call target_objects_append_output_prefix,${target-y})
 $(call add_target_objects,.c,.o,${target-y})
-$(call add_target_depends,${target-y})
-
-$(foreach t, ${target-y}, \
-  $(if $(shell test -f ${OUTPUT}${t}.o.d && echo yes), \
-    $(if ${DEBUG}, $(info Found ${t}'s dep ${OUTPUT}${t}.o.d)) \
-    $(foreach tobj, ${${t}-objs}, \
-      $(if $(shell test -f ${tobj}.d && echo yes), \
-        $(if ${DEBUG}, $(info Found ${t}'s obj dep ${tobj}.d)) \
-        $(eval include ${tobj}.d) \
-      ) \
-    ) \
-    $(eval include ${OUTPUT}${t}.o.d), \
-    $(if ${DEBUG}, $(info Not found ${OUTPUT}${t}.o.d)) \
-  ) \
-)
+$(call add_target_depends,${target-y},.o.d,.d)
 
 endif
