@@ -1,5 +1,5 @@
-void foo(void);
-void bar(void);
+#include "foo.h"
+#include "bar.h"
 
 int main(void)
 {

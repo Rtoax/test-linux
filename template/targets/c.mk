@@ -38,12 +38,17 @@ $(target-y): %:
 	$(call log_tgt,${REAL_COMPILER_CC} LD,$(@))
 	${Q}$(REAL_COMPILER_CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
-$(call target_objects_append_output_prefix,${target-y})
+$(call target_objects_append_output_prefix,${target-y},.c,.o)
 $(call add_target_objects,.c,.o,${target-y})
 
 $(foreach t, ${target-y}, \
-  $(if ${DEBUG}, $(info ${t}: ${${t}-deps})) \
-  $(if ${${t}-deps}, $(eval ${t}: $${${t}-deps})) \
+  $(foreach obj, ${${t}-objs}, \
+    $(eval _obj := $(call strip_output_prefix,${obj})) \
+    $(if ${${_obj}-deps}, \
+      $(eval ${obj}: ${${_obj}-deps})\
+      $(if ${DEBUG}, $(info ${obj}: ${${_obj}-deps})) \
+    ) \
+  ) \
 )
 
 $(foreach t, ${target-y}, \

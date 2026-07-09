@@ -11,7 +11,7 @@ _BITS_TARGETS_MK = 1
 # Add target objects depends
 # need called after target_objects_append_output_prefix()
 #
-# $1: source file extension like .cpp in a.cpp
+# $1: source file extension like .cpp for a.cpp, .c for a.c
 # $2: object file extension like .o for .c, .cpp.o for .cpp
 # $3: targets
 # $4: default depends, could be empty.

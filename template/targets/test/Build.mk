@@ -45,6 +45,7 @@ target-liba-y += libfoobar.a
 target-libso-y += libfoobar.so
 
 main-objs := foo.o bar.o
+main.o-deps += foo.h bar.h
 libfoobar.a-objs += foo.a.o bar.a.o
 libfoobar.so-objs += foo.so.o bar.so.o
 
