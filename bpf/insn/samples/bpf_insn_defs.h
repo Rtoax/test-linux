@@ -9,8 +9,12 @@ BPF_INSN_SAMPLE(get_current_task_btf)
 BPF_INSN_SAMPLE(strncmp)
 #endif
 BPF_INSN_SAMPLE(strnstr)
+#ifdef SUPPORT_BPF_STRLEN
 BPF_INSN_SAMPLE(strlen)
+#endif
+#ifdef SUPPORT_BPF_STRNLEN
 BPF_INSN_SAMPLE(strnlen)
+#endif
 BPF_INSN_SAMPLE(send_signal)
 BPF_INSN_SAMPLE(send_signal_thread)
 /**
