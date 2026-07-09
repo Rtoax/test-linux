@@ -18,7 +18,7 @@ do
 
 	cat>>${code}<<-EOF
 	static int __attribute__((optimize("-O0"))) ${func}(void) {
-		char volatile buff[1024] = {"Hello World from ${func}\n" \\
+		char volatile buff[1000] = {"Hello World from ${func}\n" \\
 			"and this is a big data on stack!!!!!!!!!!!!!!!!!\n" \\
 			"$(uname -a)" \\
 			"$(hostname)" \\

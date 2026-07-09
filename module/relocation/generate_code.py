@@ -3,13 +3,13 @@
 file = "generated_functions.h"
 # if num = 200000, need vmalloc 130MB+
 # if num = 600000, need vmalloc 390MB+
-num = 200000
+num = 1000
 
 # generate_code.py
 with open(file, "w") as f:
     for i in range(num):
         f.write(f"static int __attribute__((optimize(\"-O0\"))) func_{i}(void) {{ \n\
-            char volatile buff[1024] = {{\"Hello World from {i}\" \n\
+            char volatile buff[1000] = {{\"Hello World from {i}\" \n\
                 \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\" \n\
                 \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\" \n\
                 \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\" \n\
