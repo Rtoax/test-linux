@@ -19,6 +19,7 @@ include verbose.mk
 include arch.mk
 include dir.mk
 include log.mk
+include output.mk
 
 $(if $(subdir-y), $(eval include targets/subdir-header.mk))
 
