@@ -19,7 +19,7 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
 else
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile})
+$(call make_gen_cachefile,${cachefile},${origfile})
 
 feature-mavx2 := $(findstring y,$(call compiler_support_option,$(CC),-mavx2))
 feature-mfentry := $(findstring y,$(call compiler_support_option,$(CC),-mfentry))

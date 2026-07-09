@@ -20,7 +20,7 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
 else
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile})
+$(call make_gen_cachefile,${cachefile},${origfile})
 
 CC_SUPPORT_m32 := $(findstring y,$(call compiler_support_option_link,$(CC),-m32))
 CC_MACHINE := $(shell ${CC} -dumpmachine)

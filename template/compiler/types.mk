@@ -17,7 +17,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile})
+$(call make_gen_cachefile,${cachefile},${origfile})
 
 # see https://clang.llvm.org/docs/LanguageExtensions.html
 CC_SUPPORT_TYPE__Float16 := $(findstring y,$(call compiler_support_type,$(CC),_Float16))
