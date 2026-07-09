@@ -23,7 +23,7 @@ endif
 
 $(call target_objects_append_output_prefix,${target-liba-y})
 $(call add_library_objects,${target-liba-y})
-$(call add_target_depends,${target-liba-y},,.d)
+$(call add_library_depends,${target-liba-y},.d)
 
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
 	$(call log_obj,${CC} A.o,$(@))

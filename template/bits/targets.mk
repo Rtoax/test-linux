@@ -5,6 +5,7 @@
 # - add_target_objects()
 # - add_target_depends()
 # - add_library_objects()
+# - add_library_depends()
 #
 ifndef _BITS_TARGETS_MK
 _BITS_TARGETS_MK = 1
@@ -72,11 +73,19 @@ $(foreach tgt, ${1}, \
 endef
 
 # Add library objects depends
-# $1: target list
+# $1: library list
 # $2: default depends, could be empty.
 #     for examples: HELPERS
 define add_library_objects
 $(call add_target_objects,___shoud_not_exist___,,$1,$2)
+endef
+
+# Add library depends and include depends file (like include x.o.d)
+#
+# $1: library list
+# $2: object depend extension, like .d of foo.o.d (libx-objs := foo.o)
+define add_library_depends
+$(call add_target_depends,${1},,${2})
 endef
 
 endif # end of _BITS_TARGETS_MK

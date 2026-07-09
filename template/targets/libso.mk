@@ -25,7 +25,7 @@ endif
 
 $(call target_objects_append_output_prefix,${target-libso-y} ${target-libso-cpp-y})
 $(call add_library_objects,${target-libso-y} ${target-libso-cpp-y})
-$(call add_target_depends,${target-libso-y} ${target-libso-cpp-y},,.d)
+$(call add_library_depends,${target-libso-y} ${target-libso-cpp-y},.d)
 
 ${OUTPUT}%.so.o: %.c | ${OUTPUT}
 	$(call log_obj,${CC},$(@))
