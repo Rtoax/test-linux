@@ -8,6 +8,10 @@
 #include <sys/resource.h>
 #include "sched_helpers.h"
 
+#ifndef SCHED_EXT
+#define SCHED_EXT 7
+#endif
+
 int main(int argc, char *argv[])
 {
 	int err, policy;
