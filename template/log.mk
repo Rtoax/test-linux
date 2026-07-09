@@ -28,8 +28,11 @@ LOG_FILE_RUNPROG := $(TOPDIR)/runprog.cmd.log
 LOG_MAKE_TL := ${TOPDIR}/make.log
 
 # Timestamp
+define LOG_TS
+[$(shell date '+%Y/%m/%d %H:%M:%S')]
+endef
 define LOG_PFX
-$(if ${DEBUG},[$(shell date '+%Y/%m/%d %H:%M:%S')])
+$(if ${DEBUG},$(call LOG_TS))
 endef
 
 define log_obj
@@ -45,7 +48,7 @@ printf "$(call LOG_PFX) $1\n" | tee --append ${LOG_FILE_INFO}
 endef
 
 define log_fail
-printf "$(call LOG_PFX) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
+printf "$(call LOG_TS) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
 endef
 
 define log_warn
