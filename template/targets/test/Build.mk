@@ -71,7 +71,9 @@ foo.cpp.o-deps := foo.hpp
 bar.cpp.o-deps := bar.hpp
 cpp.cpp.o-deps := foo.hpp bar.hpp
 
-libfoobar++.a-objs += foo.cpp.o bar.cpp.o
+libfoobar++.a-objs += foo.cpp.a.o bar.cpp.a.o
 libfoobar++.so-objs += foo.cpp.so.o bar.cpp.so.o
+foo.cpp.a.o-deps := foo.hpp
+bar.cpp.a.o-deps := bar.hpp
 foo.cpp.so.o-deps := foo.hpp
 bar.cpp.so.o-deps := bar.hpp
