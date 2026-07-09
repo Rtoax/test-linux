@@ -19,11 +19,16 @@ _BITS_TARGETS_MK = 1
 define add_target_objects
 $(foreach tgt, ${3}, \
   $(if ${DEBUG},$(info ${tgt}-objs = ${${tgt}-objs})) \
-  $(if $(shell test -f ${tgt}${1} && echo yes), \
-    $(if ${DEBUG},$(info ${tgt}: ${OUTPUT}${tgt}${2} ${${tgt}-objs} ${4})) \
-    $(eval ${tgt}: ${OUTPUT}${tgt}${2} $${${tgt}-objs} ${4}), \
-    $(if ${DEBUG},$(info ${tgt}: ${${tgt}-objs} ${4})) \
-    $(eval ${tgt}: $${${tgt}-objs} ${4}) \
+  $(if ${1}, \
+    $(if $(shell test -f ${tgt}${1} && echo yes), \
+      $(eval ${tgt}-objs += $(call append_output_prefix,${tgt}${2})) \
+    ) \
+    $(if $(shell test -f ${tgt}${1} && echo yes), \
+      $(if ${DEBUG},$(info ${tgt}: ${OUTPUT}${tgt}${2} ${${tgt}-objs} ${4})) \
+      $(eval ${tgt}: ${OUTPUT}${tgt}${2} $${${tgt}-objs} ${4}), \
+      $(if ${DEBUG},$(info ${tgt}: ${${tgt}-objs} ${4})) \
+      $(eval ${tgt}: $${${tgt}-objs} ${4}) \
+    ) \
   ) \
 )
 endef
@@ -33,7 +38,7 @@ endef
 # $2: default depends, could be empty.
 #     for examples: HELPERS
 define add_library_objects
-$(call add_target_objects,___shoud_not_exist___,,$1,$2)
+$(call add_target_objects,,,$1,$2)
 endef
 
 endif # end of _BITS_TARGETS_MK

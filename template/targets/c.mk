@@ -38,7 +38,7 @@ $(target-y): %:
 	$(call log_tgt,${REAL_COMPILER_CC} LD,$(@))
 	${Q}$(REAL_COMPILER_CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
-$(call target_objects_append_output_prefix,${target-y},.c,.o)
+$(call target_objects_append_output_prefix,${target-y})
 $(call add_target_objects,.c,.o,${target-y})
 
 $(foreach t, ${target-y}, \

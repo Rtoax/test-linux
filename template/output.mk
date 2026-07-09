@@ -29,16 +29,9 @@ endef
 #   x-objs := ${OUTPUT}x1.o ${OUTPUT}x2.o
 #
 # $1: target list
-# $2: extension of source file, like .c in a.c
-# $3: object extension, like .o in a.o, .cpp.o in a.cpp.o
 define target_objects_append_output_prefix
 $(foreach tgt, ${1}, \
   $(eval ${tgt}-objs := $(call append_output_prefix,${${tgt}-objs})) \
-  $(if ${2}, \
-    $(if $(shell test -f ${tgt}${2} && echo yes), \
-      $(eval ${tgt}-objs += $(call append_output_prefix,${tgt}${3})) \
-    ) \
-  ) \
   $(if ${DEBUG},$(info ${tgt}-objs = ${${tgt}-objs})) \
 )
 endef
