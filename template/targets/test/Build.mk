@@ -63,6 +63,9 @@ target-libso-cpp-y += libfoobar++.so
 
 cpp-objs += foo.cpp.o
 cpp-objs += bar.cpp.o
+foo.cpp.o-deps := foo.hpp
+bar.cpp.o-deps := bar.hpp
+cpp.cpp.o-deps := foo.hpp bar.hpp
 
 libfoobar++.a-objs += foo.cpp.o bar.cpp.o
 libfoobar++.so-objs += foo.cpp.so.o bar.cpp.so.o

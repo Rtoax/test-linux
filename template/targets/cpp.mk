@@ -29,20 +29,7 @@ ${target-cpp-y}: %:
 	${Q}$(CXX) -o $(@) $(^) $(LDXXFLAGS) $(LDXXFLAGS_$(*))
 
 $(call target_objects_append_output_prefix,${target-cpp-y})
-
 $(call add_target_objects,.cpp,.cpp.o,${target-cpp-y})
-
-$(foreach t, ${target-cpp-y}, \
-  $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
-)
-
-# TODO: need include ${t}-objs's .d file
-$(foreach t, ${target-cpp-y}, \
-  $(if $(shell test -f ${OUTPUT}${t}.cpp.o.d && echo yes), \
-    $(if ${DEBUG}, $(info Found ${OUTPUT}${t}.cpp.o.d)) \
-    $(eval include ${OUTPUT}${t}.cpp.o.d), \
-    $(if ${DEBUG}, $(info Not found ${OUTPUT}${t}.cpp.o.d)) \
-  ) \
-)
+$(call add_target_depends,${target-cpp-y},.cpp.o.d,.d)
 
 endif

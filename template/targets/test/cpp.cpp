@@ -1,5 +1,5 @@
-void foo(void);
-void bar(void);
+#include "foo.hpp"
+#include "bar.hpp"
 
 int main(void)
 {
