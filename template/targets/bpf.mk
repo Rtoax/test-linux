@@ -87,11 +87,8 @@ ${VMLINUX_H}: | ${OUTPUT}
 
 # Include all the .bpf.o.d depends files
 $(foreach dep, $(shell ls ${OUTPUT}*.bpf.o.d 2>/dev/null), \
-  $(if $(shell test -f ${dep} && echo yes), \
-    $(if ${DEBUG}, $(info Found ${dep})) \
-    $(eval include ${dep}), \
-    $(if ${DEBUG}, $(info Not found ${dep})) \
-  ) \
+  $(if ${DEBUG}, $(info Found ${dep})) \
+  $(eval include ${dep}) \
 )
 
 endif
