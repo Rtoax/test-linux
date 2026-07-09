@@ -188,6 +188,7 @@ $(target-lscc-libso-y): %:
 
 $(call target_objects_append_output_prefix,${target-lscc-libso-y})
 $(call add_library_objects,${target-lscc-libso-y})
+$(call add_library_depends,${target-lscc-libso-y},.d)
 
 # Depends, like:
 # hello: hello.luca.o
@@ -215,16 +216,6 @@ $(foreach t, ${target-lscc-y}, \
       $(if ${DEBUG}, $(info Include ${depname})) \
       $(eval include ${depname}), \
       $(if ${DEBUG}, $(info Not found ${depname})) \
-    ) \
-  ) \
-)
-
-$(foreach so, ${target-lscc-libso-y}, \
-  $(foreach obj, ${${so}-objs}, \
-    $(if $(shell test -f ${obj}.d && echo yes), \
-      $(if ${DEBUG}, $(info Include ${obj}.d)) \
-      $(eval include ${obj}.d), \
-      $(if ${DEBUG}, $(info Not found ${obj}.d)) \
     ) \
   ) \
 )
