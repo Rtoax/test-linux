@@ -156,6 +156,7 @@ $(call target_objects_append_output_prefix,${target-nvcc-libso-y})
 $(call add_library_objects,${target-nvcc-libso-y})
 $(call add_library_depends,${target-nvcc-libso-y},.d)
 
+$(call target_objects_append_output_prefix,${target-nvcc-y})
 $(call add_target_objects,.cu,.cu.o,${target-nvcc-y},${CUDA_HELPERS})
 $(call add_target_depends,${target-nvcc-y},.cu.o.d,.d)
 

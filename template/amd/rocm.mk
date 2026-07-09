@@ -35,6 +35,8 @@ define gen_hipcc_macro_hdr
 $(Q)${HIPCC} -E -dM - </dev/null -o $(1)
 endef
 
+HAVE_HIP := y
+
 $(call check_file_and_def,/usr/include/rccl/rccl.h,HAVE_RCCL)
 $(call check_file_and_def,/usr/include/hipsolver/hipsolver.h,HAVE_HIPSOLVER)
 $(call check_file_and_def,/usr/include/hipblaslt/hipblaslt.h,HAVE_HIPBLASLT)
@@ -54,7 +56,7 @@ ifdef DEBUG
   $(info rocm-cflags = ${rocm-cflags})
 endif
 
-export HAVE_HIP := y
+export HAVE_HIP
 export HIPCC
 export HIPCONFIG
 export HIP_PATH

@@ -132,45 +132,11 @@ $(target-hipcc-libso-y): %:
 	${Q}$(HIPCC) -o $(@) $(^) $(LDFLAGS_HIPCC_SO) $(LDFLAGS_HIPCC_SO$(*))
 
 $(call target_objects_append_output_prefix,${target-hipcc-libso-y})
+$(call add_library_objects,${target-hipcc-libso-y})
+$(call add_library_depends,${target-hipcc-libso-y},.d)
 
-$(foreach lib, ${target-hipcc-libso-y}, $(eval ${lib}: $${${lib}-objs}))
-
-# Depends, like:
-# hello: hello.hip.o
-# hello-hip: hello.hip.o
-# FIXME: use add_target_objects()
-$(foreach t, ${target-hipcc-y}, \
-  $(if $(shell test -f ${t}.cu && echo yes), \
-    $(eval ${t}: ${OUTPUT}${t}.hip.o $${${t}-objs} ${HIP_HELPERS}), \
-    $(eval tname := $(call strip_tail,${t},-hip)) \
-    $(if $(shell test -f ${tname}.cu && echo yes), \
-      $(eval ${t}: ${OUTPUT}${tname}.hip.o $${${t}-objs} ${HIP_HELPERS}), \
-      $(eval ${t}: $${${t}-objs} ${HIP_HELPERS}) \
-    ) \
-  ) \
-)
-
-$(foreach t, ${target-hipcc-y}, \
-  $(if $(shell test -f ${OUTPUT}${t}.hip.o.d && echo yes), \
-    $(if ${DEBUG}, $(info Include ${OUTPUT}${t}.hip.o.d)) \
-    $(eval include ${OUTPUT}${t}.hip.o.d), \
-    $(eval depname := ${OUTPUT}$(call strip_tail,${t},-hip).hip.o.d) \
-    $(if $(shell test -f ${depname} && echo yes), \
-      $(if ${DEBUG}, $(info Include ${depname})) \
-      $(eval include ${depname}), \
-      $(if ${DEBUG}, $(info Not found ${depname})) \
-    ) \
-  ) \
-)
-
-$(foreach so, ${target-hipcc-libso-y}, \
-  $(foreach obj, ${${so}-objs}, \
-    $(if $(shell test -f ${obj}.d && echo yes), \
-      $(if ${DEBUG}, $(info Include ${obj}.d)) \
-      $(eval include ${obj}.d), \
-      $(if ${DEBUG}, $(info Not found ${obj}.d)) \
-    ) \
-  ) \
-)
+$(call target_objects_append_output_prefix,${target-hipcc-y})
+$(call add_target_objects,.cu,.hip.o,${target-hipcc-y},${HIP_HELPERS})
+$(call add_target_depends,${target-hipcc-y},.hip.o.d,.d)
 
 endif

@@ -162,7 +162,7 @@ $(call add_library_objects,${target-htcc-libso-y})
 $(call add_library_depends,${target-htcc-libso-y},.d)
 
 $(call target_objects_append_output_prefix,${target-htcc-y})
-$(call add_target_objects,.cu,.hpcc.o,${target-htcc-y},${LUCA_HELPERS})
+$(call add_target_objects,.cu,.hpcc.o,${target-htcc-y},${HPCC_HELPERS})
 $(call add_target_depends,${target-htcc-y},.hpcc.o.d,.d)
 
 endif
