@@ -80,10 +80,7 @@ ${target-as-y}: %:
 
 $(call target_objects_append_output_prefix,${target-asm-y} ${target-asm-std-y})
 $(call add_target_objects,.asm,.asm.o,${target-asm-y} ${target-asm-std-y})
-
-$(foreach t, ${target-asm-y} ${target-asm-std-y}, \
-  $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})) \
-)
+$(call add_target_depends,${target-asm-y} ${target-asm-std-y})
 
 $(call target_objects_append_output_prefix,${target-as-y})
 
@@ -96,7 +93,6 @@ $(foreach t, ${target-as-y}, \
 
 $(call add_target_objects,.s,.s.o,${target-as-y})
 $(call add_target_objects,.S,.S.o,${target-as-y})
-
-$(foreach t, ${target-as-y}, $(if ${${t}-deps}, $(eval ${t}: ${${t}-deps})))
+$(call add_target_depends,${target-as-y})
 
 endif
