@@ -122,9 +122,10 @@ if [[ -f ${EXEC} ]] &&
 	fi
 fi
 
-SHEBANG=$(head -c 2 ${LEFT_ARGS[0]} 2>/dev/null || true)
-if [[ "${SHEBANG:0:2}" == "#!" ]]; then
-	SHEBANG=${SHEBANG:2}
+First2char=$(head -c 2 ${LEFT_ARGS[0]} 2>/dev/null || true)
+if [[ "${First2char}" == "#!" ]]; then
+	Firstline=$(head -n 1 ${LEFT_ARGS[0]} 2>/dev/null || true)
+	SHEBANG=${Firstline:2}
 else
 	SHEBANG=""
 fi
