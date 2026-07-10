@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- systemd-udev: add bootctl subdir;
 - glibc: add mempcpy() test;
 #### Changed
 - move png and svg to Documentation/images/;

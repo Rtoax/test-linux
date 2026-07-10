@@ -1,0 +1,1 @@
+prog-y += status.sh
