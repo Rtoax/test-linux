@@ -1,3 +1,10 @@
+/**
+ * kfunc: bpf_task_cwd_from_pid()
+ *
+ * ref: https://eunomia.dev/tutorials/43-kfuncs/
+ * lkml: https://lore.kernel.org/lkml/tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com/
+ * rtoax: https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
+ */
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -5,12 +12,6 @@
 #include <linux/btf.h>
 #include <linux/btf_ids.h>
 #include <linux/fs_struct.h>
-
-/**
- * ref: https://eunomia.dev/tutorials/43-kfuncs/
- * lkml: https://lore.kernel.org/lkml/tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com/
- * rtoax: https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
- */
 
 __bpf_kfunc int bpf_task_cwd_from_pid(s32 pid, char *buf, u32 buf_len);
 
@@ -78,8 +79,10 @@ static int __init hello_init(void)
 
 	printk(KERN_INFO "Hello, world!\n");
 	/* Register the BTF kfunc ID set for BPF_PROG_TYPE_KPROBE */
-	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_KPROBE, &bpf_kfunc_example_set);
-	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACEPOINT, &bpf_kfunc_example_set);
+	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_KPROBE,
+					&bpf_kfunc_example_set);
+	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACEPOINT,
+					       &bpf_kfunc_example_set);
 	if (ret) {
 		pr_err("bpf_kfunc_example: Failed to register BTF kfunc ID set\n");
 		return ret;
