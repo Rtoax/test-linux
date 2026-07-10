@@ -105,6 +105,8 @@ install_from_source()
 
 	# Then, maybe create UKI images with 'ukify' and 'kernel-install'
 	# commands.
+	#
+	# see init/uki/makeuki.sh
 
 	# Install kernel
 	make ${INSTALL_PATH:+INSTALL_PATH=${INSTALL_PATH}} install

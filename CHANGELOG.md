@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- uki: add makeuki.sh;
 - systemd-udev: add bootctl subdir;
 - glibc: add mempcpy() test;
 #### Changed
