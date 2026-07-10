@@ -1,7 +1,7 @@
 /**
- * String concatenate/catenate.
- *
  * char *strcat(char *dst, const char *src);
+ *
+ * String concatenate/catenate.
  */
 #include <assert.h>
 #include <string.h>

@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc: add mempcpy() test;
 #### Changed
 #### Deprecated
 #### Documentation
