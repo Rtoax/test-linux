@@ -92,14 +92,21 @@ compile()
 
 install_from_source()
 {
-	kver=$(make kernelversion)
+	# kernelrelease: = uname -r
+	# kernelversion: = Makefile's VERSION.PATCHLEVEL.SUBLEVEL${EXTRAVERSION}
+	kver=$(make kernelrelease)
 
 	check_root
 	check_kver
 
-	# install
+	# Install modules and headers
 	make ${INSTALL_MOD_PATH:+INSTALL_MOD_PATH=${INSTALL_MOD_PATH}} modules_install
 	make ${INSTALL_HDR_PATH:+INSTALL_HDR_PATH=${INSTALL_HDR_PATH}} headers_install
+
+	# Then, maybe create UKI images with 'ukify' and 'kernel-install'
+	# commands.
+
+	# Install kernel
 	make ${INSTALL_PATH:+INSTALL_PATH=${INSTALL_PATH}} install
 
 	# Generate initramfs if need

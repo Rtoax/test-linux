@@ -2,15 +2,20 @@
 # see ukify(1).
 set -e
 
-build() {
-	sudo ukify build "${@}"
-}
+[[ -z ${KVER} ]] && KVER=$(uname -r)
 
-vmlinuz=/boot/vmlinuz-$(uname -r)
-initrd=/boot/initramfs-$(uname -r).img
-test ! -f ${initrd} && initrd=/boot/initrd.img-$(uname -r)
+vmlinuz=/boot/vmlinuz-${KVER}
+initrd=/boot/initramfs-${KVER}.img
+test ! -f ${initrd} && initrd=/boot/initrd.img-${KVER}
 
-# Example 1. Minimal invocation
-build --linux=${vmlinuz} \
+# Example 1. Minimal invocation, see ukify(1)
+sudo ukify build \
+	--linux=${vmlinuz} \
 	--initrd=${initrd} \
-	--cmdline="systemd.volatile=overlay"
+	--cmdline="rw quiet systemd.volatile=overlay" \
+	--output=$PWD/Linux/$(cat /etc/machine-id)-${KVER}.efi
+
+# Then, generate addon images (.extra.d directory) with 'kernel-install'
+# command.
+#
+# sudo kernel-install add ${KVER} /boot/vmlinuz-${KVER}
