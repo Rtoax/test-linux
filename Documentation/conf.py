@@ -14,9 +14,9 @@ doc_dir = os.path.dirname(os.path.abspath(__file__))
 project = 'The Test Linux Documentation'
 copyright = 'Copyright (C) 2022-2026 Rong Tao'
 author = 'Rong Tao'
-version = release = '0.0.281'
+version = release = '0.0.282'
 
-html_logo = "images/logo.svg"
+html_logo = "images/tux.svg"
 # Theme: alabaster, sphinx_rtd_theme, sphinx_rtd_dark_mode
 html_theme = "sphinx_rtd_theme"
 

@@ -10,4 +10,4 @@ scale() {
 
 scale ../../../gnu/gnu.webp
 scale ../../../bpf/cilium/cilium.png
-scale ../../../Documentation/images/logo.svg
+scale ../../../Documentation/images/tux.svg
