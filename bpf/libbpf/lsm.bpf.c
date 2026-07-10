@@ -27,7 +27,9 @@
  * See lsm_hook_defs.h
  */
 #if CONFIG_BPF_SYSCALL == y && defined(LSM_BPF)
+#ifdef DEBUG
 # pragma message "Compile lsm/bpf"
+#endif
 /**
  * LSM_HOOK(int, 0, bpf, int cmd, union bpf_attr *attr, unsigned int size)
  */
@@ -48,7 +50,9 @@ int BPF_PROG(lsm_bpf, int cmd, union bpf_attr *attr, unsigned int size, int ret)
 		return 0;
 }
 #elif defined(LSM_SOCKET_CREATE)
+#ifdef DEBUG
 # pragma message "Compile lsm/socket_create"
+#endif
 /**
  * LSM_HOOK(int, 0, socket_create, int family, int type, int protocol, int kern)
  */
@@ -64,7 +68,9 @@ int BPF_PROG(socket_create, int family, int type, int protocol, int kern,
 		return ret;
 
 #if defined(CONFIG_UID)
+#ifdef DEBUG
 # pragma message "lsm/socket_create only for current CONFIG_UID"
+#endif
 	u64 uid;
 	uid = bpf_get_current_uid_gid() & 0xFFFFFFFF;
 	if (uid != CONFIG_UID)
@@ -77,7 +83,9 @@ int BPF_PROG(socket_create, int family, int type, int protocol, int kern,
 	return -EPERM;
 }
 #elif defined(LSM_SOCKET_SENDMSG)
+#ifdef DEBUG
 # pragma message "Compile lsm/socket_sendmsg"
+#endif
 /**
  * LSM_HOOK(int, 0, socket_sendmsg, struct socket *sock, struct msghdr *msg,
  *	    int size);
@@ -94,7 +102,9 @@ int BPF_PROG(socket_sendmsg, struct socket *sock, struct msghdr *msg, int size,
 	return 0;
 }
 #elif defined(LSM_FILE_OPEN)
+#ifdef DEBUG
 # pragma message "Compile lsm/file_open"
+#endif
 /**
  * see also linux:tools/testing/selftests/bpf/progs/verifier_vfs_accept.c
  */
@@ -104,12 +114,16 @@ int BPF_PROG(file_open, struct file *file)
 	char buf[128] = "N/A";
 	char exe[128] = "N/A";
 #if defined(SUPPORT_BPF_PATH_D_PATH)
+#ifdef DEBUG
 # pragma message "lsm/file_open: support bpf_path_d_path()"
+#endif
 	struct path *path = &file->f_path;
 	bpf_path_d_path(path, buf, sizeof(buf));
 #endif
 #if defined(SUPPORT_BPF_GET_TASK_EXE_FILE)
+#ifdef DEBUG
 # pragma message "lsm/file_open: support bpf_get_task_exe_file()"
+#endif
 	struct file *acquired;
 	acquired = bpf_get_task_exe_file(bpf_get_current_task_btf());
 	if (acquired) {

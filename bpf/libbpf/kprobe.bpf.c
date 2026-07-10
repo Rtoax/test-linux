@@ -60,7 +60,9 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
  * works on functions tagged with ALLOW_ERROR_INJECTION in the kernel code.
  */
 #if defined(CONFIG_BPF_KPROBE_OVERRIDE)
+#ifdef DEBUG
 #pragma message "Support bpf_override_return()"
+#endif
 	if (filename && str_eq(filename, "ls", 2)) {
 		u64 err = EINVAL;
 		bpf_override_return(ctx, err);

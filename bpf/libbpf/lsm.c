@@ -10,22 +10,30 @@
 #include "libbpf_wrapper.h"
 
 #if defined(LSM_BPF)
+#ifdef DEBUG
 # pragma message "Compile lsm/bpf"
+#endif
 #include "lsm_bpf.skel.h"
 #define NAME lsm_bpf
 #include "skel_defs.h"
 #elif defined(LSM_SOCKET_CREATE)
+#ifdef DEBUG
 # pragma message "Compile lsm/socket_create"
+#endif
 #include "lsm_socket_create.skel.h"
 #define NAME lsm_socket_create
 #include "skel_defs.h"
 #elif defined(LSM_SOCKET_SENDMSG)
+#ifdef DEBUG
 # pragma message "Compile lsm/socket_sendmsg"
+#endif
 #include "lsm_socket_sendmsg.skel.h"
 #define NAME lsm_socket_sendmsg
 #include "skel_defs.h"
 #elif defined(LSM_FILE_OPEN)
+#ifdef DEBUG
 # pragma message "Compile lsm/file_open"
+#endif
 #include "lsm_file_open.skel.h"
 #define NAME lsm_file_open
 #include "skel_defs.h"

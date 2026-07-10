@@ -106,7 +106,9 @@ struct bpf_rb_node {
  * [2] https://lore.kernel.org/all/cover.1718207789.git.dxu@dxuuu.xyz/
  */
 #ifdef BPF_NO_KFUNC_PROTOTYPES
+#ifdef DEBUG
 #pragma message "Defined BPF_NO_KFUNC_PROTOTYPES"
+#endif
 extern struct task_struct *bpf_task_from_pid(s32 pid) __weak __ksym;
 extern void bpf_task_release(struct task_struct *p) __weak __ksym;
 /* https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd */

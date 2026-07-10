@@ -19,7 +19,9 @@ static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
  * bpf_path_d_path() BPF kfunc may only be called from BPF LSM programs.
  */
 #if defined(SUPPORT_BPF_PATH_D_PATH) && defined(IN_BPF_LSM)
-# pragma message "use bpf_path_d_path()"
+# ifdef DEBUG
+#  pragma message "use bpf_path_d_path()"
+# endif
 	if (curtask) {
 		struct fs_struct *fs;
 		struct path pwd;
@@ -35,7 +37,9 @@ static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 		}
 	}
 #elif defined(SUPPORT_BPF_D_PATH)
-# pragma message "use bpf_d_path(), please very strict use"
+# ifdef DEBUG
+#  pragma message "use bpf_d_path(), please very strict use"
+# endif
 /**
  * see linux::kernel/trace/bpf_trace.c btf_allowlist_d_path, only few fentry
  * could use bpf_d_path().
@@ -50,7 +54,9 @@ static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 		}
 	}
 #elif defined(SUPPORT_BPF_SNPRINTF)
-# pragma message "support bpf_snprintf()"
+# ifdef DEBUG
+#  pragma message "support bpf_snprintf()"
+# endif
 /**
  * linux 7b15523a989b ("bpf: Add a bpf_snprintf helper")
  * v5.12-rc4-1654-g7b15523a989b
@@ -76,11 +82,15 @@ static __always_inline int __bpf_getcwd(char *buf, u32 buf_len)
 #  if LIBBPF_MAJOR_VERSION > 0 || (LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 6)
 	bpf_snprintf(buf, buf_len, "<%ld,%ld>", (__u64 *)&args, sizeof(args));
 #  else
-#   pragma message "Skip error: bad map relo against '.rodata.cst16' in section '.rodata.cst16'"
+#   ifdef DEBUG
+#    pragma message "Skip error: bad map relo against '.rodata.cst16' in section '.rodata.cst16'"
+#   endif
 #  endif
 # endif
 #else
-# pragma message "cwd=N/A"
+# ifdef DEBUG
+#  pragma message "cwd=N/A"
+# endif
 	buf[0] = 'N';
 	buf[1] = '/';
 	buf[2] = 'A';
