@@ -2,6 +2,8 @@
  * long bpf_loop(__u32 nr_loops, void *callback_fn, void *callback_ctx, __u64 flags);
  * BPF_FUNC_loop = 181;
  *
+ * linux >= v5.17
+ *
  * Refs:
  * - https://docs.ebpf.io/linux/helper-function/bpf_loop/
  */

@@ -79,6 +79,8 @@ endif
 
 # linux v5.15-12938-ge6f2dd0f8067
 # commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
+#
+# https://docs.ebpf.io/linux/helper-function/bpf_loop/ said >= v5.17
 ifeq ($(call kver_ge,5,16,0),y) # failed on 5.15.131
   $(call bpf_def_helper,bpf_loop)
 endif
