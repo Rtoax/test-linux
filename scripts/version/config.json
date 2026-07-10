@@ -434,6 +434,9 @@
 		},
 		"nasm": {
 			"name": "Nasm",
+			"version": {
+				"length": [ 3, 2 ]
+			},
 			"extension": [ "asm", "s", "S" ],
 			"keys": [ "nasm" ]
 		},
