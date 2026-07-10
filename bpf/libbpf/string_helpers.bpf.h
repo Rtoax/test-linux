@@ -20,14 +20,15 @@ static __always_inline bool str_eq(const char *a, const char *b, int len)
 #endif
 }
 
-static __always_inline size_t strlen(char *s, size_t max_len)
+static __always_inline size_t strlen(const char *s, size_t max_len)
 {
 #if defined(SUPPORT_BPF_STRNLEN)
 	return bpf_strnlen(s, max_len);
 #elif defined(SUPPORT_BPF_STRLEN)
 	return bpf_strlen(s);
 #else
-	for (size_t i = 0; i < max_len; i++) {
+	size_t i;
+	for (i = 0; i < max_len; i++) {
 		if (s[i] == '\0')
 			return i;
 	}
