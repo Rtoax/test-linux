@@ -216,6 +216,11 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 		/* beyond the boundary of comm[], truncate */
 		__bpf_str_append(pevent->comm, sizeof(pevent->comm),
 				 ".1.2.3.4.5.6.7.8.9.0");
+
+		/**
+		 * TODO: BPF program is too large. Processed 1000001 insn
+		 */
+		// __bpf_str_prepend(pevent->cwd, sizeof(pevent->cwd), "/", 2);
 	}
 
 	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent,
