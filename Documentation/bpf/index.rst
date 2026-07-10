@@ -2,6 +2,12 @@
 eBPF: Extended Berkeley Packet Filter
 =====================================
 
+.. image:: ../images/ebpf.png
+   :alt: eBPF
+   :align: center
+   :scale: 50%
+
+
 .. toctree::
    :maxdepth: 1
 

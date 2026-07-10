@@ -13,8 +13,10 @@ and this project adheres to
 #### Added
 - glibc: add mempcpy() test;
 #### Changed
+- move png and svg to Documentation/images/;
 #### Deprecated
 #### Documentation
+- images: add ebpf.png, gnu.webp, cilium.png;
 #### Fixed
 #### Linux Kernel
 #### Removed

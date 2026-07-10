@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
 	draw = gtk_drawing_area_new();
 	gtk_widget_set_size_request(draw, 800, 600);
-	draw = gtk_image_new_from_file("ebpf.png");
+	draw = gtk_image_new_from_file("bpf.png");
 
 	// g_signal_connect(G_OBJECT(draw), "clicked", G_CALLBACK(expose_event), NULL);
 

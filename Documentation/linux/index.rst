@@ -2,6 +2,12 @@
 Linux
 =====
 
+.. image:: ../images/tux.svg
+   :alt: GNU
+   :align: center
+   :scale: 50%
+
+
 Linux Stack
 -----------
 
