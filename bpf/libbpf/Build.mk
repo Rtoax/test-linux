@@ -12,6 +12,7 @@ include bpf/helper.mk
 include bpf/iter.mk
 include bpf/libbpf.mk
 include bpf/bpftool.mk
+include bpf/fentry.mk
 
 HELPERS := ${OUTPUT}task_helpers.o \
 	${OUTPUT}stack_helpers.o \
@@ -36,7 +37,7 @@ kobjs-$(CONFIG_TRACEPOINTS) += map_hash map_lru_hash map_percpu_hash map_lru_per
 kobjs-$(CONFIG_PERF_EVENTS) += perf_event perf_buffer
 # fentry: -pg -mfentry
 #  fentry + BPF trampoline ~= kprobe hook
-kobjs-$(CONFIG_HAVE_FENTRY) += fentry
+kobjs-$(BPF_SUPPORT_FENTRY) += fentry
 kobjs-$(CONFIG_BPF_LSM) += lsm_bpf
 kobjs-$(CONFIG_BPF_LSM) += lsm_socket_create
 kobjs-$(CONFIG_BPF_LSM) += lsm_socket_sendmsg

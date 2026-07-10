@@ -214,7 +214,7 @@ if [[ -z ${signed_off_by_line} ]]; then
 fi
 
 # __main__
-if [[ "$(match_type asm S)$(has_changed_file asm arch insn cpu)" ]]; then
+if [[ "$(match_type asm S s)$(has_changed_file asm arch insn cpu bpf)" ]]; then
 	cpu_env
 fi
 

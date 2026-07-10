@@ -19,6 +19,7 @@ and this project adheres to
 #### Security
 #### Tools
 #### Template
+- bpf: add fentry.mk;
 
 
 ## [v2.4.9] Namespace 2026-07-09
