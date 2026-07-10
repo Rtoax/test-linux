@@ -20,7 +20,7 @@ and this project adheres to
 #### Security
 #### Tools
 #### Template
-- bpf: add fentry.mk;
+- bpf: add fentry.mk, netfilter.mk;
 - move `target_objects_append_output_prefix()` to bits/targets.mk;
 
 

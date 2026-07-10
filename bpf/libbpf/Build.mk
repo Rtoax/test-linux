@@ -13,6 +13,7 @@ include bpf/iter.mk
 include bpf/libbpf.mk
 include bpf/bpftool.mk
 include bpf/fentry.mk
+include bpf/netfilter.mk
 
 HELPERS := ${OUTPUT}task_helpers.o \
 	${OUTPUT}stack_helpers.o \
@@ -108,7 +109,7 @@ target-bpf-y += lwt_xmit.bpf.o
 target-bpf-y += sk_lookup.bpf.o
 target-bpf-y += flow_dissector.bpf.o
 target-bpf-y += sk_reuseport.bpf.o
-target-bpf-y += netfilter.bpf.o
+target-bpf-${SUPPORT_BPF_PROG_TYPE_NETFILTER} += netfilter.bpf.o
 target-bpf-y += syscall.bpf.o
 target-bpf-y += map_queue.bpf.o
 target-bpf-y += map_stack.bpf.o
