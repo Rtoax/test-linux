@@ -2,6 +2,7 @@
 # Copyright (C) 2026 Rong Tao
 #
 # Functions:
+# - target_objects_append_output_prefix()
 # - add_target_objects()
 # - add_target_depends()
 # - add_library_objects()
@@ -11,6 +12,25 @@ ifndef _BITS_TARGETS_MK
 _BITS_TARGETS_MK = 1
 
 include output.mk
+
+# Append ${OUTPUT} for each target's objects
+#
+# For example:
+#
+#   targets := x
+#   x-objs := x1.o x2.o
+#
+# Then, add ${OUTPUT} prefix:
+#
+#   x-objs := ${OUTPUT}x1.o ${OUTPUT}x2.o
+#
+# $1: target list
+define target_objects_append_output_prefix
+$(foreach tgt, ${1}, \
+  $(eval ${tgt}-objs := $(call append_output_prefix,${${tgt}-objs})) \
+  $(if ${DEBUG},$(info ${tgt}-objs = ${${tgt}-objs})) \
+)
+endef
 
 # Add target objects depends
 # need called after target_objects_append_output_prefix()
@@ -87,5 +107,11 @@ endef
 define add_library_depends
 $(call add_target_depends,${1},,${2})
 endef
+
+xyz-objs := x y z
+$(call target_objects_append_output_prefix,xyz)
+ifneq ($(xyz-objs), ${OUTPUT}x ${OUTPUT}y ${OUTPUT}z)
+  $(error target_objects_append_output_prefix xyz-objs=${xyz-objs} failed.)
+endif
 
 endif # end of _BITS_TARGETS_MK

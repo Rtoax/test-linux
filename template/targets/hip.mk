@@ -24,6 +24,7 @@
 ifndef _TARGET_HIP_MK
 _TARGET_HIP_MK = 1
 
+include bits/targets.mk
 include amd/rocm.mk
 include cflags.mk
 include dir.mk

@@ -10,6 +10,7 @@ CXXFLAGS_SO += ${cflags-so}
 LDFLAGS_SO += ${ldflags-so}
 LDXXFLAGS_SO += ${ldflags-so}
 
+include bits/targets.mk
 include cflags.mk
 include dir.mk
 

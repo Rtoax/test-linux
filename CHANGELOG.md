@@ -8,6 +8,7 @@ and this project adheres to
 
 
 ## Unreleased
+
 #### Breaking Changes
 #### Added
 #### Changed
@@ -20,6 +21,7 @@ and this project adheres to
 #### Tools
 #### Template
 - bpf: add fentry.mk;
+- move `target_objects_append_output_prefix()` to bits/targets.mk;
 
 
 ## [v2.4.9] Namespace 2026-07-09
