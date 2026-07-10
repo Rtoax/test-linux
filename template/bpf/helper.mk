@@ -261,10 +261,9 @@ endif
 
 # From here, store developing kfuncs checks
 
-# https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
-# lkml: https://lore.kernel.org/lkml/tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com/
+# See test-linux/bpf/kfunc/modules/bpf_task_cwd_from_pid.c
 ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
-  bpf-helper-cflags += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
+  $(call bpf_def_helper,bpf_task_cwd_from_pid)
 endif
 
 $(call make_append_var_to_file,bpf-helper-cflags,${cachefile})
