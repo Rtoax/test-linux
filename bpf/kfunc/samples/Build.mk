@@ -10,13 +10,13 @@ kfuncs-${SUPPORT_BPF_ITER_TASK_VMA_NEW} += iter_task_vma_new
 
 helpers-y += trace_printk
 helpers-y += strlen strnlen
-helpers-y += strncmp
-helpers-y += cgrp_storage_get
+helpers-${SUPPORT_BPF_STRNCMP} += strncmp
+helpers-${SUPPORT_BPF_CGRP_STORAGE_GET} += cgrp_storage_get
 helpers-y += get_func_ip
-helpers-y += loop
+helpers-${SUPPORT_BPF_LOOP} += loop
 helpers-y += get_current_task_btf
-helpers-y += send_signal
-helpers-y += send_signal_thread
+helpers-${SUPPORT_BPF_SEND_SIGNAL} += send_signal
+helpers-${SUPPORT_BPF_SEND_SIGNAL_THREAD} += send_signal_thread
 
 target-bpf-y := $(patsubst %,${OUTPUT}%.bpf.o,${kfuncs-y})
 target-bpf-y += $(patsubst %,${OUTPUT}%.bpf.o,${helpers-y})
