@@ -30,7 +30,14 @@ stat_linux() {
 		awk -F', ' '/Vers:/ {print $2}' | sort | uniq -c
 }
 
+stat_arch() {
+	git log ${COMMITS_ARG} --format=%B | \
+		grep "Envs:" | grep -oP 'Arch \K\S+' | sed 's/,$//' | sort | uniq -c
+}
+
 echo "------------- linux ---------------"
 stat_linux
 echo "------------- os ---------------"
 stat_os
+echo "------------- arch ---------------"
+stat_arch

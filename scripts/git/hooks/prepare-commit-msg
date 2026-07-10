@@ -201,8 +201,8 @@ os_ver() { add_ver "$(${VERDIR}/distro.sh)"; }
 redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
 uefi_ver() { add_ver "UEFI Spec $(${VERDIR}/uefi.sh)"; }
 
-cpu_env() { add_env "CPU: $(${TOPDIR}/cpu/cpuname.sh)";
-	    add_env "Arch $(uname -m)"; }
+arch_env() { add_env "Arch $(uname -m)"; }
+cpu_env() { add_env "CPU: $(${TOPDIR}/cpu/cpuname.sh)"; }
 virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
@@ -221,6 +221,7 @@ fi
 
 os_ver
 linux_ver
+arch_env
 virt_env
 
 if [[ "$(has_changed_file redis)" ]]; then
