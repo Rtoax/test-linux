@@ -11,3 +11,4 @@ CXL (Compute Express Link)
    pcie
    qemu
    history
+   paper
