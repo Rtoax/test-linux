@@ -66,8 +66,8 @@ ifneq ($(call kver_uapi_gt,1,1,1),y)
 endif
 # Newest kernel is v7.1
 # see https://github.com/torvalds/linux
-ifneq ($(call kver_lt,7,2,0),y)
-  $(error "call kver_lt failed, kver >= 7.2.0")
+ifneq ($(call kver_lt,7,3,0),y)
+  $(error "call kver_lt failed, kver >= 7.3.0")
 endif
 ifneq ($(call kver_uapi_lt,7,2,0),y)
   $(error "call kver_uapi_lt failed, kuapi version >= 7.2.0")

@@ -259,12 +259,21 @@ ifeq ($(call pahole_lt,1,26),y)
   bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
 endif
 
+################################################################################
 # From here, store developing kfuncs checks
 
 # See test-linux/bpf/kfunc/modules/bpf_task_cwd_from_pid.c
 ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
   $(call bpf_def_helper,bpf_task_cwd_from_pid)
 endif
+
+# see https://github.com/Rtoax/linux/tree/p062-bpf_strcat
+ifeq ($(shell grep -wo -m1 bpf_strcat /proc/kallsyms),bpf_strcat)
+  $(call bpf_def_helper,bpf_strcat)
+endif
+
+# End of test developing kfuncs
+################################################################################
 
 $(call make_append_var_to_file,bpf-helper-cflags,${cachefile})
 
