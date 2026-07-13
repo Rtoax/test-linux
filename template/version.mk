@@ -101,6 +101,7 @@ endif
 # $4: minor of version
 # $5: patchlevel of version, could be empty
 define define_version
+$(if ${3},,$(error Empty major is not allowed for '${1}'))
 $(eval ${1}_VERSION_CODE := $$(call ${2},${3},${4},${5}))
 
 define ${1}_gt
@@ -121,16 +122,16 @@ endef
 
 # Make sure function works fine.
 ifneq ($$(call ${1}_eq,${3},${4},${5}),y)
-  $$(error ${1}_eq failed, $$(call ${1}_eq,${3},${4},${5}))
+  $$(error ${1}_eq failed, get '$$(call ${1}_eq,${3},${4},${5})' but need 'y')
 endif
 ifneq ($$(call ${1}_le,${3},${4},${5}),y)
-  $$(error ${1}_le failed, $(call ${1}_le,${3},${4},${5}))
+  $$(error ${1}_le failed, get '$(call ${1}_le,${3},${4},${5})' but need 'y')
 endif
 ifneq ($$(call ${1}_ge,${3},${4},${5}),y)
-  $$(error ${1}_ge failed)
+  $$(error ${1}_ge failed, get '$$(call ${1}_ge,${3},${4},${5})' but need 'y')
 endif
 ifneq ($$(call ${1}_ge,0,0,0),y)
-  $$(error "Call ${1}_gt failed, $$(call ${1}_gt,0,0,0)")
+  $$(error "Call ${1}_gt failed, get '$$(call ${1}_gt,0,0,0)' but need 'y'")
 endif
 $$(if $${DEBUG}, $$(info ${1}_VERSION_CODE = ${${1}_VERSION_CODE}))
 endef # define_version
