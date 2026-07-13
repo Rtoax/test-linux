@@ -1,5 +1,6 @@
 /**
  * char *strcat(char *dst, const char *src);
+ * char *strncat(char *dst, const char src[.ssize], size_t ssize);
  *
  * String concatenate/catenate.
  */
@@ -13,10 +14,13 @@ void base(void)
 	char string[16] = { 0 };
 
 	printf("%s\n", string);
-	strcat(string, "rongtao ");
+	strcat(string, "rong");
 	printf("%s\n", string);
 
-	strcat(string, "shi");
+	strcat(string, " tao");
+	printf("%s\n", string);
+
+	strncat(string, " nihaoXXXXXXX", 6);
 	printf("%s\n", string);
 }
 
