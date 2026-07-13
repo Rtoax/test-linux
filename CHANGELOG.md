@@ -27,7 +27,7 @@ and this project adheres to
 #### Security
 #### Tools
 #### Template
-- bpf/libxdp.mk: add `HAVE_LIBXDP_H`, `HAVE_LIBXDP_XSK_H`;
+- bpf/libxdp.mk: add `HAVE_LIBXDP_H`, `HAVE_LIBXDP_XSK_H`, `cflags-libxdp-y`;
 - bpf: add fentry.mk, netfilter.mk;
 - move `target_objects_append_output_prefix()` to bits/targets.mk;
 
