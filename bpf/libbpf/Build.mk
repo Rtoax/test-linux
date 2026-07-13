@@ -17,13 +17,13 @@ include bpf/bpftool.mk
 include bpf/fentry.mk
 include bpf/netfilter.mk
 
-HELPERS := ${OUTPUT}task_helpers.o \
+helpers-y := ${OUTPUT}task_helpers.o \
 	${OUTPUT}stack_helpers.o \
 	${OUTPUT}libbpf_wrapper.o \
-	${OUTPUT}libxdp_helpers.o \
 	${TRACE_HELPERS} \
 	${SOCKET_HELPERS} \
 	${KSYM_HELPERS}
+helpers-${HAVE_LIBXDP} += ${OUTPUT}libxdp_helpers.o
 
 KSYM_DO_EXECVEAT_COMMON := $(shell grep -w 't do_execveat_common' /proc/kallsyms \
 			| grep -v cold \
@@ -56,16 +56,18 @@ target-y := config-map
 target-y += socket_filter
 target-y += tc
 target-${HAVE_LIBXDP} += xdp xdp_simple xdp_dos
-# kernel v4.12-11037-g546ac1ffb70d
-# commit 546ac1ffb70d ("bpf: add devmap, a map for storing net device references")
-target-$(call uniq_repeat,${HAVE_LIBXDP}$(call kver_gt,4,12,0)) += xdp_devmap
-# kernel v5.8-rc4-1449-g9216477449f3
-# commit 9216477449f3 ("bpf: cpumap: Add the possibility to attach an eBPF program to cpumap")
-# struct bpf_cpumap_val support bpf_prog field
-# kernel v5.8-rc4-1448-g644bfe51fa49
-# commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
-# introduce struct bpf_cpumap_val
-target-$(call uniq_repeat,${HAVE_LIBXDP}$(call kver_gt,5,8,0)) += xdp_cpumap
+ifeq (${HAVE_LIBXDP},y)
+  # kernel v4.12-11037-g546ac1ffb70d
+  # commit 546ac1ffb70d ("bpf: add devmap, a map for storing net device references")
+  target-$(call kver_gt,4,12,0) += xdp_devmap
+  # kernel v5.8-rc4-1449-g9216477449f3
+  # commit 9216477449f3 ("bpf: cpumap: Add the possibility to attach an eBPF program to cpumap")
+  # struct bpf_cpumap_val support bpf_prog field
+  # kernel v5.8-rc4-1448-g644bfe51fa49
+  # commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
+  # introduce struct bpf_cpumap_val
+  target-$(call kver_gt,5,8,0) += xdp_cpumap
+endif
 
 target-y += sockops
 target-y += sk_skb
@@ -124,12 +126,12 @@ target-bpf-y += map_bloom_filter.bpf.o
 target-bpf-y += sched_cls.bpf.o
 target-bpf-y += sched_act.bpf.o
 
-prep-y += ${HELPERS}
+prep-y += ${helpers-y}
 post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.disasm,$(target-bpf-y))
 post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.s,$(target-bpf-y))
 post-y += $(patsubst %.bpf.o,${OUTPUT}%.bpf.bc,$(target-bpf-y))
 
-$(foreach t, ${target-y}, $(eval ${t}-objs := ${HELPERS}))
+$(foreach t, ${target-y}, $(eval ${t}-objs := ${helpers-y}))
 
 ifeq ($(CONFIG_ARCH_HAS_SYSCALL_WRAPPER),y)
   CFLAGS_BPF += -DCONFIG_ARCH_HAS_SYSCALL_WRAPPER=1
