@@ -3,6 +3,8 @@
 #
 # Output definitions:
 # - HAVE_LIBXDP=[y]
+# - HAVE_LIBXDP_H=[y]
+# - HAVE_LIBXDP_XSK_H=[y]
 #
 ifndef _BPF_LIBXDP_MK
 _BPF_LIBXDP_MK = 1
@@ -10,11 +12,10 @@ _BPF_LIBXDP_MK = 1
 include define.mk
 
 LIBXDP_H := /usr/include/xdp/libxdp.h
+XSK_H := /usr/include/xdp/xsk.h
 
 $(call check_file_and_def,${LIBXDP_H},HAVE_LIBXDP)
-
-ifdef DEBUG
-  $(info HAVE_LIBXDP = ${HAVE_LIBXDP})
-endif
+$(call check_file_and_def,${LIBXDP_H},HAVE_LIBXDP_H)
+$(call check_file_and_def,${XSK_H},HAVE_LIBXDP_XSK_H)
 
 endif
