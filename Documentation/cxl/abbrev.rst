@@ -2,6 +2,8 @@
 CXL Abbrev
 ==========
 
+- AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
+- AOC: Active Optical Cable (有源光缆) @AEC
 - CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
 - CEDT: CXL Early Discovery Table (CXL 早期发现表) @ACPI
@@ -11,6 +13,7 @@ CXL Abbrev
 - CMRK: CXL Memory Resource Kit (CXL 内存资源kit)
 - CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
 - CXL: Compute Express Link (计算快速链接) @MCTP @CIM
+- DAC: Direct Attach Copper (直接连接铜缆) @AEC
 - DPA: CXL Memory Device Physical Address (内存设备物理地址)
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
 - FM: Fabric Manager ()
