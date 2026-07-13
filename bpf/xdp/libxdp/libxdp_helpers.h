@@ -10,7 +10,9 @@
 #if LIBBPF_MAJOR_VERSION < 1
 #include <bpf/xsk.h>
 #else
+#ifdef HAVE_LIBXDP_XSK_H
 #include <xdp/xsk.h>
+#endif
 #endif
 
 #define MIN_ETH_PKT_SIZE 64

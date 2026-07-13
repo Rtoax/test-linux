@@ -4,6 +4,7 @@ ifndef NO_PAHOLE
   include pahole.mk
 endif
 include kconfig.mk
+include string.mk
 include helpers.mk
 include bpf/bpf.mk
 include ldconfig.mk
@@ -11,6 +12,7 @@ include bpf/btf.mk
 include bpf/helper.mk
 include bpf/iter.mk
 include bpf/libbpf.mk
+include bpf/libxdp.mk
 include bpf/bpftool.mk
 include bpf/fentry.mk
 include bpf/netfilter.mk
@@ -53,17 +55,17 @@ endif
 target-y := config-map
 target-y += socket_filter
 target-y += tc
-target-y += xdp xdp_simple xdp_dos
+target-${HAVE_LIBXDP} += xdp xdp_simple xdp_dos
 # kernel v4.12-11037-g546ac1ffb70d
 # commit 546ac1ffb70d ("bpf: add devmap, a map for storing net device references")
-target-$(call kver_gt,4,12,0) += xdp_devmap
+target-$(call uniq_repeat,${HAVE_LIBXDP}$(call kver_gt,4,12,0)) += xdp_devmap
 # kernel v5.8-rc4-1449-g9216477449f3
 # commit 9216477449f3 ("bpf: cpumap: Add the possibility to attach an eBPF program to cpumap")
 # struct bpf_cpumap_val support bpf_prog field
 # kernel v5.8-rc4-1448-g644bfe51fa49
 # commit 644bfe51fa49 ("cpumap: Formalize map value as a named struct")
 # introduce struct bpf_cpumap_val
-target-$(call kver_gt,5,8,0) += xdp_cpumap
+target-$(call uniq_repeat,${HAVE_LIBXDP}$(call kver_gt,5,8,0)) += xdp_cpumap
 
 target-y += sockops
 target-y += sk_skb
@@ -78,7 +80,7 @@ target-${SUPPORT_ITER_TASK_VMA} += iter_task_vma
 target-${SUPPORT_ITER_KMEM_CACHE} += iter_kmem_cache
 target-y += $(kobjs-y)
 target-y += map_array map_prog_array map_percpu_array
-target-y += xdp_xskmap
+target-${HAVE_LIBXDP} += xdp_xskmap
 
 # linux commit bd1279ae8a69 ("bpf: Add bpf_rbtree_{add,remove,first} kfuncs")
 # v6.2-rc7-1572-gbd1279ae8a69
@@ -242,6 +244,8 @@ CFLAGS += $(bpf-cflags)
 CFLAGS_BPF += $(bpf-cflags)
 CFLAGS += $(libbpf-cflags)
 CFLAGS_BPF += $(libbpf-cflags)
+CFLAGS += $(cflags-libxdp-y)
+CFLAGS_BPF += $(cflags-libxdp-y)
 CFLAGS += ${pahole-cflags}
 CFLAGS_BPF += ${pahole-cflags}
 CFLAGS_BPF += ${bpf-helper-cflags}
