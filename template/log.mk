@@ -47,6 +47,7 @@ define log_tgt
 printf "$(call LOG_PFX) %-16s $(call bgreen,%s)\n" "$(call toupper_shell,$(notdir ${1}))" "$(2)"
 endef
 
+# TODO: could not contains ',' in ${1}.
 define log_info
 printf "$(call LOG_PFX) $1\n" | tee --append ${LOG_FILE_INFO}
 endef
@@ -101,6 +102,7 @@ ifdef TEST
   )
   $(foreach func, log_info_mk log_warn_mk log_fail_mk log_success_mk, \
     $(call ${func},TEST ${func} 1 2 3 4,ARG1,ARG2) \
+    $(call ${func},\"TEST ${func} 1 2 3 4\") \
   )
 endif
 
