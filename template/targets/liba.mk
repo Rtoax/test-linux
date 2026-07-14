@@ -26,15 +26,15 @@ $(call add_library_objects,${target-liba-y})
 $(call add_library_depends,${target-liba-y},.d)
 
 ${OUTPUT}%.a.o: %.c | ${OUTPUT}
-	$(call log_obj,${CC} A.o,$(@))
+	@$(call log_obj,${CC} A.o,$(@))
 	${Q}$(CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS_A) $(CFLAGS_A_$(*))
 
 ${OUTPUT}%.cpp.a.o: %.cpp | ${OUTPUT}
-	$(call log_obj,${CXX} A.o,$(@))
+	@$(call log_obj,${CXX} A.o,$(@))
 	${Q}$(CXX) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CXXFLAGS_A) $(CXXFLAGS_A_$(*))
 
 $(target-liba-y): %:
-	$(call log_tgt,${AR},$(@))
+	@$(call log_tgt,${AR},$(@))
 	${Q}${AR} rcs $(@) $(^)
 
 endif # end of _TARGET_LIBA_MK

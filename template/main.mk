@@ -107,18 +107,18 @@ endif
 .PHONY: build
 build: $(build-targets)
 	$(call log_warn,Building $(call strip_topdir_prefix,$(shell realpath .)))
-	$(call log_obj,BUILD DONE,$(call strip_topdir_prefix,$(shell realpath .)))
+	@$(call log_obj,BUILD DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: clean
 clean: $(subdir-y-clean) $(target-clean-y)
 	$(call log_warn,Cleaning $(call strip_topdir_prefix,$(shell realpath .)))
-	$(call log_tgt,CLEAN,${build-targets} ${target-clean-y})
+	@$(call log_tgt,CLEAN,${build-targets} ${target-clean-y})
 	${Q}rm -rf ${build-targets}
 	${Q}rm -f *.o *.o.d
 	${Q}rm -f *.log *.out *.class
 	${Q}rm -f *.so *.so.* *.a
 	${Q}rm -f *.dat *.bin
-	$(call log_obj,CLEAN DONE,$(call strip_topdir_prefix,$(shell realpath .)))
+	@$(call log_obj,CLEAN DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: reset
 reset:

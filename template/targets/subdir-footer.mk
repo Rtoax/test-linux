@@ -47,11 +47,11 @@ endef
 
 .PHONY: $(subdir-y-build)
 $(subdir-y-build):
-	$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.build,%,$(@))))
+	@$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.build,%,$(@))))
 	$(call make_subdir_build,$(@:.build=))
 
 .PHONY: $(subdir-y-clean)
 $(subdir-y-clean):
-	$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.clean,%,$(@))))
+	@$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.clean,%,$(@))))
 	$(call make_subdir_clean,$(@:.clean=))
 endif

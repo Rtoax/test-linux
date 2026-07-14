@@ -14,7 +14,7 @@ endif
 
 ifneq (${OUTPUT},)
 ${OUTPUT}:
-	$(call log_tgt,${MKDIR},$(@))
+	@$(call log_tgt,${MKDIR},$(@))
 	${Q}${MKDIR} -p $(@)
 endif
 

@@ -36,11 +36,11 @@ $(if ${DEBUG},$(call LOG_TS))
 endef
 
 define log_obj
-@printf "$(call LOG_PFX) %-16s $(call bold,%s)\n" "$(call toupper_shell,$(notdir ${1}))" "$(2)"
+printf "$(call LOG_PFX) %-16s $(call bold,%s)\n" "$(call toupper_shell,$(notdir ${1}))" "$(2)"
 endef
 
 define log_tgt
-@printf "$(call LOG_PFX) %-16s $(call bgreen,%s)\n" "$(call toupper_shell,$(notdir ${1}))" "$(2)"
+printf "$(call LOG_PFX) %-16s $(call bgreen,%s)\n" "$(call toupper_shell,$(notdir ${1}))" "$(2)"
 endef
 
 define log_info
@@ -78,5 +78,9 @@ ifdef DEBUG
 endif
 
 export LOG_FILE_INFO LOG_FILE_FAILED
+
+ifdef TEST
+  $(shell $(call log_obj,TEST,log_obj))
+endif
 
 endif

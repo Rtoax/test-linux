@@ -94,19 +94,19 @@ endif
 # $1 - suffix of file: hip, cu
 define hip_obj
 $${OUTPUT}%.hip.o: %.${1} | $${OUTPUT}
-	$(call log_obj,${HIPCC},$$(@))
+	@$(call log_obj,${HIPCC},$$(@))
 	$${Q}$$(HIPCC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS_HIPCC) $$(CFLAGS_HIPCC_$$(*))
 endef
 # $1 - suffix of file: hip, cu
 define hip_obj_so
 $${OUTPUT}%.hip.so.o: %.${1} | $${OUTPUT}
-	$(call log_obj,${HIPCC} SO,$$(@))
+	@$(call log_obj,${HIPCC} SO,$$(@))
 	$${Q}$$(HIPCC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS_HIPCC_SO) $$(CFLAGS_HIPCC_SO_$$(*))
 endef
 # $1 - suffix of file: hip, cu
 define hip_obj_a
 $${OUTPUT}%.hip.a.o: %.${1} | $${OUTPUT}
-	$(call log_obj,${HIPCC} A,$$(@))
+	@$(call log_obj,${HIPCC} A,$$(@))
 	$${Q}$$(HIPCC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS_HIPCC_A) $$(CFLAGS_HIPCC_A_$$(*))
 endef
 $(eval $(call hip_obj,cu))
@@ -117,19 +117,19 @@ $(eval $(call hip_obj_a,cu))
 $(eval $(call hip_obj_a,hip))
 
 ${OUTPUT}%.hip_fatbin: % | ${OUTPUT}
-	$(call log_obj,${OBJCOPY} HIP FATBIN,$(@))
+	@$(call log_obj,${OBJCOPY} HIP FATBIN,$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hip_fatbin $(<) $(@)
 
 ${OUTPUT}%.hipFatBinSegment: % | ${OUTPUT}
-	$(call log_obj,${OBJCOPY} HIP FATBIN SEG,$(@))
+	@$(call log_obj,${OBJCOPY} HIP FATBIN SEG,$(@))
 	${Q}$(OBJCOPY) -O binary --only-section=.hipFatBinSegment $(<) $(@)
 
 $(target-hipcc-y): %:
-	$(call log_tgt,${HIPCC} LD,$(@))
+	@$(call log_tgt,${HIPCC} LD,$(@))
 	${Q}$(HIPCC) -o $(@) $(^) $(LDFLAGS_HIPCC) $(LDFLAGS_HIPCC_$(*))
 
 $(target-hipcc-libso-y): %:
-	$(call log_tgt,${HIPCC} SO,$(@))
+	@$(call log_tgt,${HIPCC} SO,$(@))
 	${Q}$(HIPCC) -o $(@) $(^) $(LDFLAGS_HIPCC_SO) $(LDFLAGS_HIPCC_SO$(*))
 
 $(call target_objects_append_output_prefix,${target-hipcc-libso-y})

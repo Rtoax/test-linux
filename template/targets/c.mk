@@ -10,32 +10,32 @@ include bits/targets.mk
 include cflags.mk
 
 ${OUTPUT}%.o: %.c | ${OUTPUT}
-	$(call log_obj,$(REAL_COMPILER_CC),$(@))
+	@$(call log_obj,$(REAL_COMPILER_CC),$(@))
 	${Q}$(REAL_COMPILER_CC) -MMD -MT $(@) -MF $(@:=.d) -o $(@) -c $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.o.bin: ${OUTPUT}%.o
-	$(call log_obj,${OBJCOPY} BIN,$(@))
+	@$(call log_obj,${OBJCOPY} BIN,$(@))
 	${Q}$(OBJCOPY) -O binary $(<) $(@)
 
 # Compile .c to .<N>.o, this use to compile single source code to more than one
 # object file.
 define c_obj_x
 $${OUTPUT}%.${1}.o: %.c | $${OUTPUT}
-	$$(call log_obj,${REAL_COMPILER_CC},$$(@))
+	$@$(call log_obj,${REAL_COMPILER_CC},$$(@))
 	$${Q}$$(REAL_COMPILER_CC) -MMD -MT $$(@) -MF $$(@:=.d) -o $$(@) -c $$(<) $$(CFLAGS) $$(CFLAGS_$$(*).${1})
 endef
 $(foreach i, ${SRC_SFX_LIST}, $(eval $(call c_obj_x,${i})))
 
 ${OUTPUT}%.E.c: %.c | ${OUTPUT}
-	$(call log_obj,${REAL_COMPILER_CC} E,$(@))
+	@$(call log_obj,${REAL_COMPILER_CC} E,$(@))
 	${Q}$(REAL_COMPILER_CC) -E -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 ${OUTPUT}%.c.s: %.c | ${OUTPUT}
-	$(call log_obj,${REAL_COMPILER_CC} S,$(@))
+	@$(call log_obj,${REAL_COMPILER_CC} S,$(@))
 	${Q}$(REAL_COMPILER_CC) -S -o $(@) $(<) $(CFLAGS) $(CFLAGS_$(*))
 
 $(target-y): %:
-	$(call log_tgt,${REAL_COMPILER_CC} LD,$(@))
+	@$(call log_tgt,${REAL_COMPILER_CC} LD,$(@))
 	${Q}$(REAL_COMPILER_CC) -o $(@) $(^) $(LDFLAGS) $(LDFLAGS_$(*))
 
 $(call target_objects_append_output_prefix,${target-y})

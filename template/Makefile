@@ -7,6 +7,7 @@
 OUTPUT := .output/
 
 V ?= 1
+TEST ?= 1
 
 $(if ${mk}, $(eval MK := ${mk}))
 

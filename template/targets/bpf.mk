@@ -40,26 +40,26 @@ endif
 # 2. $ clang -O2 -target bpf -emit-llvm -c $(<) -o $(<:.c=.bc)
 #    $ llc $(<:.c=.bc) -march=bpf -filetype=obj -o $(@)
 ${OUTPUT}%.bpf.o: %.bpf.c | ${OUTPUT}
-	$(call log_obj,${CLANG} BPF,$(@))
+	@$(call log_obj,${CLANG} BPF,$(@))
 	${Q}$(CLANG) -MMD -MT $(@) -MF $(@:=.d) -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 # LLVM IR bitcode, only add -emit-llvm
 ${OUTPUT}%.bpf.bc: %.bpf.c | ${OUTPUT}
-	$(call log_obj,${CLANG} BPF,$(@))
+	@$(call log_obj,${CLANG} BPF,$(@))
 	${Q}$(CLANG) -MMD -MT $(@) -MF $(@:=.d) -emit-llvm -c $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 # Other arguments:
 # --no-show-raw-insn
 ${OUTPUT}%.bpf.disasm: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	$(call log_obj,${LLVM_OBJDUMP} BPF DIS,$(@))
+	@$(call log_obj,${LLVM_OBJDUMP} BPF DIS,$(@))
 	${Q}${LLVM_OBJDUMP} --disassemble --source $(<) > $(@)
 
 ${OUTPUT}%.bpf.s: %.bpf.c | ${OUTPUT}
-	$(call log_obj,${CLANG} BPF S,$(@))
+	@$(call log_obj,${CLANG} BPF S,$(@))
 	${Q}$(CLANG) -S $(<) -o $(@) ${CFLAGS_BPF} $(CFLAGS_BPF_$(*))
 
 ${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	$(call log_obj,${BPFTOOL} SKEL,$(@))
+	@$(call log_obj,${BPFTOOL} SKEL,$(@))
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked1.o) $(<)
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked2.o) $(<:.o=.linked1.o)
 	${Q}$(BPFTOOL) gen object $(<:.o=.linked3.o) $(<:.o=.linked2.o)
@@ -73,16 +73,16 @@ ${OUTPUT}%.skel.h: ${OUTPUT}%.bpf.o | ${OUTPUT}
 	#	$(<:.o=.linked3.o) name $(subst -,_,$(notdir $(<:.bpf.o=)))_bpf > $(@:.skel.h=.subskel.h)
 
 ${OUTPUT}%.bpf.btf: ${OUTPUT}%.bpf.o | ${OUTPUT}
-	$(call log_obj,${PAHOLE} BTF,$(@))
+	@$(call log_obj,${PAHOLE} BTF,$(@))
 	${Q}$(PAHOLE) -JV $(<) > $(@)
 
 ${target-btf-y}: | ${OUTPUT}
-	$(call log_tgt,BTF_H,$(@))
+	@$(call log_tgt,BTF_H,$(@))
 	$(call btf_gen_hdr,$(@:.h=),$(@))
 
 # Special btf header, this may duplicate of target-btf-y.
 ${VMLINUX_H}: | ${OUTPUT}
-	$(call log_tgt,BTF_H,$(@))
+	@$(call log_tgt,BTF_H,$(@))
 	$(call btf_gen_hdr,vmlinux,${VMLINUX_H})
 
 # Include all the .bpf.o.d depends files
