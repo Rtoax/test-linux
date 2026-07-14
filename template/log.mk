@@ -80,7 +80,9 @@ endif
 export LOG_FILE_INFO LOG_FILE_FAILED
 
 ifdef TEST
-  $(shell $(call log_obj,TEST,log_obj))
+  $(foreach func, log_obj log_tgt log_info log_fail log_warn log_success, \
+    $(info $(shell $(call ${func},TEST ${func},ARG1,ARG2))) \
+  )
 endif
 
 endif
