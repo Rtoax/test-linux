@@ -1,0 +1,30 @@
+#!/bin/env bpftrace
+// see https://github.com/bpftrace/bpftrace/pull/5231
+
+macro str_concat($dst, $src) {
+	import "str_concat.bpf.c";
+
+	assert_str($dst);
+	assert_str($src);
+	let $dst_size = strcap($dst);
+	let $src_size = strcap($src);
+	if ($src_size > 0) {
+		__bpf_str_concat((int8 *)&$dst, (uint64)$dst_size,
+				(int8 *)&$src,
+				(uint64)$src_size);
+	}
+}
+
+macro str_concat($dst, src) {
+	let $src = src;
+	str_concat($dst, $src);
+}
+
+BEGIN
+{
+	let $s1 : string[32];
+	$s1 = "hello";
+	str_concat($s1, " world");
+	printf("%s\n", $s1);
+	exit();
+}
