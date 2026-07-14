@@ -100,6 +100,7 @@ install_from_source()
 	check_kver
 
 	# Install modules and headers
+	# INSTALL_HDR_PATH default ${objtree}/usr = ./usr
 	make ${INSTALL_MOD_PATH:+INSTALL_MOD_PATH=${INSTALL_MOD_PATH}} modules_install
 	make ${INSTALL_HDR_PATH:+INSTALL_HDR_PATH=${INSTALL_HDR_PATH}} headers_install
 
