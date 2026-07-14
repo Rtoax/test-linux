@@ -39,6 +39,7 @@ subdir-y += psmisc
 subdir-y += readline
 subdir-y += redis
 subdir-y += static_key
+subdir-y += sysstat
 subdir-${HAVE_TMUX} += tmux
 subdir-y += util-linux
 subdir-y += vim

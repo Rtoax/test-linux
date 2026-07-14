@@ -26,6 +26,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
+- add sysstat subdir;
 #### Template
 - add ksyms.mk;
 - log.mk: add `log_{info,warn,fail,success}_mk()`;

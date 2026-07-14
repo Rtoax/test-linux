@@ -643,6 +643,11 @@
 			"extension": [ "service", "mount" ],
 			"keys": [ "systemd", "journalctl", "ukify" ]
 		},
+		"sysstat": {
+			"name": "Sysstat",
+			"command": [ "sar" ],
+			"keys": [ "sar", "sysstat" ]
+		},
 		"tmux": {
 			"version": {
 				"length": [ 2 ],
