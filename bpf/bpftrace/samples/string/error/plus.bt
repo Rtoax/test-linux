@@ -1,0 +1,12 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	let $s1 = "hello";
+	let $s2 = " world";
+	let $s3 = $s1 + $s2;
+
+	printf("%s\n", $s3);
+
+	exit();
+}
