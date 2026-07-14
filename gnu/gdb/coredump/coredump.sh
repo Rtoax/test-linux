@@ -1,6 +1,10 @@
 #!/bin/bash
 # Usage: source this script: $ source coredump.sh
 # Warning: do not use `set -x` here
+#
+# core_pattern:
+# - |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h
+#
 bytes=unlimited
 
 # run with it, generate a core.XXXX file.
