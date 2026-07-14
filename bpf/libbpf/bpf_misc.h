@@ -121,6 +121,7 @@ extern struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root, struct bp
 extern void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it) __weak __ksym;
 extern int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it, struct task_struct *task, u64 addr) __weak __ksym;
 extern struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it) __weak __ksym;
+extern int bpf_strcat(char *dst__ign, u32 dst__sz, const char *src__ign) __weak __ksym;
 /* TODO: Add more kfuncs here */
 #endif
 
