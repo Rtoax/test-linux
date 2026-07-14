@@ -62,7 +62,7 @@ $(info $(shell $(call log_fail,${1})))
 endef
 
 define log_warn
-printf "$(call LOG_PFX) $(call cyan,$1)\n" | tee --append ${LOG_FILE_INFO}
+printf "$(call LOG_PFX) $(call red,$1)\n" | tee --append ${LOG_FILE_INFO}
 endef
 define log_warn_mk
 $(info $(shell $(call log_warn,${1})))
