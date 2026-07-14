@@ -100,7 +100,7 @@ ifdef TEST
     $(info $(shell $(call ${func},TEST ${func},ARG1,ARG2))) \
   )
   $(foreach func, log_info_mk log_warn_mk log_fail_mk log_success_mk, \
-    $(call ${func},TEST ${func}) \
+    $(call ${func},TEST ${func} 1 2 3 4,ARG1,ARG2) \
   )
 endif
 
