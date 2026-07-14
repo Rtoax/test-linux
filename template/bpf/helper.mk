@@ -28,6 +28,7 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
 else
 
 include kernel.mk
+include ksyms.mk
 include pahole.mk
 include string.mk
 include bpf/btf.mk
@@ -263,13 +264,16 @@ endif
 # From here, store developing kfuncs checks
 
 # See test-linux/bpf/kfunc/modules/bpf_task_cwd_from_pid.c
-ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
+ifeq ($(call ksyms_have_func,bpf_task_cwd_from_pid),y)
   $(call bpf_def_helper,bpf_task_cwd_from_pid)
 endif
 
 # see https://github.com/Rtoax/linux/tree/p062-bpf_strcat
-ifeq ($(shell grep -wo -m1 bpf_strcat /proc/kallsyms),bpf_strcat)
+ifeq ($(call ksyms_have_func,bpf_strcat),y)
   $(call bpf_def_helper,bpf_strcat)
+endif
+ifeq ($(call ksyms_have_func,bpf_strncat),y)
+  $(call bpf_def_helper,bpf_strncat)
 endif
 
 # End of test developing kfuncs
