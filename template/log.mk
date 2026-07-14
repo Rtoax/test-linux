@@ -5,9 +5,13 @@
 # - log_obj()
 # - log_tgt()
 # - log_info()
+# - log_info_mk()
 # - log_warn()
+# - log_warn_mk()
 # - log_fail()
+# - log_fail_mk()
 # - log_success()
+# - log_success_mk()
 # - log_reset()
 # - log_display_failed()
 #
@@ -46,17 +50,29 @@ endef
 define log_info
 printf "$(call LOG_PFX) $1\n" | tee --append ${LOG_FILE_INFO}
 endef
+define log_info_mk
+$(info $(shell $(call log_info,${1})))
+endef
 
 define log_fail
 printf "$(call LOG_TS) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
+endef
+define log_fail_mk
+$(info $(shell $(call log_fail,${1})))
 endef
 
 define log_warn
 printf "$(call LOG_PFX) $(call cyan,$1)\n" | tee --append ${LOG_FILE_INFO}
 endef
+define log_warn_mk
+$(info $(shell $(call log_warn,${1})))
+endef
 
 define log_success
 printf "$(call LOG_PFX) $(call green,$1)\n" | tee --append ${LOG_FILE_INFO}
+endef
+define log_success_mk
+$(info $(shell $(call log_success,${1})))
 endef
 
 define log_reset
@@ -82,6 +98,9 @@ export LOG_FILE_INFO LOG_FILE_FAILED
 ifdef TEST
   $(foreach func, log_obj log_tgt log_info log_fail log_warn log_success, \
     $(info $(shell $(call ${func},TEST ${func},ARG1,ARG2))) \
+  )
+  $(foreach func, log_info_mk log_warn_mk log_fail_mk log_success_mk, \
+    $(call ${func},TEST ${func}) \
   )
 endif
 
