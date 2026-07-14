@@ -106,12 +106,12 @@ endif
 
 .PHONY: build
 build: $(build-targets)
-	$(call log_warn,Building $(call strip_topdir_prefix,$(shell realpath .)))
+	$(call log_success,Building $(call strip_topdir_prefix,$(shell realpath .)))
 	@$(call log_obj,BUILD DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: clean
 clean: $(subdir-y-clean) $(target-clean-y)
-	$(call log_warn,Cleaning $(call strip_topdir_prefix,$(shell realpath .)))
+	$(call log_success,Cleaning $(call strip_topdir_prefix,$(shell realpath .)))
 	@$(call log_tgt,CLEAN,${build-targets} ${target-clean-y})
 	${Q}rm -rf ${build-targets}
 	${Q}rm -f *.o *.o.d
@@ -122,12 +122,12 @@ clean: $(subdir-y-clean) $(target-clean-y)
 
 .PHONY: reset
 reset:
-	$(call log_warn,Reset)
+	$(call log_success,Reset)
 	$(call log_reset)
 
 .PHONY: done
 done:
-	$(call log_warn,Done)
+	$(call log_success,Done)
 	$(call log_display_failed)
 
 # All helpers, only include targets/helpers.mk if helpers.mk was included.
