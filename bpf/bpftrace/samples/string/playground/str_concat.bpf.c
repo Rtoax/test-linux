@@ -42,7 +42,7 @@ size_t __bpf_str_concat(char *dst, size_t dst_sz, const char *src,
        j++, i++)
     dst[i] = src[j];
 
-  dst[i] = '\0';
+  dst[i % dst_sz] = '\0';
 
   return j;
 #else
