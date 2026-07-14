@@ -14,6 +14,7 @@ readonly VERSION="v1.1.3"
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 subject_prefix=
+readonly SUBJECT_PREFIX_EXAMPLE="PATCH bpf-next v3"
 downer_commit=
 upper_commit=
 
@@ -43,7 +44,7 @@ ${BOLD}DESCRIPTION${RST}
 
 ${BOLD}ARGUMENT${RST}
 	${BOLD}Generate patchset arguments:${RST}
-	--subject-prefix [STR]   specify Subject prefix
+	--subject-prefix [STR]   specify Subject prefix, for example: ${UL}${SUBJECT_PREFIX_EXAMPLE}${RST}
 	--from [COMMIT]          specify downer/older commit, see git log --oneline
 	--to [COMMIT]            specify upper/newer commit, see git log --oneline
 	--no-cover-letter        no cover letter
@@ -82,7 +83,7 @@ ${BOLD}BARE GIT EXAMPLES${RST}
 
 ${BOLD}PATCHSET EXAMPLES${RST}
 	${GRAY}# Submit a patchset:${RST}
-	$ patchset --from ${UL}[commit1]${RST} --to ${UL}[commit2]${RST} --subject-prefix=\"${UL}PATCH bpf-next v3${RST}\"
+	$ patchset --from ${UL}[commit1]${RST} --to ${UL}[commit2]${RST} --subject-prefix=\"${UL}${SUBJECT_PREFIX_EXAMPLE}${RST}\"
 	${GRAY}# Then, modify 0000-cover-letter.patch${RST}
 	${GRAY}# check patches (scripts/checkpatch.pl if linux)${RST}
 	$ git send-email ${dry_run:+--dry-run} ${GRAY}[--to|--cc|--to-cmd=] --confirm=[always|never|cc|compose|auto]${RST} ${output_dir}/*.patch
