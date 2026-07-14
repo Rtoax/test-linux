@@ -7,12 +7,32 @@
 
 #include <bpf/bpf_helpers.h>
 
+#if 1
+extern int bpf_strnlen(const char *s__ign, size_t count) __ksym __weak;
+
+long __bpf_strnlen(const char *ptr, size_t max_size)
+{
+  if (bpf_strnlen) {
+    return bpf_strnlen(ptr, max_size);
+  }
+  long sz = 0;
+  for (size_t i = 0; i < max_size; ++i) {
+    if (ptr[i] == 0) {
+      break;
+    }
+    ++sz;
+  }
+  return sz;
+}
+#else
 long __bpf_strnlen(const char *ptr, size_t max_size);
+#endif
 
 // see https://github.com/bpftrace/bpftrace/pull/5231
 size_t __bpf_str_concat(char *dst, size_t dst_sz, const char *src,
                         size_t src_sz)
 {
+#if 1
   __u8 i, j;
   size_t dst_len = __bpf_strnlen(dst, dst_sz);
   size_t src_len = __bpf_strnlen(src, src_sz);
@@ -25,4 +45,7 @@ size_t __bpf_str_concat(char *dst, size_t dst_sz, const char *src,
   dst[i] = '\0';
 
   return j;
+#else
+  return 0;
+#endif
 }

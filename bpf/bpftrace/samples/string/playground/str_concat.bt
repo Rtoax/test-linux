@@ -2,6 +2,7 @@
 // see https://github.com/bpftrace/bpftrace/pull/5231
 
 macro str_concat($dst, $src) {
+	import "stdlib/strings/strings.bpf.c";
 	import "str_concat.bpf.c";
 
 	assert_str($dst);
