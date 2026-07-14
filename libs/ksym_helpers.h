@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <sys/types.h>
 
-#define INVALID_ADDR	(-1)
+#define INVALID_ADDR (-1)
 
 struct ksyms;
 

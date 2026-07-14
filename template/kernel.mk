@@ -27,7 +27,7 @@ include dir.mk
 include shell.mk
 include version.mk
 
-kversh = ${TOPDIR}/scripts/version/linux.sh
+kversh := ${TOPDIR}/scripts/version/linux.sh
 
 KVERSION := $(shell ${kversh} --major)
 KPATCHLEVEL := $(shell ${kversh} --patchlevel)
