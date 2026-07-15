@@ -12,7 +12,6 @@
 #include "bpf_helpers.h"
 #include "bpf_insn_samples.h"
 
-
 #define DEBUGFS	"/sys/kernel/debug/tracing"
 
 #ifndef offsetofend
