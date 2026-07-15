@@ -58,6 +58,14 @@ $(call bpf_def_helper,bpf_map_lookup_elem)
 $(call bpf_def_helper,bpf_map_update_elem)
 $(call bpf_def_helper,bpf_map_delete_elem)
 
+# linux v4.0-rc5-419-g9c959c863f82
+# commit 9c959c863f82 ("tracing: Allow BPF programs to call bpf_trace_printk()")
+$(call bpf_def_helper,bpf_trace_printk)
+
+# linux >= v4.4
+# https://docs.ebpf.io/linux/helper-function/bpf_perf_event_output/
+$(call bpf_def_helper,bpf_perf_event_output)
+
 # linux v5.12-rc4-1654-g7b15523a989b
 # commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
 ifeq ($(call kver_gt,5,12,0),y)

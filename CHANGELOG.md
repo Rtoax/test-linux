@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpf: test `bpf_perf_event_output()`, `linux >= v4.4`;
 - bpftrace: add playground subdir;
 - uki: add makeuki.sh;
 - systemd-udev: add bootctl subdir;
