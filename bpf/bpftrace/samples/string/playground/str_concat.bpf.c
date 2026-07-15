@@ -28,7 +28,7 @@ long __bpf_strnlen(const char *ptr, size_t max_size)
 size_t __bpf_str_concat(char *dst, size_t dst_sz, const char *src,
                         size_t src_sz)
 {
-  __u8 i, j;
+  __u32 i, j;
   size_t dst_len = __bpf_strnlen(dst, dst_sz);
   size_t src_len = __bpf_strnlen(src, src_sz);
 
