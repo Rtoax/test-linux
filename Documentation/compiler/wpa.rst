@@ -1,8 +1,9 @@
 WPA: Whole Program Analysis
-============================
+===========================
 
 
-# Links
+Links
+-----
 
 - https://gcc.gnu.org/onlinedocs/gccint/Internal-flags.html
 
