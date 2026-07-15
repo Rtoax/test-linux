@@ -33,6 +33,12 @@ macro strncpy($dest, $src, n) {
   __bpf_strncpy((int8*)&$dest, (int8*)&$src, (int32)n);
 }
 
+macro bpf_count() {
+  import "loop.bpf.c";
+
+  __bpf_count()
+}
+
 BEGIN
 {
   printf("%s\n", v1234);
@@ -50,6 +56,9 @@ BEGIN
 
   strncpy($s2, $src, 25);
   printf("%s, %s\n", $src, $s2);
+
+  // TODO
+  // $cnt1 = bpf_count();
 
   exit();
 }

@@ -10,6 +10,10 @@
 #include "bpf_insn_samples.h"
 
 static struct bpf_insn insns[] = {
+	BPF_MOV64_IMM(BPF_REG_1, 10),
+	BPF_MOV64_IMM(BPF_REG_2, 0), /* TODO: callback_fn */
+	BPF_MOV64_IMM(BPF_REG_3, 0),
+	BPF_MOV64_IMM(BPF_REG_4, 0),
 	BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 0, 0, BPF_FUNC_loop),
 	BPF_MOV64_IMM(BPF_REG_0, 0),
 	BPF_EXIT_INSN(),
