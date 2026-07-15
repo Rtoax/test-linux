@@ -30,7 +30,6 @@ size_t __bpf_str_concat(char *dst, size_t dst_sz, const char *src,
 {
   __u32 i, j;
   size_t dst_len = __bpf_strnlen(dst, dst_sz);
-  size_t src_len = __bpf_strnlen(src, src_sz);
 
   // Provide sufficient conditions for the BPF Verifier
   for (i = dst_len, j = 0; i < dst_sz - 1 && j < src_sz - 1 && src[j] != '\0';
