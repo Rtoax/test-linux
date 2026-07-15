@@ -21,10 +21,21 @@ macro factorial(a) {
   $v
 }
 
+macro memcpy($dest, $src, n) {
+  import "string.bpf.c";
+
+  __bpf_memcpy((int8*)&$dest, (int8*)&$src, (int32)n);
+}
+
 BEGIN
 {
   printf("%s\n", v1234);
   printf("%d\n", add(1, 2));
   printf("%ld\n", factorial(3));
+
+  let $s1 = "abcdefghijklmnopqrstuvwxyz";
+  let $s2 : string[27];
+  memcpy($s2, $s1, 27);
+  printf("%s, %s\n", $s1, $s2);
   exit();
 }
