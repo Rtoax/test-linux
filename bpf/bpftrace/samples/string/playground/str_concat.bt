@@ -5,7 +5,7 @@ macro str_concat($s1, $s2) {
   import "stdlib/strings/strings.bpf.c";
   import "str_concat.bpf.c";
 
-  let $new : string[128];
+  let $new : string[1024];
 
   assert_str($s1);
   assert_str($s2);
@@ -27,6 +27,17 @@ macro str_concat($s1, s2) {
   str_concat($s1, $s2)
 }
 
+macro str_concat(s1, $s2) {
+  let $s1 = s1;
+  str_concat($s1, $s2)
+}
+
+macro str_concat(s1, s2) {
+  let $s1 = s1;
+  let $s2 = s2;
+  str_concat($s1, $s2)
+}
+
 BEGIN
 {
   let $s1 : string[32];
@@ -34,7 +45,11 @@ BEGIN
 
   $new = str_concat($s1, " world");
   $new = str_concat($new, " Rong Tao");
+  $new = str_concat("INFO: ", $new);
 
   printf("%s\n", $new);
+
+  $new2 = str_concat("Hello", " World");
+  printf("%s\n", $new2);
   exit();
 }
