@@ -1,5 +1,9 @@
 #!/bin/env bpftrace
-// see https://github.com/bpftrace/bpftrace/pull/5231
+// refs:
+// - stdlib: support get current working directory
+//   https://github.com/bpftrace/bpftrace/pull/5231
+// - Warn on low log space in verbose mode
+//   https://github.com/bpftrace/bpftrace/pull/5259
 /*
 Q: Why run in verbose mode (-v), load failed.
 A: Need bigger log buffer, see bpf_check():
@@ -21,8 +25,11 @@ A: Need bigger log buffer, see bpf_check():
    more to see commit 73a01d16426d ("bpf: bpf_check() return ENOSPC in verbose mode if log buf full")
 */
 
+config = {
+  log_size = 10000000;
+}
+
 macro str_concat($s1, $s2) {
-  import "stdlib/strings/strings.bpf.c";
   import "str_concat.bpf.c";
 
   let $new : string[1024];
