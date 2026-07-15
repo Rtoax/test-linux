@@ -1,0 +1,30 @@
+#!/bin/env bpftrace
+macro v1234() {
+  import "dummy.bpf.c";
+
+  let $v = __bpf_dummy();
+
+  $v
+}
+
+macro add(a, b) {
+  import "add.bpf.c";
+
+  let $v = __bpf_add(a, b);
+  $v
+}
+
+macro factorial(a) {
+  import "factorial.bpf.c";
+
+  let $v = __bpf_factorial(a);
+  $v
+}
+
+BEGIN
+{
+  printf("%s\n", v1234);
+  printf("%d\n", add(1, 2));
+  printf("%ld\n", factorial(3));
+  exit();
+}

@@ -1,0 +1,1 @@
+bpftrace-y += test.bt
