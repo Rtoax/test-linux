@@ -18,6 +18,7 @@ A: Need bigger log buffer, see bpf_check():
    test-linux/bpf/scripts/sys_enter_bpf.bt track bpf(2) BPF_PROG_LOAD return -28.
    bpf_check() return -28.
    ps: -28 is ENOSPC (No space left on device)
+   more to see commit 73a01d16426d ("bpf: bpf_check() return ENOSPC in verbose mode if log buf full")
 */
 
 macro str_concat($s1, $s2) {

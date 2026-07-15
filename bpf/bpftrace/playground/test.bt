@@ -39,14 +39,16 @@ BEGIN
   printf("%d\n", add(1, 2));
   printf("%ld\n", factorial(3));
 
-  let $src = "abcdefghijklmnopqrstuvwxyz";
-  let $s1 : string[27];
-  let $s2 : string[27];
+  let $src : string[256];
+  let $s1 : string[256];
+  let $s2 : string[256];
 
-  memcpy($s1, $src, 27);
+  $src = "abcdefghijklmnopqrstuvwxyz1234567890";
+
+  memcpy($s1, $src, 250);
   printf("%s, %s\n", $src, $s1);
 
-  strncpy($s2, $src, 10);
+  strncpy($s2, $src, 25);
   printf("%s, %s\n", $src, $s2);
 
   exit();
