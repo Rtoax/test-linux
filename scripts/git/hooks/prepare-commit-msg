@@ -74,7 +74,11 @@ __add_ver() {
 	local mode=$1
 	shift
 
-	[[ -z "${@}" ]] && fatal "Bad call of add_ver()"
+	if [[ -z "${@}" ]]; then
+		fatal "Bad call of __add_ver(), need argument"
+		warning "Skipping..."
+		return 0
+	fi
 	[[ -z ${CHANGED_FILES_RO} ]] && return 0
 
 	if [[ -z "$(echo ${@} | grep -oE '[0-9]')" ]]; then
@@ -207,6 +211,7 @@ virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
 	fatal "must signed with -s/--signoff"
+	exit 0
 fi
 
 if [[ -z ${signed_off_by_line} ]]; then
