@@ -1,31 +1,40 @@
 #!/bin/env bpftrace
 // see https://github.com/bpftrace/bpftrace/pull/5231
 
-macro str_concat($dst, $src) {
-	import "stdlib/strings/strings.bpf.c";
-	import "str_concat.bpf.c";
+macro str_concat($s1, $s2) {
+  import "stdlib/strings/strings.bpf.c";
+  import "str_concat.bpf.c";
 
-	assert_str($dst);
-	assert_str($src);
-	let $dst_size = strcap($dst);
-	let $src_size = strcap($src);
-	if ($src_size > 0) {
-		__bpf_str_concat((int8 *)&$dst, (uint64)$dst_size,
-				(int8 *)&$src,
-				(uint64)$src_size);
-	}
+  let $new : string[128];
+
+  assert_str($s1);
+  assert_str($s2);
+
+  let $new_sz = strcap($new);
+  let $s1_sz = strcap($s1);
+  let $s2_sz = strcap($s2);
+
+  __bpf_str_concat((int8 *)&$new, (uint64)$new_sz, (int8 *)&$s1,
+                   (uint64)$s1_sz);
+  __bpf_str_concat((int8 *)&$new, (uint64)$new_sz, (int8 *)&$s2,
+                   (uint64)$s2_sz);
+
+  $new
 }
 
-macro str_concat($dst, src) {
-	let $src = src;
-	str_concat($dst, $src);
+macro str_concat($s1, s2) {
+  let $s2 = s2;
+  str_concat($s1, $s2)
 }
 
 BEGIN
 {
-	let $s1 : string[32];
-	$s1 = "hello";
-	str_concat($s1, " world");
-	printf("%s\n", $s1);
-	exit();
+  let $s1 : string[32];
+  $s1 = "hello";
+
+  $new = str_concat($s1, " world");
+  $new = str_concat($new, " Rong Tao");
+
+  printf("%s\n", $new);
+  exit();
 }
