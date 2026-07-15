@@ -30,6 +30,7 @@ and this project adheres to
 #### Tools
 - add sysstat subdir;
 #### Template
+- bcc.mk: add `HAVE_BCC_HDR`;
 - add ksyms.mk;
 - log.mk: add `log_{info,warn,fail,success}_mk()`;
 - bpf/libxdp.mk: add `HAVE_LIBXDP_H`, `HAVE_LIBXDP_XSK_H`, `cflags-libxdp-y`;
