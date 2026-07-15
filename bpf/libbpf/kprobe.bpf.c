@@ -63,7 +63,9 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 #ifdef DEBUG
 #pragma message "Support bpf_override_return()"
 #endif
-	if (filename && str_eq(filename, "ls", 2)) {
+	char fname[16];
+	bpf_probe_read_kernel(&fname, sizeof(fname), (void *)filename);
+	if (filename && !strncmp(fname, "ls", 2)) {
 		u64 err = EINVAL;
 		bpf_override_return(ctx, err);
 		bpf_printk("KPROBE ENTRY pid = %d, filename = %s override return",
@@ -112,7 +114,7 @@ int BPF_KRETPROBE(do_execveat_common_exit, long ret)
 
 	char s1[5] = {"test"};
 	const static char s2[5] = {"test"};
-	str_eq(s1, s2, 5);
+	strncmp(s1, s2, 5);
 	return 0;
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <bpf/bpf_tracing.h>
 
-static __always_inline bool str_eq(const char *a, const char *b, int len)
+static __always_inline bool strncmp(const char *a, const char *b, int len)
 {
 /**
  * use bpf_strncmp() first
