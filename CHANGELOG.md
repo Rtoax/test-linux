@@ -19,6 +19,7 @@ and this project adheres to
 - move png and svg to Documentation/images/;
 #### Deprecated
 #### Documentation
+- bpf: add verifier.rst;
 - add unwind, compiler;
 - cxl: add paper.rst;
 - images: add ebpf.png, gnu.webp, cilium.png;

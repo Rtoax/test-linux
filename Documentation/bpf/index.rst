@@ -15,6 +15,7 @@ eBPF: Extended Berkeley Packet Filter
    bpf
    isa
    btf
+   verifier
    kfunc
    jit
    xdp
