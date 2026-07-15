@@ -28,4 +28,4 @@ prog-y := tcpdump.sh
 post-y := post0
 post-y += $(patsubst %.bpf.o,%.bpf.disasm,$(target-bpf-y))
 
-CFLAGS_BPF_tcpdump := -DVERIFER=1
+CFLAGS_BPF_tcpdump := -DVERIFY=1
