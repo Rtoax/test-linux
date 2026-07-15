@@ -268,8 +268,11 @@ ifeq ($(call ksyms_have_func,bpf_task_cwd_from_pid),y)
   $(call bpf_def_helper,bpf_task_cwd_from_pid)
 endif
 
-# see https://github.com/Rtoax/linux/tree/p062-bpf_strcat
-# https://lore.kernel.org/lkml/tencent_59689407B1C3204B08362BEEF244A5FE5505@qq.com/
+# refs:
+# v2: https://lore.kernel.org/lkml/tencent_9EC04DC824CBF5124305E73564341511C405@qq.com/
+#     https://github.com/Rtoax/linux/tree/p062-bpf_strcat-v2
+# v1: https://lore.kernel.org/lkml/tencent_59689407B1C3204B08362BEEF244A5FE5505@qq.com/
+#     https://github.com/Rtoax/linux/tree/p062-bpf_strcat
 ifeq ($(call ksyms_have_func,bpf_strcat),y)
   $(call bpf_def_helper,bpf_strcat)
 endif
