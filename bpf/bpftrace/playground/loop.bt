@@ -2,7 +2,7 @@
 macro bpf_count() {
   import "loop.bpf.c";
 
-  $cnt = __bpf_count();
+  $cnt = __bpf_count(9);
   $cnt
 }
 

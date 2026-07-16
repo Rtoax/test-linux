@@ -20,11 +20,11 @@ struct callback_ctx {
 static int callback(unsigned int index, void *data)
 {
   struct callback_ctx *ctx = data;
-  ctx->loop_cnt++;
+  ctx->loop_cnt += 2;
   return 0;
 }
 
-int __bpf_count(void)
+int __bpf_count(unsigned int nr_loops)
 {
   int BPF_FUNC_loop = 181;
   struct callback_ctx ctx = {
@@ -40,14 +40,13 @@ int __bpf_count(void)
       "r3 = %[callback_ctx]\n"         // BPF_MOV64_IMM(BPF_REG_3, callback_ctx)
       "r4 = 0\n"                       // BPF_MOV64_IMM(BPF_REG_4, 0)
       "call %[bpf_loop]\n"             // call bpf_loop()
-      "r0 = %[cnt]\n"                  // BPF_MOV64_IMM(BPF_REG_0, cnt)
       : "=r"(ret)
-      : [nr_loops] "i" (100),
+      : [nr_loops] "r" (nr_loops),
         [callback] "i" (callback),
         [callback_ctx] "r" (&ctx),
-        [bpf_loop] "i" (BPF_FUNC_loop),
-	[cnt] "i" (100) /* TODO: replace to loop_cnt */
+        [bpf_loop] "i" (BPF_FUNC_loop)
       : "r0", "r1", "r2", "r3", "r4"
   );
+  ret = ctx.loop_cnt;
   return ret;
 }
