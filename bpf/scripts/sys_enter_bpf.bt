@@ -45,7 +45,8 @@ BEGIN
 	/* add more */
 
 	printf("Tracing bpf(2) syscall, press ctrl-C to end.\n");
-	printf("%-8s %-16s %-4s %-20s\n", "PID", "COMM", "RET", "CMD");
+	printf("%-8s %-8s %-16s %-4s %-20s\n", "TIME", "PID", "COMM", "RET",
+	       "CMD");
 }
 
 tracepoint:syscalls:sys_enter_bpf
@@ -57,6 +58,7 @@ tracepoint:syscalls:sys_exit_bpf
 / @cmds[tid] != 0 /
 {
 	$cmd = @cmds[tid];
+	time("%H:%M:%S ");
 	printf("%-8d %-16s %-4d %-20s\n", pid, comm, args->ret, @CMD_STR[$cmd]);
 	@cmd_count[@CMD_STR[$cmd]] = count();
 	delete(@cmds[tid]);

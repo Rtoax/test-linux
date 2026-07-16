@@ -6,12 +6,13 @@
 #include <errno.h>
 #include <unistd.h>
 #include <bpf/bpf.h>
+#ifdef HAVE_BCC
 #include <bcc/libbpf.h>
+#endif
 #include <linux/bpf.h>
 #include <linux/version.h>
 #include "bpf_helpers.h"
 #include "bpf_insn_samples.h"
-
 
 #define DEBUGFS	"/sys/kernel/debug/tracing"
 
@@ -21,7 +22,9 @@
 #endif
 
 enum load_engine {
+#ifdef HAVE_BCC
 	ENGINE_BCC,
+#endif
 	ENGINE_LIBBPF,
 	ENGINE_BPF_SYSCALL,
 };
@@ -36,7 +39,11 @@ struct env {
 	.prog_type = BPF_PROG_TYPE_KPROBE,
 	.insns_fn = bpf_insn_sample_trace_printk_insns,
 	.insn_name = "trace_printk",
+#ifdef HAVE_BCC
 	.engine = ENGINE_BCC,
+#else
+	.engine = ENGINE_LIBBPF,
+#endif
 	.verbose = false,
 };
 
@@ -48,7 +55,11 @@ const char argp_prog_doc[] =
 static const struct argp_option opts[] = {
 	{ "progtype", 't', "PROG_TYPE", 0, "bpf prog type" },
 	{ "helper", 'h', "HELPER", 0, "Specify bpf helper or kfunc name" },
-	{ "engine", 'e', "ENGINE", 0, "Specify load engine: bcc, libbpf, syscall" },
+	{ "engine", 'e', "ENGINE", 0, "Specify load engine: "
+#ifdef HAVE_BCC
+	  "bcc, "
+#endif
+	  "libbpf, syscall" },
 	{ "verbose", 'v', NULL, 1, "Display detail" },
 	{},
 };
@@ -79,9 +90,12 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		env.insn_name = arg;
 		break;
 	case 'e':
+#ifdef HAVE_BCC
 		if (!strcmp(arg, "bcc"))
 			env.engine = ENGINE_BCC;
-		else if (!strcmp(arg, "libbpf"))
+		else
+#endif
+		if (!strcmp(arg, "libbpf"))
 			env.engine = ENGINE_LIBBPF;
 		else if (!strcmp(arg, "syscall"))
 			env.engine = ENGINE_BPF_SYSCALL;
@@ -133,7 +147,7 @@ void print_insns_bits(void *insns, size_t insns_cnt)
 
 int main(int argc, char *argv[])
 {
-	int err, prog_fd, probe_fd;
+	int err, prog_fd, probe_fd = -1;
 	size_t insns_cnt;
 	char license[] = "GPL";
 	struct bpf_insn *insns;
@@ -185,6 +199,7 @@ int main(int argc, char *argv[])
 	print_insns_bits(insns, insns_cnt);
 	print_logbuf(bpf_log_buf, sizeof(bpf_log_buf));
 
+#ifdef HAVE_BCC
 	if (env.engine == ENGINE_BCC) {
 		if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
 			probe_fd = bpf_attach_tracepoint(prog_fd, "syscalls", "sys_enter_nanosleep");
@@ -207,10 +222,14 @@ int main(int argc, char *argv[])
 		} else {
 			bpf_detach_kprobe("hello_world");
 		}
-	} else if (env.engine == ENGINE_LIBBPF) {
+	} else
+#endif
+	if (env.engine == ENGINE_LIBBPF) {
 		// TODO
+		fprintf(stderr, "ERROR: not support libbpf yet.\n");
 	} else if (env.engine == ENGINE_BPF_SYSCALL) {
 		// TODO
+		fprintf(stderr, "ERROR: not support bpf(2) syscall yet.\n");
 		union bpf_attr prog_run_attr;
 		size_t attr_sz = offsetofend(union bpf_attr, test);
 
@@ -228,7 +247,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	close(probe_fd);
+	if (probe_fd != -1)
+		close(probe_fd);
 	close(prog_fd);
 	return 0;
 }

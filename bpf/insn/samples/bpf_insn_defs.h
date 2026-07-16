@@ -1,3 +1,4 @@
+BPF_INSN_SAMPLE(perf_event_output)
 BPF_INSN_SAMPLE(trace_printk)
 BPF_INSN_SAMPLE(get_current_cgroup_id)
 BPF_INSN_SAMPLE(get_current_task_btf)

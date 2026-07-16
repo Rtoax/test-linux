@@ -1,6 +1,8 @@
 /**
- * long bpf_loop(__u32 nr_loops, void *callback_fn, void *callback_ctx, __u64 flags);
+ * long bpf_loop(__u32 nr_loops, void *callback_fn, void *callback_ctx,
+ *               __u64 flags);
  * BPF_FUNC_loop = 181;
+ * typedef int (*callback_fn)(__u32 index, void *callback_ctx);
  *
  * linux >= v5.17
  *

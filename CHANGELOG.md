@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpf: test `bpf_perf_event_output()`, `linux >= v4.4`;
 - bpftrace: add playground subdir;
 - uki: add makeuki.sh;
 - systemd-udev: add bootctl subdir;
@@ -19,6 +20,7 @@ and this project adheres to
 - move png and svg to Documentation/images/;
 #### Deprecated
 #### Documentation
+- bpf: add verifier.rst;
 - add unwind, compiler;
 - cxl: add paper.rst;
 - images: add ebpf.png, gnu.webp, cilium.png;
@@ -29,6 +31,7 @@ and this project adheres to
 #### Tools
 - add sysstat subdir;
 #### Template
+- bcc.mk: add `HAVE_BCC_HDR`;
 - add ksyms.mk;
 - log.mk: add `log_{info,warn,fail,success}_mk()`;
 - bpf/libxdp.mk: add `HAVE_LIBXDP_H`, `HAVE_LIBXDP_XSK_H`, `cflags-libxdp-y`;

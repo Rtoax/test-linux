@@ -4,9 +4,9 @@ BEGIN
 {
 	let $s1 : string[256];
 
-	$s1 = "Hello! Rong Tao";
+	$s1 = "Hello! Rong Tao, How are you!";
 	$len1 = strlen($s1);
 
-	printf("%s %s\n", $s1, $len1);
+	printf("String '%s' length is %d\n", $s1, $len1);
 	exit();
 }

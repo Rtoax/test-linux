@@ -25,7 +25,7 @@ int xdp_tcpdump_prog(struct xdp_md *ctx)
 	struct iphdr *iphdr;
 	struct tcphdr *tcphdr;
 
-#if defined(VERIFER)
+#if defined(VERIFY)
 	if ((void *)(ethhdr + 1) > data_end)
 		return XDP_PASS;
 #endif
@@ -33,7 +33,7 @@ int xdp_tcpdump_prog(struct xdp_md *ctx)
 	if (bpf_ntohs(ethhdr->h_proto) == ETH_P_IP) {
 		iphdr = (void *)(ethhdr + 1);
 
-#if defined(VERIFER)
+#if defined(VERIFY)
 		if ((void *)(iphdr + 1) > data_end)
 			return XDP_PASS;
 #endif
@@ -44,7 +44,7 @@ int xdp_tcpdump_prog(struct xdp_md *ctx)
 
 			tcphdr = (void *)(iphdr + 1);
 
-#if defined(VERIFER)
+#if defined(VERIFY)
 			if ((void *)(tcphdr + 1) > data_end)
 				return XDP_PASS;
 #endif
