@@ -1,13 +1,14 @@
 #!/bin/env bpftrace
-macro v125() {
+macro v248() {
   import "asm.bpf.c";
 
   let $v = __bpf_asm_ret();
+  $v += __bpf_asm_ret_v2();
   $v + 2
 }
 
 BEGIN
 {
-  printf("%d\n", v125);
+  printf("%d\n", v248);
   exit();
 }
