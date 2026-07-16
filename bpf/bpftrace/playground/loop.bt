@@ -1,14 +1,14 @@
 #!/bin/env bpftrace
-macro bpf_count() {
+macro bpf_arithmetic_sum() {
   import "loop.bpf.c";
 
-  $cnt = __bpf_count(9);
+  $cnt = __bpf_arithmetic_sum(4);
   $cnt
 }
 
 BEGIN
 {
-  $cnt1 = bpf_count();
+  $cnt1 = bpf_arithmetic_sum();
   printf("count %d\n", $cnt1);
   exit();
 }

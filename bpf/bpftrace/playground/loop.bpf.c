@@ -39,22 +39,22 @@ static inline int __bpf_loop(unsigned int nr_loops, callback_fn fn, void *ctx)
   return ret;
 }
 
-struct count_cb_ctx {
-  int loop_cnt;
+struct arithmetic_sum_cb_ctx {
+  int sum;
 };
 
-static int count_cb(unsigned int index, void *data)
+static int arithmetic_sum_cb(unsigned int index, void *data)
 {
-  struct count_cb_ctx *ctx = data;
-  ctx->loop_cnt += 2;
+  struct arithmetic_sum_cb_ctx *ctx = data;
+  ctx->sum += index + 1;
   return 0;
 }
 
-int __bpf_count(unsigned int nr_loops)
+int __bpf_arithmetic_sum(unsigned int nr_loops)
 {
-  struct count_cb_ctx ctx = {
-    .loop_cnt = 0,
+  struct arithmetic_sum_cb_ctx ctx = {
+    .sum = 0,
   };
-  __bpf_loop(nr_loops, count_cb, &ctx);
-  return ctx.loop_cnt;
+  __bpf_loop(nr_loops, arithmetic_sum_cb, &ctx);
+  return ctx.sum;
 }
