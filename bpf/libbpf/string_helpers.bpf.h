@@ -3,22 +3,22 @@
 #pragma once
 #include <bpf/bpf_tracing.h>
 
-static __always_inline bool strncmp(const char *a, const char *b, int len)
+static __always_inline int strncmp(const char *a, const char *b, int len)
 {
 /**
  * use bpf_strncmp() first
  */
 #if defined(SUPPORT_BPF_STRNCMP)
-	return !bpf_strncmp(a, len, b);
+	return bpf_strncmp(a, len, b);
 #else
 	int i;
 	for (i = 0; i < len; i++) {
 		if (a[i] != b[i])
-			return false;
+			return a[i] - b[i];
 		if (a[i] == '\0')
 			break;
 	}
-	return true;
+	return 0;
 #endif
 }
 
