@@ -13,6 +13,8 @@
  * - commit bbcd5250f2b0 ("bpftrace/playground: loop.bpf.c: fix: unreachable insn N")
  */
 #define __KERNEL__
+#include <linux/types.h>
+#include <stddef.h>
 
 typedef int (*callback_fn)(unsigned int index, void *ctx);
 
@@ -88,4 +90,39 @@ int __bpf_strnlen(const char *str, int str__sz)
   };
   __bpf_loop(str__sz, strnlen_cb, &ctx);
   return ctx.len;
+}
+
+struct strcat_ctx {
+  const char *src, *dst;
+  int ssz, dsz, dlen;
+  int copied;
+};
+
+static int strcat_cb(unsigned int index, void *data)
+{
+  struct strcat_ctx *ctx = data;
+  ctx->copied++;
+  return 0;
+}
+
+int __bpf_strcat(char *dst, size_t dst_sz, const char *src, size_t src_sz)
+{
+#if 0 // TODO
+  __u32 i, j;
+  size_t dst_len = __bpf_strnlen(dst, dst_sz);
+
+  struct strcat_ctx ctx = {
+    .src = src,
+    .dst = dst,
+    .ssz = src_sz,
+    .dsz = dst_sz,
+    .dlen = dst_len,
+    .copied = 0,
+  };
+  __bpf_loop(src_sz, strcat_cb, &ctx);
+
+  return ctx.copied + dst_len;
+#else
+  return 123;
+#endif
 }

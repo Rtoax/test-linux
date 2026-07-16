@@ -12,9 +12,18 @@ macro test_strnlen() {
   __bpf_strnlen((int8*)&$str, 256)
 }
 
+macro test_strcat() {
+  let $str : string[256];
+  $str = "1234567890abcdefghijklmnopqrstuvwxyz";
+  $src = "HELLO";
+  __bpf_strcat((int8*)&$str, 256, (int8*)&$src, 6);
+  $str
+}
+
 BEGIN
 {
   printf("arithmetic sum %d\n", test_arithmetic_sum);
   printf("strnlen %d\n", test_strnlen());
+  printf("strcat %s\n", test_strcat());
   exit();
 }
