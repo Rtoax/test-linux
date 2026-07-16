@@ -1,3 +1,5 @@
+subdir-y += string
+
 bpftrace-y += $(shell ls *.bt)
 
 bpf-c += $(shell ls *.bpf.c)
