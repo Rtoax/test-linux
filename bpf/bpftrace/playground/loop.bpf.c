@@ -22,7 +22,7 @@ int __bpf_count(void)
       "r3 = 0\n"                       // BPF_MOV64_IMM(BPF_REG_3, 0)
       "r4 = 0\n"                       // BPF_MOV64_IMM(BPF_REG_4, 0)
       "call %[bpf_loop]\n"             // call bpf_loop()
-      "r0 = %[cnt]\n"                  // BPF_MOV64_IMM(BPF_REG_0, callback)
+      "r0 = %[cnt]\n"                  // BPF_MOV64_IMM(BPF_REG_0, cnt)
       :
       : [callback] "i" (callback),
         [bpf_loop] "i" (BPF_FUNC_loop),

@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpftrace: playground: add asm.bt test;
 - bpf: test `bpf_perf_event_output()`, `linux >= v4.4`;
 - bpftrace: add playground subdir;
 - uki: add makeuki.sh;

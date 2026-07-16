@@ -120,6 +120,13 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter *ctx)
 	return 0;
 }
 
+static int __bpf_asm_ret(void)
+{
+	register int ret asm("r6");
+	asm volatile("r6 = 1234\n" : "=r"(ret));
+	return ret;
+}
+
 /**
  * struct syscall_trace_exit {
  * 	struct trace_entry ent;
@@ -236,6 +243,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 		// __bpf_str_prepend(pevent->cwd, sizeof(pevent->cwd), "/", 2);
 	}
 
+	bpf_printk("__bpf_asm_ret() %d", __bpf_asm_ret());
 	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent,
 			      sizeof(*pevent));
 
