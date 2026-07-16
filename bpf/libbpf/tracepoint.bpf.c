@@ -212,7 +212,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	{
 #ifdef SUPPORT_BPF_STRCAT
 		int err = 0;
-		bpf_printk("strcat: comm %s, err %d", pevent->comm, err);
+		bpf_printk("origin comm %s", pevent->comm);
 		err = bpf_strcat(pevent->comm, sizeof(pevent->comm), "XYZ");
 		if (err < 0)
 			bpf_printk("bpf_strcat failed, %d", err);
