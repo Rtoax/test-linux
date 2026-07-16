@@ -4,26 +4,7 @@
 //   https://github.com/bpftrace/bpftrace/pull/5231
 // - Warn on low log space in verbose mode
 //   https://github.com/bpftrace/bpftrace/pull/5259
-/*
-Q: Why run in verbose mode (-v), load failed.
-A: Need bigger log buffer, see bpf_check():
-        if (log->level && bpf_verifier_log_full(log))
-            ret = -ENOSPC;
-
-   Error:
-
-     $ ./str_concat.bt # works fine
-     $ ./str_concat.bt -v
-     ...
-     ERROR: Error loading BPF program for begin_1. Error code: -28.
-     Kernel error log:
-     processed 87034 insns (limit 1000000) max_states_per_insn 4 total_states 2811 peak_states 136 mark_read 31
-
-   test-linux/bpf/scripts/sys_enter_bpf.bt track bpf(2) BPF_PROG_LOAD return -28.
-   bpf_check() return -28.
-   ps: -28 is ENOSPC (No space left on device)
-   more to see commit 73a01d16426d ("bpf: bpf_check() return ENOSPC in verbose mode if log buf full")
-*/
+//   - avoid to ENOSPC, add BPFTRACE_LOG_SIZE or `config = { log_size = N; }`.
 
 config = {
   log_size = 10000000;
