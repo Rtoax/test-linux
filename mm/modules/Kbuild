@@ -1,0 +1,1 @@
+obj-m += strncpy_from_kernel_nofault.o
