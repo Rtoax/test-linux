@@ -8,6 +8,9 @@
 # and there is no ABI stability guarantee, meaning they may change between
 # kernel versions.
 #
+# The helpers/kfuncs entries in this file are sorted in ascending order of
+# kernel version number.
+#
 # Output definitions:
 # - SUPPORT_<upcase helper or kfunc name>=[y]
 # - bpf-helper-cflags=-DSUPPORT_<upcase helper or kfunc name>=1 ...
@@ -86,12 +89,6 @@ $(call bpf_def_helper,bpf_perf_event_output)
 # https://docs.ebpf.io/linux/helper-function/bpf_perf_event_read_value/
 $(call bpf_def_helper,bpf_perf_event_read_value)
 
-# linux v5.12-rc4-1654-g7b15523a989b
-# commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
-ifeq ($(call kver_gt,5,12,0),y)
-  $(call bpf_def_helper,bpf_snprintf)
-endif
-
 # linux v5.2-rc1-220-g8b401f9ed244
 # commit 8b401f9ed244 ("bpf: implement bpf_send_signal() helper")
 # https://docs.ebpf.io/linux/helper-function/bpf_send_signal/
@@ -106,9 +103,20 @@ ifeq ($(call kver_gt,5,4,0),y)
   $(call bpf_def_helper,bpf_send_signal_thread)
 endif
 
+# linux >= v5.5
+# https://docs.ebpf.io/linux/helper-function/bpf_probe_read_kernel_str/
+ifeq ($(call kver_ge,5,5,0),y)
+  $(call bpf_def_helper,bpf_probe_read_kernel_str)
+endif
+
+# linux v5.12-rc4-1654-g7b15523a989b
+# commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
+ifeq ($(call kver_gt,5,12,0),y)
+  $(call bpf_def_helper,bpf_snprintf)
+endif
+
 # linux v5.15-12938-ge6f2dd0f8067
 # commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
-#
 # https://docs.ebpf.io/linux/helper-function/bpf_loop/ said >= v5.17
 ifeq ($(call kver_ge,5,16,0),y) # failed on 5.15.131
   $(call bpf_def_helper,bpf_loop)

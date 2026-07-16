@@ -9,6 +9,7 @@ kfuncs-${SUPPORT_BPF_CGROUP_ACQUIRE} += cgroup_acquire
 kfuncs-${SUPPORT_BPF_ITER_TASK_VMA_NEW} += iter_task_vma_new
 
 helpers-y += perf_event_output
+helpers-y += probe_read_kernel_str
 helpers-y += strlen strnlen
 helpers-y += trace_printk
 helpers-${SUPPORT_BPF_STRNCMP} += strncmp

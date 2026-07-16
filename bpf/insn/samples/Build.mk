@@ -15,6 +15,7 @@ helpers-y += task_from_pid
 helpers-y += task_acquire
 helpers-y += trace_printk
 helpers-y += perf_event_output
+helpers-y += probe_read_kernel_str
 helpers-$(SUPPORT_BPF_CGRP_STORAGE_GET) += cgrp_storage_get
 helpers-y += get_func_ip
 helpers-$(SUPPORT_BPF_LOOP) += loop
