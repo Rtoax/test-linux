@@ -14,26 +14,15 @@
  */
 #define __KERNEL__
 
-struct callback_ctx {
-  int loop_cnt;
-};
-static int callback(unsigned int index, void *data)
-{
-  struct callback_ctx *ctx = data;
-  ctx->loop_cnt += 2;
-  return 0;
-}
+typedef int (*callback_fn)(unsigned int index, void *ctx);
 
-int __bpf_count(unsigned int nr_loops)
+/* Must be inline, becuase the register */
+static inline int __bpf_loop(unsigned int nr_loops, callback_fn fn, void *ctx)
 {
   int BPF_FUNC_loop = 181;
-  struct callback_ctx ctx = {
-    .loop_cnt = 0,
-  };
 
   register int ret asm("r0");
 
-  /* bpf_loop(10, callback, 0, 0); */
   asm volatile (
       "r1 = %[nr_loops]\n"             // BPF_MOV64_IMM(BPF_REG_1, nr_loops)
       "r2 = %[callback] ll\n"          // BPF_MOV64_IMM(BPF_REG_2, callback)
@@ -42,11 +31,30 @@ int __bpf_count(unsigned int nr_loops)
       "call %[bpf_loop]\n"             // call bpf_loop()
       : "=r"(ret)
       : [nr_loops] "r" (nr_loops),
-        [callback] "i" (callback),
-        [callback_ctx] "r" (&ctx),
+        [callback] "i" (fn),
+        [callback_ctx] "r" (ctx),
         [bpf_loop] "i" (BPF_FUNC_loop)
       : "r0", "r1", "r2", "r3", "r4"
   );
-  ret = ctx.loop_cnt;
   return ret;
+}
+
+struct count_cb_ctx {
+  int loop_cnt;
+};
+
+static int count_cb(unsigned int index, void *data)
+{
+  struct count_cb_ctx *ctx = data;
+  ctx->loop_cnt += 2;
+  return 0;
+}
+
+int __bpf_count(unsigned int nr_loops)
+{
+  struct count_cb_ctx ctx = {
+    .loop_cnt = 0,
+  };
+  __bpf_loop(nr_loops, count_cb, &ctx);
+  return ctx.loop_cnt;
 }
