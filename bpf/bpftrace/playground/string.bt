@@ -1,26 +1,4 @@
 #!/bin/env bpftrace
-macro v1234() {
-  import "dummy.bpf.c";
-
-  let $v = __bpf_dummy();
-
-  $v
-}
-
-macro add(a, b) {
-  import "add.bpf.c";
-
-  let $v = __bpf_add(a, b);
-  $v
-}
-
-macro factorial(a) {
-  import "factorial.bpf.c";
-
-  let $v = __bpf_factorial(a);
-  $v
-}
-
 macro memcpy($dest, $src, n) {
   import "string.bpf.c";
 
@@ -33,18 +11,8 @@ macro strncpy($dest, $src, n) {
   __bpf_strncpy((int8*)&$dest, (int8*)&$src, (int32)n);
 }
 
-macro bpf_count() {
-  import "loop.bpf.c";
-
-  __bpf_count()
-}
-
 BEGIN
 {
-  printf("%s\n", v1234);
-  printf("%d\n", add(1, 2));
-  printf("%ld\n", factorial(3));
-
   let $src : string[256];
   let $s1 : string[256];
   let $s2 : string[256];
@@ -56,9 +24,6 @@ BEGIN
 
   strncpy($s2, $src, 25);
   printf("%s, %s\n", $src, $s2);
-
-  // TODO
-  // $cnt1 = bpf_count();
 
   exit();
 }

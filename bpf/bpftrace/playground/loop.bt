@@ -1,0 +1,14 @@
+#!/bin/env bpftrace
+macro bpf_count() {
+  import "loop.bpf.c";
+
+  __bpf_count()
+}
+
+BEGIN
+{
+  // TODO
+  // $cnt1 = bpf_count();
+
+  exit();
+}
