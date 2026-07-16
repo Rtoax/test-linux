@@ -26,8 +26,8 @@ Resigters
 support 10 64-bits registers.
 
 - `R0`: return value from function calls, and exit value for eBPF programs;
-- `R1 - R5`: arguments for function calls;
-- `R6 - R9`: callee saved registers that function calls will preserve;
+- `R1` - `R5`: arguments for function calls;
+- `R6` - `R9`: callee saved registers that function calls will preserve;
 - `R10`: read-only frame pointer to access stack;
 
 

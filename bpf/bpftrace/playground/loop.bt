@@ -2,7 +2,8 @@
 macro bpf_count() {
   import "loop.bpf.c";
 
-  __bpf_count()
+  $cnt = __bpf_count();
+  $cnt
 }
 
 BEGIN
