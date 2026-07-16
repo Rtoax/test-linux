@@ -35,17 +35,18 @@ int __bpf_count(void)
 
   /* bpf_loop(10, callback, 0, 0); */
   asm volatile (
-      "r1 = 10\n"                      // BPF_MOV64_IMM(BPF_REG_1, 10)
+      "r1 = %[nr_loops]\n"             // BPF_MOV64_IMM(BPF_REG_1, nr_loops)
       "r2 = %[callback] ll\n"          // BPF_MOV64_IMM(BPF_REG_2, callback)
       "r3 = %[callback_ctx]\n"         // BPF_MOV64_IMM(BPF_REG_3, callback_ctx)
       "r4 = 0\n"                       // BPF_MOV64_IMM(BPF_REG_4, 0)
       "call %[bpf_loop]\n"             // call bpf_loop()
       "r0 = %[cnt]\n"                  // BPF_MOV64_IMM(BPF_REG_0, cnt)
       : "=r"(ret)
-      : [callback] "i" (callback),
+      : [nr_loops] "i" (100),
+        [callback] "i" (callback),
         [callback_ctx] "r" (&ctx),
         [bpf_loop] "i" (BPF_FUNC_loop),
-	[cnt] "i" (10) /* TODO: replace to loop_cnt */
+	[cnt] "i" (100) /* TODO: replace to loop_cnt */
       : "r0", "r1", "r2", "r3", "r4"
   );
   return ret;
