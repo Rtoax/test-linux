@@ -1,14 +1,20 @@
 #!/bin/env bpftrace
-macro bpf_arithmetic_sum() {
+macro test_arithmetic_sum() {
   import "loop.bpf.c";
 
   $cnt = __bpf_arithmetic_sum(4);
   $cnt
 }
 
+macro test_strlen() {
+  let $str : string[256];
+  $str = "12345";
+  __bpf_strlen((int8*)&$str, 256)
+}
+
 BEGIN
 {
-  $cnt1 = bpf_arithmetic_sum();
-  printf("count %d\n", $cnt1);
+  printf("arithmetic sum %d\n", test_arithmetic_sum);
+  printf("strlen %d\n", test_strlen());
   exit();
 }

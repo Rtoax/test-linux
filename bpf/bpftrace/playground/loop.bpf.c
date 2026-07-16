@@ -58,3 +58,34 @@ int __bpf_arithmetic_sum(unsigned int nr_loops)
   __bpf_loop(nr_loops, arithmetic_sum_cb, &ctx);
   return ctx.sum;
 }
+
+struct strlen_ctx {
+  const char *str;
+  int str__sz;
+  int len;
+};
+
+static int strlen_cb(unsigned int index, void *data)
+{
+  struct strlen_ctx *ctx = data;
+  if (index > ctx->str__sz) {
+    return 1;
+  }
+  // TODO: How to fix unbounded access, do not use '%'.
+  if (ctx->str[index % 256] == '\0') {
+    return 1;
+  }
+  ctx->len++;
+  return 0;
+}
+
+int __bpf_strlen(const char *str, int str__sz)
+{
+  struct strlen_ctx ctx = {
+    .str = str,
+    .str__sz = str__sz,
+    .len = 0,
+  };
+  __bpf_loop(str__sz, strlen_cb, &ctx);
+  return ctx.len;
+}
