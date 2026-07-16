@@ -16,3 +16,13 @@ int __bpf_asm_ret_v2(void)
     :);
   return ret;
 }
+
+int __bpf_asm_ret_val(int val)
+{
+  register int ret asm("r6");
+  asm volatile ("r6 = %[val]\n"
+    : "=r"(ret)
+    : [val] "r" (val)
+    :);
+  return ret;
+}

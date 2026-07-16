@@ -7,8 +7,16 @@ macro v248() {
   $v + 2
 }
 
+macro add2(v) {
+  import "asm.bpf.c";
+
+  let $v = __bpf_asm_ret_val(v);
+  $v + 2
+}
+
 BEGIN
 {
   printf("%d\n", v248);
+  printf("%d %d\n", add2(2), add2(100));
   exit();
 }
