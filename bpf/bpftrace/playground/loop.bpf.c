@@ -59,15 +59,15 @@ int __bpf_arithmetic_sum(unsigned int nr_loops)
   return ctx.sum;
 }
 
-struct strlen_ctx {
+struct strnlen_ctx {
   const char *str;
   int str__sz;
   int len;
 };
 
-static int strlen_cb(unsigned int index, void *data)
+static int strnlen_cb(unsigned int index, void *data)
 {
-  struct strlen_ctx *ctx = data;
+  struct strnlen_ctx *ctx = data;
   if (index > ctx->str__sz) {
     return 1;
   }
@@ -79,13 +79,13 @@ static int strlen_cb(unsigned int index, void *data)
   return 0;
 }
 
-int __bpf_strlen(const char *str, int str__sz)
+int __bpf_strnlen(const char *str, int str__sz)
 {
-  struct strlen_ctx ctx = {
+  struct strnlen_ctx ctx = {
     .str = str,
     .str__sz = str__sz,
     .len = 0,
   };
-  __bpf_loop(str__sz, strlen_cb, &ctx);
+  __bpf_loop(str__sz, strnlen_cb, &ctx);
   return ctx.len;
 }

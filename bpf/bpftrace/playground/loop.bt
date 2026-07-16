@@ -6,15 +6,15 @@ macro test_arithmetic_sum() {
   $cnt
 }
 
-macro test_strlen() {
+macro test_strnlen() {
   let $str : string[256];
-  $str = "12345";
-  __bpf_strlen((int8*)&$str, 256)
+  $str = "1234567890abcdefghijklmnopqrstuvwxyz";
+  __bpf_strnlen((int8*)&$str, 256)
 }
 
 BEGIN
 {
   printf("arithmetic sum %d\n", test_arithmetic_sum);
-  printf("strlen %d\n", test_strlen());
+  printf("strnlen %d\n", test_strnlen());
   exit();
 }
