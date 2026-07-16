@@ -19,11 +19,12 @@ int __bpf_count(void)
       "r4 = 0\n"                       // BPF_MOV64_IMM(BPF_REG_4, 0)
       "call %[bpf_loop]\n"             // call bpf_loop()
       "r0 = 0\n"                       // BPF_MOV64_IMM(BPF_REG_0, 0)
-      "exit\n"                         // BPF_EXIT_INSN()
       :
       : [callback] "i" (loop_callback),
         [bpf_loop] "i" (BPF_FUNC_loop)
       : "r0", "r1", "r2", "r3", "r4"
   );
-  return loop_cnt;
+  /**
+   * No need "exit\n" in asm(), because exit is here in the end of function.
+   */
 }

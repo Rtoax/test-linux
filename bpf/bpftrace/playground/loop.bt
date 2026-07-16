@@ -7,8 +7,7 @@ macro bpf_count() {
 
 BEGIN
 {
-  // TODO
-  // $cnt1 = bpf_count();
-
+  $cnt1 = bpf_count();
+  printf("count %d\n", $cnt1);
   exit();
 }
