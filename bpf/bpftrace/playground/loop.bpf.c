@@ -43,6 +43,9 @@ static inline int asm_bpf_loop(__u32 nr_loops, callback_fn fn, void *ctx,
   return ret;
 }
 
+/******************************************************************************\
+ * arithmetic sum
+\******************************************************************************/
 struct arithmetic_sum_cb_ctx {
   int sum;
 };
@@ -63,10 +66,13 @@ int __bpf_arithmetic_sum(__u32 nr_loops)
   return ctx.sum;
 }
 
+/******************************************************************************\
+ * strnlen()
+\******************************************************************************/
 struct strnlen_ctx {
   const char *str;
-  int sz;
-  int len;
+  __u32 sz;
+  __u32 len;
 };
 
 static int strnlen_cb(__u32 index, void *data)
@@ -83,7 +89,7 @@ static int strnlen_cb(__u32 index, void *data)
   return 0;
 }
 
-int __bpf_strnlen(const char *str, __u32 sz)
+size_t __bpf_strnlen(const char *str, __u32 sz)
 {
   struct strnlen_ctx ctx = {
     .str = str,
@@ -94,11 +100,14 @@ int __bpf_strnlen(const char *str, __u32 sz)
   return ctx.len;
 }
 
+/******************************************************************************\
+ * strcat()
+\******************************************************************************/
 struct strcat_ctx {
   const char *src;
   char *dst;
-  int ssz, dsz, dlen;
-  int copied;
+  __u32 ssz, dsz, dlen;
+  __u32 copied;
 };
 
 static int strcat_cb(__u32 index, void *data)
@@ -114,7 +123,7 @@ static int strcat_cb(__u32 index, void *data)
   return 0;
 }
 
-int __bpf_strcat(char *dst, size_t dst_sz, const char *src, size_t src_sz)
+int __bpf_strcat(char *dst, __u32 dst_sz, const char *src, __u32 src_sz)
 {
   __u32 i, j;
   size_t dst_len = __bpf_strnlen(dst, dst_sz);
