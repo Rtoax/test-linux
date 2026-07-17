@@ -1,6 +1,7 @@
 IPMI - Intelligent Platform Management Interface
 ================================================
 
-# Links
+Links
+-----
 
 - https://github.com/ipmitool/ipmitool

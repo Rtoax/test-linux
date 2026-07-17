@@ -17,6 +17,7 @@ Linux Stack
    abbrev
    linux
    bmc
+   ipmi
    uapi
    uki
 
