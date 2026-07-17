@@ -93,7 +93,8 @@ int __bpf_strnlen(const char *str, int str__sz)
 }
 
 struct strcat_ctx {
-  const char *src, *dst;
+  const char *src;
+  char *dst;
   int ssz, dsz, dlen;
   int copied;
 };
@@ -101,13 +102,18 @@ struct strcat_ctx {
 static int strcat_cb(unsigned int index, void *data)
 {
   struct strcat_ctx *ctx = data;
+  __u32 didx = index + ctx->dlen;
+  if (didx >= ctx->dsz || index >= ctx->ssz || ctx->src[index] == '\0') {
+    return 1;
+  }
+  // TODO: How to fix unbounded access, do not use '%'.
+  ctx->dst[didx % 256] = ctx->src[index];
   ctx->copied++;
   return 0;
 }
 
 int __bpf_strcat(char *dst, size_t dst_sz, const char *src, size_t src_sz)
 {
-#if 0 // TODO
   __u32 i, j;
   size_t dst_len = __bpf_strnlen(dst, dst_sz);
 
@@ -122,7 +128,4 @@ int __bpf_strcat(char *dst, size_t dst_sz, const char *src, size_t src_sz)
   __bpf_loop(src_sz, strcat_cb, &ctx);
 
   return ctx.copied + dst_len;
-#else
-  return 123;
-#endif
 }

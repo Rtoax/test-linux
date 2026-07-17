@@ -15,11 +15,11 @@ macro test_strnlen() {
 
 macro test_strcat() {
   let $str : string[256];
-  $str = "1234567890abcdefghijklmnopqrstuvwxyz";
+  $str = "1234567890abcdefghijklmnopqrstuvwxyz!@#$%^&*()";
   $src = "HELLO";
   printf("strcat(\"%s\",\"%s\")", $str, $src);
-  __bpf_strcat((int8*)&$str, 256, (int8*)&$src, 6);
-  printf(" = %s\n", $str);
+  $len = __bpf_strcat((int8*)&$str, 256, (int8*)&$src, 6);
+  printf(" = %s (len %d)\n", $str, $len);
 }
 
 BEGIN
