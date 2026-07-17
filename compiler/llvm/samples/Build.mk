@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 CXX := clang++
 
-subdir-y += clang
-
 target-cpp-y += ParseCommandLineOptions
 target-cpp-y += ParseCommandLineOptions-2
 target-cpp-y += LLVM_VERSION_MAJOR
