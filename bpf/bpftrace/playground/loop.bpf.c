@@ -16,7 +16,7 @@
 #include <linux/types.h>
 #include <stddef.h>
 
-#define MAX_STRNLEN 512
+static long (*const bpf_probe_read_kernel)(void *dst, __u32 size, const void *unsafe_ptr) = (void *)113;
 
 typedef int (*callback_fn)(__u32 index, void *ctx);
 
@@ -80,11 +80,15 @@ struct strnlen_ctx {
 static int strnlen_cb(__u32 index, void *data)
 {
   struct strnlen_ctx *ctx = data;
-  if (index > ctx->sz || index > MAX_STRNLEN) {
+  if (index > ctx->sz) {
     return 1;
   }
   /* avoid verifier error: unbounded memory access */
-  if (ctx->str[index % MAX_STRNLEN] == '\0') {
+  __u64 unsafe_addr = (__u64)ctx->str;
+  unsafe_addr += index;
+  char ch;
+  bpf_probe_read_kernel(&ch, sizeof(char), (void *)unsafe_addr);
+  if (ch == '\0') {
     return 1;
   }
   ctx->len++;
@@ -93,8 +97,6 @@ static int strnlen_cb(__u32 index, void *data)
 
 long __bpf_strnlen(const char *str, __u32 sz)
 {
-  if (sz > MAX_STRNLEN)
-    sz = MAX_STRNLEN;
   struct strnlen_ctx ctx = {
     .str = str,
     .sz = sz,
