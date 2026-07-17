@@ -16,6 +16,8 @@
 #include <linux/types.h>
 #include <stddef.h>
 
+#define MAX_STRNLEN 512
+
 typedef int (*callback_fn)(__u32 index, void *ctx);
 
 /* Must be inline, becuase the register */
@@ -78,19 +80,21 @@ struct strnlen_ctx {
 static int strnlen_cb(__u32 index, void *data)
 {
   struct strnlen_ctx *ctx = data;
-  if (index > ctx->sz) {
+  if (index > ctx->sz || index > MAX_STRNLEN) {
     return 1;
   }
-  // TODO: How to fix unbounded access, do not use '%'.
-  if (ctx->str[index % 256] == '\0') {
+  /* avoid verifier error: unbounded memory access */
+  if (ctx->str[index % MAX_STRNLEN] == '\0') {
     return 1;
   }
   ctx->len++;
   return 0;
 }
 
-size_t __bpf_strnlen(const char *str, __u32 sz)
+long __bpf_strnlen(const char *str, __u32 sz)
 {
+  if (sz > MAX_STRNLEN)
+    sz = MAX_STRNLEN;
   struct strnlen_ctx ctx = {
     .str = str,
     .sz = sz,
