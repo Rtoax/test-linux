@@ -1,6 +1,7 @@
 PyTest
-==========
+======
 
-# Links
+Links
+-----
 
 - https://github.com/pytest-dev/pytest
