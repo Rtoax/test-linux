@@ -3,6 +3,7 @@ include bpf/bpftrace.mk
 subdir-y += macro
 subdir-y += string
 subdir-y += struct
+subdir-$(call bpftrace_gt,0,20,2) += import
 
 bpftrace-y += arithmetic.bt
 bpftrace-y += begin.bt
@@ -11,7 +12,6 @@ bpftrace-y += c-preprocessor.bt
 bpftrace-y += config.bt
 bpftrace-y += func.bt
 bpftrace-$(call bpftrace_gt,0,21,0) += getopt.bt getopt.bt.1 getopt.bt.9 getopt.bt.10
-bpftrace-$(call bpftrace_gt,0,20,2) += import.bt
 bpftrace-y += parent.bt
 bpftrace-$(call bpftrace_gt,0,20,2) += pcomm.bt
 bpftrace-$(call bpftrace_ge,0,25,0) += signal_name.bt
