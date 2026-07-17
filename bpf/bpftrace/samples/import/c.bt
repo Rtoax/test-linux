@@ -4,6 +4,8 @@ config = {
 	unstable_import=enable;
 }
 
+import "a.bpf.h";
 import "a.bpf.c";
+import "a.bpf.c"; // could duplicate
 
 import "../begin.bt";
