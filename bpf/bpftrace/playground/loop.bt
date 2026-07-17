@@ -3,27 +3,29 @@ macro test_arithmetic_sum() {
   import "loop.bpf.c";
 
   $cnt = __bpf_arithmetic_sum(4);
-  $cnt
+  printf("arithmetic sum %d\n", $cnt);
 }
 
 macro test_strnlen() {
   let $str : string[256];
-  $str = "1234567890abcdefghijklmnopqrstuvwxyz";
-  __bpf_strnlen((int8*)&$str, 256)
+  $str = "1234567890abcdefghijklmnopqrstuvwxyz!@#$%^&*()";
+  $len = __bpf_strnlen((int8*)&$str, 256);
+  printf("strnlen(\"%s\") = %d\n", $str, $len);
 }
 
 macro test_strcat() {
   let $str : string[256];
   $str = "1234567890abcdefghijklmnopqrstuvwxyz";
   $src = "HELLO";
+  printf("strcat(\"%s\",\"%s\")", $str, $src);
   __bpf_strcat((int8*)&$str, 256, (int8*)&$src, 6);
-  $str
+  printf(" = %s\n", $str);
 }
 
 BEGIN
 {
-  printf("arithmetic sum %d\n", test_arithmetic_sum);
-  printf("strnlen %d\n", test_strnlen());
-  printf("strcat %s\n", test_strcat());
+  test_arithmetic_sum();
+  test_strnlen();
+  test_strcat();
   exit();
 }
