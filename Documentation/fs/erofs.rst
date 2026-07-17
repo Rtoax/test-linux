@@ -1,7 +1,7 @@
 erofs - Enhanced ROM File System
 ================================
 
-
-# Links
+Links
+-----
 
 - https://en.wikipedia.org/wiki/EROFS

@@ -3,7 +3,7 @@ GlustreFS
 
 Gluster is a free and open source software scalable network file system.
 
-# Links
+Links
+-----
 
 - https://www.gluster.org/
-

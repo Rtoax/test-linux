@@ -1,7 +1,7 @@
 FAT - File Allocation Table
-============================
+===========================
 
-
-# Links
+Links
+-----
 
 - https://en.wikipedia.org/wiki/File_Allocation_Table

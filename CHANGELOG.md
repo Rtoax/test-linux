@@ -22,6 +22,7 @@ and this project adheres to
 - move png and svg to Documentation/images/;
 #### Deprecated
 #### Documentation
+- fs: add aufs.rst, btrfs.rst, cephfs.rst, cifs.rst, configfs.rst, debugfs.rst, devtmpfs.rst, f2fs.rst, unionfs.rst, fat.rst, ext/ext2/ext3/ext4.rst, squashfs.rst, procfs.rst, ocfs2.rst, nfs.rst, lustre.rst, ksmbd.rst, glusterfs.rst, vfs.rst;
 - bpf: add verifier.rst;
 - add unwind, compiler;
 - cxl: add paper.rst;

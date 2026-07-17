@@ -1,7 +1,8 @@
 Lustre (File System)
 ====================
 
-# Links
+Links
+-----
 
 - https://en.wikipedia.org/wiki/Lustre_(file_system)
 - http://git.whamcloud.com/
