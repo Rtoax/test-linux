@@ -1,3 +1,6 @@
+Abbrev
+======
+
 - AAP: Advanced Active Partitions (扩展激活分区)
 - AFA: All-Flash Array (全闪存阵列)
 - BB: Bad Block (坏块)

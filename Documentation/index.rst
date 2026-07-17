@@ -92,6 +92,15 @@ Debug and Observability
    eBPF <bpf/index>
 
 
+Storage
+=======
+
+.. toctree::
+   :maxdepth: 1
+
+   Storage <storage/index>
+
+
 Network and Servers
 ===================
 

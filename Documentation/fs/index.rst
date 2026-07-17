@@ -25,6 +25,7 @@ File System
    f2fs
    fat
    glusterfs
+   ksmbd
    lustre
    nfs
    ocfs2
