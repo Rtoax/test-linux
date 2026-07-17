@@ -1,3 +1,5 @@
+include fs/e2fsprogs.mk
+
 subdir-y += e2fsprogs
 
 prog-y += mkfs.ext4.sh
