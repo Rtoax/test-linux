@@ -19,7 +19,8 @@
 typedef int (*callback_fn)(unsigned int index, void *ctx);
 
 /* Must be inline, becuase the register */
-static inline int __bpf_loop(unsigned int nr_loops, callback_fn fn, void *ctx)
+static inline int asm_bpf_loop(__u32 nr_loops, callback_fn fn, void *ctx,
+                               __u64 flags)
 {
   int BPF_FUNC_loop = 181;
 
@@ -29,12 +30,13 @@ static inline int __bpf_loop(unsigned int nr_loops, callback_fn fn, void *ctx)
       "r1 = %[nr_loops]\n"             // BPF_MOV64_IMM(BPF_REG_1, nr_loops)
       "r2 = %[callback] ll\n"          // BPF_MOV64_IMM(BPF_REG_2, callback)
       "r3 = %[callback_ctx]\n"         // BPF_MOV64_IMM(BPF_REG_3, callback_ctx)
-      "r4 = 0\n"                       // BPF_MOV64_IMM(BPF_REG_4, 0)
+      "r4 = %[flags]\n"                // BPF_MOV64_IMM(BPF_REG_4, 0)
       "call %[bpf_loop]\n"             // call bpf_loop()
       : "=r"(ret)
       : [nr_loops] "r" (nr_loops),
         [callback] "i" (fn),
         [callback_ctx] "r" (ctx),
+        [flags] "r" (flags),
         [bpf_loop] "i" (BPF_FUNC_loop)
       : "r0", "r1", "r2", "r3", "r4"
   );
@@ -57,7 +59,7 @@ int __bpf_arithmetic_sum(unsigned int nr_loops)
   struct arithmetic_sum_cb_ctx ctx = {
     .sum = 0,
   };
-  __bpf_loop(nr_loops, arithmetic_sum_cb, &ctx);
+  asm_bpf_loop(nr_loops, arithmetic_sum_cb, &ctx, 0);
   return ctx.sum;
 }
 
@@ -88,7 +90,7 @@ int __bpf_strnlen(const char *str, int str__sz)
     .str__sz = str__sz,
     .len = 0,
   };
-  __bpf_loop(str__sz, strnlen_cb, &ctx);
+  asm_bpf_loop(str__sz, strnlen_cb, &ctx, 0);
   return ctx.len;
 }
 
@@ -125,7 +127,7 @@ int __bpf_strcat(char *dst, size_t dst_sz, const char *src, size_t src_sz)
     .dlen = dst_len,
     .copied = 0,
   };
-  __bpf_loop(src_sz, strcat_cb, &ctx);
+  asm_bpf_loop(src_sz, strcat_cb, &ctx, 0);
 
   return ctx.copied + dst_len;
 }
