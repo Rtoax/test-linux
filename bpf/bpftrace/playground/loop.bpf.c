@@ -16,7 +16,7 @@
 #include <linux/types.h>
 #include <stddef.h>
 
-typedef int (*callback_fn)(unsigned int index, void *ctx);
+typedef int (*callback_fn)(__u32 index, void *ctx);
 
 /* Must be inline, becuase the register */
 static inline int asm_bpf_loop(__u32 nr_loops, callback_fn fn, void *ctx,
@@ -47,14 +47,14 @@ struct arithmetic_sum_cb_ctx {
   int sum;
 };
 
-static int arithmetic_sum_cb(unsigned int index, void *data)
+static int arithmetic_sum_cb(__u32 index, void *data)
 {
   struct arithmetic_sum_cb_ctx *ctx = data;
   ctx->sum += index + 1;
   return 0;
 }
 
-int __bpf_arithmetic_sum(unsigned int nr_loops)
+int __bpf_arithmetic_sum(__u32 nr_loops)
 {
   struct arithmetic_sum_cb_ctx ctx = {
     .sum = 0,
@@ -65,14 +65,14 @@ int __bpf_arithmetic_sum(unsigned int nr_loops)
 
 struct strnlen_ctx {
   const char *str;
-  int str__sz;
+  int sz;
   int len;
 };
 
-static int strnlen_cb(unsigned int index, void *data)
+static int strnlen_cb(__u32 index, void *data)
 {
   struct strnlen_ctx *ctx = data;
-  if (index > ctx->str__sz) {
+  if (index > ctx->sz) {
     return 1;
   }
   // TODO: How to fix unbounded access, do not use '%'.
@@ -83,14 +83,14 @@ static int strnlen_cb(unsigned int index, void *data)
   return 0;
 }
 
-int __bpf_strnlen(const char *str, int str__sz)
+int __bpf_strnlen(const char *str, __u32 sz)
 {
   struct strnlen_ctx ctx = {
     .str = str,
-    .str__sz = str__sz,
+    .sz = sz,
     .len = 0,
   };
-  asm_bpf_loop(str__sz, strnlen_cb, &ctx, 0);
+  asm_bpf_loop(sz, strnlen_cb, &ctx, 0);
   return ctx.len;
 }
 
@@ -101,7 +101,7 @@ struct strcat_ctx {
   int copied;
 };
 
-static int strcat_cb(unsigned int index, void *data)
+static int strcat_cb(__u32 index, void *data)
 {
   struct strcat_ctx *ctx = data;
   __u32 didx = index + ctx->dlen;
