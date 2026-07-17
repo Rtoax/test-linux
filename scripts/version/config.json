@@ -128,7 +128,7 @@
 					"argument": [ "-V" ]
 				}
 			},
-			"keys": [ "fsck", "fsck.ext4" ]
+			"keys": [ "fsck", "fsck.ext4", "mkfs.ext4" ]
 		},
 		"edk2": {
 			"name": "EDK-II",

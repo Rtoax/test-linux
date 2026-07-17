@@ -33,6 +33,7 @@ and this project adheres to
 #### Tools
 - add sysstat subdir;
 #### Template
+- fs: add e2fsprogs.mk;
 - bcc.mk: add `HAVE_BCC_HDR`;
 - add ksyms.mk;
 - log.mk: add `log_{info,warn,fail,success}_mk()`;
