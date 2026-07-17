@@ -8,4 +8,6 @@ import "a.bpf.h";
 import "a.bpf.c";
 import "a.bpf.c"; // could duplicate
 
-import "../begin.bt";
+BEGIN {
+	printf("%d\n", one());
+}

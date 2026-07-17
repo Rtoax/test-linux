@@ -1,6 +1,6 @@
 #include "a.bpf.h"
 
-int foo(void)
+int one(void)
 {
-	return 0;
+	return ONE;
 }
