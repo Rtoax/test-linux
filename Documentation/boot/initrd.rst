@@ -1,11 +1,13 @@
 initramfs, initrd
 =================
 
-# cmdline
+cmdline
+-------
 
 - `rd.break`: Enter initramfs Shell (see dracut.cmdline(7))
 
 
-# Links
+Links
+-----
 
 - https://www.linuxfromscratch.org/blfs/view/svn/postlfs/initramfs.html

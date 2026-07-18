@@ -5,5 +5,6 @@ subdir-y += firmware
 subdir-y += kernel
 subdir-y += initrd
 subdir-y += modules
+subdir-y += power
 subdir-y += systemd
 subdir-y += uefi

@@ -28,6 +28,7 @@ Linux Tools
 .. toctree::
    :maxdepth: 1
 
+   cmdline
    binfmt
 
 

@@ -8,6 +8,15 @@ Boot
    abbrev
 
 
+Initrd
+------
+
+.. toctree::
+   :maxdepth: 1
+
+   initrd
+
+
 Bootloader
 ----------
 
@@ -21,6 +30,7 @@ Bootloader
    pxelinux
    syslinux
    lilo
+   u-boot
 
 
 ACPI
@@ -34,7 +44,6 @@ ACPI
 
 Boot
 ----
-
 
 - BIOS/UEFI
 	- Hardware Check
@@ -50,6 +59,15 @@ Boot
 	- MBR的工作原理限制了BIOS最大只能支持2TB硬盘
 - GPT (GUID Partition Table)
 	- 支持最大128PB(1PB=1024TB)
+
+
+Power
+-----
+
+.. toctree::
+   :maxdepth: 1
+
+   power
 
 
 Boot Procedure

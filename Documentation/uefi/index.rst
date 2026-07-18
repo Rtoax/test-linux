@@ -6,6 +6,7 @@ UEFI (Unified Extensible Firmware Interface)
    :maxdepth: 1
 
    abbrev
+   bios
    edk2
    shell
    ovmf
