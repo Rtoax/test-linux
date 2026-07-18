@@ -135,7 +135,7 @@ Tools
 .. toctree::
    :maxdepth: 1
 
-   Grub <grub/index>
+   Boot <boot/index>
    Systemd <systemd/index>
    Tools <tools/index>
    vDSO <vdso/index>
