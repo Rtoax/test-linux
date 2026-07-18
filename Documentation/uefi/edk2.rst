@@ -8,7 +8,7 @@ EDK2 contains the Open Virtual Machine Firmware (OVMF) UEFI firmware package.
 EDK II Shell
 ------------
 
-.. code-block:: test
+.. code-block:: text
 
     Shell>
 
