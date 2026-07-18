@@ -136,6 +136,7 @@ Tools
    :maxdepth: 1
 
    Boot <boot/index>
+   Container <container/index>
    Systemd <systemd/index>
    Tools <tools/index>
    vDSO <vdso/index>
