@@ -82,6 +82,7 @@ Linux Kernel
 
    File System <fs/index>
    Scheduler <sched/index>
+   Syscall <syscall/index>
 
 
 Debug and Observability

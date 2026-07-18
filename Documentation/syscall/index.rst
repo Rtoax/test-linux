@@ -7,7 +7,15 @@ directory.
 see `man syscalls`.
 
 
-# Links
+.. toctree::
+   :maxdepth: 1
 
-- [Adding a New System Call](https://docs.kernel.org/process/adding-syscalls.html)
+   msgqueue
+   poll
+   signal
 
+
+Links
+-----
+
+- https://docs.kernel.org/process/adding-syscalls.html
