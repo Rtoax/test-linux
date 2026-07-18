@@ -1,13 +1,17 @@
 #!/bin/bash
+# Work under Documentation directory
 set -e
 
 sphinx_build=$(dirname $(realpath $0))/sphinx-build.sh
 monitor_pid=
 server_pid=
+PORT=8888
 
 hint()
 {
-	echo -e "\033[1;32mAccess: http://localhost:8888/\033[m"
+	echo -e "\033[1;32m-----------------------------------------------\033[m"
+	echo -e "\033[1;32mWebsite: http://localhost:${PORT}/\033[m"
+	echo -e "\033[1;32m-----------------------------------------------\033[m"
 }
 
 kill_all()
@@ -52,7 +56,7 @@ file_monitor &
 monitor_pid=$!
 echo "Monitor $monitor_pid"
 
-python -m http.server 8888 --directory ./build/html/ &
+python -m http.server ${PORT} --directory ./build/html/ &
 server_pid=$!
 echo "Server $server_pid"
 hint
