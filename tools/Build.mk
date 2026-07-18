@@ -43,5 +43,6 @@ subdir-y += sysstat
 subdir-${HAVE_TMUX} += tmux
 subdir-y += util-linux
 subdir-y += vim
+subdir-y += xterm
 subdir-y += zlib
 subdir-${HAVE_ZSTD} += zstd

@@ -36,6 +36,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
+- add xterm;
 - add sysstat subdir;
 #### Template
 - fs: add e2fsprogs.mk;

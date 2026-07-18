@@ -668,6 +668,7 @@ pkgs_base+=( util-linux )           # wipefs, etc.
 pkgs_base+=( uuid )
 pkgs_base+=( valgrind )
 pkgs_base+=( vim )
+pkgs_base+=( xterm )                # resize
 pkgs_base+=( yq )
 
 pkgs_boot+=( efibootmgr )           # UEFI

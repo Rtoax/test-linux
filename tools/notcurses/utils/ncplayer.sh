@@ -1,4 +1,6 @@
 #!/bin/bash
+# stty rows 24 cols 80 && ncplayer ...
+# resize -s 80 24 && ncplayer ...
 set -e
 
 scale() {
