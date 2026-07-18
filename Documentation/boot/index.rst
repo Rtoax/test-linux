@@ -22,6 +22,19 @@ Bootloader
    lilo
 
 
+ACPI
+----
+
+.. toctree::
+   :maxdepth: 1
+
+   acpi
+
+
+Boot
+----
+
+
 - BIOS/UEFI
 	- Hardware Check
 	- Hardware Informations

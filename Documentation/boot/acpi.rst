@@ -7,7 +7,7 @@ ACPI - Advanced Configuration and Power Interface
 - OEM - Original Equipment Manufacturers(原始设备制造商)
 - SMBIOS - System Management BIOS
 
-# Sys
+Sys
+---
 
 - /sys/firmware/dmi/tables/DMI
-
