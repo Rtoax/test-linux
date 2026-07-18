@@ -1,2 +1,4 @@
+include notcurses.mk
+
 prog-y += ncneofetch.sh
-prog-y += ncplayer.sh
+prog-${HAVE_NCPLAYER} += ncplayer.sh
