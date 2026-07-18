@@ -17,6 +17,7 @@ Bootloader
    grub/index
    isolinux
    loadlin
+   linuxboot
    pxelinux
    syslinux
    lilo
