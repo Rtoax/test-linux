@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+readonly MEMDEVS=( $(sudo cxl list --memdevs | jq -r '.[].memdev') )
+
 # commit d5a21a914482 ("cxl.sh: multi memdevs to on region")
 cxl_ram_4way() {
 	# create region0, commit b3c049d89aa9 ("cxl: cxl.sh: create-region")
