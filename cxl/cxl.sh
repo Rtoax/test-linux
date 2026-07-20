@@ -3,7 +3,7 @@ set -e
 
 readonly MEMDEVS=( $(sudo cxl list --memdevs | jq -r '.[].memdev') )
 
-# Check info
+# Check info, see commit 5a32ccae21a6 ("cxl: cxl.sh: check decoder informations")
 sudo cxl list -D
 sudo cxl list -D -d decoder0.0
 sudo cxl list -M -d decoder0.0
