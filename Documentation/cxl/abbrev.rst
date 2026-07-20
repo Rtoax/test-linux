@@ -24,6 +24,7 @@ CXL Abbrev
 - MLD: Muiltple Logical Device (多逻辑设备)
 - OMI: Open Memory Interface (开放内存接口)
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
+- OSC: Operating System Capabilities (操作系统能力)
 - PXB: PCI eXpander Bridge (PCI 扩展桥)
 - SLD: Single Logical Device (单一逻辑设备)
 - TMO: (透明内存卸载) @Meta

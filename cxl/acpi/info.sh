@@ -13,4 +13,7 @@ if [[ -f cedt.dat ]]; then
 	cat cedt.dsl
 fi
 
-ls /sys/bus/acpi/devices/ACPI0017:00/
+# CXL Root Port or Device on Switch
+ls /sys/bus/acpi/devices/ACPI0017:*
+# CXL Host Bridge
+ls /sys/bus/acpi/devices/ACPI0016:*

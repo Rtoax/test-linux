@@ -2,6 +2,12 @@
 CXL (Compute Express Link)
 ==========================
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+   history
+
 
 CXL 技术
 --------
@@ -9,12 +15,11 @@ CXL 技术
 .. toctree::
    :maxdepth: 1
 
-   abbrev
    acpi
    cxl
    pcie
    qemu
-   history
+   software
    paper
 
 
