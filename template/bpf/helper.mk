@@ -305,7 +305,8 @@ ifeq ($(call ksyms_have_func,bpf_task_cwd_from_pid),y)
 endif
 
 # refs:
-# v3: https://github.com/Rtoax/linux/tree/p062-bpf_strcat-v3
+# v3: https://lore.kernel.org/lkml/tencent_7B0E22F21BB4086D66815C86AA5CBC5E8E0A@qq.com/
+#     https://github.com/Rtoax/linux/tree/p062-bpf_strcat-v3
 # v2: https://lore.kernel.org/lkml/tencent_9EC04DC824CBF5124305E73564341511C405@qq.com/
 #     https://github.com/Rtoax/linux/tree/p062-bpf_strcat-v2
 # v1: https://lore.kernel.org/lkml/tencent_59689407B1C3204B08362BEEF244A5FE5505@qq.com/
