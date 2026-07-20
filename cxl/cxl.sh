@@ -3,6 +3,11 @@ set -e
 
 readonly MEMDEVS=( $(sudo cxl list --memdevs | jq -r '.[].memdev') )
 
+# Check info
+sudo cxl list -D
+sudo cxl list -D -d decoder0.0
+sudo cxl list -M -d decoder0.0
+
 # commit d5a21a914482 ("cxl.sh: multi memdevs to on region")
 cxl_ram_4way() {
 	# create region0, commit b3c049d89aa9 ("cxl: cxl.sh: create-region")
@@ -36,8 +41,6 @@ cxl_ram_4way() {
 }
 
 cxl_pmem() {
-	sudo cxl list -D -d decoder0.0
-
 	# commit 31a30fb65f93 ("cxl.sh: pmem: create-region")
 	sudo cxl create-region --decoder decoder0.0 --size 1024M --type pmem --memdevs mem0
 	sudo ndctl list -R
