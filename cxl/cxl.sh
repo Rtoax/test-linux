@@ -36,6 +36,8 @@ cxl_ram_4way() {
 }
 
 cxl_pmem() {
+	sudo cxl list -D -d decoder0.0
+
 	# commit 31a30fb65f93 ("cxl.sh: pmem: create-region")
 	sudo cxl create-region --decoder decoder0.0 --size 1024M --type pmem --memdevs mem0
 	sudo ndctl list -R
@@ -53,7 +55,7 @@ cxl_pmem() {
 	# 1. dd test in VM
 	#    commit 396d70443203 ("cxl.sh: pmem: add how to use pmem block")
 	#    commit 6b4e95c05687 ("cxl.sh: pmem: vm: why CXL pmem block is so slow in VM")
-	test_pmem_blk {
+	test_pmem_blk() {
 		sudo mkfs.xfs -f /dev/pmem0
 		sudo mkdir -p pmem
 		sudo mount /dev/pmem0 pmem

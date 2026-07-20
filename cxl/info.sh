@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+readonly DECODERS=( $(sudo cxl list --decoders | jq -r '.[].decoder') )
 readonly MEMDEVS=( $(sudo cxl list --memdevs | jq -r '.[].memdev') )
 
 run() {
@@ -14,4 +15,11 @@ run sudo cxl list --memdevs
 for dev in ${MEMDEVS[@]}
 do
 	run sudo cxl list -m ${dev} --health
+done
+
+run sudo cxl list --decoders
+for decoder in ${DECODERS[@]}
+do
+	run sudo cxl list --decoders --decoder ${decoder}
+	run sudo cxl list --memdevs --decoder ${decoder}
 done
