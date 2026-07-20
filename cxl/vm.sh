@@ -1,7 +1,7 @@
 #!/bin/bash
 # Test CXL devices with Qemu.
 #
-# Usage: [NOCXL=1] [DEP=1] [GDB=1] [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+# Usage: [CUSTOM=1] [NOCXL=1] [DEP=1] [GDB=1] [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
 #   DEP=1: install depends first.
 #   GDB=1: enable gdb.
@@ -26,7 +26,7 @@ do
 	fi
 done
 
-declare -a qargs
+declare -a qargs cxlargs
 
 if [[ ${DEP} ]]; then
 	case ${ID} in
@@ -81,31 +81,38 @@ qargs+=( --rootfs ${qcow2} )
 qargs+=( --stdio )
 qargs+=( --monitor )
 
-cxlargs+=( --cxl pxb=pxb.1 ) # fmw default 0
-cxlargs+=( --cxl pxb=pxb.2,fmw=1 )
-cxlargs+=( --cxl pxb=pxb.3,fmw=1 )
-cxlargs+=( --cxl pxb=pxb.4,fmw=2 )
-cxlargs+=( --cxl pxb=pxb.5,fmw=3 )
-cxlargs+=( --cxl pxb=pxb.6,fmw=4 )
 
-cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
-cxlargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
-cxlargs+=( --cxl rp=rp.3,bus=pxb.2,port=1 )
-cxlargs+=( --cxl rp=rp.4,bus=pxb.3,port=1 )
+custom_cxl() {
+	cxlargs+=( --cxl pxb=pxb.1 ) # fmw default 0
+	cxlargs+=( --cxl pxb=pxb.2,fmw=1 )
+	cxlargs+=( --cxl pxb=pxb.3,fmw=1 )
+	cxlargs+=( --cxl pxb=pxb.4,fmw=2 )
+	cxlargs+=( --cxl pxb=pxb.5,fmw=3 )
+	cxlargs+=( --cxl pxb=pxb.6,fmw=4 )
 
-cxlargs+=( --cxl switch,bus=rp.1,nport=2,portprefix=sw1 )
-cxlargs+=( --cxl switch,bus=rp.2,nport=3,portprefix=sw2 )
+	cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
+	cxlargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
+	cxlargs+=( --cxl rp=rp.3,bus=pxb.2,port=1 )
+	cxlargs+=( --cxl rp=rp.4,bus=pxb.3,port=1 )
 
-cxlargs+=( --cxl pmem=pmem.1,bus=sw1.1,lsa=pmem.1.lsa,size=2G )
-cxlargs+=( --cxl pmem=pmem.2,bus=sw1.2,lsa=pmem.2.lsa )
+	cxlargs+=( --cxl switch,bus=rp.1,nport=2,portprefix=sw1 )
+	cxlargs+=( --cxl switch,bus=rp.2,nport=3,portprefix=sw2 )
 
-cxlargs+=( --cxl vmem=vmem.1,bus=sw2.1,lsa=vmem.1.lsa )
-cxlargs+=( --cxl vmem=vmem.2,bus=sw2.2 ) # vmem could not set lsa
-cxlargs+=( --cxl vmem=vmem.3,bus=sw2.3,size=2G )
-cxlargs+=( --cxl vmem=vmem.4,bus=rp.3,size=1G )
-cxlargs+=( --cxl vmem=vmem.5,bus=rp.4,size=1G )
+	cxlargs+=( --cxl pmem=pmem.1,bus=sw1.1,lsa=pmem.1.lsa,size=2G )
+	cxlargs+=( --cxl pmem=pmem.2,bus=sw1.2,lsa=pmem.2.lsa )
 
-#cxlargs+=( --cxl device=cxl-pmem-4way )
+	cxlargs+=( --cxl vmem=vmem.1,bus=sw2.1,lsa=vmem.1.lsa )
+	cxlargs+=( --cxl vmem=vmem.2,bus=sw2.2 ) # vmem could not set lsa
+	cxlargs+=( --cxl vmem=vmem.3,bus=sw2.3,size=2G )
+	cxlargs+=( --cxl vmem=vmem.4,bus=rp.3,size=1G )
+	cxlargs+=( --cxl vmem=vmem.5,bus=rp.4,size=1G )
+}
+
+if [[ ! -z ${CUSTOM} ]]; then
+	custom_cxl
+else
+	cxlargs+=( --cxl device=cxl-pmem-4way )
+fi
 
 [[ -z ${NOCXL} ]] && qargs+=( ${cxlargs[@]} )
 
