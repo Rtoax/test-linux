@@ -1,0 +1,10 @@
+# $ journalctl -xeu sphinx-serve-tl.service -f
+
+[Unit]
+Description=Test Linux Documentation Loadhost Server
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/sphinx-serve-tl
+Restart=on-failure

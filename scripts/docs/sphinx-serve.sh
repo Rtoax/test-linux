@@ -2,7 +2,10 @@
 # Work under Documentation directory
 set -e
 
-sphinx_build=$(dirname $(realpath $0))/sphinx-build.sh
+readonly MYDIR=$(dirname $(realpath $0))
+readonly DOCDIR=$(realpath ${MYDIR}/../../Documentation/)
+readonly sphinx_build=${MYDIR}/sphinx-build.sh
+
 monitor_pid=
 server_pid=
 PORT=8888
@@ -52,6 +55,8 @@ file_monitor()
 	done
 }
 
+pushd ${DOCDIR}
+
 file_monitor &
 monitor_pid=$!
 echo "Monitor $monitor_pid"
@@ -64,7 +69,8 @@ hint
 sig_handler()
 {
 	kill_all
+	popd
 }
-trap sig_handler INT
+trap sig_handler INT EXIT
 
 wait $monitor_pid $server_pid

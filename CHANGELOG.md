@@ -20,6 +20,7 @@ and this project adheres to
 - uki: add makeuki.sh;
 - systemd-udev: add bootctl subdir;
 - glibc: add mempcpy() test;
+- scripts: add docs/sphinx-serve.service;
 #### Changed
 - move png and svg to Documentation/images/;
 #### Deprecated
