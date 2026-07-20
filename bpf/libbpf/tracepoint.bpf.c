@@ -220,16 +220,19 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 #ifdef SUPPORT_BPF_STRCAT
 		int err = 0;
 		bpf_printk("origin comm %s", pevent->comm);
-		err = bpf_strcat(pevent->comm, sizeof(pevent->comm), "XYZ");
+		char tmp1[4] = "XYZ";
+		err = bpf_strcat(pevent->comm, sizeof(pevent->comm), tmp1);
 		bpf_printk("bpf_strcat(%s), err %d", pevent->comm, err);
 #ifdef SUPPORT_BPF_STRNCAT
-		err = bpf_strncat(pevent->comm, sizeof(pevent->comm), "ABC", 2);
+		char tmp2[4] = "ABC";
+		err = bpf_strncat(pevent->comm, sizeof(pevent->comm), tmp2, 2);
 		bpf_printk("bpf_strncat(%s), err %d", pevent->comm, err);
 #endif
-#endif
+#else
 #ifdef SUPPORT_BPF_PROBE_READ_KERNEL_STR
 		/* Note: actually, '##\0' will be wrote to comm[] */
 		bpf_probe_read_kernel_str(pevent->comm + 2, 3, "###");
+#endif
 #endif
 
 		__bpf_str_prepend(pevent->comm, sizeof(pevent->comm), "/", 2);
