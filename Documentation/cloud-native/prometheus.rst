@@ -10,7 +10,7 @@ default port is `9090`, http://localhost:9090.
 客户端
 ~~~~~~
 
-:doc:`安装 node-exporter <node-exporter>`
+请参见 :doc:`安装 node-exporter <node-exporter>` 文档。
 
 
 服务端
