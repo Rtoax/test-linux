@@ -227,6 +227,10 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 		bpf_printk("bpf_strncat(%s), err %d", pevent->comm, err);
 #endif
 #endif
+#ifdef SUPPORT_BPF_PROBE_READ_KERNEL_STR
+		/* Note: actually, '##\0' will be wrote to comm[] */
+		bpf_probe_read_kernel_str(pevent->comm + 2, 3, "###");
+#endif
 
 		__bpf_str_prepend(pevent->comm, sizeof(pevent->comm), "/", 2);
 		/* beyond the boundary of comm[], skip */
