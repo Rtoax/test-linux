@@ -14,9 +14,70 @@ CXL (Compute Express Link)
   overcome performance and socket packaging limitations of common DIMM memory
   when implementing high storage capacities.
 
+- 保持了完全的向后兼容性。
+- PCIe 物理层上动态多路复用。
+    - **事务层** 负责处理与每个协议相关的事务以及任何架构排序语义、流量控制和信用。 **具有较低的延迟**
+    - **数据链路层（或链路层）** 负责可靠的数据传输服务，并在设备之间建立逻辑连接。 **具有较低的延迟**
+    - **物理层** 负责物理信息交换、接口初始化和维护。
+        - `物理层进行多路复用` 有助于为 CXL.cache 和 CXL.mem 流量提供低延迟路径。
+        - 物理层可区分 CXL.io、CXL.cache-mem、ALMP（Arb/Mux 链路管理包） 和 NULL Flits（不发送任何内容）。
+    - 每一层都有一组 `寄存器` ，软件可访问这些寄存器来配置、控制和获取链路状态。
+
+
+CXL 三种协议实现
+----------------
+
 - CXL.io
 - CXL.cache
 - CXL.memory
+
+CXL.io
+~~~~~~
+
+- CXL.io 对所有设备都是强制性的；
+- CXL.io 协议基于 PCIe；
+- 用于设备发现、状态报告、虚拟到物理地址转换、I/O 虚拟化和直接内存访问（DMA）。
+
+CXL.cache
+~~~~~~~~~
+
+- CXL.cache 是可选的。
+- CXL.cache 用于设备缓存系统内存。
+
+CXL.memory（又名 CXL.mem）
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- CXL.mem 是可选的。
+- CXL.mem 使 CPU 和其他 CXL 设备能将设备内存作为可缓存内存访问。
+- CXL.mem 使连接到设备的内存成为可缓存内存（称为主机管理设备内存 (HDM)），类似于主机内存，从而实现主机在 HDM 和主机内存之间的统一视图
+
+
+CXL 协议版本
+------------
+
+CXL 3.0 相比 CXL 2.0 新增特性支持
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. 多级 CXL Switch；
+2. 引入了名为 "动态容量设备 "的扩展，灵活性更高；
+
+
+CXL 2.0 相比 CXL 1.0 新增特性支持
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. 热插拔；
+2. 安全增强；
+3. pmem；
+4. 内存错误上报；
+5. 遥测；
+6. 支持single-level交换，跨多个虚拟层次结构池设备的能力，包括对内存设备的多域支持；
+7. 引入 CXL Switch；
+8. **内存池** ，设备池；
+
+CXL 1.1
+~~~~~~~
+
+- 为直接连接到主机的设备引入了一致性和内存语义;
 
 
 Linux Kernel
@@ -45,3 +106,4 @@ Links
 - https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/
 - https://github.com/pmem/ndctl
 - For CI testing of CXL emulation work and other things I might want to do in the future. https://gitlab.com/jic23/qemu
+- CXL，最强科普！ https://fpga.eetrend.com/content/2024/100583618.html

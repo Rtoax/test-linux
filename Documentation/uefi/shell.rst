@@ -7,7 +7,7 @@ Commands
 Boot from CDROM
 ~~~~~~~~~~~~~~~
 
-.. code-block:: test
+.. code-block:: text
 
     UEFI Interactive Shell v2.2
     EDK II
