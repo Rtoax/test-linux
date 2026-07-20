@@ -13,6 +13,7 @@ run sudo cxl list
 run sudo cxl list --buses
 run sudo cxl list --ports
 run sudo cxl list --decoders
+# see commit 27dd5057a605 ("cxl: info.sh: sudo cxl list --buses --ports --decoders")
 run sudo cxl list --buses --ports --decoders
 run sudo cxl list --memdevs
 
