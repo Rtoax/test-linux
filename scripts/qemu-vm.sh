@@ -1557,8 +1557,19 @@ add_cxl_type3_dev() {
 	arg+=( bus=${bus} )
 
 	if [[ ${pmem} ]]; then
+		# persistent memory size cxl_pmem_size[] set in arguments first,
+		# if use CXL_DEVICES[], cxl_pmem_size[] will be empty, so, we
+		# just set it here.
 		if [[ -z ${lsa} ]] || [[ ${lsa} == SKIP ]]; then
 			error "lsa property must be set for persistent devices"
+		fi
+
+		if [[ ! -z ${cxl_pmem_size[$pmem]} ]]; then
+			if [[ $(sizeceilfmt ${size}) != $(sizeceilfmt ${cxl_pmem_size[$pmem]}) ]]; then
+				error "pmem set different size ${size} and ${cxl_pmem_size[$pmem]}"
+			fi
+		else
+			cxl_pmem_size[$pmem]=${size}
 		fi
 
 		arg+=( persistent-memdev=${pmem} )
@@ -1579,6 +1590,17 @@ add_cxl_type3_dev() {
 	fi
 
 	if [[ ${vmem} ]]; then
+		# volatile memory size cxl_vmem_size[] set in arguments first,
+		# if use CXL_DEVICES[], cxl_vmem_size[] will be empty, so, we
+		# just set it here.
+		if [[ ! -z ${cxl_vmem_size[$vmem]} ]]; then
+			if [[ $(sizeceilfmt ${size}) != $(sizeceilfmt ${cxl_vmem_size[$vmem]}) ]]; then
+				error "vmem set different size ${size} and ${cxl_vmem_size[$vmem]}"
+			fi
+		else
+			cxl_vmem_size[$vmem]=${size}
+		fi
+
 		name=${vmem}
 		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${size} )
 		arg+=( volatile-memdev=${vmem} )
