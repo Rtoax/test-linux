@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cxl: info.sh: more;
 - e2fsprogs: add metadata.c test;
 - bpftrace: playground: add asm.bt test;
 - bpf: test `bpf_probe_read_kernel_str()`, `linux >= v5.5`;

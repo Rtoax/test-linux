@@ -19,6 +19,7 @@ subdir-y += gdisk
 subdir-${HAVE_GIT} += git
 subdir-y += heatmap
 subdir-y += io_uring
+subdir-y += jq
 subdir-y += json-c
 subdir-y += kasan
 subdir-${HAVE_LIBSMBIOS} += libsmbios

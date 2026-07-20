@@ -284,6 +284,11 @@
 			"extension": [ "java" ],
 			"keys": [ "java", "jdk" ]
 		},
+		"jq": {
+			"name": "Jq",
+			"extension": [ "json" ],
+			"keys": [ "jq", "json" ]
+		},
 		"json-c": {
 			"name": "json-c",
 			"library": [ "libjson-c.so" ],
