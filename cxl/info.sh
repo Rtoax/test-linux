@@ -10,6 +10,10 @@ run() {
 }
 
 run sudo cxl list
+run sudo cxl list --buses
+run sudo cxl list --ports
+run sudo cxl list --decoders
+run sudo cxl list --buses --ports --decoders
 run sudo cxl list --memdevs
 
 for dev in ${MEMDEVS[@]}
@@ -17,7 +21,6 @@ do
 	run sudo cxl list -m ${dev} --health
 done
 
-run sudo cxl list --decoders
 for decoder in ${DECODERS[@]}
 do
 	run sudo cxl list --decoders --decoder ${decoder}
