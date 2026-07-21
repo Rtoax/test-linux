@@ -111,7 +111,8 @@ ${BOLD}OPTIONS${RST}
   ${BOLD}VirtIO OPTIONS${RST}
     --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
                             by ${GRAY}$ virtiofsd --socket-path=/var/run/vhost-fs.sock -o source=/path/to/host/${RST}
-    --virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}myfs${RST}
+    --virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}${UL}myfs${RST}, then,
+                            in guest os: ${GRAY}$ sudo mount -t virtiofs ${UL}myfs${RST} ${GRAY}/mnt${RST}
 
   ${BOLD}UEFI OPTIONS${RST}
     --uefi [ARGS]           UEFI by Qemu. please see ${BOLD}--uefi help${RST}

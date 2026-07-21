@@ -1,7 +1,7 @@
 #!/bin/bash
 # Test CXL devices with Qemu.
 #
-# Usage: [CUSTOM=1] [NOCXL=1] [DEP=1] [GDB=1] [GITFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+# Usage: [CUSTOM=1] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
 #   DEP=1: install depends first.
 #   GDB=1: enable gdb.
@@ -65,9 +65,12 @@ if ! [[ -e ${qcow2} ]] && [[ -z ${_dry_run} ]]; then
 fi
 
 # Mount in guest
-# $ sudo mount -t virtiofs Git /mnt
-if [[ ${GITFS} ]]; then
+# $ sudo mount -t virtiofs Pwd /mnt
+if [[ ${VIRTIOFS} ]]; then
+	sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-pwd.sock -o source=$PWD &
 	sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-git.sock -o source=/home/rongtao/Git/ &
+
+	qargs+=( --virtio-fs-sock=/var/run/vhost-fs-pwd.sock --virtio-fs-tag Pwd )
 	qargs+=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
 fi
 
