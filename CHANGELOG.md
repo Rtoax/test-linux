@@ -42,6 +42,7 @@ and this project adheres to
 - add xterm;
 - add sysstat subdir;
 #### Template
+- bpf-cflags add `__IN_BPF__`;
 - fs: add e2fsprogs.mk;
 - bcc.mk: add `HAVE_BCC_HDR`;
 - add ksyms.mk;

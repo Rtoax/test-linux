@@ -3,14 +3,14 @@
 #
 # Output definitions:
 # - BPFFS=[/sys/fs/bpf/]
-# - BPF_TARGET_ARCH=
-# - bpf-cflags=
+# - BPF_TARGET_ARCH=[x86|arm|arm64|riscv]
+# - bpf-cflags=-D__IN_BPF__=1 ...
 #
 ifndef _BPF_BPF_MK
 _BPF_BPF_MK = 1
 
 BPFFS := /sys/fs/bpf/
-bpf-cflags :=
+bpf-cflags := -D__IN_BPF__=1
 
 BPF_TARGET_ARCH := $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/arm.*/arm/' \

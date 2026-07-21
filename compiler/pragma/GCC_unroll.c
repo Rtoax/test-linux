@@ -5,7 +5,13 @@
  *  -funroll-loops
  *  -funroll-all-loops
  */
+#ifndef __IN_BPF__
 #include <stdio.h>
+#else
+#include <linux/types.h>
+#include <bpf/bpf_helpers.h>
+#define printf bpf_printk
+#endif
 
 void origin(void)
 {

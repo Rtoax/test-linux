@@ -22,7 +22,6 @@
 #include "task.bpf.h"
 #include "stack_helpers.bpf.h"
 
-
 #ifndef SIGKILL
 #define SIGKILL 9
 #endif
