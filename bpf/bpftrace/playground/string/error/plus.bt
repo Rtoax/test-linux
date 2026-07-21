@@ -2,11 +2,12 @@
 
 BEGIN
 {
-	let $s1 = "hello";
-	let $s2 = " world";
-	let $s3 = $s1 + $s2;
+	$hello = "hello";
+	$world = "world";
 
-	printf("%s\n", $s3);
+	/* see https://github.com/bpftrace/bpftrace/pull/5231 */
+	$helloworld = $hello + $world;
+	print($helloworld);
 
 	exit();
 }
