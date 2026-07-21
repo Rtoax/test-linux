@@ -6,6 +6,7 @@ readonly prog=bpftrace-compile
 
 enable_deps=
 enable_config=
+enable_compile=YES
 enable_install=
 enable_test=
 use_jobs=$(nproc)
@@ -74,6 +75,7 @@ DESCRIPTION
 ARGUMENT
 	-d, --deps              install depends
 	-c, --config            execute the config to generate Makefile
+	    --nocompile         do not compile
 	-i, --install           execute the make install
 	-t, --test              execute the bpftrace_test
 
@@ -99,6 +101,7 @@ SEE ALSO
 TEMP_ARGS=$(getopt --options dcitj:vh \
 	--long deps \
 	--long config \
+	--long nocompile \
 	--long install \
 	--long test \
 	--long jobs: \
@@ -122,6 +125,10 @@ while true; do
 	-c | --config)
 		shift
 		enable_config=YES
+		;;
+	--nocompile)
+		shift
+		enable_compile=
 		;;
 	-i | --install)
 		shift
@@ -190,7 +197,7 @@ if [[ ${enable_config} ]]; then
 fi
 
 # Must execute make command at least
-run make -j${use_jobs} ${verbose:+VERBOSE=1}
+[[ ${enable_compile} ]] && run make -j${use_jobs} ${verbose:+VERBOSE=1}
 
 [[ ${enable_install} ]] && run sudo make install
 
