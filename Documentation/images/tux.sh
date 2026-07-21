@@ -1,8 +1,9 @@
 #!/bin/bash
 set -e
 
-row_offset=10
-col_offset=10
+SIZE=( $(stty size) )
+row_offset=$(( ${SIZE[0]} / 2 ))
+col_offset=$(( ${SIZE[1]} / 2 ))
 
 export row_offset col_offset
 
