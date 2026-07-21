@@ -80,6 +80,8 @@ int __bpf_arithmetic_sum(__u32 nr_loops)
 
 /******************************************************************************\
  * strnlen()
+ * see bpftrace PR [1]
+ * [1] stdlib: support std_concat() https://github.com/bpftrace/bpftrace/pull/5265
 \******************************************************************************/
 struct strnlen_ctx {
   const char *str;

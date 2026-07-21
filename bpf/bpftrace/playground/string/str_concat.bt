@@ -1,11 +1,12 @@
 #!/bin/env bpftrace
 // refs:
-// - stdlib: support get current working directory
+// - PR: stdlib: support std_concat()
+//   https://github.com/bpftrace/bpftrace/pull/5265
+// - PR: stdlib: support get current working directory
 //   https://github.com/bpftrace/bpftrace/pull/5231
-// - Warn on low log space in verbose mode
-//   https://github.com/bpftrace/bpftrace/pull/5259
-//   - avoid to ENOSPC, add BPFTRACE_LOG_SIZE or `config = { log_size = N; }`.
 
+// see PR: 'Warn on low log space in verbose mode', avoid to ENOSPC
+// - https://github.com/bpftrace/bpftrace/pull/5259
 config = {
   log_size = 10000000;
 }
