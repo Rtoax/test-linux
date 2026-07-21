@@ -7,6 +7,8 @@
  * linux >= v5.17
  *
  * Refs:
+ * - linux v5.15-12938-ge6f2dd0f8067
+ *   commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
  * - https://docs.ebpf.io/linux/helper-function/bpf_loop/
  */
 #include "vmlinux.h"

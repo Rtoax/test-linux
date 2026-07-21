@@ -8,6 +8,8 @@
  *
  * Refs:
  * - https://docs.ebpf.io/linux/helper-function/bpf_loop/
+ * - linux v5.15-12938-ge6f2dd0f8067
+ *   commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
  *
  * Examples:
  * - commit bbcd5250f2b0 ("bpftrace/playground: loop.bpf.c: fix: unreachable insn N")
