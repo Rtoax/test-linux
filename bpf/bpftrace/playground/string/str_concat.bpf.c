@@ -65,13 +65,13 @@ long __bpf_strnlen(const char *ptr, size_t max_size)
 size_t __bpf_str_concat(char *dst, size_t dst_sz, const char *src,
                         size_t src_sz)
 {
-  __u32 i, j;
   long dst_len = __bpf_strnlen(dst, dst_sz);
   if (dst_len < 0 || dst_len >= dst_sz)
     return 0;
 #if 1
   return bpf_probe_read_kernel_str(dst + dst_len, dst_sz - dst_len, src);
 #else
+  __u32 i, j;
   // Provide sufficient conditions for the BPF Verifier
   for (i = dst_len, j = 0; i < dst_sz - 1 && j < src_sz - 1 && src[j] != '\0';
        j++, i++)
