@@ -18,7 +18,15 @@
 #include <linux/types.h>
 #include <stddef.h>
 
+#define ASM
+#ifdef ASM
+#define __bpf_loop asm_bpf_loop
+#else
+#define __bpf_loop bpf_loop
+#endif
+
 static long (*const bpf_probe_read_kernel)(void *dst, __u32 size, const void *unsafe_ptr) = (void *)113;
+static long (*const bpf_loop)(__u32 nr_loops, void *callback_fn, void *callback_ctx, __u64 flags) = (void *)181;
 
 typedef int (*callback_fn)(__u32 index, void *ctx);
 
@@ -66,7 +74,7 @@ int __bpf_arithmetic_sum(__u32 nr_loops)
   struct arithmetic_sum_cb_ctx ctx = {
     .sum = 0,
   };
-  asm_bpf_loop(nr_loops, arithmetic_sum_cb, &ctx, 0);
+  __bpf_loop(nr_loops, arithmetic_sum_cb, &ctx, 0);
   return ctx.sum;
 }
 
@@ -104,7 +112,7 @@ long __bpf_strnlen(const char *str, __u32 sz)
     .sz = sz,
     .len = 0,
   };
-  asm_bpf_loop(sz, strnlen_cb, &ctx, 0);
+  __bpf_loop(sz, strnlen_cb, &ctx, 0);
   return ctx.len;
 }
 
@@ -144,7 +152,7 @@ int __bpf_strcat(char *dst, __u32 dst_sz, const char *src, __u32 src_sz)
     .dlen = dst_len,
     .copied = 0,
   };
-  asm_bpf_loop(src_sz, strcat_cb, &ctx, 0);
+  __bpf_loop(src_sz, strcat_cb, &ctx, 0);
 
   return ctx.copied + dst_len;
 }
