@@ -85,11 +85,8 @@ static int strnlen_cb(__u32 index, void *data)
   if (index > ctx->sz) {
     return 1;
   }
-  /* avoid verifier error: unbounded memory access */
-  __u64 unsafe_addr = (__u64)ctx->str;
-  unsafe_addr += index;
   char ch;
-  bpf_probe_read_kernel(&ch, sizeof(char), (void *)unsafe_addr);
+  bpf_probe_read_kernel(&ch, sizeof(char), (void *)(ctx->str + index));
   if (ch == '\0') {
     return 1;
   }
