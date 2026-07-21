@@ -17,8 +17,13 @@ declare -a cmake_args
 
 . /etc/os-release
 
+run() {
+	echo -e "\033[1;32m$ ${@}\033[m"
+	eval "${@}"
+}
+
 deb_pkgs() {
-	sudo apt-get install -y \
+	run sudo apt-get install -y \
 		googletest \
 		asciidoctor \
 		binutils-dev \
@@ -48,7 +53,7 @@ deb_pkgs() {
 }
 
 rpm_pkgs() {
-	sudo dnf install -y --skip-broken \
+	run sudo dnf install -y --skip-broken \
 		blazesym-c-devel \
 		python3-looseversion \
 		rubygem-asciidoctor
@@ -176,7 +181,7 @@ if [[ ${flags_deps} ]]; then
 fi
 
 if [[ ${flags_config} ]]; then
-	cmake \
+	run cmake \
 		-DCMAKE_INSTALL_PREFIX=/usr/ \
 		-DCMAKE_BUILD_TYPE=Debug \
 		-DBUILD_TESTING=ON \
@@ -185,13 +190,13 @@ if [[ ${flags_config} ]]; then
 fi
 
 # Must execute make command at least
-make -j${use_jobs} ${verbose:+VERBOSE=1}
+run make -j${use_jobs} ${verbose:+VERBOSE=1}
 
-[[ ${flags_install} ]] && sudo make install
+[[ ${flags_install} ]] && run sudo make install
 
 # Check for the clang-format
-git clang-format --diff origin/master --extensions cpp,h
+run git clang-format --diff origin/master --extensions cpp,h
 
 if [[ ${flags_test} ]]; then
-	sudo ./tests/bpftrace_test
+	run sudo ./tests/bpftrace_test
 fi
