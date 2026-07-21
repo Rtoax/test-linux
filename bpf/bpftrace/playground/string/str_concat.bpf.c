@@ -9,11 +9,47 @@
 
 extern int bpf_strnlen(const char *s__ign, size_t count) __ksym __weak;
 
+#define has_bpf_loop 1 /* TODO: pass from bpftrace feature cflags */
+
+/* copy from test-linux/bpf/bpftrace/playground/loop.bpf.c */
+struct strnlen_ctx {
+  const char *str;
+  __u32 sz;
+  __u32 len;
+};
+
+static int strnlen_cb(__u32 index, void *data)
+{
+  struct strnlen_ctx *ctx = data;
+  if (index > ctx->sz) {
+    return 1;
+  }
+  /* avoid verifier error: unbounded memory access */
+  __u64 unsafe_addr = (__u64)ctx->str;
+  unsafe_addr += index;
+  char ch;
+  bpf_probe_read_kernel(&ch, sizeof(char), (void *)unsafe_addr);
+  if (ch == '\0') {
+    return 1;
+  }
+  ctx->len++;
+  return 0;
+}
+
 long __bpf_strnlen(const char *ptr, size_t max_size)
 {
   if (bpf_strnlen) {
     return bpf_strnlen(ptr, max_size);
   }
+#ifdef has_bpf_loop
+  struct strnlen_ctx ctx = {
+    .str = ptr,
+    .sz = max_size,
+    .len = 0,
+  };
+  bpf_loop(max_size, strnlen_cb, &ctx, 0);
+  return ctx.len;
+#else
   long sz = 0;
   for (size_t i = 0; i < max_size; ++i) {
     if (ptr[i] == 0) {
@@ -22,6 +58,7 @@ long __bpf_strnlen(const char *ptr, size_t max_size)
     ++sz;
   }
   return sz;
+#endif
 }
 
 // see https://github.com/bpftrace/bpftrace/pull/5231
