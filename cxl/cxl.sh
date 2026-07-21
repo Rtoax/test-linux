@@ -9,7 +9,7 @@ sudo cxl list -D -d decoder0.0
 sudo cxl list -M -d decoder0.0
 
 # commit d5a21a914482 ("cxl.sh: multi memdevs to on region")
-cxl_ram_4way() {
+cxl_vmem() {
 	# create region0, commit b3c049d89aa9 ("cxl: cxl.sh: create-region")
 	# will create
 	# - /sys/bus/cxl/devices/region0/dax_region
