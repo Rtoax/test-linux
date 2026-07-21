@@ -8,6 +8,13 @@ import "a.bpf.h";
 import "a.bpf.c";
 import "a.bpf.c"; // could duplicate
 
+macro TWO() {
+	import "b.bpf.h";
+	import "b.bpf.c";
+	two()
+}
+
 BEGIN {
 	printf("%d\n", one());
+	printf("%d\n", TWO);
 }
