@@ -51,6 +51,9 @@ deb_pkgs() {
 		systemtap-sdt-dev \
 		xxd \
 		zlib1g-dev
+	if [[ " ubuntu " =~ " ${ID} " ]]; then
+		run sudo apt install llvm-20 llvm-20-dev clang-20 libclang-20-dev
+	fi
 }
 
 rpm_pkgs() {
