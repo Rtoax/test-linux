@@ -339,6 +339,14 @@
 			},
 			"keys": [ "dwarf", "libdwarf" ]
 		},
+		"libpmem": {
+			"name": "Libpmem",
+			"package": {
+				"deb": [ "libpmem-dev" ],
+				"rpm": [ "libpmem", "libpmem-devel" ]
+			},
+			"keys": [ "pmem" ]
+		},
 		"libsmbios": {
 			"name": "LibSMBIOS",
 			"library": [ "libsmbios_c.so" ],
