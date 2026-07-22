@@ -15,8 +15,8 @@ CXL 技术
 .. toctree::
    :maxdepth: 1
 
+   overview
    acpi
-   cxl
    pcie
    qemu
    software

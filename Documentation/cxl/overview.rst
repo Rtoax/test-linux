@@ -1,6 +1,6 @@
-==========================
-CXL (Compute Express Link)
-==========================
+============
+CXL Overview
+============
 
 * **Compute Express Link (CXL)** is an open standard interconnect for
   high-speed, high capacity central processing unit (CPU)-to-device and
@@ -98,12 +98,32 @@ EDSFF
 Links
 -----
 
+Specification
+~~~~~~~~~~~~~
+
 - https://computeexpresslink.org/cxl-specification/
+
+Kernel
+~~~~~~
+
+- https://lore.kernel.org/linux-cxl/
+- https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
+
+GitHub
+~~~~~~
+
+- https://github.com/computexpresslink/
+- https://github.com/pmem/ndctl
+
+Qemu
+~~~~
+
+- https://www.qemu.org/docs/master/system/devices/cxl.html
+
+Others
+~~~~~~
+
 - https://en.wikipedia.org/wiki/Compute_Express_Link
 - https://www.lazystones.com/project/559625
-- https://www.qemu.org/docs/master/system/devices/cxl.html
-- https://github.com/computexpresslink/
-- https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/
-- https://github.com/pmem/ndctl
 - For CI testing of CXL emulation work and other things I might want to do in the future. https://gitlab.com/jic23/qemu
 - CXL，最强科普！ https://fpga.eetrend.com/content/2024/100583618.html
