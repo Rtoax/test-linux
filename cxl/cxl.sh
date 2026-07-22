@@ -54,9 +54,10 @@ cxl_pmem() {
 	# - fsdax: /dev/pmemN (block device), commit d61a78f78d31 ("cxl: pmem: test block device of 1way pmem")
 	# - devdax: /dev/dax0.0 (mmap(2)), commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
 	sudo ndctl create-namespace --region=region0 --mode=fsdax --size=1024M
-	sudo ndctl list --regions
+	# note: Create namespace cost times...
+	sudo ndctl list --regions --namespaces
 
-	sudo lsblk
+	sudo lsblk -o +fstype
 
 	# Use pmem block...
 	# 1. dd test in VM
@@ -75,4 +76,6 @@ cxl_pmem() {
 	sudo ndctl disable-region region0
 	sudo cxl disable-region region0
 	sudo cxl destroy-region region0
+
+	sudo ndctl list --regions --namespaces
 }
