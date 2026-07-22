@@ -1,11 +1,13 @@
 Share Memory
-=============
+============
 
-# POSIX
+POSIX
+-----
 
 Header `#include <sys/mman.h>`
 
-## syscalls & glibc
+syscalls & glibc
+----------------
 
 - `shm_open(3)`
 - `mmap(2)`
@@ -13,11 +15,13 @@ Header `#include <sys/mman.h>`
 - `shm_unlink(3)`
 
 
-# System V Share Memory
+System V Share Memory
+---------------------
 
 Header `#include <sys/shm.h>`
 
-## syscalls
+syscalls
+~~~~~~~~
 
 - `shmctl(2)`
 - `shmget(2)`
@@ -25,11 +29,11 @@ Header `#include <sys/shm.h>`
 - `shmdt(2)`
 
 
-# Kernel Sysctl
+Kernel Sysctl
+-------------
 
 Check with `sudo sysctl -a | grep kernel.shm`
 
 - `kernel.shmmni`: max number of segments
 - `kernel.shmmax`: max seg size (kbytes) = 32768
 - `kernel.shmall`: max total shared memory (kbytes)
-
