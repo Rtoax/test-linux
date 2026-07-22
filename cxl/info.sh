@@ -32,3 +32,5 @@ done
 # commit a8b5d8d7094b ("cxl: ndctl list: shows bus and dimm info")
 run sudo ndctl list --buses
 run sudo ndctl list --dimms
+
+run sudo daxctl list --human --regions --devices --mappings
