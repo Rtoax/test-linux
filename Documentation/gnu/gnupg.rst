@@ -8,8 +8,8 @@ GNU PG - GNU Privacy Guard
 以，自由软件基金会决定，开发一个PGP的替代品，取名为GnuPG。这就是GPG的由来。
 
 
-# Links
+Links
+-----
 
 - https://www.gnupg.org/
 - https://dev.gnupg.org/source/gnupg.git
-

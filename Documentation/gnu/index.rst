@@ -16,15 +16,19 @@ under the GPL.
 .. toctree::
    :maxdepth: 1
 
+   abbrev
    history
    bash
    binutils
    coreutils
+   findutils
    gcc
    gdb
    dwarf
    glibc
    gnuplot
+   gnupg
+   gperf
    ncurses
 
 
