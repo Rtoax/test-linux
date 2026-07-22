@@ -33,4 +33,5 @@ done
 run sudo ndctl list --buses
 run sudo ndctl list --dimms
 
+# commit 9d4c372fb42d ("cxl: example: daxctl list --human --regions --devices --mappings")
 run sudo daxctl list --human --regions --devices --mappings
