@@ -52,7 +52,7 @@ cxl_pmem() {
 	# mode: raw, sector, fsdax, devdax
 	# - raw: /dev/pmemN
 	# - fsdax: /dev/pmemN (block device), commit d61a78f78d31 ("cxl: pmem: test block device of 1way pmem")
-	# - devdax: /dev/dax0.0
+	# - devdax: /dev/dax0.0, commit 62cb28cc8244 ("cxl: devdax: create, list and test /dev/dax0.0")
 	#   1. mmap(2): commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
 	#   2. libpmem
 	sudo ndctl create-namespace --region=region0 --mode=fsdax --size=1024M
