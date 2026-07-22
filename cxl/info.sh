@@ -17,6 +17,7 @@ run sudo cxl list --decoders
 run sudo cxl list --buses --ports --decoders
 run sudo cxl list --memdevs
 
+
 for dev in ${MEMDEVS[@]}
 do
 	run sudo cxl list -m ${dev} --health
@@ -27,3 +28,6 @@ do
 	run sudo cxl list --decoders --decoder ${decoder}
 	run sudo cxl list --memdevs --decoder ${decoder}
 done
+
+run sudo ndctl list --buses
+run sudo ndctl list --dimms

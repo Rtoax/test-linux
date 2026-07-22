@@ -7,6 +7,8 @@ readonly MEMDEVS=( $(sudo cxl list --memdevs | jq -r '.[].memdev') )
 sudo cxl list -D
 sudo cxl list -D -d decoder0.0
 sudo cxl list -M -d decoder0.0
+# Bus and dimm
+sudo ndctl list -BD
 
 # commit d5a21a914482 ("cxl.sh: multi memdevs to on region")
 cxl_vmem() {
@@ -43,7 +45,7 @@ cxl_vmem() {
 cxl_pmem() {
 	# commit 31a30fb65f93 ("cxl.sh: pmem: create-region")
 	sudo cxl create-region --decoder decoder0.0 --size 1024M --type pmem --memdevs mem0
-	sudo ndctl list -R
+	sudo ndctl list --regions
 
 	# Create namespace, generate /dev/pmem0
 	# mode: raw, sector, fsdax, devdax
@@ -51,7 +53,8 @@ cxl_pmem() {
 	# - fsdax: /dev/pmemN (block device), commit d61a78f78d31 ("cxl: pmem: test block device of 1way pmem")
 	# - devdax: /dev/dax0.0 (mmap(2)), commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
 	sudo ndctl create-namespace --region=region0 --mode=fsdax --size=1024M
-	sudo ndctl list
+	sudo ndctl list --regions
+
 	sudo lsblk
 
 	# Use pmem block...
