@@ -1662,10 +1662,8 @@ __cxl_pmem_ways() {
 	min_memory_required $((${ways} + 1))G
 
 	local pxb_id1=$(next_pxb_cxl_id)
-	local pxb_id2=$(next_pxb_cxl_id)
 
 	add_cxl_pxb ${pxb_id1}
-	add_cxl_pxb ${pxb_id2}
 
 	for ((i = 1; i <= ${ways}; i++))
 	do
