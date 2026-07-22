@@ -14,7 +14,7 @@ doc_dir = os.path.dirname(os.path.abspath(__file__))
 project = 'The Test Linux Documentation'
 copyright = 'Copyright (C) 2022-2026 Rong Tao'
 author = 'Rong Tao'
-version = release = '0.0.322'
+version = release = '0.0.323'
 
 html_favicon = "images/tux.svg"
 html_logo = "images/tux.svg"
