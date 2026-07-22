@@ -78,8 +78,8 @@ static int save_txt(const struct plot *p, const char *filename, bool debug)
 			for_each_value(ln, v)
 			{
 				fprintf(fp, "value %d %d %lf %ld %ld\n", lg->id,
-					ln->id, v->v, v->tv.tv_sec,
-					v->tv.tv_usec);
+					ln->id, v->v, v->x_axis.tv.tv_sec,
+					v->x_axis.tv.tv_usec);
 			}
 		}
 	}
@@ -389,11 +389,11 @@ static int save_json(const struct plot *p, const char *filename, bool debug)
 
 				json_object *tv = json_object_new_array();
 				json_object_array_add(
-					tv,
-					json_object_new_uint64(v->tv.tv_sec));
+					tv, json_object_new_uint64(
+						    v->x_axis.tv.tv_sec));
 				json_object_array_add(
-					tv,
-					json_object_new_uint64(v->tv.tv_usec));
+					tv, json_object_new_uint64(
+						    v->x_axis.tv.tv_usec));
 
 				json_object_object_add(value, "tv", tv);
 

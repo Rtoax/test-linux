@@ -261,7 +261,8 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		/* set x axis */
 		if ((ivs - 1) % 10 == 0) {
 			char buf[10];
-			strftime(buf, 10, "%T", localtime(&v->tv.tv_sec));
+			strftime(buf, 10, "%T",
+				 localtime(&v->x_axis.tv.tv_sec));
 			mvprintw(p->height - p->bnd.bottom + 1, w, "%s", buf);
 		}
 

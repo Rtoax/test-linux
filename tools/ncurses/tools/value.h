@@ -11,7 +11,13 @@ struct value {
 	double log_v; /* = sign(v) * log(1 + |v|) */
 	double log10_v; /* = sign(v) * log10(1 + |v|) */
 	double exp_v; /* = exp(v) */
-	struct timeval tv;
+	struct {
+		/* x axis value type */
+		union {
+			struct timeval tv;
+			/* TODO: add more */
+		};
+	} x_axis;
 	struct value *next;
 };
 

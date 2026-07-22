@@ -188,9 +188,9 @@ static int enqueue_value_to_tail(struct line *l, double v, struct timeval *tv)
 	new->log10_v = signed_log10_trans(v);
 	new->exp_v = exp(v);
 	if (tv)
-		memcpy(&new->tv, tv, sizeof(struct timeval));
+		memcpy(&new->x_axis.tv, tv, sizeof(struct timeval));
 	else
-		gettimeofday(&new->tv, NULL);
+		gettimeofday(&new->x_axis.tv, NULL);
 	new->next = NULL;
 
 	if (!l->head) {
