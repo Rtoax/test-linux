@@ -8,3 +8,4 @@ Computer Language
    :maxdepth: 1
 
    python/index
+   rust/index
