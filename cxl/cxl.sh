@@ -55,6 +55,7 @@ cxl_pmem() {
 	# - devdax: /dev/dax0.0 (mmap(2)), commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
 	sudo ndctl create-namespace --region=region0 --mode=fsdax --size=1024M
 	# note: Create namespace cost times...
+	# - fsdax: commit 420bc938ad4d ("cxl: cxl.sh: list namespaces of pmem fsdax")
 	sudo ndctl list --regions --namespaces
 
 	sudo lsblk -o +fstype
