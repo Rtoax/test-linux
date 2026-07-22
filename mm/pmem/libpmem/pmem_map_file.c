@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <libpmem.h>
 
+/* "/dev/dax0.0" was created by cxl */
 #define DAX_DEVICE "/dev/dax0.0"
 #define MAP_SIZE (1 * 1024 * 1024 * 1024UL)
 

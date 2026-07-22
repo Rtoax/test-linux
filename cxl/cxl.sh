@@ -52,7 +52,9 @@ cxl_pmem() {
 	# mode: raw, sector, fsdax, devdax
 	# - raw: /dev/pmemN
 	# - fsdax: /dev/pmemN (block device), commit d61a78f78d31 ("cxl: pmem: test block device of 1way pmem")
-	# - devdax: /dev/dax0.0 (mmap(2)), commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
+	# - devdax: /dev/dax0.0
+	#   1. mmap(2): commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
+	#   2. libpmem
 	sudo ndctl create-namespace --region=region0 --mode=fsdax --size=1024M
 	# note: Create namespace cost times...
 	# - fsdax: commit 420bc938ad4d ("cxl: cxl.sh: list namespaces of pmem fsdax")
@@ -64,11 +66,22 @@ cxl_pmem() {
 	# 1. dd test in VM
 	#    commit 396d70443203 ("cxl.sh: pmem: add how to use pmem block")
 	#    commit 6b4e95c05687 ("cxl.sh: pmem: vm: why CXL pmem block is so slow in VM")
-	test_pmem_blk() {
+	test_pmem_fsdax() {
+		local mnt=pmem
 		sudo mkfs.xfs -f /dev/pmem0
-		sudo mkdir -p pmem
-		sudo mount /dev/pmem0 pmem
+		sudo mkdir -p ${mnt}
+		sudo mount /dev/pmem0 ${mnt}
+		pushd ${mnt}
 		sudo dd if=/dev/zero of=a.bin oflag=direct bs=1M count=200 status=progress
+		popd
+		sudo umount ${mnt}
+		sudo rmdir ${mnt}
+	}
+
+	# Use pmem devdax
+	test_pmem_devdax() {
+		sudo daxctl list --regions --devices
+		# Test with mmap(2), libpmem
 	}
 
 	sudo ndctl disable-namespace namespace0.0
