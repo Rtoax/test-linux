@@ -37,10 +37,15 @@ scripts_install()
 	# Other directory
 	ln -s ${SCRIPTS_DIR}/../ai/pytorch/build/compile /usr/bin/pytorch-compile
 	ln -s ${SCRIPTS_DIR}/../tools/heatmap/hmctl.sh /usr/bin/hmctl
+
+	systemctl daemon-reload
+	systemctl enable --now sphinx-serve-tl.service
 }
 
 scripts_uninstall()
 {
+	systemctl disable --now sphinx-serve-tl.service
+
 	rm -f /usr/bin/pytorch-compile \
 		/usr/bin/git-bigfile \
 		/usr/bin/git-statistic \
@@ -61,6 +66,8 @@ scripts_uninstall()
 		/usr/bin/qemu-vm \
 		/usr/bin/sphinx-serve-tl \
 		/usr/lib/systemd/system/sphinx-serve-tl.service
+
+	systemctl daemon-reload
 }
 
 scripts_set_env()
