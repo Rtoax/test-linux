@@ -296,6 +296,9 @@ ifeq ($(call pahole_lt,1,26),y)
   bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
 endif
 
+# TODO: libbpf has more macro helpers in bpf_helpers.h, such as bpf_for(), we
+# should add it here.
+
 ################################################################################
 # From here, store developing kfuncs checks
 
