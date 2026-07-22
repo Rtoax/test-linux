@@ -1852,6 +1852,7 @@ config_cxl() {
 	fi
 
 	qmachine+=( cxl=on )
+	qmachine+=( nvdimm=on )
 
 	# Create CXL PXB
 	for i in ${cxl_pxb_ids[@]}
