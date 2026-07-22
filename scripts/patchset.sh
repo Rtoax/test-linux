@@ -10,7 +10,7 @@
 #
 set -e
 
-readonly VERSION="v1.1.3"
+readonly VERSION="v1.1.4"
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 subject_prefix=
@@ -207,6 +207,13 @@ __patchset_getopt__()
 			;;
 		esac
 	done
+
+	if [[ "${subject_prefix}" ]]; then
+		local ver=$(echo "${subject_prefix}" | grep -owE 'v[0-9]+')
+		if [[ "${ver}" ]]; then
+			output_dir+=".${ver}"
+		fi
+	fi
 }
 
 my_eval()
