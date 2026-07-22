@@ -50,7 +50,8 @@ cxl_pmem() {
 
 	# Create namespace, generate /dev/pmem0
 	# mode: raw, sector, fsdax, devdax
-	# - raw: /dev/pmemN (block device), see also 'fsdax'
+	# - raw: /dev/pmemN (block device), commit df86a43c93e1 ("cxl: pmem: test 'raw' mode (same as fsdax)")
+	#   see also 'fsdax'
 	# - fsdax: /dev/pmemN (block device), commit d61a78f78d31 ("cxl: pmem: test block device of 1way pmem")
 	# - devdax: /dev/dax0.0, commit 62cb28cc8244 ("cxl: devdax: create, list and test /dev/dax0.0")
 	#   1. mmap(2): commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
