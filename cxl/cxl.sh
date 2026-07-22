@@ -8,6 +8,7 @@ sudo cxl list -D
 sudo cxl list -D -d decoder0.0
 sudo cxl list -M -d decoder0.0
 # Bus and dimm
+# commit a8b5d8d7094b ("cxl: ndctl list: shows bus and dimm info")
 sudo ndctl list -BD
 
 # commit d5a21a914482 ("cxl.sh: multi memdevs to on region")
