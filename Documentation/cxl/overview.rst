@@ -52,6 +52,42 @@ CXL.memory（又名 CXL.mem）
 - CXL.mem 使连接到设备的内存成为可缓存内存（称为主机管理设备内存 (HDM)），类似于主机内存，从而实现主机在 HDM 和主机内存之间的统一视图
 
 
+CXL Type 1/2/3
+--------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Item
+     - CXL Type 1
+     - CXL Type 2
+     - CXL Type 3
+   * - 支持协议
+     - CXL.io + CXL.cache
+     - CXL.io + CXL.cache + CXL.mem
+     - CXL.io + CXL.mem
+   * - 设备是否有本地内存
+     - ❌
+     - ✅
+     - ✅
+   * - 是否缓存主机内存
+     - ✅
+     - ✅
+     - ❌
+   * - 典型应用
+     - SmartNIC, FPGA 加速卡
+     - GPU、AI 加速卡、FPGA 异构计算
+     - 内存扩展，内存池化，分层内存
+   * - 商业产品
+     - Intel Agilex FPGA, ...
+     - Intel Agilex FPGA, ...
+     - Samsung CXL Memory Module (CMM-D), ...
+   * - 成熟度
+     - 已有原型/少量产品
+     - 极少产品，未来方向
+     - 大量量产，生态最成熟
+
+
 CXL 协议版本
 ------------
 
