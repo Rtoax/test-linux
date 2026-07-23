@@ -54,8 +54,10 @@ void get_ram_usage(struct ram_occupy *info)
 	info->totalSwapMb = (unsigned long)(si.totalswap / megabyte);
 	info->freeSwapMb = (unsigned long)(si.freeswap / megabyte);
 
-	double occupyRam = (info->totalRamMemMb - info->freeRamMemMb) * 1.0 / info->totalRamMemMb;
-	double occupySwap = (info->totalSwapMb - info->freeSwapMb) * 1.0 / info->totalSwapMb;
+	double occupyRam = (info->totalRamMemMb - info->freeRamMemMb) * 1.0 /
+			   info->totalRamMemMb;
+	double occupySwap = (info->totalSwapMb - info->freeSwapMb) * 1.0 /
+			    info->totalSwapMb;
 
 	info->occupyRam.integer = (int)(occupyRam * 100);
 	info->occupyRam.decimal = (int)(occupyRam * 10000 / 100);

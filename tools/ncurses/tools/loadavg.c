@@ -28,6 +28,7 @@ static void loadavg_update_data(struct lgroup *lg, void *arg)
 	double avg[3];
 	int i = 0;
 
+	/* or use sysinfo(2) */
 	getloadavg(avg, 3);
 
 	for_each_line(lg, line)
