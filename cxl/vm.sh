@@ -63,7 +63,7 @@ if ! [[ -e ${initramfs} ]]; then
 fi
 
 if ! [[ -e ${rootfs} ]]; then
-	try_run sudo ../scripts/rootfs/fedora.sh --rootfs vm.rootfs/ --image ${rootfs} \
+	try_run sudo rootfs-fedora --rootfs vm.rootfs/ --image ${rootfs} \
 		-i cxl-cli -i cxl-libs -i ndctl -i daxctl \
 		-i dmidecode -i kmod -i util-linux -i pciutils \
 		-i kernel-$(uname -r) \
@@ -127,6 +127,6 @@ fi
 
 [[ -z ${NOCXL} ]] && qargs+=( ${cxlargs[@]} )
 
-try_run sudo ../scripts/qemu-vm.sh "${qargs[@]}" "${@}"
+try_run sudo qemu-vm "${qargs[@]}" "${@}"
 
 wait

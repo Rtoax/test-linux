@@ -31,6 +31,7 @@ scripts_install()
 	ln -s ${SCRIPTS_DIR}/kcompile.sh /usr/bin/kcompile
 	ln -s ${SCRIPTS_DIR}/qemu-compile.sh /usr/bin/qemu-compile
 	ln -s ${SCRIPTS_DIR}/qemu-vm.sh /usr/bin/qemu-vm
+	ln -s ${SCRIPTS_DIR}/rootfs/fedora.sh /usr/bin/rootfs-fedora
 	ln -s ${SCRIPTS_DIR}/docs/sphinx-serve.sh /usr/bin/sphinx-serve-tl
 	ln -s ${SCRIPTS_DIR}/docs/sphinx-serve.service /usr/lib/systemd/system/sphinx-serve-tl.service
 
@@ -64,6 +65,7 @@ scripts_uninstall()
 		/usr/bin/pytorch-compile \
 		/usr/bin/qemu-compile \
 		/usr/bin/qemu-vm \
+		/usr/bin/rootfs-fedora \
 		/usr/bin/sphinx-serve-tl \
 		/usr/lib/systemd/system/sphinx-serve-tl.service
 
