@@ -226,6 +226,13 @@ handle_cpu_arg() {
 			;;
 		esac
 	done
+
+	if [[ ${#args[@]} -eq 1 ]]; then
+		if ! [[ ${args[0]} =~ ^[0-9]+$ ]]; then
+			error "cpu: unknown '${args[@]}', see --cpu help"
+		fi
+	fi
+
 	unset args
 
 	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
