@@ -106,11 +106,11 @@ static void __stdin_update_data(struct lgroup *lg, struct stdin_arg *a)
 
 	char *s = buf;
 
-	/**
-	 * The buf could be "0.49 0.64 0.68\n0.49 0.64 0.68\n", split it by '\n'
-	 * first.
-	 */
 	while (s && *s != '\0') {
+		/**
+		 * The buf could be splited by '\n', such as:
+		 * "0.49 0.64 0.68\n0.49 0.64 0.68\n"
+		 */
 		char *ln_end = strchr(s, '\n');
 		if (ln_end) {
 			*ln_end = '\0';
