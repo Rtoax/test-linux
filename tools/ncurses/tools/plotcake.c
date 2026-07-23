@@ -388,7 +388,7 @@ int main(int argc, char *argv[])
 		if (!file && ram) {
 			set_plot_title(&plot, title ?: "Memory Usage");
 			set_plot_xlabel(&plot, xlabel ?: "Time");
-			set_plot_ylabel(&plot, ylabel ?: "Size(MB)");
+			set_plot_ylabel(&plot, ylabel ?: "Size(GiB)");
 			plot_add_lgroup(&plot, &lg_ram, NULL);
 		} else if (!file) {
 			set_plot_title(&plot, title ?: "Loadavg");

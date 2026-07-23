@@ -9,6 +9,10 @@
 static int ram_create_lines(struct lgroup *lg, void *arg)
 {
 	int n = 0;
+	struct sysinfo si;
+
+	sysinfo(&si);
+
 	n = new_line(lg, "total", nextlcolor(C_RED)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
@@ -21,6 +25,16 @@ static int ram_create_lines(struct lgroup *lg, void *arg)
 	n = new_line(lg, "buff", nextlcolor(C_CYAN)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
+	if (si.totalswap > 0) {
+		n = new_line(lg, "totalswap", nextlcolor(C_YELLOW)) ? n + 1 :
+								      -EEXIST;
+		if (n < 0)
+			goto done;
+		n = new_line(lg, "freeswap", nextlcolor(C_MAGENTA)) ? n + 1 :
+								      -EEXIST;
+		if (n < 0)
+			goto done;
+	}
 done:
 	return n;
 }
@@ -29,7 +43,7 @@ static void ram_update_data(struct lgroup *lg, void *arg)
 {
 	struct sysinfo si;
 	int i = 0;
-	unsigned long mem[4] = { 0 };
+	unsigned long mem[6] = { 0 };
 
 	sysinfo(&si);
 
@@ -37,9 +51,12 @@ static void ram_update_data(struct lgroup *lg, void *arg)
 	mem[1] = si.freeram;
 	mem[2] = si.sharedram;
 	mem[3] = si.bufferram;
+	mem[4] = si.totalswap;
+	mem[5] = si.freeswap;
 
 	for_each_line(lg, line)
 	{
+		/* Bytes to GiB */
 		line_add_value(line, mem[i] * 1.0 / 1024 / 1024 / 1024, -1,
 			       NULL);
 		i++;

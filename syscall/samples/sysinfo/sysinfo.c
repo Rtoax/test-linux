@@ -33,7 +33,8 @@ void print_sysinfo(struct sysinfo *si)
 	printf("freeram     \t%ld.\n", si->freeram);
 	printf("sharedram   \t%ld.\n", si->sharedram);
 	printf("bufferram   \t%ld.\n", si->bufferram);
-	printf("totalswap   \t%ld.\n", si->totalswap);
+	printf("totalswap   \t%ld (swap %s).\n", si->totalswap,
+	       si->totalswap > 0 ? "on" : "off");
 	printf("freeswap    \t%ld.\n", si->freeswap);
 	printf("procs       \t%d.\n",  si->procs);
 	printf("totalhigh   \t%ld.\n", si->totalhigh);
