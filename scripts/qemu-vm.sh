@@ -1156,7 +1156,7 @@ auto_uefi_pflash() {
 		# Copy a new VAR from system OS.
 		var=${i}
 		local newvar=${q_vm_name}_$(basename ${var})
-		cp ${var} ${newvar}
+		_eval cp ${var} ${newvar}
 		cleanup_files+=( ${newvar} )
 		var=${newvar}
 		break
