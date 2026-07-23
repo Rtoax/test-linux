@@ -1,5 +1,6 @@
 include git.mk
 include libsmbios.mk
+include ndctl.mk
 include podman.mk
 include tmux.mk
 include zstd.mk
@@ -46,4 +47,5 @@ subdir-y += util-linux
 subdir-y += vim
 subdir-y += xterm
 subdir-y += zlib
+subdir-${HAVE_NDCTL} += ndctl
 subdir-${HAVE_ZSTD} += zstd

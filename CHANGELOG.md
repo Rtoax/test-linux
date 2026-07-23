@@ -40,9 +40,11 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
+- add ndctl;
 - add xterm;
 - add sysstat subdir;
 #### Template
+- add ndctl.mk;
 - bpf-cflags add `__IN_BPF__`;
 - fs: add e2fsprogs.mk;
 - bcc.mk: add `HAVE_BCC_HDR`;
