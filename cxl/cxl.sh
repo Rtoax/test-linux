@@ -59,7 +59,7 @@ cxl_pmem() {
 	sudo ndctl create-namespace --region=region0 --mode=fsdax --size=1024M
 	# note: Create namespace cost times...
 	# - fsdax: commit 420bc938ad4d ("cxl: cxl.sh: list namespaces of pmem fsdax")
-	# - devdax:
+	# - devdax: commit 76d9850c67bf ("cxl: cxl.sh: list namespaces of pmem devdax")
 	sudo ndctl list --regions --namespaces
 
 	# Use pmem block (raw, fsdax)...
