@@ -1,12 +1,20 @@
 .. SPDX-License-Identifier: GPL-2.0
 
-=================
-Development rules
-=================
+============================
+Test Linux Development rules
+============================
 
 Linus Torvalds releases a new kernel and opens a **2-week merge window**,
 however, test-linux has no development cycle restrictions, submissions,
 development, and releases can be done at any time.
+
+
+Documentation
+-------------
+
+The documentation contains some Git commits in the format **commit <12B-hash>**,
+which represent commits in a specific git-repository. Unless otherwise
+specified, the default is the commit for **test-linux**.
 
 
 Commit Tags
