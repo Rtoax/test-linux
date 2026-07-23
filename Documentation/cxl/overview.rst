@@ -126,9 +126,11 @@ Linux Kernel
 EDSFF
 -----
 
-- Ex #1: EDSFF E1.S (Smaller), 12 ~ 25W
-- Ex #2: EDSFF E3.S / E3.L (Larger), 25W ~ 40W (1T), 40W ~ 70W (2T)
-- Ex #3: Add-in Card (AIC) (Larger than E3.S/L), Similar range compared to E3.S/L
+EDSFF: Enterprise and Data Center Standard Form Factor 企业和数据中心标准外形尺寸.
+
+- **Ex #1**: EDSFF E1.S (Smaller), 12 ~ 25W
+- **Ex #2**: EDSFF E3.S / E3.L (Larger), 25W ~ 40W (1T), 40W ~ 70W (2T)
+- **Ex #3**: Add-in Card (AIC) (Larger than E3.S/L), Similar range compared to E3.S/L
 
 
 Links
