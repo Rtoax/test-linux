@@ -27,7 +27,7 @@ and this project adheres to
 - move png and svg to Documentation/images/;
 #### Deprecated
 #### Documentation
-- cxl: add intel, amd;
+- cxl: add intel, amd, samsung;
 - add boot directory;
 - lang: add python;
 - storage: add iscsi.rst, scsi.rst, flash.rst;

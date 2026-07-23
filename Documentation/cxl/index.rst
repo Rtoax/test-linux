@@ -32,4 +32,5 @@ CXL 厂商和产品
    amd
    h3platform
    intel
+   samsung
    xconn
