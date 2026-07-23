@@ -23,6 +23,7 @@ readonly BUS_PCIE0=pcie.0 # q35 default root bus
 pcie_root_port_num=2
 
 q_vm_name=$(mktemp -u vm-XXXXXX)
+q_cpus=4
 q_memory=2G
 
 f_kernel=
@@ -1008,7 +1009,10 @@ min_memory_required() {
 }
 
 config_cpu() {
-	qargs+=( -cpu host -smp cpus=4 )
+	qargs+=( -cpu host )
+	qargs+=( -smp cpus=${q_cpus} )
+	# TODO: support more cpu
+	# qargs+=( -cpu kvm64,+kvm_pv_unhalt,+kvm-pv-ipi,+kvm-pv-tlb-flush )
 }
 
 # $1: code
