@@ -227,9 +227,11 @@ handle_cpu_arg() {
 		esac
 	done
 
-	if [[ ${#args[@]} -eq 1 ]]; then
-		if ! [[ ${args[0]} =~ ^[0-9]+$ ]]; then
-			error "cpu: unknown '${args[@]}', see --cpu help"
+	if [[ ${#args[@]} -eq 1 ]] &&
+	   [[ $(echo ${1} | tr '=,' ' ' | wc -w) -eq 1 ]]; then
+		# Avoid extra non-digest char, like '--cpu 16,'
+		if ! [[ ${1} =~ ^[0-9]+$ ]]; then
+			error "cpu: unknown '${1}', see --cpu help"
 		fi
 	fi
 
@@ -247,12 +249,12 @@ handle_cpu_arg() {
 				model=${arg:6}
 				;;
 			*)
-				error "cpu unknown arg ${arg}"
+				error "cpu: unknown arg '${arg}'"
 				;;
 			esac
 		done
 	else
-		nr_cpus=$1
+		nr_cpus=${1}
 	fi
 
 	if [[ ! -z ${nr_cpus} ]]; then
