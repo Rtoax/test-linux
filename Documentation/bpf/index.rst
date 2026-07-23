@@ -8,6 +8,9 @@ eBPF: Extended Berkeley Packet Filter
    :scale: 50%
 
 
+eBPF Theory
+-----------
+
 .. toctree::
    :maxdepth: 1
 
@@ -19,13 +22,16 @@ eBPF: Extended Berkeley Packet Filter
    kfunc
    jit
    xdp
-   libbpf
-   bpftool
 
+
+eBPF Software
+-------------
 
 .. toctree::
    :maxdepth: 1
 
+   bpftool
    bpftrace
    bcc
    cilium
+   libbpf
