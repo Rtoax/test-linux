@@ -21,3 +21,4 @@ run --name fedora --kernel vmlinuz
 run --name fedora --kernel vmlinuz --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
 run --cpu 10 --kernel vmlinux
 run --cpu nr=10 --kernel vmlinux
+run --cpu model=base --kernel vmlinux

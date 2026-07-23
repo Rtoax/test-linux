@@ -24,6 +24,7 @@ pcie_root_port_num=2
 
 q_vm_name=$(mktemp -u vm-XXXXXX)
 q_cpus=4
+q_cpu_model=host
 q_memory=2G
 
 f_kernel=
@@ -52,7 +53,7 @@ q_gdb=
 
 dry_run=
 verbose=
-version="v1.0.1"
+version="v1.0.2"
 debug=
 
 # Disk configuratios
@@ -206,13 +207,14 @@ ${BOLD}--cpu help${RST}: show this information
 
 ${BOLD}--cpu [num]${RST}: set cpu number
 ${BOLD}--cpu nr=[num]${RST}: set cpu number
+${BOLD}--cpu model=[MODEL]${RST}: set cpu model (default: ${UL}${q_cpu_model}${RST}), see ${GRAY}${QEMU_KVM} -cpu help${RST}
 "
 	exit 0
 }
 
 handle_cpu_arg() {
 	local arg args
-	local nr_cpus
+	local nr_cpus model
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -234,6 +236,9 @@ handle_cpu_arg() {
 			nr)
 				nr_cpus=${arg:3}
 				;;
+			model)
+				model=${arg:6}
+				;;
 			*)
 				error "cpu unknown arg ${arg}"
 				;;
@@ -243,7 +248,12 @@ handle_cpu_arg() {
 		nr_cpus=$1
 	fi
 
-	q_cpus=${nr_cpus}
+	if [[ ! -z ${nr_cpus} ]]; then
+		q_cpus=${nr_cpus}
+	fi
+	if [[ ! -z ${model} ]]; then
+		q_cpu_model=${model}
+	fi
 }
 
 ################################################################################
@@ -1084,7 +1094,7 @@ min_memory_required() {
 }
 
 config_cpu() {
-	qargs+=( -cpu host )
+	qargs+=( -cpu ${q_cpu_model} )
 	qargs+=( -smp cpus=${q_cpus},maxcpus=$((q_cpus * 2)) )
 	# TODO: support more cpu
 	# qargs+=( -cpu kvm64,+kvm_pv_unhalt,+kvm-pv-ipi,+kvm-pv-tlb-flush )
