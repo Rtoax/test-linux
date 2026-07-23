@@ -125,4 +125,3 @@ int main(int argc, char *argv[])
 		printf("running time %d-%d:%d:%d\n", tr.tm_day, tr.tm_hour, tr.tm_min, tr.tm_sec);
 	}
 }
-

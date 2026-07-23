@@ -9,4 +9,3 @@ int main(void)
 	re_search(NULL, NULL, 0, 0, 0, NULL);
 	return 0;
 }
-

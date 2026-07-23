@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc/regex: add test time.c;
 - cpp/std: add string subdir;
 - cxl: info.sh: more;
 - e2fsprogs: add metadata.c test;

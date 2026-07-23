@@ -2,6 +2,7 @@ target-y += regcomp
 target-y += re_search
 target-y += re_match
 target-y += email
+target-y += time
 target-y += getprocessruntime-regex
 target-y += printf-format-arg-split
 target-y += tr069

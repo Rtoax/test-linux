@@ -10,7 +10,6 @@
 #include <time.h>
 #include "time_helpers.h"
 
-
 int sys_clock_getres(clockid_t clockid, struct timespec *tp)
 {
 	return syscall(__NR_clock_getres, clockid, tp);
