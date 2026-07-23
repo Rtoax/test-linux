@@ -1268,9 +1268,15 @@ config_kernel() {
 
 __disk_file_type() {
 	local file=$1
-	local type=$(ftype ${file})
-	[[ ${type} != qcow2 ]] && type=raw
-	echo ${type}
+	local ft=$(ftype ${file})
+	if [[ -z ${ft} ]] && [[ ${dry_run} ]]; then
+		ft=${file##*.}
+	fi
+	if [[ -z ${ft} ]]; then
+		ft=raw
+		warning "Treat ${file} as ${ft}"
+	fi
+	echo ${ft}
 }
 
 add_virtio_disk() {

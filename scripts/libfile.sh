@@ -20,8 +20,11 @@ fexist() {
 	fi
 }
 
+# Get file type from file.
 # $1: input file
-# return: echo file type, like 'qcow2', 'unknown' if unknown or too small.
+# return: echo file type, like 'qcow2'
+#         echo 'unknown' if unknown or too small.
+#         empty if file not exist.
 ftype() {
 	local file=$1
 	if [[ $(fexist ${file}) != yes ]]; then
