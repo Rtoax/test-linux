@@ -1085,7 +1085,7 @@ min_memory_required() {
 
 config_cpu() {
 	qargs+=( -cpu host )
-	qargs+=( -smp cpus=${q_cpus} )
+	qargs+=( -smp cpus=${q_cpus},maxcpus=$((q_cpus * 2)) )
 	# TODO: support more cpu
 	# qargs+=( -cpu kvm64,+kvm_pv_unhalt,+kvm-pv-ipi,+kvm-pv-tlb-flush )
 }
