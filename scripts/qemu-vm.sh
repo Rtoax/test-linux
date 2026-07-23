@@ -41,8 +41,8 @@ declare -a f_nvdimms
 # Disk shoud contains boot(EFI) partition, kernel, initramfs, etc.
 declare -a f_disks
 
-f_virtiofs_sock=
-q_virtiofs_tag=
+declare -a f_virtiofs_sock
+declare -a q_virtiofs_tag
 
 q_stdio=
 q_monitor=
@@ -111,8 +111,10 @@ ${BOLD}OPTIONS${RST}
   ${BOLD}VirtIO OPTIONS${RST}
     --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
                             by ${GRAY}$ virtiofsd --socket-path=/var/run/vhost-fs.sock -o source=/path/to/host/${RST}
+                            (may be listed multiple times)
     --virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}${UL}myfs${RST}, then,
                             in guest os: ${GRAY}$ sudo mount -t virtiofs ${UL}myfs${RST} ${GRAY}/mnt${RST}
+                            (may be listed multiple times)
 
   ${BOLD}UEFI OPTIONS${RST}
     --uefi [ARGS]           UEFI by Qemu. please see ${BOLD}--uefi help${RST}
@@ -163,11 +165,14 @@ ${BOLD}SEE ALSO${RST}
 	exit ${1-0}
 }
 
-check_file_exist_and_exit() {
-	local f=$1
-	if [[ ! -e ${f} ]] && [[ -z ${dry_run} ]]; then
-		error "${f} is not exist."
-	fi
+check_files_exist_and_exit() {
+	local f
+	for f in ${@}
+	do
+		if [[ ! -e ${f} ]] && [[ -z ${dry_run} ]]; then
+			error "${f} is not exist."
+		fi
+	done
 }
 
 is_qemu_format() {
@@ -260,8 +265,8 @@ handle_uefi_arg() {
 		error "--uefi could not specify code and var at the same time."
 	fi
 
-	[[ ${code} ]] && check_file_exist_and_exit ${code}
-	[[ ${var} ]] && check_file_exist_and_exit ${var}
+	[[ ${code} ]] && check_files_exist_and_exit ${code}
+	[[ ${var} ]] && check_files_exist_and_exit ${var}
 
 	[[ ${code} ]] && uefi_code=${code}
 	[[ ${var} ]] && uefi_var=${var}
@@ -790,12 +795,12 @@ while true; do
 		;;
 	--virtio-fs-sock)
 		shift
-		f_virtiofs_sock=$1
+		f_virtiofs_sock+=( $1 )
 		shift
 		;;
 	--virtio-fs-tag)
 		shift
-		q_virtiofs_tag=$1
+		q_virtiofs_tag+=( $1 )
 		shift
 		;;
 	--stdio)
@@ -844,22 +849,22 @@ while true; do
 done
 
 if [[ ${f_kernel} ]]; then
-	check_file_exist_and_exit ${f_kernel}
+	check_files_exist_and_exit ${f_kernel}
 	[[ -e ${f_kernel} ]] && f_kernel=$(realpath ${f_kernel})
 fi
 
 if [[ ${f_initrd} ]]; then
-	check_file_exist_and_exit ${f_initrd}
+	check_files_exist_and_exit ${f_initrd}
 	[[ -e ${f_initrd} ]] && f_initrd=$(realpath ${f_initrd})
 fi
 
 if [[ ${f_rootfs} ]]; then
-	check_file_exist_and_exit ${f_rootfs}
+	check_files_exist_and_exit ${f_rootfs}
 	check_qemu_format_and_exit ${f_rootfs}
 	[[ -e ${f_rootfs} ]] && f_rootfs=$(realpath ${f_rootfs})
 fi
 
-[[ ${f_virtiofs_sock} ]] && check_file_exist_and_exit ${f_virtiofs_sock}
+check_files_exist_and_exit ${f_virtiofs_sock[@]}
 
 if [[ ! -f ${QEMU_KVM} ]] && [[ -z ${dry_run} ]]; then
 	error "Not found qemu ${QEMU_KVM}"
@@ -988,6 +993,10 @@ config_memory() {
 	m+=( slots=8 )
 	m+=( maxmem=32768M )
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
+
+	# NUMA
+	qargs+=( -object memory-backend-memfd,id=mem,size=${q_memory},share=on
+			-numa node,memdev=mem )
 }
 
 # $1: require memory size
@@ -1267,7 +1276,7 @@ config_nvdimm() {
 	local nvdimm
 	for nvdimm in ${f_nvdimms[@]}
 	do
-		check_file_exist_and_exit ${nvdimm}
+		check_files_exist_and_exit ${nvdimm}
 		add_nvdimm_blk $(realpath ${nvdimm})
 	done
 }
@@ -1951,11 +1960,17 @@ config_virtiofs() {
 		error "Must specify --virtio-fs-sock and --virtio-fs-tag at the same time"
 	fi
 
+	if [[ ${#f_virtiofs_sock[@]} -ne ${#q_virtiofs_tag[@]} ]]; then
+		error "Number of --virtio-fs-sock must equal to --virtio-fs-tag"
+	fi
+
 	# ref: https://qemu-stsquad.readthedocs.io/en/doc-updates/tools/virtiofsd.html
-	qargs+=(-chardev socket,id=char0,path=${f_virtiofs_sock}
-		-device vhost-user-fs-pci,chardev=char0,bus=${BUS_PCIE0},tag=${q_virtiofs_tag}
-		-object memory-backend-memfd,id=mem,size=${q_memory},share=on
-		-numa node,memdev=mem )
+	local i
+	for ((i = 0; i < ${#f_virtiofs_sock[@]}; i++))
+	do
+		qargs+=( -chardev socket,id=char${i},path=${f_virtiofs_sock[i]}
+			-device vhost-user-fs-pci,chardev=char${i},bus=${BUS_PCIE0},tag=${q_virtiofs_tag[i]} )
+	done
 }
 
 config_basic
