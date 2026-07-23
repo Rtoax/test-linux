@@ -1,5 +1,5 @@
 #!/bin/bash
-# Wrote by Rong Tao
+# Copyright (C) 2025-2026 Rong Tao
 set -e
 readonly prog=rootfs-fedora
 
@@ -173,7 +173,7 @@ image_create_and_mount() {
 	[[ -z ${IMAGE} ]] && return 0
 
 	if [[ ${IMAGE} ]] && [[ ! -e ${IMAGE} ]]; then
-		_eval qemu-img create -f ${IMAGE_TYPE} ${IMAGE} 10G
+		_eval qemu-img create -f ${IMAGE_TYPE} ${IMAGE} 100G
 	fi
 
 	_eval sudo modprobe nbd max_part=16 || true

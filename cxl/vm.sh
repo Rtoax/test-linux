@@ -14,9 +14,9 @@
 set -e
 . /etc/os-release
 
-initramfs=${HOME}/cxl/initramfs.img
 vmlinuz=${HOME}/cxl/vmlinuz
-qcow2=${HOME}/cxl/vm.qcow2
+initramfs=${HOME}/cxl/initramfs.img
+rootfs=${HOME}/cxl/vm.qcow2
 
 _dry_run=
 for a in ${@}
@@ -28,13 +28,21 @@ done
 
 declare -a qargs cxlargs
 
+try_run() {
+	if [[ ${_dry_run} ]]; then
+		echo -e "DUMP: $ \033[1;32m${@}\033[m"
+	else
+		eval "${@}"
+	fi
+}
+
 if [[ ${DEP} ]]; then
 	case ${ID} in
 	fedora|rhel)
-		sudo dnf install -y cxl-cli dracut edk2-ovmf
+		try_run sudo dnf install -y cxl-cli dracut edk2-ovmf
 		;;
 	debian|ubuntu)
-		sudo apt install -u ndctl dracut ovmf
+		try_run sudo apt install -u ndctl dracut ovmf
 		;;
 	*)
 		echo >&2 "ERROR: not support ${ID}"
@@ -42,20 +50,20 @@ if [[ ${DEP} ]]; then
 	esac
 fi
 
-if [[ ! -e ${vmlinuz} ]] && [[ -z ${_dry_run} ]]; then
-	sudo cp /boot/vmlinuz-$(uname -r) ${vmlinuz}
+if [[ ! -e ${vmlinuz} ]]; then
+	try_run sudo cp /boot/vmlinuz-$(uname -r) ${vmlinuz}
 fi
 
-if ! [[ -e ${initramfs} ]] && [[ -z ${_dry_run} ]]; then
-	sudo dracut --kver $(uname -r) --no-hostonly --verbose --force \
+if ! [[ -e ${initramfs} ]]; then
+	try_run sudo dracut --kver $(uname -r) --no-hostonly --verbose --force \
 		--install 'insmod rmmod modprobe lspci ndctl cxl lsblk dmidecode tree' \
 		--add 'bash systemd kernel-modules fs-lib' \
 		--add-drivers 'cxl_acpi cxl_core cxl_mem cxl_pci cxl_pmem cxl_pmu cxl_port' \
 		${initramfs}
 fi
 
-if ! [[ -e ${qcow2} ]] && [[ -z ${_dry_run} ]]; then
-	sudo ../scripts/rootfs/fedora.sh --rootfs vm.rootfs/ --image ${qcow2} \
+if ! [[ -e ${rootfs} ]]; then
+	try_run sudo ../scripts/rootfs/fedora.sh --rootfs vm.rootfs/ --image ${rootfs} \
 		-i cxl-cli -i cxl-libs -i ndctl -i daxctl \
 		-i dmidecode -i kmod -i util-linux -i pciutils \
 		-i kernel-$(uname -r) \
@@ -67,8 +75,8 @@ fi
 # Mount in guest
 # $ sudo mount -t virtiofs Pwd /mnt
 if [[ ${VIRTIOFS} ]]; then
-	sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-pwd.sock -o source=$PWD &
-	sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-git.sock -o source=/home/rongtao/Git/ &
+	try_run sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-pwd.sock -o source=$PWD &
+	try_run sudo /usr/libexec/virtiofsd --socket-path=/var/run/vhost-fs-git.sock -o source=/home/rongtao/Git/ &
 
 	qargs+=( --virtio-fs-sock=/var/run/vhost-fs-pwd.sock --virtio-fs-tag Pwd )
 	qargs+=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
@@ -80,7 +88,7 @@ qargs+=( --kernel ${vmlinuz} )
 qargs+=( --initrd ${initramfs} )
 [[ ${QEMU} ]] && qargs+=( --qemu ${QEMU} )
 [[ ${GDB} ]] && qargs+=( --gdb )
-qargs+=( --rootfs ${qcow2} )
+qargs+=( --rootfs ${rootfs} )
 qargs+=( --stdio )
 qargs+=( --monitor )
 
@@ -119,6 +127,6 @@ fi
 
 [[ -z ${NOCXL} ]] && qargs+=( ${cxlargs[@]} )
 
-sudo ../scripts/qemu-vm.sh "${qargs[@]}" "${@}"
+try_run sudo ../scripts/qemu-vm.sh "${qargs[@]}" "${@}"
 
 wait
