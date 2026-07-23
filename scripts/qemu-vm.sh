@@ -1088,6 +1088,11 @@ config_cpu() {
 	qargs+=( -smp cpus=${q_cpus},maxcpus=$((q_cpus * 2)) )
 	# TODO: support more cpu
 	# qargs+=( -cpu kvm64,+kvm_pv_unhalt,+kvm-pv-ipi,+kvm-pv-tlb-flush )
+
+	# TODO: support numa
+	# -smp cpus=8,sockets=2,cores=4,threads=1
+	# -numa node,nodeid=0,cpus=0-3,mem=4G
+	# -numa node,nodeid=1,cpus=4-7,mem=4G
 }
 
 # $1: code
