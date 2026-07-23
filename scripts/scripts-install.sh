@@ -44,7 +44,7 @@ scripts_install()
 
 scripts_uninstall()
 {
-	systemctl disable --now sphinx-serve-tl.service
+	systemctl disable --now sphinx-serve-tl.service || true
 
 	rm -f /usr/bin/pytorch-compile \
 		/usr/bin/git-bigfile \
