@@ -52,6 +52,7 @@ q_gdb=
 
 dry_run=
 verbose=
+version="v1.0.1"
 debug=
 
 # Disk configuratios
@@ -82,6 +83,7 @@ ${BOLD}DESCRIPTION${RST}
 ${BOLD}OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
 
+    --cpu [ARGS]            config CPU, please see ${BOLD}--cpu help${RST}
     -m, --memory [SIZE]     Sets guest startup RAM size, default: ${q_memory},
                             format see ${UL}SIZE${RST} section.
 
@@ -149,6 +151,7 @@ ${BOLD}OPTIONS${RST}
     -u, --dry-run           only show commands
     -D, --debug             enable debug mode.
     -v, --verbose           enable verbose mode.
+    -V, --version           show version
     -h, --help              show this help information
 
 ${BOLD}EXAMPLES${RST}
@@ -192,6 +195,59 @@ check_qemu_format_and_exit() {
 	fi
 }
 
+################################################################################
+# CPU
+
+cpu_arg_help() {
+	echo -e "
+${BOLD}CPU ARGUMENTS SYNTAX${RST}
+
+${BOLD}--cpu help${RST}: show this information
+
+${BOLD}--cpu [num]${RST}: set cpu number
+${BOLD}--cpu nr=[num]${RST}: set cpu number
+"
+	exit 0
+}
+
+handle_cpu_arg() {
+	local arg args
+	local nr_cpus
+
+	# Pre handle
+	args=( $(echo $1 | tr ',' ' ') )
+	for arg in ${args[@]}
+	do
+		case ${arg%%=*} in
+		help)
+			cpu_arg_help
+			;;
+		esac
+	done
+	unset args
+
+	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
+		args=( $(echo $1 | tr ',' ' ') )
+		for arg in ${args[@]}
+		do
+			case ${arg%%=*} in
+			nr)
+				nr_cpus=${arg:3}
+				;;
+			*)
+				error "cpu unknown arg ${arg}"
+				;;
+			esac
+		done
+	else
+		nr_cpus=$1
+	fi
+
+	q_cpus=${nr_cpus}
+}
+
+################################################################################
+# UEFI
 declare -a UEFI_CODES=(
 	# OVMF: Open Virtual Machine Firmware
 	/usr/share/OVMF/OVMF_CODE.fd
@@ -276,6 +332,9 @@ handle_uefi_arg() {
 		error "--uefi could not specify var and novar at the same time"
 	fi
 }
+
+################################################################################
+# Rootfs
 
 # Format: type=TYPE,file=FILE,ro,rw
 handle_rootfs_arg() {
@@ -373,6 +432,7 @@ handle_disk_arg() {
 	f_disks+=( ${file} )
 }
 
+################################################################################
 # CXL
 # ===
 # - CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
@@ -690,8 +750,12 @@ handle_cxl_arg() {
 	fi
 }
 
-TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDv \
+################################################################################
+# Main
+
+TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDvV \
 	--long name: \
+	--long cpu: \
 	--long memory: \
 	--long uefi: \
 	--long kernel: \
@@ -714,6 +778,7 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDv \
 	--long gdb \
 	--long debug \
 	--long verbose \
+	--long version \
 	--long help \
 	--name ${PROG} -- "$@")
 
@@ -726,6 +791,11 @@ while true; do
 	-n | --name)
 		shift
 		q_vm_name=$1
+		shift
+		;;
+	--cpu)
+		shift
+		handle_cpu_arg ${1}
 		shift
 		;;
 	-m | --memory)
@@ -837,6 +907,11 @@ while true; do
 	-v | --verbose)
 		shift
 		verbose=ON
+		;;
+	-V | --version)
+		shift
+		echo "${0} ${version}"
+		exit 0
 		;;
 	-D | --debug)
 		shift
