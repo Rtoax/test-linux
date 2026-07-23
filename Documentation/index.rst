@@ -43,9 +43,7 @@ Standard and Development
    :maxdepth: 1
 
    Linux <linux/index>
-   Linux Distributions <distro/index>
    Test Linux Development <devel/index>
-   BSD <bsd/index>
 
 
 Development Tools
@@ -60,18 +58,28 @@ Development Tools
    Computer Language <lang/index>
 
 
+Operating System
+================
+
+.. toctree::
+   :maxdepth: 1
+
+   Linux Distributions <distro/index>
+   BSD <bsd/index>
+
+
 Hardware Architecture
 =====================
 
 .. toctree::
    :maxdepth: 1
 
-   PCIe <pcie/index>
    CPU Architecture <arch/index>
-   GPU Architecture <gpu/index>
-   superPod <superpod/index>
    CXL <cxl/index>
+   GPU Architecture <gpu/index>
    Interrupt <interrupt/index>
+   PCIe <pcie/index>
+   superPod <superpod/index>
 
 
 Linux Kernel
@@ -80,11 +88,30 @@ Linux Kernel
 .. toctree::
    :maxdepth: 1
 
-   File System <fs/index>
+   eBPF <bpf/index>
+   File System (FS) <fs/index>
+   InterProcess Communication (IPC) <ipc/index>
+   Memory Management (MM) <mm/index>
+   Network <network/index>
    Scheduler <sched/index>
-   Memory Management <mm/index>
-   Interprocess Communication <ipc/index>
+   Storage <storage/index>
    Syscall <syscall/index>
+   Virtualization <virt/index>
+
+
+Tools
+=====
+
+.. toctree::
+   :maxdepth: 1
+
+   Benchmark <benchmark/index>
+   Boot <boot/index>
+   Container <container/index>
+   Systemd <systemd/index>
+   Tools <tools/index>
+   vDSO <vdso/index>
+   unwind <unwind/index>
 
 
 Debug and Observability
@@ -94,56 +121,6 @@ Debug and Observability
    :maxdepth: 1
 
    eBPF <bpf/index>
-
-
-Storage
-=======
-
-.. toctree::
-   :maxdepth: 1
-
-   Storage <storage/index>
-
-
-Network and Servers
-===================
-
-.. toctree::
-   :maxdepth: 1
-
-   Network <network/index>
-
-
-Virtualization
-==============
-
-.. toctree::
-   :maxdepth: 1
-
-   virt/index
-
-
-Benchmark System
-================
-
-.. toctree::
-   :maxdepth: 1
-
-   Benchmark <benchmark/index>
-
-
-Tools
-=====
-
-.. toctree::
-   :maxdepth: 1
-
-   Boot <boot/index>
-   Container <container/index>
-   Systemd <systemd/index>
-   Tools <tools/index>
-   vDSO <vdso/index>
-   unwind <unwind/index>
 
 
 Frontier and Future Technology

@@ -1,5 +1,5 @@
 ================================
-IPC - Interprocess Communication
+IPC - InterProcess Communication
 ================================
 
 .. toctree::
