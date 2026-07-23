@@ -29,5 +29,7 @@ CXL 厂商和产品
 .. toctree::
    :maxdepth: 1
 
-   xconn
+   amd
    h3platform
+   intel
+   xconn
