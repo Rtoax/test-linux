@@ -1,9 +1,10 @@
 include bpf/bpftrace.mk
 
+subdir-$(call bpftrace_gt,0,20,2) += import
 subdir-y += macro
 subdir-y += string
 subdir-y += struct
-subdir-$(call bpftrace_gt,0,20,2) += import
+subdir-y += test
 
 bpftrace-y += arithmetic.bt
 bpftrace-y += begin.bt
@@ -25,8 +26,8 @@ ifneq ($(wildcard ../../../compiler/dwarf/samples/hello.dw5),)
   bpftrace-y += dw_ustack.bt
 endif
 
-ARGS_dw_ustack.bt := -c ../../../compiler/dwarf/samples/hello.dw5
+BT_ARGS_dw_ustack.bt := -c ../../../compiler/dwarf/samples/hello.dw5
 
-ARGS_getopt.bt.1 := -- --num=1
-ARGS_getopt.bt.9 := -- --num=9
-ARGS_getopt.bt.10 := -- --num=10
+BT_ARGS_getopt.bt.1 := -- --num=1
+BT_ARGS_getopt.bt.9 := -- --num=9
+BT_ARGS_getopt.bt.10 := -- --num=10
