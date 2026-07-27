@@ -7,6 +7,10 @@ Linux Distributions Desktop
 
    gnome
    kde
+   lxqt
+   mate
    wayland
+   plasma
+   sway
    x
    xfce

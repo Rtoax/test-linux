@@ -18,7 +18,7 @@ readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly prog=inst-deps
 readonly ROOT_DIRECTORY=$(dirname $(realpath $0))
 
-declare -a dnf_args apt_args zypper_args
+declare -a dnf_args apt_args apk_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
@@ -42,6 +42,7 @@ readonly DISTS_RHEL_LIKE=( fedora centos rhel almalinux openEuler cclinux
 			opencloudos kylin tencentos )
 readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
 readonly DISTS_SUSE_LIKE=( suse opensuse opensuse-leap )
+readonly DISTS_ALPINE_LIKE=( alpine )
 
 declare have_base have_upgrade have_ai have_cuda have_rocm have_gpu have_fs \
 	have_pip have_compiler have_build have_docs have_devel have_container \
@@ -150,6 +151,14 @@ apt_upgrade()
 	inst_eval apt autoremove -y || :
 }
 
+apk_upgrade()
+{
+	inst_eval apk upgrade -y || {
+		warning "Failed to upgrade"
+		true
+	}
+}
+
 zypper_upgrade()
 {
 	inst_eval zypper update -y || {
@@ -178,6 +187,11 @@ apt_install()
 	inst_eval apt install -y ${apt_args[@]} ${apt_pkgs[@]}
 }
 
+apk_install()
+{
+	inst_eval apk add ${apk_args[@]} ${@}
+}
+
 zypper_install()
 {
 	inst_eval zypper install -y ${zypper_args[@]} ${@}
@@ -193,6 +207,11 @@ dnf_remove()
 apt_remove()
 {
 	inst_eval apt remove -y ${apt_args[@]} ${@}
+}
+
+apk_remove()
+{
+	inst_eval apk del ${apk_args[@]} ${@}
 }
 
 zypper_remove()
@@ -227,6 +246,13 @@ os_operator()
 		install) zypper_install "${@}" ;;
 		remove) zypper_remove "${@}" ;;
 		packages) zypper_add_packages "${@}" ;;
+		esac
+	elif [[ " ${DISTS_ALPINE_LIKE[@]} " =~ " ${_os_} " ]]; then
+		case ${operator} in
+		upgrade) apk_upgrade ;;
+		install) apk_install "${@}" ;;
+		remove) apk_remove "${@}" ;;
+		packages) apk_add_packages "${@}" ;;
 		esac
 	else
 		error "Unknown OS ${OS}"
@@ -1326,6 +1352,12 @@ apt_add_packages()
 	[[ ${force} ]] && apt_args+=( -f )
 
 	return 0
+}
+
+apk_add_packages()
+{
+   pkgs_base+=( apk add coreutils git util-linux findutils grep less bash
+		pciutils vim usbutils make gcc )
 }
 
 zypper_add_packages()
