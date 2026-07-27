@@ -11,6 +11,7 @@
 # - IS_LOONGARCH64=[y]
 # - IS_RISCV64=[y]
 # - IS_SW_64=[y]
+# - IS_S390X=[y]
 #
 ifndef _ARCH_MK
 _ARCH_MK = 1
@@ -33,6 +34,8 @@ else ifeq (${CPU_ARCH},loongarch64)
   export IS_LOONGARCH64 := y
 else ifeq (${CPU_ARCH},riscv64)
   export IS_RISCV64 := y
+else ifeq (${CPU_ARCH},s390x)
+  export IS_S390X := y
 else
   $(error Not support ${CPU_ARCH})
 endif
