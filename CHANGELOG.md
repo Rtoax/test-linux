@@ -48,6 +48,8 @@ and this project adheres to
 - add xterm;
 - add sysstat subdir;
 #### Template
+- glibc.mk: add `USE_GNU_LIBC`;
+- add musl-libc.mk;
 - add ndctl.mk;
 - bpf-cflags add `__IN_BPF__`;
 - fs: add e2fsprogs.mk;

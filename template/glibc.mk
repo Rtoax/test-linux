@@ -2,6 +2,7 @@
 # Copyright (C) 2025-2026 Rong Tao
 #
 # Output definitions:
+# - USE_GNU_LIBC=[y|n]
 # - GLIBC_VERSION=
 # - LIBC_SO_PATH=
 #
@@ -16,6 +17,12 @@ _GLIBC_MK = 1
 include dir.mk
 include ldconfig.mk
 include version.mk
+
+ifeq ($(shell ldd --version 2>&1 | grep -owi gnu),)
+  export USE_GNU_LIBC := n
+else
+
+export USE_GNU_LIBC := y
 
 glibcversh = ${TOPDIR}/scripts/version/glibc.sh
 
@@ -62,4 +69,5 @@ endif
 export GLIBC_VERSION GLIBC_MAJOR GLIBC_MINOR
 export LIBC_SO_PATH
 
-endif
+endif # end of USE_GNU_LIBC
+endif # end of _GLIBC_MK
