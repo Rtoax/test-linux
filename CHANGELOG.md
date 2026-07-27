@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- add .github/actions/info/action.yml;
 - bpftrace/samples: add test subdir;
 - glibc/regex: add test time.c;
 - cpp/std: add string subdir;
