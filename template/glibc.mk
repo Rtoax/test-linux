@@ -59,6 +59,7 @@ $(shell readelf --syms --wide ${LIBC_SO_PATH} \
 endef
 
 ifdef DEBUG
+  $(info USE_GNU_LIBC = ${USE_GNU_LIBC})
   $(info GLIBC_VERSION = ${GLIBC_VERSION})
   $(info GLIBC_MAJOR = ${GLIBC_MAJOR})
   $(info GLIBC_MINOR = ${GLIBC_MINOR})
