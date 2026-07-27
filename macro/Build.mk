@@ -39,6 +39,7 @@ target-y += splice
 target-y += os
 
 target-${IS_X86_64} += __x86_64__
+target-${IS_PPC64LE} += __powerpc64__
 target-${CC_SUPPORT_m32} += __i386__
 target-${IS_AARCH64} += __aarch64__
 target-${IS_LOONGARCH64} += __loongarch64

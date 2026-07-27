@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- macro: add `__powerpc64__.c`;
 - arch: add s390x, ppc64le;
 - distro: install and test alpine;
 - add .github/actions/info/action.yml;
