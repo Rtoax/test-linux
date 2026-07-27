@@ -6,9 +6,9 @@ macro test_arithmetic_sum() {
   printf("arithmetic sum %d\n", $cnt);
 }
 
-macro test_strnlen() {
+macro test_strnlen(exp) {
   let $str : string[256];
-  $str = "1234567890abcdefghijklmnopqrstuvwxyz!@#$%^&*()";
+  $str = exp;
   $len = __bpf_strnlen((int8*)&$str, 256);
   printf("strnlen(\"%s\") = %d\n", $str, $len);
 }
@@ -25,7 +25,8 @@ macro test_strcat() {
 BEGIN
 {
   test_arithmetic_sum();
-  test_strnlen();
+  test_strnlen("hello");
+  test_strnlen("1234567890abcdefghijklmnopqrstuvwxyz!@#$%^&*()");
   test_strcat();
   exit();
 }

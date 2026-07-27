@@ -18,7 +18,7 @@
 #include <linux/types.h>
 #include <stddef.h>
 
-#define ASM
+//#define ASM
 #ifdef ASM
 #define __bpf_loop asm_bpf_loop
 #else
@@ -86,7 +86,6 @@ int __bpf_arithmetic_sum(__u32 nr_loops)
 struct strnlen_ctx {
   const char *str;
   __u32 sz;
-  __u32 len;
 };
 
 static int strnlen_cb(__u32 index, void *data)
@@ -100,7 +99,6 @@ static int strnlen_cb(__u32 index, void *data)
   if (ch == '\0') {
     return 1;
   }
-  ctx->len++;
   return 0;
 }
 
@@ -109,10 +107,11 @@ long __bpf_strnlen(const char *str, __u32 sz)
   struct strnlen_ctx ctx = {
     .str = str,
     .sz = sz,
-    .len = 0,
   };
-  __bpf_loop(sz, strnlen_cb, &ctx, 0);
-  return ctx.len;
+  int len = __bpf_loop(sz, strnlen_cb, &ctx, 0);
+  if (len <= 0)
+    return len;
+  return len - 1;
 }
 
 /******************************************************************************\
