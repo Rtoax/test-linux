@@ -39,8 +39,8 @@ Config Source
 
    $ vi /etc/apk/repositories
    # Example:
-   https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.18/main
-   https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.18/community
+   https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.24/main
+   https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.24/community
 
    $ apk update
 
