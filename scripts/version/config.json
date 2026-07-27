@@ -286,6 +286,9 @@
 		},
 		"jq": {
 			"name": "Jq",
+			"version": {
+				"length": [ 2 ]
+			},
 			"extension": [ "json" ],
 			"keys": [ "jq", "json" ]
 		},

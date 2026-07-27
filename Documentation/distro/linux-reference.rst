@@ -22,6 +22,7 @@ Linux Kernel Reference
 * 6.19.8 (fedora42,fedora43)
 * 6.19.7 (fedora43)
 * 6.19.6 (fedora43)
+* 6.18.39 (alpine3.24.1)
 * 6.18.16 (fedora43)
 * 6.18.13 (fedora43)
 * 6.18.12 (fedora42,fedora43)

@@ -1356,8 +1356,9 @@ apt_add_packages()
 
 apk_add_packages()
 {
-   pkgs_base+=( apk add coreutils git util-linux findutils grep less bash
-		pciutils vim usbutils make gcc )
+	pkgs_base+=( build-base )
+	pkgs_base+=( apk add coreutils git util-linux findutils grep less bash
+			pciutils vim usbutils make gcc jq ncurses musl-dev )
 }
 
 zypper_add_packages()

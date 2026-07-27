@@ -51,7 +51,7 @@ Install Base PKGs
 .. code-block:: shell
 
    $ apk add coreutils git util-linux findutils grep less bash pciutils \
-             vim usbutils make gcc
+             vim usbutils make gcc jq ncurses musl-dev
 
 
 Install Desktop
