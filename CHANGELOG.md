@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- arch: add s390x;
+- arch: add s390x, ppc64le;
 - distro: install and test alpine;
 - add .github/actions/info/action.yml;
 - bpftrace/samples: add test subdir;
