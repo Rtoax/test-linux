@@ -4,6 +4,9 @@
 Description=Test Linux Documentation Loadhost Server
 After=network.target
 
+[Install]
+WantedBy=multi-user.target
+
 [Service]
 Type=simple
 ExecStart=/usr/bin/sphinx-serve-tl
