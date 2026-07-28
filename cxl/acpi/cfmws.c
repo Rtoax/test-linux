@@ -12,7 +12,9 @@ void display_cfmws(struct cfmws *cfmws)
 	int niw;
 
 	printf("---------------- CFMWS ----------------\n");
+#ifdef DEBUG
 	printf("struct cfmws size %ld\n", sizeof(struct cfmws));
+#endif
 	printf("CFMWS type %d, record length %d(0x%x), Base HPA 0x%lx, ",
 	       cfmws->type, cfmws->record_length, cfmws->record_length,
 	       cfmws->base_hpa);

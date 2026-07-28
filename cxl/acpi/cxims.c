@@ -8,6 +8,7 @@
 
 void display_cxims(struct cxims *cxims)
 {
+	printf("---------------- CXIMS ----------------\n");
 	/* TODO: */
-	printf("...\n");
+	printf("TODO...\n");
 }

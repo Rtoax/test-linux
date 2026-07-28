@@ -96,6 +96,10 @@ int main(void)
 			free(cfmws);
 			break;
 		}
+		case CEDT_STRUCTURE_TYPE_CXIMS:
+			/* TODO */
+		case CEDT_STRUCTURE_TYPE_RDPAS:
+			/* TODO */
 		default:
 			fprintf(stderr, "Unknown CEDT structure type %d\n",
 				type);
