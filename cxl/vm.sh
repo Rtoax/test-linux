@@ -97,9 +97,9 @@ custom_cxl() {
 	cxlargs+=( --cxl pxb=pxb.1 ) # fmw default 0
 	cxlargs+=( --cxl pxb=pxb.2,fmw=1 )
 	cxlargs+=( --cxl pxb=pxb.3,fmw=2 )
-	cxlargs+=( --cxl pxb=pxb.4,fmw=3 )
-	cxlargs+=( --cxl pxb=pxb.5,fmw=4 )
-	cxlargs+=( --cxl pxb=pxb.6,fmw=5 )
+	cxlargs+=( --cxl pxb=pxb.4,fixed-memory-window=3 )
+	cxlargs+=( --cxl pxb=pxb.5,fixed-memory-window=4 )
+	cxlargs+=( --cxl pxb=pxb.6,fixed-memory-window=5 )
 
 	cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
 	cxlargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )

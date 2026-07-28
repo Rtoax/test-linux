@@ -53,7 +53,7 @@ q_gdb=
 
 dry_run=
 verbose=
-version="v1.0.2"
+version="v1.0.3"
 debug=
 
 # Disk configuratios
@@ -562,7 +562,7 @@ ${BOLD}--cxl help${RST}: show this information
 ${BOLD}--cxl [DEV]${RST}: see ${BOLD}[DEV]${RST} below
 ${BOLD}--cxl device=[DEV]${RST}
 
-${BOLD}--cxl pxb=<name>,[fmw=<N>]${RST}: create CXL PXB, fmw default 0
+${BOLD}--cxl pxb=<name>,[fmw|fixed-memory-window=<N>]${RST}: create CXL PXB, fmw default 0
 ${BOLD}--cxl rp=<name>,bus=<name>,port=<n>${RST}: create CXL RootPort
 ${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Switch
 ${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
@@ -613,8 +613,14 @@ handle_cxl_arg() {
 			pxb)
 				pxb_id=${arg:4}
 				;;
-			fmw)
-				pxbfmw=${arg:4}
+			fmw|fixed-memory-window)
+				if [[ ${arg:0:3} == fmw ]]; then
+					pxbfmw=${arg:4}
+				elif [[ ${arg:0:19} == fixed-memory-window ]]; then
+					pxbfmw=${arg:20}
+				else
+					error "bad fmw '${arg}'"
+				fi
 				if ! [[ " 0 1 2 3 4 5 " =~ " ${pxbfmw} " ]]; then
 					error "bad cxl pxb ${arg} only support 0 1 2 3 4 5"
 				fi
