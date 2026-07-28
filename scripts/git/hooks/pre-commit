@@ -10,6 +10,10 @@ set -e
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly MY_DIRECTORY=$(realpath $(dirname $(realpath $0))/../../../)
 
+if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
+	. ${GIT_TOPDIR}/.gitconfig.sh
+fi
+
 [[ -z ${FC} ]] && FC=${FORCE}
 
 # Usage: $ NMOD=6 git commit -s

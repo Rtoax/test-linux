@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- add .gitconfig.sh in rootdir;
 #### Added
 - acpi: add table subdir;
 - bpf: test kfunc `bpf_rcu_read_lock()`/`bpf_rcu_read_unlock()`;

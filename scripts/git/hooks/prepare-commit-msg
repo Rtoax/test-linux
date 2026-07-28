@@ -32,6 +32,10 @@ readonly LAST_SUBMITTED_FILES=( $(git log -1 --oneline --name-only --pretty=form
 declare -a CHANGED_FILES SHEBANGS
 declare is_commit_amend
 
+if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
+	. ${GIT_TOPDIR}/.gitconfig.sh
+fi
+
 # Remove old Env first.
 sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}

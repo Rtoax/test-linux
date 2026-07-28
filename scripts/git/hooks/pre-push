@@ -4,4 +4,8 @@ set -e
 readonly remote_name="$1"
 readonly remote_url="$2"
 
+if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
+	. ${GIT_TOPDIR}/.gitconfig.sh
+fi
+
 echo "${remote_name} ${remote_url}"

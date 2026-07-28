@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: [FLR/FORCE=1] [V=1|VERBOSE=1] ./linux-reference.sh
+# Usage: [FLR/FORCE=1] [VLR=1|VERBOSE=1] ./linux-reference.sh
 set -e
 
 [[ -z ${FLR} ]] && FLR=${FORCE}
@@ -11,8 +11,12 @@ readonly os_short=$(${THISPATH}/../version/distro.sh short)
 
 readonly README=$(realpath ${THISPATH}/../../Documentation/distro/linux-reference.rst)
 
+if [[ -f ${THISPATH}/../../.gitconfig.sh ]]; then
+	. ${THISPATH}/../../.gitconfig.sh
+fi
+
 # Show all
-[[ ${V}${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}
+[[ ${VLR}${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}
 
 if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README})" ]]; then
 	oldline=$(grep -E "^\* ${kver_short} \([^)]+\)$" ${README} || :)
