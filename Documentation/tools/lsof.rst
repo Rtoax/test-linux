@@ -1,6 +1,7 @@
 lsof
 ====
 
-# Links
+Links
+-----
 
 - GitHub: https://github.com/lsof-org/lsof

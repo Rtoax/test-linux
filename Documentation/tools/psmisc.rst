@@ -1,6 +1,7 @@
 psmisc
 ======
 
-# Links
+Links
+-----
 
 - GitLab: https://gitlab.com/psmisc/psmisc

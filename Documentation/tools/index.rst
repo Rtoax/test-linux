@@ -9,6 +9,9 @@ User Space
 
    git
    liburing
+   lsof
+   memcached
+   psmisc
    redis
    samba
    tmux
