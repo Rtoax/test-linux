@@ -53,7 +53,7 @@ q_gdb=
 
 dry_run=
 verbose=
-version="v1.0.3"
+version="v1.0.4"
 debug=
 
 # Disk configuratios
@@ -563,8 +563,8 @@ ${BOLD}--cxl [DEV]${RST}: see ${BOLD}[DEV]${RST} below
 ${BOLD}--cxl device=[DEV]${RST}
 
 ${BOLD}--cxl pxb=<name>,[fmw|fixed-memory-window=<N>]${RST}: create CXL PXB, fmw default 0
-${BOLD}--cxl rp=<name>,bus=<name>,port=<n>${RST}: create CXL RootPort
-${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Switch
+${BOLD}--cxl <root-port|rp>=<name>,bus=<name>,port=<num>${RST}: create CXL RootPort
+${BOLD}--cxl switch,bus=<name>,nport=<num>,portprefix=<name>${RST}: create CXL Switch
 ${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
 ${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>][size=<SIZE>]${RST}: create CXL Volatile Memory device
 
@@ -619,14 +619,20 @@ handle_cxl_arg() {
 				elif [[ ${arg:0:19} == fixed-memory-window ]]; then
 					pxbfmw=${arg:20}
 				else
-					error "bad fmw '${arg}'"
+					error "cxl: bad fmw '${arg}'"
 				fi
 				if ! [[ " 0 1 2 3 4 5 " =~ " ${pxbfmw} " ]]; then
 					error "bad cxl pxb ${arg} only support 0 1 2 3 4 5"
 				fi
 				;;
-			rp)
-				rp_id=${arg:3}
+			rp|root-port)
+				if [[ ${arg:0:2} == rp ]]; then
+					rp_id=${arg:3}
+				elif [[ ${arg:0:9} == root-port ]]; then
+					rp_id=${arg:10}
+				else
+					error "cxl: bad root-port '${arg}'"
+				fi
 				;;
 			bus)
 				bus=${arg:4}
@@ -673,12 +679,12 @@ handle_cxl_arg() {
 					cxl_show_topology=ON
 					;;
 				*)
-					error "--cxl show= syntax"
+					error "cxl: not support show= syntax"
 					;;
 				esac
 				;;
 			*)
-				error "cxl unknown arg ${arg}"
+				error "cxl: unknown arg ${arg}"
 				;;
 			esac
 		done
@@ -687,48 +693,48 @@ handle_cxl_arg() {
 	fi
 
 	if [[ ${device} ]] && [[ ${pxb_id} ]]; then
-		error "--cxl not allow specify pxb= for device"
+		error "cxl: not allow specify pxb= for device"
 	fi
 
 	if [[ ${device} ]] && [[ ${rp_id} ]]; then
-		error "--cxl not allow specify rp= for device"
+		error "cxl: not allow specify rp= for device"
 	fi
 
 	if [[ ${device} ]] && [[ ${switch} ]]; then
-		error "--cxl not allow specify switch for device"
+		error "cxl: not allow specify switch for device"
 	fi
 
 	if [[ ${device} ]] && [[ ${pmem}${vmem} ]]; then
-		error "--cxl not allow specify pmem or vmem for device"
+		error "cxl: not allow specify pmem or vmem for device"
 	fi
 
 	local types=( ${pxb_id} ${rp_id} ${switch} ${vmem} ${pmem} )
 
 	if [[ ${#types[@]} -gt 1 ]]; then
-		error "--cxl not allow specify pxb,rp,switch,vmem,pmem at the same time"
+		error "cxl: not allow specify pxb,rp,switch,vmem,pmem at the same time"
 	fi
 
 	if [[ ${rp_id} ]]; then
 		if [[ -z ${bus} ]] || [[ -z ${port} ]]; then
-			error "--cxl rp need bus= port= at the same time"
+			error "cxl: rp need bus= port= at the same time"
 		fi
 	fi
 
 	if [[ ${switch} ]]; then
 		if [[ -z ${bus} ]] || [[ -z ${nport} ]] || [[ -z ${portprefix} ]]; then
-			error "--cxl switch need bus= nport= portprefix= at the same time"
+			error "cxl: switch need bus= nport= portprefix= at the same time"
 		fi
 	fi
 
 	if [[ ${pmem} ]]; then
 		if [[ -z ${bus} ]] || [[ -z ${lsa} ]]; then
-			error "--cxl pmem/vmem need bus= and lsa= parameter"
+			error "cxl: pmem/vmem need bus= and lsa= parameter"
 		fi
 	fi
 
 	if [[ ${vmem} ]]; then
 		if [[ -z ${bus} ]]; then
-			error "--cxl vmem need bus= parameter"
+			error "cxl: vmem need bus= parameter"
 		fi
 	fi
 

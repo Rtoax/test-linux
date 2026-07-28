@@ -103,8 +103,8 @@ custom_cxl() {
 
 	cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
 	cxlargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
-	cxlargs+=( --cxl rp=rp.3,bus=pxb.3,port=1 )
-	cxlargs+=( --cxl rp=rp.4,bus=pxb.4,port=1 )
+	cxlargs+=( --cxl root-port=rp.3,bus=pxb.3,port=1 )
+	cxlargs+=( --cxl root-port=rp.4,bus=pxb.4,port=1 )
 
 	cxlargs+=( --cxl switch,bus=rp.1,nport=4,portprefix=sw1 )
 	cxlargs+=( --cxl switch,bus=rp.2,nport=4,portprefix=sw2 )
