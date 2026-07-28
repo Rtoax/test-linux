@@ -30,6 +30,7 @@ Linux Tools
 
    cmdline
    binfmt
+   kmod
 
 
 Linux History
