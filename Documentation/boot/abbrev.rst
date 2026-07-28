@@ -5,6 +5,7 @@ Abbrev
 - APEI: ACPI Platform Error Interfaces (ACPI 平台错误接口)
 - APM: Advanced Power Management (高级电源管理)
 - ASPM: Active-State Power Management (活动状态电源管理) @PCIe
+- BGRT: Boot Graphics Resource Table (启动图形资源表)
 - CDAT: Coherent Device Attribute Table (相干设备属性表) @CXL
 - CPLD: Complex Programmable Logic Device (复杂可编程逻辑器件)
 - DMI: Desktop Management Interface (桌面管理接口)
