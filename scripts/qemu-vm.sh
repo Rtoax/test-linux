@@ -741,6 +741,9 @@ handle_cxl_arg() {
 	# set global
 	[[ ${device} ]] && cxl_device=${device}
 	if [[ ${pxb_id} ]]; then
+		if [[ " ${cxl_pxb_ids[@]} " =~ " ${pxb_id} " ]]; then
+			error "cxl: could not create pxb '${pxb_id}' twice"
+		fi
 		cxl_pxb_ids+=( ${pxb_id} )
 		cxl_pxb_fmw[$pxb_id]=${pxbfmw}
 	fi
