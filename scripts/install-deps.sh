@@ -1359,6 +1359,7 @@ apk_add_packages()
 	pkgs_base+=( build-base )
 	pkgs_base+=( apk add coreutils git util-linux findutils grep less bash
 			pciutils vim usbutils make gcc jq ncurses musl-dev )
+	pkgs_base+=( clang22-extra-tools python3 )
 }
 
 zypper_add_packages()

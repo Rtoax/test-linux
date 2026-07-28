@@ -51,7 +51,8 @@ Install Base PKGs
 .. code-block:: shell
 
    $ apk add coreutils git util-linux findutils grep less bash pciutils \
-             vim usbutils make gcc jq ncurses musl-dev
+             vim usbutils make gcc jq ncurses musl-dev python3 \
+             clang22-extra-tools
 
 
 Install Desktop
