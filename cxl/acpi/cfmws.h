@@ -5,6 +5,7 @@
  * CXL 3.0 Specification, Section 9.17.1.3, Table 9-22.
  *
  * Abbrev:
+ * - HPA: Host Physical Address
  * - NIW: Number of Interleave Ways
  */
 #pragma once

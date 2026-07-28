@@ -13,13 +13,14 @@ void display_cfmws(struct cfmws *cfmws)
 
 	printf("---------------- CFMWS ----------------\n");
 	printf("struct cfmws size %ld\n", sizeof(struct cfmws));
-	printf("CFMWS type %d, record length %d(0x%x), hpa 0x%lx, "
-	       "winsize %ld(%ld MiB, %ld GiB), ENIW %d",
+	printf("CFMWS type %d, record length %d(0x%x), Base HPA 0x%lx, ",
 	       cfmws->type, cfmws->record_length, cfmws->record_length,
-	       cfmws->base_hpa, cfmws->window_size,
-	       cfmws->window_size / 1024 / 1024,
-	       cfmws->window_size / 1024 / 1024 / 1024, cfmws->eniw);
-	printf(", hbig %x (%d MB)", cfmws->hbig, cfmws->hbig / MiB);
+	       cfmws->base_hpa);
+	printf("winsize %ld(%ld MiB, %ld GiB), ", cfmws->window_size,
+	       cfmws->window_size / MiB, cfmws->window_size / GiB);
+	printf("ENIW %d, ", cfmws->eniw);
+	printf("Interleave Arithmetic %d", cfmws->interleave_arithmetic);
+	printf(", hbig 0x%x (%d MB)", cfmws->hbig, cfmws->hbig / MiB);
 	printf(", qtag id %d", cfmws->qtag_id);
 
 	niw = (cfmws->record_length - 0x24) / 4;
@@ -32,6 +33,11 @@ void display_cfmws(struct cfmws *cfmws)
 		fprintf(stderr, "ERROR: Bad record length.\n");
 
 	printf(", NIW %d", niw);
+
+	if (cfmws->interleave_arithmetic == 0) {
+	} else if (cfmws->interleave_arithmetic == 1) {
+	}
+
 	/* TODO: display more */
 	printf(", ...\n");
 }
