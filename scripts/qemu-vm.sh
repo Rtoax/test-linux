@@ -454,7 +454,7 @@ handle_disk_arg() {
 ################################################################################
 # CXL
 # ===
-# - CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
+# - CXL level: PCIe.0 -> pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
 #   pxb: PCIe eXpander Bridge
 #   rp: Root Port
 # - CXL fmw: Fixed Memory Window
@@ -1760,7 +1760,7 @@ add_cxl_type3_dev() {
 		fi
 		cxl_switch_down2pvmem[${bus}]+=" ${type3_id}"
 	else
-		error "add cxl type3 device to non exist rootport or switch"
+		error "add cxl type3 device '${name}' to non exist rootport or switch"
 	fi
 
 	arg+=( id=${type3_id} )
