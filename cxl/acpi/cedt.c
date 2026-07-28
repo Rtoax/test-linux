@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0
+// Copyright (C) 2025-2026 Rong Tao
 /**
  * CXL Early Discovery Table (CEDT)
  * ACPI0017 CXL Root Object

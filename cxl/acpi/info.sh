@@ -16,5 +16,5 @@ fi
 
 # CXL Root Port or Device on Switch
 ls /sys/bus/acpi/devices/ACPI0017:*
-# CXL Host Bridge
+# CXL Host Bridge (CHBS: CXL Host Bridge Structure)
 ls /sys/bus/acpi/devices/ACPI0016:*
