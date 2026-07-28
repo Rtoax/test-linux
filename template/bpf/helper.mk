@@ -173,6 +173,14 @@ ifeq ($(call kver_ge,6,1,0),y)
   $(call bpf_def_helper,bpf_task_from_pid)
 endif
 
+# linux v6.1-rc4-1167-g9bb00b2895cb
+# commit 9bb00b2895cb ("bpf: Add kfunc bpf_rcu_read_lock/unlock()")
+# https://docs.ebpf.io/linux/kfuncs/bpf_rcu_read_lock/
+ifeq ($(call kver_ge,6,1,0),y)
+  $(call bpf_def_helper,bpf_rcu_read_lock)
+  $(call bpf_def_helper,bpf_rcu_read_unlock)
+endif
+
 # linux v6.2-5289-gb5964b968ac6
 # commit b5964b968ac6 ("bpf: Add skb dynptrs")
 # int bpf_dynptr_from_skb(struct __sk_buff *s, u64 flags, struct bpf_dynptr *ptr__uninit);
