@@ -47,6 +47,7 @@ cxl_pmem() {
 	# commit 31a30fb65f93 ("cxl.sh: pmem: create-region")
 	sudo cxl create-region --decoder decoder0.0 --size 1024M --type pmem --memdevs mem0
 	sudo ndctl list --regions
+	sudo cxl list --regions
 
 	# Create namespace, generate /dev/pmem0
 	# mode: raw, sector, fsdax, devdax
