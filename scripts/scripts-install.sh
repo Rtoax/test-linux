@@ -94,6 +94,9 @@ scripts_uninstall()
 
 scripts_set_env()
 {
+	if [[ $(basename $SHELL) != bash ]]; then
+		echo >&2 "WARNING: please use 'bash' instead of '$SHELL'"
+	fi
 	if [[ ! -f ${realhome}/.bashrc ]]; then
 		touch ${realhome}/.bashrc
 	fi
