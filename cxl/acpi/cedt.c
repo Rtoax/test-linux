@@ -22,29 +22,28 @@ void display_cedt_hdr(struct cedt_hdr *hdr)
 		return;
 	}
 
+	printf("---------------- CEDT ----------------\n");
 	printf("CEDT length %d\n", hdr->length);
-	printf("Signature: %c%c%c%c\n", hdr->signature[0], hdr->signature[1],
+	printf("Signature:\t%c%c%c%c\n", hdr->signature[0], hdr->signature[1],
 	       hdr->signature[2], hdr->signature[3]);
-	printf("Revision 0x%x\n", hdr->revision);
-	printf("Checksum 0x%x\n", hdr->checksum);
-	printf("OEM ID '%c%c%c%c%c%c'(raw:%02x%02x%02x%02x%02x%02x)\n",
+	printf("Revision:\t0x%x\n", hdr->revision);
+	printf("Checksum:\t0x%x\n", hdr->checksum);
+	printf("OEM ID:\t'%c%c%c%c%c%c'(raw:%02x%02x%02x%02x%02x%02x)\n",
 	       hdr->oem_id[0], hdr->oem_id[1], hdr->oem_id[2], hdr->oem_id[3],
 	       hdr->oem_id[4], hdr->oem_id[5], hdr->oem_id[0], hdr->oem_id[1],
 	       hdr->oem_id[2], hdr->oem_id[3], hdr->oem_id[4], hdr->oem_id[5]);
-	printf("OEM Table ID '%c%c%c%c%c%c%c%c'(raw:%02x%02x%02x%02x%02x%02x%02x%02x)\n",
+	printf("OEM Table ID:\t'%c%c%c%c%c%c%c%c'(raw:%02x%02x%02x%02x%02x%02x%02x%02x)\n",
 	       hdr->oem_table_id[0], hdr->oem_table_id[1], hdr->oem_table_id[2],
 	       hdr->oem_table_id[3], hdr->oem_table_id[4], hdr->oem_table_id[5],
 	       hdr->oem_table_id[6], hdr->oem_table_id[7], hdr->oem_table_id[0],
 	       hdr->oem_table_id[1], hdr->oem_table_id[2], hdr->oem_table_id[3],
 	       hdr->oem_table_id[4], hdr->oem_table_id[5], hdr->oem_table_id[6],
 	       hdr->oem_table_id[7]);
-	printf("OEM Revision 0x%x\n", hdr->oem_revision);
-	printf("Creator ID 0x%x\n", hdr->creator_id);
-	printf("Creator Revision 0x%x\n", hdr->creator_revision);
-	printf("CEDT structure size %ld\n", hdr->length - sizeof(*hdr));
-	printf("struct cedt header size %ld\n", sizeof(struct cedt_hdr));
-	printf("struct chbs size %ld\n", sizeof(struct chbs));
-	printf("struct cfmws size %ld\n", sizeof(struct cfmws));
+	printf("OEM Revision:\t0x%x\n", hdr->oem_revision);
+	printf("Creator ID:\t0x%x\n", hdr->creator_id);
+	printf("Creator Revision:\t0x%x\n", hdr->creator_revision);
+	printf("CEDT structure size:\t%ld\n", hdr->length - sizeof(*hdr));
+	printf("struct cedt header size:\t%ld\n", sizeof(struct cedt_hdr));
 }
 
 static int probe_structure_type(FILE *fp)
