@@ -18,6 +18,7 @@ BPF_TARGET_ARCH := $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/ppc64le/powerpc/' \
 			 | sed 's/mips.*/mips/' \
 			 | sed 's/riscv64/riscv/' \
+			 | sed 's/s390x/s390/' \
 			 | sed 's/loongarch64/loongarch/')
 ifeq (${BPF_TARGET_ARCH},$(shell uname -m))
   $(error Not handle arch ${shell uname -m} yet, please add it)
