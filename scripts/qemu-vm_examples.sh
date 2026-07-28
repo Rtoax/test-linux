@@ -7,7 +7,8 @@ qemu() {
 }
 
 run() {
-	qemu --dry-run "${@}"
+	local name=$(mktemp -u vmname-XXXXX)
+	qemu --dry-run --name ${name} --kernel vmlinux "${@}"
 }
 
 qemu --help
@@ -16,9 +17,9 @@ qemu --cxl help
 qemu --disk help
 qemu --uefi help
 
-run --memory 4GiB --kernel vmlinux
-run --name fedora --kernel vmlinuz
-run --name fedora --kernel vmlinuz --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
-run --cpu 10 --kernel vmlinux
-run --cpu nr=10 --kernel vmlinux
-run --cpu model=base --kernel vmlinux
+run
+run --memory 4GiB
+run --cpu 10
+run --cpu nr=10
+run --cpu model=base
+run --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
