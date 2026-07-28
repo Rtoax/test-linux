@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpf: test kfunc `bpf_rcu_read_lock()`/`bpf_rcu_read_unlock()`;
 - macro: add `__powerpc64__.c`;
 - arch: add s390x, ppc64le;
 - distro: install and test alpine;

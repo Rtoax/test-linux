@@ -7,6 +7,7 @@ kfuncs-${SUPPORT_BPF_TASK_FROM_PID} := task_from_pid
 kfuncs-${SUPPORT_BPF_CGROUP_FROM_ID} += cgroup_from_id
 kfuncs-${SUPPORT_BPF_CGROUP_ACQUIRE} += cgroup_acquire
 kfuncs-${SUPPORT_BPF_ITER_TASK_VMA_NEW} += iter_task_vma_new
+kfuncs-${SUPPORT_BPF_RCU_READ_LOCK} += rcu_read_lock
 
 helpers-y += perf_event_output
 helpers-y += probe_read_kernel_str

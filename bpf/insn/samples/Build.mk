@@ -12,6 +12,7 @@ helpers-y += get_current_task_btf
 helpers-$(SUPPORT_BPF_STRNCMP) += strncmp
 helpers-y += cgroup_acquire cgroup_from_id
 helpers-y += task_from_pid
+helpers-$(SUPPORT_BPF_RCU_READ_LOCK) += rcu_read_lock
 helpers-y += task_acquire
 helpers-y += trace_printk
 helpers-y += perf_event_output
