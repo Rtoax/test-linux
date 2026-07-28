@@ -23,3 +23,7 @@ run --cpu 10
 run --cpu nr=10
 run --cpu model=base
 run --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
+
+run --cxl pxb=pxb.1
+run --cxl pxb=pxb.1 --cxl pxb=pxb.2,fmw=1
+run --cxl pxb=pxb.1 --cxl pxb=pxb.2,fmw=1 --cxl pxb=pxb.3,fixed-memory-window=2
