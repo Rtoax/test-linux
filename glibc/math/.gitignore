@@ -13,6 +13,7 @@
 /log10
 /log2
 /logb
+/powf
 /sin
 /signbit
 /nextafter

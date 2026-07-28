@@ -8,6 +8,7 @@ target-y += sqrt sqrt-stress
 target-y += nan
 target-y += isgreater
 target-y += log log-stress log2 log10 logb
+target-y += powf
 target-y += sin
 target-y += signbit
 target-y += nextafter
