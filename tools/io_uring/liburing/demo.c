@@ -147,4 +147,3 @@ int main() {
 	io_uring_queue_exit(&ring);
 	return 0;
 }
-

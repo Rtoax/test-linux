@@ -8,6 +8,7 @@ User Space
    :maxdepth: 1
 
    git
+   liburing
    redis
    samba
    tmux

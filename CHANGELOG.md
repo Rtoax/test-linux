@@ -36,6 +36,7 @@ and this project adheres to
 - move png and svg to Documentation/images/;
 #### Deprecated
 #### Documentation
+- add liburing.rst;
 - cxl: add intel, amd, samsung;
 - add boot directory;
 - lang: add python;
