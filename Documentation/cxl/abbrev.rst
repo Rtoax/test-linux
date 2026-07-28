@@ -27,6 +27,8 @@ CXL Abbrev
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
 - OSC: Operating System Capabilities (操作系统能力)
 - PXB: PCI eXpander Bridge (PCI 扩展桥)
+- RCEC: Root Complex Event Collector (根联合体事件收集器) @RDPAS
+- RDPAS: RCEC Downstream Port Association Structure (RCEC下游端口关联结构) @RCEC
 - SLD: Single Logical Device (单一逻辑设备)
 - TMO: (透明内存卸载) @Meta
 - TPP: Transparent Put (透明页放置) @Meta

@@ -48,6 +48,6 @@ struct cfmws {
 	 * size = 4 * NIW
 	 */
 	uint32_t interleave_target_list[];
-};
+} __attribute__((packed));
 
 void display_cfmws(struct cfmws *cfmws);

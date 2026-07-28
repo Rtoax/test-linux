@@ -19,6 +19,6 @@ struct cxims {
 	uint8_t nib;
 	/* 8 * NIB */
 	uint8_t xormap_list[];
-};
+} __attribute__((packed));
 
 void display_cxims(struct cxims *cxims);
