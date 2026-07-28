@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - add .gitconfig.sh in rootdir;
 #### Added
+- cxl/acpi: add cxims.c;
 - acpi: add table subdir;
 - bpf: test kfunc `bpf_rcu_read_lock()`/`bpf_rcu_read_unlock()`;
 - macro: add `__powerpc64__.c`;

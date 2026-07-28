@@ -2,6 +2,7 @@
 CXL Abbrev
 ==========
 
+- NIB: Number of Bitmap Entries (Bitmap 条目)
 - AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
 - AOC: Active Optical Cable (有源光缆) @AEC
 - CCI: Component Command Interface (组件命令接口)
