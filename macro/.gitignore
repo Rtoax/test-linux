@@ -29,6 +29,7 @@
 /__user
 /__powerpc64__
 /__x86_64__
+/__s390x__
 /alias
 /align
 /arch

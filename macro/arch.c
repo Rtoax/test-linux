@@ -30,6 +30,12 @@ int main(void)
 #endif
 	printf("ppc64 ");
 	printf("sizeof(*) = %ld\n", sizeof(p));
+#elif defined(__s390x__)
+	printf("s390x ");
+#if defined(__s390__)
+	printf("(s390) ");
+#endif
+	printf("sizeof(*) = %ld\n", sizeof(p));
 #endif
 	return 0;
 }
