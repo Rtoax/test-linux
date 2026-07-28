@@ -24,7 +24,7 @@ $(call find_cmd_and_def,mkfs.ext3)
 $(call find_cmd_and_def,mkfs.ext4)
 
 ifneq (${HAVE_MKFS_EXT4},y)
-  $(error Not found mkfs.ext4, please install 'e2fsprogs' first)
+  $(warning Not found mkfs.ext4, please install 'e2fsprogs' first)
 endif
 
 export HAVE_E2FSPROGS := y
