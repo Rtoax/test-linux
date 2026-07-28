@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-sudo dmesg | grep ACPI0017
+sudo dmesg | grep ACPI0017 || :
+
 modinfo cxl_acpi
 
 sudo acpidump > acpi.dat
