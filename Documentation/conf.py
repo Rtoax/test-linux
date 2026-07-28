@@ -12,9 +12,11 @@ import sys
 doc_dir = os.path.dirname(os.path.abspath(__file__))
 
 project = 'The Test Linux Documentation'
+# scripts/update-copyright need Copyright
 copyright = 'Copyright (C) 2022-2026 Rong Tao'
+copyright = copyright.split(maxsplit=1)[1]
 author = 'Rong Tao'
-version = release = '0.0.347'
+version = release = '0.0.348'
 
 html_favicon = "images/tux.svg"
 html_logo = "images/tux.svg"
