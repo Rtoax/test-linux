@@ -20,6 +20,7 @@ subdir-y += gdisk
 subdir-${HAVE_GIT} += git
 subdir-y += heatmap
 subdir-y += io_uring
+subdir-y += iproute
 subdir-y += jq
 subdir-y += json-c
 subdir-y += kasan

@@ -98,8 +98,8 @@ docs_check() {
 	local f
 	for f in README.md abbrev.md history.md
 	do
+		# no need try_rename[] here.
 		if [[ " ${try_modify[@]} " =~ "${f}" ]] ||
-		   [[ " ${try_rename[@]} " =~ "${f}" ]] ||
 		   [[ " ${try_add[@]} " =~ "${f}" ]]; then
 			fatal "Don't modify/add ${f}, please move it to Documentation!"
 		fi
