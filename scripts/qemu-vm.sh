@@ -468,6 +468,8 @@ handle_disk_arg() {
 #           see commit 559bfebf5d44 ("qemu: cxl-switch: 'lspci -tv'")
 # - CXL Device
 #           $ qemu-kvm -device cxl-type3,...,persistent-memdev=...
+#           see commit 445c8c03b035 ("qemu: cxl-type3: persistent-memdev: lspci, acpi")
+#
 #           $ qemu-kvm -device cxl-type3,...,volatile-memdev=...
 #
 #       ┌────────────────────────────┐

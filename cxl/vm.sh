@@ -118,6 +118,7 @@ custom_cxl() {
 	cxlargs+=( --cxl switch,bus=rp.4,nport=4,portprefix=sw4 )
 
 	# $ qemu-kvm -device cxl-type3,...,persistent-memdev=...
+	# see commit 445c8c03b035 ("qemu: cxl-type3: persistent-memdev: lspci, acpi")
 	cxlargs+=( --cxl pmem=pmem.1,bus=sw1.1,lsa=pmem.1.lsa,size=2G )
 	cxlargs+=( --cxl pmem=pmem.2,bus=sw1.2,lsa=pmem.2.lsa,size=2G )
 	cxlargs+=( --cxl pmem=pmem.3,bus=sw1.3,lsa=pmem.3.lsa,size=2G )
