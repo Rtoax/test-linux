@@ -38,6 +38,7 @@ subdir-y += ncurses
 subdir-y += notcurses
 subdir-y += nginx
 subdir-y += ostree
+subdir-y += pahole
 subdir-y += perf
 subdir-${HAVE_PODMAN} += podman
 subdir-y += psmisc

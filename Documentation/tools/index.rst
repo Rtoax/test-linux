@@ -1,6 +1,12 @@
 Tools
 =====
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+
+
 User Space
 ----------
 
@@ -12,6 +18,7 @@ User Space
    liburing
    lsof
    memcached
+   pahole
    psmisc
    redis
    samba
