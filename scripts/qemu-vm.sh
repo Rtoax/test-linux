@@ -53,7 +53,7 @@ q_gdb=
 
 dry_run=
 verbose=
-version="v1.0.6"
+version="v1.0.7"
 debug=
 
 # Disk configuratios
@@ -559,8 +559,8 @@ ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 
 ${BOLD}--cxl [help|?]${RST}: show this information
 
-${BOLD}--cxl [DEV]${RST}: see ${BOLD}[DEV]${RST} below
-${BOLD}--cxl device=[DEVICE|<list|?>]${RST}
+${BOLD}--cxl [DEVICE]${RST}: see ${BOLD}[DEVICE]${RST} section below
+${BOLD}--cxl device=[DEVICE|<list|?>]${RST}: see ${BOLD}[DEVICE]${RST} section below
 
 ${BOLD}--cxl pxb=<name>,[fmw|fixed-memory-window=<N>]${RST}: create CXL PXB, fmw default 0
 ${BOLD}--cxl <root-port|rp>=<name>,bus=<name>,port=<num>${RST}: create CXL RootPort
