@@ -4,9 +4,14 @@ BEGIN
 {
 	let $s1 : string[256];
 
-	$s1 = "Hello! Rong Tao, How are you!";
+	$s1 = "01234567890123456789";
 	$len1 = strlen($s1);
-
 	printf("String '%s' length is %d\n", $s1, $len1);
+
+	let $s2 : string[10];
+	$s2 = "012345678";
+	$len2 = strlen($s2);
+	printf("String '%s' length is %d\n", $s2, $len2);
+
 	exit();
 }
