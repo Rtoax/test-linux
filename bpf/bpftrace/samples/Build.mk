@@ -2,6 +2,7 @@ include bpf/bpftrace.mk
 
 subdir-$(call bpftrace_gt,0,20,2) += import
 subdir-y += macro
+subdir-$(call bpftrace_gt,0,20,2) += return
 subdir-y += string
 subdir-y += struct
 subdir-y += test
@@ -18,7 +19,6 @@ bpftrace-$(call bpftrace_gt,0,20,2) += pcomm.bt
 bpftrace-$(call bpftrace_ge,0,25,0) += signal_name.bt
 bpftrace-$(call bpftrace_gt,0,20,2) += strerror.bt
 bpftrace-y += syscall_name.bt
-bpftrace-$(call bpftrace_gt,0,20,2) += return.bt
 bpftrace-y += typeof.bt
 bpftrace-y += ustack.bt
 bpftrace-y += unroll.bt
