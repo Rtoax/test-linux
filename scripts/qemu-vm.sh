@@ -457,6 +457,7 @@ handle_disk_arg() {
 # - CXL level: PCIe.0 -> pxb-cxl -> cxl-rp -> [cxl-switch] -> cxl-type3
 # - CXL pxb (PCIe eXpander Bridge)
 #           $ qemu-kvm -device pxb-cxl,...
+#           see commit b4271dd6068b ("qemu: cxl-pxb: 'lspci -tv'")
 # - CXL rp (Root Port)
 # - CXL fmw: Fixed Memory Window
 #
