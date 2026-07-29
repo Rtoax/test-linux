@@ -94,7 +94,7 @@ qargs+=( --monitor )
 
 
 custom_cxl() {
-	# qemu-kvm -device pxb-cxl,...
+	# $ qemu-kvm -device pxb-cxl,...
 	# see commit b4271dd6068b ("qemu: cxl-pxb: 'lspci -tv'")
 	cxlargs+=( --cxl pxb=pxb.1 ) # fmw default 0
 	cxlargs+=( --cxl pxb=pxb.2,fmw=1 )
@@ -103,6 +103,7 @@ custom_cxl() {
 	cxlargs+=( --cxl pxb=pxb.5,fixed-memory-window=4 )
 	cxlargs+=( --cxl pxb=pxb.6,fixed-memory-window=5 )
 
+	# $ qemu-kvm -device cxl-rp,...
 	cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
 	cxlargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
 	cxlargs+=( --cxl root-port=rp.3,bus=pxb.3,port=1 )
