@@ -55,6 +55,8 @@ and this project adheres to
 - add xterm;
 - add sysstat subdir;
 #### Template
+- compiler/macros.mk: support ppc64le;
+- compiler/machine.mk: add `CC_MACHINE_CFLAGS`;
 - glibc.mk: add `USE_GNU_LIBC`;
 - add musl-libc.mk;
 - add ndctl.mk;
