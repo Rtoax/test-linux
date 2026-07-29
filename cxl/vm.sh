@@ -94,6 +94,7 @@ qargs+=( --monitor )
 
 
 custom_cxl() {
+	# qemu-kvm -device pxb-cxl,...
 	cxlargs+=( --cxl pxb=pxb.1 ) # fmw default 0
 	cxlargs+=( --cxl pxb=pxb.2,fmw=1 )
 	cxlargs+=( --cxl pxb=pxb.3,fmw=2 )

@@ -454,9 +454,10 @@ handle_disk_arg() {
 ################################################################################
 # CXL
 # ===
-# - CXL level: PCIe.0 -> pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
-#   pxb: PCIe eXpander Bridge
-#   rp: Root Port
+# - CXL level: PCIe.0 -> pxb-cxl -> cxl-rp -> [cxl-switch] -> cxl-type3
+# - CXL pxb (PCIe eXpander Bridge)
+#           $ qemu-kvm -device pxb-cxl,...
+# - CXL rp (Root Port)
 # - CXL fmw: Fixed Memory Window
 #
 #       ┌────────────────────────────┐
