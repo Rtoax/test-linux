@@ -10,6 +10,21 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Documentation
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Tools
+#### Template
+
+
+## [v2.4.10] Omnipotent 2026-07-29
+
+#### Breaking Changes
 - add .gitconfig.sh in rootdir;
 #### Added
 - cxl/acpi: add cxims.c, rdpas.c;
