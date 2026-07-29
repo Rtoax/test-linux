@@ -110,8 +110,11 @@ custom_cxl() {
 	cxlargs+=( --cxl root-port=rp.3,bus=pxb.3,port=1 )
 	cxlargs+=( --cxl root-port=rp.4,bus=pxb.4,port=1 )
 
+	# $ qemu-kvm -device cxl-upstream,... -device cxl-downstream,...
 	cxlargs+=( --cxl switch,bus=rp.1,nport=4,portprefix=sw1 )
 	cxlargs+=( --cxl switch,bus=rp.2,nport=4,portprefix=sw2 )
+	cxlargs+=( --cxl switch,bus=rp.3,nport=4,portprefix=sw3 )
+	cxlargs+=( --cxl switch,bus=rp.4,nport=4,portprefix=sw4 )
 
 	cxlargs+=( --cxl pmem=pmem.1,bus=sw1.1,lsa=pmem.1.lsa,size=2G )
 	cxlargs+=( --cxl pmem=pmem.2,bus=sw1.2,lsa=pmem.2.lsa,size=2G )
