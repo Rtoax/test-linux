@@ -111,6 +111,7 @@ custom_cxl() {
 	cxlargs+=( --cxl root-port=rp.4,bus=pxb.4,port=1 )
 
 	# $ qemu-kvm -device cxl-upstream,... -device cxl-downstream,...
+	# see commit 559bfebf5d44 ("qemu: cxl-switch: 'lspci -tv'")
 	cxlargs+=( --cxl switch,bus=rp.1,nport=4,portprefix=sw1 )
 	cxlargs+=( --cxl switch,bus=rp.2,nport=4,portprefix=sw2 )
 	cxlargs+=( --cxl switch,bus=rp.3,nport=4,portprefix=sw3 )
