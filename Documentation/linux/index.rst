@@ -28,9 +28,17 @@ Linux Tools
 .. toctree::
    :maxdepth: 1
 
-   cmdline
    binfmt
+   cmdline
+   debug
+   fentry
+   fprobe
+   kgdb
    kmod
+   kprobe
+   osnoise
+   tracepoint
+   uprobe
 
 
 Linux History

@@ -1,7 +1,8 @@
 Fprobe - Function entry/exit probe
 ==================================
 
-# Kernel Function Probe (fprobe)
+Kernel Function Probe (fprobe)
+------------------------------
 
 Fprobe is a function entry/exit probe mechanism based on ftrace. Instead of
 using ftrace full feature, if you only want to attach callbacks on function
@@ -11,7 +12,8 @@ for multiple functions with single handler. This document describes how to
 use fprobe.
 
 
-# Config
+Config
+------
 
 - `CONFIG_FPROBE`
 	- depend on `CONFIG_FUNCTION_TRACER`
@@ -19,7 +21,7 @@ use fprobe.
 	- depend on `CONFIG_HAVE_RETHOOK`
 
 
-# Links
+Links
+-----
 
-* [https://www.kernel.org/doc/html/latest/trace/fprobe.html](https://www.kernel.org/doc/html/latest/trace/fprobe.html)
-
+* https://www.kernel.org/doc/html/latest/trace/fprobe.html

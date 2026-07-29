@@ -17,6 +17,7 @@ User Space
    git
    liburing
    lsof
+   lttng
    memcached
    pahole
    psmisc

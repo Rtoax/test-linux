@@ -2,7 +2,8 @@ LTTng - Linux Trace Toolkit Next Generation
 ===========================================
 
 
-# Links
+Links
+-----
 
 - https://lttng.org
 - https://git.lttng.org/
