@@ -33,4 +33,3 @@ $ sudo systemctl stop fstabd.service
 $ cd build
 $ sudo make uninstall
 ```
-

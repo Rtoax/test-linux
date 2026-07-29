@@ -33,6 +33,7 @@ Linux Tools
    debug
    fentry
    fprobe
+   kasan
    kgdb
    kmod
    kprobe
