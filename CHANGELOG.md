@@ -14,6 +14,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- script: add deploy-website.sh;
 - move trace README.md to Doc as rst;
 - add crash;
 - add iproute.rst;
