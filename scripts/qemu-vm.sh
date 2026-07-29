@@ -53,7 +53,7 @@ q_gdb=
 
 dry_run=
 verbose=
-version="v1.0.4"
+version="v1.0.5"
 debug=
 
 # Disk configuratios
@@ -560,7 +560,7 @@ ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 ${BOLD}--cxl help${RST}: show this information
 
 ${BOLD}--cxl [DEV]${RST}: see ${BOLD}[DEV]${RST} below
-${BOLD}--cxl device=[DEV]${RST}
+${BOLD}--cxl device=[DEVICE|<list|?>]${RST}
 
 ${BOLD}--cxl pxb=<name>,[fmw|fixed-memory-window=<N>]${RST}: create CXL PXB, fmw default 0
 ${BOLD}--cxl <root-port|rp>=<name>,bus=<name>,port=<num>${RST}: create CXL RootPort
@@ -570,7 +570,7 @@ ${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>][size=<SIZE>]${RST}: create CXL 
 
 ${BOLD}--cxl show=[topo]${RST}: display CXL information before vm startup, will not startup vm
 
-${BOLD}[DEV]${RST}
+${BOLD}[DEVICE]${RST}
 ${GRAY}${CXL_DEVICES[@]}${RST}
 
 ${BOLD}FORMAT${RST}
@@ -580,7 +580,6 @@ ${BOLD}FORMAT${RST}
 	exit 0
 }
 
-# Formats: device=<name>
 handle_cxl_arg() {
 	local arg args
 	local device
@@ -739,7 +738,16 @@ handle_cxl_arg() {
 	fi
 
 	# set global
-	[[ ${device} ]] && cxl_device=${device}
+	if [[ ${device} ]]; then
+		case ${device} in
+		list|?)
+			echo ${CXL_DEVICES[@]}
+			exit 0
+			;;
+		esac
+		cxl_device=${device}
+	fi
+
 	if [[ ${pxb_id} ]]; then
 		if [[ " ${cxl_pxb_ids[@]} " =~ " ${pxb_id} " ]]; then
 			error "cxl: could not create pxb '${pxb_id}' twice"
