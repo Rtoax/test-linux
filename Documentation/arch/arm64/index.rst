@@ -8,3 +8,4 @@ ARM64 Architecture
    :maxdepth: 1
 
    abbrev
+   simd
