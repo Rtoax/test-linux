@@ -10,7 +10,9 @@ Test Linux CPU Architectures
 
    arm64/index
    loongarch/index
+   powerpc/index
    riscv/index
+   s390/index
    sw_64/index
    x86/index
 
