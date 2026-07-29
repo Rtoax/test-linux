@@ -455,6 +455,8 @@ handle_disk_arg() {
 # CXL
 # ===
 # - CXL level: PCIe.0 -> pxb-cxl -> cxl-rp -> [cxl-switch] -> cxl-type3
+#
+# - CXL fmw: Fixed Memory Window
 # - CXL pxb (PCIe eXpander Bridge)
 #           $ qemu-kvm -device pxb-cxl,...
 #           see commit b4271dd6068b ("qemu: cxl-pxb: 'lspci -tv'")
@@ -464,7 +466,9 @@ handle_disk_arg() {
 # - CXL Switch
 #           $ qemu-kvm -device cxl-upstream,... -device cxl-downstream,...
 #           see commit 559bfebf5d44 ("qemu: cxl-switch: 'lspci -tv'")
-# - CXL fmw: Fixed Memory Window
+# - CXL Device
+#           $ qemu-kvm -device cxl-type3,...,persistent-memdev=...
+#           $ qemu-kvm -device cxl-type3,...,volatile-memdev=...
 #
 #       ┌────────────────────────────┐
 #       │    PCIe.0(q35)             │

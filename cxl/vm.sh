@@ -117,11 +117,13 @@ custom_cxl() {
 	cxlargs+=( --cxl switch,bus=rp.3,nport=4,portprefix=sw3 )
 	cxlargs+=( --cxl switch,bus=rp.4,nport=4,portprefix=sw4 )
 
+	# $ qemu-kvm -device cxl-type3,...,persistent-memdev=...
 	cxlargs+=( --cxl pmem=pmem.1,bus=sw1.1,lsa=pmem.1.lsa,size=2G )
 	cxlargs+=( --cxl pmem=pmem.2,bus=sw1.2,lsa=pmem.2.lsa,size=2G )
 	cxlargs+=( --cxl pmem=pmem.3,bus=sw1.3,lsa=pmem.3.lsa,size=2G )
 	cxlargs+=( --cxl pmem=pmem.4,bus=sw1.4,lsa=pmem.4.lsa,size=2G )
 
+	# $ qemu-kvm -device cxl-type3,...,volatile-memdev=...
 	cxlargs+=( --cxl vmem=vmem.1,bus=sw2.1,lsa=vmem.1.lsa )
 	cxlargs+=( --cxl vmem=vmem.2,bus=sw2.2 ) # vmem could not set lsa
 	cxlargs+=( --cxl vmem=vmem.3,bus=sw2.3,size=2G )
