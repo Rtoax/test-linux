@@ -7,6 +7,7 @@ include zstd.mk
 
 subdir-y += binfmt
 subdir-y += capability
+subdir-y += capstone
 subdir-y += cmake
 subdir-y += coreutils
 subdir-y += code-formatter
