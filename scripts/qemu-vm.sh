@@ -16,7 +16,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 . ${QEMU_VM_ROOT}/libstring.sh
 
 readonly PROG=qemu-vm
-readonly arch=$(uname -m)
+readonly ARCH=$(uname -m)
 QEMU_KVM=$(get_qemu_kvm_emulator)
 
 readonly BUS_PCIE0=pcie.0 # q35 default root bus
@@ -156,8 +156,8 @@ ${BOLD}OPTIONS${RST}
     -h, --help              show this help information
 
 ${BOLD}EXAMPLES${RST}
-    $ sudo ${PROG} --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${arch}${RST} \\
-        --initrd ${GRAY}${ITALIC}/boot/initramfs-${arch}.img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
+    $ sudo ${PROG} --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${ARCH}${RST} \\
+        --initrd ${GRAY}${ITALIC}/boot/initramfs-${ARCH}.img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
         ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
 
 ${BOLD}FORMAT${RST}
@@ -278,7 +278,7 @@ declare -a UEFI_VARS=(
 	/usr/share/AAVMF/AAVMF_VARS.fd
 )
 
-case ${arch} in
+case ${ARCH} in
 aarch64)
 	UEFI_CODES+=( /usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw )
 	UEFI_VARS+=( /usr/share/edk2/aarch64/QEMU_VARS.fd )
@@ -1101,7 +1101,7 @@ config_basic() {
 		qargs+=( -nographic )
 	fi
 
-	case ${arch} in
+	case ${ARCH} in
 	x86_64)
 		qmachine+=( type=q35 )
 		;;
@@ -1173,7 +1173,7 @@ auto_uefi_pflash() {
 
 	# FIXME: aarch64 default UEFI, skip error:
 	# qemu-kvm: device requires 67108864 bytes, block backend provides 786432 bytes
-	if [[ ${arch} == aarch64 ]]; then
+	if [[ ${ARCH} == aarch64 ]]; then
 		return 0
 	fi
 
@@ -1277,7 +1277,7 @@ config_kernel() {
 	kcmds+=( earlyprintk=serial )
 	kcmds+=( net.ifnames=0 )
 	kcmds+=( selinux=0 audit=0 nokaslr )
-	case ${arch} in
+	case ${ARCH} in
 	aarch64)
 		kcmds+=( console=ttyAMA0 )
 		;;
@@ -2004,7 +2004,15 @@ config_cxl() {
 		return 0
 	fi
 
-	qmachine+=( cxl=on )
+	# FIXME: only x86_64 q35 support cxl yet
+	case ${ARCH} in
+	x86_64)
+		qmachine+=( cxl=on )
+		;;
+	*)
+		;;
+	esac
+
 	qmachine+=( nvdimm=on )
 
 	# Create CXL PXB
