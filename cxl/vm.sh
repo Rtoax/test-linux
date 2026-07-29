@@ -104,6 +104,7 @@ custom_cxl() {
 	cxlargs+=( --cxl pxb=pxb.6,fixed-memory-window=5 )
 
 	# $ qemu-kvm -device cxl-rp,...
+	# see commit f6f541dae696 ("qemu: cxl-rp(root-port): 'lspci -tv'")
 	cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
 	cxlargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
 	cxlargs+=( --cxl root-port=rp.3,bus=pxb.3,port=1 )

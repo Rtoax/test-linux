@@ -460,6 +460,7 @@ handle_disk_arg() {
 #           see commit b4271dd6068b ("qemu: cxl-pxb: 'lspci -tv'")
 # - CXL rp (Root Port)
 #           $ qemu-kvm -device cxl-rp,...
+#           see commit f6f541dae696 ("qemu: cxl-rp(root-port): 'lspci -tv'")
 # - CXL fmw: Fixed Memory Window
 #
 #       ┌────────────────────────────┐
