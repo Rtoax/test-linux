@@ -14,6 +14,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- add crash;
 - add iproute.rst;
 #### Fixed
 #### Linux Kernel
