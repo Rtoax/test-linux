@@ -53,7 +53,7 @@ q_gdb=
 
 dry_run=
 verbose=
-version="v1.0.5"
+version="v1.0.6"
 debug=
 
 # Disk configuratios
@@ -557,7 +557,7 @@ cxl_arg_help() {
 	echo -e "
 ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 
-${BOLD}--cxl help${RST}: show this information
+${BOLD}--cxl [help|?]${RST}: show this information
 
 ${BOLD}--cxl [DEV]${RST}: see ${BOLD}[DEV]${RST} below
 ${BOLD}--cxl device=[DEVICE|<list|?>]${RST}
@@ -594,7 +594,7 @@ handle_cxl_arg() {
 	for arg in ${args[@]}
 	do
 		case ${arg%%=*} in
-		help)
+		help|?)
 			cxl_arg_help
 			;;
 		esac
