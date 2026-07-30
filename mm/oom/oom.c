@@ -226,12 +226,13 @@ void default_pagefault(void *mem, size_t size, bool pf_verbose)
 
 		pf_size += pagesize;
 		if (pf_verbose) {
-			BACK_PRINTF("Pagefault %ld B (%ld KiB, %ld MiB),"
-					" oom_score %d, adj %d, score_adj %d",
-					pf_size, pf_size / KB, pf_size / MB,
-					get_oom_score(getpid()),
-					get_oom_adj(getpid()),
-					get_oom_score_adj(getpid()));
+			BACK_PRINTF(
+				"Pagefault %ld B (%ld KiB, %ld MiB, %.2lf GiB),"
+				" oom_score %d, adj %d, score_adj %d",
+				pf_size, pf_size / KB, pf_size / MB,
+				pf_size * 1.0 / GB, get_oom_score(getpid()),
+				get_oom_adj(getpid()),
+				get_oom_score_adj(getpid()));
 		}
 	}
 }
@@ -288,8 +289,7 @@ void hold_mem(struct oom_operations *ops)
 	}
 
 	fprintf(stderr, "Hold %ld B (%ldKiB, %ldMiB, %.3lfGiB) of memory\n",
-		size, size / 1024, size / 1024 / 1024,
-		size * 1.0 / 1024 / 1024 / 1024);
+		size, size / KB, size / MB, size * 1.0 / GB);
 
 	mem = ops->alloc(size);
 	if (!mem) {
