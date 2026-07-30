@@ -17,7 +17,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-QEMU_KVM=$(get_qemu_kvm_emulator)
+declare QEMU_KVM QEMU_KVM_VERSION
 
 readonly BUS_PCIE0=pcie.0 # q35 default root bus
 pcie_root_port_num=2
@@ -124,7 +124,9 @@ ${BOLD}OPTIONS${RST}
     --uefi [ARGS]           UEFI by Qemu. please see ${BOLD}--uefi help${RST}
 
   ${BOLD}QEMU OPTIONS${RST}
-    -Q, --qemu [qemu-kvm]   specify qemu emulator binary.
+    -Q, --qemu [qemu-kvm]   specify qemu emulator binary,
+                            default: ${UL}${QEMU_KVM}${RST}, version ${UL}${QEMU_KVM_VERSION}${RST}
+
         --gdb               enable qemu debugging, usage:${GRAY}
                             $ gdb -q kernel.elf
                             (gdb) target remote :1234
@@ -168,6 +170,19 @@ ${BOLD}SEE ALSO${RST}
     qemu(1), qemu-kvm(1), etc.
 "
 	exit ${1-0}
+}
+
+# $1: qemu-kvm emulator
+set_qemu_kvm() {
+	QEMU_KVM=${1}
+	QEMU_KVM_VERSION="$(${QEMU_KVM} --version | \
+		grep -m1 -Ewo '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
+
+	if [[ ! -f ${QEMU_KVM} ]] &&
+	   [[ -z "$(which ${QEMU_KVM})" ]] &&
+	   [[ -z ${dry_run} ]]; then
+		error "Not found qemu ${QEMU_KVM}"
+	fi
 }
 
 check_files_exist_and_exit() {
@@ -808,6 +823,8 @@ handle_cxl_arg() {
 ################################################################################
 # Main
 
+set_qemu_kvm $(get_qemu_kvm_emulator)
+
 TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDvV \
 	--long name: \
 	--long cpu: \
@@ -939,7 +956,7 @@ while true; do
 		;;
 	-Q | --qemu)
 		shift
-		QEMU_KVM=$1
+		set_qemu_kvm $1
 		shift
 		;;
 	--qarg)
@@ -996,10 +1013,6 @@ if [[ ${f_rootfs} ]]; then
 fi
 
 check_files_exist_and_exit ${f_virtiofs_sock[@]}
-
-if [[ ! -f ${QEMU_KVM} ]] && [[ -z ${dry_run} ]]; then
-	error "Not found qemu ${QEMU_KVM}"
-fi
 
 if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]] && [[ -z ${f_disks} ]]; then
 	error "must specify kernel and initrd, or specify one disk at least"
@@ -2004,12 +2017,14 @@ config_cxl() {
 		return 0
 	fi
 
-	# FIXME: only x86_64 q35 support cxl yet
+	# FIXME: only x86_64 q35 support cxl now
 	case ${ARCH} in
-	x86_64)
-		qmachine+=( cxl=on )
+	aarch64)
+		warning "cxl: not support ${ARCH} yet! Please check your qemu version."
+		return 0
 		;;
 	*)
+		qmachine+=( cxl=on )
 		;;
 	esac
 
