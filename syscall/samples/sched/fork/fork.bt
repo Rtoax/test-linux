@@ -30,7 +30,11 @@
  *                                                            └───────┘
  *                                                          group_leader
  *
- * ref: commit d4acdce4bf0e ("{pthread/create.c,clone(2),fork.c}: Recursive creation")
+ * Architectures that have not fork(2), vfork(2):
+ * - aarch64
+ *
+ * Refs:
+ * - commit d4acdce4bf0e ("{pthread/create.c,clone(2),fork.c}: Recursive creation")
  */
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
