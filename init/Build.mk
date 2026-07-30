@@ -2,6 +2,7 @@
 subdir-y += acpi
 subdir-y += bios
 subdir-y += firmware
+subdir-y += grub
 subdir-y += kernel
 subdir-y += initrd
 subdir-y += modules
