@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- systemd/udev: add kernel-install subdir;
 - python: test os.fork();
 #### Changed
 - bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
