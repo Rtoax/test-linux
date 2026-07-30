@@ -1,3 +1,4 @@
-subdir-y := path
+subdir-y += fork
+subdir-y += path
 
-python-y := environ.py
+python-y += environ.py
