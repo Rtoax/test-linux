@@ -21,13 +21,15 @@ And a talk:
 For an alternative approach based on a happens-before algorithm, see [Kernel Thread Sanitizer (KTSAN)](/KTSAN.md).
 
 
-## Continuous testing & fuzzing
+Continuous testing & fuzzing
+----------------------------
 
 We have a [public syzbot instance](https://syzkaller.appspot.com/upstream?manager=ci2-upstream-kcsan-gce). Reports will appear on the dashboard after internal review, to keep the volume of bugs manageable (which gives us a chance to carefully react to KCSAN reports while best practices are still evolving).
 
 
-# Links
+Links
+-----
 
 - https://docs.kernel.org/dev-tools/kcsan.html
 - https://www.kernel.org/doc/html/latest/dev-tools/kcsan.html
-
+- https://github.com/google/kernel-sanitizers

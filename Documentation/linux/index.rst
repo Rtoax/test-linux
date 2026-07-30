@@ -33,13 +33,27 @@ Linux Tools
    debug
    fentry
    fprobe
-   kasan
    kgdb
    kmod
    kprobe
+   livepatch
    osnoise
+   perf
+   rtla
+   static_key
    tracepoint
    uprobe
+
+
+Linux Sanitizers (杀菌剂)
+-------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   kasan
+   kcsan
+   kfence
 
 
 Linux History

@@ -23,6 +23,7 @@ User Space
    psmisc
    redis
    samba
+   systemtap
    tmux
    util-linux
 

@@ -29,3 +29,4 @@ Links
 -----
 
 * https://www.kernel.org/doc/html/latest/dev-tools/kasan.html
+* https://github.com/google/kernel-sanitizers
