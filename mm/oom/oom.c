@@ -287,8 +287,9 @@ void hold_mem(struct oom_operations *ops)
 			"than system RAM size. May use Swap\033[m\n");
 	}
 
-	fprintf(stderr, "Hold %ld B (%ldKiB, %ldMiB) of memory\n", size,
-		size / 1024, size / 1024 / 1024);
+	fprintf(stderr, "Hold %ld B (%ldKiB, %ldMiB, %.3lfGiB) of memory\n",
+		size, size / 1024, size / 1024 / 1024,
+		size * 1.0 / 1024 / 1024 / 1024);
 
 	mem = ops->alloc(size);
 	if (!mem) {
