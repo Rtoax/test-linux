@@ -19,7 +19,8 @@ readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
 declare QEMU_KVM QEMU_KVM_VERSION
 
-readonly BUS_PCIE0=pcie.0 # q35 default root bus
+# on x86_64: 'q35' default root bus
+readonly BUS_PCIE0=pcie.0
 pcie_root_port_num=2
 
 q_vm_name=$(mktemp -u vm-XXXXXX)
