@@ -1,8 +1,7 @@
 #!/bin/env bpftrace
+// Copyright (C) 2022-2026 Rong Tao
 /**
  * fork.bt - Tracing fork(2), vfork(2)
- *
- * Copyright (C) 2022-2026 Rong Tao
  *
  *                      group_leader
  *                        ┌──────┐
@@ -40,9 +39,10 @@
 BEGIN
 {
 	printf("Tracing fork, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-8s %-16s %-8s %-8s %-8s %-8s %-16s %-8s %-16s\n",
-		"TIME", "PID", "TID", "COMM", "OPS", "RET/PID", "ROLE",
-		"ParPID", "ParCOMM", "GrpLePID", "GrpLeCOMM");
+	printf("%-8s %-8s %-8s %-16s %-8s %-8s %-8s ", "TIME", "PID", "TID",
+	       "COMM", "OPS", "RET/PID", "ROLE");
+	printf("%-8s %-16s %-8s %-16s\n", "ParPID", "ParCOMM", "GrpLePID",
+	       "GrpLeCOMM");
 }
 
 tracepoint:syscalls:sys_enter_fork,
