@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - python: test os.fork();
 #### Changed
+- bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
 #### Deprecated
 #### Documentation
 - script: add deploy-website.sh;
