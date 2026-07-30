@@ -1312,9 +1312,13 @@ config_kernel() {
 		kcmds+=( systemd.log_level=debug )
 	fi
 
+	kcmds+=( earlycon )
 	kcmds+=( earlyprintk=serial )
 	kcmds+=( net.ifnames=0 )
-	kcmds+=( selinux=0 audit=0 nokaslr )
+	kcmds+=( selinux=0 )
+	kcmds+=( audit=0 )
+	kcmds+=( nokaslr )
+
 	case ${ARCH} in
 	aarch64)
 		# see commit 26e8c4697445 ("qemu-vm.sh: aarch64: use console=ttyAMA0")
