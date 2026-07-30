@@ -164,6 +164,13 @@ ${BOLD}EXAMPLES${RST}
         --initrd ${GRAY}${ITALIC}/boot/initramfs-${ARCH}.img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
         ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
 
+${BOLD}MINIMAL QEMU COMMANDS${RST}
+    ${GRAY}# On aarch64${RST}
+    $ sudo ${QEMU_KVM} -machine virt -cpu host -enable-kvm -m 2G \\
+        -kernel vmlinux-${ARCH} -initrd initramfs-${ARCH}.img \\
+        -append \"console=ttyS0,115200 rdinit=/bin/bash rw\" \\
+        -nographic
+
 ${BOLD}FORMAT${RST}
 
   ${FORMAT_SIZE}
