@@ -1317,6 +1317,7 @@ config_kernel() {
 	kcmds+=( selinux=0 audit=0 nokaslr )
 	case ${ARCH} in
 	aarch64)
+		# see commit 26e8c4697445 ("qemu-vm.sh: aarch64: use console=ttyAMA0")
 		kcmds+=( console=ttyAMA0 )
 		;;
 	*)
