@@ -89,7 +89,7 @@ ${BOLD}OPTIONS${RST}
     -m, --memory [SIZE]     Sets guest startup RAM size, default: ${q_memory},
                             format see ${UL}SIZE${RST} section.
 
-    -k, --kernel [KERNEL]   specify vmlinuz, bzImage
+    -k, --kernel [KERNEL]   specify ${UL}vmlinux${RST}, ${UL}vmlinuz${RST}, ${UL}bzImage${RST}
         --kcmd [ARG]        add kernel cmdline (may be listed multiple times)
                             example: --kcmd=${GRAY}rdinit=/usr/bin/bash${RST}
 
