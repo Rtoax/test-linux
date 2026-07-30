@@ -55,37 +55,44 @@ tracepoint:syscalls:sys_enter_vfork
 	time("%H:%M:%S ");
 	printf("%-8d %-8d %-16s %-8s\n", pid, tid, comm, "ENTER");
 	@start[tid] = nsecs;
-	@return_cnt[tid] = 2;
 }
 
 tracepoint:syscalls:sys_exit_fork,
 tracepoint:syscalls:sys_exit_vfork
-/ @start[tid] && @return_cnt[tid] /
+/ @start[tid] /
 {
 	$current = curtask;
 	$parent = $current->real_parent;
 	$grpleader = $current->group_leader;
 
+	$pid = (uint32)args->ret;
+
+	/* Parent */
+	if ($pid > 0) {
+		/**
+		 * fork(2) will return twice, one for parent, one for child.
+		 * and parent clone return first(actually parent and child is
+		 * parallel), for avoid @start[tid] of child is zero, set
+		 * @start for child. see also clone.bt.
+		 */
+		@start[$pid] = @start[tid];
+	}
+
 	$latus = (nsecs - @start[tid]) / 1000;
 
 	time("%H:%M:%S ");
 	printf("%-8d %-8d %-16s %-8s %-8d %-8s %-8d %-16s %-8d %-16s %-8ld\n",
-		pid, tid, comm, "EXIT", args->ret,
-		args->ret == 0 ? "CHILD" : "PARENT",
+		pid, tid, comm, "EXIT", $pid,
+		$pid == 0 ? "CHILD" : "PARENT",
 		$parent->pid, $parent->comm,
 		$grpleader->pid, $grpleader->comm,
 		$latus);
 
-	@return_cnt[tid]--;
-	if (@return_cnt[tid] == 0) {
-		delete(@start[tid]);
-		delete(@return_cnt[tid]);
-	}
+	delete(@start[tid]);
 }
 
 END
 {
 	clear(@start);
-	clear(@return_cnt);
 	printf("Bye.\n");
 }

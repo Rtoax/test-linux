@@ -48,7 +48,7 @@ tracepoint:syscalls:sys_exit_clone3
 		 * clone(2) will return twice, one for parent, one for child.
 		 * and parent clone return first(actually parent and child is
 		 * parallel), for avoid @start[tid] of child is zero, set
-		 * @start for child.
+		 * @start for child. see also fork.bt.
 		 */
 		@start[$pid] = @start[tid];
 		@comm[$pid] = @comm[tid];
