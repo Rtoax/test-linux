@@ -174,15 +174,15 @@ ${BOLD}MINIMAL QEMU COMMANDS${RST}"
     $ sudo ${QEMU_KVM} -machine q35 -cpu host -accel kvm -m 2G \\
         -kernel vmlinux-${ARCH} -initrd initramfs-${ARCH}.img \\
         -append \"console=ttyS0,115200 rdinit=/bin/bash rw\" \\
-        -nographic"
+        -nographic ${q_gdb:+-s -S}"
 		;;
 	aarch64)
 		echo -e "
     ${GRAY}# On aarch64${RST}
-    $ sudo ${QEMU_KVM} -machine virt -cpu host -enable-kvm -m 2G \\
+    $ sudo ${QEMU_KVM} -machine virt -cpu host -accel kvm -m 2G \\
         -kernel vmlinux-${ARCH} -initrd initramfs-${ARCH}.img \\
-        -append \"console=ttyS0,115200 rdinit=/bin/bash rw\" \\
-        -nographic"
+        -append \"earlycon console=ttyAMA0 rdinit=/bin/bash rw\" \\
+	-nographic ${q_gdb:+-s -S}"
 		;;
 	esac
 	echo -e "
@@ -1103,6 +1103,7 @@ trap cleanup EXIT
 config_basic() {
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid $(gen_uuid) )
+	# or use '-accel kvm'
 	qargs+=( -enable-kvm )
 	qargs+=( -boot menu=on )
 
