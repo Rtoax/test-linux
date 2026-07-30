@@ -6,6 +6,7 @@ subdir-y += macro
 subdir-$(call bpftrace_gt,0,20,2) += return
 subdir-y += string
 subdir-y += struct
+subdir-y += system
 subdir-y += test
 
 bpftrace-y += arithmetic.bt
