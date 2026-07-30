@@ -111,7 +111,7 @@ long __bpf_strnlen(const char *str, __u32 sz)
   int len = __bpf_loop(sz, strnlen_cb, &ctx, 0);
   if (len <= 0)
     return len;
-  return len - 1;
+  return (len == sz && str[len - 1] != '\0') ? len : len - 1;
 }
 
 /******************************************************************************\
