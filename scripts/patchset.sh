@@ -10,7 +10,7 @@
 #
 set -e
 
-readonly VERSION="v1.1.4"
+readonly VERSION="v1.1.5"
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 subject_prefix=
@@ -78,7 +78,7 @@ ${BOLD}BARE GIT EXAMPLES${RST}
 				 --cc=${UL}linux-kernel@vger.kernel.org${RST}
 	${GRAY}# Generate 2 patches patchset with cover letter${RST}
 	$ git format-patch ${UL}-2${RST} -s --cover-letter --thread \\
-			--subject-prefix=\"${UL}PATCH v3${RST}\"
+			--subject-prefix=\"${UL}${SUBJECT_PREFIX_EXAMPLE}${RST}\"
 	${GRAY}# Then, send-email, see below.${RST}
 
 ${BOLD}PATCHSET EXAMPLES${RST}
@@ -140,7 +140,7 @@ __patchset_getopt__()
 			shift
 			subject_prefix="$1"
 			if ! [[ " ${subject_prefix} " =~ " PATCH " ]]; then
-				error "Not found 'PATCH' in subject prefix, example: 'PATCH bpf-next'"
+				error "Not found 'PATCH' in subject prefix, example: '${SUBJECT_PREFIX_EXAMPLE}'"
 			fi
 			shift
 			;;
