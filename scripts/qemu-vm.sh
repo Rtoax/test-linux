@@ -162,21 +162,30 @@ ${BOLD}OPTIONS${RST}
 ${BOLD}EXAMPLES${RST}
     $ sudo ${PROG} --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${ARCH}${RST} \\
         --initrd ${GRAY}${ITALIC}/boot/initramfs-${ARCH}.img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
-        ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
+        ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}"
 
-${BOLD}MINIMAL QEMU COMMANDS${RST}
+	echo -e "
+${BOLD}MINIMAL QEMU COMMANDS${RST}"
+
+	case ${ARCH} in
+	x86_64)
+		echo -e "
     ${GRAY}# On x86_64${RST}
     $ sudo ${QEMU_KVM} -machine q35 -cpu host -accel kvm -m 2G \\
         -kernel vmlinux-${ARCH} -initrd initramfs-${ARCH}.img \\
         -append \"console=ttyS0,115200 rdinit=/bin/bash rw\" \\
-        -nographic
-
+        -nographic"
+		;;
+	aarch64)
+		echo -e "
     ${GRAY}# On aarch64${RST}
     $ sudo ${QEMU_KVM} -machine virt -cpu host -enable-kvm -m 2G \\
         -kernel vmlinux-${ARCH} -initrd initramfs-${ARCH}.img \\
         -append \"console=ttyS0,115200 rdinit=/bin/bash rw\" \\
-        -nographic
-
+        -nographic"
+		;;
+	esac
+	echo -e "
 ${BOLD}FORMAT${RST}
 
   ${FORMAT_SIZE}
