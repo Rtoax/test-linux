@@ -1,0 +1,10 @@
+#!/bin/env bpftrace
+
+#define ONE 1
+#define TWO 2
+
+BEGIN
+{
+	printf("one %d\n", ONE);
+	exit();
+}
