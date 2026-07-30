@@ -136,17 +136,18 @@ ${BOLD}OPTIONS${RST}
                             the ${UL}kernel.elf${RST} also could get:${GRAY}
                             $ objcopy --only-keep-debug vmlinux kernel.elf${RST}
 
-    --qarg [ARG]            append ARG to qemu arguments, for example:
-                            pass ${BOLD}-fw_cfg${RST} to qemu:
+    --qarg [ARG]            append ARG to qemu arguments,
+                            (may be listed multiple times)
+                            for example:
+                            if want to pass ${BOLD}-fw_cfg${RST} to qemu:
                               ${GRAY}-fw_cfg [name=]<name>,file=<file>${RST}
                               ${GRAY}-fw_cfg [name=]<name>,[name=]<name>,string=<str>${RST}
                             you could:
                               ${GRAY}$ ${PROG} --qarg \"-fw_cfg name=${USER},file=/etc/os-release\"${RST}
-                            in guest, check ${BOLD}/sys/firmware/qemu_fw_cfg/${RST}
-                            (may be listed multiple times)
+                            in guestos, check ${BOLD}/sys/firmware/qemu_fw_cfg/${RST}
 
   ${BOLD}CXL OPTIONS${RST}
-    --cxl [ARGS]            CXL by Qemu. please see ${BOLD}--cxl help${RST}
+    --cxl [ARGS]            CXL by Qemu. please see ${BOLD}--cxl help|?${RST}
 
                             CXL require Qemu >= ${UL}9.0${RST} on aarch64,
                             Qemu >= ${UL}7.2${RST} on x86_64.
