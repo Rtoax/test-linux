@@ -1,5 +1,6 @@
 #!/bin/env bpftrace
 
+#define ONE 1
 #define HELLO printf("Hello %d\n", ONE)
 
 BEGIN
