@@ -92,6 +92,6 @@ SVE/SVE2
 Links
 -----
 
-- [Intel ISA-L](https://github.com/intel/isa-l)
+- Intel ISA-L: https://github.com/intel/isa-l
 - https://en.wikipedia.org/wiki/CPUID
 - https://en.wikipedia.org/wiki/Advanced_Vector_Extensions
