@@ -1,4 +1,7 @@
 #!/bin/bash
+# Test on:
+# 1. NVIDIA DGX Spark
+# 2. Kunpeng 920
 set -ex
 
 # qemu-kvm 10.2.92
@@ -7,6 +10,12 @@ QEMU_KVM=/home/rongtao/Git/qemu/build/qemu-system-aarch64
 
 kernel=/boot/vmlinuz-$(uname -r)
 initrd=/boot/initrd.img-$(uname -r)
+[[ ! -f ${initrd} ]] && initrd=/boot/initramfs-$(uname -r).img
+
+if [[ ! -f ${initrd} ]]; then
+	echo >&2 "ERROR: not found initrd in anywhere!"
+	exit 1
+fi
 
 # TODO: stuck
 #kernel=/home/rongtao/cxl/vmlinux-6.19.11-200.fc43_cxl.aarch64
