@@ -37,8 +37,8 @@ declare f_rootfs
 declare f_rootfs_type
 declare k_init
 declare k_root
-# root mount attr: ro, rw. default: rw
-declare k_rw=
+# root mount attr: 'ro', 'rw'. default: 'rw'
+declare k_rw
 
 declare -a f_nvdimms
 
@@ -50,7 +50,7 @@ declare -a q_virtiofs_tag
 
 declare q_stdio
 declare q_monitor
-readonly q_monitor_telnet_port=8087
+readonly Q_MONITOR_TELNET_PORT=8087
 declare q_gdb
 
 declare dry_run
@@ -111,7 +111,7 @@ ${BOLD}OPTIONS${RST}
                             if stdio, you could set ${UL}TERM=xterm-256color${RST}
                             or ${UL}TERM=linux${RST} in your virtual machine.
 
-    --monitor               enable monitor, link with ${GRAY}$ telnet localhost ${q_monitor_telnet_port}${RST}
+    --monitor               enable monitor, link with ${GRAY}$ telnet localhost ${Q_MONITOR_TELNET_PORT}${RST}
 
   ${BOLD}VirtIO OPTIONS${RST}
     --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
@@ -1124,7 +1124,7 @@ config_basic() {
 	# Qemu monitor
 	if [[ ${q_monitor} ]]; then
 		# $ telnet localhost PORT
-		qargs+=( -monitor tcp:localhost:${q_monitor_telnet_port},server,nowait )
+		qargs+=( -monitor tcp:localhost:${Q_MONITOR_TELNET_PORT},server,nowait )
 
 		# Or could use:
 		# $ sudo socat - UNIX-CONNECT:/tmp/qemu-monitor-${q_vm_name}.sock
