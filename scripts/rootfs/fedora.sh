@@ -1,8 +1,11 @@
 #!/bin/bash
 # Copyright (C) 2025-2026 Rong Tao
 set -e
-readonly prog=rootfs-fedora
 
+readonly prog=rootfs-fedora
+readonly ROOTFS_FEDORA_DIR=$(dirname $(realpath $0))
+
+. ${ROOTFS_FEDORA_DIR}/../liblog.sh
 . /etc/os-release
 
 TARGET_ARCH=$(uname -m)
@@ -83,8 +86,7 @@ while true; do
 		IMAGE=$1
 		IMAGE_TYPE=${IMAGE##*.}
 		if ! [[ " raw qcow2 " =~ " ${IMAGE_TYPE} " ]]; then
-			echo >&2 "ERROR: ${IMAGE} is not raw or qcow2."
-			exit 1
+			error "${IMAGE} is not raw or qcow2."
 		fi
 		if [[ -e ${IMAGE} ]]; then
 			echo >&2 "WARNING: ${IMAGE} already exist."
@@ -128,8 +130,7 @@ while true; do
 done
 
 if [[ -z ${ROOTFS_DIR} ]]; then
-	echo >&2 "ERROR: Must speicfy rootfs directory"
-	exit 1
+	error "Must speicfy rootfs directory, see -h, --help"
 fi
 
 ROOTFS_DIR=$(realpath ${ROOTFS_DIR})
