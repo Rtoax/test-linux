@@ -25,6 +25,7 @@ and this project adheres to
 #### Fixed
 #### Linux Kernel
 #### Removed
+- vhost: remove upstream linux vhost test kmod code;
 #### Security
 #### Tools
 - add iproute;
