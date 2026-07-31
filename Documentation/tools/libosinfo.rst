@@ -1,6 +1,7 @@
 libosinfo
 =========
 
-# Links
+Commands
+--------
 
 - /usr/bin/osinfo-query

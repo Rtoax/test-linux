@@ -14,7 +14,13 @@ User Space
    :maxdepth: 1
 
    capstone
+   cmake
+   code-formatter
+   conda
    git
+   libcap-ng
+   libguestfs
+   libosinfo
    liburing
    lsof
    lttng
@@ -24,6 +30,7 @@ User Space
    redis
    samba
    systemtap
+   tigervnc
    tmux
    util-linux
 

@@ -29,7 +29,9 @@ Linux Tools
    :maxdepth: 1
 
    binfmt
+   capability
    cmdline
+   criu
    debug
    fentry
    fprobe
@@ -40,6 +42,7 @@ Linux Tools
    osnoise
    perf
    rtla
+   sparse
    static_key
    tracepoint
    uprobe
