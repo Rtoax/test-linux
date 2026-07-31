@@ -26,6 +26,7 @@ find_qemu_emulator()
 get_qemu_kvm_emulator()
 {
 	local qemu_kvm_possible_emulators=(
+		/home/rongtao/Git/qemu/build/qemu-system-$(uname -m)
 		/usr/libexec/qemu-kvm
 		/usr/libexec/qemu-system-$(uname -m)
 		/usr/bin/qemu-system-$(uname -m)
@@ -36,6 +37,7 @@ get_qemu_kvm_emulator()
 	return 0
 }
 
+# $1: specify cpu architecture, like: aarch64
 get_qemu_kvm_emulator_arch()
 {
 	local arch=$1
@@ -43,6 +45,7 @@ get_qemu_kvm_emulator_arch()
 		error "Must specify arch" >&2
 	fi
 	local qemu_kvm_possible_emulators=(
+		/home/rongtao/Git/qemu/build/qemu-system-${arch}
 		/usr/libexec/qemu-system-${arch}
 		/usr/bin/qemu-system-${arch}
 		/usr/local/bin/qemu-system-${arch}
