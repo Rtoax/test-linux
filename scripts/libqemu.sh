@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+# Copyright (C) 2023-2026 Rong Tao
+
 readonly LIBQEMU_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_ROOT}/liblog.sh
