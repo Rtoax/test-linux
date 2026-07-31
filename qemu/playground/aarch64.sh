@@ -26,7 +26,7 @@ fi
 #initrd=/home/rongtao/Git/linux/7.0.0-rc7-00059-g3036cd0d3328/initramfs-7.0.0-rc7-00059-g3036cd0d3328.img
 
 # Or: sudo qemu-vm --qemu ${QEMU_KVM} --kernel ${kernel} --initrd ${initrd} --stdio
-sudo ${QEMU_KVM} -machine virt -cpu host -accel kvm -m 2G \
+sudo ${QEMU_KVM} -name vm-test-aarch64 -machine virt -cpu host -accel kvm -m 2G \
 	-kernel ${kernel} -initrd ${initrd} \
 	-append "earlycon console=ttyAMA0 rdinit=/bin/bash rw" \
 	-nographic
