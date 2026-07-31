@@ -585,6 +585,7 @@
 		"qemu": {
 			"name": "Qemu",
 			"command": [
+				"/home/rongtao/Git/qemu/build/qemu-system-@ARCH@",
 				"qemu-kvm",
 				"/usr/libexec/qemu-kvm",
 				"/usr/bin/qemu-system-@ARCH@",

@@ -1,11 +1,16 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2026 Rong Tao
+#
+# Env in config.json
+# @ARCH@: cpu architecture
+#
 set -e
 
 readonly ROOTDIR=$(dirname $(realpath $0))
-source ${ROOTDIR}/../liblog.sh
 readonly CONFIG=${ROOTDIR}/config.json
+
+source ${ROOTDIR}/../liblog.sh
 
 if ! which jq 1>/dev/null 2>/dev/null; then
 	error "Not found command 'jq', please install first"
