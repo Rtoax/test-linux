@@ -309,6 +309,7 @@ handle_cpu_arg() {
 declare -a UEFI_CODES=(
 	# OVMF: Open Virtual Machine Firmware
 	/usr/share/OVMF/OVMF_CODE.fd
+	/usr/share/OVMF/OVMF_CODE.secboot.fd
 	/usr/share/AAVMF/AAVMF_CODE.fd
 )
 
