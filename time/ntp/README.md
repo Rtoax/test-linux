@@ -1,3 +1,0 @@
-NTP - Network Time Protocol
-===========================
-

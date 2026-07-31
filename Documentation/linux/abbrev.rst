@@ -11,6 +11,8 @@ Abbrev
 - KABI: Kernel Application Binary Interface (内核应用二进制接口)
 - KASAN: The Kernel Address Sanitizer (内核地址清理器) @ASAN
 - LKM: Linux Kernel Module (内核模块)
+- NTP: Network Time Protocol (网络时间协议)
 - SOL: Serial Over LAN (LAN 上串口) @BMC
 - UAPI: Linux Userspace API (Linux 用户空间接口)
 - UKI: Unified Kernel Image (统一内核镜像) @UEFI @UAPI @ESP
+- UTS: UNIX Time-sharing System (UNIX 时间共享系统)
