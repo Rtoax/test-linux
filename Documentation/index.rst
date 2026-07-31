@@ -97,6 +97,7 @@ Linux Kernel
    Scheduler <sched/index>
    Storage <storage/index>
    Syscall <syscall/index>
+   Time <time/index>
    Virtualization <virt/index>
 
 
