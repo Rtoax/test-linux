@@ -89,7 +89,7 @@ while true; do
 			error "${IMAGE} is not raw or qcow2."
 		fi
 		if [[ -e ${IMAGE} ]]; then
-			echo >&2 "WARNING: ${IMAGE} already exist."
+			warning "${IMAGE} is already exist."
 		else
 			IMAGE_NEW=YES
 		fi
