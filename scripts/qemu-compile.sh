@@ -679,6 +679,13 @@ ARGUMENT
    -v, --verbose      show detail when make
    -h, --help         show this help information
 
+ORIGIN QEMU CONFIGURATION
+    $ mkdir build && cd build
+    $ ../configure --disable-docs ...
+    $ make -j\$(nproc)
+    # or
+    $ ninja-build -j\$(nproc)
+
 SEE ALSO
     ninja, make
 " | more
