@@ -1,5 +1,5 @@
 {
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -12,7 +12,10 @@
 				"minor": "minor",
 				"patch": "patchlevel"
 			}
-		}
+		},
+		"tags": [ "boot", "bpf", "development", "networking",
+			"software-management"
+		]
 	},
 	"software": {
 		"acpica-tools": {
@@ -21,32 +24,39 @@
 			"version": {
 				"length": [ 1 ]
 			},
-			"keys": [ "acpi", "acpidump" ]
+			"keys": [ "acpi", "acpidump" ],
+			"tags": [ "boot" ]
 		},
 		"acpitool": {
 			"name": "ACPITool",
-			"keys": [ "acpi", "acpitool" ]
+			"keys": [ "acpi", "acpitool" ],
+			"tags": [ "boot" ]
 		},
-		"pkg-config": {
-			"name": "PKG-Config",
-			"keys": [ "pkg-config" ]
+		"pkgconf": {
+			"name": "PKGConf",
+			"command": [ "pkg-config" ],
+			"keys": [ "pkg-config" ],
+			"tags": [ "development" ]
 		},
 		"anaconda": {
 			"name": "Anaconda",
 			"version": {
 				"length": [ 2 ]
 			},
-			"keys": [ "anaconda" ]
+			"keys": [ "anaconda" ],
+			"tags": [ "boot" ]
 		},
 		"apt": {
 			"name": "APT",
 			"extension": [ "deb" ],
-			"keys": [ "apt" ]
+			"keys": [ "apt" ],
+			"tags": [ "software-management" ]
 		},
 		"bcc": {
 			"name": "BCC",
 			"library": [ "libbcc.so", "libbcc_bpf.so" ],
-			"keys": [ "bcc", "bpfcc" ]
+			"keys": [ "bcc", "bpfcc" ],
+			"tags": [ "bpf" ]
 		},
 		"binutils": {
 			"name": "Binutils",
@@ -55,21 +65,25 @@
 				"length": [ 3, 2 ]
 			},
 			"extension": [ "s" ],
-			"keys": [ "addr2line", "asm", "bfd", "binutils" ]
+			"keys": [ "addr2line", "asm", "bfd", "binutils" ],
+			"tags": [ "basic" ]
 		},
 		"bpftool": {
 			"name": "BPFTool",
-			"keys": [ "bpftool", "btf" ]
+			"keys": [ "bpftool", "btf" ],
+			"tags": [ "bpf" ]
 		},
 		"bpftrace": {
 			"name": "BPFTrace",
 			"extension": [ "bt" ],
-			"keys": [ "bpftrace" ]
+			"keys": [ "bpftrace" ],
+			"tags": [ "bpf" ]
 		},
 		"capstone": {
 			"name": "Capstone",
 			"command": [ "cstool" ],
-			"keys": [ "capstone", "cstool" ]
+			"keys": [ "capstone", "cstool" ],
+			"tags": [ "development" ]
 		},
 		"clang": {
 			"name": "Clang",
