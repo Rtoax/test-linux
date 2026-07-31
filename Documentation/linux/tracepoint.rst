@@ -67,3 +67,9 @@ Example
     	field:pid_t child_pid;	offset:44;	size:4;	signed:1;
 
     print fmt: "comm=%s pid=%d child_comm=%s child_pid=%d", REC->parent_comm, REC->parent_pid, REC->child_comm, REC->child_pid
+
+
+Links
+-----
+
+- LWN: Using the TRACE_EVENT() macro: https://lwn.net/Articles/383362/
