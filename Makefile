@@ -109,7 +109,6 @@ prep-y := reset
 post-y := done
 
 prog-y := abbrev.sh
-prog-y += history.sh
 prog-y += kconfig.sh
 
 ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
