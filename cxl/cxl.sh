@@ -33,11 +33,14 @@ cxl_vmem() {
 
 	# add memory to main RAM
 	# commit 21535dd38b6e ("cxl: dax0.0: use as system-ram")
+	free -g
 	sudo daxctl online-memory dax0.0
 
-	# Use CXL RAM
+	# Use CXL System RAM...
+	free -g
 
 	sudo daxctl offline-memory dax0.0
+	free -g
 
 	sudo cxl disable-region region0
 	sudo cxl destroy-region region0
