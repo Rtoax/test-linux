@@ -157,12 +157,16 @@ ${BOLD}OPTIONS${RST}
     -D, --debug             enable debug mode.
     -v, --verbose           enable verbose mode.
     -V, --version           show version
-    -h, --help              show this help information
+    -h, --help              show this help information"
 
+	local kernel="${GRAY}${ITALIC}/boot/vmlinuz-$(uname -r)${RST}"
+	local initrd="${GRAY}${ITALIC}/boot/initramfs-$(uname -r).img${RST}"
+
+	echo -e "
 ${BOLD}EXAMPLES${RST}
-    $ sudo ${PROG} --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${ARCH}${RST} \\
-        --initrd ${GRAY}${ITALIC}/boot/initramfs-${ARCH}.img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
-        ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}"
+    $ sudo ${PROG} --kernel ${kernel} \\
+        --initrd ${initrd} ${GRAY}[--rdinit=/bin/bash]${RST} \\
+        ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST} --stdio"
 
 	echo -e "
 ${BOLD}MINIMAL QEMU COMMANDS${RST}"
@@ -172,7 +176,7 @@ ${BOLD}MINIMAL QEMU COMMANDS${RST}"
 		echo -e "
     ${GRAY}# On x86_64${RST}
     $ sudo ${QEMU_KVM} -machine q35 -cpu host -accel kvm -m 2G \\
-        -kernel vmlinux-${ARCH} -initrd initramfs-${ARCH}.img \\
+        -kernel ${kernel} -initrd ${initrd} \\
         -append \"console=ttyS0,115200 rdinit=/bin/bash rw\" \\
         -nographic ${q_gdb:+-s -S}"
 		;;
@@ -180,7 +184,7 @@ ${BOLD}MINIMAL QEMU COMMANDS${RST}"
 		echo -e "
     ${GRAY}# On aarch64${RST}
     $ sudo ${QEMU_KVM} -machine virt -cpu host -accel kvm -m 2G \\
-        -kernel vmlinux-${ARCH} -initrd initramfs-${ARCH}.img \\
+        -kernel ${kernel} -initrd ${initrd} \\
         -append \"earlycon console=ttyAMA0 rdinit=/bin/bash rw\" \\
 	-nographic ${q_gdb:+-s -S}"
 		;;
