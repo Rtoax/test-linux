@@ -311,9 +311,11 @@ endif
 # From here, store developing kfuncs checks
 
 # See test-linux/bpf/kfunc/modules/bpf_task_cwd_from_pid.c
-ifeq ($(call ksyms_have_func,bpf_task_cwd_from_pid),y)
-  $(call bpf_def_helper,bpf_task_cwd_from_pid)
-endif
+#     https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
+# rejected: https://lore.kernel.org/lkml/CAADnVQ+hUk2wV3M+9mgv_i5sNt_FuHpAnDpkQJ22D37bxAJHsQ@mail.gmail.com/
+#ifeq ($(call ksyms_have_func,bpf_task_cwd_from_pid),y)
+#  $(call bpf_def_helper,bpf_task_cwd_from_pid)
+#endif
 
 # refs:
 # rejected: https://lore.kernel.org/lkml/CAEf4BzY6RPkm0xv=RHAKoNphYxM_6GmyLdhDbbZ3nAqNhkdW_g@mail.gmail.com/
