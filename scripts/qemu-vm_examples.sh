@@ -1,18 +1,23 @@
 #!/bin/bash
 set -e
 readonly QEMU_VM_EXAMPLES_ROOT=$(dirname $(realpath $0))
+readonly DISK_TYPES=( virtio sata nvme nvdimm scsi )
 
 . ${QEMU_VM_EXAMPLES_ROOT}/liblog.sh
 
+readonly LOG=qemu-vm_examples.sh.log
+
 qemu() {
-	echo -e >&2 "\033[1;32m./qemu-vm.sh ${@}\033[m"
-	./qemu-vm.sh "${@}"
+	echo -e >&2 "\033[1;32m./qemu-vm.sh ${@}\033[m" | tee --append ${LOG}
+	./qemu-vm.sh "${@}" | tee --append ${LOG}
 }
 
 run() {
 	local name=$(mktemp -u vmname-XXXXX)
 	qemu --dry-run --name ${name} --kernel vmlinux "${@}"
 }
+
+rm -f ${LOG}
 
 qemu --help
 qemu -V --version
@@ -26,6 +31,15 @@ run --memory 4GiB
 run --cpu 10
 run --cpu nr=10
 run --cpu model=base
+# Test rootfs
+run --rootfs vm.qcow2
+run --rootfs vm.qcow2,ro
+run --rootfs vm.qcow2,rw
+run --rootfs file=vm.qcow2,rw
+for dt in ${DISK_TYPES[@]}
+do
+	run --rootfs file=vm.qcow2,rw,type=${dt}
+done
 run --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
 
 # Test CXL

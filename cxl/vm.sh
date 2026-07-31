@@ -88,7 +88,7 @@ qargs+=( --kernel ${vmlinuz} )
 qargs+=( --initrd ${initramfs} )
 [[ ${QEMU} ]] && qargs+=( --qemu ${QEMU} )
 [[ ${GDB} ]] && qargs+=( --gdb )
-qargs+=( --rootfs ${rootfs} )
+qargs+=( --rootfs ${rootfs},rw )
 qargs+=( --stdio )
 qargs+=( --monitor )
 

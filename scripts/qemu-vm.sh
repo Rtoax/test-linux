@@ -17,7 +17,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.7"
+readonly VERSION="v1.0.8"
 declare QEMU_KVM QEMU_KVM_VERSION
 
 # on x86_64: 'q35' default root bus
@@ -407,32 +407,43 @@ handle_rootfs_arg() {
 		args=( $(echo $1 | tr ',' ' ') )
 		for arg in ${args[@]}
 		do
-			case ${arg%%=*} in
+			local arg_key=${arg%%=*}
+			case ${arg_key} in
 			type)
 				f_rootfs_type=${arg:5}
 				if ! [[ " ${DISK_TYPES[@]} " =~ " ${f_rootfs_type} " ]]; then
-					error "rootfs unsupport ${arg}"
+					error "rootfs unsupport '${arg}'"
 				fi
 				;;
 			file)
 				f_rootfs=${arg:5}
 				;;
 			rw | ro)
-				if [[ ${arg} != ro ]] && [[ ${arg} != rw ]]; then
+				if [[ ${arg_key} != ro ]] &&
+				   [[ ${arg_key} != rw ]]; then
 					error "rootfs unknown ${arg}"
 				fi
-				k_rw=${arg}
+				k_rw=${arg_key}
 				;;
 			*)
-				error "rootfs unknown ${arg}"
+				if [[ -f ${arg_key} ]]; then
+					f_rootfs=${arg_key}
+				else
+					if [[ ${dry_run} ]]; then
+						warning "rootfs maybe use wrong file '${arg_key}'"
+						f_rootfs=${arg_key}
+					else
+						error "rootfs unknown ${arg}"
+					fi
+				fi
 				;;
 			esac
 		done
 		if [[ -z ${f_rootfs} ]]; then
-			error "not found file= for rootfs"
+			error "not found file for rootfs in '${args[@]}'"
 		fi
 	else
-		f_rootfs=$1
+		f_rootfs=${1}
 	fi
 
 	if [[ -z ${f_rootfs_type} ]]; then
@@ -447,8 +458,8 @@ ${BOLD}DISK ARGUMENTS SYNTAX: -d, --disk <ARGS>${RST}
 ${BOLD}ARGS${RST}
   ${BOLD}help${RST}: show this information
 
-  ${BOLD}[FILE]${RST}: specify disk file, see ${BOLD}[FILE]${RST}
-  ${BOLD}file=<FILE>${RST}: specify disk file, see ${BOLD}[FILE]${RST}
+  ${BOLD}[FILE],[ro|rw]${RST}: specify disk file, see ${BOLD}[FILE]${RST}
+  ${BOLD}file=<FILE>,[ro|rw]${RST}: specify disk file, see ${BOLD}[FILE]${RST}
 
 ${BOLD}FILE${RST}: disk file, should be one of qcow2, raw, MBR
 "
@@ -1425,7 +1436,12 @@ add_nvdimm_blk() {
 	f_img=${1}
 	qmachine+=( nvdimm=on )
 
-	size=$(stat --format=%s ${f_img})
+	if [[ ${dry_run} ]]; then
+		# fake 10G
+		size=$(( 10 * 1024 * 1024 * 1024 ))
+	else
+		size=$(stat --format=%s ${f_img})
+	fi
 	skip_resize() {
 		if [[ ${size} -lt $((1024*1024*1024)) ]]; then
 			size=$((1024*1024*1024))
