@@ -1,6 +1,7 @@
 include bpf/bpftrace.mk
 
 subdir-y += c-preprocessor
+subdir-y += for
 subdir-$(call bpftrace_gt,0,20,2) += import
 subdir-y += macro
 subdir-$(call bpftrace_gt,0,20,2) += return
