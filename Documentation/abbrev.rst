@@ -18,7 +18,9 @@ Abbrev
 - gABI: Generic ABI (通用ABI) @ABI
 - HII: Human Interface Infrastructure (人机界面基础设施)
 - IEC: International Electrotechnical Commission (国际电工委员会)
+- IIUC: If I understand correctly
 - IMA: Integrity Measurement Architecture (完整性测量架构)
+- IMHO: In My Humble Opinion (依本人愚见)
 - IOPS: Input/Output operations Per Second (IO 操作数每秒)
 - KRR: Kernel Record and Replay (内核记录重演)
 - KSPP: Kernel Self-Protection Project ()
