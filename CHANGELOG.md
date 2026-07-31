@@ -17,6 +17,7 @@ and this project adheres to
 - bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
 #### Deprecated
 #### Documentation
+- add RFC directory;
 - script: add deploy-website.sh;
 - move trace README.md to Doc as rst;
 - add crash;
