@@ -7,10 +7,10 @@
 #
 set -e
 
-readonly ROOTDIR=$(dirname $(realpath $0))
-readonly CONFIG=${ROOTDIR}/config.json
+readonly VERSION_DIR=$(dirname $(realpath $0))
+readonly CONFIG=${VERSION_DIR}/config.json
 
-source ${ROOTDIR}/../liblog.sh
+source ${VERSION_DIR}/../liblog.sh
 
 if ! which jq 1>/dev/null 2>/dev/null; then
 	error "Not found command 'jq', please install first"
@@ -22,19 +22,18 @@ fi
 # If symlink, just run actual command.
 readonly symlink=$(basename $0)
 if [[ ${symlink} != version.sh ]]; then
-	${ROOTDIR}/version.sh -n ${symlink%.*} -V -- ${@}
+	${VERSION_DIR}/version.sh -n ${symlink%.*} -V -- ${@}
 	exit 0
 fi
 
-name=
-check=
+declare name check
 
-show_list=
-show_keys=
+declare show_list
+declare show_keys
 declare -a show_k2n # key to name
 declare -a show_e2n # extension to name
-show_exts=
-show_version=
+declare show_exts
+declare show_version
 
 declare -a version_parser_args
 
@@ -209,10 +208,10 @@ getversion() {
 check_one() {
 	local sw=$1
 	local versionfromjson=( $(getversion ${sw}) )
-	if [[ -e ${ROOTDIR}/${sw}.sh ]]; then
-		local versionfromsh=( $(${ROOTDIR}/${sw}.sh) )
+	if [[ -e ${VERSION_DIR}/${sw}.sh ]]; then
+		local versionfromsh=( $(${VERSION_DIR}/${sw}.sh) )
 	else
-		local versionfromsh=( $(${ROOTDIR}/version.sh -n ${sw} -V) )
+		local versionfromsh=( $(${VERSION_DIR}/version.sh -n ${sw} -V) )
 	fi
 
 	if [[ "${versionfromjson[@]}" != "${versionfromsh[@]}" ]]; then
