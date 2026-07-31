@@ -49,6 +49,7 @@ cxl_vmem() {
 cxl_pmem() {
 	# commit 31a30fb65f93 ("cxl.sh: pmem: create-region")
 	sudo cxl create-region --decoder decoder0.0 --size 1024M --type pmem --memdevs mem0
+	# commit ad01a8c86ce9 ("cxl.sh: pmem: create-region 4 ways")
 	sudo cxl create-region --decoder decoder0.0 --size 4096M --type pmem --memdevs mem0 mem1 mem2 mem3
 
 	sudo ndctl list --regions
