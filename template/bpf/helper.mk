@@ -316,18 +316,21 @@ ifeq ($(call ksyms_have_func,bpf_task_cwd_from_pid),y)
 endif
 
 # refs:
+# rejected: https://lore.kernel.org/lkml/CAEf4BzY6RPkm0xv=RHAKoNphYxM_6GmyLdhDbbZ3nAqNhkdW_g@mail.gmail.com/
+# v5: https://lore.kernel.org/lkml/tencent_60882E4BE4F247C5F6D564F41BF1C3004805@qq.com/
+# v4: https://lore.kernel.org/lkml/tencent_AFC1869057D6C3E59E0AF86BD7A80AA29A06@qq.com/
 # v3: https://lore.kernel.org/lkml/tencent_7B0E22F21BB4086D66815C86AA5CBC5E8E0A@qq.com/
 #     https://github.com/Rtoax/linux/tree/p062-bpf_strcat-v3
 # v2: https://lore.kernel.org/lkml/tencent_9EC04DC824CBF5124305E73564341511C405@qq.com/
 #     https://github.com/Rtoax/linux/tree/p062-bpf_strcat-v2
 # v1: https://lore.kernel.org/lkml/tencent_59689407B1C3204B08362BEEF244A5FE5505@qq.com/
 #     https://github.com/Rtoax/linux/tree/p062-bpf_strcat
-ifeq ($(call ksyms_have_func,bpf_strcat),y)
-  $(call bpf_def_helper,bpf_strcat)
-endif
-ifeq ($(call ksyms_have_func,bpf_strncat),y)
-  $(call bpf_def_helper,bpf_strncat)
-endif
+#ifeq ($(call ksyms_have_func,bpf_strcat),y)
+#  $(call bpf_def_helper,bpf_strcat)
+#endif
+#ifeq ($(call ksyms_have_func,bpf_strncat),y)
+#  $(call bpf_def_helper,bpf_strncat)
+#endif
 
 # End of test developing kfuncs
 ################################################################################
