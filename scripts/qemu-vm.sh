@@ -17,27 +17,28 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
+readonly VERSION="v1.0.7"
 declare QEMU_KVM QEMU_KVM_VERSION
 
 # on x86_64: 'q35' default root bus
 readonly BUS_PCIE0=pcie.0
-pcie_root_port_num=2
+declare pcie_root_port_num=2
 
-q_vm_name=$(mktemp -u vm-XXXXXX)
-q_cpus=4
-q_cpu_model=host
-q_memory=2G
+declare q_vm_name=$(mktemp -u vm-XXXXXX)
+declare q_cpus=4
+declare q_cpu_model=host
+declare q_memory=2G
 
-f_kernel=
-f_initrd=
-k_rdinit=
+declare f_kernel
+declare f_initrd
+declare k_rdinit
 
-f_rootfs=
-f_rootfs_type=
-k_init=
-k_root=
+declare f_rootfs
+declare f_rootfs_type
+declare k_init
+declare k_root
 # root mount attr: ro, rw. default: rw
-k_rw=rw
+declare k_rw=
 
 declare -a f_nvdimms
 
@@ -47,15 +48,14 @@ declare -a f_disks
 declare -a f_virtiofs_sock
 declare -a q_virtiofs_tag
 
-q_stdio=
-q_monitor=
+declare q_stdio
+declare q_monitor
 readonly q_monitor_telnet_port=8087
-q_gdb=
+declare q_gdb
 
-dry_run=
-verbose=
-version="v1.0.7"
-debug=
+declare dry_run
+declare verbose
+declare debug
 
 # Disk configuratios
 readonly DISK_VIRTIO=virtio
@@ -1006,7 +1006,7 @@ while true; do
 		;;
 	-V | --version)
 		shift
-		echo "${0} ${version}"
+		echo "${0} ${VERSION}"
 		exit 0
 		;;
 	-D | --debug)
