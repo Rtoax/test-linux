@@ -229,9 +229,11 @@ if ! [[ " fedora " =~ " ${ID} " ]]; then
 	F_YUM="${TUNA}/fedora/releases/${VERSION_ID}/Everything/${TARGET_ARCH}/os/"
 
 	sudo mkdir -p ${ROOTFS_DIR}/etc/yum.repos.d/
-	tmprepo=${ROOTFS_DIR}/etc/yum.repos.d/tmp.repo
-	sudo tee ${tmprepo} <<-EOF
-	[tmp]
+
+	repo_name=tmp
+	repo_file=${ROOTFS_DIR}/etc/yum.repos.d/${repo_name}.repo
+	sudo tee ${repo_file} <<-EOF
+	[${repo_name}]
 	name=Temp Fedora ${VERSION_ID} YUM
 	enabled=0
 	baseurl=${F_YUM}
@@ -242,9 +244,9 @@ if ! [[ " fedora " =~ " ${ID} " ]]; then
 	dnf_args+=( --nogpgcheck )
 	dnf_args+=( --disablerepo=updates )
 
-	rootfs_dnf install -y --disablerepo=* --enablerepo=tmp fedora-release
+	rootfs_dnf install -y --disablerepo=* --enablerepo=${repo_name} fedora-release
 
-	sudo rm -f ${tmprepo}
+	sudo rm -f ${repo_file}
 fi
 
 rootfs_dnf install -y ${pkgs[@]}
