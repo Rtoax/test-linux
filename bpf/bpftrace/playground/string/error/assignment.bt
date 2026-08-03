@@ -1,0 +1,9 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	let $s : string[1024];
+	// not support yet!
+	$s[0] = ""[0];
+	print($s);
+}
