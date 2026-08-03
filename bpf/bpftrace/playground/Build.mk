@@ -1,3 +1,4 @@
+subdir-y += map
 subdir-y += string
 
 bpftrace-y += $(shell ls *.bt)
