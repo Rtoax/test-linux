@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- bpftrace/samples: add map and let subdir;
 - systemd/udev: add kernel-install subdir;
 - python: test os.fork();
 #### Changed
