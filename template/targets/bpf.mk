@@ -7,9 +7,11 @@ include pahole.mk
 include bpf/bpf.mk
 include bpf/btf.mk
 include bpf/bpftool.mk
+include bpf/gcc.mk
 include bpf/helper.mk
 include cflags.mk
 
+# CLANG arguments, FIXME: gcc is totally different.
 CFLAGS_BPF += -I.
 CFLAGS_BPF += -I${OUTPUT}
 CFLAGS_BPF += -O2 -g

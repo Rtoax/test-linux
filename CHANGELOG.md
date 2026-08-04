@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- bpf: test gcc toolchain;
 #### Added
 - glibc: add argz subdir;
 - bpftrace/samples: add map and let subdir;
@@ -33,6 +34,7 @@ and this project adheres to
 #### Tools
 - add iproute;
 #### Template
+- bpf: add gcc.mk;
 
 
 ## [v2.4.10] Omnipotent 2026-07-29

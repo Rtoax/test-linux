@@ -17,6 +17,7 @@ eBPF Theory
    history
    bpf
    isa
+   gcc
    btf
    verifier
    kfunc

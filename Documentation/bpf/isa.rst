@@ -71,3 +71,4 @@ Links
 - `BPF Instruction Set Architecture (ISA), linux v6.6 <https://www.kernel.org/doc/html/v6.6/bpf/standardization/instruction-set.html>`_
 - `eBPF Instruction Set Specification, v1.0, linux v6.5 <https://www.kernel.org/doc/html/v6.5/bpf/instruction-set.html>`_
 - `eBPF Instruction Set Specification, v1.0, linux v6.1 <https://www.kernel.org/doc/html/v6.1/bpf/instruction-set.html>`_
+- `LWN: Compiling to BPF with GCC <https://lwn.net/Articles/800606/>`_
