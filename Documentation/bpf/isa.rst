@@ -67,4 +67,7 @@ Links
 -----
 
 - `RFC 9669 in 2024 <ttps://www.rfc-editor.org/rfc/rfc9669.html>`_
-- `eBPF Instruction Set Specification, v1.0 <https://www.kernel.org/doc/html/v6.1/bpf/instruction-set.html>`_
+- `BPF Instruction Set Architecture (ISA), linux v7.1 <https://www.kernel.org/doc/html/v7.1/bpf/standardization/instruction-set.html>`_
+- `BPF Instruction Set Architecture (ISA), linux v6.6 <https://www.kernel.org/doc/html/v6.6/bpf/standardization/instruction-set.html>`_
+- `eBPF Instruction Set Specification, v1.0, linux v6.5 <https://www.kernel.org/doc/html/v6.5/bpf/instruction-set.html>`_
+- `eBPF Instruction Set Specification, v1.0, linux v6.1 <https://www.kernel.org/doc/html/v6.1/bpf/instruction-set.html>`_
