@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0
-subdir-y := alloca
 subdir-y += aio
-subdir-y += assert
+subdir-y += alloca
+subdir-y += argp
+subdir-y += argz
 subdir-y += arpa
+subdir-y += assert
 subdir-y += byteswap
 subdir-y += complex
 subdir-y += crypt
@@ -67,7 +69,7 @@ subdir-y += utmp
 subdir-y += wctype
 subdir-y += wordexp
 
-target-y := environ
+target-y += environ
 target-y += gnu_get_libc_version
 target-y += lib-names
 target-y += ftm _GNU_SOURCE _XOPEN_SOURCE
