@@ -10,6 +10,12 @@ Falcon C5022
 - Support CXL Memory Expansion, Pooling, and Sharing
 
 
+CXL Spec
+--------
+
+- CXL 2.0: 不支持共享内存，最大支持 14 T
+
+
 CXL Switch
 ----------
 
