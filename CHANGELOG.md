@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
+- cxl: add fm subdir;
 - git: add version.sh;
 - version: config.json: add libblockdev;
 - glibc: add argz subdir;
