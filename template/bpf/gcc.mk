@@ -10,7 +10,7 @@
 #
 # Definitions:
 # - HAVE_BPF_GCC=[y]
-# - BPF_GCC=[/usr/bin/bpf-unknown-none-gcc]
+# - BPF_GCC=[/usr/bin/bpf-unknown-none-gcc|/usr/bin/bpf-gcc]
 #
 ifndef _BPF_GCC_MK
 _BPF_GCC_MK = 1
@@ -18,5 +18,8 @@ _BPF_GCC_MK = 1
 include define.mk
 
 $(call find_cmd_and_def,bpf-unknown-none-gcc,BPF_GCC)
+ifneq (${HAVE_BPF_GCC},y)
+  $(call find_cmd_and_def,bpf-gcc,BPF_GCC)
+endif
 
 endif
