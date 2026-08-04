@@ -191,6 +191,7 @@ match_content() {
 	get_content() {
 		git status --verbose | cat
 		git diff --staged | cat
+		git status --short | cat
 		if [[ ${is_commit_amend} ]]; then
 			git log -1 --patch --oneline | cat
 		fi
