@@ -20,6 +20,8 @@ Syscall socket(2)
      - IPv6网络协议
    * - PF_LOCAL/AF_LOCAL
      - UNIX协议
+   * - PF_MCTP/AF_MCTP
+     - Management Component Transport Protocol
 
 
 .. list-table::
