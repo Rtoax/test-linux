@@ -17,7 +17,7 @@ CXL Abbrev
 - DAC: Direct Attach Copper (直接连接铜缆) @AEC
 - DPA: CXL Memory Device Physical Address (内存设备物理地址)
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
-- FM: Fabric Manager ()
+- FM: Fabric Manager (Fabric 管理器)
 - ISP: Interleave set position (交错set位置)
 - LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
