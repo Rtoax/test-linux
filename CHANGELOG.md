@@ -23,6 +23,7 @@ and this project adheres to
 - bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
 #### Deprecated
 #### Documentation
+- add socket.rst;
 - cxl: add fm.rst;
 - add libblockdev.rst;
 - add time directory;

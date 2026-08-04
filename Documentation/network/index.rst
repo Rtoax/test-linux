@@ -17,6 +17,7 @@ Basic
    nagle
    osi
    qdisc
+   socket
    tc
 
 
