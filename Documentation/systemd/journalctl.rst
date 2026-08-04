@@ -121,7 +121,7 @@ journalctl
 - 5: notice
 - 6: info
 - 7: debug
-- 
+
 .. code-block:: shell
 
    journalctl -p err -b
