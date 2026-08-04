@@ -6,6 +6,7 @@
 # - https://git.sr.ht/~brianwitte/gcc-bpf-example
 #   - github fork: https://github.com/Rtoax/gcc-bpf-example
 #   - gitee fork: https://gitee.com/rtoax/gcc-bpf-example
+# - https://gcc.gnu.org/wiki/BPFBackEnd
 #
 # Definitions:
 # - HAVE_BPF_GCC=[y]

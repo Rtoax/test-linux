@@ -1,6 +1,7 @@
 # See https://git.sr.ht/~brianwitte/gcc-bpf-example
 #   - github fork: https://github.com/Rtoax/gcc-bpf-example
 #   - gitee fork: https://gitee.com/rtoax/gcc-bpf-example
+# - https://gcc.gnu.org/wiki/BPFBackEnd
 # TODO: move to template/
 
 include bpf/bpf.mk

@@ -1015,6 +1015,8 @@ dnf_add_packages()
 	pkgs_compiler+=( annobin-annocheck )
 	pkgs_compiler+=( binutils-gold )
 	pkgs_compiler+=( compiler-rt )
+	# https://gcc.gnu.org/wiki/BPFBackEnd
+	pkgs_compiler+=( gcc-bpf-unknown-none )
 	pkgs_compiler+=( gcc-c++ )
 	pkgs_compiler+=( golang )
 	pkgs_compiler+=( gprof2dot )
@@ -1237,6 +1239,8 @@ apt_add_packages()
 	pkgs_net+=( infiniband-diags )
 
 	pkgs_compiler+=( build-essential )
+	# https://gcc.gnu.org/wiki/BPFBackEnd
+	pkgs_compiler+=( gcc-bpf )
 	pkgs_compiler+=( gcc-doc )
 	pkgs_compiler+=( gcc-multilib )
 	pkgs_compiler+=( golang )
@@ -1370,6 +1374,8 @@ zypper_add_packages()
 	pkgs_build+=( ninja )
 
 	pkgs_compiler+=( binutils-gold )
+	# https://gcc.gnu.org/wiki/BPFBackEnd
+	pkgs_compiler+=( cross-bpf-gcc15 ) # TODO: remove version 15
 	pkgs_compiler+=( gcc-c++ )
 	pkgs_compiler+=( go )
 
