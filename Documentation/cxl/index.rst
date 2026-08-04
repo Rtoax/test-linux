@@ -17,6 +17,7 @@ CXL 技术
 
    overview
    acpi
+   fm
    pcie
    qemu
    software
