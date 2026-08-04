@@ -1,5 +1,5 @@
 {
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -342,6 +342,15 @@
 			},
 			"extension": [ "rst" ],
 			"keys": [ "latexmk", "sphinx", "Documentation" ]
+		},
+		"libblockdev": {
+			"name": "LibBlockDev",
+			"package": {
+				"deb": [ "libblockdev-nvdimm-dev" ],
+				"rpm": [ "libblockdev", "libblockdev-nvdimm" ]
+			},
+			"library": [ "libblockdev.so" ],
+			"keys": [ "libblockdev", "nvdimm" ]
 		},
 		"libbpf": {
 			"name": "LibBpf",

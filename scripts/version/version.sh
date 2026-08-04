@@ -146,6 +146,7 @@ getversion() {
 		echo ${@} | sed "s|@ARCH@|$(uname -m)|g"
 	}
 
+	# 1. Find version from commands
 	local cmds=( $(getswcmds ${sw}) )
 	for cmd in ${cmds[@]};
 	do
@@ -163,26 +164,7 @@ getversion() {
 		[[ ${version} ]] && break
 	done # command
 
-	if [[ -z ${version} ]]; then
-		local libs=( $(getswlibs ${sw}) )
-		for lib in ${libs[@]};
-		do
-			version_filter "$(ldconfig_libver ${lib})"
-			[[ ${version} ]] && break
-		done # library
-	fi
-
-	if [[ -z ${version} ]]; then
-		local paths=( $(getswpaths ${sw}) )
-		local path
-		for path in ${paths[@]}
-		do
-			[[ ! -e ${path} ]] && continue
-			version_filter "$(realpath ${path})"
-			[[ ${version} ]] && break
-		done
-	fi
-
+	# 2. Find version from packages
 	if [[ -z ${version} ]]; then
 		local deb rpm
 		local debs=( $(${JQ} -r --arg s "${sw}" '.software[$s].package.deb[]' ${CONFIG} 2>/dev/null) )
@@ -199,6 +181,29 @@ getversion() {
 				[[ ${version} ]] && break
 			done
 		fi
+	fi
+
+	# 3. Find version from libraries
+	if [[ -z ${version} ]]; then
+		local libs=( $(getswlibs ${sw}) )
+		for lib in ${libs[@]};
+		do
+			version_filter "$(ldconfig_libver ${lib})"
+			[[ ${version} ]] && break
+		done # library
+	fi
+
+	# 4. Find version from path(symlink)
+	# such as: cuda is symlink of cuda-13.0
+	if [[ -z ${version} ]]; then
+		local paths=( $(getswpaths ${sw}) )
+		local path
+		for path in ${paths[@]}
+		do
+			[[ ! -e ${path} ]] && continue
+			version_filter "$(realpath ${path})"
+			[[ ${version} ]] && break
+		done
 	fi
 
 	#echo "${sw}: ${cmds[@]}, ${vargs[@]}, ${vlens[@]}, ${vsep[@]}, ${version}"

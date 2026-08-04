@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
+- version: config.json: add libblockdev;
 - glibc: add argz subdir;
 - bpftrace/samples: add map and let subdir;
 - systemd/udev: add kernel-install subdir;
@@ -20,6 +21,7 @@ and this project adheres to
 - bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
 #### Deprecated
 #### Documentation
+- add libblockdev.rst;
 - add time directory;
 - add RFC directory;
 - script: add deploy-website.sh;
@@ -34,7 +36,7 @@ and this project adheres to
 #### Tools
 - add iproute;
 #### Template
-- bpf: add gcc.mk;
+- bpf: add gcc.mk, libblockdev.mk;
 
 
 ## [v2.4.10] Omnipotent 2026-07-29

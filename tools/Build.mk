@@ -26,6 +26,7 @@ subdir-y += iproute
 subdir-y += jq
 subdir-y += json-c
 subdir-y += kasan
+subdir-y += libblockdev
 subdir-${HAVE_LIBSMBIOS} += libsmbios
 subdir-y += libguestfs
 subdir-y += libosinfo

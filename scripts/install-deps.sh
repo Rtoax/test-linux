@@ -1329,6 +1329,8 @@ apt_add_packages()
 
 	pkgs_storage+=( daxctl )
 	pkgs_storage+=( gdisk )
+	pkgs_storage+=( libblockdev )
+	pkgs_storage+=( libblockdev-nvdimm ) # libblockdev has more pkgs
 	pkgs_storage+=( libdaxctl-dev )
 	pkgs_storage+=( libdevmapper-dev )
 
