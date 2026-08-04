@@ -34,9 +34,9 @@ and this project adheres to
 - vhost: remove upstream linux vhost test kmod code;
 #### Security
 #### Tools
-- add iproute;
+- add iproute, libblockdev, libtracefs;
 #### Template
-- bpf: add gcc.mk, libblockdev.mk;
+- bpf: add gcc.mk, libblockdev.mk, libtracefs.mk;
 
 
 ## [v2.4.10] Omnipotent 2026-07-29

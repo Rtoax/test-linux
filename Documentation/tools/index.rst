@@ -21,6 +21,7 @@ User Space
    libcap-ng
    libguestfs
    libosinfo
+   libtracefs
    liburing
    lsof
    lttng

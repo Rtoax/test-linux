@@ -1,5 +1,5 @@
 {
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -387,6 +387,15 @@
 			"name": "LibSMBIOS",
 			"library": [ "libsmbios_c.so" ],
 			"keys": [ "smbios" ]
+		},
+		"libtracefs": {
+			"name": "LibTracefs",
+			"package": {
+				"deb": [ "libtracefs", "libtracefs-dev" ],
+				"rpm": [ "libtracefs" ]
+			},
+			"library": [ "libtracefs.so" ],
+			"keys": [ "tracefs", "libtracefs" ]
 		},
 		"libunwind": {
 			"name": "Libunwind",

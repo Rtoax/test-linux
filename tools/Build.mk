@@ -30,6 +30,7 @@ subdir-y += libblockdev
 subdir-${HAVE_LIBSMBIOS} += libsmbios
 subdir-y += libguestfs
 subdir-y += libosinfo
+subdir-y += libtracefs
 subdir-y += livepatch
 subdir-y += lsof
 subdir-y += memcached
