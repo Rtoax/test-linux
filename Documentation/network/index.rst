@@ -17,8 +17,16 @@ Basic
    nagle
    osi
    qdisc
-   socket
    tc
+
+
+Socket
+------
+
+.. toctree::
+   :maxdepth: 2
+
+   socket/index
 
 
 Netfilter
