@@ -16,3 +16,8 @@ CFLAGS_GCC_BPF += -Wno-compare-distinct-pointer-types
 ${OUTPUT}%.bpf.gcc.o: %.bpf.c | ${OUTPUT}
 	@$(call log_obj,GCC BPF,$(@))
 	${Q}$(BPF_GCC) -MMD -MT $(@) -MF $(@:=.d) -c $(<) -o $(@) ${CFLAGS_GCC_BPF} $(CFLAGS_GCC_BPF_$(*))
+
+$(foreach dep, $(shell ls ${OUTPUT}*.bpf.gcc.o.d 2>/dev/null), \
+  $(if ${DEBUG}, $(info Found ${dep})) \
+  $(eval include ${dep}) \
+)
