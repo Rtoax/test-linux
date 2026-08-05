@@ -36,7 +36,8 @@ Contents
 Links
 -----
 
-- `Specifications <https://pcisig.com/specifications/pciexpress>`_
+- www.pcisig.com
+- `PCI Specifications <https://pcisig.com/specifications/pciexpress>`_
 - `Become a Member <https://pcisig.com/membership/become-member>`_
 - `Member Companies <https://pcisig.com/membership/member-companies>`_
 - `PCI Device Vendors <https://admin.pci-ids.ucw.cz/read/PC>`_
