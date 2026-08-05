@@ -14,8 +14,10 @@ if [[ -f cedt.dat ]]; then
 	cat cedt.dsl
 fi
 
+sudo ls /sys/kernel/debug/cxl
+
 # CXL Root Port or Device on Switch
-ls /sys/bus/acpi/devices/ACPI0017:*
-ls /sys/devices/platform/ACPI0017*
+sudo ls /sys/bus/acpi/devices/ACPI0017:*
+sudo ls /sys/devices/platform/ACPI0017*
 # CXL Host Bridge (CHBS: CXL Host Bridge Structure)
-ls /sys/bus/acpi/devices/ACPI0016:*
+sudo ls /sys/bus/acpi/devices/ACPI0016:*
