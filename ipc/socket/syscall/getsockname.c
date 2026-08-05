@@ -15,17 +15,21 @@ int sockfd_to_family(int sockfd)
 	return ss.ss_family;
 }
 
-int main(void)
+void test_socket(int af, int type, int proto)
 {
 	int sockfd, family;
 
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	sockfd = socket(af, type, proto);
 	family = sockfd_to_family(sockfd);
 
-	assert(AF_INET == family && "call getsockname failed");
+	assert(af == family && "call getsockname failed");
 
-	printf("AF_INET = %d\n", AF_INET);
-	printf("family  = %d\n", family);
+	printf("family = %d\n", family);
+}
 
+int main(void)
+{
+	test_socket(AF_INET, SOCK_STREAM, 0);
+	test_socket(AF_INET, SOCK_DGRAM, 0);
 	return 0;
 }

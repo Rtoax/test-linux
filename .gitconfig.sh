@@ -9,7 +9,9 @@
 # docs/linux-reference.sh
 # VLR=1
 # FLR=1
-[[ " 6.14.11-300.fc42_cxl.x86_64 " =~ " $(uname -r) " ]] && FLR=1
+if [[ " 6.14.11-300.fc42_cxl.x86_64 " =~ " $(uname -r) " ]]; then
+	FLR=1
+fi
 
 # git/hooks pre-commit
 # VC=1
