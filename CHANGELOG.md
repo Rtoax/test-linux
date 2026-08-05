@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
+- algorithm: add align/8bits.c;
 - cxl: add fm subdir;
 - git: add version.sh;
 - version: config.json: add libblockdev;
