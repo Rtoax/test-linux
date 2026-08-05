@@ -1,1 +1,1 @@
-target-y += 8bits
+target-y += 8bytes
