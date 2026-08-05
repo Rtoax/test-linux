@@ -4,10 +4,12 @@
 设置生存时间TTL
 ---------------
 
+TTL 即Time To Live（生存时间）,决定了数据包传递的距离；TTL用整数表示，数据包每经过一个路由器时TTL就减一，当TTL为0时销毁数据包。
+
 .. code-block:: c
 
-  #include<sys/socket.h>
-  #include<arpa/inet.h>
+  #include <sys/socket.h>
+  #include <arpa/inet.h>
 
   int sock = socket(PF_INET, SOCK_DGRAM, 0);
 
@@ -15,16 +17,14 @@
 
   setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (void*)&timeLive, sizeof(timeLive));
 
-TTL 即Time To Live（生存时间）,决定了数据包传递的距离；TTL用整数表示，数据包每经过一个路由器时TTL就减一，当TTL为0时销毁数据包。
-
 
 加入多播组
 ----------
 
 .. code-block:: c
 
-  #include<sys/socket.h>
-  #include<arpa/inet.h>
+  #include <sys/socket.h>
+  #include <arpa/inet.h>
 
   int sock = socket(PF_INET, SOCK_DGRAM, 0);
 
@@ -34,10 +34,10 @@ TTL 即Time To Live（生存时间）,决定了数据包传递的距离；TTL用
 
   setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, (void*)&joinAddr, sizeof(joinAddr));
 
+
 .. code-block:: c
 
-  struct ip_mreq
-  {
+  struct ip_mreq {
       struct in_addr imr_multiaddr;
       struct in_addr imr_interface;
   }
