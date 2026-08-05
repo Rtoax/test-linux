@@ -3,6 +3,7 @@
 #define AF_INET         2
 #define AF_NETLINK      16
 #define AF_VSOCK        40
+#define AF_MCTP		45
 
 #define SOCK_STREAM	1
 #define SOCK_DGRAM	2
@@ -19,46 +20,63 @@
 
 BEGIN
 {
-	@family[AF_INET] = "INET";
-	@family[AF_NETLINK] = "NETLINK";
-	@family[AF_VSOCK] = "VSOCK";
+	@FAMILY[AF_INET] = "INET";
+	@FAMILY[AF_NETLINK] = "NETLINK";
+	@FAMILY[AF_VSOCK] = "VSOCK";
+	@FAMILY[AF_MCTP] = "MCTP";
 
-	@type[SOCK_STREAM] = "STREAM";
-	@type[SOCK_DGRAM] = "DGRAM";
-	@type[SOCK_RAW] = "RAW";
-	@type[SOCK_RDM] = "RDM";
-	@type[SOCK_SEQPACKET] = "SEQPACKET";
-	@type[SOCK_DCCP] = "DCCP";
-	@type[SOCK_PACKET] = "PACKET";
+	@TYPE[SOCK_STREAM] = "STREAM";
+	@TYPE[SOCK_DGRAM] = "DGRAM";
+	@TYPE[SOCK_RAW] = "RAW";
+	@TYPE[SOCK_RDM] = "RDM";
+	@TYPE[SOCK_SEQPACKET] = "SEQPACKET";
+	@TYPE[SOCK_DCCP] = "DCCP";
+	@TYPE[SOCK_PACKET] = "PACKET";
 
-	@protocol[0] = "0";
-	@protocol[NETLINK_KOBJECT_UEVENT] = "NETLINK_KOBJECT_UEVENT";
+	@PROTOCOL[0] = "0";
+	@PROTOCOL[NETLINK_KOBJECT_UEVENT] = "NETLINK_KOBJECT_UEVENT";
 
 	printf("Tracing socket(2), hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-16s %-16s %-16s %-16s\n", "TIME", "PID", "COMM",
-		"FAMILY", "TYPE", "PROTOCOL");
+	printf("%-8s %-8s %-16s %-16s %-16s %-16s %-4s\n", "TIME", "PID",
+		"COMM", "FAMILY", "TYPE", "PROTOCOL", "FD");
 }
 
 tracepoint:syscalls:sys_enter_socket
 {
+	@family[tid] = args->family;
+	@type[tid] = args->type;
+	@protocol[tid] = args->protocol;
+}
+
+tracepoint:syscalls:sys_exit_socket
+/ @family[tid] /
+{
+	$family = @family[tid];
+	$type = @type[tid];
+	$protocol = @protocol[tid];
+
 	time("%H:%M:%S ");
 	printf("%-8d %-16s", pid, comm);
-	if (@family[args->family] != "") {
-		printf(" %-16s", @family[args->family])
+	if (@FAMILY[$family] != "") {
+		printf(" %-16s", @FAMILY[$family])
 	} else {
-		printf(" %-16ld", args->family)
+		printf(" %-16ld", $family)
 	}
-	if (@type[args->type & SOCK_TYPE_MASK] != "") {
-		printf(" %-16s", @type[args->type & SOCK_TYPE_MASK])
+	if (@TYPE[$type & SOCK_TYPE_MASK] != "") {
+		printf(" %-16s", @TYPE[$type & SOCK_TYPE_MASK])
 	} else {
-		printf(" %-16ld", args->type)
+		printf(" %-16ld", $type)
 	}
-	if (@protocol[args->protocol] != "") {
-		printf(" %-16s", @protocol[args->protocol])
+	if (@PROTOCOL[$protocol] != "") {
+		printf(" %-16s", @PROTOCOL[$protocol])
 	} else {
-		printf(" %-16ld", args->protocol)
+		printf(" %-16ld", $protocol)
 	}
-	printf("\n");
+	printf(" %-4d\n", args->ret);
+
+	delete(@family[tid]);
+	delete(@type[tid]);
+	delete(@protocol[tid]);
 }
 
 END
@@ -66,5 +84,8 @@ END
 	clear(@family);
 	clear(@type);
 	clear(@protocol);
+	clear(@FAMILY);
+	clear(@TYPE);
+	clear(@PROTOCOL);
 	printf("Bye.\n");
 }
