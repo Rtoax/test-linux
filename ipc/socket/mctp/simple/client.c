@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <linux/mctp.h>
+#include "common.h"
 
 int main(void)
 {
@@ -22,10 +23,10 @@ int main(void)
 
 	memset(&dest_addr, 0, sizeof(dest_addr));
 	dest_addr.smctp_family = AF_MCTP;
-	dest_addr.smctp_network = 0;
-	dest_addr.smctp_addr.s_addr = 8; // dest EID
+	dest_addr.smctp_network = NET_ID;
+	dest_addr.smctp_addr.s_addr = EID;
 	dest_addr.smctp_type = 0x7f; // custom msg (avoid DMTF)
-	dest_addr.smctp_tag = 0; // kernel alloced tag
+	dest_addr.smctp_tag = TAG;
 
 	printf("Sending to EID 8: %s\n", msg);
 	if (sendto(sockfd, msg, strlen(msg), 0, (struct sockaddr *)&dest_addr,

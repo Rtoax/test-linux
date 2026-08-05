@@ -4,10 +4,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <linux/mctp.h>
-
-#ifndef MCTP_MSG_TYPE_ANY
-#define MCTP_MSG_TYPE_ANY 0xff
-#endif
+#include "common.h"
 
 int main(void)
 {
@@ -24,13 +21,13 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	/* 2. Listen EID 8, recv any msg type */
+	/* 2. Listen EID, recv any msg type */
 	memset(&addr, 0, sizeof(addr));
 	addr.smctp_family = AF_MCTP;
-	addr.smctp_network = 0; // network ID
-	addr.smctp_addr.s_addr = 8; // local EID
+	addr.smctp_network = NET_ID;
+	addr.smctp_addr.s_addr = EID;
 	addr.smctp_type = MCTP_MSG_TYPE_ANY;
-	addr.smctp_tag = 0; // kernel managed tag
+	addr.smctp_tag = TAG;
 
 	if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
 		perror("bind");
