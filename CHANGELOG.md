@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
+- mctp: add simple demo;
 - algorithm: add align/8bits.c;
 - cxl: add fm subdir;
 - git: add version.sh;
