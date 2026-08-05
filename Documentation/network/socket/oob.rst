@@ -1,4 +1,5 @@
-## TCP Out-of-Band Data
+TCP Out-of-Band Data
+====================
 
 * in-band 正常的 normal 数据
 * Out-of-Band 紧急的数据需要 quickly 发送的数据,忽略 流控制 和 拥塞问题，高优先级
@@ -12,13 +13,13 @@ TCP does not have true out-of-band data. Instead, TCP provides an urgent mode. A
 
 The process now writes a single byte of out-of-band data, containing the ASCII character a, using the send function and the `MSG_OOB` flag.
 
-```c
-send(fd, "a", 1, MSG_OOB);
-```
+
+.. code-block:: c
+
+  send(fd, "a", 1, MSG_OOB);
 
 What happens if we send multiple bytes of out-of-band data, as in
 
-```c
-send(fd, "abc", 3, MSG_OOB);
-```
+.. code-block:: c
 
+  send(fd, "abc", 3, MSG_OOB);
