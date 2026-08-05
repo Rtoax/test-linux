@@ -21,7 +21,7 @@ LS=ls
 sudo ${LS} /sys/kernel/debug/cxl
 
 # CXL Root Port or Device on Switch
-#
+# commit feaefb76110b ("cxl: acpi: list /sys/bus/acpi/devices/ACPI0017:*")
 sudo ${LS} /sys/bus/acpi/devices/ACPI0017:*
 # commit c8687bc871c5 ("cxl: list /sys/devices/platform/ACPI0017:00/")
 sudo ${LS} /sys/devices/platform/ACPI0017*
