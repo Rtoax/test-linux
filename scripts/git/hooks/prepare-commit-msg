@@ -288,10 +288,12 @@ if [[ ${Environments} ]]; then
 	}
 fi
 
-# If only modify The Documentation, try add Commit Message Title
+# If Documentation was modified, auto add Commit Message Title
+Docs=( $(git status --short | grep -v '^ ' | grep Documentation | awk '{print $2}') )
+NonDocs=( $(git status --short | grep -v '^ ' | grep -v Documentation | awk '{print $2}') )
+
 pushd ${GIT_TOPDIR} >/dev/null
-if [[ -z "$(git status --short | grep -v '^ ' | grep -v Documentation || :)" ]] && \
-   [[ -z ${is_commit_amend} ]]; then
+if [[ "${Docs[@]}" ]] && [[ -z ${is_commit_amend} ]]; then
 	# Added files
 	add_files=( $(git status --short | grep -v '^ ' | grep ^A | grep -Eo 'Documentation.*' | grep -vw conf.py) )
 	add_names=( $(for f in ${add_files[@]}; do basename ${f}; done) )
@@ -313,11 +315,22 @@ if [[ -z "$(git status --short | grep -v '^ ' | grep -v Documentation || :)" ]] 
 
 	message="Doc: ${doc_label}: "
 	message+="${mod_names:+update ${mod_names[*]}}"
-	message+="${mod_names:+, }"
+	if [[ ${mod_names} ]] && [[ ${add_names} ]]; then
+		message+=", "
+	fi
 	message+="${add_names:+add ${add_names[*]}}"
-	message+="${add_names:+, }"
+	if [[ ${add_names} ]] && [[ ${del_names} ]]; then
+		message+=", "
+	fi
 	message+="${del_names:+delete ${del_names[*]}}"
-	sed -i "1i ${message}" ${COMMIT_MSG_FILE} || {
+
+	line=1
+	# have other changes except Documentation, then, add it to 2nd line.
+	if [[ "${NonDocs[@]}" ]]; then
+		line=2
+	fi
+
+	sed -i "${line}i ${message}" ${COMMIT_MSG_FILE} || {
 		fatal "Failed add Documentation commit message"
 	}
 fi
