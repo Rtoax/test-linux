@@ -10,6 +10,7 @@ set -e
 
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
+. ${QEMU_VM_ROOT}/libcpu.sh
 . ${QEMU_VM_ROOT}/libfile.sh
 . ${QEMU_VM_ROOT}/liblog.sh
 . ${QEMU_VM_ROOT}/libqemu.sh
@@ -17,7 +18,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.8"
+readonly VERSION="v1.0.9"
 declare QEMU_KVM QEMU_KVM_VERSION
 
 # on x86_64: 'q35' default root bus
@@ -1193,8 +1194,17 @@ min_memory_required() {
 }
 
 config_cpu() {
-	qargs+=( -cpu ${q_cpu_model} )
+	local cpu_args=( ${q_cpu_model} )
+
+	# Skip warning on Hygon:
+	# qemu-system-x86_64: host doesn't support requested feature: vPMU
+	if [[ "$(cpu_is_hygon)" ]]; then
+		cpu_args+=( pmu=off )
+	fi
+
+	qargs+=( -cpu $(IFS=,; echo "${cpu_args[*]}") )
 	qargs+=( -smp cpus=${q_cpus},maxcpus=$((q_cpus * 2)) )
+
 	# TODO: support more cpu
 	# qargs+=( -cpu kvm64,+kvm_pv_unhalt,+kvm-pv-ipi,+kvm-pv-tlb-flush )
 

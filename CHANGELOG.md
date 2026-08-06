@@ -12,7 +12,8 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
-- top-Makefile: script support V=1,DEBUG=1
+- scripts: add libcpu.sh;
+- top-Makefile: script support V=1,DEBUG=1;
 - cxl/fm: add mctp subdir;
 - mctp: add simple demo;
 - algorithm: add align/8bits.c;

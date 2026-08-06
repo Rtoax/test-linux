@@ -14,6 +14,7 @@ subdir-y += version
 prog-y := code-count.sh
 prog-y += moonlight.sh
 prog-y += gotoxy.sh
+prog-y += libcpu_examples.sh
 prog-y += libfile_examples.sh
 prog-y += libqemu_examples.sh
 prog-y += libso-multiver_examples.sh
