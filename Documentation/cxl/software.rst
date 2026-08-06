@@ -10,28 +10,37 @@ ACPI
 Linux Kernel
 ------------
 
-核心模块
-~~~~~~~~
+Linux Kernel Config and Driver
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
-   :widths: 15 30
    :header-rows: 1
 
    * - Driver
      - CONFIG
+     - Linux
    * - cxl_acpi
      - CONFIG_CXL_ACPI
+     - >= v5.13-rc5-31-g4812be97c015
    * - cxl_pci
      - CONFIG_CXL_PCI
+     - >= v5.17-rc2-1-g68cdd3d2af69
    * - cxl_pmem
      - CONFIG_CXL_PMEM
+     - >= v5.13-rc5-40-g8fdcb1704f61
    * - cxl_mem
      - CONFIG_CXL_MEM
+     - >= v5.11-rc6-1-g4cdadfd5e0a7
    * - cxl_port
      - CONFIG_CXL_PORT
+     - >= v5.17-rc2-24-g54cdbf845cf7
    * - cxl_region
      - CONFIG_CXL_REGION
+     - >= cxl-fixes-for-5.19-rc6-42-g779dd20cfb56
 
+
+Linux Kernel Driver
+"""""""""""""""""""
 
 1. cxl_core: 提供 CXL 设备模型、总线和通用的枚举、注册功能。定义了 cxl_dev_state、cxl_port、cxl_decoder 等基础对象。
 2. cxl_acpi: 解析 ACPI CEDT 表，发现 Host Bridge (CXL.mem 控制器) 和根端口，创建 cxl_port 拓扑。
@@ -79,3 +88,14 @@ RAS 与错误处理
 
 User space
 ----------
+
+
+Links
+-----
+
+- https://lore.kernel.org/linux-cxl/
+- https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
+- https://github.com/computexpresslink/
+    - seems legacy: https://github.com/Compute-Express-Link
+- https://github.com/pmem/ndctl
+- https://www.qemu.org/docs/master/system/devices/cxl.html
