@@ -1,3 +1,6 @@
+Abbrev
+======
+
 - CCCL: CUDA Core Compute Libraries (CUDA 核心计算库)
 - MIG: Multi-Instance GPU (多实例 GPU)
 - NVLINK/NVL: (Nvidia Link) @NVIDIA @CXL

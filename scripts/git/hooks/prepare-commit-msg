@@ -127,6 +127,12 @@ add_env() {
 	Environments+="$@"
 }
 
+# $1: kernel module name, like 'nvidia'
+get_kmod_ver() {
+	local kmod=$1
+	sudo modinfo ${kmod} | awk '/^version:/ {print $2}'
+}
+
 add_kmod() {
 	[[ -z ${CHANGED_FILES_RO} ]] && return 0
 
@@ -140,6 +146,8 @@ add_kmod() {
 	[[ ${KernelModules} ]] && KernelModules+=", "
 	KernelModules+="$@"
 }
+
+nvidia_kmod() { add_kmod "nvidia $(get_kmod_ver nvidia)"; }
 
 # input some key words.
 # echo "YES" if any key matched.
@@ -262,6 +270,7 @@ if [[ "$(has_changed_file cuda nvidia)" ]]; then
 	name=$(${TOPDIR}/hpc/nvidia/gpuname.sh)
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
+		nvidia_kmod
 	fi
 fi
 

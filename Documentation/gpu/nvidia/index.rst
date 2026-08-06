@@ -2,6 +2,12 @@
 NVIDIA GPU
 ==========
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+
+
 Hardware
 --------
 

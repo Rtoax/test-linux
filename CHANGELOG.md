@@ -28,6 +28,7 @@ and this project adheres to
 - bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
 #### Deprecated
 #### Documentation
+- add oom.rst;
 - socket: add broadcast,`SO_LINGER`,multicast,oob,raw,udp,vsodk rst;
 - add socket.rst;
 - cxl: add fm.rst;

@@ -39,6 +39,7 @@ Linux Tools
    kmod
    kprobe
    livepatch
+   oom
    osnoise
    perf
    rtla
