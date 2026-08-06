@@ -338,8 +338,9 @@ if [[ "${Docs[@]}" ]] && [[ -z ${is_commit_amend} ]]; then
 
 	# All files
 	doc_files=( $(git status --short | grep -v '^ ' | grep -Eo 'Documentation.*' | grep -vw conf.py) )
-	doc_names=( $(for f in ${doc_files[@]}; do basename ${f}; done) )
 	doc_dirs=( $(for f in ${doc_files[@]}; do basename $(dirname ${f}); done | sort -u ) )
+	# Filter out 'Documentation' directory
+	mapfile -t doc_dirs < <(printf '%s\n' "${doc_dirs[@]}" | grep -iv 'Documentation')
 
 	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
 

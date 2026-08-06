@@ -15,6 +15,7 @@ shell-y += c_code.sh
 shell-y += cmdline.sh
 shell-y += digit.sh
 shell-y += function.sh
+shell-y += mapfile.sh
 shell-y += nested-func.sh
 shell-y += num.sh
 shell-y += open-fd.sh
