@@ -1,14 +1,15 @@
 PAM - Pluggable Authentication Modules
 ======================================
 
-# configuration
+configuration
+-------------
 
 /etc/pam.d/xxx
 
-# catigory
+catigory
+--------
 
 1. account
 2. auth
 3. password
 4. session
-

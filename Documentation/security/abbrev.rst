@@ -1,3 +1,6 @@
+Abbrev
+======
+
 - ABAC: Attribute Based Access Control (基于属性的访问控制)
 - ACL: Access Control List (访问控制表) @DAC
 - ACM: Access Control Matrix (权限控制矩阵)

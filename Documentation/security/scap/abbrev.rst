@@ -1,10 +1,11 @@
+Abbrev
+======
+
 - AI: Asset Identification ()
 - ARF: Asset Reporting Format ()
 - CCE: Common Configuration Enumeration (通用配置枚举)
 - CCSS: Common Configuration Scoring System ()
 - CPE: Common Platform Enumeration (通用平台枚举)
-- CVE: Common Vulnerabilities and Exposures (通用漏洞与披露)
-- CVSS: Common Vulnerability Scoring System (通用漏洞评分系统)
 - NVD: National Vulnerability Database (国际漏洞数据库)
 - OCIL: Open Checklist Interactive Language ()
 - OSCAP: Open Scap (开放 Scap) @SCAP

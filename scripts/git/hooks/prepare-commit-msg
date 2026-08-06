@@ -343,6 +343,12 @@ if [[ "${Docs[@]}" ]] && [[ -z ${is_commit_amend} ]]; then
 
 	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
 
+	# sort and uniq names
+	mod_names=( $(printf '%s\n' "${mod_names[@]}" | sort -u) )
+	add_names=( $(printf '%s\n' "${add_names[@]}" | sort -u) )
+	del_names=( $(printf '%s\n' "${del_names[@]}" | sort -u) )
+
+	# Construct the message
 	message="Doc: ${doc_label}: "
 	message+="${mod_names:+update ${mod_names[*]}}"
 	if [[ ${mod_names} ]] && [[ ${add_names} ]]; then

@@ -1,3 +1,6 @@
+Abbrev
+======
+
 - AE: Architectural Enclaves (架构飞地)
 - AEX: Asynchronous Exit (异步退出)
 - ECALL: Enclave Call () @OCALL

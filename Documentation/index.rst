@@ -136,6 +136,16 @@ Frontier and Future Technology
    Cloud Native <cloud-native/index>
 
 
+Security
+========
+
+.. toctree::
+   :maxdepth: 1
+
+   CVE <cve/index>
+   security/index
+
+
 Misc
 ====
 
