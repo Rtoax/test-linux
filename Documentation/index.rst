@@ -56,6 +56,7 @@ Development Tools
    The GNU Project <gnu/index>
    Compiler <compiler/index>
    Computer Language <lang/index>
+   elf/index
    crash/index
 
 
