@@ -13,6 +13,26 @@ Linux Kernel
 核心模块
 ~~~~~~~~
 
+.. list-table::
+   :widths: 15 30
+   :header-rows: 1
+
+   * - Driver
+     - CONFIG
+   * - cxl_acpi
+     - CONFIG_CXL_ACPI
+   * - cxl_pci
+     - CONFIG_CXL_PCI
+   * - cxl_pmem
+     - CONFIG_CXL_PMEM
+   * - cxl_mem
+     - CONFIG_CXL_MEM
+   * - cxl_port
+     - CONFIG_CXL_PORT
+   * - cxl_region
+     - CONFIG_CXL_REGION
+
+
 1. cxl_core: 提供 CXL 设备模型、总线和通用的枚举、注册功能。定义了 cxl_dev_state、cxl_port、cxl_decoder 等基础对象。
 2. cxl_acpi: 解析 ACPI CEDT 表，发现 Host Bridge (CXL.mem 控制器) 和根端口，创建 cxl_port 拓扑。
 3. cxl_pci: CXL 设备的 PCIe 驱动。负责：
