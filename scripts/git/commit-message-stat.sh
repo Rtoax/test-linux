@@ -18,7 +18,9 @@ fi
 # Statistic os
 stat_os() {
 	git log ${COMMITS_ARG} --format=%B | \
-		grep "Vers:" | sed -E 's/.*Vers: ([^,]*),.*/\1/' | sort | uniq -c
+		grep -E "Vers(ions)?:" | \
+		sed -E 's/.*Vers(ions)?: ([^,]*),.*/\2/' | \
+		grep -vE "Vers(ions)?:" | sort | uniq -c
 }
 stat_os_awk() {
 	git log ${COMMITS_ARG} --format=%B | \
