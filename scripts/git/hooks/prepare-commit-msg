@@ -37,8 +37,9 @@ if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
 fi
 
 # Remove old Env first.
-sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Kmods:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
 
 CHANGED_FILES+=( ${UNCOMMITTED_FILES[@]} )
 
@@ -63,6 +64,7 @@ readonly CHANGED_FILES_RO=( ${CHANGED_FILES[@]} )
 
 Versions=""
 Environments=""
+KernelModules=""
 
 fatal() {
 	echo >&2 "FATAL: "${@}", try FCM=1/FORCE=1 or VCM=1"
@@ -123,6 +125,20 @@ add_env() {
 
 	[[ ${Environments} ]] && Environments+=", "
 	Environments+="$@"
+}
+
+add_kmod() {
+	[[ -z ${CHANGED_FILES_RO} ]] && return 0
+
+	[[ -z "${@}" ]] && return 0
+
+	# Already exist
+	if [[ "${KernelModules}" =~ "${@}" ]]; then
+		return 0
+	fi
+
+	[[ ${KernelModules} ]] && KernelModules+=", "
+	KernelModules+="$@"
 }
 
 # input some key words.
@@ -277,14 +293,19 @@ auto_versions() {
 auto_versions
 
 # Add lines
-if [[ ${Versions} ]]; then
-	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE} || {
-		fatal "Failed handle Vers: ${Versions}"
-	}
-fi
 if [[ ${Environments} ]]; then
 	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE} || {
 		fatal "Failed handle Envs: ${Environments}"
+	}
+fi
+if [[ ${KernelModules} ]]; then
+	sed -i "$((${signed_off_by_line}+1))i Kmods: ${KernelModules}" ${COMMIT_MSG_FILE} || {
+		fatal "Failed handle Kmods: ${KernelModules}"
+	}
+fi
+if [[ ${Versions} ]]; then
+	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE} || {
+		fatal "Failed handle Vers: ${Versions}"
 	}
 fi
 
