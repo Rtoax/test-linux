@@ -5,11 +5,11 @@
 #
 set -e
 
-. ${ROOTFS_FEDORA_DIR}/../liblog.sh
-. /etc/os-release
-
 readonly prog=rootfs-fedora
 readonly ROOTFS_FEDORA_DIR=$(dirname $(realpath $0))
+
+. ${ROOTFS_FEDORA_DIR}/../liblog.sh
+. /etc/os-release
 
 declare TARGET_ARCH=$(uname -m)
 declare ROOTFS_DIR
