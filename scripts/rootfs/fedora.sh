@@ -24,11 +24,13 @@ declare INITRD
 declare KVER
 
 declare -a pkgs=( autoconf automake binutils cmake dnf dracut gcc gcc-c++ gdb
-		git glibc-devel glibc-static hostname iproute libtool ltrace
-		make NetworkManager openssh-server pciutils pkgconf rpm strace
+		git glibc-devel hostname iproute libtool ltrace make
+		NetworkManager openssh-server pciutils pkgconf rpm strace
 		sudo vim )
 
 declare -a dnf_args
+
+declare force_fedora
 declare verbose
 declare dry_run
 
@@ -46,6 +48,8 @@ DESCRIPTION
 	    --initrd [NAME]     generate initrd based on rootfs.
 
 	    --kver [VERSION]    speicfy kernel version, use to install, dracut, etc.
+
+	--force-fedora          force to build fedora if not running on fedora.
 
 	-i, --install [PKG]     install package (may be listed multiple times)
 
@@ -69,6 +73,7 @@ TEMP_ARGS=$(getopt --options r:i:uhv \
 	--long initrd: \
 	--long kver: \
 	--long install: \
+	--long force-fedora \
 	--long dry-run \
 	--long verbose \
 	--long help \
@@ -121,6 +126,10 @@ while true; do
 	-u | --dry-run)
 		shift
 		dry_run=YES
+		;;
+	--force-fedora)
+		shift
+		force_fedora=YES
 		;;
 	-v | --verbose)
 		shift
@@ -226,14 +235,15 @@ _eval sudo mkdir -p ${ROOTFS_DIR}/etc/yum.repos.d/
 
 # If not running on fedora or rhel like distrobution, just make newest fedora as
 # default, and install newest fedora-release rpm first.
-# TODO: add more distrobutions support
-if ! [[ " fedora " =~ " ${ID} " ]]; then
+if ! [[ " fedora " =~ " ${ID} " ]] && [[ ${force_fedora} ]]; then
 	# Default to fedora
 	ID=fedora
 	VERSION_ID=43 # Newest fedora now(2026-04-08)
 
 	repo_name=tmp
 	repo_file=${ROOTFS_DIR}/etc/yum.repos.d/${repo_name}.repo
+
+	pkgs+=( glibc-static )
 
 	_eval "sudo tee ${repo_file} <<-EOF
 	[${repo_name}]
@@ -250,8 +260,22 @@ if ! [[ " fedora " =~ " ${ID} " ]]; then
 	rootfs_dnf install -y --disablerepo=* --enablerepo=${repo_name} fedora-release
 
 	_eval sudo rm -f ${repo_file}
+
+# Running on cclinux
+elif [[ " cclinux " =~ " ${ID} " ]]; then
+	repo_file=${ROOTFS_DIR}/etc/yum.repos.d/tmp.repo
+
+	dnf_args+=( --nogpgcheck )
+
+	_eval sudo cp /etc/yum.repos.d/cclinux.repo ${repo_file}
+
+	rootfs_dnf install -y --disablerepo=* --enablerepo=baseos,appstream,crb system-release
+
+	_eval sudo rm -f ${repo_file}
 fi
 
+rootfs_dnf clean all
+rootfs_dnf makecache
 rootfs_dnf install -y ${pkgs[@]}
 
 # Create user and change password
