@@ -18,7 +18,7 @@ include dir.mk
 include ldconfig.mk
 include version.mk
 
-ifeq ($(shell ldd --version 2>&1 | grep -owi gnu),)
+ifeq ($(shell ldd --version 2>&1 | grep -owi -e gnu -e glibc),)
   export USE_GNU_LIBC := n
 else
 
