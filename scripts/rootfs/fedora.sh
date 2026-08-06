@@ -7,6 +7,7 @@ set -e
 
 readonly prog=rootfs-fedora
 readonly ROOTFS_FEDORA_DIR=$(dirname $(realpath $0))
+readonly TUNA="https://mirrors.tuna.tsinghua.edu.cn"
 
 . ${ROOTFS_FEDORA_DIR}/../liblog.sh
 . /etc/os-release
@@ -221,6 +222,8 @@ if [[ ${IMAGE} ]]; then
 	image_create_and_mount
 fi
 
+_eval sudo mkdir -p ${ROOTFS_DIR}/etc/yum.repos.d/
+
 # If not running on fedora or rhel like distrobution, just make newest fedora as
 # default, and install newest fedora-release rpm first.
 # TODO: add more distrobutions support
@@ -229,20 +232,16 @@ if ! [[ " fedora " =~ " ${ID} " ]]; then
 	ID=fedora
 	VERSION_ID=43 # Newest fedora now(2026-04-08)
 
-	TUNA="https://mirrors.tuna.tsinghua.edu.cn"
-	F_YUM="${TUNA}/fedora/releases/${VERSION_ID}/Everything/${TARGET_ARCH}/os/"
-
-	sudo mkdir -p ${ROOTFS_DIR}/etc/yum.repos.d/
-
 	repo_name=tmp
 	repo_file=${ROOTFS_DIR}/etc/yum.repos.d/${repo_name}.repo
-	sudo tee ${repo_file} <<-EOF
+
+	_eval "sudo tee ${repo_file} <<-EOF
 	[${repo_name}]
 	name=Temp Fedora ${VERSION_ID} YUM
 	enabled=0
-	baseurl=${F_YUM}
+	baseurl=${TUNA}/fedora/releases/${VERSION_ID}/Everything/${TARGET_ARCH}/os/
 	gpgcheck=0
-	EOF
+	EOF"
 
 	# These is no gpg key in your system, just skip the check.
 	dnf_args+=( --nogpgcheck )
@@ -250,7 +249,7 @@ if ! [[ " fedora " =~ " ${ID} " ]]; then
 
 	rootfs_dnf install -y --disablerepo=* --enablerepo=${repo_name} fedora-release
 
-	sudo rm -f ${repo_file}
+	_eval sudo rm -f ${repo_file}
 fi
 
 rootfs_dnf install -y ${pkgs[@]}
