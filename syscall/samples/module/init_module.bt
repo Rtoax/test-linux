@@ -1,9 +1,5 @@
 #!/bin/env bpftrace
-/**
- * init_module.bt
- *
- * Copyright (C) 2022-2026 Rong Tao
- */
+// Copyright (C) 2022-2026 Rong Tao
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
 #endif
