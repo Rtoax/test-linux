@@ -47,6 +47,7 @@ and this project adheres to
 - vhost: remove upstream linux vhost test kmod code;
 #### Security
 #### Tools
+- util-linux: add unshare subdir;
 - add iproute, libblockdev, libtracefs;
 #### Template
 - bpf: add gcc.mk, libblockdev.mk, libtracefs.mk;
