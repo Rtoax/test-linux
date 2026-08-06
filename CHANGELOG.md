@@ -48,7 +48,7 @@ and this project adheres to
 #### Security
 #### Tools
 - util-linux: test 'unshare --bind' with mount-bind.sh;
-- util-linux: add unshare subdir;
+- util-linux: add unshare,mount subdir;
 - add iproute, libblockdev, libtracefs;
 #### Template
 - bpf: add gcc.mk, libblockdev.mk, libtracefs.mk;
