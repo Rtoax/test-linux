@@ -1,32 +1,35 @@
 #!/bin/bash
 # Copyright (C) 2025-2026 Rong Tao
+#
+# Build fedora/rhel like operate system's rootfs with dnf/rpm package manager.
+#
 set -e
-
-readonly prog=rootfs-fedora
-readonly ROOTFS_FEDORA_DIR=$(dirname $(realpath $0))
 
 . ${ROOTFS_FEDORA_DIR}/../liblog.sh
 . /etc/os-release
 
-TARGET_ARCH=$(uname -m)
-ROOTFS_DIR=
+readonly prog=rootfs-fedora
+readonly ROOTFS_FEDORA_DIR=$(dirname $(realpath $0))
 
-IMAGE=
-IMAGE_TYPE=
-IMAGE_NEW=
+declare TARGET_ARCH=$(uname -m)
+declare ROOTFS_DIR
 
-INITRD=
+declare IMAGE
+declare IMAGE_TYPE
+declare IMAGE_NEW
 
-KVER=
+declare INITRD
 
-declare -a pkgs
-pkgs+=( autoconf automake binutils cmake dnf dracut gcc gcc-c++ gdb git
-	glibc-devel glibc-static hostname iproute libtool ltrace make
-	NetworkManager openssh-server pciutils pkgconf rpm strace sudo vim )
+declare KVER
+
+declare -a pkgs=( autoconf automake binutils cmake dnf dracut gcc gcc-c++ gdb
+		git glibc-devel glibc-static hostname iproute libtool ltrace
+		make NetworkManager openssh-server pciutils pkgconf rpm strace
+		sudo vim )
 
 declare -a dnf_args
-verbose=
-dry_run=
+declare verbose
+declare dry_run
 
 __usage__() {
 	echo -e "
