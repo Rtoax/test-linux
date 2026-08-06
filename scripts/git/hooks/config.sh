@@ -2,6 +2,18 @@
 # https://git-scm.com/docs/githooks
 set -e
 
+while true; do
+	case $1 in
+	--debug | --verbose)
+		shift
+		set -x
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
 # Skip if none git
 if [[ -z "$(which git)" ]] ||
    [[ -z "$(git rev-parse --show-toplevel 2>/dev/null)" ]]; then

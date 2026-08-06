@@ -60,6 +60,14 @@ else
   include logo.mk
 endif
 
+SHELL_SCRIPTS_ARGS :=
+ifneq (${V},)
+  SHELL_SCRIPTS_ARGS += --verbose
+endif
+ifneq (${DEBUG},)
+  SHELL_SCRIPTS_ARGS += --debug
+endif
+
 # Default help
 .PHONY: help
 help:
@@ -118,18 +126,18 @@ endif
 .PHONY: deps
 deps:
 	@echo "Deps"
-	${Q}${SUDO} ${SHELL} ${TOPDIR}/scripts/install-deps.sh --all --force --noupgrade
+	${Q}${SUDO} ${SHELL} ${TOPDIR}/scripts/install-deps.sh --all --force --noupgrade ${SHELL_SCRIPTS_ARGS}
 
 .PHONY: install
 install: uninstall
 	@echo "Install"
-	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh
-	${Q}$(SHELL) ${TOPDIR}/scripts/git/hooks/config.sh
+	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh ${SHELL_SCRIPTS_ARGS}
+	${Q}$(SHELL) ${TOPDIR}/scripts/git/hooks/config.sh ${SHELL_SCRIPTS_ARGS}
 
 .PHONY: uninstall
 uninstall:
 	@echo "Uninstall"
-	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh uninstall
+	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh ${SHELL_SCRIPTS_ARGS} uninstall
 
 .PHONY: menuconfig
 menuconfig:

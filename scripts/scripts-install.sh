@@ -116,6 +116,18 @@ scripts_unset_env()
 	rm -f /etc/profile.d/make_tl.sh
 }
 
+while true; do
+	case $1 in
+	--debug | --verbose)
+		shift
+		set -x
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
 case $1 in
 uninstall)
 	scripts_uninstall
