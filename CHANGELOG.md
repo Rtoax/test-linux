@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
+- glibc: test usleep(3), strftime(3);
 - compiler: test `__builtin_dynamic_object_size()` and `__attribute__((__counted_by__(n)))`;
 - glibc: stdlib: test abs,labs,llabs;
 - glibc: math: test fabs,fabsf,fabsl;

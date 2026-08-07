@@ -3,16 +3,15 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-
 void test1(void)
 {
 	char buffer[40];
 	struct timeval time;
 
 	gettimeofday(&time, NULL);
-	sleep(1);
 
-	strftime(buffer, 40, "Current date/time: %m-%d-%Y/%T", localtime(&time.tv_sec));
+	strftime(buffer, 40, "Current date/time: %m-%d-%Y/%T",
+		 localtime(&time.tv_sec));
 	printf("%s\n",buffer);
 }
 
@@ -34,7 +33,7 @@ void test2_print_time(void)
 	printf("%s.%03ld\n", time_string, milliseconds);
 }
 
-void test3(void)
+void test3_timezone(void)
 {
 	struct timeval tv;
 	struct timezone tz;
@@ -51,6 +50,6 @@ int main(int argc, char **argv)
 {
 	test1();
 	test2_print_time();
-	test3();
+	test3_timezone();
 	return 0;
 }

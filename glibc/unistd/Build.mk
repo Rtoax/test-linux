@@ -14,6 +14,7 @@ target-y += getpagesize
 target-y += ttyname ttyname_r
 target-y += getdents64
 target-y += ualarm
+target-y += usleep
 target-y += tcgetpgrp tcsetpgrp
 target-y += execve-spawn
 target-y += pathconf

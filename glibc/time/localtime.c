@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include "time_helpers.h"
 
-
 char *get_timestamp(void)
 {
 	time_t now = time(NULL);
