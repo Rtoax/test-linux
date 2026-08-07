@@ -33,4 +33,5 @@ run sudo ${LS} /sys/bus/acpi/devices/ACPI0017:*
 # commit 9de6cd3e6151 ("cxl: acpi: list /sys/devices/platform/ACPI0017:00 on 5.15.131")
 run sudo ${LS} /sys/devices/platform/ACPI0017*
 # CXL Host Bridge (CHBS: CXL Host Bridge Structure)
+# commit 74c7dbaf1375 ("cxl: acpi: list /sys/bus/acpi/devices/ACPI0016:00 on 5.15.131")
 run sudo ${LS} /sys/bus/acpi/devices/ACPI0016:*
