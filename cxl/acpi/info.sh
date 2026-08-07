@@ -28,7 +28,8 @@ run sudo ${LS} /sys/kernel/debug/cxl
 # CXL Root Port or Device on Switch
 # commit feaefb76110b ("cxl: acpi: list /sys/bus/acpi/devices/ACPI0017:*")
 run sudo ${LS} /sys/bus/acpi/devices/ACPI0017:*
-# commit c8687bc871c5 ("cxl: list /sys/devices/platform/ACPI0017:00/")
+# commit c8687bc871c5 ("cxl: acpi: list /sys/devices/platform/ACPI0017:00/")
+# commit 9de6cd3e6151 ("cxl: acpi: list /sys/devices/platform/ACPI0017:00 on 5.15.131")
 run sudo ${LS} /sys/devices/platform/ACPI0017*
 # CXL Host Bridge (CHBS: CXL Host Bridge Structure)
 run sudo ${LS} /sys/bus/acpi/devices/ACPI0016:*
