@@ -1,29 +1,34 @@
 #!/bin/bash
 set -e
 
-sudo dmesg | grep ACPI0017 || :
+run() {
+	echo >&2 -e "\033[1;32m$ ${@}\033[m"
+	eval "${@}"
+}
 
-modinfo cxl_acpi
+run sudo dmesg | grep ACPI0017 || :
 
-sudo acpidump > acpi.dat
-sudo acpixtract -a acpi.dat
+run modinfo cxl_acpi
+
+run sudo acpidump > acpi.dat
+run sudo acpixtract -a acpi.dat
 # Generate cedt.dat
 if [[ -f cedt.dat ]]; then
 	# Generate cedt.dsl
-	sudo iasl -d cedt.dat
-	cat cedt.dsl
+	run sudo iasl -d cedt.dat
+	run cat cedt.dsl
 fi
 
 LS=ls
 [[ $(which find) ]] && LS=find
 [[ $(which tree) ]] && LS=tree
 
-sudo ${LS} /sys/kernel/debug/cxl
+run sudo ${LS} /sys/kernel/debug/cxl
 
 # CXL Root Port or Device on Switch
 # commit feaefb76110b ("cxl: acpi: list /sys/bus/acpi/devices/ACPI0017:*")
-sudo ${LS} /sys/bus/acpi/devices/ACPI0017:*
+run sudo ${LS} /sys/bus/acpi/devices/ACPI0017:*
 # commit c8687bc871c5 ("cxl: list /sys/devices/platform/ACPI0017:00/")
-sudo ${LS} /sys/devices/platform/ACPI0017*
+run sudo ${LS} /sys/devices/platform/ACPI0017*
 # CXL Host Bridge (CHBS: CXL Host Bridge Structure)
-sudo ${LS} /sys/bus/acpi/devices/ACPI0016:*
+run sudo ${LS} /sys/bus/acpi/devices/ACPI0016:*
