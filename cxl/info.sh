@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Infomations:
+# - linux 5.15.131 origin cxl driver, ndctl 85, cxl-vmem-4way:
 set -e
 
 readonly DECODERS=( $(sudo cxl list --decoders | jq -r '.[].decoder') )
