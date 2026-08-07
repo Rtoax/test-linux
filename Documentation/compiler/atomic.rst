@@ -45,3 +45,4 @@ Links
 -----
 
 - https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fatomic-Builtins.html
+- https://gcc.gnu.org/onlinedocs/gcc-4.5.2/gcc/Atomic-Builtins.html

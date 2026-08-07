@@ -11,6 +11,7 @@ UEFI (Unified Extensible Firmware Interface)
    shell
    ovmf
    uefi
+   secure-boot
    shim
    efibootmgr
 
