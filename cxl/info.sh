@@ -2,6 +2,7 @@
 #
 # Infomations:
 # - linux 5.15.131 origin cxl driver, ndctl 85, cxl-vmem-4way:
+#   commit 2efec1bf3ca0 ("cxl: info.sh: linux 5.15.131 with origin cxl driver, ndctl 85, cxl-vmem-4way")
 set -e
 
 readonly DECODERS=( $(sudo cxl list --decoders | jq -r '.[].decoder') )
