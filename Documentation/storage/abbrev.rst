@@ -11,6 +11,7 @@ Abbrev
 - DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing
 - EBR: Extended Boot Record (扩展启动记录) @VBR
 - FCP: Fibre Channel Protocol (光纤通道)
+- GPP: General Purpose Partitions ()
 - GPT: GUID Partition Table (GUID 分区表) @MBR
 - HDD: Hard Disk Drives (硬盘驱动)
 - iSCSI: Internet Small Computer Systems Interface (互联网小型计算机系统接口) @SCSI
@@ -25,20 +26,16 @@ Abbrev
 - NVDIMM-F: DIMM with flash storage () @NVDIMM
 - NVDIMM-N: DIMM with flash storage and traditional DRAM on the same module () @NVDIMM
 - NVDIMM-P: enables computer main memory to be persistent () @NVDIMM
-- NVM: Non-Volatile Memory (非易失性内存)
-- NVMe: Non-Volatile Memory Express (非易失性内存表达)
-- NVMe-oF: NVMe over Fabrics (NoF)
-- NVMe/FC: NVMe over Fibre Channel (FC-NVMe, NVMe over FC)
-- NVMe/RoCE: NVMe over RoCE ()
-- NVMe/TCP: NVMe over TCP ()
 - NVRAM: Non-Volatile Random-Access Memory (非易失性随机存取存储器)
 - OFED: OpenFabrics Enterprise Distribution (OpenFabrics企业分发)
 - PD: Physical Disk (物理磁盘)
 - RAID: Redundant Arrays of Independent Disks (独立磁盘冗余阵列)
+- RPMB: Replay Protected Memory Block (Partition)
 - SAN: Storage Area Network (存储区域网络)
 - SDS: Software Defined Storage (软件定义存储)
 - SSD: Solid-State Drive (固态驱动)
 - SCSI: Small Computer Systems Interface (小型计算机系统接口) @iSCSI
 - SPDK: Storage Performance Development Kit (存储性能开发套件) @bdev
 - SRP: SCSI RDMA Protocol ()
+- UDA: User Data Area (Partition)
 - VBR: Volume Boot Record (卷启动记录) @EBR

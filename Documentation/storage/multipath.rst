@@ -1,5 +1,5 @@
 Device mapper multipathing (DM Multipath)
-==========================================
+=========================================
 
 - DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing
 
@@ -9,4 +9,3 @@ device.
 
 The main idea behind multipathing is to provide a more flexible connection to
 the storage location for improved performance.
-

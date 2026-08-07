@@ -6,6 +6,7 @@ Storage
    :maxdepth: 1
 
    abbrev
+   abbrev-nvme
 
 
 Technology
@@ -14,10 +15,23 @@ Technology
 .. toctree::
    :maxdepth: 1
 
+   ceph
+   dax
+   eMMC
    flash
-   scsi
    iscsi
    io-sched/index
+   jbod
+   lvm
+   multipath
+   ndctl
+   nvdimm
+   nvme
+   raid
+   raid-software
+   scsi
+   spdk
+   vmem
 
 
 Tools
