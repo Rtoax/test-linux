@@ -5,13 +5,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <sys/time.h>
+#include "utils.h"
 
 unsigned long usecs(void)
 {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	return tv.tv_sec * 1000000UL + tv.tv_usec;
+}
+
+struct timeval max_timeval(struct timeval *tv1, struct timeval *tv2)
+{
+	if (tv1->tv_sec * 1000000UL + tv1->tv_usec >
+	    tv2->tv_sec * 1000000UL + tv2->tv_usec)
+		return *tv1;
+	else
+		return *tv2;
 }
 
 unsigned long str2nsecs(const char *str)

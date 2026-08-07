@@ -5,19 +5,15 @@
 #include <sys/time.h>
 #include <time.h>
 #include "config.h"
+#include "axis.h"
 
 struct value {
 	double v;
 	double log_v; /* = sign(v) * log(1 + |v|) */
 	double log10_v; /* = sign(v) * log10(1 + |v|) */
 	double exp_v; /* = exp(v) */
-	struct {
-		/* x axis value type */
-		union {
-			struct timeval tv;
-			/* TODO: add more */
-		};
-	} x_axis;
+
+	struct x_axis_value x_axis;
 	struct value *next;
 };
 
