@@ -2,8 +2,11 @@
 Synchronization
 ===============
 
-Linux Kernel
-------------
+:doc:`abbrev`
+
+
+Linux Kernel & Userspace
+------------------------
 
 .. toctree::
    :maxdepth: 1
@@ -15,6 +18,11 @@ Linux Kernel
    osq_lock
    qspinlock
    rcu/index
+   rwlock
+   rw_semaphore
+   semaphore
+   seqlock
+   spinlock
 
 
 Compiler

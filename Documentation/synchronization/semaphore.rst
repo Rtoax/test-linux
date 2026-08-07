@@ -2,5 +2,4 @@ semaphore
 =========
 
 - `#include <semaphore.h>`: POSIX
-- `sys/sem.h`: System V
-
+- `#include <sys/sem.h>`: System V

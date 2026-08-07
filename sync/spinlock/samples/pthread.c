@@ -1,6 +1,5 @@
 #include <pthread.h>
 #include <stdio.h>
-
 #include <libs/log.h>
 #include "spinlock.h"
 
@@ -9,7 +8,6 @@
 #endif
 
 #define ADD_VAL	100000UL
-
 
 spinlock_t spinlock;
 static long int sum = 0;
