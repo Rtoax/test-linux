@@ -8,6 +8,11 @@ IO Sched
 .. toctree::
    :maxdepth: 1
 
+   anticipatory
+   bfq
+   cfq
+   deadline
+   noop
 
 
 1. NO-op IO scheduler 先来先服务
