@@ -18,7 +18,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.9"
+readonly VERSION="v1.0.10"
 declare QEMU_KVM QEMU_KVM_VERSION
 
 # on x86_64: 'q35' default root bus
@@ -94,7 +94,11 @@ ${BOLD}OPTIONS${RST}
         --kcmd [ARG]        add kernel cmdline (may be listed multiple times)
                             example: --kcmd=${GRAY}rdinit=/usr/bin/bash${RST}
 
-    -i, --initrd [INITRD]   specify initrd image
+    -i, --initrd [INITRD]   specify initrd image.
+                            If you use ${UL}dracut${RST} generate initrd, and you
+                            pass the rootfs, you must add ${UL}--no-host-only${RST} argument,
+                            otherwise, ${UL}/dev/disk/by-xxx${RST} may not be found.
+
         --rdinit [PATH]     specify initrd's init process.
 
     -r, --rootfs [type=TYPE,file=ROOTFS,<rw|ro>]|[ROOTFS]
