@@ -202,8 +202,9 @@ vmlinux.h
 .config.old
 !*.ld.so.conf
 
-# PID lock file
+# lock file
 *.pid
+*.lck
 
 # Datebase
 *.aof
