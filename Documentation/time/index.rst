@@ -18,4 +18,13 @@ Contents
 .. toctree::
    :maxdepth: 1
 
+   acpi_pm
+   apic
+   clocksource
+   hpet
+   hrtimer
+   jiffies
+   NO_HZ
    ppm
+   rtc
+   tsc
