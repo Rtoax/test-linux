@@ -17,6 +17,8 @@ Technology
    flash
    scsi
    iscsi
+   io-sched/index
+
 
 Tools
 -----
