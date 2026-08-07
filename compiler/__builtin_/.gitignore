@@ -8,6 +8,7 @@
 /clz
 /constant_p
 /cpu_supports
+/dynamic_object_size
 /expect
 /frame_address
 /index
