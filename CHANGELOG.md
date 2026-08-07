@@ -12,6 +12,8 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
+- glibc: stdlib: test abs,labs,llabs;
+- glibc: math: test fabs,fabsf,fabsl;
 - shell: test `mapfile` builtin;
 - scripts: add libcpu.sh;
 - top-Makefile: script support V=1,DEBUG=1;

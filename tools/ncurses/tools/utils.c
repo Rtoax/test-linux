@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "utils.h"
 
 unsigned long usecs(void)
@@ -14,6 +15,12 @@ unsigned long usecs(void)
 	return tv.tv_sec * 1000000UL + tv.tv_usec;
 }
 
+const char *timeval_str(struct timeval *tv, char buf[32])
+{
+	strftime(buf, 32, "%T", localtime(&tv->tv_sec));
+	return buf;
+}
+
 struct timeval max_timeval(struct timeval *tv1, struct timeval *tv2)
 {
 	if (tv1->tv_sec * 1000000UL + tv1->tv_usec >
@@ -21,6 +28,19 @@ struct timeval max_timeval(struct timeval *tv1, struct timeval *tv2)
 		return *tv1;
 	else
 		return *tv2;
+}
+
+struct timeval diff_timeval(struct timeval *tv1, struct timeval *tv2)
+{
+	struct timeval diff;
+
+	long us_diff = labs(tv1->tv_sec * 1000000UL + tv1->tv_usec -
+			    tv2->tv_sec * 1000000UL + tv2->tv_usec);
+
+	diff.tv_usec = us_diff % 1000000UL;
+	diff.tv_sec = us_diff / 1000000UL;
+
+	return diff;
 }
 
 unsigned long str2nsecs(const char *str)

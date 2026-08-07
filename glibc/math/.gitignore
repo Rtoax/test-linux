@@ -4,6 +4,9 @@
 /sqrt-stress
 /exp
 /exp2
+/fabs
+/fabsf
+/fabsl
 /fpclassify
 /finite
 /nan

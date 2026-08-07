@@ -2,6 +2,7 @@ target-y += ceil
 target-y += copysign
 target-y += exp
 target-y += exp2
+target-y += fabs fabsf fabsl
 target-y += fpclassify
 target-y += finite
 target-y += sqrt sqrt-stress
