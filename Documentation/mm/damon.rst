@@ -7,8 +7,9 @@ DAMON is a Linux kernel subsystem that provides a framework for data access moni
 - `light-weight` (the monitoring overhead is low enough to be applied online), and
 - `scalable` (the upper-bound of the overhead is in constant range regardless of the size of target workloads).
 
-# Links
+
+Links
+-----
 
 - https://docs.kernel.org/mm/damon/index.html
-- [LWN: Using DAMON for proactive reclaim](https://lwn.net/Articles/863753/)
-
+- LWN: `Using DAMON for proactive reclaim <https://lwn.net/Articles/863753/>`_

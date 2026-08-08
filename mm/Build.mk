@@ -3,7 +3,8 @@
 include kconfig.mk
 include helpers.mk
 
-subdir-y := aslr
+subdir-y += aslr
+subdir-y += cma
 subdir-y += rss
 subdir-y += cache
 subdir-y += hugepage
