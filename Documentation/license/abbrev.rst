@@ -1,3 +1,6 @@
+Abbrev
+======
+
 - AGPL: GNU Affero General Public License (GNU Affero 通用公共许可证) @copyleft
 - CHAOSS: Community Health Analytics Open Source Software (社区健康分析开源软件)
 - EULA:  End User License Agreement (最终用户许可协议)

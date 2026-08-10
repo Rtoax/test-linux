@@ -38,6 +38,11 @@ Standard and Development
 
    Standard <standard/index>
    UEFI <uefi/index>
+   license/index
+
+
+Development
+===========
 
 .. toctree::
    :maxdepth: 1
