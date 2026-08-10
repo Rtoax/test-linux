@@ -1,3 +1,3 @@
-Real-Time Sched Class
+DL: Dead-Line Schedule
 ======================
 
