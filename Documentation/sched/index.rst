@@ -24,6 +24,9 @@ Contents
    migration
    pelt
    preempt
+   rt
+   rtlinux
+   rtos
    smt
    task_struct
    ttwu

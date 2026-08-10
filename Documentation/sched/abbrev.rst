@@ -9,6 +9,7 @@ Abbrev
 - PCID：Process context identifier (进程上下文标识符)
 - PELT: Per-Entity Load Tracking
 - PMCG：Performance Monitor Counter Groups (性能监控计数器组)
+- RTOS: Real-Time Operating System (实时操作系统)
 - SCX: Sched-ext
 - SMT: Simultaneous Multi-Threading (同步多线程) @BIOS @HT
 - TSS: Task State Segment (任务状态段)

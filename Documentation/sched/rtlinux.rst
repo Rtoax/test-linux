@@ -4,7 +4,8 @@ RTLinux - Real-Time Linux
 RTLinux is a hard realtime real-time operating system (RTOS) microkernel that runs the entire Linux operating system as a fully preemptive process.
 
 
-# Links
+Links
+-----
 
 - https://en.wikipedia.org/wiki/RTLinux
 - https://wiki.linuxfoundation.org/realtime/start
@@ -12,7 +13,8 @@ RTLinux is a hard realtime real-time operating system (RTOS) microkernel that ru
 - https://wiki.linuxfoundation.org/realtime/preempt_rt_versions
 - https://wiki.archlinux.org/title/Realtime_kernel
 
-## Git
+Git
+~~~
 
 - http://git.kernel.org/cgit/linux/kernel/git/rt/linux-rt-devel.git
 - http://git.kernel.org/cgit/linux/kernel/git/rt/linux-stable-rt.git
