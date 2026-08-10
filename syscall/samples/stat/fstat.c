@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <strings.h>
 #include <sys/stat.h>
-
 #include "stat_helpers.h"
 #include "proc_helpers.h"
 

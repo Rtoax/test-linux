@@ -1,3 +1,6 @@
+/**
+ * see also AT_FDCWD, opendir(3), readdir(2)
+ */
 #include <unistd.h>
 #include <stdio.h>
 
