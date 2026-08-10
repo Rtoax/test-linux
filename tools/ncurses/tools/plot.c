@@ -262,7 +262,7 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		if ((ivs - 1) % 10 == 0) {
 			char buf[32];
 			mvprintw(p->height - p->bnd.bottom + 1, w, "%s",
-				 timeval_str(&v->x_axis.tv, buf));
+				 timeval_str(&v->x_v.tv, buf));
 		}
 
 		/* set y axis */
@@ -417,7 +417,7 @@ void __plot_debug_llabel(const struct lgroup *lg, int height)
 			mvprintw(i + height, p->bnd.left + 1,
 				 "%d: %s: %ld %f x(%s) y(%lf~%lf)", ln->id,
 				 ln->name, ln->count, ln->tail->v,
-				 x_axis_range_str(&ln->x_axis_range, buf),
+				 x_axis_range_str(&ln->x_range, buf),
 				 ln->min->v, ln->max->v);
 		}
 		attroff(color);

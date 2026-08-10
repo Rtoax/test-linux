@@ -18,4 +18,4 @@ struct x_axis_range {
 	struct timeval start, end;
 };
 
-const char *x_axis_range_str(struct x_axis_range *v, char buf[64]);
+const char *x_axis_range_str(struct x_axis_range *r, char buf[64]);

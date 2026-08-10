@@ -13,7 +13,8 @@ struct value {
 	double log10_v; /* = sign(v) * log10(1 + |v|) */
 	double exp_v; /* = exp(v) */
 
-	struct x_axis_value x_axis;
+	struct x_axis_value x_v;
+
 	struct value *next;
 };
 

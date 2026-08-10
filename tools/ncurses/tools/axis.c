@@ -8,11 +8,11 @@
 #include <string.h>
 #include "axis.h"
 
-const char *x_axis_range_str(struct x_axis_range *v, char buf[64])
+const char *x_axis_range_str(struct x_axis_range *r, char buf[64])
 {
-	strftime(buf, 64, "%T", localtime(&v->start.tv_sec));
+	strftime(buf, 64, "%T", localtime(&r->start.tv_sec));
 	strcat(buf, "~");
 	strftime(buf + strlen(buf), 64 - strlen(buf), "%T",
-		 localtime(&v->end.tv_sec));
+		 localtime(&r->end.tv_sec));
 	return buf;
 }

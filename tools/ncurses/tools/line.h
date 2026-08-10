@@ -37,7 +37,7 @@ struct line {
 	struct line *next; /* maybe line in group */
 	struct lgroup *lg; /* belongs to */
 	const struct ltype_ops *ops;
-	struct x_axis_range x_axis_range;
+	struct x_axis_range x_range;
 };
 
 struct ltype_ops {
