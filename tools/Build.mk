@@ -13,6 +13,7 @@ subdir-y += coreutils
 subdir-y += code-formatter
 subdir-y += crash
 subdir-y += criu
+subdir-y += ethtool
 subdir-y += evtest
 subdir-y += expect
 subdir-y += ffmpeg

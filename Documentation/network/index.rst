@@ -6,6 +6,7 @@ Network
    :maxdepth: 1
 
    abbrev
+   abbrev-tcp
 
 
 Basic
@@ -18,6 +19,19 @@ Basic
    osi
    qdisc
    tc
+
+
+Protocol
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   tcp
+   udp
+   ipv4
+   ether
+   vxlan
 
 
 Socket
@@ -50,3 +64,12 @@ Software
    ethtool
    Network Manager <NetworkManager>
    smartnic
+
+
+Devices
+-------
+
+.. toctree::
+   :maxdepth: 1
+
+   tap
