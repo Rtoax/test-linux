@@ -1,5 +1,8 @@
 #!/bin/bash
 # Copyright (C) 2022-2026 Rong Tao
+#
+# see also scripts/git/hooks/pre-commit
+#
 set -e
 
 readonly ROOT_DIRECTORY=$(dirname $(realpath $0)/../)
