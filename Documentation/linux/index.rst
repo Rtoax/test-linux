@@ -35,6 +35,7 @@ Linux Tools
    debug
    fentry
    fprobe
+   ima-evm
    kgdb
    kmod
    kprobe

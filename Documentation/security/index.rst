@@ -26,6 +26,7 @@ Software
 .. toctree::
    :maxdepth: 1
 
+   audit
    access
    aslr
    ipsec
