@@ -8,16 +8,20 @@
 #include <sys/types.h>
 #include "fcntl_helpers.h"
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int fd, flags;
 	mode_t mode;
 	char *path;
 
-	path = "tmp.txt";
+	if (argc > 1)
+		path = argv[1];
+	else
+		path = "tmp.txt";
 
 	unlink(path);
 
+	printf("test '%s'\n", path);
 	printf("O_CREAT : %0o\n", O_CREAT);
 
 	/**
@@ -36,7 +40,7 @@ int main(void)
 	fd = sys_open_fm(path, flags, mode);
 #endif
 	if (fd == -1) {
-		perror("open");
+		perror("open failed");
 		return 1;
 	}
 	close(fd);

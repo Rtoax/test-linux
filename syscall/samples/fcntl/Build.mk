@@ -20,3 +20,5 @@ open-objs := fcntl_helpers.o
 openat-objs := fcntl_helpers.o
 openat2-objs := fcntl_helpers.o
 F_SETLKW-objs := fcntl_helpers.o
+
+CFLAGS_openat += -DSYS_OPENAT=1
