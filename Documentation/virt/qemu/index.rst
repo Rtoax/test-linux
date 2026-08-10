@@ -7,7 +7,14 @@ A generic and open source machine emulator and virtualizer.
    :maxdepth: 1
 
    abbrev
+   fw_cfg
+   hmp
+   qcow
+   qmp
+   replay
+   seabios
    tcg
+   network
    nvram
 
 
