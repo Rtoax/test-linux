@@ -16,14 +16,20 @@ LSM: Linux Security Modules (统一访问安全框架)
 * Integrity Policy Enforcement (IPE)
 
 
-# Kernel Cmdline
+Kernel Cmdline
+--------------
 
-```
-GRUB_CMDLINE_LINUX="lsm=lockdown,capability,landlock,yama,apparmor,bpf"
-```
+.. code-block:: text
+
+  GRUB_CMDLINE_LINUX="lsm=lockdown,capability,landlock,yama,apparmor,bpf"
 
 
-# Links
+LSM BPF
+-------
+
+
+Links
+-----
 
 - https://www.kernel.org/doc/html/latest/admin-guide/LSM/index.html
 - https://www.kernel.org/doc/html/latest/admin-guide/LSM/apparmor.html

@@ -33,7 +33,7 @@ and this project adheres to
 - bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
 #### Deprecated
 #### Documentation
-- move time/sync/storage/mm markdowns into Doc;
+- move time/sync/storage/mm/security markdowns into Doc;
 - add cve,security,elf subdir;
 - add oom.rst;
 - socket: add broadcast,`SO_LINGER`,multicast,oob,raw,udp,vsodk rst;

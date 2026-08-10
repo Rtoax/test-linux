@@ -1,3 +1,0 @@
-ACL - Access Control List
-=========================
-

@@ -1,7 +1,8 @@
 SELinux - Security Enhanced Linux
-===================================
+=================================
 
-# 介绍
+介绍
+----
 
 * Security-Enhanced Linux (SELinux) 是在内核中实现的强制访问控制 (MAC) 安全机制。
 * SELinux 最初是在 CentOS 4 中引入的，并在后来的 CentOS 版本中得到了显着增强。
@@ -9,9 +10,8 @@ SELinux - Security Enhanced Linux
 * access vector cache (AVC)
 
 
-# Architecture
-
-## [How does SELinux work?](https://www.redhat.com/en/topics/linux/what-is-selinux)
+Architecture
+------------
 
 SELinux defines access controls for the applications, processes, and files on a system. It uses security policies, which are a set of rules that tell SELinux what can or can’t be accessed, to enforce the access allowed by a policy.
 
@@ -22,20 +22,23 @@ If SELinux is unable to make a decision about access based on the cached permiss
 If permission is denied, an "avc: denied" message will be available in /var/log.messages.
 
 
-# 访问控制
+访问控制
+--------
 
 操作系统有两类访问控制：自主访问控制（`DAC`）和强制访问控制（`MAC`）。
 标准Linux安全是一种`DAC`，SELinux为Linux增加了一个灵活的和可配置的的`MAC`。
 
 
-# SELinux Config
+SELinux Config
+--------------
 
 configuration: `/etc/selinux/config`
 relate commands: `getenforce`, `setenforce`
 cmdline: `selinux=0`
 
 
-# SELinux 模式
+SELinux 模式
+------------
 
 SELinux 有三个模式（可以由用户设置）。这些模式将规定 SELinux 在主体请求时如何应对。这些模式是：
 
@@ -44,7 +47,8 @@ SELinux 有三个模式（可以由用户设置）。这些模式将规定 SELin
 3. Disabled禁用— 完全禁用 SELinux
 
 
-# SELinux 策略
+SELinux 策略
+------------
 
 SELinux 策略有两种：
 
@@ -52,15 +56,34 @@ SELinux 策略有两种：
 2. Strict严格 — 对所有进程完全的 SELinux 保护
 
 
-# 相关命令
+SELinux Labels
+--------------
 
-```bash
-id -Z
-ls -Z
-```
+`user:role:type:level`
+
+* user:
+* role:
+* type:
+* level: level is optional
 
 
-# Links
+SELinux Filesystem - selinuxfs
+------------------------------
 
-* [https://wiki.centos.org/HowTos/SELinux](https://wiki.centos.org/HowTos/SELinux)
+* `/sys/fs/selinux`
 
+
+相关命令
+--------
+
+.. code-block:: shell
+
+  id -Z
+  ls -Z
+
+
+Links
+-----
+
+* https://wiki.centos.org/HowTos/SELinux
+* `How does SELinux work? <https://www.redhat.com/en/topics/linux/what-is-selinux>`_

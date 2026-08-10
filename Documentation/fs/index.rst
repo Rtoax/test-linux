@@ -7,6 +7,10 @@ File System
 
    abbrev
 
+
+Linux Kernel
+------------
+
 .. toctree::
    :maxdepth: 1
 
@@ -36,6 +40,15 @@ File System
    unionfs
    vfs
    xfs
+
+
+User space
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   sshfs
 
 
 Write

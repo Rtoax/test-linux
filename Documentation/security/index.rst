@@ -26,9 +26,16 @@ Software
 .. toctree::
    :maxdepth: 1
 
+   access
+   aslr
+   lsm
    password
    pam
    scap/index
+   seccomp
+   selinux
+   sshfs
+   openssh
 
 
 Hardware
@@ -38,4 +45,5 @@ Hardware
    :maxdepth: 1
 
    tee
+   tpm
    intel/sgx

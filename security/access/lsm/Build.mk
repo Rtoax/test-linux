@@ -1,4 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
-subdir-y := selinux/libselinux/samples/
+subdir-y += selinux
 
 prog-y := info.sh
