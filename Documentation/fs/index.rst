@@ -14,6 +14,7 @@ Linux Kernel
 .. toctree::
    :maxdepth: 1
 
+   9p
    aufs
    btrfs
    cephfs

@@ -32,6 +32,7 @@ Abbrev
 - qdiscs: Queuing DISCiplines (排队规则) @TC
 - QUIC: Quick UDP Internet Connections (快速 UDP 网络连接)
 - RPC: Remove Procedure Call (远端过程调用)
+- RSS: Receive Side Scaling (接收侧缩放) @CPUMAP(eBPF)
 - SCTP: Stream Control Transmission Protocol (流控制传输协议)
 - SDN: Software-defined networking (软件定义网络)
 - slip: Serial line IP (串列线路互联网协议)

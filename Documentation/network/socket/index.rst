@@ -1,6 +1,12 @@
 Socket
 ======
 
+.. toctree::
+   :maxdepth: 1
+
+   sockfs
+
+
 Syscall socket(2)
 -----------------
 
