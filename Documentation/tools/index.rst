@@ -26,6 +26,7 @@ User Space
    lsof
    lttng
    memcached
+   opencv
    pahole
    psmisc
    redis
