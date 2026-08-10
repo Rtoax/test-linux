@@ -2,6 +2,13 @@
 Scheduler
 =========
 
+.. toctree::
+   :maxdepth: 1
+
+   task_struct
+   ttwu
+
+
 Scheduler
 ----------
 
