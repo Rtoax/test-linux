@@ -1,4 +1,0 @@
-HBM - High Bandwidth Memory
-===========================
-
-

@@ -27,6 +27,7 @@ Technology
    ndctl
    nvdimm
    nvme
+   pmem
    raid
    raid-software
    scsi

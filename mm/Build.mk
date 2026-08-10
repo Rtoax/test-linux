@@ -5,6 +5,7 @@ include helpers.mk
 
 subdir-y += aslr
 subdir-y += cma
+subdir-y += e820
 subdir-y += rss
 subdir-y += cache
 subdir-y += hugepage

@@ -7,6 +7,7 @@ Memory Management
 
    abbrev
    abbrev-cim
+   abbrev-memory
 
 
 Process Memory Types
@@ -25,23 +26,46 @@ Process Memory Types
   $ sudo apt-get install smem
 
 
+Contents
+--------
+
 .. toctree::
    :maxdepth: 1
 
    buddy
+   cache
    cma
    compaction
    cim
    damon
+   dcache
+   dimm
+   e820
+   ecc
+   hbm
+   hugepage
    lru
+   kcompactd
+   kmalloc
    kpti
+   ksm
    folio
    ioremap
+   memory
+   memtest86+
+   mmap
    numa
+   pagecache
    pti
+   reclaim
    rss
-   smem
    slab
+   smem
+   swap
+   tlb
+   transparent_hugepage
+   vmalloc
+   watermark
 
 
 Links

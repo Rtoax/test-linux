@@ -16,7 +16,7 @@ project = 'The Test Linux Documentation'
 copyright = 'Copyright (C) 2022-2026 Rong Tao'
 copyright = copyright.split(maxsplit=1)[1]
 author = 'Rong Tao'
-version = release = '0.0.361'
+version = release = '0.0.362'
 
 html_favicon = "images/tux.svg"
 html_logo = "images/tux.svg"

@@ -5,18 +5,17 @@
 #include <fcntl.h>
 #include <string.h>
 
-
 int main(int argc, char *argv[])
 {
 	char *buf;
 	char filename[64] = "";
 	struct stat stat;
-	int size = 100 * 4096;
+	// int size = 100 * 4096;
 	int fd = 0;
 
 	strcpy(filename, argv[1]);
 
-	fd = open(filename, O_RDWR|O_CREAT, 0664);
+	fd = open(filename, O_RDWR | O_CREAT, 0664);
 	fstat(fd, &stat);
 
 	buf = mmap(NULL, stat.st_size, PROT_WRITE, MAP_PRIVATE, fd, 0);
@@ -27,5 +26,6 @@ int main(int argc, char *argv[])
 	while(1) {
 		sleep(1);
 	}
-}
 
+	return 0;
+}
