@@ -10,8 +10,17 @@ open, read, write, malloc, printf, getaddrinfo, dlopen, `pthread_create`,
 crypt, login, exit and more.
 
 
+.. toctree::
+   :maxdepth: 1
+
+   aio
+   ld
+   obstack
+   utmp
+
+
 Links
-=====
+-----
 
 - https://sourceware.org/git/glibc
 - https://www.gnu.org/software/libc

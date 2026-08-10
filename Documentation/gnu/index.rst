@@ -25,7 +25,7 @@ under the GPL.
    gcc
    gdb
    dwarf
-   glibc
+   glibc/index
    gnuplot
    gnupg
    gperf

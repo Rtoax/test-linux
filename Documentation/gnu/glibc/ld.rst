@@ -1,6 +1,7 @@
 LD - dynamic linker/loader
 ==========================
 
-# rtld
+rtld
+----
 
 - rtld: `glibc/elf/rtld.c`

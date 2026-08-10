@@ -1,12 +1,19 @@
 Asynchronous I/O
 ================
 
-# Syscalls
+.. toctree::
+   :maxdepth: 1
 
-```c
-#include <linux/aio_abi.h>
-#include <libaio.h>
-```
+   abbrev-aio
+
+
+Syscalls
+--------
+
+.. code-block:: c
+
+  #include <linux/aio_abi.h>
+  #include <libaio.h>
 
 - `io_setup(2)`
 - `io_destroy(2)`
@@ -16,16 +23,18 @@ Asynchronous I/O
 - `io_pgetevents(2)`
 
 
-## Libaio
+Libaio
+~~~~~~
 
 
-# Posix AIO
+Posix AIO
+---------
 
 > man aio(7)
 
-```c
-#include <aio.h>
-```
+.. code-block:: c
+
+  #include <aio.h>
 
 - `aio_read(3)`
 - `aio_write(3)`
@@ -37,19 +46,22 @@ Asynchronous I/O
 - `lio_listio(3)`
 
 
-# Sysfs
+Sysfs
+-----
 
 - `/sys/block/$BLK/device/queue_count`
 - `/sys/block/$BLK/queue/nr_requests`
 - `/sys/block/$BLK/queue/max_sectors_kb`
 
 
-# Procfs
+Procfs
+------
 
 - `/proc/sys/fs/aio-nr`
 - `/proc/sys/fs/aio-max-nr`
 
 
-# Links
+Links
+-----
 
 - https://github.com/littledan/linux-aio
