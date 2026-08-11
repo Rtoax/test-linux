@@ -15,6 +15,7 @@ subdir-y += kfunc
 subdir-y += jit
 subdir-y += libbpf
 subdir-y += samples
+subdir-y += scripts
 subdir-y += seccomp
 subdir-$(CONFIG_SCHED_CLASS_EXT) += sched_ext
 subdir-y += usdt
