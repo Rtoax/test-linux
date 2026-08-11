@@ -35,6 +35,7 @@ and this project adheres to
 - bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
 #### Deprecated
 #### Documentation
+- add trace-cmd.rst;
 - move time/sync/storage/mm/security/qemu/sched/rtos/mm/network/database/glibc/audit/licenses markdowns into Doc;
 - add cve,security,elf subdir;
 - add oom.rst;

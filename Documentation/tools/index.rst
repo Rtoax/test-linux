@@ -34,6 +34,7 @@ User Space
    systemtap
    tigervnc
    tmux
+   trace-cmd
    util-linux
 
 
