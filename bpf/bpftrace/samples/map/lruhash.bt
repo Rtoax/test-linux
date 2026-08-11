@@ -4,7 +4,10 @@ let @map_str = lruhash(4096);
 
 BEGIN
 {
-	@map_str[0] = str(0);
+	@map_str[0] = str("hello1");
 	@map_str[1] = str(1);
+
+	print(strcap(@map_str[1]));
+
 	exit();
 }

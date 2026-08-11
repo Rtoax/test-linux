@@ -1,0 +1,18 @@
+#!/bin/env bpftrace
+
+let @map = lruhash(2048);
+
+BEGIN
+{
+	let $s1 : string[32];
+	let $s2 : string[256];
+
+	$s1 = "hello1";
+	$s2 = "hello2";
+
+	@map[1] = $s1;
+	@map[2] = $s2;
+	@map[3] = "hello" + "3";
+
+	exit();
+}
