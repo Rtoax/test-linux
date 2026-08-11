@@ -14,7 +14,9 @@ define add_glibc_obj
   endif
 endef
 
+target-y += bcmp
 target-y += bcopy
+target-y += bzero
 target-y += index
 target-y += memchr
 target-y += memcpy memcpy-stress

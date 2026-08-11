@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
+- glibc: test bcmp() and bzero();
 - version: config.json: add trace-cmd;
 - bpf: add verifier subdir;
 - glibc: test usleep(3), strftime(3);

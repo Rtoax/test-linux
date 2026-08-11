@@ -1,4 +1,6 @@
+/bcmp
 /bcopy
+/bzero
 /index
 /memchr
 /memcpy
