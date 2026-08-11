@@ -51,16 +51,23 @@ BEGIN
 
 tracepoint:syscalls:sys_enter_bpf
 {
+	@start[tid] = nsecs;
 	@cmds[tid] = args->cmd;
 }
 
 tracepoint:syscalls:sys_exit_bpf
-/ @cmds[tid] != 0 /
+/ @cmds[tid] && @start[tid] /
 {
+	$us = (nsecs - @start[tid]) / 1000;
 	$cmd = @cmds[tid];
+
 	time("%H:%M:%S ");
 	printf("%-8d %-16s %-4d %-20s\n", pid, comm, args->ret, @CMD_STR[$cmd]);
 	@cmd_count[@CMD_STR[$cmd]] = count();
+
+	@hist_latency_us = hist($us);
+
+	delete(@start[tid]);
 	delete(@cmds[tid]);
 }
 
@@ -68,5 +75,6 @@ END
 {
 	clear(@CMD_STR);
 	clear(@cmds);
+	clear(@start);
 	printf("Bye.\n");
 }
