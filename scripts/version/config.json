@@ -716,6 +716,13 @@
 			},
 			"keys": [ "tmux" ]
 		},
+		"trace-cmd": {
+			"package": {
+				"deb": [ "trace-cmd" ],
+				"rpm": [ "trace-cmd" ]
+			},
+			"keys": [ "trace-cmd", "ftrace" ]
+		},
 		"util-linux": {
 			"name": "Util-Linux",
 			"command": [ "getopt", "lscpu" ],

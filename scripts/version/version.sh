@@ -158,6 +158,7 @@ getversion() {
 		local arg
 		for arg in ${vargs[@]};
 		do
+			# Note: '$()' allow command return none zero value.
 			version_filter "$( ${cmd} ${arg} 2>&1 )"
 			[[ ${version} ]] && break
 		done # argument

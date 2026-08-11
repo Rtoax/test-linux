@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
+- version: config.json: add trace-cmd;
 - bpf: add verifier subdir;
 - glibc: test usleep(3), strftime(3);
 - compiler: test `__builtin_dynamic_object_size()` and `__attribute__((__counted_by__(n)))`;
@@ -58,7 +59,7 @@ and this project adheres to
 - util-linux: add unshare,mount subdir;
 - add iproute, libblockdev, libtracefs;
 #### Template
-- bpf: add gcc.mk, libblockdev.mk, libtracefs.mk;
+- bpf: add gcc.mk, libblockdev.mk, libtracefs.mk, trace-cmd.mk;
 
 
 ## [v2.4.10] Omnipotent 2026-07-29
