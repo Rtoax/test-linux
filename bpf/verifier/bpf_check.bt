@@ -1,0 +1,20 @@
+#!/usr/bin/env bpftrace
+
+kprobe:bpf_check
+{
+	printf("%s\n", comm);
+	@start[tid] = nsecs;
+}
+
+kretprobe:bpf_check
+/ @start[tid] /
+{
+	$spent = (nsecs - @start[tid]) / 1000;
+	@hist_us = hist($spent);
+	delete(@start[tid]);
+}
+
+END
+{
+	clear(@start);
+}

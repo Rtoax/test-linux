@@ -3,7 +3,7 @@ include bpf/bpf.mk
 include bpf/logo.mk
 include kconfig.mk
 
-subdir-y := bcc
+subdir-y += bcc
 subdir-y += blazesym
 subdir-y += bpftrace
 subdir-y += bpftool
@@ -18,6 +18,7 @@ subdir-y += samples
 subdir-y += seccomp
 subdir-$(CONFIG_SCHED_CLASS_EXT) += sched_ext
 subdir-y += usdt
+subdir-y += verifier
 subdir-y += xdp
 
 target-y := tcpdump
