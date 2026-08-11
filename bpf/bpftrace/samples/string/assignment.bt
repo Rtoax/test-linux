@@ -2,6 +2,14 @@
 
 BEGIN
 {
-	let $s : string[1024];
-	print($s);
+	let $s1 : string[1024];
+	// $s1 = "hello";
+	print($s1);
+
+	let $s2 : string[16];
+	let $s3 : string[32];
+	$s2 = "hello";
+	$s3 = $s2;
+	print($s2);
+	print($s3);
 }
