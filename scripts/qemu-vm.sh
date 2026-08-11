@@ -8,6 +8,9 @@
 #
 set -e
 
+readonly PROG=qemu-vm
+readonly ARCH=$(uname -m)
+readonly VERSION="v1.0.12"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -16,9 +19,6 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 . ${QEMU_VM_ROOT}/libqemu.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 
-readonly PROG=qemu-vm
-readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.11"
 declare QEMU_KVM QEMU_KVM_VERSION
 
 # on x86_64: 'q35' default root bus
@@ -50,6 +50,7 @@ declare -a f_virtiofs_sock
 declare -a q_virtiofs_tag
 
 declare q_stdio
+declare q_daemon
 declare q_monitor
 readonly Q_MONITOR_TELNET_PORT=8087
 declare q_gdb
@@ -885,6 +886,7 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDvV \
 	--long disk: \
 	--long nvdimm: \
 	--long stdio \
+	--long daemon \
 	--long monitor \
 	--long cxl: \
 	--long virtio-fs-sock: \
@@ -994,6 +996,10 @@ while true; do
 	--stdio)
 		shift
 		q_stdio=ON
+		;;
+	--daemon)
+		shift
+		q_daemon=ON
 		;;
 	--monitor)
 		shift
@@ -1154,11 +1160,20 @@ config_basic() {
 		#cleanup_files+=( /tmp/qemu-monitor-${q_vm_name}.sock )
 	fi
 
+	if [[ ${q_stdio} ]] && [[ ${q_daemon} ]]; then
+		error "Could not use --stdio and --daemon at same time"
+	fi
+
 	if [[ ${q_stdio} ]]; then
 		# Default TERM=vt220 if stdio, you could specify
 		# TERM=xterm-256color or TERM=linux in your virtual machine.
 		qargs+=( -serial mon:stdio )
 		qargs+=( -nographic )
+	fi
+
+	if [[ ${q_daemon} ]]; then
+		qargs+=( -daemonize )
+		qargs+=( -vnc :1 )
 	fi
 
 	case ${ARCH} in

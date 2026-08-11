@@ -89,7 +89,12 @@ qargs+=( --initrd ${initramfs} )
 [[ ${QEMU} ]] && qargs+=( --qemu ${QEMU} )
 [[ ${GDB} ]] && qargs+=( --gdb )
 qargs+=( --rootfs ${rootfs},rw )
-qargs+=( --stdio )
+# When test it on Hygon CPU, console is not easy to use.
+if [[ "$(lscpu | grep -wo HygonGenuine)" ]]; then
+	qargs+=( --daemon )
+else
+	qargs+=( --stdio )
+fi
 qargs+=( --monitor )
 
 
