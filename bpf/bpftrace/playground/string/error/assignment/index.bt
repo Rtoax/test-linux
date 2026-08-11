@@ -2,7 +2,7 @@
 
 BEGIN
 {
-	let $s : string[1024];
+	let $s : string[32];
 	// not support yet!
 	$s[0] = ""[0];
 	print($s);
