@@ -18,7 +18,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.10"
+readonly VERSION="v1.0.11"
 declare QEMU_KVM QEMU_KVM_VERSION
 
 # on x86_64: 'q35' default root bus
@@ -1139,8 +1139,9 @@ config_basic() {
 	qargs+=( -qmp unix:$PWD/qmp-${q_vm_name}.sock,server=on,wait=off )
 	cleanup_files+=( $PWD/qmp-${q_vm_name}.sock )
 
-	qargs+=( -pidfile ${q_vm_name}.pid)
-	cleanup_files+=( ${q_vm_name}.pid )
+	local pidfile=/tmp/qemu-vm-${q_vm_name}.pid
+	qargs+=( -pidfile ${pidfile})
+	cleanup_files+=( ${pidfile} )
 
 	# Qemu monitor
 	if [[ ${q_monitor} ]]; then
