@@ -19,6 +19,7 @@ target-y += bcopy
 target-y += bzero
 target-y += index
 target-y += memchr
+target-y += memccpy
 target-y += memcpy memcpy-stress
 target-y += mempcpy
 $(eval $(call add_glibc_obj,__memcpy_ssse3))

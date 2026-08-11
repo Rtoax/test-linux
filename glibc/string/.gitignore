@@ -3,6 +3,7 @@
 /bzero
 /index
 /memchr
+/memccpy
 /memcpy
 /memcpy-stress
 /__memcpy_*-stress
