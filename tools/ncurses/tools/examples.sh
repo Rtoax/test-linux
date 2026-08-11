@@ -1,5 +1,10 @@
 #!/bin/bash
+# Test plotcake.
+#
+# Depends: jq
+#
 # Usage: I=<0.1> TMOUT=<1s> ./examples.sh
+#
 
 # -m: (set -o monitor) monitor mode
 set -em
@@ -33,6 +38,11 @@ sigint() {
 	return 0
 }
 trap sigint INT
+
+error() {
+	echo >&2 "ERROR: ${@}"
+	exit 1
+}
 
 _eval() {
 	eval "${@}"
@@ -87,13 +97,11 @@ stdin() {
 rm -f ${LOG}
 
 if [[ " ${LINE_TYPES[@]} " != " ${LINE_TYPES_CONST[@]} " ]]; then
-	echo >&2 "ERROR: line types not match!"
-	exit 1
+	error "line types not match!"
 fi
 
 if [[ " ${LINE_COLORS[@]} " != " ${LINE_COLORS_CONST[@]} " ]]; then
-	echo >&2 "ERROR: line color not match!"
-	exit 1
+	error "line color not match!"
 fi
 
 run -? --help
@@ -102,7 +110,23 @@ run --lcolors
 run --ltypes
 run -V --version
 run -M --ram
-stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
+run --title TITLE --xlabel XLABEL --ylabel YLABEL -C red -C red
+
+output="multi-words-label"
+title="Multiple Words Title"
+xlabel="Multiple Words X Label"
+ylabel="Multiple Words Y Label"
+run --title \"${title}\" --xlabel \"${xlabel}\" --ylabel \"${ylabel}\" -o ${output}
+if [[ "$(jq -r '.plot.title' ${output}.json)" != "${title}" ]]; then
+	error "test '${title}' failed, see ${output}.json"
+fi
+if [[ "$(jq -r '.plot.xlabel' ${output}.json)" != "${xlabel}" ]]; then
+	error "test '${xlabel}' failed, see ${output}.json"
+fi
+if [[ "$(jq -r '.plot.ylabel' ${output}.json)" != "${ylabel}" ]]; then
+	error "test '${ylabel}' failed, see ${output}.json"
+fi
+
 run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
 run -o loadavg
 run -o loadavg2 -f loadavg.txt
