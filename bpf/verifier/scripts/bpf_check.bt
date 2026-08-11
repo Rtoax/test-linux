@@ -1,5 +1,10 @@
 #!/usr/bin/env bpftrace
 
+BEGIN
+{
+	@proc_sum[0] = 0;
+}
+
 kprobe:bpf_check
 {
 	printf("%s\n", comm);
@@ -11,6 +16,11 @@ kretprobe:bpf_check
 {
 	$spent = (nsecs - @start[tid]) / 1000;
 	@hist_us = hist($spent);
+	if (@proc_sum[pid] != 0) {
+		@proc_sum[pid] += $spent;
+	} else {
+		@proc_sum[pid] = $spent;
+	}
 	delete(@start[tid]);
 }
 

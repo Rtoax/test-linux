@@ -44,6 +44,8 @@ BEGIN
 	@CMD_STR[BPF_TOKEN_CREATE] = "BPF_TOKEN_CREATE";
 	/* add more */
 
+	@proc_sum[0] = 0;
+
 	printf("Tracing bpf(2) syscall, press ctrl-C to end.\n");
 	printf("%-8s %-8s %-16s %-4s %-20s\n", "TIME", "PID", "COMM", "RET",
 	       "CMD");
@@ -66,6 +68,12 @@ tracepoint:syscalls:sys_exit_bpf
 	@cmd_count[@CMD_STR[$cmd]] = count();
 
 	@hist_latency_us = hist($us);
+
+	if (@proc_sum[pid] != 0) {
+		@proc_sum[pid] += $us;
+	} else {
+		@proc_sum[pid] = $us;
+	}
 
 	delete(@start[tid]);
 	delete(@cmds[tid]);
