@@ -151,9 +151,13 @@ bool lcolor_hasname(const char *name)
 
 static int dequeue_value_from_head(struct line *l)
 {
+	enum x_axis_type x_type = l->lg->plot->x_type;
+
 	if (!l || !l->head)
 		return 0;
+
 	int v = l->head->v;
+
 	/* update max */
 	if (l->max && l->max == l->head) {
 		struct value *tmp = l->max = l->head->next;
@@ -178,16 +182,35 @@ static int dequeue_value_from_head(struct line *l)
 
 	/* refresh x axis start time value */
 	if (l->head) {
-		l->x_range.start = l->head->x_v.tv;
+		switch (x_type) {
+		case X_TIMEVAL:
+			l->x_range.start.tv = l->head->x_v.tv;
+			break;
+		case X_INDEX:
+			l->x_range.start.idx = l->head->x_v.idx;
+			break;
+		default:
+			break;
+		}
 	} else {
-		memset(&l->x_range.start, 0, sizeof(struct timeval));
+		switch (x_type) {
+		case X_TIMEVAL:
+			memset(&l->x_range.start.tv, 0, sizeof(struct timeval));
+			break;
+		case X_INDEX:
+			l->x_range.start.idx = 0;
+			break;
+		default:
+			break;
+		}
 	}
 
 	free(head);
 	return v;
 }
 
-static int enqueue_value_to_tail(struct line *l, double v, struct timeval *tv)
+static int enqueue_value_to_tail(struct line *l, double v,
+				 union x_axis_value *x)
 {
 	struct value *new = malloc(sizeof(struct value));
 
@@ -195,15 +218,36 @@ static int enqueue_value_to_tail(struct line *l, double v, struct timeval *tv)
 	new->log_v = signed_log_trans(v);
 	new->log10_v = signed_log10_trans(v);
 	new->exp_v = exp(v);
-	if (tv)
-		memcpy(&new->x_v.tv, tv, sizeof(struct timeval));
-	else
-		gettimeofday(&new->x_v.tv, NULL);
 
-	/* set newest time value */
-	l->x_range.end = new->x_v.tv;
-	if (l->count == 0) {
-		l->x_range.start = new->x_v.tv;
+	switch (l->lg->plot->x_type) {
+	case X_TIMEVAL:
+		if (x) {
+			memcpy(&new->x_v.tv, &x->tv, sizeof(struct timeval));
+		} else {
+			gettimeofday(&new->x_v.tv, NULL);
+		}
+
+		/* set newest time value */
+		l->x_range.end.tv = new->x_v.tv;
+		if (l->count == 0) {
+			l->x_range.start.tv = new->x_v.tv;
+		}
+		break;
+	case X_INDEX:
+		if (x) {
+			new->x_v.idx = x->idx;
+		} else {
+			new->x_v.idx = l->count;
+		}
+
+		/* set newest index */
+		l->x_range.end.idx = new->x_v.idx;
+		if (l->count == 0) {
+			l->x_range.start.idx = new->x_v.idx;
+		}
+		break;
+	default:
+		break;
 	}
 
 	new->next = NULL;
@@ -349,9 +393,9 @@ double line_range_delta_min(struct line *l, int start, int interval, int len)
  * @limit: max length of line (number of values), if < 0, means no limit.
  * @tv: set timeval.
  */
-void line_add_value(struct line *l, double v, long limit, struct timeval *tv)
+void line_add_value(struct line *l, double v, long limit, union x_axis_value *x)
 {
-	enqueue_value_to_tail(l, v, tv);
+	enqueue_value_to_tail(l, v, x);
 
 	/**
 	 * Due to the limited width of the screen or size of memory, we

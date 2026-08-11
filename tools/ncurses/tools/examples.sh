@@ -114,6 +114,9 @@ run --logarithmic
 run --logarithmic10
 run --exponential
 run --delta
+run --x-index -o x-index
+run -f x-index.json
+run -f x-index.txt
 
 stdin -V --version
 stdin --usage

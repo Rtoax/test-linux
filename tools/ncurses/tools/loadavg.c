@@ -10,6 +10,7 @@
 static int loadavg_create_lines(struct lgroup *lg, void *arg)
 {
 	int n = 0;
+
 	n = new_line(lg, "load1", nextlcolor(C_RED)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;

@@ -260,9 +260,20 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 
 		/* set x axis */
 		if ((ivs - 1) % 10 == 0) {
-			char buf[32];
-			mvprintw(p->height - p->bnd.bottom + 1, w, "%s",
-				 timeval_str(&v->x_v.tv, buf));
+			switch (p->x_type) {
+			case X_TIMEVAL: {
+				char buf[32];
+				mvprintw(p->height - p->bnd.bottom + 1, w, "%s",
+					 timeval_str(&v->x_v.tv, buf));
+				break;
+			}
+			case X_INDEX:
+				mvprintw(p->height - p->bnd.bottom + 1, w,
+					 "%ld", v->x_v.idx);
+				break;
+			default:
+				break;
+			}
 		}
 
 		/* set y axis */
@@ -417,7 +428,8 @@ void __plot_debug_llabel(const struct lgroup *lg, int height)
 			mvprintw(i + height, p->bnd.left + 1,
 				 "%d: %s: %ld %f x(%s) y(%lf~%lf)", ln->id,
 				 ln->name, ln->count, ln->tail->v,
-				 x_axis_range_str(&ln->x_range, buf),
+				 x_axis_range_str(lg->plot->x_type,
+						  &ln->x_range, buf),
 				 ln->min->v, ln->max->v);
 		}
 		attroff(color);
@@ -660,7 +672,8 @@ static int key_right(int key, void *arg)
 	return 0;
 }
 
-int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug)
+int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
+	      enum x_axis_type x_type)
 {
 	int err = 0;
 
@@ -672,6 +685,9 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug)
 	plot_scaling_init(p);
 
 	p->kb = kb;
+	if (x_type < X_TIMEVAL || x_type > X_INDEX)
+		return -EINVAL;
+	p->x_type = x_type;
 
 	err = err ?: register_key_handler(kb, 'r', p, key_r);
 	err = err ?: register_key_handler(kb, 't', p, key_t);

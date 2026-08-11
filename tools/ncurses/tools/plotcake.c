@@ -34,6 +34,7 @@
 #include "plot.h"
 #include "ram.h"
 #include "stdin.h"
+#include "axis.h"
 
 enum {
 	ARG_LOGARITHMIC = 200,
@@ -42,6 +43,7 @@ enum {
 	ARG_DELTA,
 	ARG_LINE_TYPES,
 	ARG_LINE_COLORS,
+	ARG_X_AXIS_INDEX,
 };
 
 const char argp_prog_doc[] = ANSI_BOLD
@@ -120,6 +122,8 @@ static const struct argp_option opts[] = {
 	  " and json"
 #endif
 	  ")." },
+	{ "x-index", ARG_X_AXIS_INDEX, NULL, 1,
+	  "Use index as x axis value instead of timeval" },
 	{ "verbose", 'v', NULL, 1,
 	  "Display detail (shortcut: " KEY_HELP_v ")" },
 	{ "version", 'V', NULL, 1, "Display version" },
@@ -138,6 +142,7 @@ static char *title = NULL;
 static char *xlabel = NULL;
 static char *ylabel = NULL;
 static enum curve_type curve_type = CURVE_TYPE_NONE;
+static enum x_axis_type x_type = X_TIMEVAL;
 
 struct plot plot = { 0 };
 struct keyboard keyboard = { 0 };
@@ -214,6 +219,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		lcolor_print_names(stdout);
 		exit(EXIT_SUCCESS);
 		break;
+	case ARG_X_AXIS_INDEX:
+		x_type = X_INDEX;
+		break;
 	case 'I':
 		interval_nsecs = str2nsecs(arg);
 		if (interval_nsecs == 0) {
@@ -280,7 +288,7 @@ int main(int argc, char *argv[])
 	}
 
 	keyboard_init(&keyboard);
-	err = plot_init(&plot, &keyboard, file, verbose);
+	err = plot_init(&plot, &keyboard, file, verbose, x_type);
 	if (err) {
 		fprintf(stderr, "plot init failed, %s\n", strerror(-err));
 		return err;

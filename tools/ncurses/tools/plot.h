@@ -81,13 +81,16 @@ struct plot {
 	 */
 	bool need_redraw;
 
+	enum x_axis_type x_type;
+
 #define PLOT_INF0_FMT                                                      \
 	"plot(redraw=%ld, %.3f MiB, win[%d,%d], max[%d,%d], plot[%d,%d], " \
-	"scale %d, shft %ld/%ld)"
-#define PLOT_INF0_ARG(p)                                                \
-	p->redrawcount, plot_mem_size(p) * 1. / 1024 / 1024, p->height, \
-		p->width, p->heightmax, p->widthmax, p->plotheight,     \
-		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p)
+	"scale %d, shft %ld/%ld, %s:%d)"
+#define PLOT_INF0_ARG(p)                                                   \
+	p->redrawcount, plot_mem_size(p) * 1. / 1024 / 1024, p->height,    \
+		p->width, p->heightmax, p->widthmax, p->plotheight,        \
+		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p), \
+		x_axis_type_str(p->x_type), p->x_type
 };
 
 #define for_each_lgroup(plt, iter)                                       \
@@ -156,7 +159,8 @@ static inline void set_plot_ylabel(struct plot *p, const char *label)
 	snprintf(p->label_y, sizeof(p->label_y) - 1, "%s", label);
 }
 
-int plot_init(struct plot *p, struct keyboard *k, const char *file, bool debug);
+int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
+	      enum x_axis_type x_type);
 unsigned long plot_mem_size(const struct plot *p);
 
 #define plot_warning(p, fmt...) __plot_warning(p, fmt)
