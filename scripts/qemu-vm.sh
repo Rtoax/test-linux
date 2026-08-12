@@ -10,12 +10,13 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.18"
+readonly VERSION="v1.1.0"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
 . ${QEMU_VM_ROOT}/libfile.sh
 . ${QEMU_VM_ROOT}/liblog.sh
+. ${QEMU_VM_ROOT}/libnet.sh
 . ${QEMU_VM_ROOT}/libqemu.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 
@@ -62,9 +63,10 @@ declare tmpdir=/tmp/${PROG}
 # Store VM specific files on host filesystem
 declare vm_tmpdir
 declare vm_cmd_sh
+declare vm_port_hostfwd_ssh22
 
 # Port
-readonly Q_HOSTFWD_SSH22_PORT=8086
+declare Q_HOSTFWD_SSH22_PORT
 readonly Q_MONITOR_TELNET_PORT=8087
 
 # Disk configuratios
@@ -882,20 +884,75 @@ handle_cxl_arg() {
 	fi
 }
 
+# $1: vm-name
+config_prepare_vm_tmpdir() {
+	local name=${1}
+	vm_tmpdir=${tmpdir}/${name}
+	vm_cmd_sh=${vm_tmpdir}/cmds.sh
+	vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
+}
+
 ################################################################################
 # VM Management
+__usage_list_vm__() {
+	echo -e "
+${BOLD}NAME${RST}
+    ${PROG} list - Listing virtual machine
+
+${BOLD}SYNOPSIS${RST}
+    ${PROG} ${BOLD}list${RST} [-h|--help]
+
+${BOLD}OPTIONS${RST}
+    -h, --help     show this information
+"
+	exit ${1-0}
+}
+
 list_vm() {
 	local i pidfile
 	local pidfiles=( $(find ${tmpdir} -name '*.pid' 2>/dev/null) )
 	local id=0
+	local list_port
 
-	printf "%-4s %-16s %-8s\n" Id Name State
+	local LIST_VM_ARGS=$(getopt --options h \
+		--long port \
+		--long help \
+		--name list-vm -- "$@")
+
+	test $? != 0 && __usage_list_vm__ 1
+
+	eval set -- "$LIST_VM_ARGS"
+
+	while true; do
+		case $1 in
+		-h | --help)
+			shift
+			__usage_list_vm__
+			;;
+		--port)
+			shift
+			list_port=ON
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+
+	printf "%-4s %-16s %-8s" Id Name State
+	if [[ ${list_port} ]]; then
+		printf " %-8s" SSH
+	fi
+	printf "\n"
 	echo '---------------------------------------'
 
 	for pidfile in ${pidfiles[@]}
 	do
 		local name="${pidfile#${tmpdir}/}"
 		name="$(dirname ${name})"
+
+		config_prepare_vm_tmpdir ${name}
 
 		local pid=$(sudo cat ${pidfile})
 		local state="unknown"
@@ -906,7 +963,11 @@ list_vm() {
 			state="die"
 		fi
 
-		printf "%-4d %-16s %-8s\n" ${id} ${name} ${state}
+		printf "%-4d %-16s %-8s" ${id} ${name} ${state}
+		if [[ ${list_port} ]]; then
+			printf " %-8d" $(cat ${vm_port_hostfwd_ssh22})
+		fi
+		printf "\n"
 
 		id=$((id + 1))
 	done
@@ -934,7 +995,7 @@ kill_vm() {
 case ${1} in
 list)
 	shift
-	list_vm
+	list_vm "${@}"
 	exit 0
 	;;
 destroy)
@@ -1166,7 +1227,7 @@ _eval()
 	fi
 
 	echo >&2 -e "${BOLD}${GREEN}Startup: $@${RST}"
-	eval "$@"
+	eval "${*}"
 	echo >&2 -e "${BOLD}${YELLOW}Done: $@${RST}"
 
 	if [[ ! -z ${vm_cmd_sh} ]] && [[ -f ${vm_cmd_sh} ]]; then
@@ -1213,16 +1274,20 @@ image2uuid() {
 
 cleanup() {
 	local err=$?
+
 	# Qemu process maybe running on background, we do not need cleanup then.
 	if [[ -z ${q_daemon} ]]; then
 		_eval sudo rm -rf ${cleanup_files[@]}
 	fi
+
+	if [[ ${err} != 0 ]] && [[ -d ${vm_tmpdir} ]]; then
+		_eval sudo rm -rf ${vm_tmpdir}
+	fi
 }
 trap cleanup EXIT
 
-config_system() {
-	vm_tmpdir=${tmpdir}/${q_vm_name}
-	vm_cmd_sh=${vm_tmpdir}/cmds.sh
+config_vm_tmpdir() {
+	Q_HOSTFWD_SSH22_PORT=$(get_free_tcp_port)
 
 	if [[ ! -d ${tmpdir} ]]; then
 		_eval mkdir -p ${tmpdir}
@@ -1234,6 +1299,8 @@ config_system() {
 
 	_eval touch ${vm_cmd_sh}
 	_eval chmod +x ${vm_cmd_sh}
+
+	_eval python3 -c "\"open('${vm_port_hostfwd_ssh22}','w').write('${Q_HOSTFWD_SSH22_PORT}')\""
 }
 
 config_basic() {
@@ -2338,7 +2405,8 @@ config_virtiofs() {
 	done
 }
 
-config_system
+config_prepare_vm_tmpdir ${q_vm_name}
+config_vm_tmpdir
 config_basic
 config_memory
 config_cpu
