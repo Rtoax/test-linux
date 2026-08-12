@@ -95,8 +95,6 @@ if [[ "$(lscpu | grep -wo HygonGenuine)" ]]; then
 else
 	qargs+=( --stdio )
 fi
-qargs+=( --monitor )
-
 
 custom_cxl() {
 	# $ qemu-kvm -device pxb-cxl,...

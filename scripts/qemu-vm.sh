@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.3"
+readonly VERSION="v1.1.4"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -54,7 +54,6 @@ declare -a q_virtiofs_tag
 
 declare q_stdio
 declare q_daemon
-declare q_monitor
 declare q_gdb
 
 declare dry_run
@@ -92,10 +91,14 @@ ${BOLD}NAME${RST}
     ${PROG} - Running a virtual machine with Qemu-KVM
 
 ${BOLD}SYNOPSIS${RST}
-    ${PROG} ${GRAY}[subcmd]${RST} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio] [--monitor]
+    ${PROG} ${GRAY}[subcmd]${RST} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
 
 ${BOLD}DESCRIPTION${RST}
     Running a virtual machine with Qemu-KVM, support flexable arguments.
+
+    Virtual machine monitor, port see ${UL}${PROG} list --port${RST}, connect with
+    ${GRAY}$ telnet localhost PORT${RST} or ${GRAY}$ nc localhost PORT${RST} for qemu monitor,
+    connect guest ssh with ${GRAY}$ ssh -p PORT USER:localhost${RST}.
 
 ${BOLD}SUBCOMMAND OPTIONS${RST}
     list                    listing all current running VMs
@@ -133,9 +136,6 @@ ${BOLD}VM OPTIONS${RST}
     --stdio                 input/output from/to stdio. Default ${GRAY}TERM=${RST}${UL}vt220${RST}
                             if stdio, you could set ${UL}TERM=xterm-256color${RST}
                             or ${UL}TERM=linux${RST} in your virtual machine.
-
-    --monitor               enable monitor, port see ${UL}${PROG} list --port${RST},
-                            connect with ${GRAY}$ telnet localhost PORT${RST}
 
   ${BOLD}VirtIO OPTIONS${RST}
     --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
@@ -993,9 +993,18 @@ kill_vm() {
 		error "Not found vm '${name}'"
 	fi
 
-	local pid=$(sudo cat ${pidfile})
+	config_prepare_vm_tmpdir ${name}
 
-	sudo kill ${pid}
+	if [[ -f ${vm_port_monitor_telnet} ]]; then
+		warning "Destroy ${name} with Qemu monitor"
+		echo "system_powerdown" | sudo nc localhost $(cat ${vm_port_monitor_telnet})
+	else
+		# Kill host process is dangerous for guestos disk.
+		warning "Kill ${name} process on host"
+		local pid=$(sudo cat ${pidfile})
+		sudo kill ${pid}
+	fi
+
 	sudo rm -rf ${tmpdir}/${name}
 }
 
@@ -1107,15 +1116,12 @@ config_basic() {
 	cleanup_files+=( ${pidfile} )
 
 	# Qemu monitor
-	if [[ ${q_monitor} ]]; then
-		# $ telnet localhost PORT
-		qargs+=( -monitor tcp:localhost:${TCP_PORT_MONITOR_TELNET},server,nowait )
-
-		# Or could use:
-		# $ sudo socat - UNIX-CONNECT:./qemu-monitor-${q_vm_name}.sock
-		#qargs+=( -monitor unix:./qemu-monitor-${q_vm_name}.sock,server,nowait )
-		#cleanup_files+=( ./qemu-monitor-${q_vm_name}.sock )
-	fi
+	# $ telnet localhost PORT
+	qargs+=( -monitor tcp:localhost:${TCP_PORT_MONITOR_TELNET},server,nowait )
+	# Or could use:
+	# $ sudo socat - UNIX-CONNECT:./qemu-monitor-${q_vm_name}.sock
+	#qargs+=( -monitor unix:./qemu-monitor-${q_vm_name}.sock,server,nowait )
+	#cleanup_files+=( ./qemu-monitor-${q_vm_name}.sock )
 
 	if [[ ${q_stdio} ]] && [[ ${q_daemon} ]]; then
 		error "Could not use --stdio and --daemon at same time"
@@ -2197,9 +2203,9 @@ list)
 destroy)
 	shift
 	if [[ -z ${1} ]]; then
-		error "'destroy' need pass virtual name, check with 'list'"
+		error "'destroy' need pass virtual name, check with '${PROG} list'"
 	fi
-	kill_vm ${1}
+	kill_vm "${@}"
 	shift
 	exit 0
 	;;
@@ -2228,7 +2234,6 @@ TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDvV \
 	--long nvdimm: \
 	--long stdio \
 	--long daemon \
-	--long monitor \
 	--long cxl: \
 	--long virtio-fs-sock: \
 	--long virtio-fs-tag: \
@@ -2341,10 +2346,6 @@ while true; do
 	--daemon)
 		shift
 		q_daemon=ON
-		;;
-	--monitor)
-		shift
-		q_monitor=ON
 		;;
 	-Q | --qemu)
 		shift
