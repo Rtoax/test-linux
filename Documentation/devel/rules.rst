@@ -16,6 +16,9 @@ The documentation contains some Git commits in the format **commit <12B-hash>**,
 which represent commits in a specific git-repository. Unless otherwise
 specified, the default is the commit for **test-linux**.
 
+**Test Linux** provides rst documentation, and the markdown files located in
+each directory will be gradually migrated to Documentation.
+
 
 Commit Tags
 -----------
