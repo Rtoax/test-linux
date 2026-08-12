@@ -73,3 +73,11 @@ ftype() {
 	echo "unknown"
 	return 0
 }
+
+# $1: file to write
+# $2: content to write
+fprintf() {
+	local f=${1}
+	shift
+	python3 -c "open('${f}','w').write('${@}')"
+}

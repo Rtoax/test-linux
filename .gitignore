@@ -178,6 +178,7 @@ vmlinux.h
 .bash_history
 .bashrc
 ~*
+*.tmp
 
 # Crypt. like gnupg, ssl, etc.
 *.asc
