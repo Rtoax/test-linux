@@ -12,7 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
-- scripts: add libnet.sh, libuuid.sh;
+- scripts: add libnet.sh, libuuid.sh, libnbd.sh;
 - glibc: test bcmp() and bzero(), memccpy();
 - version: config.json: add trace-cmd;
 - bpf: add verifier subdir;
@@ -62,6 +62,7 @@ and this project adheres to
 - util-linux: add unshare,mount subdir;
 - add iproute, libblockdev, libtracefs;
 #### Template
+- add libnbd.mk;
 - bpf: add gcc.mk, libblockdev.mk, libtracefs.mk, trace-cmd.mk;
 
 

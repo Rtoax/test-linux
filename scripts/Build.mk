@@ -16,6 +16,7 @@ prog-y += moonlight.sh
 prog-y += gotoxy.sh
 prog-y += libcpu_examples.sh
 prog-y += libfile_examples.sh
+prog-y += libnbd_examples.sh
 prog-y += libnet_examples.sh
 prog-y += libqemu_examples.sh
 prog-y += libuuid_examples.sh

@@ -1,21 +1,22 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0
 #
+# Copyright (C) 2025-2026 Rong Tao
+#
 # Use the qemu command to create a virtual machine directly, without using
 # libvirt, but directly use the qemu command line parameters.
-#
-# Copyright (C) 2025-2026 Rong Tao
 #
 set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.2"
+readonly VERSION="v1.1.3"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
 . ${QEMU_VM_ROOT}/libfile.sh
 . ${QEMU_VM_ROOT}/liblog.sh
+. ${QEMU_VM_ROOT}/libnbd.sh
 . ${QEMU_VM_ROOT}/libnet.sh
 . ${QEMU_VM_ROOT}/libuuid.sh
 . ${QEMU_VM_ROOT}/libqemu.sh
@@ -1033,12 +1034,14 @@ image2uuid() {
 		sudo losetup --detach ${dev_loop}
 		;;
 	qcow2)
-		local dev_nbd=/dev/nbd0
-		sudo modprobe nbd max_part=16 || true >/dev/null
+		local dev_nbd=$(nbd_find_idle_dev)
 		sudo qemu-nbd --connect ${dev_nbd} ${img} -f ${img_type} >/dev/null && sleep 1
 		sudo lsblk -o uuid ${dev_nbd} | grep -v UUID
 		sudo qemu-nbd --disconnect ${dev_nbd} >/dev/null
 		sudo rmmod nbd || true >/dev/null
+		;;
+	*)
+		error "Unknown image '${img}' extension '${img_type}'"
 		;;
 	esac
 }
