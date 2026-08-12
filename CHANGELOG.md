@@ -60,9 +60,9 @@ and this project adheres to
 - plotcake: release v1.6.14: show x axis range in verbose mode;
 - util-linux: test 'unshare --bind' with mount-bind.sh;
 - util-linux: add unshare,mount subdir;
-- add iproute, libblockdev, libtracefs;
+- add iproute, libblockdev, libtracefs, nbd;
 #### Template
-- add libnbd.mk;
+- add libnbd.mk, nbd.mk;
 - bpf: add gcc.mk, libblockdev.mk, libtracefs.mk, trace-cmd.mk;
 
 

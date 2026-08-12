@@ -24,6 +24,7 @@ Technology
    jbod
    lvm
    multipath
+   nbd
    ndctl
    nvdimm
    nvme
