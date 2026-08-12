@@ -117,6 +117,7 @@ Tools
    Benchmark <benchmark/index>
    Boot <boot/index>
    Container <container/index>
+   Namespace <namespace/index>
    Systemd <systemd/index>
    Tools <tools/index>
    vDSO <vdso/index>
