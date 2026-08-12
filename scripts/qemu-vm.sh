@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.1"
+readonly VERSION="v1.1.2"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -64,10 +64,11 @@ declare tmpdir=/tmp/${PROG}
 declare vm_tmpdir
 declare vm_cmd_sh
 declare vm_port_hostfwd_ssh22
+declare vm_port_monitor_telnet
 
 # Port
-declare Q_HOSTFWD_SSH22_PORT
-readonly Q_MONITOR_TELNET_PORT=8087
+declare TCP_PORT_HOSTFWM_SSH22
+declare TCP_PORT_MONITOR_TELNET
 
 # Disk configuratios
 readonly DISK_VIRTIO=virtio
@@ -131,7 +132,8 @@ ${BOLD}VM OPTIONS${RST}
                             if stdio, you could set ${UL}TERM=xterm-256color${RST}
                             or ${UL}TERM=linux${RST} in your virtual machine.
 
-    --monitor               enable monitor, link with ${GRAY}$ telnet localhost ${Q_MONITOR_TELNET_PORT}${RST}
+    --monitor               enable monitor, port see ${UL}${PROG} list --port${RST},
+                            connect with ${GRAY}$ telnet localhost PORT${RST}
 
   ${BOLD}VirtIO OPTIONS${RST}
     --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
@@ -890,6 +892,7 @@ config_prepare_vm_tmpdir() {
 	vm_tmpdir=${tmpdir}/${name}
 	vm_cmd_sh=${vm_tmpdir}/cmds.sh
 	vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
+	vm_port_monitor_telnet=${vm_tmpdir}/port-monitor-telnet.txt
 }
 
 ################################################################################
@@ -943,9 +946,14 @@ list_vm() {
 	printf "%-4s %-16s %-8s" Id Name State
 	if [[ ${list_port} ]]; then
 		printf " %-8s" SSH
+		printf " %-8s" TELNET
 	fi
 	printf "\n"
-	echo '---------------------------------------'
+	echo -n '---------------------------------------'
+	if [[ ${list_port} ]]; then
+		echo -n '-------------'
+	fi
+	echo
 
 	for pidfile in ${pidfiles[@]}
 	do
@@ -966,6 +974,7 @@ list_vm() {
 		printf "%-4d %-16s %-8s" ${id} ${name} ${state}
 		if [[ ${list_port} ]]; then
 			printf " %-8d" $(cat ${vm_port_hostfwd_ssh22})
+			printf " %-8d" $(cat ${vm_port_monitor_telnet})
 		fi
 		printf "\n"
 
@@ -1055,7 +1064,8 @@ cleanup() {
 }
 
 config_vm_tmpdir() {
-	Q_HOSTFWD_SSH22_PORT=$(get_free_tcp_port)
+	TCP_PORT_HOSTFWM_SSH22=$(get_free_tcp_port)
+	TCP_PORT_MONITOR_TELNET=$(get_free_tcp_port)
 
 	if [[ ! -d ${tmpdir} ]]; then
 		_eval mkdir -p ${tmpdir}
@@ -1068,7 +1078,8 @@ config_vm_tmpdir() {
 	_eval touch ${vm_cmd_sh}
 	_eval chmod +x ${vm_cmd_sh}
 
-	_eval python3 -c "\"open('${vm_port_hostfwd_ssh22}','w').write('${Q_HOSTFWD_SSH22_PORT}')\""
+	_eval python3 -c "\"open('${vm_port_hostfwd_ssh22}','w').write('${TCP_PORT_HOSTFWM_SSH22}')\""
+	_eval python3 -c "\"open('${vm_port_monitor_telnet}','w').write('${TCP_PORT_MONITOR_TELNET}')\""
 }
 
 config_basic() {
@@ -1098,7 +1109,7 @@ config_basic() {
 	# Qemu monitor
 	if [[ ${q_monitor} ]]; then
 		# $ telnet localhost PORT
-		qargs+=( -monitor tcp:localhost:${Q_MONITOR_TELNET_PORT},server,nowait )
+		qargs+=( -monitor tcp:localhost:${TCP_PORT_MONITOR_TELNET},server,nowait )
 
 		# Or could use:
 		# $ sudo socat - UNIX-CONNECT:./qemu-monitor-${q_vm_name}.sock
@@ -1281,7 +1292,7 @@ add_net_nic_tap() {
 # Make sure port was not used, check with:
 # $ sudo netstat -tulpn | grep ${PORT}
 add_net_nic_user_tap() {
-	qargs+=( -net user,hostfwd=tcp::${Q_HOSTFWD_SSH22_PORT}-:22 )
+	qargs+=( -net user,hostfwd=tcp::${TCP_PORT_HOSTFWM_SSH22}-:22 )
 	qargs+=( -net nic,model=virtio
 		-device virtio-net,netdev=network0
 		-netdev tap,id=network0,ifname=tap0,script=no,downscript=no )
