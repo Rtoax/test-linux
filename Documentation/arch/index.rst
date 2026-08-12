@@ -8,6 +8,15 @@ Test Linux CPU Architectures
 .. toctree::
    :maxdepth: 1
 
+   abbrev
+
+
+Architectures
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
    arm64/index
    loongarch/index
    powerpc/index
@@ -17,7 +26,10 @@ Test Linux CPU Architectures
    x86/index
 
 
+Msic
+----
+
 .. toctree::
    :maxdepth: 1
 
-   abbrev
+   translation

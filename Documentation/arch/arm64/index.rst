@@ -10,3 +10,4 @@ ARM64 Architecture
    abbrev
    register
    simd
+   sve

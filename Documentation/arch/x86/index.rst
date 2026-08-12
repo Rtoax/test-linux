@@ -29,7 +29,12 @@ Register
 .. toctree::
    :maxdepth: 1
 
+   aes
+   avx
+   mmx
+   pcid
    simd
+   sse
 
 
 Links

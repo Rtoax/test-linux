@@ -1,10 +1,9 @@
 MMX - MultiMedia eXtensions
 ===========================
 
+Headers
+-------
 
-# Headers
+.. code-block:: c
 
-```
-#include <mmintrin.h>
-```
-
+  #include <mmintrin.h>
