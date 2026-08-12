@@ -52,13 +52,16 @@ declare -a q_virtiofs_tag
 declare q_stdio
 declare q_daemon
 declare q_monitor
-readonly Q_MONITOR_TELNET_PORT=8087
 declare q_gdb
 
 declare dry_run
 declare verbose
 declare debug
 declare tmpdir=/tmp/
+
+# Port
+readonly Q_HOSTFWD_SSH22_PORT=8086
+readonly Q_MONITOR_TELNET_PORT=8087
 
 # Disk configuratios
 readonly DISK_VIRTIO=virtio
@@ -1414,11 +1417,11 @@ add_net_nic_tap() {
 
 # Usage:
 # on hostos:
-# $ ssh -p8086 root@localhost
+# $ ssh -p${PORT} root@localhost
 # Make sure port was not used, check with:
-# $ sudo netstat -tulpn | grep 8086
+# $ sudo netstat -tulpn | grep ${PORT}
 add_net_nic_user_tap() {
-	qargs+=( -net user,hostfwd=tcp::8086-:22 )
+	qargs+=( -net user,hostfwd=tcp::${Q_HOSTFWD_SSH22_PORT}-:22 )
 	qargs+=( -net nic,model=virtio
 		-device virtio-net,netdev=network0
 		-netdev tap,id=network0,ifname=tap0,script=no,downscript=no )
