@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.13"
+readonly VERSION="v1.0.14"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -74,18 +74,21 @@ declare -a cleanup_files
 
 readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 
-__usage__() {
+__usage_internal__() {
 	echo -e "
 ${BOLD}NAME${RST}
     ${PROG} - Running a virtual machine with Qemu-KVM
 
 ${BOLD}SYNOPSIS${RST}
-    ${PROG} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio] [--monitor]
+    ${PROG} ${GRAY}[subcmd]${RST} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio] [--monitor]
 
 ${BOLD}DESCRIPTION${RST}
     Running a virtual machine with Qemu-KVM, support flexable arguments.
 
-${BOLD}OPTIONS${RST}
+${BOLD}SUBCOMMAND OPTIONS${RST}
+    list                    listing all current running VMs
+
+${BOLD}VM OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
 
     --cpu [ARGS]            config CPU, please see ${BOLD}--cpu help${RST}
@@ -204,6 +207,10 @@ ${BOLD}FORMAT${RST}
 ${BOLD}SEE ALSO${RST}
     qemu(1), qemu-kvm(1), etc.
 "
+}
+
+__usage__() {
+	__usage_internal__ "${@}" | more
 	exit ${1-0}
 }
 
@@ -868,7 +875,44 @@ handle_cxl_arg() {
 }
 
 ################################################################################
+# VM Management
+list_vm() {
+	local i pidfile
+	local pidfiles=( $(ls /tmp/qemu-vm-*.pid) )
+	local id=0
+
+	printf "%-4s %-16s %-8s\n" Id Name State
+	echo '---------------------------------------'
+
+	for pidfile in ${pidfiles[@]}
+	do
+		local name="${pidfile#/tmp/qemu-vm-}"
+		name="${name%.pid}"
+
+		local pid=$(sudo cat ${pidfile})
+		local state="unknown"
+
+		if [[ -d /proc/${pid} ]]; then
+			state="running"
+		fi
+
+		printf "%-4d %-16s %-8s\n" ${id} ${name} ${state}
+
+		id=$((id + 1))
+	done
+}
+
+################################################################################
 # Main
+
+# Handle subcommand first
+case ${1} in
+list)
+	shift
+	list_vm
+	exit 0
+	;;
+esac
 
 set_qemu_kvm $(get_qemu_kvm_emulator)
 
