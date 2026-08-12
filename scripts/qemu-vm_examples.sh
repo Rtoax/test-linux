@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eo pipefail
 readonly QEMU_VM_EXAMPLES_ROOT=$(dirname $(realpath $0))
 readonly DISK_TYPES=( virtio sata nvme nvdimm scsi )
 

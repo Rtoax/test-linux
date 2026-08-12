@@ -7,6 +7,7 @@ subdir-y += env-passing
 subdir-y += exec
 subdir-y += math
 subdir-y += network
+subdir-y += shopt
 subdir-y += string
 
 shell-y += args.sh

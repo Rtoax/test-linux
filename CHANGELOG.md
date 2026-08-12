@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
+- shell: test `shopt -s inherit_errexit`;
 - scripts: add libnet.sh, libuuid.sh, libnbd.sh;
 - glibc: test bcmp() and bzero(), memccpy();
 - version: config.json: add trace-cmd;
