@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.14"
+readonly VERSION="v1.0.15"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -87,6 +87,7 @@ ${BOLD}DESCRIPTION${RST}
 
 ${BOLD}SUBCOMMAND OPTIONS${RST}
     list                    listing all current running VMs
+    destroy [NAME]          destroy a virtual machine
 
 ${BOLD}VM OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
@@ -878,7 +879,7 @@ handle_cxl_arg() {
 # VM Management
 list_vm() {
 	local i pidfile
-	local pidfiles=( $(ls /tmp/qemu-vm-*.pid) )
+	local pidfiles=( $(ls ${tmpdir}/qemu-vm-*.pid 2>/dev/null) )
 	local id=0
 
 	printf "%-4s %-16s %-8s\n" Id Name State
@@ -886,7 +887,7 @@ list_vm() {
 
 	for pidfile in ${pidfiles[@]}
 	do
-		local name="${pidfile#/tmp/qemu-vm-}"
+		local name="${pidfile#${tmpdir}/qemu-vm-}"
 		name="${name%.pid}"
 
 		local pid=$(sudo cat ${pidfile})
@@ -902,6 +903,20 @@ list_vm() {
 	done
 }
 
+kill_vm() {
+	local name=$1
+	local pidfile=${tmpdir}/qemu-vm-${name}.pid
+
+	if [[ ! -f ${pidfile} ]]; then
+		error "Not found vm '${name}'"
+	fi
+
+	local pid=$(sudo cat ${pidfile})
+
+	sudo kill ${pid}
+	sudo rm -f ${tmpdir}/qemu-vm-${name}*
+}
+
 ################################################################################
 # Main
 
@@ -910,6 +925,12 @@ case ${1} in
 list)
 	shift
 	list_vm
+	exit 0
+	;;
+destroy)
+	shift
+	kill_vm ${1}
+	shift
 	exit 0
 	;;
 esac
