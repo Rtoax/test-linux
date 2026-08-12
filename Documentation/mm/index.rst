@@ -71,4 +71,5 @@ Contents
 Links
 -----
 
+- LWN: Memory management for graphics processors: https://lwn.net/Articles/257417/
 - v5.8 `Memory Layout on AArch64 Linux <https://www.kernel.org/doc/html/v5.8/arm64/memory.html>`_

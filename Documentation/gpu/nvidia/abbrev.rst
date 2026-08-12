@@ -3,6 +3,7 @@ Abbrev
 
 - CCCL: CUDA Core Compute Libraries (CUDA 核心计算库)
 - MIG: Multi-Instance GPU (多实例 GPU)
+- NCCL: NVIDIA Collective Communication Library (NVIDIA 集体通信库) @HCCL @RCCL @MPI
 - NVLINK/NVL: (Nvidia Link) @NVIDIA @CXL
 - NVML: NVIDIA Management Library (NVIDIA 管理库)
 - NVVM: NVIDIA Virtual Machine (NVIDIA 虚拟机)

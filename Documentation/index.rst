@@ -82,8 +82,9 @@ Hardware Architecture
    :maxdepth: 1
 
    CPU Architecture <arch/index>
-   CXL <cxl/index>
+   cxl/index
    GPU Architecture <gpu/index>
+   hpc/index
    Interrupt <interrupt/index>
    PCIe <pcie/index>
    superPod <superpod/index>
