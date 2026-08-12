@@ -17,6 +17,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 . ${QEMU_VM_ROOT}/libfile.sh
 . ${QEMU_VM_ROOT}/liblog.sh
 . ${QEMU_VM_ROOT}/libnet.sh
+. ${QEMU_VM_ROOT}/libuuid.sh
 . ${QEMU_VM_ROOT}/libqemu.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 
@@ -1010,14 +1011,6 @@ _eval()
 
 	if [[ ! -z ${vm_cmd_sh} ]] && [[ -f ${vm_cmd_sh} ]]; then
 		echo "${@}" | sudo tee --append ${vm_cmd_sh}
-	fi
-}
-
-gen_uuid() {
-	if [[ -e /proc/sys/kernel/random/uuid ]]; then
-		cat /proc/sys/kernel/random/uuid
-	else
-		uuid
 	fi
 }
 

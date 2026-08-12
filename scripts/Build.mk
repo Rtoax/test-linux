@@ -18,6 +18,7 @@ prog-y += libcpu_examples.sh
 prog-y += libfile_examples.sh
 prog-y += libnet_examples.sh
 prog-y += libqemu_examples.sh
+prog-y += libuuid_examples.sh
 prog-y += libso-multiver_examples.sh
 prog-y += libstring_examples.sh
 prog-y += termplot_examples.sh
