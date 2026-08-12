@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.12"
+readonly VERSION="v1.0.13"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -1123,7 +1123,11 @@ image2uuid() {
 }
 
 cleanup() {
-	_eval sudo rm -rf ${cleanup_files[@]}
+	local err=$?
+	# Qemu process maybe running on background, we do not need cleanup then.
+	if [[ -z ${q_daemon} ]]; then
+		_eval sudo rm -rf ${cleanup_files[@]}
+	fi
 }
 trap cleanup EXIT
 
