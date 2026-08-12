@@ -1080,6 +1080,10 @@ config_vm_tmpdir() {
 
 	_eval python3 -c "\"open('${vm_port_hostfwd_ssh22}','w').write('${TCP_PORT_HOSTFWM_SSH22}')\""
 	_eval python3 -c "\"open('${vm_port_monitor_telnet}','w').write('${TCP_PORT_MONITOR_TELNET}')\""
+
+	cleanup_files+=( ${vm_cmd_sh} )
+	cleanup_files+=( ${vm_port_hostfwd_ssh22} )
+	cleanup_files+=( ${vm_port_monitor_telnet} )
 }
 
 config_basic() {
