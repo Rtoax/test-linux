@@ -58,6 +58,7 @@ declare q_gdb
 declare dry_run
 declare verbose
 declare debug
+declare tmpdir=/tmp/
 
 # Disk configuratios
 readonly DISK_VIRTIO=virtio
@@ -1132,6 +1133,9 @@ cleanup() {
 trap cleanup EXIT
 
 config_basic() {
+	local pidfile=${tmpdir}/qemu-vm-${q_vm_name}.pid
+	local qmpfile=${tmpdir}/qemu-vm-qmp-${q_vm_name}.sock
+
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid $(gen_uuid) )
 	# or use '-accel kvm'
@@ -1139,17 +1143,16 @@ config_basic() {
 	qargs+=( -boot menu=on )
 
 	# -qmp <protocol>:<path>[,server][,nowait]
-	# -qmp unix:/tmp/qmp-sock,server,nowait
-	# $ sudo socat - UNIX-CONNECT:/tmp/qmp-sock
+	# -qmp unix:./qmp.sock,server,nowait
+	# $ sudo socat - UNIX-CONNECT:./qmp.sock
 	# Or use:
 	# -qmp tcp:0.0.0.0:4444,server,nowait
 	# $ telnet localhost 4444
 	# Or use:
 	# -qmp stdio
-	qargs+=( -qmp unix:$PWD/qmp-${q_vm_name}.sock,server=on,wait=off )
-	cleanup_files+=( $PWD/qmp-${q_vm_name}.sock )
+	qargs+=( -qmp unix:${qmpfile},server=on,wait=off )
+	cleanup_files+=( ${qmpfile} )
 
-	local pidfile=/tmp/qemu-vm-${q_vm_name}.pid
 	qargs+=( -pidfile ${pidfile})
 	cleanup_files+=( ${pidfile} )
 
@@ -1159,9 +1162,9 @@ config_basic() {
 		qargs+=( -monitor tcp:localhost:${Q_MONITOR_TELNET_PORT},server,nowait )
 
 		# Or could use:
-		# $ sudo socat - UNIX-CONNECT:/tmp/qemu-monitor-${q_vm_name}.sock
-		#qargs+=( -monitor unix:/tmp/qemu-monitor-${q_vm_name}.sock,server,nowait )
-		#cleanup_files+=( /tmp/qemu-monitor-${q_vm_name}.sock )
+		# $ sudo socat - UNIX-CONNECT:./qemu-monitor-${q_vm_name}.sock
+		#qargs+=( -monitor unix:./qemu-monitor-${q_vm_name}.sock,server,nowait )
+		#cleanup_files+=( ./qemu-monitor-${q_vm_name}.sock )
 	fi
 
 	if [[ ${q_stdio} ]] && [[ ${q_daemon} ]]; then
@@ -1279,7 +1282,7 @@ auto_uefi_pflash() {
 
 		# Copy a new VAR from system OS.
 		var=${i}
-		local newvar=${q_vm_name}_$(basename ${var})
+		local newvar=${tmpdir}/qemu-vm-${q_vm_name}_$(basename ${var})
 		_eval cp ${var} ${newvar}
 		cleanup_files+=( ${newvar} )
 		var=${newvar}
@@ -1529,7 +1532,7 @@ next_pxb_cxl_id() {
 }
 
 # bus_nr=11,21,31,41,...
-__pxb_cxl_bus_nr_file=$(mktemp -u)
+readonly __pxb_cxl_bus_nr_file=$(mktemp -u ${tmpdir}/qemu-vm-${q_vm_name}-pxb-cxl-bus-nr-XXX)
 cleanup_files+=( ${__pxb_cxl_bus_nr_file} )
 next_cxl_pxb_bus_nr() {
 	local num=11
@@ -1544,7 +1547,7 @@ next_cxl_rp_id() {
 	echo $(mktemp -u cxl.rp.XXXX)
 }
 
-__cxl_slot_file=$(mktemp -u)
+readonly __cxl_slot_file=$(mktemp -u ${tmpdir}/qemu-vm-${q_vm_name}-cxl-slot-XXX)
 cleanup_files+=( ${__cxl_slot_file} )
 next_cxl_slot() {
 	local num=1
@@ -1828,7 +1831,7 @@ add_cxl_type3_dev() {
 
 		arg+=( persistent-memdev=${pmem} )
 
-		local pmem_file=${PWD}/${pmem}.raw
+		local pmem_file=${tmpdir}/qemu-vm-${q_vm_name}-${pmem}.raw
 		_eval qemu-img create -f raw ${pmem_file} ${size}
 		cleanup_files+=( ${pmem_file} )
 
@@ -1863,7 +1866,7 @@ add_cxl_type3_dev() {
 	if [[ ${lsa} ]] && [[ ${lsa} != SKIP ]]; then
 		arg+=( lsa=${lsa} )
 
-		local lsa_file=${PWD}/${lsa}.raw
+		local lsa_file=${tmpdir}/qemu-vm-${q_vm_name}-${lsa}.raw
 		_eval qemu-img create -f raw ${lsa_file} ${size}
 		cleanup_files+=( ${lsa_file} )
 
