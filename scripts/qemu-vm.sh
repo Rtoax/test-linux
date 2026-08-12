@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.17"
+readonly VERSION="v1.0.18"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -58,8 +58,10 @@ declare dry_run
 declare verbose
 declare debug
 declare tmpdir=/tmp/${PROG}
+
 # Store VM specific files on host filesystem
 declare vm_tmpdir
+declare vm_cmd_sh
 
 # Port
 readonly Q_HOSTFWD_SSH22_PORT=8086
@@ -1158,12 +1160,17 @@ fi
 
 _eval()
 {
-	if [[ -z ${dry_run} ]]; then
-		echo >&2 -e "${BOLD}${GREEN}Startup: $@${RST}"
-		eval "$@"
-		echo >&2 -e "${BOLD}${YELLOW}Done: $@${RST}"
-	else
-		echo "$@"
+	if [[ ${dry_run} ]]; then
+		echo "${@}"
+		return 0
+	fi
+
+	echo >&2 -e "${BOLD}${GREEN}Startup: $@${RST}"
+	eval "$@"
+	echo >&2 -e "${BOLD}${YELLOW}Done: $@${RST}"
+
+	if [[ ! -z ${vm_cmd_sh} ]] && [[ -f ${vm_cmd_sh} ]]; then
+		echo "${@}" | tee --append ${vm_cmd_sh}
 	fi
 }
 
@@ -1215,6 +1222,7 @@ trap cleanup EXIT
 
 config_system() {
 	vm_tmpdir=${tmpdir}/${q_vm_name}
+	vm_cmd_sh=${vm_tmpdir}/cmds.sh
 
 	if [[ ! -d ${tmpdir} ]]; then
 		_eval mkdir -p ${tmpdir}
@@ -1223,6 +1231,9 @@ config_system() {
 	if [[ ! -d ${vm_tmpdir} ]]; then
 		_eval mkdir -p ${vm_tmpdir}
 	fi
+
+	_eval touch ${vm_cmd_sh}
+	_eval chmod +x ${vm_cmd_sh}
 }
 
 config_basic() {
