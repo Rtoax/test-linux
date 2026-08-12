@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.16"
+readonly VERSION="v1.0.17"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -57,7 +57,9 @@ declare q_gdb
 declare dry_run
 declare verbose
 declare debug
-declare tmpdir=/tmp/
+declare tmpdir=/tmp/${PROG}
+# Store VM specific files on host filesystem
+declare vm_tmpdir
 
 # Port
 readonly Q_HOSTFWD_SSH22_PORT=8086
@@ -882,7 +884,7 @@ handle_cxl_arg() {
 # VM Management
 list_vm() {
 	local i pidfile
-	local pidfiles=( $(ls ${tmpdir}/${PROG}-*.pid 2>/dev/null) )
+	local pidfiles=( $(find ${tmpdir} -name '*.pid' 2>/dev/null) )
 	local id=0
 
 	printf "%-4s %-16s %-8s\n" Id Name State
@@ -890,8 +892,8 @@ list_vm() {
 
 	for pidfile in ${pidfiles[@]}
 	do
-		local name="${pidfile#${tmpdir}/${PROG}-}"
-		name="${name%.pid}"
+		local name="${pidfile#${tmpdir}/}"
+		name="$(dirname ${name})"
 
 		local pid=$(sudo cat ${pidfile})
 		local state="unknown"
@@ -911,7 +913,7 @@ list_vm() {
 # $1: virtual machine name
 kill_vm() {
 	local name=${1}
-	local pidfile=${tmpdir}/${PROG}-${name}.pid
+	local pidfile=${tmpdir}/${name}/pidfile.pid
 
 	if [[ ! -f ${pidfile} ]]; then
 		error "Not found vm '${name}'"
@@ -920,7 +922,7 @@ kill_vm() {
 	local pid=$(sudo cat ${pidfile})
 
 	sudo kill ${pid}
-	sudo rm -f ${tmpdir}/${PROG}-${name}*
+	sudo rm -rf ${tmpdir}/${name}
 }
 
 ################################################################################
@@ -1211,9 +1213,21 @@ cleanup() {
 }
 trap cleanup EXIT
 
+config_system() {
+	vm_tmpdir=${tmpdir}/${q_vm_name}
+
+	if [[ ! -d ${tmpdir} ]]; then
+		_eval mkdir -p ${tmpdir}
+	fi
+
+	if [[ ! -d ${vm_tmpdir} ]]; then
+		_eval mkdir -p ${vm_tmpdir}
+	fi
+}
+
 config_basic() {
-	local pidfile=${tmpdir}/${PROG}-${q_vm_name}.pid
-	local qmpfile=${tmpdir}/${PROG}-qmp-${q_vm_name}.sock
+	local pidfile=${vm_tmpdir}/pidfile.pid
+	local qmpfile=${vm_tmpdir}/qmp.sock
 
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid $(gen_uuid) )
@@ -1361,7 +1375,7 @@ auto_uefi_pflash() {
 
 		# Copy a new VAR from system OS.
 		var=${i}
-		local newvar=${tmpdir}/${PROG}-${q_vm_name}_$(basename ${var})
+		local newvar=${vm_tmpdir}/$(basename ${var})
 		_eval cp ${var} ${newvar}
 		cleanup_files+=( ${newvar} )
 		var=${newvar}
@@ -1611,8 +1625,7 @@ next_pxb_cxl_id() {
 }
 
 # bus_nr=11,21,31,41,...
-readonly __pxb_cxl_bus_nr_file=$(mktemp -u ${tmpdir}/${PROG}-${q_vm_name}-pxb-cxl-bus-nr-XXX)
-cleanup_files+=( ${__pxb_cxl_bus_nr_file} )
+declare __pxb_cxl_bus_nr_file
 next_cxl_pxb_bus_nr() {
 	local num=11
 	if [[ -f ${__pxb_cxl_bus_nr_file} ]]; then
@@ -1626,8 +1639,7 @@ next_cxl_rp_id() {
 	echo $(mktemp -u cxl.rp.XXXX)
 }
 
-readonly __cxl_slot_file=$(mktemp -u ${tmpdir}/${PROG}-${q_vm_name}-cxl-slot-XXX)
-cleanup_files+=( ${__cxl_slot_file} )
+declare __cxl_slot_file
 next_cxl_slot() {
 	local num=1
 	if [[ -f ${__cxl_slot_file} ]]; then
@@ -1910,7 +1922,7 @@ add_cxl_type3_dev() {
 
 		arg+=( persistent-memdev=${pmem} )
 
-		local pmem_file=${tmpdir}/${PROG}-${q_vm_name}-${pmem}.raw
+		local pmem_file=${vm_tmpdir}/${pmem}.raw
 		_eval qemu-img create -f raw ${pmem_file} ${size}
 		cleanup_files+=( ${pmem_file} )
 
@@ -1945,7 +1957,7 @@ add_cxl_type3_dev() {
 	if [[ ${lsa} ]] && [[ ${lsa} != SKIP ]]; then
 		arg+=( lsa=${lsa} )
 
-		local lsa_file=${tmpdir}/${PROG}-${q_vm_name}-${lsa}.raw
+		local lsa_file=${vm_tmpdir}/${lsa}.raw
 		_eval qemu-img create -f raw ${lsa_file} ${size}
 		cleanup_files+=( ${lsa_file} )
 
@@ -2180,6 +2192,12 @@ cxl_topolopy() {
 config_cxl() {
 	local i j k
 
+	__pxb_cxl_bus_nr_file="${vm_tmpdir}/pxb-cxl-bus-nr.txt"
+	__cxl_slot_file="${vm_tmpdir}/cxl-slot.txt"
+
+	cleanup_files+=( ${__pxb_cxl_bus_nr_file} )
+	cleanup_files+=( ${__cxl_slot_file} )
+
 	if [[ -z "${cxl_device}${cxl_pxb_ids}" ]]; then
 		return 0
 	fi
@@ -2309,6 +2327,7 @@ config_virtiofs() {
 	done
 }
 
+config_system
 config_basic
 config_memory
 config_cpu
