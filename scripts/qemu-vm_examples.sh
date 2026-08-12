@@ -17,6 +17,15 @@ run() {
 	qemu --dry-run --name ${name} --kernel vmlinux "${@}"
 }
 
+cleanup() {
+	local err=$?
+	if [[ ${err} != 0 ]]; then
+		error "Test qemu-vm failed"
+	fi
+	exit 0
+}
+trap cleanup EXIT
+
 rm -f ${LOG}
 
 qemu --help
