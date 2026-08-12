@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.0.15"
+readonly VERSION="v1.0.16"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -895,6 +895,8 @@ list_vm() {
 
 		if [[ -d /proc/${pid} ]]; then
 			state="running"
+		elif [[ ! -d /proc/${pid} ]]; then
+			state="die"
 		fi
 
 		printf "%-4d %-16s %-8s\n" ${id} ${name} ${state}
@@ -903,8 +905,9 @@ list_vm() {
 	done
 }
 
+# $1: virtual machine name
 kill_vm() {
-	local name=$1
+	local name=${1}
 	local pidfile=${tmpdir}/qemu-vm-${name}.pid
 
 	if [[ ! -f ${pidfile} ]]; then
@@ -929,9 +932,17 @@ list)
 	;;
 destroy)
 	shift
+	if [[ -z ${1} ]]; then
+		error "'destroy' need pass virtual name, check with 'list'"
+	fi
 	kill_vm ${1}
 	shift
 	exit 0
+	;;
+-*)
+	;;
+*)
+	error "Unknown subcommand '${1}'"
 	;;
 esac
 
