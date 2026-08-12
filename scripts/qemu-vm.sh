@@ -879,7 +879,7 @@ handle_cxl_arg() {
 # VM Management
 list_vm() {
 	local i pidfile
-	local pidfiles=( $(ls ${tmpdir}/qemu-vm-*.pid 2>/dev/null) )
+	local pidfiles=( $(ls ${tmpdir}/${PROG}-*.pid 2>/dev/null) )
 	local id=0
 
 	printf "%-4s %-16s %-8s\n" Id Name State
@@ -887,7 +887,7 @@ list_vm() {
 
 	for pidfile in ${pidfiles[@]}
 	do
-		local name="${pidfile#${tmpdir}/qemu-vm-}"
+		local name="${pidfile#${tmpdir}/${PROG}-}"
 		name="${name%.pid}"
 
 		local pid=$(sudo cat ${pidfile})
@@ -908,7 +908,7 @@ list_vm() {
 # $1: virtual machine name
 kill_vm() {
 	local name=${1}
-	local pidfile=${tmpdir}/qemu-vm-${name}.pid
+	local pidfile=${tmpdir}/${PROG}-${name}.pid
 
 	if [[ ! -f ${pidfile} ]]; then
 		error "Not found vm '${name}'"
@@ -917,7 +917,7 @@ kill_vm() {
 	local pid=$(sudo cat ${pidfile})
 
 	sudo kill ${pid}
-	sudo rm -f ${tmpdir}/qemu-vm-${name}*
+	sudo rm -f ${tmpdir}/${PROG}-${name}*
 }
 
 ################################################################################
@@ -1209,8 +1209,8 @@ cleanup() {
 trap cleanup EXIT
 
 config_basic() {
-	local pidfile=${tmpdir}/qemu-vm-${q_vm_name}.pid
-	local qmpfile=${tmpdir}/qemu-vm-qmp-${q_vm_name}.sock
+	local pidfile=${tmpdir}/${PROG}-${q_vm_name}.pid
+	local qmpfile=${tmpdir}/${PROG}-qmp-${q_vm_name}.sock
 
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid $(gen_uuid) )
@@ -1358,7 +1358,7 @@ auto_uefi_pflash() {
 
 		# Copy a new VAR from system OS.
 		var=${i}
-		local newvar=${tmpdir}/qemu-vm-${q_vm_name}_$(basename ${var})
+		local newvar=${tmpdir}/${PROG}-${q_vm_name}_$(basename ${var})
 		_eval cp ${var} ${newvar}
 		cleanup_files+=( ${newvar} )
 		var=${newvar}
@@ -1608,7 +1608,7 @@ next_pxb_cxl_id() {
 }
 
 # bus_nr=11,21,31,41,...
-readonly __pxb_cxl_bus_nr_file=$(mktemp -u ${tmpdir}/qemu-vm-${q_vm_name}-pxb-cxl-bus-nr-XXX)
+readonly __pxb_cxl_bus_nr_file=$(mktemp -u ${tmpdir}/${PROG}-${q_vm_name}-pxb-cxl-bus-nr-XXX)
 cleanup_files+=( ${__pxb_cxl_bus_nr_file} )
 next_cxl_pxb_bus_nr() {
 	local num=11
@@ -1623,7 +1623,7 @@ next_cxl_rp_id() {
 	echo $(mktemp -u cxl.rp.XXXX)
 }
 
-readonly __cxl_slot_file=$(mktemp -u ${tmpdir}/qemu-vm-${q_vm_name}-cxl-slot-XXX)
+readonly __cxl_slot_file=$(mktemp -u ${tmpdir}/${PROG}-${q_vm_name}-cxl-slot-XXX)
 cleanup_files+=( ${__cxl_slot_file} )
 next_cxl_slot() {
 	local num=1
@@ -1907,7 +1907,7 @@ add_cxl_type3_dev() {
 
 		arg+=( persistent-memdev=${pmem} )
 
-		local pmem_file=${tmpdir}/qemu-vm-${q_vm_name}-${pmem}.raw
+		local pmem_file=${tmpdir}/${PROG}-${q_vm_name}-${pmem}.raw
 		_eval qemu-img create -f raw ${pmem_file} ${size}
 		cleanup_files+=( ${pmem_file} )
 
@@ -1942,7 +1942,7 @@ add_cxl_type3_dev() {
 	if [[ ${lsa} ]] && [[ ${lsa} != SKIP ]]; then
 		arg+=( lsa=${lsa} )
 
-		local lsa_file=${tmpdir}/qemu-vm-${q_vm_name}-${lsa}.raw
+		local lsa_file=${tmpdir}/${PROG}-${q_vm_name}-${lsa}.raw
 		_eval qemu-img create -f raw ${lsa_file} ${size}
 		cleanup_files+=( ${lsa_file} )
 
