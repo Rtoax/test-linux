@@ -25,7 +25,7 @@ nbd_find_idle_dev() {
 	do
 		local size=$(cat /sys/block/${dev}/size)
 		if [[ ${size} == 0 ]]; then
-			echo ${dev}
+			echo "/dev/${dev}"
 			return 0
 		fi
 	done
