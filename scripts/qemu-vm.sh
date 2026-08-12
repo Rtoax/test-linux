@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.0"
+readonly VERSION="v1.1.1"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -988,237 +988,6 @@ kill_vm() {
 	sudo rm -rf ${tmpdir}/${name}
 }
 
-################################################################################
-# Main
-
-# Handle subcommand first
-case ${1} in
-list)
-	shift
-	list_vm "${@}"
-	exit 0
-	;;
-destroy)
-	shift
-	if [[ -z ${1} ]]; then
-		error "'destroy' need pass virtual name, check with 'list'"
-	fi
-	kill_vm ${1}
-	shift
-	exit 0
-	;;
--*)
-	;;
-*)
-	error "Unknown subcommand '${1}'"
-	;;
-esac
-
-set_qemu_kvm $(get_qemu_kvm_emulator)
-
-TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDvV \
-	--long name: \
-	--long cpu: \
-	--long memory: \
-	--long uefi: \
-	--long kernel: \
-	--long kcmd: \
-	--long initrd: \
-	--long rdinit: \
-	--long rootfs: \
-	--long init: \
-	--long root: \
-	--long disk: \
-	--long nvdimm: \
-	--long stdio \
-	--long daemon \
-	--long monitor \
-	--long cxl: \
-	--long virtio-fs-sock: \
-	--long virtio-fs-tag: \
-	--long dry-run \
-	--long qemu: \
-	--long qarg: \
-	--long gdb \
-	--long debug \
-	--long verbose \
-	--long version \
-	--long help \
-	--name ${PROG} -- "$@")
-
-test $? != 0 && __usage__ 1
-
-eval set -- "$TEMP_ARGS"
-
-while true; do
-	case $1 in
-	-n | --name)
-		shift
-		q_vm_name=$1
-		shift
-		;;
-	--cpu)
-		shift
-		handle_cpu_arg ${1}
-		shift
-		;;
-	-m | --memory)
-		shift
-		q_memory=$(sizeceilfmt $1)
-		if [[ -z ${q_memory} ]]; then
-			error "Bad memory size parameter $1(${q_memory})"
-		fi
-		if [[ $(sizechkalign ${q_memory} 256MiB) != y ]]; then
-			error "Memory size must align 256MiB"
-		fi
-		shift
-		;;
-	--uefi)
-		shift
-		handle_uefi_arg ${1}
-		shift
-		;;
-	-k | --kernel)
-		shift
-		f_kernel=$1
-		shift
-		;;
-	--kcmd)
-		shift
-		kcmds+=( $1 )
-		shift
-		;;
-	-i | --initrd)
-		shift
-		f_initrd=$1
-		shift
-		;;
-	-r | --rootfs)
-		shift
-		handle_rootfs_arg ${1}
-		shift
-		;;
-	--rdinit)
-		shift
-		k_rdinit=$1
-		shift
-		;;
-	--init)
-		shift
-		k_init=$1
-		shift
-		;;
-	--root)
-		shift
-		k_root=$1
-		shift
-		;;
-	-d | --disk)
-		shift
-		handle_disk_arg ${1}
-		shift
-		;;
-	--nvdimm)
-		shift
-		f_nvdimms+=( $1 )
-		shift
-		;;
-	--cxl)
-		shift
-		handle_cxl_arg ${1}
-		shift
-		;;
-	--virtio-fs-sock)
-		shift
-		f_virtiofs_sock+=( $1 )
-		shift
-		;;
-	--virtio-fs-tag)
-		shift
-		q_virtiofs_tag+=( $1 )
-		shift
-		;;
-	--stdio)
-		shift
-		q_stdio=ON
-		;;
-	--daemon)
-		shift
-		q_daemon=ON
-		;;
-	--monitor)
-		shift
-		q_monitor=ON
-		;;
-	-Q | --qemu)
-		shift
-		set_qemu_kvm $1
-		shift
-		;;
-	--qarg)
-		shift
-		qargs+=( "${1}" )
-		shift
-		;;
-	--gdb)
-		shift
-		q_gdb=ON
-		;;
-	-h | --help)
-		shift
-		__usage__
-		;;
-	-u | --dry-run)
-		shift
-		dry_run=ON
-		;;
-	-v | --verbose)
-		shift
-		verbose=ON
-		;;
-	-V | --version)
-		shift
-		echo "${0} ${VERSION}"
-		exit 0
-		;;
-	-D | --debug)
-		shift
-		debug=ON
-		;;
-	--)
-		shift
-		break
-		;;
-	esac
-done
-
-if [[ ${f_kernel} ]]; then
-	check_files_exist_and_exit ${f_kernel}
-	[[ -e ${f_kernel} ]] && f_kernel=$(realpath ${f_kernel})
-fi
-
-if [[ ${f_initrd} ]]; then
-	check_files_exist_and_exit ${f_initrd}
-	[[ -e ${f_initrd} ]] && f_initrd=$(realpath ${f_initrd})
-fi
-
-if [[ ${f_rootfs} ]]; then
-	check_files_exist_and_exit ${f_rootfs}
-	check_qemu_format_and_exit ${f_rootfs}
-	[[ -e ${f_rootfs} ]] && f_rootfs=$(realpath ${f_rootfs})
-fi
-
-check_files_exist_and_exit ${f_virtiofs_sock[@]}
-
-if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]] && [[ -z ${f_disks} ]]; then
-	error "must specify kernel and initrd, or specify one disk at least"
-fi
-
-if [[ ${verbose} ]]; then
-	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
-	set -x
-fi
-
 _eval()
 {
 	if [[ ${dry_run} ]]; then
@@ -1231,7 +1000,7 @@ _eval()
 	echo >&2 -e "${BOLD}${YELLOW}Done: $@${RST}"
 
 	if [[ ! -z ${vm_cmd_sh} ]] && [[ -f ${vm_cmd_sh} ]]; then
-		echo "${@}" | tee --append ${vm_cmd_sh}
+		echo "${@}" | sudo tee --append ${vm_cmd_sh}
 	fi
 }
 
@@ -1284,7 +1053,6 @@ cleanup() {
 		_eval sudo rm -rf ${vm_tmpdir}
 	fi
 }
-trap cleanup EXIT
 
 config_vm_tmpdir() {
 	Q_HOSTFWD_SSH22_PORT=$(get_free_tcp_port)
@@ -2404,6 +2172,239 @@ config_virtiofs() {
 			-device vhost-user-fs-pci,chardev=char${i},bus=${BUS_PCIE0},tag=${q_virtiofs_tag[i]} )
 	done
 }
+
+################################################################################
+# Main
+
+# Handle subcommand first
+case ${1} in
+list)
+	shift
+	list_vm "${@}"
+	exit 0
+	;;
+destroy)
+	shift
+	if [[ -z ${1} ]]; then
+		error "'destroy' need pass virtual name, check with 'list'"
+	fi
+	kill_vm ${1}
+	shift
+	exit 0
+	;;
+-*)
+	;;
+*)
+	error "Unknown subcommand '${1}'"
+	;;
+esac
+
+set_qemu_kvm $(get_qemu_kvm_emulator)
+
+TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDvV \
+	--long name: \
+	--long cpu: \
+	--long memory: \
+	--long uefi: \
+	--long kernel: \
+	--long kcmd: \
+	--long initrd: \
+	--long rdinit: \
+	--long rootfs: \
+	--long init: \
+	--long root: \
+	--long disk: \
+	--long nvdimm: \
+	--long stdio \
+	--long daemon \
+	--long monitor \
+	--long cxl: \
+	--long virtio-fs-sock: \
+	--long virtio-fs-tag: \
+	--long dry-run \
+	--long qemu: \
+	--long qarg: \
+	--long gdb \
+	--long debug \
+	--long verbose \
+	--long version \
+	--long help \
+	--name ${PROG} -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$TEMP_ARGS"
+
+while true; do
+	case $1 in
+	-n | --name)
+		shift
+		q_vm_name=$1
+		shift
+		;;
+	--cpu)
+		shift
+		handle_cpu_arg ${1}
+		shift
+		;;
+	-m | --memory)
+		shift
+		q_memory=$(sizeceilfmt $1)
+		if [[ -z ${q_memory} ]]; then
+			error "Bad memory size parameter $1(${q_memory})"
+		fi
+		if [[ $(sizechkalign ${q_memory} 256MiB) != y ]]; then
+			error "Memory size must align 256MiB"
+		fi
+		shift
+		;;
+	--uefi)
+		shift
+		handle_uefi_arg ${1}
+		shift
+		;;
+	-k | --kernel)
+		shift
+		f_kernel=$1
+		shift
+		;;
+	--kcmd)
+		shift
+		kcmds+=( $1 )
+		shift
+		;;
+	-i | --initrd)
+		shift
+		f_initrd=$1
+		shift
+		;;
+	-r | --rootfs)
+		shift
+		handle_rootfs_arg ${1}
+		shift
+		;;
+	--rdinit)
+		shift
+		k_rdinit=$1
+		shift
+		;;
+	--init)
+		shift
+		k_init=$1
+		shift
+		;;
+	--root)
+		shift
+		k_root=$1
+		shift
+		;;
+	-d | --disk)
+		shift
+		handle_disk_arg ${1}
+		shift
+		;;
+	--nvdimm)
+		shift
+		f_nvdimms+=( $1 )
+		shift
+		;;
+	--cxl)
+		shift
+		handle_cxl_arg ${1}
+		shift
+		;;
+	--virtio-fs-sock)
+		shift
+		f_virtiofs_sock+=( $1 )
+		shift
+		;;
+	--virtio-fs-tag)
+		shift
+		q_virtiofs_tag+=( $1 )
+		shift
+		;;
+	--stdio)
+		shift
+		q_stdio=ON
+		;;
+	--daemon)
+		shift
+		q_daemon=ON
+		;;
+	--monitor)
+		shift
+		q_monitor=ON
+		;;
+	-Q | --qemu)
+		shift
+		set_qemu_kvm $1
+		shift
+		;;
+	--qarg)
+		shift
+		qargs+=( "${1}" )
+		shift
+		;;
+	--gdb)
+		shift
+		q_gdb=ON
+		;;
+	-h | --help)
+		shift
+		__usage__
+		;;
+	-u | --dry-run)
+		shift
+		dry_run=ON
+		;;
+	-v | --verbose)
+		shift
+		verbose=ON
+		;;
+	-V | --version)
+		shift
+		echo "${0} ${VERSION}"
+		exit 0
+		;;
+	-D | --debug)
+		shift
+		debug=ON
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+if [[ ${f_kernel} ]]; then
+	check_files_exist_and_exit ${f_kernel}
+	[[ -e ${f_kernel} ]] && f_kernel=$(realpath ${f_kernel})
+fi
+
+if [[ ${f_initrd} ]]; then
+	check_files_exist_and_exit ${f_initrd}
+	[[ -e ${f_initrd} ]] && f_initrd=$(realpath ${f_initrd})
+fi
+
+if [[ ${f_rootfs} ]]; then
+	check_files_exist_and_exit ${f_rootfs}
+	check_qemu_format_and_exit ${f_rootfs}
+	[[ -e ${f_rootfs} ]] && f_rootfs=$(realpath ${f_rootfs})
+fi
+
+check_files_exist_and_exit ${f_virtiofs_sock[@]}
+
+if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]] && [[ -z ${f_disks} ]]; then
+	error "must specify kernel and initrd, or specify one disk at least"
+fi
+
+if [[ ${verbose} ]]; then
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
+fi
+
+trap cleanup EXIT
 
 config_prepare_vm_tmpdir ${q_vm_name}
 config_vm_tmpdir
