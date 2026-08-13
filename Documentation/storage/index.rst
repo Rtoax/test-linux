@@ -15,8 +15,11 @@ Technology
 .. toctree::
    :maxdepth: 1
 
+   block
+   bio
    ceph
    dax
+   device-mapper
    eMMC
    flash
    iscsi

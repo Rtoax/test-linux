@@ -83,6 +83,7 @@ Hardware Architecture
 
    CPU Architecture <arch/index>
    cxl/index
+   driver/index
    GPU Architecture <gpu/index>
    hpc/index
    Interrupt <interrupt/index>

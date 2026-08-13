@@ -10,7 +10,7 @@ foundation of the `logical volume manager (LVM)`, `software RAIDs` and
 snapshots.
 
 
-# Links
+Links
+-----
 
 - https://en.wikipedia.org/wiki/Device_mapper
-

@@ -1,4 +1,5 @@
-subdir-y := configration-space
+subdir-y += configration-space
+subdir-y += modules
 subdir-y += pciutils
 
 prog-y += libpcie_examples.sh

@@ -11,6 +11,8 @@ EDAC - Error Detection And Correction
 
 EDAC，即Error Detection And Correction（错误检测与纠正）。
 
+:doc:`../driver/edac`
+
 
 CE/UE
 -----

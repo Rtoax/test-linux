@@ -1,3 +1,6 @@
+Abbrev
+======
+
 - DRI: Direct Rendering Infrastructure (直接渲染基础设施) @GPU @DRM
 - DRM: Direct Rendering Manager (直接渲染管理器) @GPU @DRI
 - MMIO: Memory Mapping I/O (内存映射I/O) @PIO

@@ -1,3 +1,6 @@
+Abbrev DMA
+==========
+
 - DMA: Direct Memory Access (直接内存访问)
 - pswiotlb: Phytium software IO TLB (飞腾 swiotlb)
 - swiotlb: Software IO TLB (软件IO TLB) @pswiotlb

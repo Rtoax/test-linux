@@ -5,10 +5,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int main()
+int main(void)
 {
-	int testdev;
-	int i, ret;
+	int testdev, ret;
 	char buf[15];
 
 	testdev = open("/dev/chardev1", O_RDWR);
@@ -17,7 +16,7 @@ int main()
 		exit(1);
 	}
 
-	if (ret = read(testdev, buf, 15) < 15) {
+	if ((ret = read(testdev, buf, 15)) < 15) {
 		printf("read error!\n");
 		exit(1);
 	}
