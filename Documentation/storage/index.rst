@@ -6,6 +6,7 @@ Storage
    :maxdepth: 1
 
    abbrev
+   abbrev-device-tree
    abbrev-nvme
 
 
@@ -20,11 +21,13 @@ Technology
    ceph
    dax
    device-mapper
+   device-tree
    eMMC
    flash
    iscsi
    io-sched/index
    jbod
+   kblockd
    lvm
    multipath
    nbd

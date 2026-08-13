@@ -1,3 +1,6 @@
+Abbrev Device Tree
+==================
+
 - DTB: Device Tree Blob (设备树块)
 - DTC: Device Tree Compiler (设备树编译器)
 - DTS: Device Tree Source (设备树源)
