@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- scripts: add libos.sh;
+- scripts: add libos.sh, librun.sh;
 #### Changed
 #### Deprecated
 #### Documentation
