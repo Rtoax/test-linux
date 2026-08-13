@@ -1,6 +1,7 @@
 cpuset
 ======
 
-# Links
+Links
+-----
 
 - https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/cpusets.html

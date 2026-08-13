@@ -102,6 +102,7 @@ Linux Kernel
    InterProcess Communication (IPC) <ipc/index>
    Memory Management (MM) <mm/index>
    Namespace <namespace/index>
+   cgroup/index
    Network <network/index>
    Scheduler <sched/index>
    Storage <storage/index>
