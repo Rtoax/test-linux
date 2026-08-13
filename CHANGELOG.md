@@ -40,7 +40,7 @@ and this project adheres to
 #### Deprecated
 #### Documentation
 - add trace-cmd.rst;
-- move device/module/go/compiler/interrupt/cpu/bpf/cpp/kvm/ksmbd/ai/algorithm/arch/driver/hpc/insn/namespace/time/sync/storage/mm/security/qemu/sched/rtos/mm/network/database/glibc/audit/licenses markdowns into Doc;
+- move gnome/device/module/go/compiler/interrupt/cpu/bpf/cpp/kvm/ksmbd/ai/algorithm/arch/driver/hpc/insn/namespace/time/sync/storage/mm/security/qemu/sched/rtos/mm/network/database/glibc/audit/licenses markdowns into Doc;
 - add cve,security,elf subdir;
 - add oom.rst;
 - socket: add broadcast,`SO_LINGER`,multicast,oob,raw,udp,vsodk rst;
