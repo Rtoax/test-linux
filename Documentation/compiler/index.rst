@@ -30,6 +30,7 @@ Compiler
 .. toctree::
    :maxdepth: 1
 
+   asm
    nasm
 
 
