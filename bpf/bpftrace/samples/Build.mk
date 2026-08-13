@@ -8,6 +8,7 @@ subdir-y += let
 subdir-y += macro
 subdir-y += map
 subdir-$(call bpftrace_gt,0,20,2) += return
+subdir-y += stdlib
 subdir-y += string
 subdir-y += struct
 subdir-y += system
