@@ -806,6 +806,9 @@ pkgs_desktop+=( weston )
 pkgs_desktop+=( wireshark )
 pkgs_desktop+=( xrdp )
 enable_srvs+=( xrdp.service )
+if [[ $(is_os fedora) ]]; then
+	pkgs_desktop+=( dolphin ) # File Browser
+fi
 
 if [[ $(is_rhel_like) ]] && [[ ${have_3rd_party} ]]; then
 	if [[ ! -e /etc/yum.repos.d/scootersoftware.repo ]]; then
