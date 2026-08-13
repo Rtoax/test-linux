@@ -11,40 +11,42 @@ Access-capable I/O Bus）和主存（main memory）。传统的内存管理单�
 成物理地址。为了防止设备错误地访问内存，有些IOMMU还提供了访问内存保护机制。
 参考下图：
 
-```
-     +----------------------------------+
-     |                                  |
-     |         Main Memory              |
-     |                                  |
-     +-----^---------------------^------+
-           |  Physical Address   |
-           |                     |
-           |                     |
-     +-----+------+       +------+------+
-+----+   IOMMU    +---+---+     MMU     +----+
-     +------^-----+   |   +------^------+
-            |         |          |
-            |         |          |
-     +------+-----+   |   +------+------+
-     |   Device   |   |   |     CPU     |
-     +------------+   |   +-------------+
-     Device Address   |    Virtual Address
-                      |
-                      +
-```
+.. code-block:: text
+
+       +----------------------------------+
+       |                                  |
+       |         Main Memory              |
+       |                                  |
+       +-----^---------------------^------+
+             |  Physical Address   |
+             |                     |
+             |                     |
+       +-----+------+       +------+------+
+  +----+   IOMMU    +---+---+     MMU     +----+
+       +------^-----+   |   +------^------+
+              |         |          |
+              |         |          |
+       +------+-----+   |   +------+------+
+       |   Device   |   |   |     CPU     |
+       +------------+   |   +-------------+
+       Device Address   |    Virtual Address
+                        |
+                        +
 
 
-# Kernel cmdline
+Kernel cmdline
+--------------
 
 - x86:
-  - passthrough: `iommu=pt/iommu.passthrough=1`
-  - intel: `intel_iommu=on`
-  - amd: `amd_iommu=on`
+        - passthrough: `iommu=pt/iommu.passthrough=1`
+        - intel: `intel_iommu=on`
+        - amd: `amd_iommu=on`
 - arm:
-  - passthrough: `iommu.passthrough=1`
+        - passthrough: `iommu.passthrough=1`
 
 
-# 虚拟化
+虚拟化
+------
 
 - GPA to HPA
 
@@ -55,7 +57,7 @@ IOMMU的一个重要用途是在虚拟化技术（virtualization）：虚拟机�
 转换表（translation table），re-mapping硬件访问的地址，就可以解决这个问题。
 
 
-# Links
+Links
+-----
 
 - https://en.wikipedia.org/wiki/Input%E2%80%93output_memory_management_unit
-
