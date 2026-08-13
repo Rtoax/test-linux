@@ -2,4 +2,6 @@
 subdir-y += images
 
 prep-y += htmldocs
+
+prog-y += abbrev.sh
 prog-y += history.sh
