@@ -7,18 +7,25 @@ The GNU Project
    :align: center
    :scale: 50%
 
-
-The `GNU <https://www.gnu.org>`_ project announced by **Richard Stallman** in
-1982. GNU is a free operating system, and its software is entirely released
-under the GPL.
-
-
 .. toctree::
    :maxdepth: 1
 
    abbrev
    history
+
+
+The `GNU <https://www.gnu.org>`_ project announced by **Richard Stallman** in
+1982. GNU is a free operating system, and its software is entirely released
+under the GPL.
+
+Project
+-------
+
+.. toctree::
+   :maxdepth: 1
+
    bash
+   bison
    binutils
    coreutils
    findutils

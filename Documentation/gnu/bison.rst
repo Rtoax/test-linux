@@ -6,7 +6,8 @@ Bison is a general purpose parser generator that converts a grammar description 
 If your system will be used for C development, you should install Bison.
 
 
-# Links
+Links
+-----
 
 - https://www.gnu.org/software/bison/
 - https://git.savannah.gnu.org/git/bison.git

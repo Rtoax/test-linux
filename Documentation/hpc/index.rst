@@ -13,4 +13,6 @@ HPC (High Performance Computing)
 
    mpi
    mpich
+   openacc
+   openmp
    openmpi

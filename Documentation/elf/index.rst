@@ -13,6 +13,7 @@ ELF (Executable and Linkable Format)
    plt
    library
    pie
+   relocation
 
 
 Links

@@ -11,9 +11,11 @@ Compiler
 .. toctree::
    :maxdepth: 1
 
+   ast
    wpa
    whopr
    lto
+   lexical-analyser
    gimple
    ipa
 
@@ -32,6 +34,42 @@ Compiler
 
    asm
    nasm
+
+
+Plugins
+-------
+
+.. toctree::
+   :maxdepth: 1
+
+   annobin
+   plugins
+
+
+Compiler
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   llvm
+
+
+Misc
+----
+
+.. toctree::
+   :maxdepth: 1
+
+   dwarf
+   gcov
+   jit
+   libasan
+   libgccjit
+   linker
+   ../hpc/openmp
+   runtime
+   specs
 
 
 Links
