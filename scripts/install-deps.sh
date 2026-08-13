@@ -10,10 +10,10 @@
 #
 set -e
 
-. /etc/os-release
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 . ${WHERE_AM_I}/liblog.sh
+. ${WHERE_AM_I}/libos.sh
 
 readonly prog=inst-deps
 readonly ROOT_DIRECTORY=$(dirname $(realpath $0))
@@ -31,18 +31,9 @@ declare -a enable_srvs
 
 declare verbose dry_run force
 
-readonly OS=${ID}
-readonly OS_VERSION=${VERSION_ID}
-readonly OSV="${OS}:${OS_VERSION}"
 readonly VIRT_TYPE=$(systemd-detect-virt 2>/dev/null || :)
 readonly IS_PHY=$( [[ ${VIRT_TYPE} == none ]] && echo YES || :)
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
-
-readonly DISTS_RHEL_LIKE=( fedora centos rhel almalinux openEuler cclinux
-			opencloudos kylin tencentos )
-readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
-readonly DISTS_SUSE_LIKE=( suse opensuse opensuse-leap )
-readonly DISTS_ALPINE_LIKE=( alpine )
 
 declare have_base have_upgrade have_ai have_cuda have_rocm have_gpu have_fs \
 	have_pip have_compiler have_build have_docs have_devel have_container \
@@ -257,28 +248,6 @@ os_operator()
 	else
 		error "Unknown OS ${OS}"
 	fi
-}
-
-is_os()
-{
-	local oss=( $@ )
-	if [[ " ${oss[@]} " =~ " ${OS} " ]] || \
-	   [[ " ${oss[@]} " =~ " ${OSV} " ]]; then
-		echo YES
-	fi
-	return 0
-}
-
-is_rhel_like()
-{
-	is_os ${DISTS_RHEL_LIKE[@]}
-	return 0
-}
-
-is_debian_like()
-{
-	is_os ${DISTS_DEBIAN_LIKE[@]}
-	return 0
 }
 
 is_arch()
