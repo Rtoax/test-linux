@@ -1,6 +1,7 @@
 DKMS - Dynamic Kernel Module Support
 ====================================
 
-# Links
+Links
+-----
 
 - https://github.com/dkms-project/dkms

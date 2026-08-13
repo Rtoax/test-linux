@@ -1,1 +1,0 @@
-- DKMS: Dynamic Kernel Module Support (动态内核模块支持)

@@ -17,6 +17,7 @@ User Space
    cmake
    code-formatter
    conda
+   dkms
    git
    libcap-ng
    libguestfs
