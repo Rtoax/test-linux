@@ -1,6 +1,0 @@
-hardirq
-==============
-
-```
-cat /proc/interrupts
-```
