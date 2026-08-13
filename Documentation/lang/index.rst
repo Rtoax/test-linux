@@ -7,5 +7,6 @@ Computer Language
 .. toctree::
    :maxdepth: 1
 
+   cpp/index
    python/index
    rust/index
