@@ -28,5 +28,3 @@ You can get information about implementation of each operation from source code.
 	3) return_book	= RCU Updater and Reclaimer
 	4) is_borrowed_book	= RCU Reader
 	5) delete_book	= RCU Updater and Reclaimer
-
-

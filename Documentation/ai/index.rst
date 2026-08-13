@@ -5,6 +5,7 @@ AI (Artificial Intelligence)
 .. toctree::
    :maxdepth: 1
 
+   abbrev
    aiops
 
 

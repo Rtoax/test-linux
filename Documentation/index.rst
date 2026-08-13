@@ -101,6 +101,7 @@ Linux Kernel
    File System (FS) <fs/index>
    InterProcess Communication (IPC) <ipc/index>
    Memory Management (MM) <mm/index>
+   Namespace <namespace/index>
    Network <network/index>
    Scheduler <sched/index>
    Storage <storage/index>
@@ -119,7 +120,6 @@ Tools
    Benchmark <benchmark/index>
    Boot <boot/index>
    Container <container/index>
-   Namespace <namespace/index>
    Systemd <systemd/index>
    Tools <tools/index>
    vDSO <vdso/index>
@@ -164,6 +164,7 @@ Misc
    :maxdepth: 1
 
    abbrev
+   algorithm/index
    history
 
 
