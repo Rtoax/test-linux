@@ -14,6 +14,8 @@ readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
 readonly DISTS_SUSE_LIKE=( suse opensuse opensuse-leap )
 readonly DISTS_ALPINE_LIKE=( alpine )
 
+# $@: operating system names, like: fedora rhel
+# echo "YES" if matched
 is_os()
 {
 	local oss=( $@ )
