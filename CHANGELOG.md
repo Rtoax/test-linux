@@ -10,6 +10,21 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Documentation
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Tools
+#### Template
+
+
+## [v2.4.11] Phenomenal 2026-08-13
+
+#### Breaking Changes
 - bpf: test gcc toolchain;
 #### Added
 - libfile.sh: add `fprintf()`;
