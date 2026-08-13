@@ -39,6 +39,7 @@ and this project adheres to
 - bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
 #### Deprecated
 #### Documentation
+- release 0.1.0;
 - add trace-cmd.rst;
 - move cgroup/gnome/device/module/go/compiler/interrupt/cpu/bpf/cpp/kvm/ksmbd/ai/algorithm/arch/driver/hpc/insn/namespace/time/sync/storage/mm/security/qemu/sched/rtos/mm/network/database/glibc/audit/licenses markdowns into Doc;
 - add cve,security,elf subdir;
