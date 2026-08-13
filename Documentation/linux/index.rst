@@ -32,6 +32,8 @@ Linux Tools
    binfmt
    capability
    cmdline
+   cpuset
+   cpuidle
    criu
    debug
    fentry
@@ -41,6 +43,7 @@ Linux Tools
    kmod
    kprobe
    livepatch
+   mce
    oom
    osnoise
    perf

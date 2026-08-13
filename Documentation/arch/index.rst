@@ -9,6 +9,9 @@ Test Linux CPU Architectures
    :maxdepth: 1
 
    abbrev
+   cpu
+   smp
+   mp
 
 
 Architectures
