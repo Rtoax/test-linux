@@ -8,5 +8,6 @@ Computer Language
    :maxdepth: 1
 
    cpp/index
+   golang/index
    python/index
    rust/index
