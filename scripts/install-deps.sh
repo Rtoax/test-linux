@@ -12,6 +12,7 @@ set -e
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
+. ${WHERE_AM_I}/libcpu.sh
 . ${WHERE_AM_I}/liblog.sh
 . ${WHERE_AM_I}/libos.sh
 
@@ -248,15 +249,6 @@ os_operator()
 	else
 		error "Unknown OS ${OS}"
 	fi
-}
-
-is_arch()
-{
-	local arches=( $@ )
-	if [[ " ${arches[@]} " =~ " $(uname -m) " ]]; then
-		echo YES
-	fi
-	return 0
 }
 
 os_upgrade()
