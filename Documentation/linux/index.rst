@@ -49,6 +49,7 @@ Linux Tools
    static_key
    tracepoint
    uprobe
+   usdt
 
 
 Linux Sanitizers (杀菌剂)

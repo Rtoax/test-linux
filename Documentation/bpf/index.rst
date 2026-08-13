@@ -7,6 +7,12 @@ eBPF: Extended Berkeley Packet Filter
    :align: center
    :scale: 50%
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+   abbrev-sched_ext
+
 
 eBPF Theory
 -----------
@@ -23,6 +29,7 @@ eBPF Theory
    kfunc
    jit
    xdp
+   sched_ext
 
 
 eBPF Software
@@ -36,3 +43,13 @@ eBPF Software
    bcc
    cilium
    libbpf
+   pyroscope
+
+
+eBPF Program
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   socket_filter
