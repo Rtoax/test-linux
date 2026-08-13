@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.4"
+readonly VERSION="v1.1.5"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -1066,6 +1066,11 @@ cleanup() {
 	if [[ ${err} != 0 ]] && [[ -d ${vm_tmpdir} ]]; then
 		_eval sudo rm -rf ${vm_tmpdir}
 	fi
+
+	if [[ ${err} != 0 ]]; then
+		error "${PROG} running failed"
+	fi
+	exit ${err}
 }
 
 config_vm_tmpdir() {
