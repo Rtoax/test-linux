@@ -17,6 +17,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 . ${QEMU_VM_ROOT}/libfile.sh
 . ${QEMU_VM_ROOT}/liblog.sh
 . ${QEMU_VM_ROOT}/libnbd.sh
+. ${QEMU_VM_ROOT}/librun.sh
 . ${QEMU_VM_ROOT}/libnet.sh
 . ${QEMU_VM_ROOT}/libuuid.sh
 . ${QEMU_VM_ROOT}/libqemu.sh
@@ -891,7 +892,14 @@ handle_cxl_arg() {
 # $1: vm-name
 config_prepare_vm_tmpdir() {
 	local name=${1}
-	vm_tmpdir=${tmpdir}/${name}
+	# If dry-run, vm tmpdir will not be created, thus, just set it to
+	# ${tmpdir}.
+	if [[ ${dry_run} ]]; then
+		tmpdir=/tmp
+		vm_tmpdir="${tmpdir}"
+	else
+		vm_tmpdir=${tmpdir}/${name}
+	fi
 	vm_cmd_sh=${vm_tmpdir}/cmds.sh
 	vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
 	vm_port_monitor_telnet=${vm_tmpdir}/port-monitor-telnet.txt
@@ -1005,19 +1013,12 @@ kill_vm() {
 		sudo kill ${pid}
 	fi
 
-	sudo rm -rf ${tmpdir}/${name}
+	sudo rm -rf ${vm_tmpdir}
 }
 
 _eval()
 {
-	if [[ ${dry_run} ]]; then
-		echo "${@}"
-		return 0
-	fi
-
-	echo >&2 -e "${BOLD}${GREEN}Startup: $@${RST}"
-	eval "${*}"
-	echo >&2 -e "${BOLD}${YELLOW}Done: $@${RST}"
+	DRY_RUN=${dry_run} dry_run "${@}"
 
 	if [[ ! -z ${vm_cmd_sh} ]] && [[ -f ${vm_cmd_sh} ]]; then
 		echo "${@}" | sudo tee --append ${vm_cmd_sh}
