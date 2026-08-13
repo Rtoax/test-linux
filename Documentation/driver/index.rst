@@ -2,6 +2,8 @@
 Linux Driver
 ============
 
+see linux `include/uapi/linux/major.h`.
+
 .. toctree::
    :maxdepth: 1
 
