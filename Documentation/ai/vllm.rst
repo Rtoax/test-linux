@@ -1,10 +1,11 @@
-vLLM
-====
+vLLM (Large Language Model)
+===========================
 
 vLLM is a fast and easy-to-use library for LLM inference and serving.
 
 
-# Links
+Links
+-----
 
 - https://vllm.ai/releases
 - https://github.com/vllm-project/vllm.git

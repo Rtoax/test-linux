@@ -1,13 +1,15 @@
 OS for AI
 =========
 
-# Why AI projects struggle to scale
+Why AI projects struggle to scale
+---------------------------------
 
 - hardware and model fragmentation
 - inefficient resource use
 
 
-# The Infrastructure Requirements
+The Infrastructure Requirements
+-------------------------------
 
 - Real-time, contextual access to exabytes of unstructured data (images, video, text, telemetry).
 - Millisecond response times for instant reasoning and action.
@@ -16,6 +18,7 @@ OS for AI
 - Robust, end-to-end observability to track, understand, and continually refine their actions.
 
 
-# Links
+Links
+-----
 
 - https://www.redhat.com/en/blog/developing-standard-ai-os

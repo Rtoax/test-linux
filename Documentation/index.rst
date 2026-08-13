@@ -141,7 +141,7 @@ Frontier and Future Technology
 .. toctree::
    :maxdepth: 1
 
-   AI <ai/index>
+   ai/index
    Big Data <bigdata/index>
    Cloud Native <cloud-native/index>
    Database <database/index>
