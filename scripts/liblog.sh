@@ -20,7 +20,8 @@ fi
 
 error() {
 	echo -e >&2 "${RED}ERROR: ${@}${RST}"
-	exit 1
+	# Do not exit driectly
+	return 1
 }
 
 warning() {
