@@ -3,3 +3,4 @@
 /address_cpp
 /thread
 /undefined
+/uninitialized-member

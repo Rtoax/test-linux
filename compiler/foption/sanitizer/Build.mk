@@ -5,6 +5,7 @@ target-y += address
 target-cpp-y += address_cpp
 target-y += thread
 target-y += undefined
+target-y += uninitialized-member
 
 # Depends on libasan
 CFLAGS_address := -fsanitize=address
@@ -25,6 +26,9 @@ LDFLAGS_thread := -ltsan -pthread
 
 CFLAGS_undefined := -fsanitize=undefined
 LDFLAGS_undefined := -lasan
+
+CFLAGS_uninitialized-member := -fsanitize=address -fsanitize=undefined
+LDFLAGS_uninitialized-member := -lasan -lubsan
 
 ifdef LOCK
   CFLAGS := -DLOCK=1
