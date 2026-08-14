@@ -55,6 +55,7 @@ test_pmem_devdax() {
 
 	# reconfigure to system-ram
 	# commit a3b3fa1ef601 ("cxl: pmem.sh: devdax: daxctl reconfigure-device --mode=system-ram --force dax0.0")
+	# commit 8a6ae0e00495 ("cxl: pmem.sh: devdax: reconfigure-device to system-ram then offline")
 	sudo daxctl reconfigure-device --mode=system-ram --force dax0.0
 	# Then, you could use it as system-ram (see vmem.sh)
 
