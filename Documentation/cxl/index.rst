@@ -31,6 +31,7 @@ CXL 厂商和产品
    :maxdepth: 1
 
    amd
+   gigabyte
    h3platform
    intel
    samsung
