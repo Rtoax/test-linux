@@ -2,9 +2,7 @@
 NVIDIA GPU Device
 =================
 
-
 .. list-table::
-   :widths: 15 15 15 15
    :header-rows: 1
 
    * - Device

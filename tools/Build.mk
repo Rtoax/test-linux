@@ -49,6 +49,7 @@ subdir-${HAVE_PODMAN} += podman
 subdir-y += psmisc
 subdir-y += readline
 subdir-y += redis
+subdir-y += skopeo
 subdir-y += static_key
 subdir-y += sysstat
 subdir-${HAVE_TMUX} += tmux

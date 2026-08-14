@@ -712,6 +712,8 @@ pkgs_container+=( multistrap ) # make rootfs
 pkgs_container+=( podman )
 pkgs_container+=( podman-docker )
 pkgs_container+=( runc )
+# Command line utility to inspect images and repositories directly on Docker
+# registries without the need to pull them.
 pkgs_container+=( skopeo )
 pkgs_container+=( systemd-container )
 

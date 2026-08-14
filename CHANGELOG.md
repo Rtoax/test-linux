@@ -20,6 +20,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
+- add skopeo;
 #### Template
 
 
