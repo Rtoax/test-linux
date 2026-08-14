@@ -79,6 +79,7 @@ ARGUMENT
 	-d, --deps              install depends
 	-c, --config            execute the config to generate Makefile
 	    --nocompile         do not compile
+	    --sanitizers        enable sanitizers
 	-i, --install           execute the make install
 	-t, --test              execute the bpftrace_test
 
@@ -105,6 +106,7 @@ TEMP_ARGS=$(getopt --options dcitj:vh \
 	--long deps \
 	--long config \
 	--long nocompile \
+	--long sanitizers \
 	--long install \
 	--long test \
 	--long jobs: \
@@ -132,6 +134,10 @@ while true; do
 	--nocompile)
 		shift
 		enable_compile=
+		;;
+	--sanitizers)
+		shift
+		cmake_args+=( -DBUILD_ASAN=ON -DBUILD_UBSAN=ON )
 		;;
 	-i | --install)
 		shift
