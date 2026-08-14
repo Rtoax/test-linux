@@ -47,6 +47,8 @@ $(call make_append_var_to_file,CC_SUPPORT_TYPE___float128,${cachefile})
 $(call make_append_var_to_file,CC_SUPPORT_TYPE__Float128,${cachefile})
 $(call make_append_var_to_file,CC_SUPPORT_TYPE__float80,${cachefile})
 $(call make_append_var_to_file,CC_SUPPORT_TYPE___uint128_t,${cachefile})
+$(call make_append_var_to_file,CC_lquadmath,${cachefile})
+$(call make_append_var_to_file,CC_H_quadmath_h,${cachefile})
 
 endif # end of cache file exist
 

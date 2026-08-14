@@ -65,6 +65,7 @@ Misc
    gcov
    jit
    libasan
+   libubsan
    libgccjit
    linker
    ../hpc/openmp

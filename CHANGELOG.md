@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- libubsan: Undefined Behavior Sanitizer library which is used for `-fsanitize=undefined`;
 - scripts: add libos.sh, librun.sh;
 #### Changed
 #### Deprecated
@@ -22,6 +23,7 @@ and this project adheres to
 #### Tools
 - add skopeo;
 #### Template
+- add sanitizer.mk;
 
 
 ## [v2.4.11] Phenomenal 2026-08-13
