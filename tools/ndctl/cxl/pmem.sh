@@ -48,7 +48,7 @@ test_pmem_raw_and_fsdax() {
 
 # Use pmem devdax
 test_pmem_devdax() {
-	#
+	# commit d7a71735021b ("cxl: pmem.sh: mode=devdax: daxctl list")
 	sudo daxctl list --regions --devices
 	# Test with mmap(2), libpmem
 }
