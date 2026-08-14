@@ -3,11 +3,12 @@ set -e
 
 # one of 'raw', 'fsdax', 'devdax'
 declare MODE=fsdax
+declare DEVS=( mem0 mem1 mem2 mem3 )
+declare SIZE=$(( 1024 * ${#DEVS[@]} ))M
 
 # commit 31a30fb65f93 ("cxl.sh: pmem: create-region")
-sudo cxl create-region --decoder decoder0.0 --size 1024M --type pmem --memdevs mem0
 # commit ad01a8c86ce9 ("cxl.sh: pmem: create-region 4 ways")
-sudo cxl create-region --decoder decoder0.0 --size 4096M --type pmem --memdevs mem0 mem1 mem2 mem3
+sudo cxl create-region --decoder decoder0.0 --size ${SIZE} --type pmem --memdevs ${DEVS[@]}
 
 sudo ndctl list --regions
 sudo cxl list --regions
@@ -20,7 +21,7 @@ sudo cxl list --regions
 # - devdax: /dev/daxN.M (char device), commit 62cb28cc8244 ("cxl: devdax: create, list and test /dev/dax0.0")
 #   1. mmap(2): commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
 #   2. libpmem
-sudo ndctl create-namespace --region=region0 --mode=${MODE} --size=1024M
+sudo ndctl create-namespace --region=region0 --mode=${MODE} --size=${SIZE}
 
 # note: Create namespace cost times...
 # - fsdax: commit 420bc938ad4d ("cxl: cxl.sh: list namespaces of pmem fsdax")
@@ -52,9 +53,11 @@ test_pmem_devdax() {
 	sudo daxctl list --regions --devices
 	# Test with mmap(2), libpmem
 
-	# reconfigure
+	# reconfigure to system-ram
 	# commit a3b3fa1ef601 ("cxl: pmem.sh: devdax: daxctl reconfigure-device --mode=system-ram --force dax0.0")
 	sudo daxctl reconfigure-device --mode=system-ram --force dax0.0
+	# Then, you could use it as system-ram (see vmem.sh)
+
 	sudo daxctl reconfigure-device --mode=devdax --force dax0.0
 }
 
