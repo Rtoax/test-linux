@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# one of 'raw', 'fsdax', 'devdax'
+declare MODE=fsdax
+
 # commit 31a30fb65f93 ("cxl.sh: pmem: create-region")
 sudo cxl create-region --decoder decoder0.0 --size 1024M --type pmem --memdevs mem0
 # commit ad01a8c86ce9 ("cxl.sh: pmem: create-region 4 ways")
@@ -17,7 +20,8 @@ sudo cxl list --regions
 # - devdax: /dev/daxN.M (char device), commit 62cb28cc8244 ("cxl: devdax: create, list and test /dev/dax0.0")
 #   1. mmap(2): commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
 #   2. libpmem
-sudo ndctl create-namespace --region=region0 --mode=fsdax --size=1024M
+sudo ndctl create-namespace --region=region0 --mode=${MODE} --size=1024M
+
 # note: Create namespace cost times...
 # - fsdax: commit 420bc938ad4d ("cxl: cxl.sh: list namespaces of pmem fsdax")
 # - devdax: commit 76d9850c67bf ("cxl: cxl.sh: list namespaces of pmem devdax")
@@ -44,6 +48,7 @@ test_pmem_raw_and_fsdax() {
 
 # Use pmem devdax
 test_pmem_devdax() {
+	#
 	sudo daxctl list --regions --devices
 	# Test with mmap(2), libpmem
 }
