@@ -98,6 +98,8 @@ modules.order
 
 # perf
 *perf.data*
+*.perf
+*.stack
 
 # Python
 __pycache__

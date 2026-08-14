@@ -18,6 +18,7 @@ User Space
    code-formatter
    conda
    dkms
+   flamegraph
    git
    libcap-ng
    libguestfs

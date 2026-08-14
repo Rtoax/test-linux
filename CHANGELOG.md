@@ -16,6 +16,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- add flamegraph.rst;
 #### Fixed
 #### Linux Kernel
 #### Removed
