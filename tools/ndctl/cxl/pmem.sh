@@ -53,7 +53,9 @@ test_pmem_devdax() {
 	# Test with mmap(2), libpmem
 
 	# reconfigure
+	# commit a3b3fa1ef601 ("cxl: pmem.sh: devdax: daxctl reconfigure-device --mode=system-ram --force dax0.0")
 	sudo daxctl reconfigure-device --mode=system-ram --force dax0.0
+	sudo daxctl reconfigure-device --mode=devdax --force dax0.0
 }
 
 sudo ndctl disable-namespace namespace0.0
