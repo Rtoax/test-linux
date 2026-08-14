@@ -4,6 +4,7 @@ target-y += leak
 target-y += address
 target-cpp-y += address_cpp
 target-y += thread
+target-y += undefined
 
 # Depends on libasan
 CFLAGS_address := -fsanitize=address
@@ -21,6 +22,9 @@ LDFLAGS_leak := -llsan
 
 CFLAGS_thread := -fsanitize=thread
 LDFLAGS_thread := -ltsan -pthread
+
+CFLAGS_undefined := -fsanitize=undefined
+LDFLAGS_undefined := -lasan
 
 ifdef LOCK
   CFLAGS := -DLOCK=1
