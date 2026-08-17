@@ -153,9 +153,11 @@ Kernel
 GitHub
 ~~~~~~
 
-- https://github.com/computexpresslink/
-    - seems legacy: https://github.com/Compute-Express-Link
 - https://github.com/pmem/ndctl
+- https://github.com/computexpresslink/ (This account does not represent, nor is associated with, the Compute Express Link (CXL) Consortium)
+- https://github.com/Compute-Express-Link (seems legacy)
+- OpenBMC: https://github.com/openbmc/openbmc.git
+- EDK-II: https://github.com/tianocore/edk2.git
 
 Qemu
 ~~~~

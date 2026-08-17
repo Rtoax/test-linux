@@ -95,7 +95,9 @@ Links
 
 - https://lore.kernel.org/linux-cxl/
 - https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
-- https://github.com/computexpresslink/
-    - seems legacy: https://github.com/Compute-Express-Link
+- https://github.com/computexpresslink/ (non official)
+- https://github.com/Compute-Express-Link (seems legacy)
 - https://github.com/pmem/ndctl
 - https://www.qemu.org/docs/master/system/devices/cxl.html
+- OpenBMC: https://github.com/openbmc/openbmc.git
+- EDK-II: https://github.com/tianocore/edk2.git
