@@ -18,4 +18,4 @@ PCIe Abbrev
 - pswiotlb: Phytium Software IO TLB (软件IO转换后备缓冲区) @swiotlb
 - RC: Root Complex (根复合体) @PCIe
 - RCEC: Root Complex Event Collector (根复合体事件收集器)
-- RP: Root Port (根端口) @PCIe
+- RP: Root Port (根端口) @PCIe @vPPB

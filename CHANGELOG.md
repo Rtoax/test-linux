@@ -16,6 +16,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- cxl: add vcs.rst;
 - qemu: add bmc.rst;
 - add flamegraph.rst, restful.rst, sunfish.rst, openipmi.rst;
 #### Fixed
