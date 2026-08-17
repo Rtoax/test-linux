@@ -12,9 +12,6 @@ target-y += mmap-exec
 
 get_unmapped_page-objs := ${MMAP_HELPERS}
 
-CFLAGS := -pthread
-CFLAGS += -lrt
-
 CFLAGS_mremap-file := -DMREMAP=1
 
 ifdef OVERFLOW
@@ -29,4 +26,6 @@ endif
 # change the address.
 # CFLAGS_mmap-exec := -pg
 
+LDFLAGS += -pthread
+LDFLAGS += -lrt
 LDFLAGS += -Wl,-rpath,$(shell pwd)
