@@ -15,4 +15,4 @@ clock_gettime-CLOCK_BOOTTIME-objs := time_helpers.o
 clock_nanosleep-objs := time_helpers.o
 nanosleep-objs := time_helpers.o
 
-CFLAGS += -pthread
+LDFLAGS += -pthread

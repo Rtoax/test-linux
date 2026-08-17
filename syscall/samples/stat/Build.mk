@@ -23,5 +23,6 @@ fstatat-objs := stat_helpers.o ${PROC_HELPERS}
 st_mode-objs := stat_helpers.o
 ustat-objs := stat_helpers.o
 
-CFLAGS += -pthread
 CFLAGS_futimens := -DFUTIMENS=1
+
+LDFLAGS += -pthread

@@ -2,4 +2,4 @@
 target-y += madvise-MADV_MERGEABLE
 target-y += madvise-MADV_HUGEPAGE
 
-CFLAGS += -pthread
+LDFLAGS += -pthread

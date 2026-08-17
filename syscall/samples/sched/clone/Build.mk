@@ -10,7 +10,8 @@ target-y += CLONE_
 prep-y := CLONE_.h
 
 CFLAGS := -D__USE_GNU
-CFLAGS += -pthread
 
 CFLAGS_ns_pid := -Wno-error=int-to-pointer-cast
 CFLAGS_parent_tid := -DPARENT_TID=1
+
+LDFLAGS += -pthread

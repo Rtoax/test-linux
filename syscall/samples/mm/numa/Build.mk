@@ -11,7 +11,7 @@ mbind-objs := numa_helpers.o
 move_pages-objs := numa_helpers.o
 get_mempolicy-objs := numa_helpers.o
 
-CFLAGS += -pthread
+LDFLAGS += -pthread
 LDFLAGS += -lnuma
 
 CFLAGS_mbind := -DALLOC_WITH_MMAP=1

@@ -68,7 +68,6 @@ endif
 CFLAGS += ${binutils-cflags}
 CFLAGS += -g -ggdb
 CFLAGS += -O0
-CFLAGS += -pthread
 CFLAGS += -no-pie
 
 CFLAGS_rdrand := -mrdrnd
@@ -87,3 +86,4 @@ CFLAGS_ret := -Wno-error=return-type
 CFLAGS_syscall := -nostdlib
 LDFLAGS_syscall := -nostdlib
 LDFLAGS_invalid_opcode_user := -no-pie
+LDFLAGS += -pthread

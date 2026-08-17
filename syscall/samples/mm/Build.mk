@@ -15,5 +15,5 @@ target-y += mprotect-ld
 target-y += process_madvise
 target-y += process_mrelease
 
-CFLAGS += -pthread
-CFLAGS += -lrt
+LDFLAGS += -pthread
+LDFLAGS += -lrt

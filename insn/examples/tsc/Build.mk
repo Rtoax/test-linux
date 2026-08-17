@@ -8,5 +8,5 @@ target-y += rdtsc_evil
 rdtsc_evil-objs := ${PTHREAD_HELPERS}
 
 CFLAGS += -g -ggdb
-CFLAGS += -pthread
 CFLAGS += -O3
+LDFLAGS += -pthread

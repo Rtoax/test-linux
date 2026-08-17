@@ -8,5 +8,5 @@ memfd_create-dup2-objs := memfd_helpers.o
 MFD_ALLOW_SEALING-objs := memfd_helpers.o
 memfd_secret-objs := memfd_helpers.o
 
-CFLAGS += -pthread
 CFLAGS += -DTEST_MEMFD=1
+LDFLAGS += -pthread
