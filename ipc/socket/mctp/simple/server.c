@@ -21,7 +21,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	/* 2. Listen EID, recv any msg type */
+	/* 2. Listen EID, recieve any message type */
 	memset(&addr, 0, sizeof(addr));
 	addr.smctp_family = AF_MCTP;
 	addr.smctp_network = NET_ID;
