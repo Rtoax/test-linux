@@ -15,9 +15,6 @@
 ifndef _PIE_MK
 _PIE_MK = 1
 
-CFLAGS_PIE :=
-LDFLAGS_PIE :=
-
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
 # Default no-PIE in my case.
 ifdef PIE
