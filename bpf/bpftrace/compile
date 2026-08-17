@@ -13,6 +13,7 @@ use_jobs=$(nproc)
 llvm_version=
 llvm_dir=
 verbose=
+dry_run=
 
 declare -a cmake_args
 
@@ -20,7 +21,9 @@ declare -a cmake_args
 
 run() {
 	echo -e "\033[1;32m$ ${@}\033[m"
-	eval "${@}"
+	if [[ -z ${dry_run} ]]; then
+		eval "${@}"
+	fi
 }
 
 deb_pkgs() {
@@ -89,6 +92,7 @@ ARGUMENT
 	--use-system-libbpf     use system libbpf instead of submodule
 	-v, --verbose           run with verbose mode
 	-h, --help              show this info
+	-u, --dry-run           dry run
 
 EXAMPLES
 	$ ./compile -d -c -i --llvm-version=$(llvm-config --version) --llvm-dir=$(dirname $(llvm-config --libdir))/
@@ -102,7 +106,7 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options dcitj:vh \
+TEMP_ARGS=$(getopt --options dcitj:vhu \
 	--long deps \
 	--long config \
 	--long nocompile \
@@ -115,6 +119,7 @@ TEMP_ARGS=$(getopt --options dcitj:vh \
 	--long use-system-libbpf \
 	--long verbose \
 	--long help \
+	--long dry-run \
 	--name ${prog} -- "$@")
 
 test $? != 0 && __usage__ 1
@@ -175,6 +180,10 @@ while true; do
 	-h | --help)
 		shift
 		__usage__
+		;;
+	-u | --dry-run)
+		shift
+		dry_run=YES
 		;;
 	--)
 		shift
