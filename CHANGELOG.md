@@ -29,6 +29,7 @@ and this project adheres to
 - add skopeo;
 #### Template
 - add sanitizer.mk, util-linux.mk;
+- file.mk: add fexist() function;
 
 
 ## [v2.4.11] Phenomenal 2026-08-13

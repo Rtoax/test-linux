@@ -13,6 +13,8 @@ Linux Kernel
 Linux Kernel Config and Driver
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+- https://docs.kernel.org/driver-api/cxl/linux/cxl-driver.html
+
 .. list-table::
    :header-rows: 1
 
@@ -95,6 +97,7 @@ Links
 
 - https://lore.kernel.org/linux-cxl/
 - https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
+- https://docs.kernel.org/driver-api/cxl/linux/cxl-driver.html
 - https://github.com/computexpresslink/ (non official)
 - https://github.com/Compute-Express-Link (seems legacy)
 - https://github.com/pmem/ndctl
