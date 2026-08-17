@@ -22,9 +22,10 @@ and this project adheres to
 #### Removed
 #### Security
 #### Tools
+- util-linux: add libuuid subdir;
 - add skopeo;
 #### Template
-- add sanitizer.mk;
+- add sanitizer.mk, util-linux.mk;
 
 
 ## [v2.4.11] Phenomenal 2026-08-13
