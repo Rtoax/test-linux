@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Install sphinx
+    - name: Install sphinx docs depends
       run: |
         pip install -r Documentation/requirements.txt
-    - name: Sphinx build
+    - name: Sphinx docs building
       run: |
         sphinx-build -M html Documentation Documentation/build
     - name: Deploy to gh-pages
