@@ -11,15 +11,16 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 - **Software Environment (Required)**:
--- OS platform and distribution (e.g., Linux Ubuntu 16.04):
--- GLibc Version (e.g., ldconfig (GNU libc) 2.38) :
--- GCC/Compiler version (e.g., gcc (GCC) 13.2.1 20231205 (Red Hat 13.2.1-6)) :
+-- OS platform and distribution (e.g., Fedora Linux 44):
+-- GLibc Version (e.g., ldconfig (GNU libc) 2.43) :
+-- GCC/Compiler version (e.g., gcc (GCC) 16.1.1 20260515 (Red Hat 16.1.1-2)) :
+-- Related software versions (e.g., numactl 2.0.19)
 
 **To Reproduce (Required)**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+1. Go to directory '...'
+2. Build '....'
+3. Running '....'
 4. See error
 
 **Expected behavior (Required)**
