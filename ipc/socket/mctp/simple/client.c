@@ -12,7 +12,7 @@ int main(void)
 	struct sockaddr_mctp dest_addr, from_addr;
 	socklen_t from_len = sizeof(from_addr);
 	char buf[256];
-	const char *msg = "Hello MCTP";
+	char msg[] = "_Hello MCTP";
 	ssize_t n;
 
 	sockfd = socket(AF_MCTP, SOCK_DGRAM, 0);
