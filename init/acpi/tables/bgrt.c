@@ -56,6 +56,8 @@ int main(void)
 	}
 	fclose(fp);
 
+	printf("BGRT Sign    : %c%c%c%c\n", hdr.Signature[0], hdr.Signature[1],
+	       hdr.Signature[2], hdr.Signature[3]);
 	printf("BGRT Version : %u\n", bgrt.Version);
 	printf("Status	     : %u (%s)\n", bgrt.Status,
 	       bgrt.Status ? "valid" : "invalid");

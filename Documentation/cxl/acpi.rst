@@ -23,3 +23,5 @@ ACPI0017: CXL Root Object, CEDT
 
 ACPI0016: CXL Host Bridge Object, CXL root complex
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ACPI DSDT (Differentiated System Description Table).

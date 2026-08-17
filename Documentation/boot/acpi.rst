@@ -11,3 +11,9 @@ Sys
 ---
 
 - /sys/firmware/dmi/tables/DMI
+
+
+Links
+-----
+
+- https://docs.kernel.org/arch/arm64/acpi_object_usage.html

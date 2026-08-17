@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- acpi: add dsdt.c to test DSDT;
 - libubsan: Undefined Behavior Sanitizer library which is used for `-fsanitize=undefined`;
 - scripts: add libos.sh, librun.sh;
 #### Changed
