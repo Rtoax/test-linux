@@ -16,7 +16,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
-- add flamegraph.rst;
+- add flamegraph.rst, restful.rst, sunfish.rst;
 #### Fixed
 #### Linux Kernel
 #### Removed

@@ -33,7 +33,9 @@ User Space
    pahole
    psmisc
    redis
+   restful
    samba
+   sunfish
    systemtap
    tigervnc
    tmux
