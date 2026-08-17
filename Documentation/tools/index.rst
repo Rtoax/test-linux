@@ -30,6 +30,7 @@ User Space
    memcached
    openblas
    opencv
+   openipmi
    pahole
    psmisc
    redis

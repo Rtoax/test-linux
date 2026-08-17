@@ -16,7 +16,8 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
-- add flamegraph.rst, restful.rst, sunfish.rst;
+- qemu: add bmc.rst;
+- add flamegraph.rst, restful.rst, sunfish.rst, openipmi.rst;
 #### Fixed
 #### Linux Kernel
 #### Removed

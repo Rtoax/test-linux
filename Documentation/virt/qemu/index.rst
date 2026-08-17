@@ -7,6 +7,7 @@ A generic and open source machine emulator and virtualizer.
    :maxdepth: 1
 
    abbrev
+   bmc
    fw_cfg
    hmp
    qcow

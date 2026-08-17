@@ -618,7 +618,7 @@ pkgs_base+=( lsof )
 pkgs_base+=( make cmake )
 pkgs_base+=( mokutil )              # UEFI
 pkgs_base+=( nasm )
-if [[ $(is_os fedora:40 fedora:41 fedora:42 fedora:43 ubuntu:24.04 ubuntu:25.10) ]]; then
+if [[ $(is_os fedora:40 fedora:41 fedora:42 fedora:43 fedora:44 ubuntu:24.04 ubuntu:25.10) ]]; then
 	pkgs_base+=( fastfetch )
 	pkgs_base+=( procs )
 	pkgs_base+=( procinfo procinfo-ng )
@@ -940,6 +940,7 @@ dnf_add_packages()
 	pkgs_base+=( notcurses-devel )
 	pkgs_base+=( notcurses-static )
 	pkgs_base+=( notcurses-utils )
+	pkgs_base+=( OpenIPMI )
 	pkgs_base+=( openmpi openmpi-devel )
 	pkgs_base+=( openssl-devel )
 	pkgs_base+=( parallel )
@@ -1099,6 +1100,7 @@ dnf_add_packages()
 		pkgs_virt+=( kata-containers )
 		pkgs_virt+=( qemu-system-loongarch64 edk2-loongarch64 )
 		pkgs_virt+=( qemu-system-riscv edk2-riscv64 )
+		pkgs_virt+=( OpenIPMI-lanserv ) # ipmi_sim
 	fi
 
 	pkgs_net+=( httpd )
@@ -1166,6 +1168,7 @@ apt_add_packages()
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( ncal )
 	pkgs_base+=( notcurses-bin ) # Ubuntu, not debian
+	pkgs_base+=( openipmi )
 	pkgs_base+=( parallel )
 	pkgs_base+=( passwd )
 	pkgs_base+=( procps )
@@ -1311,6 +1314,7 @@ apt_add_packages()
 	pkgs_virt+=( binfmt-support )
 	pkgs_virt+=( guestmount )
 	pkgs_virt+=( libvirt0 )
+	pkgs_virt+=( openipmi ) # ipmi_sim
 	pkgs_virt+=( qemu-system )
 	pkgs_virt+=( qemu-system-misc )
 	pkgs_virt+=( qemu-user )

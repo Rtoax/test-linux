@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.5"
+readonly VERSION="v1.1.6"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -1163,6 +1163,24 @@ config_basic() {
 		# -S: stops qemu waiting gdb
 		qargs+=( -s -S )
 	fi
+}
+
+# IPMI BMC
+# TODO: except qemu internal emulation, external emulation has full featured
+# such as OpenIPMI "ipmi_sim".
+config_bmc() {
+	case ${ARCH} in
+	x86_64)
+		# ISA-Based Configuration (Standard x86 PC)
+		qargs+=( -device ipmi-bmc-sim,id=bmc0
+			 -device isa-ipmi-kcs,bmc=bmc0 )
+		;;
+	*)
+		# PCI-Based Configuration
+		qargs+=( -device ipmi-bmc-sim,id=bmc0
+			 -device pci-ipmi-kcs,bmc=bmc0 )
+		;;
+	esac
 }
 
 config_memory() {
@@ -2429,6 +2447,7 @@ trap cleanup EXIT
 config_prepare_vm_tmpdir ${q_vm_name}
 config_vm_tmpdir
 config_basic
+config_bmc
 config_memory
 config_cpu
 config_uefi
