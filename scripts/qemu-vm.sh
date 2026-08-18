@@ -23,7 +23,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 . ${QEMU_VM_ROOT}/libqemu.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 
-declare QEMU QEMU_VERSION
+declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
 
 # on x86_64: 'q35' default root bus
 readonly BUS_PCIE0=pcie.0
@@ -232,14 +232,18 @@ __usage__() {
 # $1: qemu-kvm emulator
 set_qemu_kvm() {
 	QEMU=${1}
-	QEMU_VERSION="$(${QEMU} --version | \
-		grep -m1 -Ewo '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
 
 	if [[ ! -f ${QEMU} ]] &&
 	   [[ -z "$(which ${QEMU})" ]] &&
 	   [[ -z ${dry_run} ]]; then
 		error "Not found qemu ${QEMU}"
 	fi
+
+	QEMU_VERSION="$(${QEMU} --version | \
+		grep -m1 -Ewo '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
+	QEMU_MAJOR="$(echo ${QEMU_VERSION} | awk -F '.' '{print $1}')"
+	QEMU_MINOR="$(echo ${QEMU_VERSION} | awk -F '.' '{print $2}')"
+	QEMU_PATCH="$(echo ${QEMU_VERSION} | awk -F '.' '{print $3}')"
 }
 
 check_files_exist_and_exit() {
