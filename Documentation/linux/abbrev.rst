@@ -7,6 +7,7 @@ Abbrev
 - CVM: Confidential Virtual Machines (机密虚拟机)
 - ESP: EFI System Partition (EFI 系统分区) @UKI
 - iBMC: Intelligent Baseboard Management System (智能 BMC) @BMC @Huawei
+- IPMB: Intelligent Platform Management Bus (智能平台管理总线) @IPMI
 - IPMI: Intelligent Platform Management Interface (智能平台管理接口) @BMC
 - KABI: Kernel Application Binary Interface (内核应用二进制接口)
 - KASAN: The Kernel Address Sanitizer (内核地址清理器) @ASAN
