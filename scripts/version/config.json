@@ -1,5 +1,5 @@
 {
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -548,6 +548,14 @@
 				"rpm": [ "numactl" ]
 			},
 			"keys": [ "numactl", "numa" ]
+		},
+		"openipmi": {
+			"name": "OpenIPMI",
+			"package": {
+				"rpm": [ "OpenIPMI-lanserv" ],
+				"deb": [ "openipmi" ]
+			},
+			"keys": [ "OpenIPMI", "ipmi_sim" ]
 		},
 		"openmpi": {
 			"name": "OpenMPI",
