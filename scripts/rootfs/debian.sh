@@ -12,6 +12,7 @@ readonly ROOTFS_DEBIAN_DIR=$(dirname $(realpath $0))
 . /etc/os-release
 
 declare TARGET_ARCH=$(uname -m)
+declare ROOTDIR=$PWD/debian.rootfs
 
 declare verbose
 declare dry_run
@@ -84,5 +85,35 @@ _eval()
 		echo "$@"
 	fi
 }
+
+_eval sudo mkdir -p \
+	$ROOTDIR/etc/apt \
+	$ROOTDIR/etc/apt/sources.list.d \
+	$ROOTDIR/var/lib/apt/lists/partial \
+	$ROOTDIR/var/cache/apt/archives/partial \
+	$ROOTDIR/var/lib/apt/lists/partial \
+	$ROOTDIR/var/lib/dpkg \
+	$ROOTDIR/var/log/apt
+
+_eval sudo touch $ROOTDIR/var/lib/dpkg/status $ROOTDIR/var/lib/apt/lists/lock
+_eval sudo cp /etc/apt/sources.list $ROOTDIR/etc/apt/sources.list
+_eval sudo cp -a /etc/apt/sources.list.d/* $ROOTDIR/etc/apt/sources.list.d/
+
+_eval apt-get update \
+	-o Dir::Root=$ROOTDIR \
+	-o Dir::Etc=$ROOTDIR/etc/apt \
+	-o Dir::State=$ROOTDIR/var/lib/apt \
+	-o Dir::Cache=$ROOTDIR/var/cache/apt \
+	-o Dir::Log=$ROOTDIR/var/log/apt
+
+_eval sudo apt-get install -y \
+	-o Dir::Root=$ROOTDIR \
+	-o Dir::Etc=$ROOTDIR/etc/apt \
+	-o Dir::State=$ROOTDIR/var/lib/apt \
+	-o Dir::Cache=$ROOTDIR/var/cache/apt \
+	-o Dir::Log=$ROOTDIR/var/log/apt \
+	-o DPkg::Options::="--root=$ROOTDIR" \
+	-o DPkg::Options::="--admindir=$ROOTDIR/var/lib/dpkg" \
+	bash make git linux-libc-dev systemd vim openssh-server
 
 # TODO
