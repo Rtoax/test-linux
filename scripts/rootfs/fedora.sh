@@ -44,7 +44,7 @@ SYNOPSIS
 
 DESCRIPTION
 	-r, --rootfs [DIR]      specify rootfs directory.
-	    --image [NAME]      specify image filename
+	    --image [NAME]      specify image filename, format: raw, qcow2
 	    --initrd [NAME]     generate initrd based on rootfs.
 
 	    --kver [VERSION]    speicfy kernel version, use to install, dracut, etc.
@@ -238,7 +238,7 @@ _eval sudo mkdir -p ${ROOTFS_DIR}/etc/yum.repos.d/
 if ! [[ " fedora " =~ " ${ID} " ]] && [[ ${force_fedora} ]]; then
 	# Default to fedora
 	ID=fedora
-	VERSION_ID=43 # Newest fedora now(2026-04-08)
+	VERSION_ID=44 # Newest fedora now(2026-04-08)
 
 	repo_name=tmp
 	repo_file=${ROOTFS_DIR}/etc/yum.repos.d/${repo_name}.repo
