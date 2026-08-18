@@ -59,7 +59,9 @@ External Emulation (Full Featured)
 
 .. code-block:: shell
 
-   $ ipmi_sim -c /etc/ipmi/lan.conf -f /etc/ipmi/ipmisim.emu
+   $ sudo dnf install -y OpenIPMI-lanserv # if rhel like os
+   $ sudo apt install -y openipmi # if debian like os
+   $ sudo ipmi_sim -c /etc/ipmi/lan.conf -f /etc/ipmi/ipmisim.emu
 
 
 .. code-block:: shell
