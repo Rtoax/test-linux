@@ -1,4 +1,5 @@
 include file.mk
+subdir-y += cxl
 
 target-y += bgrt
 target-y += dsdt
