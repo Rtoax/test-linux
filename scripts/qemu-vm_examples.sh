@@ -60,6 +60,7 @@ readonly CXL_DEVS=( cxl-vmem
 		    cxl-vmem-4way
 		    cxl-vmem-4way-dc
 		    cxl-vmem-4way-switch
+		    cxl-vmem-4way-switch-dc
 		    cxl-pmem
 		    cxl-pmem-4way
 		    cxl-pmem-4way-switch )

@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.7"
+readonly VERSION="v1.1.8"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -599,6 +599,7 @@ readonly CXL_DEV_VMEM_LSA=cxl-vmem-lsa
 readonly CXL_DEV_VMEM_4WAY=cxl-vmem-4way
 readonly CXL_DEV_VMEM_4WAY_DC=cxl-vmem-4way-dc
 readonly CXL_DEV_VMEM_4WAY_SWITCH=cxl-vmem-4way-switch
+readonly CXL_DEV_VMEM_4WAY_SWITCH_DC=cxl-vmem-4way-switch-dc
 readonly CXL_DEV_PMEM=cxl-pmem
 readonly CXL_DEV_PMEM_4WAY=cxl-pmem-4way
 readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
@@ -607,6 +608,7 @@ readonly CXL_DEVICES=( ${CXL_DEV_VMEM}
 		       ${CXL_DEV_VMEM_4WAY}
 		       ${CXL_DEV_VMEM_4WAY_DC}
 		       ${CXL_DEV_VMEM_4WAY_SWITCH}
+		       ${CXL_DEV_VMEM_4WAY_SWITCH_DC}
 		       ${CXL_DEV_PMEM}
 		       ${CXL_DEV_PMEM_4WAY}
 		       ${CXL_DEV_PMEM_4WAY_SWITCH} )
@@ -2019,10 +2021,23 @@ cxl_volatile_mem_4way_dc() {
 	__cxl_volatile_mem_lsa 4 lsa dc
 }
 
-cxl_volatile_mem_4way_switch() {
+__cxl_volatile_mem_4way_switch() {
 	local pxb_id=$(next_pxb_cxl_id)
 	local rp_id1=$(next_cxl_rp_id)
 	local rp_id2=$(next_cxl_rp_id)
+	local arg
+	local DC LSA
+
+	for arg in ${@}; do
+		case ${arg} in
+		lsa)
+			LSA=ON
+			;;
+		dc)
+			DC="--dynamic-capacity"
+			;;
+		esac
+	done
 
 	add_cxl_pxb ${pxb_id}
 
@@ -2033,8 +2048,17 @@ cxl_volatile_mem_4way_switch() {
 
 	for i in $(seq 1 1 4)
 	do
-		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=swport.${i}
+		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=swport.${i} \
+			${LSA:+--lsa cxl-vmem-lsa${i}} ${DC}
 	done
+}
+
+cxl_volatile_mem_4way_switch() {
+	__cxl_volatile_mem_4way_switch
+}
+
+cxl_volatile_mem_4way_switch_dc() {
+	__cxl_volatile_mem_4way_switch dc
 }
 
 pcxltopo() {
@@ -2210,6 +2234,9 @@ config_cxl() {
 		;;
 	${CXL_DEV_VMEM_4WAY_SWITCH})
 		cxl_volatile_mem_4way_switch
+		;;
+	${CXL_DEV_VMEM_4WAY_SWITCH_DC})
+		cxl_volatile_mem_4way_switch_dc
 		;;
 	esac
 
