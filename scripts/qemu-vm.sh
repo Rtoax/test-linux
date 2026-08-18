@@ -23,7 +23,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 . ${QEMU_VM_ROOT}/libqemu.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 
-declare QEMU_KVM QEMU_KVM_VERSION
+declare QEMU QEMU_VERSION
 
 # on x86_64: 'q35' default root bus
 readonly BUS_PCIE0=pcie.0
@@ -151,7 +151,7 @@ ${BOLD}VM OPTIONS${RST}
 
   ${BOLD}QEMU OPTIONS${RST}
     -Q, --qemu [qemu-kvm]   specify qemu emulator binary,
-                            default: ${UL}${QEMU_KVM}${RST}, version ${UL}${QEMU_KVM_VERSION}${RST}
+                            default: ${UL}${QEMU}${RST}, version ${UL}${QEMU_VERSION}${RST}
 
         --gdb               enable qemu debugging, usage:${GRAY}
                             $ gdb -q kernel.elf
@@ -200,7 +200,7 @@ ${BOLD}MINIMAL QEMU COMMANDS${RST}"
 	x86_64)
 		echo -e "
     ${GRAY}# On x86_64${RST}
-    $ sudo ${QEMU_KVM} -machine q35 -cpu host -accel kvm -m 2G \\
+    $ sudo ${QEMU} -machine q35 -cpu host -accel kvm -m 2G \\
         -kernel ${kernel} -initrd ${initrd} \\
         -append \"console=ttyS0,115200 rdinit=/bin/bash rw\" \\
         -nographic ${q_gdb:+-s -S}"
@@ -208,7 +208,7 @@ ${BOLD}MINIMAL QEMU COMMANDS${RST}"
 	aarch64)
 		echo -e "
     ${GRAY}# On aarch64${RST}
-    $ sudo ${QEMU_KVM} -machine virt -cpu host -accel kvm -m 2G \\
+    $ sudo ${QEMU} -machine virt -cpu host -accel kvm -m 2G \\
         -kernel ${kernel} -initrd ${initrd} \\
         -append \"earlycon console=ttyAMA0 rdinit=/bin/bash rw\" \\
 	-nographic ${q_gdb:+-s -S}"
@@ -231,14 +231,14 @@ __usage__() {
 
 # $1: qemu-kvm emulator
 set_qemu_kvm() {
-	QEMU_KVM=${1}
-	QEMU_KVM_VERSION="$(${QEMU_KVM} --version | \
+	QEMU=${1}
+	QEMU_VERSION="$(${QEMU} --version | \
 		grep -m1 -Ewo '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
 
-	if [[ ! -f ${QEMU_KVM} ]] &&
-	   [[ -z "$(which ${QEMU_KVM})" ]] &&
+	if [[ ! -f ${QEMU} ]] &&
+	   [[ -z "$(which ${QEMU})" ]] &&
 	   [[ -z ${dry_run} ]]; then
-		error "Not found qemu ${QEMU_KVM}"
+		error "Not found qemu ${QEMU}"
 	fi
 }
 
@@ -279,7 +279,7 @@ ${BOLD}--cpu help${RST}: show this information
 
 ${BOLD}--cpu [num]${RST}: set cpu number
 ${BOLD}--cpu nr=[num]${RST}: set cpu number
-${BOLD}--cpu model=[MODEL]${RST}: set cpu model (default: ${UL}${q_cpu_model}${RST}), see ${GRAY}${QEMU_KVM} -cpu help${RST}
+${BOLD}--cpu model=[MODEL]${RST}: set cpu model (default: ${UL}${q_cpu_model}${RST}), see ${GRAY}${QEMU} -cpu help${RST}
 "
 	exit 0
 }
@@ -2468,4 +2468,4 @@ config_virtiofs
 qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
-_eval ${QEMU_KVM} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}
+_eval ${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}
