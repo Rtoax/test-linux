@@ -22,6 +22,10 @@ TMOUT=
 __usage__()
 {
 	echo -e "
+runprog [OPTIONS]
+
+OPTIONS:
+
 -e, --env [ENV=<VAL>]  set a env (may be listed multiple times)
 -T, --timeout [SEC]    set timeout seconds
 --maybe-sudo           running with superuser if possible
