@@ -14,9 +14,10 @@
 set -e
 . /etc/os-release
 
-vmlinuz=${HOME}/cxl/vmlinuz
-initramfs=${HOME}/cxl/initramfs.img
-rootfs=${HOME}/cxl/vm.qcow2
+ROOTDIR=${HOME}/cxl
+vmlinuz=${ROOTDIR}/vmlinuz
+initramfs=${ROOTDIR}/initramfs.img
+rootfs=${ROOTDIR}/vm.qcow2
 
 _dry_run=
 for a in ${@}
@@ -50,15 +51,19 @@ if [[ ${DEP} ]]; then
 	esac
 fi
 
+if [[ ! -d ${ROOTDIR} ]]; then
+	try_run sudo mkdir ${ROOTDIR}
+fi
+
 if [[ ! -e ${vmlinuz} ]]; then
 	try_run sudo cp /boot/vmlinuz-$(uname -r) ${vmlinuz}
 fi
 
 if ! [[ -e ${initramfs} ]]; then
 	try_run sudo dracut --kver $(uname -r) --no-hostonly --verbose --force \
-		--install 'insmod rmmod modprobe lspci ndctl cxl lsblk dmidecode tree' \
-		--add 'bash systemd kernel-modules fs-lib' \
-		--add-drivers 'cxl_acpi cxl_core cxl_mem cxl_pci cxl_pmem cxl_pmu cxl_port' \
+		--install '"insmod rmmod modprobe lspci ndctl cxl lsblk dmidecode tree"' \
+		--add '"bash systemd kernel-modules fs-lib"' \
+		--add-drivers '"cxl_acpi cxl_core cxl_mem cxl_pci cxl_pmem cxl_pmu cxl_port"' \
 		${initramfs}
 fi
 
