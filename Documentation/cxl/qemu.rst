@@ -25,7 +25,7 @@ Qemu Version
    * - x86_64
      - 7.2(初步支持), 8.0(能力完善), 9.0(全场景覆盖), 10.x(稳定迭代)
    * - aarch64
-     - >= 9.0/10.x
+     - >= `10.1 <https://wiki.qemu.org/ChangeLog/10.1>`_ CXL can now be used on the Arm 'virt' board
 
 
 Qemu PCIe
