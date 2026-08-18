@@ -1166,9 +1166,8 @@ config_basic() {
 }
 
 # IPMI BMC
-# TODO: except qemu internal emulation, external emulation has full featured
-# such as OpenIPMI "ipmi_sim".
 config_bmc() {
+	# Internal Emulation (Built-in Simulator)
 	case ${ARCH} in
 	x86_64)
 		# ISA-Based Configuration (Standard x86 PC)
@@ -1181,6 +1180,12 @@ config_bmc() {
 			 -device pci-ipmi-kcs,bmc=bmc0 )
 		;;
 	esac
+
+	# TODO: except qemu internal emulation, external emulation has full
+	# featured such as OpenIPMI "ipmi_sim".
+	#qargs+=( -chardev socket,id=ipmi0,host=localhost,port=9012
+	#	 -device ipmi-bmc-extern,id=bmc0,chardev=ipmi0
+	#	 -device isa-ipmi-bt,bmc=bmc0 )
 }
 
 config_memory() {
