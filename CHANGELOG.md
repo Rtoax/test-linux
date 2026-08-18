@@ -21,6 +21,7 @@ and this project adheres to
 - cxl: add vcs.rst;
 - qemu: add bmc.rst;
 - add flamegraph.rst, restful.rst, sunfish.rst, openipmi.rst;
+- standard: add dmtf;
 #### Fixed
 #### Linux Kernel
 #### Removed

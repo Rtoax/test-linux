@@ -3,14 +3,14 @@ Abbrev
 
 - ABI: Application Binary Interface (应用程序二进制接口) @API
 - API: Application Programming Interface (应用程序接口) @ABI
-- CLA: Contributor License Agreement () @DCO
-- CLI: Command Line Interface (命令行接口)
 - CD: Continuous Delivery (持续交付) @CDF
 - CDF: Continuous Delivery Foundation (持续交付基金会) @CD
 - CI: Continuous Integration (持续集成)
-- DCO: Developer Certificate of Origin () @CLA
+- CLA: Contributor License Agreement () @DCO
+- CLI: Command Line Interface (命令行接口)
 - COSE: Common Open Software Environment (通用开源软件环境)
 - CRG: Computer Research Group (计算机研究组)
+- DCO: Developer Certificate of Origin () @CLA
 - DSO: Dynamic Shared Object (动态共享目标)
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
 - FOSS: Free and Open Source Software (自由开源软件)

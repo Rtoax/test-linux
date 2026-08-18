@@ -12,6 +12,53 @@ MCTP可以在公共传输层上传输多种类型的消息，例如 **NCSI** 、
 一个系统可以包括多个MCTP网络，MCTP的网络包括多个physical transports，用于多个MCTP Endpoint之间的MCTP报文传输，MCTP Endpoint就是MCTP通信的一个终点。一个物理设备可以支持多个MCTP Endpoint，Endpoint的寻址是逻辑地址称为EID，EID类似于互联网上的IP地址。
 
 
+MCTP protocol support
+---------------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Protocol
+     - Can encapsulate(封装)
+     - Can transmit over
+   * - PCI Express
+     - MI
+     - VDM
+   * - NVM Express
+     - Management Messages
+     - ❌
+   * - CXL (Fabric Manager, Type 3 DCCI)
+     - ✅
+     - ❌
+   * - Platform Level Data Model
+     - ✅
+     - ❌
+   * - NC-SI, Ethernet
+     - ✅
+     - ❌
+   * - USB
+     - ❌
+     - ✅
+   * - I2C/SMBus, I3C (incl. PCIe)
+     - ❌
+     - ✅
+   * - Serial Port
+     - ❌
+     - ✅
+   * - ACPI PCC
+     - ❌
+     - ✅
+   * - UCIe
+     - ❌
+     - ✅
+   * - KCS
+     - ❌
+     - ✅
+   * - MMBI (incl. PCIe)
+     - ❌
+     - ✅
+
+
 Links
 -----
 
@@ -31,4 +78,5 @@ Specifications
 Codes
 ~~~~~
 
+- https://en.wikipedia.org/wiki/Management_Component_Transport_Protocol
 - https://github.com/CodeConstruct/mctp
