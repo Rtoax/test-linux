@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- scripts/rootfs: add debian.sh;
 - version: config.json: add OpenIPMI;
 - acpi: add dsdt.c to test DSDT;
 - libubsan: Undefined Behavior Sanitizer library which is used for `-fsanitize=undefined`;
