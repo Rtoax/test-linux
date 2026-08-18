@@ -60,7 +60,7 @@ Fedora Like OS
 
 - `systemd` refuses to boot with `cgroups v1` enabled in `v256 <https://github.com/systemd/systemd/commit/5b0addafabc9f0077d1daf2a291d9d298053ea3b>`_:
 
-.. code-block:: log
+.. code-block:: logos
 
   # In fedora 42 beta, journalctl -b 0 shows:
   systemd[1]: Legacy cgroup v1 configured. This will stop being supported soon.
