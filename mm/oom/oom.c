@@ -18,6 +18,7 @@
 #include "oom_helpers.h"
 #include "proc_helpers.h"
 
+#define OOM_VERSION "1.0.0"
 volatile sig_atomic_t keep_going = 1;
 
 enum ops_type {
@@ -34,7 +35,7 @@ struct {
 	bool flag_popen;
 	unsigned long rate_limit;
 	size_t limit_in_bytes;
-	int verbose;
+	bool verbose;
 } env = {
 	.ops_type = OP_GLIBC,	/* default use glibc */
 	.mem_size = 0,
@@ -69,6 +70,7 @@ static const struct argp_option opts[] = {
 	{ "rate", 'r', "RATE", 0, "limit the alloc rate, suffix KB, MB, GB" },
 	{ "popen", 'p', NULL, 1, "test popen(3) after memory" },
 	{ "verbose", 'v', NULL, 1, "display detail" },
+	{ "version", 'V', NULL, 1, "display version" },
 	{ "oom_adj", 'a', "OOM_ADJ", 0, "set oom_adj (-17 to 15)" },
 	{ "oom_score_adj", 'c', "OOM_SCORE_ADJ", 0,
 	  "set oom_score_adj (-1000 to 1000)" },
@@ -117,6 +119,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'v':
 		env.verbose = true;
+		break;
+	case 'V':
+		printf("%s\n", OOM_VERSION);
+		exit(EXIT_SUCCESS);
 		break;
 	case ARGP_KEY_ARG:
 		argp_usage(state);
