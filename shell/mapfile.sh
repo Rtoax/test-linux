@@ -7,6 +7,6 @@ mapfile -t doc_dirs < <(printf '%s\n' "${doc_dirs[@]}" | grep -iv 'Documentation
 
 echo ${doc_dirs[@]}
 
-if [[ "${doc_dirs[@]}" != "a b d e f g" ]]; then
+if [[ "${doc_dirs[*]}" != "a b c e f g" ]]; then
 	exit 1
 fi
