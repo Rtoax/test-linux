@@ -1,5 +1,5 @@
 {
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -733,7 +733,7 @@
 		},
 		"util-linux": {
 			"name": "Util-Linux",
-			"command": [ "getopt", "lscpu" ],
+			"command": [ "getopt", "lscpu", "dmesg" ],
 			"keys": [ "util-linux", "lscpu", "fsck" ]
 		},
 		"vim": {
