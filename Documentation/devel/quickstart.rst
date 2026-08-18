@@ -55,7 +55,7 @@ Compile without user space code:
 
     $ make build USRC=
 
-Compile with **32bits mathine**:
+Compile with **32bits machine**:
 
 .. code-block:: bash
 
