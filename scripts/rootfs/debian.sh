@@ -89,6 +89,7 @@ _eval()
 _eval sudo mkdir -p \
 	$ROOTDIR/etc/apt \
 	$ROOTDIR/etc/apt/sources.list.d \
+	$ROOTDIR/etc/apt/preferences.d/ \
 	$ROOTDIR/var/lib/apt/lists/partial \
 	$ROOTDIR/var/cache/apt/archives/partial \
 	$ROOTDIR/var/lib/apt/lists/partial \
@@ -98,6 +99,7 @@ _eval sudo mkdir -p \
 _eval sudo touch $ROOTDIR/var/lib/dpkg/status $ROOTDIR/var/lib/apt/lists/lock
 _eval sudo cp /etc/apt/sources.list $ROOTDIR/etc/apt/sources.list
 _eval sudo cp -a /etc/apt/sources.list.d/* $ROOTDIR/etc/apt/sources.list.d/
+_eval sudo chown -R $USER:$USER $ROOTDIR
 
 _eval apt-get update \
 	-o Dir::Root=$ROOTDIR \
