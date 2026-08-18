@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.8"
+readonly VERSION="v1.1.9"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -651,6 +651,7 @@ declare -A cxl_pmem_size # arr[name]=SIZE
 declare -a cxl_vmem_names # arr=( name1 name2 ... )
 declare -A cxl_vmem_bus # arr[name]=BUS
 declare -A cxl_vmem_lsa # arr[name]=LSA
+declare -A cxl_vmem_dc # arr[name]=[ON]
 declare -A cxl_vmem_size # arr[name]=SIZE
 # use to find root port id or switch downstream id of cxl-type3
 declare -A cxl_pvmem_id2bus # arr[type3-id]=[rp-id|switch-downstream-id]
@@ -675,7 +676,7 @@ ${BOLD}--cxl pxb=<name>,[fmw|fixed-memory-window=<N>]${RST}: create CXL PXB, fmw
 ${BOLD}--cxl <root-port|rp>=<name>,bus=<name>,port=<num>${RST}: create CXL RootPort
 ${BOLD}--cxl switch,bus=<name>,nport=<num>,portprefix=<name>${RST}: create CXL Switch
 ${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
-${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>][size=<SIZE>]${RST}: create CXL Volatile Memory device
+${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>],[size=<SIZE>],[dc|dynamic-capacity]${RST}: create CXL Volatile Memory device
 
 ${BOLD}--cxl show=[topo]${RST}: display CXL information before vm startup, will not startup vm
 
@@ -697,6 +698,7 @@ handle_cxl_arg() {
 	local rp_id
 	local switch nport portprefix
 	local pmem vmem lsa size
+	local enable_dc
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -776,6 +778,9 @@ handle_cxl_arg() {
 				[[ -z ${lsa} ]] && \
 					error "cxl lsa= syntax error"
 				;;
+			dc|dynamic-capacity)
+				enable_dc=ON
+				;;
 			size)
 				size=${arg:5}
 				[[ -z ${size} ]] && \
@@ -838,6 +843,9 @@ handle_cxl_arg() {
 		if [[ -z ${bus} ]] || [[ -z ${lsa} ]]; then
 			error "cxl: pmem/vmem need bus= and lsa= parameter"
 		fi
+		if [[ ${enable_dc} == ON ]]; then
+			error "cxl: pmem not support dynamic capacity yet, please check qemu upstream!"
+		fi
 	fi
 
 	if [[ ${vmem} ]]; then
@@ -891,6 +899,7 @@ handle_cxl_arg() {
 		cxl_vmem_bus[$vmem]=${bus}
 		[[ -z ${lsa} ]] && lsa=SKIP
 		cxl_vmem_lsa[$vmem]=${lsa}
+		cxl_vmem_dc[$vmem]=${enable_dc}
 		[[ -z ${size} ]] && size=${CXL_DEFAULT_MSIZE}
 		cxl_vmem_size[$vmem]=${size}
 	fi
@@ -2207,7 +2216,8 @@ config_cxl() {
 		add_cxl_type3_dev --vmem=${vmem} \
 			--bus=${cxl_vmem_bus[$vmem]} \
 			--lsa=${cxl_vmem_lsa[$vmem]} \
-			--size=${cxl_vmem_size[$vmem]}
+			--size=${cxl_vmem_size[$vmem]} \
+			${cxl_vmem_dc[$vmem]:+--dynamic-capacity}
 	done
 
 	case ${cxl_device} in

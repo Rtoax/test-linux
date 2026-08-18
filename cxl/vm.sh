@@ -132,6 +132,11 @@ custom_cxl() {
 	cxlargs+=( --cxl vmem=vmem.2,bus=sw2.2 ) # vmem could not set lsa
 	cxlargs+=( --cxl vmem=vmem.3,bus=sw2.3,size=2G )
 	cxlargs+=( --cxl vmem=vmem.4,bus=sw2.4,size=2G )
+
+	cxlargs+=( --cxl vmem=vmem.5,bus=sw3.1,lsa=vmem.5.lsa,dc )
+	cxlargs+=( --cxl vmem=vmem.6,bus=sw3.2,dc ) # vmem could not set lsa
+	cxlargs+=( --cxl vmem=vmem.7,bus=sw3.3,size=2G,dynamic-capacity )
+	cxlargs+=( --cxl vmem=vmem.8,bus=sw3.4,size=2G,dynamic-capacity )
 }
 
 if [[ ! -z ${CUSTOM} ]]; then
