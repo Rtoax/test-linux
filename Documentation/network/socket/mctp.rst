@@ -65,6 +65,7 @@ Links
 Specifications
 ~~~~~~~~~~~~~~
 
+- PMCI: https://www.dmtf.org/standards/pmci
 - MCTP Specification DSP0236: https://www.dmtf.org/dsp/DSP0236
 - Linux Kernel: https://docs.kernel.org/networking/mctp.html
 - CXL Consortium, Compute Express Link™ (CXL™) Specification Revision 2.0: https://www.computeexpresslink.org

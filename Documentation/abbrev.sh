@@ -5,6 +5,7 @@
 # - ABC[,ALIAS1,ALIAS2]: A Ball Circle (一个球圈[, RFC|IEEE]) @AB
 #
 set -e
+readonly DOC_ROOT=$(dirname $(realpath $0))
 
 word=
 
@@ -45,7 +46,7 @@ while true; do
 done
 
 name=$1
-files=( $(find -name abbrev.md) $(find -name abbrev*.rst) )
+files=( $(find ${DOC_ROOT} -name abbrev*.rst) )
 
 list_all() {
 	for f in ${files[@]}

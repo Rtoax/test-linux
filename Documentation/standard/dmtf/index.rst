@@ -22,4 +22,5 @@ Protocols
 Links
 -----
 
-- https://en.wikipedia.org/wiki/Distributed_Management_Task_Force
+- PMCI - Platform Management Communications Infrastructure: https://www.dmtf.org/standards/pmci
+- DMTF: https://en.wikipedia.org/wiki/Distributed_Management_Task_Force
