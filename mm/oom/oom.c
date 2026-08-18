@@ -424,7 +424,7 @@ int memcg_limit(void)
 
 	err = cgroup_create_cgroup(cgrp, 0);
 	if (err) {
-		fprintf(stderr, "Failed to create cgroup %s, %s\n", CGRP_NAME,
+		fprintf(stderr, "Failed to create cgroup %s: %s\n", CGRP_NAME,
 			cgroup_strerror(cgroup_get_last_errno()));
 		goto free;
 	}
@@ -446,7 +446,7 @@ delete:
 free:
 	cgroup_free_controllers(cgrp);
 	cgroup_free(&cgrp);
-	fprintf(stderr, "ERROR: memory cgroup failed.\n");
+	fprintf(stderr, "ERROR: create memory cgroup failed.\n");
 	exit(EXIT_FAILURE);
 	return err;
 }
