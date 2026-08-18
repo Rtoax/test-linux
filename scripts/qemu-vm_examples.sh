@@ -55,8 +55,14 @@ done
 run --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
 
 # Test CXL
-readonly CXL_DEVS=( cxl-vmem cxl-vmem-lsa cxl-vmem-4way cxl-vmem-4way-switch
-			cxl-pmem cxl-pmem-4way cxl-pmem-4way-switch )
+readonly CXL_DEVS=( cxl-vmem
+		    cxl-vmem-lsa
+		    cxl-vmem-4way
+		    cxl-vmem-4way-dc
+		    cxl-vmem-4way-switch
+		    cxl-pmem
+		    cxl-pmem-4way
+		    cxl-pmem-4way-switch )
 
 # Test CXL builtin devices
 dev_list1=( $(run --cxl device=list) )

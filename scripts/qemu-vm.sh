@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.6"
+readonly VERSION="v1.1.7"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -597,13 +597,19 @@ handle_disk_arg() {
 readonly CXL_DEV_VMEM=cxl-vmem
 readonly CXL_DEV_VMEM_LSA=cxl-vmem-lsa
 readonly CXL_DEV_VMEM_4WAY=cxl-vmem-4way
+readonly CXL_DEV_VMEM_4WAY_DC=cxl-vmem-4way-dc
 readonly CXL_DEV_VMEM_4WAY_SWITCH=cxl-vmem-4way-switch
 readonly CXL_DEV_PMEM=cxl-pmem
 readonly CXL_DEV_PMEM_4WAY=cxl-pmem-4way
 readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
-readonly CXL_DEVICES=( ${CXL_DEV_VMEM} ${CXL_DEV_VMEM_LSA}
-			${CXL_DEV_VMEM_4WAY} ${CXL_DEV_VMEM_4WAY_SWITCH}
-			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
+readonly CXL_DEVICES=( ${CXL_DEV_VMEM}
+		       ${CXL_DEV_VMEM_LSA}
+		       ${CXL_DEV_VMEM_4WAY}
+		       ${CXL_DEV_VMEM_4WAY_DC}
+		       ${CXL_DEV_VMEM_4WAY_SWITCH}
+		       ${CXL_DEV_PMEM}
+		       ${CXL_DEV_PMEM_4WAY}
+		       ${CXL_DEV_PMEM_4WAY_SWITCH} )
 
 declare -a cxl_fmw=( 0 ) # (0 1 2 3)
 
@@ -1727,12 +1733,14 @@ add_cxl_switch() {
 # --pmem <name>: set pmem name
 # --vmem <name>: set vmem name
 # --bus <name>: set bus
-# --lsa <name>: set lsa, skip if SKIP
+# --lsa <name>: set lsa, skip if 'SKIP'
+# --dynamic-capacity,--dc: enable Dynamic Capacity
 add_cxl_type3_dev() {
 	local arg tmparg
 	local pmem vmem name
 	local bus lsa
 	local size
+	local enable_dc
 
 	local TEMP=$(getopt \
 		--options t: \
@@ -1741,6 +1749,7 @@ add_cxl_type3_dev() {
 		--long bus: \
 		--long lsa: \
 		--long size: \
+		--long dynamic-capacity --long dc \
 		-n $0 -- "$@")
 
 	test $? != 0 && error "$0 parse arguments failed, ${@}"
@@ -1776,6 +1785,10 @@ add_cxl_type3_dev() {
 			if [[ -z ${size} ]]; then
 				error "Bad cxl type3 memory size parameter: ${1}"
 			fi
+			shift
+			;;
+		--dynamic-capacity | --dc)
+			enable_dc=ON
 			shift
 			;;
 		--)
@@ -1849,7 +1862,13 @@ add_cxl_type3_dev() {
 
 		name=${vmem}
 		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${size} )
-		arg+=( volatile-memdev=${vmem} )
+
+		if [[ ${enable_dc} ]]; then
+			arg+=( volatile-dc-memdev=${vmem} )
+			arg+=( num-dc-regions=2 )
+		else
+			arg+=( volatile-memdev=${vmem} )
+		fi
 	fi
 
 	if [[ ${lsa} ]] && [[ ${lsa} != SKIP ]]; then
@@ -1918,7 +1937,8 @@ __cxl_pmem_ways() {
 		add_cxl_root_port ${pxb_id1} ${rp_id} ${i}
 
 		# Or could add it to CXL switch
-		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=${rp_id} --lsa=cxl-lsa${i}
+		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=${rp_id} \
+			--lsa=cxl-pmem-lsa${i}
 	done
 }
 
@@ -1945,18 +1965,27 @@ cxl_pmem_4way_switch() {
 
 	for i in $(seq 1 1 4)
 	do
-		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=swport.${i} --lsa=cxl-lsa${i}
+		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=swport.${i} \
+			--lsa=cxl-pmem-lsa${i}
 	done
 }
 
+# usage: <ways> [lsa|dc]
 __cxl_volatile_mem_lsa() {
 	local ways=${1}
-	local lsa=${2}
-	local LSA
+	local arg
+	local LSA DC
 
-	if [[ ${lsa} == lsa ]]; then
-		LSA="--lsa=cxl-lsa0"
-	fi
+	for arg in ${@}; do
+		case ${arg} in
+		lsa)
+			LSA=ON
+			;;
+		dc)
+			DC="--dynamic-capacity"
+			;;
+		esac
+	done
 
 	local pxb_id=$(next_pxb_cxl_id)
 
@@ -1968,7 +1997,8 @@ __cxl_volatile_mem_lsa() {
 
 		add_cxl_root_port ${pxb_id} ${rp_id} ${i}
 
-		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id} ${LSA}
+		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id} \
+			${LSA:+--lsa cxl-vmem-lsa${i}} ${DC}
 	done
 }
 
@@ -1982,6 +2012,10 @@ cxl_volatile_mem_lsa() {
 
 cxl_volatile_mem_4way() {
 	__cxl_volatile_mem_lsa 4
+}
+
+cxl_volatile_mem_4way_dc() {
+	__cxl_volatile_mem_lsa 4 lsa dc
 }
 
 cxl_volatile_mem_4way_switch() {
@@ -2169,6 +2203,9 @@ config_cxl() {
 		;;
 	${CXL_DEV_VMEM_4WAY})
 		cxl_volatile_mem_4way
+		;;
+	${CXL_DEV_VMEM_4WAY_DC})
+		cxl_volatile_mem_4way_dc
 		;;
 	${CXL_DEV_VMEM_4WAY_SWITCH})
 		cxl_volatile_mem_4way_switch

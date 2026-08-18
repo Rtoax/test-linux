@@ -16,6 +16,8 @@ CXL Abbrev
 - CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
 - CXL: Compute Express Link (计算快速链接) @MCTP @CIM
 - DAC: Direct Attach Copper (直接连接铜缆) @AEC
+- DC: Dynamic Capacity Device (动态能力) @DCD
+- DCD: Dynamic Capacity Device (动态能力设备) @DC
 - DPA: CXL Memory Device Physical Address (内存设备物理地址)
 - DSP: Downstream Switch Port (下游交换端口) @USP
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)

@@ -15,6 +15,7 @@ and this project adheres to
 - acpi: add dsdt.c to test DSDT;
 - libubsan: Undefined Behavior Sanitizer library which is used for `-fsanitize=undefined`;
 - scripts: add libos.sh, librun.sh;
+- qemu-vm.sh: cxl: add volatile-dc-memdev support;
 #### Changed
 #### Deprecated
 #### Documentation
