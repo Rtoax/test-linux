@@ -319,10 +319,11 @@ if [[ ${Versions} ]]; then
 fi
 
 # If Documentation was modified, auto add Commit Message Title
+pushd ${GIT_TOPDIR} >/dev/null
+
 Docs=( $(git status --short | grep -v '^ ' | grep Documentation | awk '{print $2}') )
 NonDocs=( $(git status --short | grep -v '^ ' | grep -v Documentation | awk '{print $2}') )
 
-pushd ${GIT_TOPDIR} >/dev/null
 if [[ "${Docs[@]}" ]] && [[ -z ${is_commit_amend} ]]; then
 	# Added files
 	add_files=( $(git status --short | grep -v '^ ' | grep ^A | grep -Eo 'Documentation.*' | grep -vw conf.py) )
@@ -377,7 +378,9 @@ if [[ "${Docs[@]}" ]] && [[ -z ${is_commit_amend} ]]; then
 	line=1
 	# have other changes except Documentation, then, add it to 2nd line.
 	if [[ "${NonDocs[@]}" ]]; then
-		line=2
+		# insert newline after 1st line
+		sed -i "1G" ${COMMIT_MSG_FILE}
+		line=3
 	fi
 
 	sed -i "${line}i ${message}" ${COMMIT_MSG_FILE} || {

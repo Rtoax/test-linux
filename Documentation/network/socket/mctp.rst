@@ -75,8 +75,12 @@ Specifications
 - DMTF DSP0238, MCTP PCIe VDM Transport Binding Specification 1.1: https://www.dmtf.org/sites/default/files/standards/documents/DSP0238_1.1.pdf
 - DMTF DSP0239, MCTP IDs and Codes 1.7: https://www.dmtf.org/sites/default/files/standards/documents/DSP0239_1.7.pdf
 
+Wiki
+~~~~
+
+- https://en.wikipedia.org/wiki/Management_Component_Transport_Protocol
+
 Codes
 ~~~~~
 
-- https://en.wikipedia.org/wiki/Management_Component_Transport_Protocol
 - https://github.com/CodeConstruct/mctp
