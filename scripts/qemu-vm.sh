@@ -1864,6 +1864,7 @@ add_cxl_type3_dev() {
 		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${size} )
 
 		if [[ ${enable_dc} ]]; then
+			# commit 427db24ccb54 ("qemu-vm.sh: cxl: add volatile-dc-memdev support")
 			arg+=( volatile-dc-memdev=${vmem} )
 			arg+=( num-dc-regions=2 )
 		else
