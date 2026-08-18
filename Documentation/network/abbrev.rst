@@ -23,6 +23,7 @@ Abbrev
 - MPLS: Multi-Protocol Label Switching (多协议标签交换)
 - MQTT: Message Queuing Telemetry Transport (消息队列遥测传输协议)
 - NAPI: New API (新API)
+- NC-SI: Network Controller Sideband Interface (网络控制器边带接口)
 - NIC: Network Interface Card (网卡)
 - OOB: Out-Of-Band (带外)
 - OSI: Open System Interconnection Model (开放式系统互联模型)
