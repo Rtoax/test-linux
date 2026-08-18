@@ -24,4 +24,5 @@ Links
 
 - https://www.qemu.org/
 - https://gitlab.com/qemu-project/qemu
-- https://github.com/qemu/QEMU
+        - fork: https://gitlab.com/Rtoax/qemu
+- https://github.com/qemu/qemu
