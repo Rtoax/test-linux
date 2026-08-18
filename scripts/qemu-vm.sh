@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.9"
+readonly VERSION="v1.1.10"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -595,7 +595,9 @@ handle_disk_arg() {
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 readonly CXL_DEV_VMEM=cxl-vmem
+readonly CXL_DEV_VMEM_DC=cxl-vmem-dc
 readonly CXL_DEV_VMEM_LSA=cxl-vmem-lsa
+readonly CXL_DEV_VMEM_LSA_DC=cxl-vmem-lsa-dc
 readonly CXL_DEV_VMEM_4WAY=cxl-vmem-4way
 readonly CXL_DEV_VMEM_4WAY_DC=cxl-vmem-4way-dc
 readonly CXL_DEV_VMEM_4WAY_SWITCH=cxl-vmem-4way-switch
@@ -604,7 +606,9 @@ readonly CXL_DEV_PMEM=cxl-pmem
 readonly CXL_DEV_PMEM_4WAY=cxl-pmem-4way
 readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
 readonly CXL_DEVICES=( ${CXL_DEV_VMEM}
+		       ${CXL_DEV_VMEM_DC}
 		       ${CXL_DEV_VMEM_LSA}
+		       ${CXL_DEV_VMEM_LSA_DC}
 		       ${CXL_DEV_VMEM_4WAY}
 		       ${CXL_DEV_VMEM_4WAY_DC}
 		       ${CXL_DEV_VMEM_4WAY_SWITCH}
@@ -2018,8 +2022,16 @@ cxl_volatile_mem() {
 	__cxl_volatile_mem_lsa 1
 }
 
+cxl_volatile_mem_dc() {
+	__cxl_volatile_mem_lsa 1 dc
+}
+
 cxl_volatile_mem_lsa() {
 	__cxl_volatile_mem_lsa 1 lsa
+}
+
+cxl_volatile_mem_lsa_dc() {
+	__cxl_volatile_mem_lsa 1 lsa dc
 }
 
 cxl_volatile_mem_4way() {
@@ -2233,8 +2245,14 @@ config_cxl() {
 	${CXL_DEV_VMEM})
 		cxl_volatile_mem
 		;;
+	${CXL_DEV_VMEM_DC})
+		cxl_volatile_mem_dc
+		;;
 	${CXL_DEV_VMEM_LSA})
 		cxl_volatile_mem_lsa
+		;;
+	${CXL_DEV_VMEM_LSA_DC})
+		cxl_volatile_mem_lsa_dc
 		;;
 	${CXL_DEV_VMEM_4WAY})
 		cxl_volatile_mem_4way

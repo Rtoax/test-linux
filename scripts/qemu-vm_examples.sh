@@ -56,7 +56,9 @@ run --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
 
 # Test CXL
 readonly CXL_DEVS=( cxl-vmem
+		    cxl-vmem-dc
 		    cxl-vmem-lsa
+		    cxl-vmem-lsa-dc
 		    cxl-vmem-4way
 		    cxl-vmem-4way-dc
 		    cxl-vmem-4way-switch
