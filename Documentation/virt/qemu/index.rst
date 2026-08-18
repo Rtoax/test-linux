@@ -23,6 +23,7 @@ Links
 ~~~~~
 
 - https://www.qemu.org/
+        - Contribute to QEMU! https://www.qemu.org/contribute/
 - https://gitlab.com/qemu-project/qemu
         - fork: https://gitlab.com/Rtoax/qemu
-- https://github.com/qemu/qemu
+        - github mirror: https://github.com/qemu/qemu
