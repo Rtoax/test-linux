@@ -14,3 +14,4 @@ Test Linux Development
 
    rules
    quickstart
+   template

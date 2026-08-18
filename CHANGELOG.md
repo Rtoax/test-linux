@@ -19,6 +19,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- devel: add template.rst;
 - cxl: add vcs.rst;
 - qemu: add bmc.rst;
 - add flamegraph.rst, restful.rst, sunfish.rst, openipmi.rst;
