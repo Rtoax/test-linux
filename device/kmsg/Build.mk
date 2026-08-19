@@ -1,1 +1,2 @@
-prog-y += kmsg.sh
+prog-y += read.sh
+prog-y += write.sh
