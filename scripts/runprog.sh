@@ -113,17 +113,20 @@ if [[ -z ${EXEC} ]]; then
 	error "Need pass execution"
 fi
 
-# If not found EXEC in system env, and it's exist file under current directory,
-# add './' prefix.
+# If it's exist file under current directory, then, add './' prefix.
 if [[ -f ${EXEC} ]] &&
    [[ "${EXEC:0:1}" != "/" ]] &&
    [[ "${EXEC:0:2}" != "./" ]] &&
-   [[ "${EXEC:0:3}" != "../" ]] && \
-   [[ ! $(which ${EXEC} 2>/dev/null) ]]; then
+   [[ "${EXEC:0:3}" != "../" ]]; then
 	# If file has x permission, just add './'
 	if test -x ${EXEC}; then
 		SPAWN[0]="./${EXEC}"
 	fi
+# Otherwise, found EXEC in system env.
+elif [[ $(which ${EXEC} 2>/dev/null) ]]; then
+	SPAWN[0]=$(which ${EXEC})
+else
+	error "Not found program '${EXEC}'"
 fi
 
 First2char=$(head -c 2 ${SPAWN[0]} 2>/dev/null || true)
