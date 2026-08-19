@@ -10,12 +10,12 @@ set -e
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly TEST_LINUX_ROOT=$(realpath ${WHERE_AM_I}/../)
 readonly prog_name=runprog
-LOG_CMD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
-LOG_FILE=runprog.log
+declare LOG_CMD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
+declare LOG_FILE=runprog.log
 declare -a ENVS
-verbose=
-SUDO=
-TMOUT=
+declare verbose=
+declare SUDO=
+declare TMOUT=
 
 . ${WHERE_AM_I}/liblog.sh
 
@@ -106,8 +106,8 @@ while true; do
 	esac
 done
 
-LEFT_ARGS=( "${@}" )
-EXEC=${LEFT_ARGS[0]}
+SPAWN=( "${@}" )
+EXEC=${SPAWN[0]}
 
 if [[ -z ${EXEC} ]]; then
 	error "Need pass execution"
@@ -122,39 +122,39 @@ if [[ -f ${EXEC} ]] &&
    [[ ! $(which ${EXEC} 2>/dev/null) ]]; then
 	# If file has x permission, just add './'
 	if test -x ${EXEC}; then
-		LEFT_ARGS[0]="./${EXEC}"
+		SPAWN[0]="./${EXEC}"
 	fi
 fi
 
-First2char=$(head -c 2 ${LEFT_ARGS[0]} 2>/dev/null || true)
+First2char=$(head -c 2 ${SPAWN[0]} 2>/dev/null || true)
 if [[ "${First2char}" == "#!" ]]; then
-	Firstline=$(head -n 1 ${LEFT_ARGS[0]} 2>/dev/null || true)
+	Firstline=$(head -n 1 ${SPAWN[0]} 2>/dev/null || true)
 	SHEBANG=${Firstline:2}
 else
 	SHEBANG=""
 fi
 
-CMD=""
-CMD+="${ENVS:+env ${ENVS[@]} }"
-CMD+="${SUDO:+${SUDO} }"
-CMD+="${TMOUT:+timeout ${TMOUT} }"
-CMD+="${SHEBANG:+${SHEBANG} }"
-CMD+="${LEFT_ARGS[@]}"
+WHOLE_CMD=""
+WHOLE_CMD+="${ENVS:+env ${ENVS[@]} }"
+WHOLE_CMD+="${SUDO:+${SUDO} }"
+WHOLE_CMD+="${TMOUT:+timeout ${TMOUT} }"
+WHOLE_CMD+="${SHEBANG:+${SHEBANG} }"
+WHOLE_CMD+="${SPAWN[@]}"
 
 if [[ ${LOG_FILE} ]]; then
-	eval "${CMD}" | tee ${LOG_FILE}
+	eval "${WHOLE_CMD}" | tee ${LOG_FILE}
 else
-	eval "${CMD}"
+	eval "${WHOLE_CMD}"
 fi
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
 	if [[ ${LOG_CMD_FILE} ]]; then
-		echo -e "Run '\033[31m${CMD}\033[m' failed in ${PWD}" >> ${LOG_CMD_FILE}
+		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}" >> ${LOG_CMD_FILE}
 	fi
 	error "${@}: run failed"
 else
 	if [[ ${LOG_CMD_FILE} ]]; then
-		echo -e "Run '\033[32m${CMD}\033[m' success in ${PWD}" >> ${LOG_CMD_FILE}
+		echo -e "Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}" >> ${LOG_CMD_FILE}
 	fi
 fi
 
