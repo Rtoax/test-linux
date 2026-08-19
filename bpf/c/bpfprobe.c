@@ -202,14 +202,21 @@ int main(int argc, char *argv[])
 #ifdef HAVE_BCC
 	if (env.engine == ENGINE_BCC) {
 		if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
-			probe_fd = bpf_attach_tracepoint(prog_fd, "syscalls", "sys_enter_nanosleep");
-			fprintf(stdout, "Tracepoint sys_enter_nanosleep(), test with 'sleep 0.1'.\n");
+			probe_fd = bpf_attach_tracepoint(prog_fd, "syscalls",
+							 "sys_enter_nanosleep");
+			fprintf(stdout,
+				"Tracepoint sys_enter_nanosleep(), test with 'sleep 0.1'.\n");
 		} else if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
-			probe_fd = bpf_attach_raw_tracepoint(prog_fd, "cgroup_mkdir");
-			fprintf(stdout, "Raw tracepoint rawtracepoint:vmlinux:cgroup_mkdir().\n");
+			probe_fd = bpf_attach_raw_tracepoint(prog_fd,
+							     "cgroup_mkdir");
+			fprintf(stdout,
+				"Raw tracepoint rawtracepoint:vmlinux:cgroup_mkdir().\n");
 		} else {
-			probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY, "hello_world", "do_nanosleep", 0, 0);
-			fprintf(stdout, "Kprobe do_nanosleep(), test with 'sleep 0.1'.\n");
+			probe_fd = bpf_attach_kprobe(prog_fd, BPF_PROBE_ENTRY,
+						     "hello_world",
+						     "do_nanosleep", 0, 0);
+			fprintf(stdout,
+				"Kprobe do_nanosleep(), test with 'sleep 0.1'.\n");
 		}
 		if (prog_fd < 0) {
 			printf("ERROR: failed to attach kprobe to do_nanosleep.\n");
@@ -218,7 +225,8 @@ int main(int argc, char *argv[])
 
 		system("cat " DEBUGFS "/trace_pipe");
 		if (env.prog_type == BPF_PROG_TYPE_TRACEPOINT) {
-			bpf_detach_tracepoint("syscalls", "sys_enter_nanosleep");
+			bpf_detach_tracepoint("syscalls",
+					      "sys_enter_nanosleep");
 		} else {
 			bpf_detach_kprobe("hello_world");
 		}
