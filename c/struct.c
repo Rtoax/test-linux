@@ -1,11 +1,17 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 #define __unused __attribute__((unused))
 
 struct test {
 	int idx;
 	int a;
+};
+
+/* bit‑field */
+struct test_bf {
+	int : (1);
+	int : 2;
 };
 
 struct test test1 = {
@@ -78,6 +84,10 @@ int main(void)
 	/* clang not support a : 10 */
 	struct test __unused t3 = { a : 10 };
 #endif
+
+	assert(sizeof(struct test) == 8);
+	assert(sizeof(struct test_bf) == 1);
+
 	PR_S(test1);
 	PR_S_ARR(tests1);
 	PR_S_ARR(tests2);
