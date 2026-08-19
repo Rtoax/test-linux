@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# linux::kernel/printk/printk.c
+#define LOG_LEVEL(v)		((v) & 0x07)
+#define LOG_FACILITY(v)		((v) >> 3 & 0xff)
+
 __kmsg_log() {
 	local lvl=$1
 	shift

@@ -1,0 +1,14 @@
+#!/bin/env bpftrace
+/**
+ * printk ringbuffer
+ */
+
+kprobe:prb_*
+{
+	@start[probe, tid] = nsecs;
+}
+
+kretprobe:prb_*
+{
+	/* TODO: probe is different with kprobe */
+}

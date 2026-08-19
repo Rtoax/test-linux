@@ -31,7 +31,7 @@ and this project adheres to
 #### Security
 #### Tools
 - util-linux: add libuuid subdir;
-- add skopeo;
+- add skopeo, printk;
 #### Template
 - add sanitizer.mk, util-linux.mk;
 - file.mk: add fexist() function;
