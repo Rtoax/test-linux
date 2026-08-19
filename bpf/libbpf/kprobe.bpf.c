@@ -101,7 +101,8 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 	bpf_iter_task_vma_destroy(&vma_it);
 #endif
 
-	bpf_printk("KPROBE ENTRY pid = %d, filename = %s", pid, filename);
+	bpf_printk("KPROBE ENTRY pid = %d, filename = %s, func ip 0x%lx", pid,
+		   filename, bpf_get_func_ip(ctx));
 	return 0;
 }
 
@@ -110,7 +111,8 @@ int BPF_KRETPROBE(do_execveat_common_exit, long ret)
 {
 	pid_t pid;
 	pid = bpf_get_current_pid_tgid() >> 32;
-	bpf_printk("KPROBE EXIT: pid = %d, ret = %ld", pid, ret);
+	bpf_printk("KPROBE EXIT: pid = %d, ret = %ld, func ip 0x%lx", pid, ret,
+		   bpf_get_func_ip(ctx));
 
 	char s1[5] = {"test"};
 	const static char s2[5] = {"test"};
