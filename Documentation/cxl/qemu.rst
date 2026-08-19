@@ -2,7 +2,6 @@
 Qemu CXL
 ========
 
-
 Qemu Version
 ------------
 
@@ -49,6 +48,30 @@ Qemu PCIe
                      └────────┘       └────────┘
 
 
+Qemu CXL FMAPI
+--------------
+
+.. code-block:: text
+
+  > Dear Jonathan:
+  >
+  > I've recently been researching using QEMU to emulate CXL Type 3 devices, but I found that FMAPI testing isn't possible within the guestOS. Fortunately, I found your repository: https://gitlab.com/jic23/cxl-fmapi-tests.
+  >
+  > During testing, I noticed that you're using a custom version of QEMU. Could you please tell me what methods the current QEMU upstream code supports CXL FMAPI/MCTP?
+  >
+
+  Sadly that support needs a little more work for upstream...iirc the main thing for the USB endpoint was respecting the maximum message sizes.  Turns out Linux doesn't currently care if you send longer ones, but given the spec we need to make the emulation correct anyway.
+
+  I changed jobs recently and have been working through legal stuff to be able to do CXL emulation work.  All in theory resolved now but waiting for last doc to move
+
+  Tree wise there is a slightly old tree at gitlab.com/jic23/qemu. Choose branch with latest date.  That has fmapi over mctp over USB support.  Requires none of the hacks that were needed for earlier i2c transport.
+
+  J
+  > Best regards.
+  >
+  > Rong Tao
+
+
 Linux Kernel
 ------------
 
@@ -64,3 +87,4 @@ Links
 
 - https://www.qemu.org/docs/master/system/devices/cxl.html
 - https://github.com/pmem/run_qemu
+- Jonathan Cameron: https://gitlab.com/jic23/qemu
