@@ -5,10 +5,20 @@
 
 kprobe:prb_*
 {
-	@start[probe, tid] = nsecs;
+	@start[func, tid] = nsecs;
+	// printf("%s\n", func);
 }
 
 kretprobe:prb_*
+/ has_key(@start, (func, tid)) / /* TODO: why check not ok? */
 {
-	/* TODO: probe is different with kprobe */
+	$cost = (nsecs - @start[func, tid]) / 1000;
+	printf("%s cost %ld us\n", func, $cost);
+	@hist_us = hist($cost);
+	delete(@start[func, tid]);
+}
+
+END
+{
+	clear(@start);
 }
