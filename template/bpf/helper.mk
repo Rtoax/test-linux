@@ -60,20 +60,6 @@ endef
 $(call bpf_def_helper,bpf_map_lookup_elem)
 $(call bpf_def_helper,bpf_map_update_elem)
 $(call bpf_def_helper,bpf_map_delete_elem)
-# https://docs.ebpf.io/linux/helper-function/bpf_for_each_map_elem/
-ifeq ($(call kver_ge,5,13,0),y)
-  $(call bpf_def_helper,bpf_for_each_map_elem)
-endif
-# https://docs.ebpf.io/linux/helper-function/bpf_map_lookup_percpu_elem/
-ifeq ($(call kver_ge,5,19,0),y)
-  $(call bpf_def_helper,bpf_map_lookup_percpu_elem)
-endif
-# https://docs.ebpf.io/linux/helper-function/bpf_spin_lock/
-# https://docs.ebpf.io/linux/helper-function/bpf_spin_unlock/
-ifeq ($(call kver_ge,5,1,0),y)
-  $(call bpf_def_helper,bpf_spin_lock)
-  $(call bpf_def_helper,bpf_spin_unlock)
-endif
 
 # linux v4.0-rc5-419-g9c959c863f82
 # commit 9c959c863f82 ("tracing: Allow BPF programs to call bpf_trace_printk()")
@@ -88,6 +74,15 @@ $(call bpf_def_helper,bpf_perf_event_output)
 # linux >= v4.15
 # https://docs.ebpf.io/linux/helper-function/bpf_perf_event_read_value/
 $(call bpf_def_helper,bpf_perf_event_read_value)
+
+# v5.0-rc4-620-gd83525ca62cf
+# commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
+# https://docs.ebpf.io/linux/helper-function/bpf_spin_lock/
+# https://docs.ebpf.io/linux/helper-function/bpf_spin_unlock/
+ifeq ($(call kver_ge,5,1,0),y)
+  $(call bpf_def_helper,bpf_spin_lock)
+  $(call bpf_def_helper,bpf_spin_unlock)
+endif
 
 # linux v5.2-rc1-220-g8b401f9ed244
 # commit 8b401f9ed244 ("bpf: implement bpf_send_signal() helper")
@@ -107,6 +102,13 @@ endif
 # https://docs.ebpf.io/linux/helper-function/bpf_probe_read_kernel_str/
 ifeq ($(call kver_ge,5,5,0),y)
   $(call bpf_def_helper,bpf_probe_read_kernel_str)
+endif
+
+# linux v5.11-4611-g69c087ba6225
+# commit 69c087ba6225 ("bpf: Add bpf_for_each_map_elem() helper")
+# https://docs.ebpf.io/linux/helper-function/bpf_for_each_map_elem/
+ifeq ($(call kver_ge,5,13,0),y)
+  $(call bpf_def_helper,bpf_for_each_map_elem)
 endif
 
 # linux v5.12-rc4-1654-g7b15523a989b
@@ -140,6 +142,13 @@ endif
 # commit 376040e47334 ("bpf: Add bpf_copy_from_user_task() helper")
 ifeq ($(call vmlinux_has_sym_shell,btf_bpf_copy_from_user_task),y)
   $(call bpf_def_helper,bpf_copy_from_user_task)
+endif
+
+# linux v5.18-rc3-811-g07343110b293
+# commit 07343110b293 ("bpf: add bpf_map_lookup_percpu_elem for percpu map")
+# https://docs.ebpf.io/linux/helper-function/bpf_map_lookup_percpu_elem/
+ifeq ($(call kver_ge,5,19,0),y)
+  $(call bpf_def_helper,bpf_map_lookup_percpu_elem)
 endif
 
 # linux v5.18-rc3-856-g263ae152e962
