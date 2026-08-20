@@ -51,13 +51,15 @@ files=( $(find ${DOC_ROOT} -name abbrev*.rst) )
 list_all() {
 	for f in ${files[@]}
 	do
+		# strip root prefix
+		local dir=${f#${DOC_ROOT}/}
 		# - Delete white lines
 		# - filter '-' start lines
 		# - Add filename suffix
 		cat ${f} | \
 			sed '/^$/d' | \
 			grep '^-' | \
-			sed "s|$| <$(dirname ${f})>|g"
+			sed "s|$| <${dir}>|g"
 	done | sort | nl
 }
 
@@ -65,8 +67,12 @@ find_name() {
 	list_all | grep -i " .*${name}.*:" ${word:+-w}
 }
 
+pushd ${DOC_ROOT} 2>/dev/null
+
 if [[ ${name} ]]; then
 	find_name
 else
 	list_all
 fi
+
+popd 2>/dev/null
