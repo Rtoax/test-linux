@@ -60,19 +60,19 @@ list_all() {
 			sed '/^$/d' | \
 			grep '^-' | \
 			sed "s|$| <${dir}>|g"
-	done | sort | nl
+	done | sort
 }
 
 find_name() {
 	list_all | grep -i " .*${name}.*:" ${word:+-w}
 }
 
-pushd ${DOC_ROOT} 2>/dev/null
+pushd ${DOC_ROOT} 2>&1 >/dev/null
 
 if [[ ${name} ]]; then
-	find_name
+	find_name | nl
 else
-	list_all
+	list_all | nl
 fi
 
-popd 2>/dev/null
+popd 2>&1 >/dev/null
