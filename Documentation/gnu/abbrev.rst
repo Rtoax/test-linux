@@ -6,4 +6,4 @@ Abbrev
 - GCC: Gnu Compiler Collection (GNU 编译器)
 - GNU: GNU is Not Unix ()
 - Opcode: Operation Code ()
-- PGP: Pretty Good Privacy (相当好的隐私
+- PGP: Pretty Good Privacy (相当好的隐私)

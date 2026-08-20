@@ -1,23 +1,23 @@
 Abbrev
 ======
 
-- AMD-Vi: () @VT-d
-- ASID：Address Space ID (地址空间标识符)
-- CD：Context Descriptor (上下文描述符)
-- CTP：Context-table pointer (上下文表指针)
+- AMD-Vi: AMD-Vi () @VT-d
+- ASID: Address Space ID (地址空间标识符)
+- CD: Context Descriptor (上下文描述符)
+- CTP: Context-table pointer (上下文表指针)
 - EPT: Extended Page Table (扩展页表) @NPT
-- GPA: Guest Physical Address
-- GVA: Guest Virtual Address
-- HPA: Host Physical Address
+- GPA: Guest Physical Address (虚拟机物理地址)
+- GVA: Guest Virtual Address (虚拟机虚拟地址)
+- HPA: Host Physical Address (主机物理地址)
 - IOMMU: Input/Output Memory Management Unit (IO内存管理单元,AMD) @MMU @SMMU
 - IOVA: IO Virtual Address space (IO虚拟地址空间)
 - IPA: Intermediate Phyical Address (中间物理地址)
-- KVM: Kernel Virtual Machine
+- KVM: Kernel Virtual Machine (内核虚拟机)
 - MR-IOV: Multi Root I/O Virtualization (多根IO虚拟化) @SR-IOV
 - NPT: Nested Page Table (嵌套页表) @EPT
 - PF: Pysical Function (物理功能)
 - PML: Page Modification Logging ()
-- S2TTB：Stage 2 Translate Table Base (第二阶段翻译表库)
+- S2TTB: Stage 2 Translate Table Base (第二阶段翻译表库)
 - SMMU: System MMU (系统内存管理单元) @MMU @IOMMU
 - SR-IOV: Single Root I/O Virtualization (单根IO虚拟化) @MR-IOV
 - SVM: Secure Virtual Machine (安全虚拟机)

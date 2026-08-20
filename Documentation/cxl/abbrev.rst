@@ -36,7 +36,7 @@ CXL Abbrev
 - RCEC: Root Complex Event Collector (根联合体事件收集器) @RDPAS
 - RDPAS: RCEC Downstream Port Association Structure (RCEC下游端口关联结构) @RCEC
 - SLD: Single Logical Device (单一逻辑设备) @MLD
-- TMO: (透明内存卸载) @Meta
+- TMO: TMO? (透明内存卸载) @Meta
 - TPP: Transparent Put (透明页放置) @Meta
 - UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)
 - USP: Upstream Switch Port (上游交换端口) @DSP

@@ -44,5 +44,5 @@ Abbrev
 - VoIP: Voice over IP ()
 - WAN: Wide Area Network (广域网)
 - WLAN: Wireless Local Area Network (无线局域网) @Wi-Fi
-- Wi-Fi: () @WLAN @IEEE-802.11
+- Wi-Fi: Wireless Fidelity (无线保真) @WLAN @IEEE-802.11
 - WWAN: Wireless Wide Area Network (无线广域网)

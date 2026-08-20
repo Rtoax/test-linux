@@ -104,6 +104,10 @@ docs_check() {
 			fatal "Don't modify/add ${f}, please move it to Documentation!"
 		fi
 	done
+
+	if [[ "${try_add[@]}${try_modify[@]}${try_del[@]}${try_rename[@]}" =~ "abbrev" ]]; then
+		${GIT_TOPDIR}/Documentation/abbrev.sh --check
+	fi
 }
 
 # see also scripts/broken-symlinks.sh

@@ -18,7 +18,7 @@ Abbrev
 - gABI: Generic ABI (通用ABI) @ABI
 - HII: Human Interface Infrastructure (人机界面基础设施)
 - IEC: International Electrotechnical Commission (国际电工委员会)
-- IIUC: If I understand correctly
+- IIUC: If I understand correctly (如果我理解的没错)
 - IMA: Integrity Measurement Architecture (完整性测量架构)
 - IMHO: In My Humble Opinion (依本人愚见)
 - IOPS: Input/Output operations Per Second (IO 操作数每秒)
@@ -45,7 +45,7 @@ Abbrev
 - SMT: Satisfiability Modulo Theories (基于模理论的可满足性)
 - SOAT: State Of The Art (技术水平)
 - STL: Standard Template Library (标准模板库，C++模板库)
-- Tex: () @LaTeX
+- Tex: Tex () @LaTeX
 - TOC: The Technical Oversight Committee (技术监督委员会)
 - UI: UNIX International (UNIX国际)
 - USG: UNIX System Group (Unix系统组)

@@ -1,4 +1,4 @@
 Abbrev
 ======
 
-- CFQ IO Scheduler (公平调度)
+- CFQ: CFQ IO Scheduler (公平调度)

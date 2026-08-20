@@ -5,7 +5,7 @@ Abbrev
 - CNN/CNNs/ConvNets: Convolutional Neural Networks (卷积神经网络)
 - DNN: Deep Neural Network (深度神经网络)
 - EP: Execution Provider (执行提供者) @PD
-- Grid: (线程网格)
+- Grid: Grid (线程网格)
 - KVCache: Key-Value Cache (键值缓存) @QKV
 - LLM: Large Language Model (大语言模型)
 - MFU: Model FLOPs Utilization (模型FLOPS利用率)
@@ -18,8 +18,8 @@ Abbrev
 - QKV: Query, Key, Value (查询、键、值) @LLM @KVCache
 - SGD: Stochastic Gradient Descent (随机梯度下降)
 - SLOs: Service Level Objectives (服务级别目标)
-- Tensor: (张量，是一种特殊的数据结构)
-- Token: (词元)
-- Tokenization: (分词)
+- Tensor: Tensor (张量，是一种特殊的数据结构)
+- Token: Token (词元)
+- Tokenization: Tokenization (分词)
 - TPOT: Time-Per-Output-Token (生成每个 token 的时间，主要衡量 Decode 阶段性能) @TTFT
 - TTFT: Time-To-First-Token (首 token 的生成时间，主要衡量 Prefill 阶段性能) @TPOT

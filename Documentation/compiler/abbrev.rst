@@ -8,18 +8,18 @@ Abbrev
 - CTF: Compact Type Format (一种紧凑的调试数据格式，最初用于Solaris，后引入Linux) @PAHOLE
 - DECL: declaration (声明)
 - DWARF: Debugging With Attributed Record Formats (调试信息标准) @PAHOLE
-- FDO: Feedback Directed Optimization
+- FDO: Feedback Directed Optimization (反馈直接优化)
 - IPA: Inter-Procedural Analysis (过程间分析)
 - IPO: Inter-Procedural Optimization (过程间优化)
-- IR: Intermediate Representation (中间表示) (LLVM)
-- JIT: Just In Time
+- IR: Intermediate Representation (中间表示) @LLVM
+- JIT: Just In Time (及时编译)
 - LALR: Look-Ahead, Left-to-Right, rightmost derivation parser (最右派生解析器)
 - LEX: Lexical Analyser (词法分析器)
-- LGEN: Local Generation
-- LLVM: Low Level Virtual Machine
+- LGEN: Local Generation (本地生成)
+- LLVM: Low Level Virtual Machine (低级别虚拟机)
 - LTO: Link-Time Opemizations (链接时优化)
-- LTRANS: Local Transformations
-- PDF: Profile-Directed Feedback
-- PGO: Profile-Guided Optimizations
-- WHOPR: Whole Program Optimizer
-- WPA: Whole Program Analysis
+- LTRANS: Local Transformations (局部变换)
+- PDF: Profile-Directed Feedback (基于配置文件的反馈)
+- PGO: Profile-Guided Optimizations (基于配置文件的优化)
+- WHOPR: Whole Program Optimizer (全程序优化器)
+- WPA: Whole Program Analysis (全程序分析)

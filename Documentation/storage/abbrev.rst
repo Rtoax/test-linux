@@ -8,7 +8,7 @@ Abbrev
 - CHS: Cylinder Head Sector (柱面磁头扇区)
 - CRUSH: Controlled Replication Under Scalable Hashing (可扩展哈希下的受控复制) @Ceph
 - DM: Device Mapper (设备映射)
-- DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing
+- DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing ()
 - EBR: Extended Boot Record (扩展启动记录) @VBR
 - FCP: Fibre Channel Protocol (光纤通道)
 - GPP: General Purpose Partitions ()

@@ -12,12 +12,12 @@ Abbrev
 - DAC: Discretionary Access Control (自主访问控制) @ACL
 - GPG: GNU Privacy Guard (GNU PG, GnuPG) @PGP
 - IPE: Integrity Policy Enforcement (诚信政策执行) @LSM
-- KMS: Key Management Services
+- KMS: Key Management Services (Key 管理服务)
 - LSM: Linux Security Modules (统一访问安全框架)
 - MAC: Mandatory Access Control (强制访问控制) @SELinux
 - MB: Measure Boot () @TB
 - MOK: Machine Owner Key ()
-- OP-TEE:
+- OP-TEE: Open Portable Trusted Execution Environment (开放可移植可信执行环境)
 - PAM: Pluggable Authentication Modules (可插入验证模块)
 - PC: Privacy Computing (隐私计算) @AI
 - PCR/PCRs: Platform Configuration Registers ()

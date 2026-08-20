@@ -9,7 +9,7 @@ Abbrev
 - DP: Double Precision (双精度) @FP64
 - FLOPs: Floating Point of Operations (浮点运算)
 - FLOPS: Floating Point Operations Per Second (每秒浮点运算个数)
-- FMA: Fused Multiply-Add ((a x b) + c)
+- FMA: Fused Multiply-Add (a x b + c)
 - FP64: FP 64-bit (双精度浮点) @DP
 - FP: Float Point (浮点, IEEE 754-2008) @TF
 - GART: Graphics Address Remapping Table (图形地址重映射表)
@@ -21,7 +21,7 @@ Abbrev
 - GMC: GFX Memory Controller (GFX内存控制器)
 - GPC: Graphics Processing Cluster (图形处理器集合)
 - GPU: Graphics Processing Unit (图形处理器)
-- HBM2E: HBM2E
+- HBM2E: HBM2E ()
 - HBM2: HBM 2 generation (第二代 HBM) @HBM
 - HBM: High Bandwidth Memory (高带宽内存)
 - HCC: HPC Cluster (高性能计算集群)

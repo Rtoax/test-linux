@@ -11,14 +11,14 @@ Abbrev
 - DRAM: Dynamic Random Access Memory (动态随机存取存储器)
 - DSB: Data Synchronization Barrier (数据同步屏障) @arm @DMB @ISB
 - ECC: Error Checking and Correcting () @UE @CE
-- EDAC: Error Detection And Correction
+- EDAC: Error Detection And Correction (错误探测和纠正)
 - GDT: Global Descriptor Table (全局描述符表)
 - ISB: Instruction Synchronization Barrier (指令同步屏障) @arm @DMB @DSB
 - KPTI: Kernel Page Table Isolation (内核页表隔离) @PTI
 - LDT: Local Descriptor Table (局部描述符表)
 - LMA: Load Memory Address (加载内存地址) @VMA
 - LRDIMM: Load-Reduces DIMM (成本高) @DIMM
-- MCE: Machine Check Exceptions
+- MCE: Machine Check Exceptions (机器检查异常)
 - MGLRU: Multi-Gen LRU (多代 LRU) @LRU
 - MM: Memory Managment (内存管理) @MMU
 - MMU: Memory Management Unit (内存管理单元) @IOMMU @SMMU

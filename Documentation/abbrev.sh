@@ -6,12 +6,12 @@
 #
 set -e
 readonly DOC_ROOT=$(dirname $(realpath $0))
-
-word=
+declare word check
 
 __usage__() {
 	echo -e "
 Usage:
+-C, --check        check instead of listing
 -w, --word         match the whole word
 -h, --help         show this help information
 "
@@ -19,8 +19,9 @@ Usage:
 }
 
 ARG_TEMP=$(getopt \
-	--options wh \
+	--options whC \
 	--long word \
+	--long check \
 	--long help \
 	-n ${0} -- "$@")
 
@@ -38,6 +39,10 @@ while true; do
 		shift
 		word=YES
 		;;
+	-C|--check)
+		shift
+		check=YES
+		;;
 	--)
 		shift
 		break
@@ -45,10 +50,11 @@ while true; do
 	esac
 done
 
-name=$1
-files=( $(find ${DOC_ROOT} -name abbrev*.rst) )
+declare name=$1
+declare -a files=( $(find ${DOC_ROOT} -name 'abbrev*.rst') )
 
 list_all() {
+	local f
 	for f in ${files[@]}
 	do
 		# strip root prefix
@@ -63,16 +69,37 @@ list_all() {
 	done | sort
 }
 
-find_name() {
+find_and_list() {
 	list_all | grep -i " .*${name}.*:" ${word:+-w}
 }
 
+listing() {
+	if [[ ${name} ]]; then
+		find_and_list | nl
+	else
+		list_all | nl
+	fi
+}
+
+checking() {
+	local f
+	for f in ${files[@]}
+	do
+		local not_match="$(cat ${f} | \
+					grep ^- | \
+					grep -v -E '^- [^:]+: [^(]+ \([^)]*\)( @[^ ]+)*$')"
+		if [[ "${not_match}" ]]; then
+			echo >&2 "ERROR: ${f} check failed"
+			echo "${not_match}"
+			exit 1
+		fi
+	done
+}
+
 pushd ${DOC_ROOT} 2>&1 >/dev/null
-
-if [[ ${name} ]]; then
-	find_name | nl
+if [[ ${check} ]]; then
+	checking
 else
-	list_all | nl
+	listing
 fi
-
 popd 2>&1 >/dev/null
