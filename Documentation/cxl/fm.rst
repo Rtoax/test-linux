@@ -14,6 +14,9 @@ CXL devices can be configured statically or dynamically via a Fabric Manager (FM
 Links
 -----
 
+Specifications
+~~~~~~~~~~~~~~
+
 - CXL Consortium, Compute Express Link™ (CXL™) Specification Revision 2.0: https://www.computeexpresslink.org
 - CXL™ Fabric Manager API over MCTP Binding Specification: https://www.dmtf.org/sites/default/files/standards/documents/DSP0234_1.0.0.pdf
 - DMTF DSP0236, Management Component Transport Protocol (MCTP) Base Specification 1.3: https://www.dmtf.org/sites/default/files/standards/documents/DSP0236_1.3.pdf
@@ -21,4 +24,8 @@ Links
 - DMTF DSP0237, Management Component Transport Protocol (MCTP) SMBus/I2C Transport Binding Specification 1.2: https://www.dmtf.org/sites/default/files/standards/documents/DSP0237_1.2.pdf
 - DMTF DSP0238, Management Component Transport Protocol (MCTP) PCIe VDM Transport Binding Specification 1.1: https://www.dmtf.org/sites/default/files/standards/documents/DSP0238_1.1.pdf
 - DMTF DSP0239, Management Component Transport Protocol (MCTP) IDs and Codes 1.7: https://www.dmtf.org/sites/default/files/standards/documents/DSP0239_1.7.pdf
+
+Codes
+~~~~~
+
 - https://github.com/computexpresslink/libcxlmi.git
