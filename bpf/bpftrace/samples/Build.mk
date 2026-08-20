@@ -3,6 +3,7 @@ include bpf/bpftrace.mk
 subdir-y += c-preprocessor
 subdir-y += config
 subdir-y += for
+subdir-y += if
 subdir-$(call bpftrace_gt,0,20,2) += import
 subdir-y += let
 subdir-y += macro
