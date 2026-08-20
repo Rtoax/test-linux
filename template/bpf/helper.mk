@@ -115,6 +115,14 @@ ifeq ($(call kver_gt,5,12,0),y)
   $(call bpf_def_helper,bpf_snprintf)
 endif
 
+# linux v5.13-5401-g9b99edcae5c8
+# commit 9b99edcae5c8 ("bpf: Add bpf_get_func_ip helper for tracing programs")
+# linux v6.5-rc5-1670-g686328d80c43
+# commit 686328d80c43 ("bpf: Add bpf_get_func_ip helper support for uprobe link")
+ifeq ($(call kver_gt,5,13,0),y)
+  $(call bpf_def_helper,bpf_get_func_ip)
+endif
+
 # linux v5.15-12938-ge6f2dd0f8067
 # commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
 # https://docs.ebpf.io/linux/helper-function/bpf_loop/ said >= v5.17

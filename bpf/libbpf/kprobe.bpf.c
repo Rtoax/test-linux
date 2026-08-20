@@ -101,6 +101,11 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 	bpf_iter_task_vma_destroy(&vma_it);
 #endif
 
+	/**
+	 * bpf_get_func_ip() return address of the traced function for kprobe,
+	 * 0 for kprobes placed within the function (not at the entry).
+	 * Return address of the probe for uprobe and return uprobe.
+	 */
 	bpf_printk("KPROBE ENTRY pid = %d, filename = %s, func ip 0x%lx", pid,
 		   filename, bpf_get_func_ip(ctx));
 	return 0;
