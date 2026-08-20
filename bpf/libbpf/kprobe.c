@@ -48,11 +48,33 @@ int main(int argc, char **argv)
 
 	init_stackmap(skel->maps.stackmap, 1024);
 
+#if defined(KPROBE)
+	/* TODO: offset non-zero */
+	DECLARE_LIBBPF_OPTS(bpf_kprobe_opts, kprobe_opts, .offset = 0,
+			    .retprobe = false, .attach_mode = 0, );
+	skel->links.do_execveat_common = bpf_program__attach_kprobe_opts(
+		skel->progs.do_execveat_common, KSYM_DO_EXECVEAT_COMMON,
+		&kprobe_opts);
+
+	DECLARE_LIBBPF_OPTS(bpf_kprobe_opts, kretprobe_opts, .offset = 0,
+			    .retprobe = true, .attach_mode = 0, );
+	skel->links.do_execveat_common_exit = bpf_program__attach_kprobe_opts(
+		skel->progs.do_execveat_common_exit, KSYM_DO_EXECVEAT_COMMON,
+		&kretprobe_opts);
+
+	if (!skel->links.do_execveat_common ||
+	    !skel->links.do_execveat_common_exit) {
+		fprintf(stderr, "Failed to attach BPF kprobe\n");
+		err = errno;
+		goto cleanup;
+	}
+#else
 	err = _bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton\n");
 		goto cleanup;
 	}
+#endif
 
 	printf("Successfully started!\n");
 
