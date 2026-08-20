@@ -442,7 +442,7 @@ static int save_json(const struct plot *p, const char *filename, bool debug)
 					json_object_new_double(v->v));
 
 				switch (p->x_type) {
-				case X_TIMEVAL:
+				case X_TIMEVAL: {
 					json_object *tv =
 						json_object_new_array();
 					json_object_array_add(
@@ -454,6 +454,7 @@ static int save_json(const struct plot *p, const char *filename, bool debug)
 
 					json_object_object_add(value, "tv", tv);
 					break;
+				}
 				case X_INDEX:
 					json_object_object_add(
 						value, "idx",
