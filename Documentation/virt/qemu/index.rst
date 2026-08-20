@@ -25,6 +25,8 @@ Links
 Documentations
 ~~~~~~~~~~~~~~
 
+- Qemu Main Page: https://wiki.qemu.org/Main_Page
+- Qemu Hosts: https://wiki.qemu.org/Hosts
 - Contribute to QEMU! https://www.qemu.org/contribute/
 
 Codes
