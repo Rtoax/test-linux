@@ -18,8 +18,9 @@
 ifndef _LOG_MK
 _LOG_MK = 1
 
-include dir.mk
 include ansi.mk
+include dir.mk
+include emoji.mk
 include file.mk
 include shell.mk
 include string.mk
@@ -56,14 +57,14 @@ $(info $(shell $(call log_info,${1})))
 endef
 
 define log_fail
-printf "$(call LOG_TS) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
+printf "${EMOJI_CRY}$(call LOG_TS) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
 endef
 define log_fail_mk
 $(info $(shell $(call log_fail,${1})))
 endef
 
 define log_warn
-printf "$(call LOG_PFX) $(call red,$1)\n" | tee --append ${LOG_FILE_INFO}
+printf "${EMOJI_SAD}$(call LOG_PFX) $(call red,$1)\n" | tee --append ${LOG_FILE_INFO}
 endef
 define log_warn_mk
 $(info $(shell $(call log_warn,${1})))
