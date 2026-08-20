@@ -18,6 +18,7 @@ CXL Abbrev
 - DAC: Direct Attach Copper (直接连接铜缆) @AEC
 - DC: Dynamic Capacity Device (动态能力) @DCD
 - DCD: Dynamic Capacity Device (动态能力设备) @DC
+- DOE: Data Object Exchange (数据对象交换) @DVSEC
 - DPA: CXL Memory Device Physical Address (内存设备物理地址)
 - DSP: Downstream Switch Port (下游交换端口) @USP
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)

@@ -6,6 +6,7 @@ PCIe Abbrev
 - ASPM: Active State Power Management (激活状态电源管理) @PCIe
 - BDF: Bus:Device.Function (总线:设备.功能) @PCIe
 - CAM: Configuration Access Mechanism (配置访问机制) @ECAM
+- DVSEC: Designated Vendor-Specific Extended Capability (指定供应商特定扩展功能)
 - ECAM: Enhanced Configuration Access Mechanism (增强配置访问机制) @CAM
 - PCI: Peripheral Component Interconnect (外围组件互联) @PCIe
 - PCIe: PCI-Express () @PCI
@@ -14,7 +15,7 @@ PCIe Abbrev
 - PCIe BAR: Base Address Register (基址寄存器)
 - PEC: Packet Error Code (包错误码) @PCIe
 - PIO: Port I/O (端口IO) @MMIO
-- PPB: PCI-to-PCI Bridge (PCI到PCI桥)
+- PPB: PCI-to-PCI Bridge (PCI 到 PCI 桥)
 - pswiotlb: Phytium Software IO TLB (软件IO转换后备缓冲区) @swiotlb
 - RC: Root Complex (根复合体) @PCIe
 - RCEC: Root Complex Event Collector (根复合体事件收集器)

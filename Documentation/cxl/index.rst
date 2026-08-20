@@ -33,7 +33,7 @@ CXL Hardware
 
    acpi
    pcie
-   vcs
+   switch
 
 
 CXL 厂商和产品
