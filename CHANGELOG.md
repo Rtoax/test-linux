@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- python: test locale/getlocale.py;
 - scripts/rootfs: add debian.sh;
 - version: config.json: add OpenIPMI;
 - acpi: add dsdt.c to test DSDT;
