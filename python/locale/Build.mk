@@ -1,0 +1,1 @@
+python-y += getlocale.py
