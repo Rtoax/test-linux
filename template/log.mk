@@ -57,7 +57,7 @@ $(info $(shell $(call log_info,${1})))
 endef
 
 define log_fail
-printf "${EMOJI_CRY}$(call LOG_TS) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
+printf "${EMOJI_ANGRY}$(call LOG_TS) $(call red,$1)\n" | tee --append ${LOG_FILE_FAILED}
 endef
 define log_fail_mk
 $(info $(shell $(call log_fail,${1})))
@@ -71,7 +71,7 @@ $(info $(shell $(call log_warn,${1})))
 endef
 
 define log_success
-printf "$(call LOG_PFX) $(call green,$1)\n" | tee --append ${LOG_FILE_INFO}
+printf "${EMOJI_LAUGH}$(call LOG_PFX) $(call green,$1)\n" | tee --append ${LOG_FILE_INFO}
 endef
 define log_success_mk
 $(info $(shell $(call log_success,${1})))

@@ -33,7 +33,7 @@ and this project adheres to
 - util-linux: add libuuid subdir;
 - add skopeo, printk;
 #### Template
-- add sanitizer.mk, util-linux.mk;
+- add sanitizer.mk, util-linux.mk, unicode/face-emojis.mk;
 - file.mk: add fexist() function;
 
 
