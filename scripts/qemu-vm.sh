@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.10"
+readonly VERSION="v1.1.11"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -941,6 +941,7 @@ ${BOLD}SYNOPSIS${RST}
     ${PROG} ${BOLD}list${RST} [-h|--help]
 
 ${BOLD}OPTIONS${RST}
+    -p, --port     list vm's network port
     -h, --help     show this information
 "
 	exit ${1-0}
@@ -952,7 +953,7 @@ list_vm() {
 	local id=0
 	local list_port
 
-	local LIST_VM_ARGS=$(getopt --options h \
+	local LIST_VM_ARGS=$(getopt --options ph \
 		--long port \
 		--long help \
 		--name list-vm -- "$@")
@@ -967,7 +968,7 @@ list_vm() {
 			shift
 			__usage_list_vm__
 			;;
-		--port)
+		-p | --port)
 			shift
 			list_port=ON
 			;;

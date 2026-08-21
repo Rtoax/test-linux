@@ -33,9 +33,9 @@ qemu -V --version
 qemu --cxl help
 qemu --disk help
 qemu --uefi help
-qemu list -h
 qemu list
-qemu list --port
+qemu list -h --help
+qemu list -p --port
 
 # Test Basic
 run
