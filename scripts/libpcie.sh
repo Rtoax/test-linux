@@ -35,6 +35,10 @@ pcie_nvidia_slots() {
 	pcie_vendor_slots ${VENDOR_NVIDIA}
 }
 
+pcie_intel_slots() {
+	pcie_vendor_slots ${VENDOR_INTEL}
+}
+
 pcie_cestc_slots() {
 	pcie_vendor_slots ${VENDOR_CESTC}
 }
