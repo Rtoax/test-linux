@@ -1,7 +1,7 @@
 #!/bin/bash
 # Test CXL devices with Qemu.
 #
-# Usage: [CUSTOM=1] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+# Usage: [DAEMON=1] [CUSTOM=1] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
 #   DEP=1: install depends first.
 #   GDB=1: enable gdb.
@@ -95,7 +95,7 @@ qargs+=( --initrd ${initramfs} )
 [[ ${GDB} ]] && qargs+=( --gdb )
 qargs+=( --rootfs ${rootfs},rw )
 # When test it on Hygon CPU, console is not easy to use.
-if [[ "$(lscpu | grep -wo HygonGenuine)" ]]; then
+if [[ "$(lscpu | grep -wo HygonGenuine)" ]] || [[ ${DAEMON} ]]; then
 	qargs+=( --daemon )
 else
 	qargs+=( --stdio )
