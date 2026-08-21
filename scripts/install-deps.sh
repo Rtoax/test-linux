@@ -850,6 +850,7 @@ pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
 pkgs_storage+=( ndctl ) # for nvdimm/libndctl
 
 pkgs_net+=( ethtool )
+pkgs_net+=( ifstat )
 pkgs_net+=( net-tools ) # netstat
 pkgs_net+=( rsync )
 pkgs_net+=( tcpdump )
