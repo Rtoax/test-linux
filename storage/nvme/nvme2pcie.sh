@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. ../../driver/pcie/libpcie.sh
+. ../../scripts/libpcie.sh
 
 NVME=( $(ls /sys/block/ | grep 'nvme[0-9]') )
 declare -a SLOT

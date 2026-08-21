@@ -30,6 +30,8 @@ and this project adheres to
 #### Linux Kernel
 #### Removed
 #### Security
+#### Scripts
+- libpcie.sh: move to scripts;
 #### Tools
 - util-linux: add libuuid subdir;
 - add skopeo, printk;
