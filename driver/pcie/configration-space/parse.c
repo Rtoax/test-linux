@@ -1,14 +1,17 @@
 #include <argp.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "pcie_helpers.h"
 
-static char *config = "/sys/bus/pci/devices/0000:02:02.0/config";
+static char slot[64] = { 0 };
+static char config[256] = "/sys/bus/pci/devices/0000:02:02.0/config";
 
 const char argp_prog_doc[] = "PCIe configuration space";
 
 static const struct argp_option opts[] = {
-	{ "config-file", 'f', "CONFIG FILE", 0,
+	{ "slot", 's', "SLOT", 0, "specify slot, like 0000:00:1f.6" },
+	{ "config-file", 'f', "CONFIG-FILE", 0,
 	  "config file name, like /sys/bus/pci/devices/0000:00:1f.6/config" },
 	{},
 };
@@ -16,8 +19,11 @@ static const struct argp_option opts[] = {
 static error_t parse_arg(int key, char *arg, struct argp_state *state)
 {
 	switch (key) {
+	case 's':
+		strncpy(slot, arg, sizeof(slot));
+		break;
 	case 'f':
-		config = arg;
+		strncpy(config, arg, sizeof(config));
 		break;
 	case ARGP_KEY_ARG:
 		break;
@@ -49,6 +55,17 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
+	if (strlen(slot) > 0) {
+		/* TODO: maybe not 0000: */
+		if (strncmp(slot, "0000:", 5)) {
+			snprintf(config, sizeof(config),
+				 "/sys/bus/pci/devices/0000:%s/config", slot);
+		} else {
+			snprintf(config, sizeof(config),
+				 "/sys/bus/pci/devices/%s/config", slot);
+		}
+	}
+
 	pci_cs_check_headers();
 
 	fp = fopen(config, "r");
@@ -74,6 +91,5 @@ int main(int argc, char *argv[])
 	}
 
 	fclose(fp);
-
 	return 0;
 }
