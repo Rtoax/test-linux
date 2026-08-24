@@ -31,7 +31,7 @@ Technology
    lvm
    multipath
    nbd
-   ndctl
+   ndctl/index
    nvdimm
    nvme
    pmem
