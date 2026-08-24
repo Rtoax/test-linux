@@ -10,7 +10,7 @@ set -e
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly TEST_LINUX_ROOT=$(realpath ${WHERE_AM_I}/../)
 readonly prog_name=runprog
-declare LOG_CMD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
+declare RECORD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
 declare LOG_FILE=runprog.log
 declare -a ENVS
 declare verbose=
@@ -73,7 +73,7 @@ while true; do
 		;;
 	--nocmdlog)
 		shift
-		LOG_CMD_FILE=
+		RECORD_FILE=
 		;;
 	-T | --timeout)
 		shift
@@ -172,17 +172,17 @@ fi
 
 if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
-	if [[ ${LOG_CMD_FILE} ]]; then
-		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}" >> ${LOG_CMD_FILE}
+	if [[ ${RECORD_FILE} ]]; then
+		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}" >> ${RECORD_FILE}
 	fi
 	error "${@}: run failed"
 else
-	if [[ ${LOG_CMD_FILE} ]]; then
-		echo -e "Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}" >> ${LOG_CMD_FILE}
+	if [[ ${RECORD_FILE} ]]; then
+		echo -e "Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}" >> ${RECORD_FILE}
 	fi
 fi
 
 # If you run with sudo, then we need to reset the owner of the log file.
-if [[ ${SUDO_USER} ]] && [[ ${LOG_CMD_FILE} ]]; then
-	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${LOG_CMD_FILE}
+if [[ ${SUDO_USER} ]] && [[ ${RECORD_FILE} ]]; then
+	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${RECORD_FILE}
 fi
