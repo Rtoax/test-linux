@@ -1,3 +1,5 @@
+subdir-y += driver
+
 prog-y += devtype.sh
 prog-y += interleave_granularity.sh
 prog-y += interleave_ways.sh
