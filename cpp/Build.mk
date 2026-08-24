@@ -26,6 +26,8 @@ target-cpp-${CC_SUPPORT_STD_C++26} += __STDC__c++26 __STDC__gnu++26
 target-cpp-y += expired
 target-cpp-y += unordered_map
 
+prog-y := $(filter-out return, ${target-cpp-y})
+
 __STDC__c++98-objs := __STDC__.1.cpp.o
 __STDC__c++03-objs := __STDC__.2.cpp.o
 __STDC__c++11-objs := __STDC__.3.cpp.o
