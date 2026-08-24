@@ -156,12 +156,10 @@ WHOLE_CMD+="${SHEBANG:+${SHEBANG} }"
 WHOLE_CMD+="${SPAWN[@]}"
 
 if [[ ${LOG_FILE} ]]; then
-	exec 30<> ${LOG_FILE}
-	eval "${WHOLE_CMD}" >&30 || {
+	eval "${WHOLE_CMD}" > >(tee -a ${LOG_FILE}) || {
 		REAL_RET=$?
 		true
 	}
-	exec 30>&-
 
 else
 	eval "${WHOLE_CMD}" || {
