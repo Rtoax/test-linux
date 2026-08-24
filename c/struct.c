@@ -3,16 +3,31 @@
 
 #define __unused __attribute__((unused))
 
+/**
+ * Structure declare
+ */
+
 struct test {
 	int idx;
 	int a;
 };
+_Static_assert(sizeof(struct test) == 8, "ERROR");
 
 /* bit‑field */
 struct test_bf {
 	int : (1);
 	int : 2;
 };
+#if defined(__aarch64__)
+#define TEST_BF_SIZE 4
+#else
+#define TEST_BF_SIZE 1
+#endif
+_Static_assert(sizeof(struct test_bf) == TEST_BF_SIZE);
+
+/**
+ * Structure definitions
+ */
 
 struct test test1 = {
 	/* -Wgnu-designator: use of GNU old-style field designator extension */
@@ -84,9 +99,6 @@ int main(void)
 	/* clang not support a : 10 */
 	struct test __unused t3 = { a : 10 };
 #endif
-
-	assert(sizeof(struct test) == 8);
-	assert(sizeof(struct test_bf) == 1);
 
 	PR_S(test1);
 	PR_S_ARR(tests1);
