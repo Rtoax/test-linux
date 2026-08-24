@@ -16,6 +16,7 @@ declare -a ENVS
 declare verbose=
 declare SUDO=
 declare TMOUT=
+declare REAL_RET=0 EXPECT_RET=0
 
 . ${WHERE_AM_I}/liblog.sh
 
@@ -29,6 +30,7 @@ OPTIONS:
 -e, --env [ENV=<VAL>]  set a env (may be listed multiple times)
 -T, --timeout [SEC]    set timeout seconds
 --maybe-sudo           running with superuser if possible
+--expect-return [RET]  expect return value, default 0
 
 -l, --log [FILE]       set log file name
     --nolog            skipping log
@@ -51,6 +53,7 @@ GETOPT_ARGS=$(getopt \
 	--long help \
 	--long verbose \
 	--long maybe-sudo \
+	--long expect-return: \
 	-n ${prog_name} -- "$@")
 
 test $? != 0 && __usage__ 1
@@ -99,6 +102,14 @@ while true; do
 			SUDO="sudo -E"
 		fi
 		;;
+	--expect-return)
+		shift
+		EXPECT_RET=${1}
+		if ! [[ ${EXPECT_RET} =~ ^-?[0-9]+$ ]]; then
+			error "--expect-return must pass digist, got '${EXPECT_RET}'"
+		fi
+		shift
+		;;
 	--)
 		shift
 		break
@@ -145,11 +156,21 @@ WHOLE_CMD+="${SHEBANG:+${SHEBANG} }"
 WHOLE_CMD+="${SPAWN[@]}"
 
 if [[ ${LOG_FILE} ]]; then
-	eval "${WHOLE_CMD}" | tee ${LOG_FILE}
+	exec 30<> ${LOG_FILE}
+	eval "${WHOLE_CMD}" >&30 || {
+		REAL_RET=$?
+		true
+	}
+	exec 30>&-
+
 else
-	eval "${WHOLE_CMD}"
+	eval "${WHOLE_CMD}" || {
+		REAL_RET=$?
+		true
+	}
 fi
-if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+
+if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
 	if [[ ${LOG_CMD_FILE} ]]; then
 		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}" >> ${LOG_CMD_FILE}
