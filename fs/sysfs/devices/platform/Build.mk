@@ -1,1 +1,1 @@
-subdir-y += ACPI0017
+subdir-y += ACPI0017\:00
