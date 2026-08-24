@@ -38,3 +38,8 @@ Links
 
 - 在线文档： https://m.zhangyue.com/readbook/13155075/4.html
 - 示例代码： https://gitee.com/Inkstoneydz/mxmaca-training-series-for-uestc
+
+大语言模型
+~~~~~~~~~~
+
+- Gitee 沐曦- Token 资源包: https://ai.gitee.com/serverless-api/packages/1492
