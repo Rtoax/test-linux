@@ -37,7 +37,7 @@ endef
 # Check file exist or not
 # $1: file to check
 define fexist
-$(shell if [[ -f ${1} ]]; then echo y; else echo n; fi)
+$(shell if [[ -e ${1} ]]; then echo y; else echo n; fi)
 endef
 
 # do some tests

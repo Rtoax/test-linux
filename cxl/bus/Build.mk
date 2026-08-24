@@ -1,1 +1,0 @@
-prog-y += info.sh

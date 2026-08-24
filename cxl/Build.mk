@@ -1,7 +1,7 @@
 include cxl.mk
 
-subdir-y += acpi
-subdir-y += bus
+subdir-${HAVE_CXL_DEVICE} += acpi
+subdir-${HAVE_CXL_DEVICE} += bus
 subdir-y += fm
 
 prog-${HAVE_CXL_DEVICE} += info.sh
