@@ -60,7 +60,7 @@ declare q_gdb
 declare dry_run
 declare verbose
 declare debug
-declare tmpdir=/tmp/${PROG}
+readonly TMPDIR=/tmp/${PROG}
 
 # Store VM specific files on host filesystem
 declare vm_tmpdir
@@ -917,13 +917,13 @@ handle_cxl_arg() {
 # $1: vm-name
 config_prepare_vm_tmpdir() {
 	local name=${1}
-	# If dry-run, vm tmpdir will not be created, thus, just set it to
-	# ${tmpdir}.
+	# If dry-run, vm temp directly will not be created, thus, just set it
+	# to ${TMPDIR}.
 	if [[ ${dry_run} ]]; then
-		tmpdir=/tmp
-		vm_tmpdir="${tmpdir}"
+		TMPDIR=/tmp
+		vm_tmpdir="${TMPDIR}"
 	else
-		vm_tmpdir=${tmpdir}/${name}
+		vm_tmpdir=${TMPDIR}/${name}
 	fi
 	vm_cmd_sh=${vm_tmpdir}/cmds.sh
 	vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
@@ -949,7 +949,7 @@ ${BOLD}OPTIONS${RST}
 
 list_vm() {
 	local i pidfile
-	local pidfiles=( $(find ${tmpdir} -name '*.pid' 2>/dev/null) )
+	local pidfiles=( $(find ${TMPDIR} -name '*.pid' 2>/dev/null) )
 	local id=0
 	local list_port
 
@@ -993,7 +993,7 @@ list_vm() {
 
 	for pidfile in ${pidfiles[@]}
 	do
-		local name="${pidfile#${tmpdir}/}"
+		local name="${pidfile#${TMPDIR}/}"
 		name="$(dirname ${name})"
 
 		config_prepare_vm_tmpdir ${name}
@@ -1021,7 +1021,7 @@ list_vm() {
 # $1: virtual machine name
 kill_vm() {
 	local name=${1}
-	local pidfile=${tmpdir}/${name}/pidfile.pid
+	local pidfile=${TMPDIR}/${name}/pidfile.pid
 
 	if [[ ! -f ${pidfile} ]]; then
 		error "Not found vm '${name}'"
@@ -1104,8 +1104,8 @@ config_vm_tmpdir() {
 	TCP_PORT_HOSTFWM_SSH22=$(get_free_tcp_port)
 	TCP_PORT_MONITOR_TELNET=$(get_free_tcp_port)
 
-	if [[ ! -d ${tmpdir} ]]; then
-		_eval mkdir -p ${tmpdir}
+	if [[ ! -d ${TMPDIR} ]]; then
+		_eval mkdir -p ${TMPDIR}
 	fi
 
 	if [[ ! -d ${vm_tmpdir} ]]; then
