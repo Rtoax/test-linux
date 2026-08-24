@@ -23,7 +23,7 @@ and this project adheres to
 #### Deprecated
 #### Documentation
 - devel: add template.rst;
-- cxl: add vcs.rst;
+- cxl: add vcs.rst, add product subdir;
 - qemu: add bmc.rst;
 - add flamegraph.rst, restful.rst, sunfish.rst, openipmi.rst;
 - standard: add dmtf;

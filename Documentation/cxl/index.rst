@@ -40,11 +40,6 @@ CXL 厂商和产品
 --------------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   amd
-   gigabyte
-   h3platform
-   intel
-   samsung
-   xconn
+   product/index
