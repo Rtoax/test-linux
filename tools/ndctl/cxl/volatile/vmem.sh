@@ -23,7 +23,7 @@ set -e
 # - "region0"  to /sys/bus/cxl/drivers/cxl_mem/bind
 # - "region0"  to /sys/bus/cxl/drivers/cxl_region/bind
 sudo cxl create-region --decoder decoder0.0 --size 4096M --type ram --memdevs mem0 mem1 mem2 mem3
-# or only use one way
+# Or only use way
 sudo cxl create-region --decoder decoder0.0 --size 1024M --type ram --memdevs mem0
 
 sudo cxl enable-region region0
@@ -33,7 +33,7 @@ sudo cxl list --regions | jq '.[].type'
 sudo daxctl list
 sudo daxctl list -r region0
 
-# add memory to main RAM
+# Add memory to main RAM
 # commit 21535dd38b6e ("cxl: dax0.0: use as system-ram")
 free -g
 sudo daxctl online-memory dax0.0
@@ -49,4 +49,9 @@ free -g
 # Write:
 # - "region0"   to /sys/bus/cxl/devices/root0/decoder0.0/region0/driver/unbind
 sudo cxl disable-region region0
+
+# Destroy region0
+#
+# Write:
+# - 0 to /sys/bus/cxl/devices/root0/decoder0.0/region0/commit
 sudo cxl destroy-region region0
