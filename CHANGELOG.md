@@ -19,6 +19,7 @@ and this project adheres to
 - scripts: add libos.sh, librun.sh;
 - qemu-vm.sh: cxl: add volatile-dc-memdev support;
 #### Changed
+- ndctl: cxl: add subdir persistent, volatile;
 #### Deprecated
 #### Documentation
 - devel: add template.rst;
