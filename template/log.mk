@@ -4,6 +4,8 @@
 # Functions:
 # - log_obj()
 # - log_tgt()
+# - log_debug()
+# - log_debug_mk()
 # - log_info()
 # - log_info_mk()
 # - log_warn()
@@ -48,7 +50,21 @@ define log_tgt
 printf "$(call LOG_PFX) %-16s $(call bgreen,%s)\n" "$(call toupper_shell,$(notdir ${1}))" "$(2)"
 endef
 
-# TODO: could not contains ',' in ${1}.
+ifdef DEBUG
+  # TODO: could not contains ',' in ${1}.
+  define log_debug
+  printf "$(call LOG_PFX) $1\n" | tee --append ${LOG_FILE_INFO}
+  endef
+  define log_debug_mk
+  $(info $(shell $(call log_debug,${1})))
+  endef
+else
+  define log_debug
+  endef
+  define log_debug_mk
+  endef
+endif
+
 define log_info
 printf "$(call LOG_PFX) $1\n" | tee --append ${LOG_FILE_INFO}
 endef

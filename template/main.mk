@@ -106,7 +106,7 @@ endif
 
 .PHONY: build
 build: $(build-targets)
-	$(call log_success,Building $(call strip_topdir_prefix,$(shell realpath .)))
+	$(call log_info,Building $(call strip_topdir_prefix,$(shell realpath .)))
 	@$(call log_obj,BUILD DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: clean
