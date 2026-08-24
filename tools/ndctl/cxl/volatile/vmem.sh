@@ -44,5 +44,9 @@ free -g
 sudo daxctl offline-memory dax0.0
 free -g
 
+# Disable region0
+#
+# Write:
+# - "region0"   to /sys/bus/cxl/devices/root0/decoder0.0/region0/driver/unbind
 sudo cxl disable-region region0
 sudo cxl destroy-region region0
