@@ -20,6 +20,7 @@ readonly LINE_TYPES_CONST=( unicode-bold unicode-bold-dashed unicode-boldbold
 readonly LINE_COLORS=( $(${PLOTCAKE} --lcolors 2>/dev/null || true) )
 readonly LINE_COLORS_ARGS=( $(for t in ${LINE_COLORS[@]}; do echo "-C ${t}"; done) )
 readonly LINE_COLORS_CONST=( green red cyan white magenta blue yellow )
+readonly SUPPORT_JSON="$(${PLOTCAKE} --help | grep -wo json)"
 
 [[ -z ${I} ]] && I=0.001
 [[ -z ${TMOUT} ]] && TMOUT=200ms
@@ -117,7 +118,7 @@ title="Multiple Words Title"
 xlabel="Multiple Words X Label"
 ylabel="Multiple Words Y Label"
 run --title \"${title}\" --xlabel \"${xlabel}\" --ylabel \"${ylabel}\" -o ${output}
-if [[ -e ${output}.json ]]; then
+if [[ ${SUPPORT_JSON} ]]; then
 	if [[ "$(jq -r '.plot.title' ${output}.json)" != "${title}" ]]; then
 		error "test '${title}' failed, see ${output}.json"
 	fi
@@ -132,12 +133,12 @@ fi
 run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
 run -o loadavg
 run -o loadavg2 -f loadavg.txt
-if [[ -e loadavg.json ]]; then
+if [[ ${SUPPORT_JSON} ]]; then
 	run -o loadavg3 -f loadavg.json
 fi
 run --ram -o memory
 run --ram -o memory2 -f memory.txt
-if [[ -e memory.json ]]; then
+if [[ ${SUPPORT_JSON} ]]; then
 	run --ram -o memory3 -f memory.json
 fi
 run --logarithmic
@@ -145,7 +146,7 @@ run --logarithmic10
 run --exponential
 run --delta
 run --x-index -o x-index
-if [[ -e x-index.json ]]; then
+if [[ ${SUPPORT_JSON} ]]; then
 	run -f x-index.json
 fi
 run -f x-index.txt
@@ -168,8 +169,9 @@ while true; do
 done | ${PLOTCAKE} -o stdin ${args[@]}
 # Test file load for each stdin test from above test
 run -f stdin.txt
-if [[ -e stdin.json ]]; then
+if [[ ${SUPPORT_JSON} ]]; then
 	run -f stdin.json
 fi
 
+echo "SUPPORT_JSON=${SUPPORT_JSON}"
 echo "Byebye"
