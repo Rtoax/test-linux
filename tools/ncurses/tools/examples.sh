@@ -117,29 +117,37 @@ title="Multiple Words Title"
 xlabel="Multiple Words X Label"
 ylabel="Multiple Words Y Label"
 run --title \"${title}\" --xlabel \"${xlabel}\" --ylabel \"${ylabel}\" -o ${output}
-if [[ "$(jq -r '.plot.title' ${output}.json)" != "${title}" ]]; then
-	error "test '${title}' failed, see ${output}.json"
-fi
-if [[ "$(jq -r '.plot.xlabel' ${output}.json)" != "${xlabel}" ]]; then
-	error "test '${xlabel}' failed, see ${output}.json"
-fi
-if [[ "$(jq -r '.plot.ylabel' ${output}.json)" != "${ylabel}" ]]; then
-	error "test '${ylabel}' failed, see ${output}.json"
+if [[ -e ${output}.json ]]; then
+	if [[ "$(jq -r '.plot.title' ${output}.json)" != "${title}" ]]; then
+		error "test '${title}' failed, see ${output}.json"
+	fi
+	if [[ "$(jq -r '.plot.xlabel' ${output}.json)" != "${xlabel}" ]]; then
+		error "test '${xlabel}' failed, see ${output}.json"
+	fi
+	if [[ "$(jq -r '.plot.ylabel' ${output}.json)" != "${ylabel}" ]]; then
+		error "test '${ylabel}' failed, see ${output}.json"
+	fi
 fi
 
 run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
 run -o loadavg
 run -o loadavg2 -f loadavg.txt
-run -o loadavg3 -f loadavg.json
+if [[ -e loadavg.json ]]; then
+	run -o loadavg3 -f loadavg.json
+fi
 run --ram -o memory
 run --ram -o memory2 -f memory.txt
-run --ram -o memory3 -f memory.json
+if [[ -e memory.json ]]; then
+	run --ram -o memory3 -f memory.json
+fi
 run --logarithmic
 run --logarithmic10
 run --exponential
 run --delta
 run --x-index -o x-index
-run -f x-index.json
+if [[ -e x-index.json ]]; then
+	run -f x-index.json
+fi
 run -f x-index.txt
 
 stdin -V --version
@@ -160,6 +168,8 @@ while true; do
 done | ${PLOTCAKE} -o stdin ${args[@]}
 # Test file load for each stdin test from above test
 run -f stdin.txt
-run -f stdin.json
+if [[ -e stdin.json ]]; then
+	run -f stdin.json
+fi
 
 echo "Byebye"

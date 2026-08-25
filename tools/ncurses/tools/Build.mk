@@ -1,10 +1,11 @@
+include file.mk
 include json-c.mk
 include ncurses.mk
 
 target-y += plotcake
 
 prog-y += examples.sh
-prog-y += examples.exp
+prog-$(fexist,/usr/bin/expect) += examples.exp
 
 $(foreach obj, plotcake keyboard file loadavg lgroup line plot ram stdin \
 	  ltypes utils axis, \
