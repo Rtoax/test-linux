@@ -42,7 +42,7 @@ struct line {
 
 struct ltype_ops {
 	const char name[64];
-	void (*horizon)(const struct line *ln, int y, int x);
+	void (*horizon)(const struct line *ln, int y, int x, int n);
 	void (*vertical)(const struct line *ln, int y, int x, int n);
 	/* upper left corner */
 	void (*ulcorner)(const struct line *ln, int y, int x);

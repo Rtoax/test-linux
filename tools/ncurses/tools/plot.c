@@ -233,7 +233,7 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		int w = p->plotwidth + p->bnd.left - (nvs - ivs);
 
 		attron(color);
-		ln->ops->horizon(ln, h, w);
+		ln->ops->horizon(ln, h, w, 1);
 		attroff(color);
 
 		/**
@@ -586,8 +586,7 @@ void plot_llabel(const struct plot *p)
 			const int n = 6;
 
 			attron(colors[ln->color] | A_BOLD);
-			for (int x = 0; x < n; x++)
-				ln->ops->horizon(ln, hi, w + x);
+			ln->ops->horizon(ln, hi, w, n);
 			mvprintw(hi, w + n + 1, " %s", ln->name);
 			attroff(colors[ln->color] | A_BOLD);
 			i++;
