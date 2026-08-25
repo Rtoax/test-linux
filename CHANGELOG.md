@@ -27,7 +27,7 @@ and this project adheres to
 - devel: add template.rst;
 - cxl: add vcs.rst, add product subdir;
 - qemu: add bmc.rst;
-- add flamegraph.rst, restful.rst, sunfish.rst, openipmi.rst;
+- add flamegraph.rst, restful.rst, sunfish.rst, openipmi.rst, darwin/index.rst;
 - standard: add dmtf;
 #### Fixed
 #### Linux Kernel

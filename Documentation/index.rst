@@ -72,7 +72,8 @@ Operating System
    :maxdepth: 1
 
    Linux Distributions <distro/index>
-   BSD <bsd/index>
+   bsd/index
+   darwin/index
 
 
 Hardware Architecture
