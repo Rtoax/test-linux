@@ -24,6 +24,7 @@ FDT (flattened device tree)
 --------
 
 .. code-block:: text
+
   [label:] <node-name> [@<unit-address>]{
   	[property]
   	[child nodes]

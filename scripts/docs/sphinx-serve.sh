@@ -55,6 +55,8 @@ file_monitor()
 	done
 }
 
+${sphinx_build}
+
 pushd ${DOCDIR}
 
 file_monitor &
