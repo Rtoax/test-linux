@@ -1,4 +1,6 @@
 #!/bin/bash
+# Commits:
+# - commit 1f866e735c78 ("cxl: list: 1-way vmem")
 set -e
 
 readonly ROOTDECODERS=( $(sudo cxl list --decoders | jq -r '.[] | .["root decoders"][]? | .decoder') )
