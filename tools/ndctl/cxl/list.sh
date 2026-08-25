@@ -23,7 +23,7 @@ done
 
 for memdev in ${MEMDEVS[@]}
 do
-	run sudo cxl list --memdev ${memdev}
+	run sudo cxl list --memdev ${memdev} --health
 done
 
 # Bus and dimm
