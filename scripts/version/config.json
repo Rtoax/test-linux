@@ -1,5 +1,5 @@
 {
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -708,7 +708,7 @@
 				"length": [ 2, 1 ]
 			},
 			"extension": [ "service", "mount" ],
-			"keys": [ "systemd", "journalctl", "ukify" ]
+			"keys": [ "systemd", "journalctl", "udev", "ukify" ]
 		},
 		"sysstat": {
 			"name": "Sysstat",

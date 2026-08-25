@@ -955,7 +955,6 @@ dnf_add_packages()
 	pkgs_base+=( scl-utils )
 	pkgs_base+=( sg3_utils )            # sg_inq, etc.
 	pkgs_base+=( shadow-utils )
-	pkgs_base+=( systemd-devel )
 	pkgs_base+=( systemd-udev )         # coredumpctl
 	pkgs_base+=( vim-default-editor )
 	pkgs_base+=( which )
@@ -1178,7 +1177,6 @@ apt_add_packages()
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
 	pkgs_base+=( selinux-basics selinux-utils )
 	pkgs_base+=( systemtap-sdt-dev )    # sdt.h
-	pkgs_base+=( systemd-dev )
 	if [[ $(is_os ubuntu) ]]; then
 		pkgs_base+=( linux-tools-common )
 	fi
@@ -1267,6 +1265,7 @@ apt_add_packages()
 	pkgs_devel+=( libslirp-dev )
 	pkgs_devel+=( libsnappy-dev )
 	pkgs_devel+=( libssh-dev )
+	pkgs_devel+=( libudev-dev )
 	pkgs_devel+=( liburcu-dev )
 	pkgs_devel+=( libusbredirhost-dev )
 	pkgs_devel+=( libopenblas-dev )
@@ -1278,6 +1277,7 @@ apt_add_packages()
 	pkgs_devel+=( python3-dev )
 	pkgs_devel+=( python3-installer )
 	pkgs_devel+=( python3-systemd )
+	pkgs_devel+=( systemd-dev )
 	pkgs_devel+=( systemtap-sdt-dev )
 	pkgs_devel+=( zlib1g-dev )
 	# For ROCm HIP

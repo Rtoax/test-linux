@@ -42,6 +42,7 @@ and this project adheres to
 - cxl.mk: rename `HAVE_CXL_DEVICES` to `HAVE_CXL_DEVICE`;
 - add sanitizer.mk, util-linux.mk, unicode/face-emojis.mk;
 - file.mk: add fexist() function;
+- add systemd/udev.mk;
 
 
 ## [v2.4.11] Phenomenal 2026-08-13
