@@ -52,6 +52,10 @@ struct ltype_ops {
 	void (*urcorner)(const struct plot *p, int y, int x);
 	/* lower right corner */
 	void (*lrcorner)(const struct plot *p, int y, int x);
+	/* up arrow */
+	void (*uarrow)(const struct plot *p, int y, int x);
+	/* right arrow */
+	void (*rarrow)(const struct plot *p, int y, int x);
 };
 
 #define for_each_value(l, iter)                                     \

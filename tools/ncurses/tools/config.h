@@ -2,7 +2,7 @@
 /* Copyright (C) 2026 Rong Tao */
 #pragma once
 
-#define MY_VERSION "v1.6.18"
+#define MY_VERSION "v1.6.19"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -64,6 +64,8 @@ extern const char *color_names[C_MAX];
 #define U2510 "┐"
 #define U2514 "└"
 #define U2518 "┘"
+#define U2191 "↑"
+#define U2192 "→"
 
 #define W_U2502 L"│"
 
