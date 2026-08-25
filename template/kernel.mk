@@ -64,8 +64,8 @@ endif
 ifneq ($(call kver_uapi_gt,1,1,1),y)
   $(error "call kver_uapi_gt failed")
 endif
-# Newest kernel is v7.2.0 rc1
-# see https://github.com/torvalds/linux
+# Newest kernel is v7.2.0
+# see https://github.com/torvalds/linux commit 8d3ae59288f1 ("Linux 7.2")
 ifneq ($(call kver_lt,7,3,0),y)
   $(error "call kver_lt failed, kver >= 7.3.0")
 endif
