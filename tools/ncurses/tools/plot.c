@@ -233,7 +233,7 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		int w = p->plotwidth + p->bnd.left - (nvs - ivs);
 
 		attron(color);
-		ln->ops->horizon(ln, h, w, 1);
+		ln->ops->horizon(p, h, w, 1);
 		attroff(color);
 
 		/**
@@ -244,13 +244,13 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		if (prev_h != -1) {
 			attron(color);
 			if (prev_h > h) {
-				ln->ops->lrcorner(ln, prev_h, w);
-				ln->ops->ulcorner(ln, h, w);
-				ln->ops->vertical(ln, h + 1, w, prev_h - h - 1);
+				ln->ops->lrcorner(p, prev_h, w);
+				ln->ops->ulcorner(p, h, w);
+				ln->ops->vertical(p, h + 1, w, prev_h - h - 1);
 			} else if (h > prev_h) {
-				ln->ops->urcorner(ln, prev_h, w);
-				ln->ops->llcorner(ln, h, w);
-				ln->ops->vertical(ln, prev_h + 1, w,
+				ln->ops->urcorner(p, prev_h, w);
+				ln->ops->llcorner(p, h, w);
+				ln->ops->vertical(p, prev_h + 1, w,
 						  h - prev_h - 1);
 			}
 			attroff(color);
@@ -586,7 +586,7 @@ void plot_llabel(const struct plot *p)
 			const int n = 6;
 
 			attron(colors[ln->color] | A_BOLD);
-			ln->ops->horizon(ln, hi, w, n);
+			ln->ops->horizon(p, hi, w, n);
 			mvprintw(hi, w + n + 1, " %s", ln->name);
 			attroff(colors[ln->color] | A_BOLD);
 			i++;

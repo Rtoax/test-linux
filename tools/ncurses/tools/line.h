@@ -42,16 +42,16 @@ struct line {
 
 struct ltype_ops {
 	const char name[64];
-	void (*horizon)(const struct line *ln, int y, int x, int n);
-	void (*vertical)(const struct line *ln, int y, int x, int n);
+	void (*horizon)(const struct plot *p, int y, int x, int n);
+	void (*vertical)(const struct plot *p, int y, int x, int n);
 	/* upper left corner */
-	void (*ulcorner)(const struct line *ln, int y, int x);
+	void (*ulcorner)(const struct plot *p, int y, int x);
 	/* lower left corner */
-	void (*llcorner)(const struct line *ln, int y, int x);
+	void (*llcorner)(const struct plot *p, int y, int x);
 	/* upper right corner */
-	void (*urcorner)(const struct line *ln, int y, int x);
+	void (*urcorner)(const struct plot *p, int y, int x);
 	/* lower right corner */
-	void (*lrcorner)(const struct line *ln, int y, int x);
+	void (*lrcorner)(const struct plot *p, int y, int x);
 };
 
 #define for_each_value(l, iter)                                     \
