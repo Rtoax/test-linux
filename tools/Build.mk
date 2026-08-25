@@ -18,6 +18,7 @@ subdir-y += evtest
 subdir-y += expect
 subdir-y += ffmpeg
 subdir-y += fmtlib
+subdir-y += fontconfig
 subdir-y += fstabd
 subdir-y += gdisk
 subdir-${HAVE_GIT} += git

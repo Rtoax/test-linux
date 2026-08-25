@@ -19,6 +19,7 @@ User Space
    conda
    dkms
    flamegraph
+   fontconfig
    git
    libcap-ng
    libguestfs

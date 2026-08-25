@@ -40,7 +40,7 @@ and this project adheres to
 - libpcie.sh: move to scripts;
 #### Tools
 - util-linux: add libuuid subdir;
-- add skopeo, printk;
+- add skopeo, printk, fontconfig;
 #### Template
 - unicode: add arrow.mk;
 - sudo.mk: rename `SUDO` to `SUDO_NOPASSWD`;

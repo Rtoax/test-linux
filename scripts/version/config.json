@@ -1,5 +1,5 @@
 {
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -201,6 +201,11 @@
 			"name": "Findutils",
 			"command": [ "find" ],
 			"keys": [ "find", "findutils" ]
+		},
+		"fontconfig": {
+			"name": "Fontconfig",
+			"command": [ "fc-list" ],
+			"keys": [ "fontconfig" ]
 		},
 		"gcc": {
 			"name": "GCC",
