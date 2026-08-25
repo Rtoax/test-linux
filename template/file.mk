@@ -10,6 +10,7 @@ ifndef _FILE_MK
 _FILE_MK = 1
 
 include shell.mk
+include sudo.mk
 
 # Rename file to file.old, by recursion, old files are not deleted.
 # $1: filename
@@ -37,7 +38,7 @@ endef
 # Check file exist or not
 # $1: file to check
 define fexist
-$(shell if [[ -e ${1} ]]; then echo y; else echo n; fi)
+$(shell if ${SUDO_NOPASSWD} test -e ${1}; then echo y; else echo n; fi)
 endef
 
 # do some tests
