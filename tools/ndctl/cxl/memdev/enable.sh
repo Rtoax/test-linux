@@ -17,6 +17,8 @@ do
 	run sudo cxl disable-memdev ${memdev}
 	run sudo cxl list --memdevs
 	run sudo cxl enable-memdev ${memdev}
+	run sudo cxl list --memdevs
 done
 
+run sudo cxl enable-memdev all
 run sudo cxl list --memdevs --health
