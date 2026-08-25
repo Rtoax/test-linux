@@ -1,3 +1,4 @@
+subdir-y += alpine
 subdir-y += anaconda
 subdir-y += apt
 subdir-y += dpkg
