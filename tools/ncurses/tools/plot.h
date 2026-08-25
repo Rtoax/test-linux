@@ -81,6 +81,7 @@ struct plot {
 	 */
 	bool need_redraw;
 
+	enum ltype_enum axis_curve_type;
 	enum x_axis_type x_type;
 
 #define PLOT_INF0_FMT                                                      \
@@ -160,7 +161,7 @@ static inline void set_plot_ylabel(struct plot *p, const char *label)
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
-	      enum x_axis_type x_type);
+	      enum x_axis_type x_type, enum ltype_enum axis);
 unsigned long plot_mem_size(const struct plot *p);
 
 #define plot_warning(p, fmt...) __plot_warning(p, fmt)

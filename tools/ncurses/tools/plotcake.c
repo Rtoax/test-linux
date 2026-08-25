@@ -44,6 +44,7 @@ enum {
 	ARG_LINE_TYPES,
 	ARG_LINE_COLORS,
 	ARG_X_AXIS_INDEX,
+	ARG_AXIS_CURVE_TYPE,
 };
 
 const char argp_prog_doc[] = ANSI_BOLD
@@ -124,6 +125,9 @@ static const struct argp_option opts[] = {
 	  ")." },
 	{ "x-index", ARG_X_AXIS_INDEX, NULL, 1,
 	  "Use index as x axis value instead of timeval" },
+	{ "axis-curve-type", ARG_AXIS_CURVE_TYPE, "TYPE", 0,
+	  "Plotting line types for coordinate axes, the supported types will "
+	  "be listed or use --ltypes show all types supported " },
 	{ "verbose", 'v', NULL, 1,
 	  "Display detail (shortcut: " KEY_HELP_v ")" },
 	{ "version", 'V', NULL, 1, "Display version" },
@@ -143,6 +147,7 @@ static char *xlabel = NULL;
 static char *ylabel = NULL;
 static enum curve_type curve_type = CURVE_TYPE_NONE;
 static enum x_axis_type x_type = X_TIMEVAL;
+static enum ltype_enum axis_curve_type = LINE_TYPE_THIN_UNICODE;
 
 struct plot plot = { 0 };
 struct keyboard keyboard = { 0 };
@@ -180,6 +185,11 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		if (!ltype_hasname(arg))
 			err = -EINVAL;
 		err = err ?: enqueue_ltype(ltype_name2type(arg));
+		break;
+	case ARG_AXIS_CURVE_TYPE:
+		if (!ltype_hasname(arg))
+			err = -EINVAL;
+		axis_curve_type = ltype_name2type(arg);
 		break;
 	case 'C':
 		if (!lcolor_hasname(arg))
@@ -288,7 +298,8 @@ int main(int argc, char *argv[])
 	}
 
 	keyboard_init(&keyboard);
-	err = plot_init(&plot, &keyboard, file, verbose, x_type);
+	err = plot_init(&plot, &keyboard, file, verbose, x_type,
+			axis_curve_type);
 	if (err) {
 		fprintf(stderr, "plot init failed, %s\n", strerror(-err));
 		return err;

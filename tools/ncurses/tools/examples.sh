@@ -131,6 +131,10 @@ if [[ ${SUPPORT_JSON} ]]; then
 fi
 
 run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
+for axis in ${LINE_TYPES[@]}
+do
+	run --axis-curve-type=${axis}
+done
 run -o loadavg
 run -o loadavg2 -f loadavg.txt
 if [[ ${SUPPORT_JSON} ]]; then

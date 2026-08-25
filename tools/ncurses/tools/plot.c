@@ -343,7 +343,7 @@ static void __draw_title(const struct plot *p)
 
 static void __draw_axes(const struct plot *p)
 {
-	const struct ltype_ops *ops = ltype_type2ops(LINE_TYPE_THIN_UNICODE);
+	const struct ltype_ops *ops = ltype_type2ops(p->axis_curve_type);
 
 	ops->horizon(p, p->plotheight + p->bnd.top, p->bnd.left, p->plotwidth);
 	ops->vertical(p, p->bnd.top, p->bnd.left, p->plotheight);
@@ -673,7 +673,7 @@ static int key_right(int key, void *arg)
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
-	      enum x_axis_type x_type)
+	      enum x_axis_type x_type, enum ltype_enum axis)
 {
 	int err = 0;
 
@@ -684,6 +684,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 
 	plot_scaling_init(p);
 
+	p->axis_curve_type = axis;
 	p->kb = kb;
 	if (x_type < X_TIMEVAL || x_type > X_INDEX)
 		return -EINVAL;
