@@ -21,6 +21,7 @@ User Space
    flamegraph
    fontconfig
    git
+   kbd
    libcap-ng
    libguestfs
    libosinfo

@@ -28,6 +28,7 @@ subdir-y += iproute
 subdir-y += jq
 subdir-y += json-c
 subdir-y += kasan
+subdir-y += kbd
 subdir-y += libblockdev
 subdir-y += libnbd
 subdir-${HAVE_LIBSMBIOS} += libsmbios

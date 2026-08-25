@@ -327,6 +327,11 @@
 			"extension": [ "json" ],
 			"keys": [ "json" ]
 		},
+		"kbd": {
+			"name": "KBD",
+			"command": [ "showconsolefont", "chvt" ],
+			"keys": [ "kbd" ]
+		},
 		"kmod": {
 			"name": "KMod",
 			"command": [ "insmod", "modprobe" ],

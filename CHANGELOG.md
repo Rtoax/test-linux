@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sysfs: add module subdir;
 - cxl: inject: add debugfs and cxl subdir;
 - debugfs: add cxl subdir for `/sys/kernel/debug/cxl/`;
 - cxl: create region with `/sys` fs;
@@ -40,7 +41,7 @@ and this project adheres to
 - libpcie.sh: move to scripts;
 #### Tools
 - util-linux: add libuuid subdir;
-- add skopeo, printk, fontconfig;
+- add skopeo, printk, fontconfig, kbd;
 #### Template
 - unicode: add arrow.mk;
 - sudo.mk: rename `SUDO` to `SUDO_NOPASSWD`;
