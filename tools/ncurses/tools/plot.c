@@ -343,15 +343,24 @@ static void __draw_title(const struct plot *p)
 
 static void __draw_axes(const struct plot *p)
 {
-	mvhline(p->plotheight + p->bnd.top, p->bnd.left, T_HLINE, p->plotwidth);
-	mvvline(p->bnd.top, p->bnd.left, T_VLINE, p->plotheight);
-	mvaddch(p->plotheight + p->bnd.top, p->bnd.left, T_LLCR);
+	mvhline(p->plotheight + p->bnd.top, p->bnd.left, ACS_HLINE,
+		p->plotwidth);
+	mvvline(p->bnd.top, p->bnd.left, ACS_VLINE, p->plotheight);
+	mvaddch(p->plotheight + p->bnd.top, p->bnd.left, ACS_LLCORNER);
 
-	mvaddch(p->bnd.top, p->bnd.left, T_UARR);
+#if 0
+	mvaddch(p->bnd.top, p->bnd.left, ACS_UARROW);
+#else
 	mvprintw(p->bnd.top, p->bnd.left, U25B2);
+#endif
 	mvaddstr(p->bnd.top - 1, p->bnd.left, p->label_y);
 
+#if 0
+	mvaddch(p->plotheight + p->bnd.top, p->plotwidth + p->bnd.left,
+		ACS_RARROW);
+#else
 	mvprintw(p->plotheight + p->bnd.top, p->plotwidth + p->bnd.left, U25BA);
+#endif
 	mvaddstr(p->plotheight + p->bnd.top + 1, p->plotwidth + p->bnd.left,
 		 p->label_x);
 }
