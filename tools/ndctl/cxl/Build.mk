@@ -1,3 +1,4 @@
+subdir-y += monitor
 subdir-y += persistent
 subdir-y += volatile
 
