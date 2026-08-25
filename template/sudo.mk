@@ -4,7 +4,7 @@
 # Note: You can get real user useing env $SUDO_USER
 #
 # Output definitions:
-# - SUDO=[sudo]
+# - SUDO_NOPASSWD=[sudo]
 # - SUDO_NON_INTERACTIVE=[y|n]
 #
 ifndef _SUDO_MK
@@ -14,10 +14,10 @@ _SUDO_MK = 1
 # will occur. Here, it is detected whether ordinary users are exempt from
 # sudo passwords. If so, it is necessary to add the "sudo" prefix to the
 # required bpftool command execution.
-SUDO := $(shell if sudo --non-interactive true 2>/dev/null; then \
-		echo sudo; fi)
+SUDO_NOPASSWD := $(shell if sudo --non-interactive true 2>/dev/null; then \
+				echo sudo; fi)
 
-ifneq (${SUDO},)
+ifneq (${SUDO_NOPASSWD},)
   SUDO_NON_INTERACTIVE := y
 else
   SUDO_NON_INTERACTIVE := n
@@ -25,10 +25,10 @@ else
 endif
 
 ifdef DEBUG
-  $(info SUDO = ${SUDO})
+  $(info SUDO_NOPASSWD = ${SUDO_NOPASSWD})
   $(info SUDO_NON_INTERACTIVE = ${SUDO_NON_INTERACTIVE})
 endif
 
-export SUDO SUDO_NON_INTERACTIVE
+export SUDO_NOPASSWD SUDO_NON_INTERACTIVE
 
 endif
