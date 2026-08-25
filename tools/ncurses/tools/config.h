@@ -55,14 +55,18 @@ extern const char *color_names[C_MAX];
 #define T_HLINE '-'
 #define T_VLINE '|'
 #define T_LLCR 'L'
+#define T_LARR '<'
 #define T_RARR '>'
 #define T_UARR '^'
+#define T_DARR '`'
 #else
 #define T_HLINE ACS_HLINE
 #define T_VLINE ACS_VLINE
 #define T_LLCR ACS_LLCORNER
+#define T_LARR ACS_LARROW
 #define T_RARR ACS_RARROW
 #define T_UARR ACS_UARROW
+#define T_DARR ACS_DARROW
 #endif
 
 #define U2500 "─"
