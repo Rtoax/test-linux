@@ -1,3 +1,4 @@
+subdir-y += inject
 subdir-y += memdev
 subdir-y += monitor
 subdir-y += persistent

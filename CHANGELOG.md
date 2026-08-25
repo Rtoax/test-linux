@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cxl: inject: add debugfs and cxl subdir;
 - debugfs: add cxl subdir for `/sys/kernel/debug/cxl/`;
 - cxl: create region with `/sys` fs;
 - sysfs: add `/sys/bus/cxl` and `/sys/devices/platform/ACPI0017:00/` subdir;
