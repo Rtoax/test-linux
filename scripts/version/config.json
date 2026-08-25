@@ -1,5 +1,5 @@
 {
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -321,7 +321,7 @@
 		"jq": {
 			"name": "Jq",
 			"version": {
-				"length": [ 2 ]
+				"length": [ 3, 2 ]
 			},
 			"extension": [ "json" ],
 			"keys": [ "jq", "json" ]
