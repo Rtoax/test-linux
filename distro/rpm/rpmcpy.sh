@@ -2,7 +2,7 @@
 #
 # Copy rpms command with all depends
 #
-# Copyright (C) 2022-2026 Rong Tao.
+# Copyright (C) 2022-2026 Rong Tao. All rights reserved.
 #
 set -e
 

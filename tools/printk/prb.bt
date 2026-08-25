@@ -1,0 +1,24 @@
+#!/bin/env bpftrace
+/**
+ * printk ringbuffer
+ */
+
+kprobe:prb_*
+{
+	@start[func, tid] = nsecs;
+	// printf("%s\n", func);
+}
+
+kretprobe:prb_*
+/ has_key(@start, (func, tid)) / /* TODO: why check not ok? */
+{
+	$cost = (nsecs - @start[func, tid]) / 1000;
+	printf("%s cost %ld us\n", func, $cost);
+	@hist_us = hist($cost);
+	delete(@start[func, tid]);
+}
+
+END
+{
+	clear(@start);
+}

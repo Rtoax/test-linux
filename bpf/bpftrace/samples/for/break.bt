@@ -1,0 +1,13 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	$cnt = 0;
+	for ($j : ((uint64)0)..((uint64)10)) {
+		printf("cnt %d, j = %d\n", $cnt, $j);
+		$cnt += 1;
+		if ($j == 3) {
+			break;
+		}
+	}
+}

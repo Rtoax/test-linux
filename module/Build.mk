@@ -9,6 +9,7 @@ subdir-y += params
 subdir-y += relocation
 subdir-y += sign
 subdir-y += symbol
+subdir-y += syscalls
 subdir-y += version
 
 prog-y += alias.sh

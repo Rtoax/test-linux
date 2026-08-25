@@ -1,0 +1,7 @@
+#!/bin/env bpftrace
+
+test:system
+{
+  system("pwd");
+  return 0;
+}

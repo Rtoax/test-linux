@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+/* Copyright (C) 2024-2026 Rong Tao. All rights reserved. */
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

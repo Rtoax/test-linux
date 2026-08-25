@@ -1,0 +1,13 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	$hello = "hello";
+	$world = "world";
+
+	/* see https://github.com/bpftrace/bpftrace/pull/5231 */
+	$helloworld = $hello + $world;
+	print($helloworld);
+
+	exit();
+}

@@ -4,6 +4,11 @@ binfmt
 binfmt_misc
 -----------
 
+
+binfmt_elf
+----------
+
+
 /proc/sys/fs/binfmt_misc/register
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

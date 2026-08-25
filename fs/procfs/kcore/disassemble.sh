@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-ksym=schedule
+ksym=${1}
+[[ -z ${ksym} ]] && ksym=schedule
 
 kaddr=( $(sudo grep -i " ${ksym}$" /proc/kallsyms) )
 [[ -z "${kaddr}" ]] && echo "ERROR: Not found ${ksym}" && exit 1

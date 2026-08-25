@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Input definitions:
 # - PIE=1
@@ -14,9 +14,6 @@
 #
 ifndef _PIE_MK
 _PIE_MK = 1
-
-CFLAGS_PIE :=
-LDFLAGS_PIE :=
 
 # Debian 12 default compile PIE EXEC, Fedora40 default compile no-PIE EXEC.
 # Default no-PIE in my case.

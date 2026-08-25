@@ -2,6 +2,7 @@
 # Upgrade Debian
 # ref:
 # - https://wiki.debian.org/DebianUpgrade
+# - Debian Releases: https://www.debian.org/releases/
 # - Debian 13 Trixie: https://www.debian.org/releases/trixie/release-notes/upgrading.en.html
 
 # First, ensure your system is up-to-date in it's current release.

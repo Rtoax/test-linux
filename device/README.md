@@ -1,5 +1,0 @@
-Device
-======
-
-- `linux/major.h`
-

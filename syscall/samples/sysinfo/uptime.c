@@ -28,7 +28,9 @@ char* humanTime(long time)
 	size_t str_len = 255;
 	char *str = malloc(str_len);
 
-	snprintf(str, str_len, "Up %ld weeks, %ld days, %ld hours, %ld minutes, and %ld seconds",
+	snprintf(
+		str, str_len,
+		"Up %ld weeks, %ld days, %ld hours, %ld minutes, and %ld seconds",
 		weeks, days, hours, mins, time);
 
 	return str;
@@ -53,4 +55,3 @@ int main(void)
 	free(time);
 	return 0;
 }
-

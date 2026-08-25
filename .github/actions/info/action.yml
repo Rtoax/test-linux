@@ -1,0 +1,11 @@
+name: Information
+
+description: Shows information that we need.
+
+runs:
+  using: "information"
+  steps:
+    - name: Shows OS release
+      run: |
+        cat /etc/os-release
+      shell: bash

@@ -1,0 +1,29 @@
+#!/bin/env bpftrace
+// refs:
+// - PR: stdlib: support std_concat()
+//   https://github.com/bpftrace/bpftrace/pull/5265
+// - PR: stdlib: support get current working directory
+//   https://github.com/bpftrace/bpftrace/pull/5276 v2
+//   https://github.com/bpftrace/bpftrace/pull/5231
+
+// see PR: 'Warn on low log space in verbose mode', avoid to ENOSPC
+// - https://github.com/bpftrace/bpftrace/pull/5259
+config = {
+  log_size = 10000000;
+}
+
+BEGIN
+{
+  let $s1 : string[32];
+  $s1 = "hello";
+
+  $new = str_concat($s1, " world");
+  $new = str_concat($new, " Rong Tao");
+  $new = str_concat("INFO: ", $new);
+
+  printf("%s\n", $new);
+
+  $new2 = str_concat("Hello", " World");
+  printf("%s\n", $new2);
+  exit();
+}

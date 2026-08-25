@@ -1,2 +1,0 @@
-- GCC: Gnu Compiler Collection (GNU 编译器)
-- GNU: GNU is Not Unix ()

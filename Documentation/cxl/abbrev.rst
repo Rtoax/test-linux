@@ -2,6 +2,9 @@
 CXL Abbrev
 ==========
 
+- NIB: Number of Bitmap Entries (Bitmap 条目)
+- AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
+- AOC: Active Optical Cable (有源光缆) @AEC
 - CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
 - CEDT: CXL Early Discovery Table (CXL 早期发现表) @ACPI
@@ -9,19 +12,34 @@ CXL Abbrev
 - CFMW/CFMWS: ACPI CEDT CXL Fixed Memory Window Structure (ACPI CEDT CXL 固定内存窗口结构)
 - CHBS: CXL Host Bridge Structure (CXL 主机桥结构)
 - CMRK: CXL Memory Resource Kit (CXL 内存资源kit)
+- CS: CXL Switch (CXL 交换机)
 - CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
 - CXL: Compute Express Link (计算快速链接) @MCTP @CIM
-- DPA: CXL Memory Device Physical Address (内存设备物理地址)
+- DAC: Direct Attach Copper (直接连接铜缆) @AEC
+- DC: Dynamic Capacity Device (动态能力) @DCD
+- DCD: Dynamic Capacity Device (动态能力设备) @DC
+- DOE: Data Object Exchange (数据对象交换) @DVSEC
+- DPA: CXL Memory Device Physical Address (CXL 内存设备物理地址)
+- DSP: Downstream Switch Port (下游交换端口) @USP
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
-- FM: Fabric Manager ()
+- FM: Fabric Manager (Fabric 管理器) @MCTP
 - ISP: Interleave set position (交错set位置)
 - LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
+- MC: Memory Controller (内存控制器)
 - MHD: Muiltple Headed Device (多头设备)
-- MLD: Muiltple Logical Device (多逻辑设备)
+- MLD: Muiltple Logical Device (多逻辑设备) @SLD
 - OMI: Open Memory Interface (开放内存接口)
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
+- OSC: Operating System Capabilities (操作系统能力)
 - PXB: PCI eXpander Bridge (PCI 扩展桥)
-- SLD: Single Logical Device (单一逻辑设备)
+- RCEC: Root Complex Event Collector (根联合体事件收集器) @RDPAS
+- RDPAS: RCEC Downstream Port Association Structure (RCEC下游端口关联结构) @RCEC
+- SLD: Single Logical Device (单一逻辑设备) @MLD
+- TMO: TMO? (透明内存卸载) @Meta
+- TPP: Transparent Put (透明页放置) @Meta
 - UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)
+- USP: Upstream Switch Port (上游交换端口) @DSP
+- vPPB: Virtual PCI-to-PCI Bridge (虚拟 PPB) @PPB
+- VCS: Virtual CXL Switch (虚拟 CXL 交换机)
 - XHB: CXL Host Bridge (CXL Host 桥)

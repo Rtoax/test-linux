@@ -1,8 +1,8 @@
 .. SPDX-License-Identifier: GPL-2.0
 
-===========
-Quick Start
-===========
+======================
+Test Linux Quick Start
+======================
 
 The purpose of this document is to compile the code of this directory and
 subdirectories directly in each level of directory.
@@ -55,7 +55,7 @@ Compile without user space code:
 
     $ make build USRC=
 
-Compile with **32bits mathine**:
+Compile with **32bits machine**:
 
 .. code-block:: bash
 

@@ -3,12 +3,13 @@
 #
 # Check code format with clang-format.
 #
-# Usage: [VCF=1] [FCF=1] [FORCE=1] clang-format.sh
+# Usage: [VCF=1] [FCF|FORCE=1] clang-format.sh
 # - FORCE/FCF: Force mode of Clang-Format
 #
 set -e
 
 [[ -z ${FCF} ]] && FCF=${FORCE}
+[[ ! -z "${VCF}${VERBOSE}" ]] && set -x
 
 fatal() {
 	echo >&2 -en "\033[31m"
@@ -25,6 +26,10 @@ fatal() {
 }
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
+
+if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
+	. ${GIT_TOPDIR}/.gitconfig.sh
+fi
 
 # Check code format wich git-clang-format
 readonly clang_format=$(which git-clang-format 2>/dev/null || :)

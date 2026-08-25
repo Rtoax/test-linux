@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-/* Copyright (C) 2024-2026 Rong Tao */
+/* Copyright (C) 2024-2026 Rong Tao. All rights reserved. */
 /* Copyright (c) 2020 Facebook */
 #include <vmlinux.h>
 #include <bpf/bpf_helpers.h>

@@ -14,6 +14,8 @@ target-y += push_macro
 target-y += message
 target-y += _Pragma
 
+target-bpf-y += clang_loop_unroll.bpf.o
+
 CC_clang_loop_unroll := clang
 CC_clang_diagnostic := clang
 

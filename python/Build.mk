@@ -1,4 +1,5 @@
 #subdir-y += blivet
+subdir-y += locale
 subdir-y += mkdocs
 subdir-y += numpy
 subdir-y += os

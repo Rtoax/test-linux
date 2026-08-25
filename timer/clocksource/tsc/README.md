@@ -1,4 +1,0 @@
-TSC - Time Stamp Counter
-==============
-
-

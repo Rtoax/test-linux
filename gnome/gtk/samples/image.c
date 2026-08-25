@@ -15,7 +15,7 @@ int main(int argc,char* argv[])
 
 	box = gtk_box_new(FALSE,0);
 	gtk_container_add(GTK_CONTAINER(window), box);
-	image = gtk_image_new_from_file("ebpf.png");
+	image = gtk_image_new_from_file("bpf.png");
 	gtk_box_pack_start(GTK_BOX(box), image, FALSE, FALSE, 0);
 	button = gtk_button_new_with_label("Splash Window");
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(gtk_main_quit), NULL);

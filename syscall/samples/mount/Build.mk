@@ -14,5 +14,5 @@ tmpfs-objs := tmpfs_helpers.o
 
 prep-y := fs.ext4
 
-CFLAGS += -pthread
 CFLAGS += -I../../libs/
+LDFLAGS += -pthread

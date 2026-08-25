@@ -22,7 +22,6 @@
 #include "task.bpf.h"
 #include "stack_helpers.bpf.h"
 
-
 #ifndef SIGKILL
 #define SIGKILL 9
 #endif
@@ -120,6 +119,13 @@ int tracepoint__syscalls__sys_enter_execve(struct syscall_trace_enter *ctx)
 	return 0;
 }
 
+static int __bpf_asm_ret(void)
+{
+	register int ret asm("r6");
+	asm volatile("r6 = 1234\n" : "=r"(ret));
+	return ret;
+}
+
 /**
  * struct syscall_trace_exit {
  * 	struct trace_entry ent;
@@ -160,18 +166,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 #endif
 	task_comm_from_pid(pid, pevent->comm2, sizeof(pevent->comm2));
 
-#if defined(SUPPORT_BPF_TASK_CWD_FROM_PID)
-# ifdef DEBUG
-#  pragma message "support bpf_task_cwd_from_pid()"
-# endif
-	extern int bpf_task_cwd_from_pid(s32 pid, char *buf, u32 buf_len) __weak __ksym;
-	/**
-	 * https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
-	 */
-	bpf_task_cwd_from_pid(pid, pevent->cwd, sizeof(pevent->cwd));
-#else
 	bpf_getcwd(pevent->cwd, sizeof(pevent->cwd));
-#endif
 
 	bpf_get_current_comm(&pevent->comm, sizeof(pevent->comm));
 
@@ -185,7 +180,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 # if defined(SUPPORT_BPF_STRCASECMP)
 	should_kill |= !bpf_strcasecmp(pevent->comm, "FIND");
 # endif
-	should_kill |= str_eq(pevent->comm, "top", 3);
+	should_kill |= !strncmp(pevent->comm, "top", 3);
 # if defined(SUPPORT_BPF_STRNSTR)
 	should_kill |= bpf_strnstr(pevent->comm, "ls", 2) >= 0;
 # endif
@@ -210,6 +205,11 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	 * test string_helpers.bpf.h
 	 */
 	{
+#ifdef SUPPORT_BPF_PROBE_READ_KERNEL_STR
+		/* Note: actually, '##\0' will be wrote to comm[] */
+		bpf_probe_read_kernel_str(pevent->comm + 2, 3, "###");
+#endif
+
 		__bpf_str_prepend(pevent->comm, sizeof(pevent->comm), "/", 2);
 		/* beyond the boundary of comm[], skip */
 		__bpf_str_prepend(pevent->comm, sizeof(pevent->comm),
@@ -225,6 +225,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 		// __bpf_str_prepend(pevent->cwd, sizeof(pevent->cwd), "/", 2);
 	}
 
+	bpf_printk("__bpf_asm_ret() %d", __bpf_asm_ret());
 	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent,
 			      sizeof(*pevent));
 

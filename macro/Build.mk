@@ -39,6 +39,8 @@ target-y += splice
 target-y += os
 
 target-${IS_X86_64} += __x86_64__
+target-${IS_S390X} += __s390x__
+target-${IS_PPC64LE} += __powerpc64__
 target-${CC_SUPPORT_m32} += __i386__
 target-${IS_AARCH64} += __aarch64__
 target-${IS_LOONGARCH64} += __loongarch64
@@ -46,7 +48,10 @@ target-${IS_LOONGARCH64} += __loongarch64
 target-cpp-y := __cplusplus __cplusplus-std98
 
 prep-y := ${CC}-macros.h
+
 prog-y := likely.sh
+prog-y += ${target-y}
+prog-y += ${target-cpp-y}
 
 CFLAGS += ${KFLAGS}
 

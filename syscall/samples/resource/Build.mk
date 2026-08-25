@@ -8,4 +8,4 @@ prlimit-objs := resource_helpers.o
 fork-inherit-objs := resource_helpers.o
 getrusage-objs := resource_helpers.o
 
-CFLAGS += -pthread
+LDFLAGS += -pthread

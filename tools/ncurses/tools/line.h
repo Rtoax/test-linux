@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2026 Rong Tao */
+/* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #pragma once
 #include <math.h>
 #include <stdbool.h>
@@ -9,6 +9,7 @@
 #include "config.h"
 #include "value.h"
 #include "lgroup.h"
+#include "axis.h"
 
 struct plot;
 struct ltype_ops;
@@ -36,20 +37,25 @@ struct line {
 	struct line *next; /* maybe line in group */
 	struct lgroup *lg; /* belongs to */
 	const struct ltype_ops *ops;
+	struct x_axis_range x_range;
 };
 
 struct ltype_ops {
 	const char name[64];
-	void (*horizon)(const struct line *ln, int y, int x);
-	void (*vertical)(const struct line *ln, int y, int x, int n);
+	void (*horizon)(const struct plot *p, int y, int x, int n);
+	void (*vertical)(const struct plot *p, int y, int x, int n);
 	/* upper left corner */
-	void (*ulcorner)(const struct line *ln, int y, int x);
+	void (*ulcorner)(const struct plot *p, int y, int x);
 	/* lower left corner */
-	void (*llcorner)(const struct line *ln, int y, int x);
+	void (*llcorner)(const struct plot *p, int y, int x);
 	/* upper right corner */
-	void (*urcorner)(const struct line *ln, int y, int x);
+	void (*urcorner)(const struct plot *p, int y, int x);
 	/* lower right corner */
-	void (*lrcorner)(const struct line *ln, int y, int x);
+	void (*lrcorner)(const struct plot *p, int y, int x);
+	/* up arrow */
+	void (*uarrow)(const struct plot *p, int y, int x);
+	/* right arrow */
+	void (*rarrow)(const struct plot *p, int y, int x);
 };
 
 #define for_each_value(l, iter)                                     \
@@ -78,7 +84,8 @@ enum lcolor_enum lcolor_name2num(const char *name);
 bool lcolor_hasname(const char *name);
 enum lcolor_enum nextlcolor(enum lcolor_enum c);
 
-void line_add_value(struct line *l, double v, long limit, struct timeval *tv);
+void line_add_value(struct line *l, double v, long limit,
+		    union x_axis_value *x);
 double line_range_avg(struct line *l, int start, int len);
 double line_range_max(struct line *l, int start, int interval, int len);
 double line_range_min(struct line *l, int start, int interval, int len);

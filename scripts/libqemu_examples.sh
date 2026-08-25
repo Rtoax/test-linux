@@ -9,3 +9,5 @@ qemu=$(get_qemu_kvm_emulator_arch $(uname -m)) || {
 	exit 0
 }
 echo ${qemu}
+
+${qemu} --version

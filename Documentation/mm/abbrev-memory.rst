@@ -1,0 +1,7 @@
+Abbrev Memory
+=============
+
+- RAR: Read After Read (读后读)
+- RAW: Read After Write (读后写)
+- WAW: Write After Write (写后写)
+- WAR: Write After Read (写后读)

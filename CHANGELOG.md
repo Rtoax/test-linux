@@ -11,15 +11,167 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sysfs: add module subdir;
+- cxl: inject: add debugfs and cxl subdir;
+- debugfs: add cxl subdir for `/sys/kernel/debug/cxl/`;
+- cxl: create region with `/sys` fs;
+- sysfs: add `/sys/bus/cxl` and `/sys/devices/platform/ACPI0017:00/` subdir;
+- python: test locale/getlocale.py;
+- scripts/rootfs: add debian.sh;
+- version: config.json: add OpenIPMI;
+- acpi: add dsdt.c to test DSDT;
+- libubsan: Undefined Behavior Sanitizer library which is used for `-fsanitize=undefined`;
+- scripts: add libos.sh, librun.sh;
+- qemu-vm.sh: cxl: add volatile-dc-memdev support;
 #### Changed
+- copyright add `All rights reserved.` suffix;
+- ndctl: cxl: add subdir persistent, volatile;
 #### Deprecated
 #### Documentation
+- devel: add template.rst;
+- cxl: add vcs.rst, add product subdir;
+- qemu: add bmc.rst;
+- add flamegraph.rst, restful.rst, sunfish.rst, openipmi.rst, darwin/index.rst;
+- standard: add dmtf;
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Scripts
+- libpcie.sh: move to scripts;
+#### Tools
+- util-linux: add libuuid subdir;
+- add skopeo, printk, fontconfig, kbd;
+#### Template
+- unicode: add arrow.mk;
+- sudo.mk: rename `SUDO` to `SUDO_NOPASSWD`;
+- cxl.mk: rename `HAVE_CXL_DEVICES` to `HAVE_CXL_DEVICE`;
+- add sanitizer.mk, util-linux.mk, unicode/face-emojis.mk;
+- file.mk: add fexist() function;
+- add systemd/udev.mk, terminal.mk;
+
+
+## [v2.4.11] Phenomenal 2026-08-13
+
+#### Breaking Changes
+- bpf: test gcc toolchain;
+#### Added
+- libfile.sh: add `fprintf()`;
+- shell: test `shopt -s inherit_errexit`;
+- scripts: add libnet.sh, libuuid.sh, libnbd.sh;
+- glibc: test bcmp() and bzero(), memccpy();
+- version: config.json: add trace-cmd;
+- bpf: add verifier subdir;
+- glibc: test usleep(3), strftime(3);
+- compiler: test `__builtin_dynamic_object_size()` and `__attribute__((__counted_by__(n)))`;
+- glibc: stdlib: test abs,labs,llabs;
+- glibc: math: test fabs,fabsf,fabsl;
+- shell: test `mapfile` builtin;
+- scripts: add libcpu.sh;
+- top-Makefile: script support V=1,DEBUG=1;
+- cxl/fm: add mctp subdir;
+- mctp: add simple demo;
+- algorithm: add align/8bits.c;
+- cxl: add fm subdir;
+- git: add version.sh;
+- version: config.json: add libblockdev;
+- glibc: add argz subdir;
+- bpftrace/samples: add map and let subdir;
+- systemd/udev: add kernel-install subdir;
+- python: test os.fork();
+#### Changed
+- bpftrace: PR merged `str_concat()` https://github.com/bpftrace/bpftrace/pull/5265
+#### Deprecated
+#### Documentation
+- release 0.1.0;
+- add trace-cmd.rst;
+- move cgroup/gnome/device/module/go/compiler/interrupt/cpu/bpf/cpp/kvm/ksmbd/ai/algorithm/arch/driver/hpc/insn/namespace/time/sync/storage/mm/security/qemu/sched/rtos/mm/network/database/glibc/audit/licenses markdowns into Doc;
+- add cve,security,elf subdir;
+- add oom.rst;
+- socket: add broadcast,`SO_LINGER`,multicast,oob,raw,udp,vsodk rst;
+- add socket.rst;
+- cxl: add fm.rst;
+- add libblockdev.rst;
+- add time directory;
+- add RFC directory;
+- script: add deploy-website.sh;
+- move trace README.md to Doc as rst;
+- add crash;
+- add iproute.rst;
+#### Fixed
+#### Linux Kernel
+#### Removed
+- vhost: remove upstream linux vhost test kmod code;
+#### Security
+#### Tools
+- plotcake: release v1.6.14: show x axis range in verbose mode;
+- util-linux: test 'unshare --bind' with mount-bind.sh;
+- util-linux: add unshare,mount subdir;
+- add iproute, libblockdev, libtracefs, nbd;
+#### Template
+- add libnbd.mk, nbd.mk;
+- bpf: add gcc.mk, libblockdev.mk, libtracefs.mk, trace-cmd.mk;
+
+
+## [v2.4.10] Omnipotent 2026-07-29
+
+#### Breaking Changes
+- add .gitconfig.sh in rootdir;
+#### Added
+- cxl/acpi: add cxims.c, rdpas.c;
+- acpi: add table subdir;
+- bpf: test kfunc `bpf_rcu_read_lock()`/`bpf_rcu_read_unlock()`;
+- macro: add `__powerpc64__.c`;
+- arch: add s390x, ppc64le;
+- distro: install and test alpine;
+- add .github/actions/info/action.yml;
+- bpftrace/samples: add test subdir;
+- glibc/regex: add test time.c;
+- cpp/std: add string subdir;
+- cxl: info.sh: more;
+- e2fsprogs: add metadata.c test;
+- bpftrace: playground: add asm.bt test;
+- bpf: test `bpf_probe_read_kernel_str()`, `linux >= v5.5`;
+- bpf: test `bpf_perf_event_output()`, `linux >= v4.4`;
+- bpftrace: add playground subdir;
+- uki: add makeuki.sh;
+- systemd-udev: add bootctl subdir;
+- glibc: add mempcpy() test;
+- scripts: add docs/sphinx-serve.service;
+#### Changed
+- move png and svg to Documentation/images/;
+#### Deprecated
+#### Documentation
+- add liburing.rst;
+- cxl: add intel, amd, samsung;
+- add boot directory;
+- lang: add python;
+- storage: add iscsi.rst, scsi.rst, flash.rst;
+- fs: add aufs.rst, btrfs.rst, cephfs.rst, cifs.rst, configfs.rst, debugfs.rst, devtmpfs.rst, f2fs.rst, unionfs.rst, fat.rst, ext/ext2/ext3/ext4.rst, squashfs.rst, procfs.rst, ocfs2.rst, nfs.rst, lustre.rst, ksmbd.rst, glusterfs.rst, vfs.rst;
+- bpf: add verifier.rst;
+- add unwind, compiler;
+- cxl: add paper.rst;
+- images: add ebpf.png, gnu.webp, cilium.png;
 #### Fixed
 #### Linux Kernel
 #### Removed
 #### Security
 #### Tools
+- add ndctl;
+- add xterm;
+- add sysstat subdir;
 #### Template
+- compiler/macros.mk: support ppc64le;
+- compiler/machine.mk: add `CC_MACHINE_CFLAGS`;
+- glibc.mk: add `USE_GNU_LIBC`;
+- add musl-libc.mk;
+- add ndctl.mk;
+- bpf-cflags add `__IN_BPF__`;
+- fs: add e2fsprogs.mk;
+- bcc.mk: add `HAVE_BCC_HDR`;
+- add ksyms.mk;
+- log.mk: add `log_{info,warn,fail,success}_mk()`;
+- bpf/libxdp.mk: add `HAVE_LIBXDP_H`, `HAVE_LIBXDP_XSK_H`, `cflags-libxdp-y`;
 - bpf: add fentry.mk, netfilter.mk;
 - move `target_objects_append_output_prefix()` to bits/targets.mk;
 

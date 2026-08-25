@@ -4,16 +4,17 @@
 # Generate patch set in git repo. With this script, you can easily obtain a
 # patchset that can be used for Linux kernel development.
 #
-# Copyright (C) 2022-2026 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao. All rights reserved.
 #
 # https://gist.github.com/Rtoax/15abb95b38ba3d4fbb5e7271f2502c61
 #
 set -e
 
-readonly VERSION="v1.1.3"
+readonly VERSION="v1.1.5"
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 subject_prefix=
+readonly SUBJECT_PREFIX_EXAMPLE="PATCH bpf-next v3"
 downer_commit=
 upper_commit=
 
@@ -43,7 +44,7 @@ ${BOLD}DESCRIPTION${RST}
 
 ${BOLD}ARGUMENT${RST}
 	${BOLD}Generate patchset arguments:${RST}
-	--subject-prefix [STR]   specify Subject prefix
+	--subject-prefix [STR]   specify Subject prefix, for example: ${UL}${SUBJECT_PREFIX_EXAMPLE}${RST}
 	--from [COMMIT]          specify downer/older commit, see git log --oneline
 	--to [COMMIT]            specify upper/newer commit, see git log --oneline
 	--no-cover-letter        no cover letter
@@ -77,12 +78,12 @@ ${BOLD}BARE GIT EXAMPLES${RST}
 				 --cc=${UL}linux-kernel@vger.kernel.org${RST}
 	${GRAY}# Generate 2 patches patchset with cover letter${RST}
 	$ git format-patch ${UL}-2${RST} -s --cover-letter --thread \\
-			--subject-prefix=\"${UL}PATCH v3${RST}\"
+			--subject-prefix=\"${UL}${SUBJECT_PREFIX_EXAMPLE}${RST}\"
 	${GRAY}# Then, send-email, see below.${RST}
 
 ${BOLD}PATCHSET EXAMPLES${RST}
 	${GRAY}# Submit a patchset:${RST}
-	$ patchset --from ${UL}[commit1]${RST} --to ${UL}[commit2]${RST} --subject-prefix=\"${UL}PATCH bpf-next v3${RST}\"
+	$ patchset --from ${UL}[commit1]${RST} --to ${UL}[commit2]${RST} --subject-prefix=\"${UL}${SUBJECT_PREFIX_EXAMPLE}${RST}\"
 	${GRAY}# Then, modify 0000-cover-letter.patch${RST}
 	${GRAY}# check patches (scripts/checkpatch.pl if linux)${RST}
 	$ git send-email ${dry_run:+--dry-run} ${GRAY}[--to|--cc|--to-cmd=] --confirm=[always|never|cc|compose|auto]${RST} ${output_dir}/*.patch
@@ -139,7 +140,7 @@ __patchset_getopt__()
 			shift
 			subject_prefix="$1"
 			if ! [[ " ${subject_prefix} " =~ " PATCH " ]]; then
-				error "Not found 'PATCH' in subject prefix, example: 'PATCH bpf-next'"
+				error "Not found 'PATCH' in subject prefix, example: '${SUBJECT_PREFIX_EXAMPLE}'"
 			fi
 			shift
 			;;
@@ -206,6 +207,13 @@ __patchset_getopt__()
 			;;
 		esac
 	done
+
+	if [[ "${subject_prefix}" ]]; then
+		local ver=$(echo "${subject_prefix}" | grep -owE 'v[0-9]+')
+		if [[ "${ver}" ]]; then
+			output_dir+=".${ver}"
+		fi
+	fi
 }
 
 my_eval()

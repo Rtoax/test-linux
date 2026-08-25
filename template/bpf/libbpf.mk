@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Note:
 # - libbpf commit 8ade99a6f84d ("libbpf: Make libbpf_version.h non-auto-generated")

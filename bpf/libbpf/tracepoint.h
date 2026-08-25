@@ -1,6 +1,6 @@
 #pragma once
 
-#define TASK_COMM_LEN	16
+#define TASK_COMM_LEN 32
 #define MAX_ENTRIES	2048
 #define PATH_MAX	4096
 

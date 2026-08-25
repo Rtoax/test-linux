@@ -111,8 +111,6 @@ struct bpf_rb_node {
 #endif
 extern struct task_struct *bpf_task_from_pid(s32 pid) __weak __ksym;
 extern void bpf_task_release(struct task_struct *p) __weak __ksym;
-/* https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd */
-extern int bpf_task_cwd_from_pid(pid_t pid, char *buf, u32 buf_len) __weak __ksym;
 # ifdef TEST_RBTREE
 extern int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node, bool (*less)(struct bpf_rb_node *, const struct bpf_rb_node *), void *meta__ign, u64 off) __weak __ksym;
 extern struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root) __weak __ksym;
@@ -121,6 +119,6 @@ extern struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root, struct bp
 extern void bpf_iter_task_vma_destroy(struct bpf_iter_task_vma *it) __weak __ksym;
 extern int bpf_iter_task_vma_new(struct bpf_iter_task_vma *it, struct task_struct *task, u64 addr) __weak __ksym;
 extern struct vm_area_struct *bpf_iter_task_vma_next(struct bpf_iter_task_vma *it) __weak __ksym;
-/* TODO: Add more kfuncs here */
+/* Add more kfuncs here */
 #endif
 

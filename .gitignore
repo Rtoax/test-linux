@@ -98,6 +98,8 @@ modules.order
 
 # perf
 *perf.data*
+*.perf
+*.stack
 
 # Python
 __pycache__
@@ -178,6 +180,7 @@ vmlinux.h
 .bash_history
 .bashrc
 ~*
+*.tmp
 
 # Crypt. like gnupg, ssl, etc.
 *.asc
@@ -202,8 +205,9 @@ vmlinux.h
 .config.old
 !*.ld.so.conf
 
-# PID lock file
+# lock file
 *.pid
+*.lck
 
 # Datebase
 *.aof

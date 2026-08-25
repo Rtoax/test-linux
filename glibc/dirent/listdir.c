@@ -1,3 +1,6 @@
+/**
+ * see also opendir(3), readdir(2), readdir(3), closedir(3)
+ */
 #include <assert.h>
 #include <dirent.h>
 #include <stdio.h>
@@ -7,7 +10,6 @@
 #include <unistd.h>
 #include <malloc.h>
 #include <errno.h>
-
 
 int listdir_recur(char *dir_path)
 {

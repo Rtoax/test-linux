@@ -1,3 +1,5 @@
+BPF_INSN_SAMPLE(perf_event_output)
+BPF_INSN_SAMPLE(probe_read_kernel_str)
 BPF_INSN_SAMPLE(trace_printk)
 BPF_INSN_SAMPLE(get_current_cgroup_id)
 BPF_INSN_SAMPLE(get_current_task_btf)
@@ -27,6 +29,13 @@ BPF_INSN_SAMPLE(loop)
 BPF_INSN_SAMPLE(cgroup_from_id)
 BPF_INSN_SAMPLE(cgroup_acquire)
 BPF_INSN_SAMPLE(task_from_pid)
+/**
+ * linux commit 9bb00b2895cb ("bpf: Add kfunc bpf_rcu_read_lock/unlock()")
+ * v6.1-rc4-1167-g9bb00b2895cb
+ */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 2, 0)
+BPF_INSN_SAMPLE(rcu_read_lock)
+#endif
 BPF_INSN_SAMPLE(task_acquire)
 /**
  * linux v6.0-11954-gc4bcfb38a95e

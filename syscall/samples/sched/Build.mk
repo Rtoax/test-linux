@@ -30,4 +30,4 @@ sched_getcpu-objs := ${SCHED_HELPERS}
 
 CFLAGS := -D__USE_GNU
 CFLAGS += -I../../../
-CFLAGS += -pthread
+LDFLAGS += -pthread

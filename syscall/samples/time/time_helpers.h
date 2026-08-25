@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 #pragma once
-
 #include <time.h>
 
 #define NS_PER_MS 1000000

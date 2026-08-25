@@ -23,7 +23,7 @@ PCIe Device Class
    * - 0x02
      - Network Controller
      -
-     - lspci -d ::0200
+     - 以太网设备: lspci -d ::0200; 无线网卡: lspci -d ::0280
    * - 0x03
      - Display Controller
      - VGA, 3D, XGA
@@ -116,3 +116,22 @@ PCIe Device Class
      - Unassigned class
      -
      -
+
+
+Network controller
+------------------
+
+- `Network Controller Device subclasses <https://admin.pci-ids.ucw.cz/read/PD/02>`_
+
+.. list-table::
+   :header-rows: 1
+
+   * - Id
+     - Name
+     - Command
+   * - 00
+     - Ethernet controller
+     - lspci -d ::0200
+   * - 80
+     - Network controller
+     - lspci -d ::0280

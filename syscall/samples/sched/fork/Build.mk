@@ -15,8 +15,9 @@ fork-ENOMEM-objs := helpers.o
 fork-ENOMEM-2-objs := helpers.o
 
 CFLAGS := -D__USE_GNU
-CFLAGS += -pthread
 
 CFLAGS_fork.1 := -DSYSCALL=1
 CFLAGS_vfork := -DVFORK=1
 CFLAGS_vfork.1 := -DSYSCALL=1 -DVFORK=1
+
+LDFLAGS += -pthread

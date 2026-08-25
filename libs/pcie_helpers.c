@@ -1,5 +1,11 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2026 Rong Tao */
+/* Copyright (C) 2026 Rong Tao. All rights reserved. */
+/**
+ * Refs:
+ * - https://pcisig.com/membership/member-companies
+ * - The PCI ID Repository: https://pci-ids.ucw.cz/
+ * - The PCI Vendors: https://admin.pci-ids.ucw.cz/read/PC/
+ */
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>

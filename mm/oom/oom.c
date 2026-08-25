@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2023-2026 Rong Tao */
+/* Copyright (C) 2023-2026 Rong Tao. All rights reserved. */
 #include <assert.h>
 #include <argp.h>
 #include <stdio.h>
@@ -18,6 +18,7 @@
 #include "oom_helpers.h"
 #include "proc_helpers.h"
 
+#define OOM_VERSION "1.0.0"
 volatile sig_atomic_t keep_going = 1;
 
 enum ops_type {
@@ -34,7 +35,7 @@ struct {
 	bool flag_popen;
 	unsigned long rate_limit;
 	size_t limit_in_bytes;
-	int verbose;
+	bool verbose;
 } env = {
 	.ops_type = OP_GLIBC,	/* default use glibc */
 	.mem_size = 0,
@@ -62,15 +63,20 @@ const char argp_prog_doc[] =
 ;
 
 static const struct argp_option opts[] = {
-	{ "operation", 'e', "OPERATION", 0, "specify operation, glibc, mmap-anon, mmap-file" },
-	{ "size", 's', "SIZE", 0, "only allocate size of memory, instead of oom, suffix KB, MB, GB" },
+	{ "operation", 'e', "OPERATION", 0,
+	  "specify operation, glibc, mmap-anon, mmap-file" },
+	{ "size", 's', "SIZE", 0,
+	  "only allocate size of memory, instead of oom, suffix KB, MB, GB" },
 	{ "rate", 'r', "RATE", 0, "limit the alloc rate, suffix KB, MB, GB" },
 	{ "popen", 'p', NULL, 1, "test popen(3) after memory" },
 	{ "verbose", 'v', NULL, 1, "display detail" },
+	{ "version", 'V', NULL, 1, "display version" },
 	{ "oom_adj", 'a', "OOM_ADJ", 0, "set oom_adj (-17 to 15)" },
-	{ "oom_score_adj", 'c', "OOM_SCORE_ADJ", 0, "set oom_score_adj (-1000 to 1000)" },
+	{ "oom_score_adj", 'c', "OOM_SCORE_ADJ", 0,
+	  "set oom_score_adj (-1000 to 1000)" },
 #ifdef HAVE_LIBCGROUP
-	{ "memcg-size", 'M', "MEMCG_SIZE", 0, "create and attach to memory cgroup, suffix KB, MB, GB" },
+	{ "memcg-size", 'M', "MEMCG_SIZE", 0,
+	  "create and attach to memory cgroup, suffix KB, MB, GB" },
 #endif
 	{},
 };
@@ -86,7 +92,8 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		else if (!strcmp(arg, "mmap-file"))
 			env.ops_type = OP_MMAP_FILE;
 		else {
-			fprintf(stderr, "ERROR: operation only glibc, mmap-anon, mmap-file");
+			fprintf(stderr,
+				"ERROR: operation only glibc, mmap-anon, mmap-file");
 			exit(EXIT_FAILURE);
 		}
 		break;
@@ -112,6 +119,10 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 		break;
 	case 'v':
 		env.verbose = true;
+		break;
+	case 'V':
+		printf("%s\n", OOM_VERSION);
+		exit(EXIT_SUCCESS);
 		break;
 	case ARGP_KEY_ARG:
 		argp_usage(state);
@@ -221,12 +232,13 @@ void default_pagefault(void *mem, size_t size, bool pf_verbose)
 
 		pf_size += pagesize;
 		if (pf_verbose) {
-			BACK_PRINTF("Pagefault %ld B (%ld KiB, %ld MiB),"
-					" oom_score %d, adj %d, score_adj %d",
-					pf_size, pf_size / KB, pf_size / MB,
-					get_oom_score(getpid()),
-					get_oom_adj(getpid()),
-					get_oom_score_adj(getpid()));
+			BACK_PRINTF(
+				"Pagefault %ld B (%ld KiB, %ld MiB, %.2lf GiB),"
+				" oom_score %d, adj %d, score_adj %d",
+				pf_size, pf_size / KB, pf_size / MB,
+				pf_size * 1.0 / GB, get_oom_score(getpid()),
+				get_oom_adj(getpid()),
+				get_oom_score_adj(getpid()));
 		}
 	}
 }
@@ -273,14 +285,17 @@ void hold_mem(struct oom_operations *ops)
 
 	if (size >= totalram()) {
 		if (size >= totalram() + totalswap()) {
-			fprintf(stderr, "\033[31mERROR: alloc > ram + swap\033[m\n");
+			fprintf(stderr,
+				"\033[31mERROR: alloc > ram + swap\033[m\n");
 			exit(EXIT_FAILURE);
 		}
-		fprintf(stderr, "\033[31mWARNING: Trying to alloc memory size bigger than system RAM size. May use Swap\033[m\n");
+		fprintf(stderr,
+			"\033[31mWARNING: Trying to alloc memory size bigger "
+			"than system RAM size. May use Swap\033[m\n");
 	}
 
-	fprintf(stderr, "Hold %ld B (%ldKiB, %ldMiB) of memory\n", size,
-		size / 1024, size / 1024 / 1024);
+	fprintf(stderr, "Hold %ld B (%ldKiB, %ldMiB, %.3lfGiB) of memory\n",
+		size, size / KB, size / MB, size * 1.0 / GB);
 
 	mem = ops->alloc(size);
 	if (!mem) {
@@ -394,27 +409,28 @@ int memcg_limit(void)
 
 	err = cgroup_set_value_uint64(memcg, MEMORY_LIMIT, env.limit_in_bytes);
 	if (err) {
-		fprintf(stderr, "Error setting memory limit: %s, %s\n", CGRP_NAME,
-			cgroup_strerror(cgroup_get_last_errno()));
+		fprintf(stderr, "Error setting memory limit: %s, %s\n",
+			CGRP_NAME, cgroup_strerror(cgroup_get_last_errno()));
 		goto free;
 	}
 
 	/* Forbidden swap */
 	err = cgroup_set_value_uint64(memcg, MEMORY_SWAP_LIMIT, 0);
 	if (err) {
-		fprintf(stderr, "Error setting memory swap limit: %s, %s\n", CGRP_NAME,
-			cgroup_strerror(cgroup_get_last_errno()));
+		fprintf(stderr, "Error setting memory swap limit: %s, %s\n",
+			CGRP_NAME, cgroup_strerror(cgroup_get_last_errno()));
 		goto free;
 	}
 
 	cgroup_get_value_uint64(memcg, MEMORY_LIMIT, &limit_in_bytes);
 	if (env.verbose) {
-		printf("Set "MEMORY_LIMIT" to %ld MB\n", limit_in_bytes / 1024 / 1024);
+		printf("Set " MEMORY_LIMIT " to %ld MB\n",
+		       limit_in_bytes / 1024 / 1024);
 	}
 
 	err = cgroup_create_cgroup(cgrp, 0);
 	if (err) {
-		fprintf(stderr, "Failed to create cgroup %s, %s\n", CGRP_NAME,
+		fprintf(stderr, "Failed to create cgroup %s: %s\n", CGRP_NAME,
 			cgroup_strerror(cgroup_get_last_errno()));
 		goto free;
 	}
@@ -424,8 +440,8 @@ int memcg_limit(void)
 	}
 	err = cgroup_attach_task_pid(cgrp, getpid());
 	if (err) {
-		fprintf(stderr, "Error attaching task to cgroup: %s, %s\n", CGRP_NAME,
-			cgroup_strerror(cgroup_get_last_errno()));
+		fprintf(stderr, "Error attaching task to cgroup: %s, %s\n",
+			CGRP_NAME, cgroup_strerror(cgroup_get_last_errno()));
 		goto delete;
 	}
 
@@ -436,7 +452,7 @@ delete:
 free:
 	cgroup_free_controllers(cgrp);
 	cgroup_free(&cgrp);
-	fprintf(stderr, "ERROR: memory cgroup failed.\n");
+	fprintf(stderr, "ERROR: create memory cgroup failed.\n");
 	exit(EXIT_FAILURE);
 	return err;
 }
@@ -484,7 +500,8 @@ int main(int argc, char *argv[])
 
 	if (env.verbose) {
 		char comm[64];
-		printf("pid %d, comm %s\n", getpid(), proc_comm(comm, sizeof(comm)));
+		printf("pid %d, comm %s\n", getpid(),
+		       proc_comm(comm, sizeof(comm)));
 		printf("oom_adj %d\n", get_oom_adj(getpid()));
 		printf("oom_score_adj %d\n", get_oom_score_adj(getpid()));
 		printf("oom_score %d\n", get_oom_score(getpid()));
@@ -517,6 +534,5 @@ int main(int argc, char *argv[])
 	}
 
 	memcg_release();
-
 	return 0;
 }

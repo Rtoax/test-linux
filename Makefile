@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2022-2026 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao. All rights reserved.
 #
 # test-linux Makefile
 # Wrote by Rong Tao <rtoax@foxmail.com>
@@ -11,9 +11,9 @@ export _TEST_LINUX_MK = 1
 
 VERSION = 2
 PATCHLEVEL = 4
-SUBLEVEL = 9
+SUBLEVEL = 11
 EXTRAVERSION =
-NAME = Namespace
+NAME = Phenomenal
 
 TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 TEST_LINUX_GIT_VERSION := $(shell git describe --abbrev=6 --dirty --tags 2>/dev/null || :)
@@ -54,10 +54,18 @@ endif
 
 ifndef __USE_TEST_LINUX_MAKE__
   ifeq ($(filter $(MAKECMDGOALS),install uninstall),)
-    $(error Must use test-linux make_tl.sh, `make install` first, then startup a login shell with `bash -l`)
+    $(error Must use test-linux make_tl.sh, `make install` first, then startup a login shell with `bash -l` or use `make_tl` directly)
   endif
 else
   include logo.mk
+endif
+
+SHELL_SCRIPTS_ARGS :=
+ifneq (${V},)
+  SHELL_SCRIPTS_ARGS += --verbose
+endif
+ifneq (${DEBUG},)
+  SHELL_SCRIPTS_ARGS += --debug
 endif
 
 # Default help
@@ -108,9 +116,7 @@ endif
 prep-y := reset
 post-y := done
 
-prog-y := abbrev.sh
-prog-y += history.sh
-prog-y += kconfig.sh
+prog-y := kconfig.sh
 
 ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
   include template/main.mk
@@ -119,18 +125,18 @@ endif
 .PHONY: deps
 deps:
 	@echo "Deps"
-	${Q}${SUDO} ${SHELL} ${TOPDIR}/scripts/install-deps.sh --all --force --noupgrade
+	${Q}${SUDO_NOPASSWD} ${SHELL} ${TOPDIR}/scripts/install-deps.sh --all --force --noupgrade ${SHELL_SCRIPTS_ARGS}
 
 .PHONY: install
 install: uninstall
 	@echo "Install"
-	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh
-	${Q}$(SHELL) ${TOPDIR}/scripts/git/hooks/config.sh
+	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh ${SHELL_SCRIPTS_ARGS}
+	${Q}$(SHELL) ${TOPDIR}/scripts/git/hooks/config.sh ${SHELL_SCRIPTS_ARGS}
 
 .PHONY: uninstall
 uninstall:
 	@echo "Uninstall"
-	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh uninstall
+	${Q}${SHELL} ${TOPDIR}/scripts/scripts-install.sh ${SHELL_SCRIPTS_ARGS} uninstall
 
 .PHONY: menuconfig
 menuconfig:

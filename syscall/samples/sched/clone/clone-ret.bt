@@ -2,7 +2,7 @@
 /**
  * clone-ret.bt - Tracing clone(2), clone3(2)
  *
- * Copyright (C) 2024-2026 Rong Tao
+ * Copyright (C) 2024-2026 Rong Tao. All rights reserved.
  *
  *                      group_leader
  *                        ┌──────┐

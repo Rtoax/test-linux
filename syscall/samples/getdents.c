@@ -1,6 +1,3 @@
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE
-#endif
 #include <dirent.h>     /* Defines DT_* constants */
 #include <err.h>
 #include <fcntl.h>
@@ -10,14 +7,14 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 
+#define BUF_SIZE 1024
+
 struct linux_dirent {
 	unsigned long  d_ino;
 	off_t          d_off;
 	unsigned short d_reclen;
 	char           d_name[];
 };
-
-#define BUF_SIZE 1024
 
 int main(int argc, char *argv[])
 {

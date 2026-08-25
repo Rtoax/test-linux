@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # WARNING: If you are inside a container, the kernel version queried by uame -r
 # may not match the environment inside the container, so it is normal if
@@ -27,7 +27,7 @@ include dir.mk
 include shell.mk
 include version.mk
 
-kversh = ${TOPDIR}/scripts/version/linux.sh
+kversh := ${TOPDIR}/scripts/version/linux.sh
 
 KVERSION := $(shell ${kversh} --major)
 KPATCHLEVEL := $(shell ${kversh} --patchlevel)
@@ -64,13 +64,13 @@ endif
 ifneq ($(call kver_uapi_gt,1,1,1),y)
   $(error "call kver_uapi_gt failed")
 endif
-# Newest kernel is v7.1
-# see https://github.com/torvalds/linux
-ifneq ($(call kver_lt,7,2,0),y)
-  $(error "call kver_lt failed, kver >= 7.2.0")
+# Newest kernel is v7.2.0
+# see https://github.com/torvalds/linux commit 8d3ae59288f1 ("Linux 7.2")
+ifneq ($(call kver_lt,7,3,0),y)
+  $(error "call kver_lt failed, kver >= 7.3.0")
 endif
-ifneq ($(call kver_uapi_lt,7,2,0),y)
-  $(error "call kver_uapi_lt failed, kuapi version >= 7.2.0")
+ifneq ($(call kver_uapi_lt,7,3,0),y)
+  $(error "call kver_uapi_lt failed, kuapi version >= 7.3.0")
 endif
 ifneq (${KVERSION_CODE},${kver_VERSION_CODE})
   $(error define_version failed for kver)

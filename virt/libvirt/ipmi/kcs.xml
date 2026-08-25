@@ -1,0 +1,6 @@
+<devices>
+  <!-- Define the IPMI controller device interface -->
+  <controller type='ipmi' index='0' model='kcs'>
+    <backend model='sim'/>
+  </controller>
+</devices>

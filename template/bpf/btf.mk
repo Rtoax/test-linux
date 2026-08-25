@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Output definitions:
 # - HAVE_BTF=[y|n]                 Check your system support BTF or not
@@ -29,6 +29,7 @@ ifeq ($(wildcard ${BTF_ROOT}/vmlinux),)
   HAVE_BTF := n
 endif
 ifeq (${BPFTOOL},)
+  $(warning Not found 'bpftool' in your system, skipping BTF!!)
   HAVE_BTF := n
 endif
 
@@ -42,7 +43,7 @@ ifeq (${HAVE_BTF}, y)
   endef
 else
   define btf_gen_hdr
-  $(warning Your system not support BTF, see CONFIG_DEBUG_INFO_BTF, generate empty ${2})
+  $(warning Your system not support BTF, generate empty ${2})
   touch ${2}
   endef
 endif # end of HAVE_BTF

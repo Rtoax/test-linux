@@ -2,6 +2,13 @@
 NVIDIA GPU
 ==========
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+   abbrev-vpu
+
+
 Hardware
 --------
 
@@ -14,6 +21,8 @@ Hardware
    streaming-multiprocessors
    cuda-core
    precisions
+   nvlink
+   vpu
 
 
 Software
@@ -23,3 +32,11 @@ Software
    :maxdepth: 1
 
    cuda
+   cudnn
+   cufile
+   cu-bridge
+   fakeCUDA
+   nccl
+   pti
+   ptx
+   zluda

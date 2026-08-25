@@ -1,4 +1,5 @@
 subdir-y += block
+subdir-y += kmsg
 subdir-y += udev
 subdir-y += i2c
 subdir-y += input

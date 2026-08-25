@@ -5,6 +5,7 @@
 /cleanup
 /const
 /constructor
+/__counted_by__
 /deprecated
 /error
 /format

@@ -1,0 +1,14 @@
+#!/bin/env bpftrace
+
+macro cwd(max_depth)
+{
+	printf("%d\n", max_depth);
+	"/home/rongtao"
+}
+
+BEGIN
+{
+	$depth = 32;
+	printf("%s\n", cwd($depth));
+	exit();
+}

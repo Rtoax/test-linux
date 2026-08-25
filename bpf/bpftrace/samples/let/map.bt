@@ -1,0 +1,18 @@
+#!/bin/env bpftrace
+
+config = {
+   missing_probes = warn;
+}
+
+let @map_str = lruhash(4096);
+
+BEGIN
+{
+}
+
+tracepoint:syscalls:sys_enter_open,
+tracepoint:syscalls:sys_enter_openat
+{
+	@map_str[tid] = str(args.filename);
+	exit();
+}

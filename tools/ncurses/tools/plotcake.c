@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-// Copyright (C) 2026 Rong Tao
+// Copyright (C) 2026 Rong Tao. All rights reserved.
 /**
  * Plotting data curves in the terminal.
  *
@@ -34,6 +34,7 @@
 #include "plot.h"
 #include "ram.h"
 #include "stdin.h"
+#include "axis.h"
 
 enum {
 	ARG_LOGARITHMIC = 200,
@@ -42,6 +43,8 @@ enum {
 	ARG_DELTA,
 	ARG_LINE_TYPES,
 	ARG_LINE_COLORS,
+	ARG_X_AXIS_INDEX,
+	ARG_AXIS_CURVE_TYPE,
 };
 
 const char argp_prog_doc[] = ANSI_BOLD
@@ -55,8 +58,8 @@ const char argp_prog_doc[] = ANSI_BOLD
 	"   by default, for example:\n"
 	"\n"
 	"   " ANSI_GRAY "# Draw opened file number\n" ANSI_RST ANSI_GREEN
-	"   $ while sleep .5; do\n"
-	"	awk '{print $1}' /proc/sys/fs/file-nr\n"
+	"   $ while awk '{print $1}' /proc/sys/fs/file-nr; do\n"
+	"        sleep 0.5\n"
 	"     done | plotcake --title 'Opened File Number' -l 'opened'\n" ANSI_RST
 	"\n"
 	"   " ANSI_GRAY "# Draw one line\n" ANSI_RST ANSI_GREEN
@@ -120,6 +123,11 @@ static const struct argp_option opts[] = {
 	  " and json"
 #endif
 	  ")." },
+	{ "x-index", ARG_X_AXIS_INDEX, NULL, 1,
+	  "Use index as x axis value instead of timeval" },
+	{ "axis-curve-type", ARG_AXIS_CURVE_TYPE, "TYPE", 0,
+	  "Plotting line types for coordinate axes, the supported types will "
+	  "be listed or use --ltypes show all types supported " },
 	{ "verbose", 'v', NULL, 1,
 	  "Display detail (shortcut: " KEY_HELP_v ")" },
 	{ "version", 'V', NULL, 1, "Display version" },
@@ -138,6 +146,8 @@ static char *title = NULL;
 static char *xlabel = NULL;
 static char *ylabel = NULL;
 static enum curve_type curve_type = CURVE_TYPE_NONE;
+static enum x_axis_type x_type = X_TIMEVAL;
+static enum ltype_enum axis_curve_type = LINE_TYPE_THIN_UNICODE;
 
 struct plot plot = { 0 };
 struct keyboard keyboard = { 0 };
@@ -176,6 +186,11 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 			err = -EINVAL;
 		err = err ?: enqueue_ltype(ltype_name2type(arg));
 		break;
+	case ARG_AXIS_CURVE_TYPE:
+		if (!ltype_hasname(arg))
+			err = -EINVAL;
+		axis_curve_type = ltype_name2type(arg);
+		break;
 	case 'C':
 		if (!lcolor_hasname(arg))
 			err = -EINVAL;
@@ -213,6 +228,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	case ARG_LINE_COLORS:
 		lcolor_print_names(stdout);
 		exit(EXIT_SUCCESS);
+		break;
+	case ARG_X_AXIS_INDEX:
+		x_type = X_INDEX;
 		break;
 	case 'I':
 		interval_nsecs = str2nsecs(arg);
@@ -280,7 +298,8 @@ int main(int argc, char *argv[])
 	}
 
 	keyboard_init(&keyboard);
-	err = plot_init(&plot, &keyboard, file, verbose);
+	err = plot_init(&plot, &keyboard, file, verbose, x_type,
+			axis_curve_type);
 	if (err) {
 		fprintf(stderr, "plot init failed, %s\n", strerror(-err));
 		return err;
@@ -388,7 +407,7 @@ int main(int argc, char *argv[])
 		if (!file && ram) {
 			set_plot_title(&plot, title ?: "Memory Usage");
 			set_plot_xlabel(&plot, xlabel ?: "Time");
-			set_plot_ylabel(&plot, ylabel ?: "Size(MB)");
+			set_plot_ylabel(&plot, ylabel ?: "Size(GiB)");
 			plot_add_lgroup(&plot, &lg_ram, NULL);
 		} else if (!file) {
 			set_plot_title(&plot, title ?: "Loadavg");

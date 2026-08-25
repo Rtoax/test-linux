@@ -1,13 +1,19 @@
 #!/bin/bash
 set -e
 
+readonly WHERE_AM_I=$(dirname $(realpath $0))
+. ${WHERE_AM_I}/liblog.sh
+
 ./patchset.sh -v
 ./patchset.sh --version
 ./patchset.sh -V
 ./patchset.sh --verbose
 ./patchset.sh -h | cat
 ./patchset.sh --help | cat
-./patchset.sh --from 54103fd68173 --to b0cb7b6917c0 --no-cover-letter --subject-prefix='PATCH bpf-next'
+./patchset.sh --from 54103fd68173 --to b0cb7b6917c0 --no-cover-letter --subject-prefix='PATCH bpf-next v5'
+if [[ ! -d patchset.patch.v5 ]]; then
+	error "Not found patchset.patch.v5"
+fi
 ./patchset.sh --from 54103fd68173 --to b0cb7b6917c0 --no-cover-letter --pure-diff --output tmp.patch.diff
 
 # display the commits

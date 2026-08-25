@@ -26,8 +26,8 @@ Resigters
 support 10 64-bits registers.
 
 - `R0`: return value from function calls, and exit value for eBPF programs;
-- `R1 - R5`: arguments for function calls;
-- `R6 - R9`: callee saved registers that function calls will preserve;
+- `R1` - `R5`: arguments for function calls;
+- `R6` - `R9`: callee saved registers that function calls will preserve;
 - `R10`: read-only frame pointer to access stack;
 
 
@@ -67,4 +67,8 @@ Links
 -----
 
 - `RFC 9669 in 2024 <ttps://www.rfc-editor.org/rfc/rfc9669.html>`_
-- `eBPF Instruction Set Specification, v1.0 <https://www.kernel.org/doc/html/v6.1/bpf/instruction-set.html>`_
+- `BPF Instruction Set Architecture (ISA), linux v7.1 <https://www.kernel.org/doc/html/v7.1/bpf/standardization/instruction-set.html>`_
+- `BPF Instruction Set Architecture (ISA), linux v6.6 <https://www.kernel.org/doc/html/v6.6/bpf/standardization/instruction-set.html>`_
+- `eBPF Instruction Set Specification, v1.0, linux v6.5 <https://www.kernel.org/doc/html/v6.5/bpf/instruction-set.html>`_
+- `eBPF Instruction Set Specification, v1.0, linux v6.1 <https://www.kernel.org/doc/html/v6.1/bpf/instruction-set.html>`_
+- `LWN: Compiling to BPF with GCC <https://lwn.net/Articles/800606/>`_

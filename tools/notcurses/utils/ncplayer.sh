@@ -1,4 +1,6 @@
 #!/bin/bash
+# stty rows 24 cols 80 && ncplayer ...
+# resize -s 80 24 && ncplayer ...
 set -e
 
 scale() {
@@ -8,6 +10,7 @@ scale() {
 	ncplayer -t 0.5 -s scale ${@}
 }
 
-scale ../../../gnu/gnu.webp
-scale ../../../bpf/cilium/cilium.png
-scale ../../../Documentation/images/logo.svg
+scale ../../../Documentation/images/cilium.png
+scale ../../../Documentation/images/ebpf.png
+scale ../../../Documentation/images/gnu.webp
+scale ../../../Documentation/images/tux.svg

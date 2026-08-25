@@ -1,0 +1,13 @@
+#!/bin/env bpftrace
+macro add(a, b) {
+  import "add.bpf.c";
+
+  let $v = __bpf_add(a, b);
+  $v
+}
+
+BEGIN
+{
+  printf("%d\n", add(1, 2));
+  exit();
+}

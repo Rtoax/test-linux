@@ -8,6 +8,7 @@ target-y += noinline
 target-y += cleanup
 target-y += const
 target-y += constructor
+target-y += __counted_by__
 target-y += deprecated
 target-y += error
 target-y += format
@@ -61,3 +62,5 @@ endif
 
 CFLAGS_no_instrument_function := -pg -DTEST_MAIN=1
 CFLAGS_no_instrument_function += -Wno-error=frame-address
+
+CFLAGS___counted_by__ += -O2 -D_FORTIFY_SOURCE=1

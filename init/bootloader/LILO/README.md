@@ -1,4 +1,0 @@
-LILO - LInux LOader
-==============
-
-

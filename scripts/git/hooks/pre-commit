@@ -1,8 +1,8 @@
 #!/bin/bash
-# Copyright (C) 2024-2026 Rong Tao
+# Copyright (C) 2024-2026 Rong Tao. All rights reserved.
 #
 # Usage:
-# $ [VC=1] [{FORCE|FC}=1] [NMOD=n] [NADD=n] [NDEL=n] git commit ...
+# $ [VC=1] [{FORCE|FC}=1] [NM=n] [NA=n] [ND=n] [NR=n] git commit ...
 # - VC: Verbose mode of Commit
 # - FORCE/FC: Force Commit
 set -e
@@ -10,12 +10,17 @@ set -e
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly MY_DIRECTORY=$(realpath $(dirname $(realpath $0))/../../../)
 
+if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
+	. ${GIT_TOPDIR}/.gitconfig.sh
+fi
+
 [[ -z ${FC} ]] && FC=${FORCE}
 
-# Usage: $ NMOD=6 git commit -s
-[[ -z ${NMOD} ]] && NMOD=4
-[[ -z ${NADD} ]] && NADD=1
-[[ -z ${NDEL} ]] && NDEL=1
+# Usage: $ NM=6 git commit -s
+[[ -z ${NM} ]] && NM=4
+[[ -z ${NA} ]] && NA=1
+[[ -z ${NR} ]] && NR=1
+[[ -z ${ND} ]] && ND=1
 
 if [[ ${VC} ]]; then
 	set -x
@@ -44,6 +49,7 @@ done
 try_add=( $(git status --short | grep ^A | awk '{print $2}' || true) )
 try_del=( $(git status --short | grep ^D | awk '{print $2}' || true) )
 try_modify=( $(git status --short | grep ^M | awk '{print $2}' || true) )
+try_rename=( $(git status --short | grep ^R | awk '{print $2}' || true) )
 
 # Redirect output to stderr.
 exec 1>&2
@@ -79,6 +85,7 @@ docs_check() {
 	# Detect documentation changed
 	if [[ " ${try_modify[@]} " =~ "Documentation" ]] ||
 	   [[ " ${try_add[@]} " =~ "Documentation" ]] ||
+	   [[ " ${try_rename[@]} " =~ "Documentation" ]] ||
 	   [[ " ${try_del[@]} " =~ "Documentation" ]]; then
 		# Not found version field is changed.
 		if [[ ! " ${try_modify[@]} " =~ " Documentation/conf.py " ]] ||
@@ -91,16 +98,23 @@ docs_check() {
 	local f
 	for f in README.md abbrev.md history.md
 	do
+		# no need try_rename[] here.
 		if [[ " ${try_modify[@]} " =~ "${f}" ]] ||
 		   [[ " ${try_add[@]} " =~ "${f}" ]]; then
 			fatal "Don't modify/add ${f}, please move it to Documentation!"
 		fi
 	done
+
+	if [[ "${try_add[@]}${try_modify[@]}${try_del[@]}${try_rename[@]}" =~ "abbrev" ]]; then
+		${GIT_TOPDIR}/Documentation/abbrev.sh --check
+	fi
 }
 
+# see also scripts/broken-symlinks.sh
 broken_symlinks=( $(find ${GIT_TOPDIR} -xtype l) )
 if [[ ${#broken_symlinks[@]} -ge 1 ]]; then
 	fatal "Broken-symlink: ${broken_symlinks[@]}"
+	exit 1
 fi
 
 for f in ${try_add[@]}
@@ -135,9 +149,10 @@ do
 done
 
 # modify,add,delete files, need modify CHANGELOG.md too
-[[ ${#try_modify[@]} -ge ${NMOD} ]] && hint_changelog "<Modify too many files: ${try_modify[@]}, try NMOD=100>"
-[[ ${#try_del[@]} -ge ${NDEL} ]] && hint_changelog "<Delete files: ${try_del[@]}, try NDEL=100>"
-[[ ${#try_add[@]} -ge ${NADD} ]] && hint_changelog "<Add files: ${try_add[@]}, try NADD=100>"
+[[ ${#try_modify[@]} -ge ${NM} ]] && hint_changelog "<Modify too many files: ${try_modify[@]}, try NM=100>"
+[[ ${#try_del[@]} -ge ${ND} ]] && hint_changelog "<Delete files: ${try_del[@]}, try ND=100>"
+[[ ${#try_add[@]} -ge ${NA} ]] && hint_changelog "<Add files: ${try_add[@]}, try NA=100>"
+[[ ${#try_rename[@]} -ge ${NR} ]] && hint_changelog "<Rename files: ${try_rename[@]}, try NR=100>"
 
 docs_check
 

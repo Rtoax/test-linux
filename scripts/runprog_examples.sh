@@ -1,15 +1,25 @@
 #!/bin/bash
 set -e
 
-./runprog.sh -h
-./runprog.sh -- runprog.sh -h
-./runprog.sh -- /usr/bin/ls
+runprog() {
+	./runprog.sh "${@}"
+}
+
+runprog -h
+runprog -- runprog.sh -h
+runprog -- /usr/bin/ls
 
 {
 	touch ls
-	./runprog.sh -- ls
+	runprog -- ls
 	rm ls
 }
 
-./runprog.sh -- findelf.sh
-./runprog.sh --env ENV_EXPECT=THISISAEXPECTENV -- tests/expect_env.sh
+runprog -- findelf.sh
+runprog --env ENV_EXPECT=THISISAEXPECTENV -- tests/expect_env.sh
+runprog --maybe-sudo -- du -sh /boot
+
+for ret in $(seq 0 17 255)
+do
+	runprog --expect-return ${ret} -- bash  -c \"exit ${ret}\"
+done

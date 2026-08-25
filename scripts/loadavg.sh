@@ -1,6 +1,6 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2026 Rong Tao
+# Copyright (C) 2026 Rong Tao. All rights reserved.
 #
 # Plot and display a loadavg graph of 1, 5, 15 minutes in the Linux terminal
 # with minimal dependencies.
@@ -11,8 +11,8 @@
 #     awk '{print $1, $2}' /proc/loadavg
 #   done | ttyplot -t "Load Averages (1m, 5m)" -u "load" -2
 #
-# TODO: `while :; do tput; print; done` mode is too slow, we should use pure C.
-# see also tools/ncurses/loadavg.c.
+# Note: `while :; do tput; print; done` mode is too slow, we should use pure C.
+# see tools/ncurses/tools/plotcake.c.
 set -e
 
 if [[ ${VERBOSE} ]]; then

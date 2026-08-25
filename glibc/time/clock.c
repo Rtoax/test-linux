@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
 int main(void)
 {
 	clock_t start, end;
@@ -10,7 +9,7 @@ int main(void)
 
 	start = clock();
 	/* Do the work. */
-	sleep(1);
+	usleep(100);
 	end = clock();
 
 	cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;

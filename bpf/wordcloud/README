@@ -1,0 +1,7 @@
+- Record
+
+$ sudo ./execsnoop.py -T constitution.txt
+
+- Report
+
+$ ./simple.py

@@ -21,7 +21,7 @@
 #define EINVAL 22
 #endif
 
-SEC("kprobe/"KSYM_DO_EXECVEAT_COMMON)
+SEC("kprobe/" KSYM_DO_EXECVEAT_COMMON)
 int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 {
 	pid_t pid;
@@ -63,7 +63,9 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 #ifdef DEBUG
 #pragma message "Support bpf_override_return()"
 #endif
-	if (filename && str_eq(filename, "ls", 2)) {
+	char fname[16];
+	bpf_probe_read_kernel(&fname, sizeof(fname), (void *)filename);
+	if (filename && !strncmp(fname, "ls", 2)) {
 		u64 err = EINVAL;
 		bpf_override_return(ctx, err);
 		bpf_printk("KPROBE ENTRY pid = %d, filename = %s override return",
@@ -99,20 +101,27 @@ int BPF_KPROBE(do_execveat_common, int fd, struct filename *name)
 	bpf_iter_task_vma_destroy(&vma_it);
 #endif
 
-	bpf_printk("KPROBE ENTRY pid = %d, filename = %s", pid, filename);
+	/**
+	 * bpf_get_func_ip() return address of the traced function for kprobe,
+	 * 0 for kprobes placed within the function (not at the entry).
+	 * Return address of the probe for uprobe and return uprobe.
+	 */
+	bpf_printk("KPROBE ENTRY pid = %d, filename = %s, func ip 0x%lx", pid,
+		   filename, bpf_get_func_ip(ctx));
 	return 0;
 }
 
-SEC("kretprobe/"KSYM_DO_EXECVEAT_COMMON)
+SEC("kretprobe/" KSYM_DO_EXECVEAT_COMMON)
 int BPF_KRETPROBE(do_execveat_common_exit, long ret)
 {
 	pid_t pid;
 	pid = bpf_get_current_pid_tgid() >> 32;
-	bpf_printk("KPROBE EXIT: pid = %d, ret = %ld", pid, ret);
+	bpf_printk("KPROBE EXIT: pid = %d, ret = %ld, func ip 0x%lx", pid, ret,
+		   bpf_get_func_ip(ctx));
 
 	char s1[5] = {"test"};
 	const static char s2[5] = {"test"};
-	str_eq(s1, s2, 5);
+	strncmp(s1, s2, 5);
 	return 0;
 }
 

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 ifndef _TARGET_SUBDIR_FOOTER_MK
 _TARGET_SUBDIR_FOOTER_MK = 1
 
@@ -21,7 +21,7 @@ endif
 # $1: 'build' or 'clean'
 # $2: subdirectory name
 define make_sub_dir
-  $(call log_info,${1} $(call strip_topdir_prefix,$(2)))
+  $(call log_debug,${1} $(call strip_topdir_prefix,$(2)))
   $(Q)pushd $(2) >/dev/null || exit 1; \
   start_ms=$$(date +%s%3N); \
   DRY_RUN=${DRY_RUN} ${MAKE} ${1} ${SUBMKFLAGS}; \
@@ -29,7 +29,7 @@ define make_sub_dir
   end_ms=$$(date +%s%3N); \
   cost_ms=$$((end_ms - start_ms)); \
   if [ $${makeret} -ne 0 ]; then \
-    $(call log_fail,${EMOJI_CROSS} Failed ${1} $(call strip_topdir_prefix,$(2)) cost $${cost_ms} ms); \
+    $(call log_fail,${EMOJI_CROSS}${EMOJI_SAD} Failed ${1} $(call strip_topdir_prefix,$(2)) cost $${cost_ms} ms); \
     $(call _exit,${makeret}) \
   else  \
     $(call log_success,${EMOJI_CHECK} Success ${1} $(call strip_topdir_prefix,$(2)) cost $${cost_ms} ms); \
@@ -47,11 +47,11 @@ endef
 
 .PHONY: $(subdir-y-build)
 $(subdir-y-build):
-	$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.build,%,$(@))))
+	@$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.build,%,$(@))))
 	$(call make_subdir_build,$(@:.build=))
 
 .PHONY: $(subdir-y-clean)
 $(subdir-y-clean):
-	$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.clean,%,$(@))))
+	@$(call log_obj,PUSHD,$(call strip_topdir_prefix,$(patsubst %.clean,%,$(@))))
 	$(call make_subdir_clean,$(@:.clean=))
 endif

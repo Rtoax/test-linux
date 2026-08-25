@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+subdir-y += cgroupfs
 subdir-y += debugfs
 subdir-y += ext4
 subdir-y += fat

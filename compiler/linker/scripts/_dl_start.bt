@@ -2,7 +2,7 @@
 /**
  * _dl_start.bt - Tracing ld linker _dl_start()
  *
- * Copyright (C) 2022-2026 Rong Tao
+ * Copyright (C) 2022-2026 Rong Tao. All rights reserved.
  *
  * 2024-01-08	Rong Tao	Create this.
  */

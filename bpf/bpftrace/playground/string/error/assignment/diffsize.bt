@@ -1,0 +1,11 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	let $s2 : string[16];
+	let $s3 : string[32];
+	$s2 = "hello";
+	$s3 = "hello";
+	$s3 = $s2; // success
+	$s2 = $s3; // ERROR: Type mismatch for $s2: trying to assign value of type 'string[32]' when variable already has a type 'string[16]'
+}

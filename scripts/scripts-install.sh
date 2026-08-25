@@ -14,6 +14,30 @@ else
 	realhome=/home/${realuser}
 fi
 
+readonly PID1_EXE=$(sudo realpath /proc/1/exe)
+
+systemd_install()
+{
+	if [[ $(basename ${PID1_EXE}) != systemd ]]; then
+		return
+	fi
+
+	ln -s ${SCRIPTS_DIR}/docs/sphinx-serve.service /usr/lib/systemd/system/sphinx-serve-tl.service
+
+	systemctl daemon-reload
+	systemctl enable --now sphinx-serve-tl.service
+}
+
+systemd_uninstall()
+{
+	if [[ $(basename ${PID1_EXE}) != systemd ]]; then
+		return
+	fi
+
+	systemctl disable --now sphinx-serve-tl.service || true
+	systemctl daemon-reload
+}
+
 scripts_install()
 {
 	ln -s ${SCRIPTS_DIR}/git/bigfile.sh /usr/bin/git-bigfile
@@ -31,10 +55,14 @@ scripts_install()
 	ln -s ${SCRIPTS_DIR}/kcompile.sh /usr/bin/kcompile
 	ln -s ${SCRIPTS_DIR}/qemu-compile.sh /usr/bin/qemu-compile
 	ln -s ${SCRIPTS_DIR}/qemu-vm.sh /usr/bin/qemu-vm
+	ln -s ${SCRIPTS_DIR}/rootfs/fedora.sh /usr/bin/rootfs-fedora
+	ln -s ${SCRIPTS_DIR}/docs/sphinx-serve.sh /usr/bin/sphinx-serve-tl
 
 	# Other directory
 	ln -s ${SCRIPTS_DIR}/../ai/pytorch/build/compile /usr/bin/pytorch-compile
 	ln -s ${SCRIPTS_DIR}/../tools/heatmap/hmctl.sh /usr/bin/hmctl
+
+	systemd_install
 }
 
 scripts_uninstall()
@@ -56,11 +84,19 @@ scripts_uninstall()
 		/usr/bin/kcompile \
 		/usr/bin/pytorch-compile \
 		/usr/bin/qemu-compile \
-		/usr/bin/qemu-vm
+		/usr/bin/qemu-vm \
+		/usr/bin/rootfs-fedora \
+		/usr/bin/sphinx-serve-tl \
+		/usr/lib/systemd/system/sphinx-serve-tl.service
+
+	systemd_uninstall
 }
 
 scripts_set_env()
 {
+	if [[ $(basename $SHELL) != bash ]]; then
+		echo >&2 "WARNING: please use 'bash' instead of '$SHELL'"
+	fi
 	if [[ ! -f ${realhome}/.bashrc ]]; then
 		touch ${realhome}/.bashrc
 	fi
@@ -79,6 +115,18 @@ scripts_unset_env()
 	# FIXME: remove this line after a little while
 	rm -f /etc/profile.d/make_tl.sh
 }
+
+while true; do
+	case $1 in
+	--debug | --verbose)
+		shift
+		set -x
+		;;
+	*)
+		break
+		;;
+	esac
+done
 
 case $1 in
 uninstall)

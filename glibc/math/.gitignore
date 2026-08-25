@@ -4,6 +4,9 @@
 /sqrt-stress
 /exp
 /exp2
+/fabs
+/fabsf
+/fabsl
 /fpclassify
 /finite
 /nan
@@ -13,6 +16,7 @@
 /log10
 /log2
 /logb
+/powf
 /sin
 /signbit
 /nextafter

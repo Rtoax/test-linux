@@ -1,4 +1,0 @@
-- CFA: Canonical Frame Address ()
-- CFI: Call Frame Information (调用帧信息)
-- CIE: Common Information Entry Record ()
-- FDE: Frame Description Entry ()

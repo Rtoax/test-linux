@@ -4,5 +4,9 @@ BEGIN
 {
 	$hello = "hello" + " " + "world";
 	print($hello);
+
+	$hello = (string[256])"";
+	print($hello);
+
 	exit();
 }

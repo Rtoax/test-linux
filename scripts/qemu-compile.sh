@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2022-2026 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao. All rights reserved.
 #
 set -e
 
@@ -584,6 +584,7 @@ rpm_deps+=("pulseaudio-libs-devel")
 rpm_deps+=("python3-devel")
 rpm_deps+=("python3-sphinx")
 rpm_deps+=("python3-sphinx_rtd_theme")
+rpm_deps+=("python3-tomli")
 rpm_deps+=("rdma-core-devel")
 rpm_deps+=("SDL2-devel")
 rpm_deps+=("SDL2_image-devel")
@@ -678,6 +679,13 @@ ARGUMENT
    -d, --dry-run      only print commands
    -v, --verbose      show detail when make
    -h, --help         show this help information
+
+ORIGIN QEMU CONFIGURATION
+    $ mkdir build && cd build
+    $ ../configure --disable-docs ...
+    $ make -j\$(nproc)
+    # or
+    $ ninja-build -j\$(nproc)
 
 SEE ALSO
     ninja, make

@@ -27,3 +27,9 @@ if [[ $(ftype ${ls}) != elf ]] ||
    [[ $(ftype ${qcow2}) != qcow2 ]]; then
 	error "ftype() test failed"
 fi
+
+message1="Hello World"
+fprintf a.tmp "${message1}"
+if [[ "${message1}" != "$(cat a.tmp)" ]]; then
+	error "fprintf() test failed"
+fi

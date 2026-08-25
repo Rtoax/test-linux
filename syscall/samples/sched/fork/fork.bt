@@ -1,8 +1,7 @@
 #!/bin/env bpftrace
+// Copyright (C) 2022-2026 Rong Tao. All rights reserved.
 /**
  * fork.bt - Tracing fork(2), vfork(2)
- *
- * Copyright (C) 2022-2026 Rong Tao
  *
  *                      group_leader
  *                        ┌──────┐
@@ -31,7 +30,11 @@
  *                                                            └───────┘
  *                                                          group_leader
  *
- * ref: commit d4acdce4bf0e ("{pthread/create.c,clone(2),fork.c}: Recursive creation")
+ * Architectures that have not fork(2), vfork(2):
+ * - aarch64
+ *
+ * Refs:
+ * - commit d4acdce4bf0e ("{pthread/create.c,clone(2),fork.c}: Recursive creation")
  */
 #ifndef BPFTRACE_HAVE_BTF
 #include <linux/sched.h>
@@ -40,9 +43,10 @@
 BEGIN
 {
 	printf("Tracing fork, hit ctrl-c to end.\n");
-	printf("%-8s %-8s %-8s %-16s %-8s %-8s %-8s %-8s %-16s %-8s %-16s\n",
-		"TIME", "PID", "TID", "COMM", "OPS", "RET/PID", "ROLE",
-		"ParPID", "ParCOMM", "GrpLePID", "GrpLeCOMM");
+	printf("%-8s %-8s %-8s %-16s %-8s %-8s %-8s ", "TIME", "PID", "TID",
+	       "COMM", "OPS", "RET/PID", "ROLE");
+	printf("%-8s %-16s %-8s %-16s %-8s\n", "ParPID", "ParCOMM", "GrpLePID",
+	       "GrpLeCOMM", "LAT(us)");
 }
 
 tracepoint:syscalls:sys_enter_fork,
@@ -50,24 +54,45 @@ tracepoint:syscalls:sys_enter_vfork
 {
 	time("%H:%M:%S ");
 	printf("%-8d %-8d %-16s %-8s\n", pid, tid, comm, "ENTER");
+	@start[tid] = nsecs;
 }
 
 tracepoint:syscalls:sys_exit_fork,
 tracepoint:syscalls:sys_exit_vfork
+/ @start[tid] /
 {
 	$current = curtask;
 	$parent = $current->real_parent;
 	$grpleader = $current->group_leader;
 
+	$pid = (uint32)args->ret;
+
+	/* Parent */
+	if ($pid > 0) {
+		/**
+		 * fork(2) will return twice, one for parent, one for child.
+		 * and parent clone return first(actually parent and child is
+		 * parallel), for avoid @start[tid] of child is zero, set
+		 * @start for child. see also clone.bt.
+		 */
+		@start[$pid] = @start[tid];
+	}
+
+	$latus = (nsecs - @start[tid]) / 1000;
+
 	time("%H:%M:%S ");
-	printf("%-8d %-8d %-16s %-8s %-8d %-8s %-8d %-16s %-8d %-16s\n",
-		pid, tid, comm, "EXIT", args->ret,
-		args->ret == 0 ? "CHILD" : "PARENT",
+	printf("%-8d %-8d %-16s %-8s %-8d %-8s %-8d %-16s %-8d %-16s %-8ld\n",
+		pid, tid, comm, "EXIT", $pid,
+		$pid == 0 ? "CHILD" : "PARENT",
 		$parent->pid, $parent->comm,
-		$grpleader->pid, $grpleader->comm);
+		$grpleader->pid, $grpleader->comm,
+		$latus);
+
+	delete(@start[tid]);
 }
 
 END
 {
+	clear(@start);
 	printf("Bye.\n");
 }

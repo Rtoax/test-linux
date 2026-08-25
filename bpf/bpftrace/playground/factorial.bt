@@ -1,0 +1,14 @@
+#!/bin/env bpftrace
+macro factorial(a) {
+  import "factorial.bpf.c";
+
+  let $v = __bpf_factorial(a);
+  $v
+}
+
+BEGIN
+{
+  printf("%ld\n", factorial(3));
+
+  exit();
+}

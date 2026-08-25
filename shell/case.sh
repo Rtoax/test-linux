@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 yes_or_no()
 {
@@ -29,3 +30,19 @@ usage_1()
 
 # Print nothing
 usage_1 --help
+
+is_num() {
+	case $1 in
+	help)
+		echo "input a digest"
+		;;
+	*)
+		if [[ "$1" =~ ^[0-9]+$ ]]; then
+			echo "'${1}' is digest"
+		else
+			echo "'${1}' is not digest"
+		fi
+		;;
+	esac
+}
+is_num "${@}"

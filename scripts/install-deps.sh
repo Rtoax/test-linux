@@ -1,6 +1,6 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2022-2026 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao. All rights reserved.
 # This script use to install packages on Debian/RHEL like operate system.
 #
 # This script is part of test-linux [1], of course, you could run this script
@@ -10,15 +10,16 @@
 #
 set -e
 
-. /etc/os-release
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
+. ${WHERE_AM_I}/libcpu.sh
 . ${WHERE_AM_I}/liblog.sh
+. ${WHERE_AM_I}/libos.sh
 
 readonly prog=inst-deps
 readonly ROOT_DIRECTORY=$(dirname $(realpath $0))
 
-declare -a dnf_args apt_args zypper_args
+declare -a dnf_args apt_args apk_args zypper_args
 declare -a pkgs_inst pkgs_compiler pkgs_desktop pkgs_bench pkgs_math pkgs_db
 declare -a pkgs_storage pkgs_net pkgs_container pkgs_virt pkgs_base pkgs_fs
 declare -a pkgs_media pkgs_build pkgs_devel pkgs_docs pkgs_video pkgs_boot
@@ -31,17 +32,9 @@ declare -a enable_srvs
 
 declare verbose dry_run force
 
-readonly OS=${ID}
-readonly OS_VERSION=${VERSION_ID}
-readonly OSV="${OS}:${OS_VERSION}"
 readonly VIRT_TYPE=$(systemd-detect-virt 2>/dev/null || :)
 readonly IS_PHY=$( [[ ${VIRT_TYPE} == none ]] && echo YES || :)
 readonly IS_DNF5="$(dnf --version 2>/dev/null | grep -woi dnf5 | uniq)"
-
-readonly DISTS_RHEL_LIKE=( fedora centos rhel almalinux openEuler cclinux
-			opencloudos kylin tencentos )
-readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
-readonly DISTS_SUSE_LIKE=( suse opensuse opensuse-leap )
 
 declare have_base have_upgrade have_ai have_cuda have_rocm have_gpu have_fs \
 	have_pip have_compiler have_build have_docs have_devel have_container \
@@ -150,6 +143,14 @@ apt_upgrade()
 	inst_eval apt autoremove -y || :
 }
 
+apk_upgrade()
+{
+	inst_eval apk upgrade -y || {
+		warning "Failed to upgrade"
+		true
+	}
+}
+
 zypper_upgrade()
 {
 	inst_eval zypper update -y || {
@@ -178,6 +179,11 @@ apt_install()
 	inst_eval apt install -y ${apt_args[@]} ${apt_pkgs[@]}
 }
 
+apk_install()
+{
+	inst_eval apk add ${apk_args[@]} ${@}
+}
+
 zypper_install()
 {
 	inst_eval zypper install -y ${zypper_args[@]} ${@}
@@ -193,6 +199,11 @@ dnf_remove()
 apt_remove()
 {
 	inst_eval apt remove -y ${apt_args[@]} ${@}
+}
+
+apk_remove()
+{
+	inst_eval apk del ${apk_args[@]} ${@}
 }
 
 zypper_remove()
@@ -228,40 +239,16 @@ os_operator()
 		remove) zypper_remove "${@}" ;;
 		packages) zypper_add_packages "${@}" ;;
 		esac
+	elif [[ " ${DISTS_ALPINE_LIKE[@]} " =~ " ${_os_} " ]]; then
+		case ${operator} in
+		upgrade) apk_upgrade ;;
+		install) apk_install "${@}" ;;
+		remove) apk_remove "${@}" ;;
+		packages) apk_add_packages "${@}" ;;
+		esac
 	else
 		error "Unknown OS ${OS}"
 	fi
-}
-
-is_os()
-{
-	local oss=( $@ )
-	if [[ " ${oss[@]} " =~ " ${OS} " ]] || \
-	   [[ " ${oss[@]} " =~ " ${OSV} " ]]; then
-		echo YES
-	fi
-	return 0
-}
-
-is_rhel_like()
-{
-	is_os ${DISTS_RHEL_LIKE[@]}
-	return 0
-}
-
-is_debian_like()
-{
-	is_os ${DISTS_DEBIAN_LIKE[@]}
-	return 0
-}
-
-is_arch()
-{
-	local arches=( $@ )
-	if [[ " ${arches[@]} " =~ " $(uname -m) " ]]; then
-		echo YES
-	fi
-	return 0
 }
 
 os_upgrade()
@@ -631,7 +618,7 @@ pkgs_base+=( lsof )
 pkgs_base+=( make cmake )
 pkgs_base+=( mokutil )              # UEFI
 pkgs_base+=( nasm )
-if [[ $(is_os fedora:40 fedora:41 fedora:42 fedora:43 ubuntu:24.04 ubuntu:25.10) ]]; then
+if [[ $(is_os fedora:40 fedora:41 fedora:42 fedora:43 fedora:44 ubuntu:24.04 ubuntu:25.10) ]]; then
 	pkgs_base+=( fastfetch )
 	pkgs_base+=( procs )
 	pkgs_base+=( procinfo procinfo-ng )
@@ -668,6 +655,7 @@ pkgs_base+=( util-linux )           # wipefs, etc.
 pkgs_base+=( uuid )
 pkgs_base+=( valgrind )
 pkgs_base+=( vim )
+pkgs_base+=( xterm )                # resize
 pkgs_base+=( yq )
 
 pkgs_boot+=( efibootmgr )           # UEFI
@@ -724,6 +712,8 @@ pkgs_container+=( multistrap ) # make rootfs
 pkgs_container+=( podman )
 pkgs_container+=( podman-docker )
 pkgs_container+=( runc )
+# Command line utility to inspect images and repositories directly on Docker
+# registries without the need to pull them.
 pkgs_container+=( skopeo )
 pkgs_container+=( systemd-container )
 
@@ -779,6 +769,9 @@ pkgs_desktop+=( weston )
 pkgs_desktop+=( wireshark )
 pkgs_desktop+=( xrdp )
 enable_srvs+=( xrdp.service )
+if [[ $(is_os fedora) ]]; then
+	pkgs_desktop+=( dolphin ) # File Browser
+fi
 
 if [[ $(is_rhel_like) ]] && [[ ${have_3rd_party} ]]; then
 	if [[ ! -e /etc/yum.repos.d/scootersoftware.repo ]]; then
@@ -857,6 +850,7 @@ pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
 pkgs_storage+=( ndctl ) # for nvdimm/libndctl
 
 pkgs_net+=( ethtool )
+pkgs_net+=( ifstat )
 pkgs_net+=( net-tools ) # netstat
 pkgs_net+=( rsync )
 pkgs_net+=( tcpdump )
@@ -947,6 +941,7 @@ dnf_add_packages()
 	pkgs_base+=( notcurses-devel )
 	pkgs_base+=( notcurses-static )
 	pkgs_base+=( notcurses-utils )
+	pkgs_base+=( OpenIPMI )
 	pkgs_base+=( openmpi openmpi-devel )
 	pkgs_base+=( openssl-devel )
 	pkgs_base+=( parallel )
@@ -960,7 +955,6 @@ dnf_add_packages()
 	pkgs_base+=( scl-utils )
 	pkgs_base+=( sg3_utils )            # sg_inq, etc.
 	pkgs_base+=( shadow-utils )
-	pkgs_base+=( systemd-devel )
 	pkgs_base+=( systemd-udev )         # coredumpctl
 	pkgs_base+=( vim-default-editor )
 	pkgs_base+=( which )
@@ -988,6 +982,8 @@ dnf_add_packages()
 	pkgs_compiler+=( annobin-annocheck )
 	pkgs_compiler+=( binutils-gold )
 	pkgs_compiler+=( compiler-rt )
+	# https://gcc.gnu.org/wiki/BPFBackEnd
+	pkgs_compiler+=( gcc-bpf-unknown-none )
 	pkgs_compiler+=( gcc-c++ )
 	pkgs_compiler+=( golang )
 	pkgs_compiler+=( gprof2dot )
@@ -998,6 +994,7 @@ dnf_add_packages()
 	pkgs_compiler+=( liblsan-static )
 	pkgs_compiler+=( libtsan )
 	pkgs_compiler+=( libtsan-static )
+	pkgs_compiler+=( libubsan )
 	pkgs_compiler+=( lua )
 	pkgs_compiler+=( mold )                   # a modern linker
 	pkgs_compiler+=( java-1.8.0-openjdk-devel )
@@ -1027,6 +1024,7 @@ dnf_add_packages()
 	pkgs_devel+=( bcc-devel )
 	pkgs_devel+=( cyrus-sasl-devel )
 	pkgs_devel+=( device-mapper-multipath-devel )
+	pkgs_devel+=( e2fsprogs-devel )
 	pkgs_devel+=( fmt-devel )
 	pkgs_devel+=( glib2-devel )
 	pkgs_devel+=( gnutls-devel )
@@ -1051,6 +1049,7 @@ dnf_add_packages()
 	pkgs_devel+=( libxdp-devel )
 	pkgs_devel+=( lttng-tools )
 	pkgs_devel+=( lzo-devel )
+	pkgs_devel+=( ndctl-devel )
 	pkgs_devel+=( numactl-devel )        # numaif.h
 	pkgs_devel+=( openblas-devel )
 	pkgs_devel+=( pandoc )
@@ -1083,6 +1082,9 @@ dnf_add_packages()
 	pkgs_storage+=( device-mapper )
 	pkgs_storage+=( device-mapper-multipath )
 	pkgs_storage+=( gdisk )
+	pkgs_storage+=( libnbd )
+	pkgs_storage+=( libnbd-dev )
+	pkgs_storage+=( nbd )
 
 	pkgs_virt+=( edk2-ovmf )
 	pkgs_virt+=( libguestfs )
@@ -1098,6 +1100,7 @@ dnf_add_packages()
 		pkgs_virt+=( kata-containers )
 		pkgs_virt+=( qemu-system-loongarch64 edk2-loongarch64 )
 		pkgs_virt+=( qemu-system-riscv edk2-riscv64 )
+		pkgs_virt+=( OpenIPMI-lanserv ) # ipmi_sim
 	fi
 
 	pkgs_net+=( httpd )
@@ -1165,6 +1168,7 @@ apt_add_packages()
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( ncal )
 	pkgs_base+=( notcurses-bin ) # Ubuntu, not debian
+	pkgs_base+=( openipmi )
 	pkgs_base+=( parallel )
 	pkgs_base+=( passwd )
 	pkgs_base+=( procps )
@@ -1173,7 +1177,6 @@ apt_add_packages()
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
 	pkgs_base+=( selinux-basics selinux-utils )
 	pkgs_base+=( systemtap-sdt-dev )    # sdt.h
-	pkgs_base+=( systemd-dev )
 	if [[ $(is_os ubuntu) ]]; then
 		pkgs_base+=( linux-tools-common )
 	fi
@@ -1208,6 +1211,8 @@ apt_add_packages()
 	pkgs_net+=( infiniband-diags )
 
 	pkgs_compiler+=( build-essential )
+	# https://gcc.gnu.org/wiki/BPFBackEnd
+	pkgs_compiler+=( gcc-bpf )
 	pkgs_compiler+=( gcc-doc )
 	pkgs_compiler+=( gcc-multilib )
 	pkgs_compiler+=( golang )
@@ -1217,6 +1222,7 @@ apt_add_packages()
 	pkgs_compiler+=( libclang-dev )
 	pkgs_compiler+=( liblsan0 )
 	pkgs_compiler+=( libtsan2 )
+	pkgs_compiler+=( libubsan1 )
 	pkgs_compiler+=( lua5.4 )
 	pkgs_compiler+=( mold )                   # a modern linker
 	pkgs_compiler+=( openmpi-bin )
@@ -1239,6 +1245,7 @@ apt_add_packages()
 	pkgs_devel+=( libdbus-1-dev ) # D-Bus
 	pkgs_devel+=( libdw-dev )
 	pkgs_devel+=( libdwarf-dev )
+	pkgs_devel+=( libext2fs-dev )
 	pkgs_devel+=( libfdt-dev )
 	pkgs_devel+=( libfmt-dev )
 	pkgs_devel+=( libglib2.0-dev )
@@ -1248,6 +1255,7 @@ apt_add_packages()
 	pkgs_devel+=( libkmod-dev )
 	pkgs_devel+=( liblttng-ctl0 )
 	pkgs_devel+=( liblzo2-dev )
+	pkgs_devel+=( libndctl-dev )
 	pkgs_devel+=( libnuma-dev )
 	pkgs_devel+=( libpci-dev )
 	pkgs_devel+=( libpng-dev )
@@ -1257,6 +1265,7 @@ apt_add_packages()
 	pkgs_devel+=( libslirp-dev )
 	pkgs_devel+=( libsnappy-dev )
 	pkgs_devel+=( libssh-dev )
+	pkgs_devel+=( libudev-dev )
 	pkgs_devel+=( liburcu-dev )
 	pkgs_devel+=( libusbredirhost-dev )
 	pkgs_devel+=( libopenblas-dev )
@@ -1268,6 +1277,7 @@ apt_add_packages()
 	pkgs_devel+=( python3-dev )
 	pkgs_devel+=( python3-installer )
 	pkgs_devel+=( python3-systemd )
+	pkgs_devel+=( systemd-dev )
 	pkgs_devel+=( systemtap-sdt-dev )
 	pkgs_devel+=( zlib1g-dev )
 	# For ROCm HIP
@@ -1294,12 +1304,18 @@ apt_add_packages()
 
 	pkgs_storage+=( daxctl )
 	pkgs_storage+=( gdisk )
+	pkgs_storage+=( libblockdev )
+	pkgs_storage+=( libblockdev-nvdimm ) # libblockdev has more pkgs
 	pkgs_storage+=( libdaxctl-dev )
 	pkgs_storage+=( libdevmapper-dev )
+	pkgs_storage+=( libnbd-bin )
+	pkgs_storage+=( libnbd-dev )
+	pkgs_storage+=( nbd-client )
 
 	pkgs_virt+=( binfmt-support )
 	pkgs_virt+=( guestmount )
 	pkgs_virt+=( libvirt0 )
+	pkgs_virt+=( openipmi ) # ipmi_sim
 	pkgs_virt+=( qemu-system )
 	pkgs_virt+=( qemu-system-misc )
 	pkgs_virt+=( qemu-user )
@@ -1323,6 +1339,14 @@ apt_add_packages()
 	return 0
 }
 
+apk_add_packages()
+{
+	pkgs_base+=( build-base )
+	pkgs_base+=( apk add coreutils git util-linux findutils grep less bash
+			pciutils vim usbutils make gcc jq ncurses musl-dev )
+	pkgs_base+=( clang22-extra-tools python3 )
+}
+
 zypper_add_packages()
 {
 	pkgs_base+=( acpica )
@@ -1331,6 +1355,8 @@ zypper_add_packages()
 	pkgs_build+=( ninja )
 
 	pkgs_compiler+=( binutils-gold )
+	# https://gcc.gnu.org/wiki/BPFBackEnd
+	pkgs_compiler+=( cross-bpf-gcc15 ) # TODO: remove version 15
 	pkgs_compiler+=( gcc-c++ )
 	pkgs_compiler+=( go )
 

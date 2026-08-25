@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 void with_other_locale(char *new_locale, void (*subroutine)(int), int argument)
 {
 	char *old_locale, *saved_locale;

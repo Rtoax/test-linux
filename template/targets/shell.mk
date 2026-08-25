@@ -14,14 +14,14 @@ include dir.mk
 include runprog.mk
 
 ${OUTPUT}%.sh.log: %.sh
-	$(call log_tgt,${SHELL},$(@))
+	@$(call log_tgt,${SHELL},$(@))
 	$(Q)$(RUNPROG) --log $(@) $(SHELL_ENVS_$(<)) -- ${SHELL} $(<) $(SHELL_ARGS_$(<))
 
 # If you want to test a script twice, add a .1 suffix to the script, for
 # example: shell-y := a.sh a.sh.1
 define add_shell_target
 ${OUTPUT}%.sh.log.${1}: %.sh
-	$$(call log_tgt,${SHELL},$$(@))
+	@$$(call log_tgt,${SHELL},$$(@))
 	$$(Q)$$(RUNPROG) --log $$(@) $$(SHELL_ENVS_$$(<).${1}) -- $${SHELL} $$(<) $$(SHELL_ARGS_$$(<).${1})
 endef
 

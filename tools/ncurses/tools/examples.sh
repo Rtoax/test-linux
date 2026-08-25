@@ -1,5 +1,10 @@
 #!/bin/bash
+# Test plotcake.
+#
+# Depends: jq
+#
 # Usage: I=<0.1> TMOUT=<1s> ./examples.sh
+#
 
 # -m: (set -o monitor) monitor mode
 set -em
@@ -8,9 +13,14 @@ readonly PLOTCAKE=./plotcake
 
 readonly LINE_TYPES=( $(${PLOTCAKE} --ltypes 2>/dev/null || true) )
 readonly LINE_TYPES_ARGS=( $(for t in ${LINE_TYPES[@]}; do echo "-L ${t}"; done) )
+readonly LINE_TYPES_CONST=( unicode-bold unicode-bold-dashed unicode-boldbold
+			    unicode unicode-dashed unicode-area-chart utf8
+			    unicode-heart )
 
 readonly LINE_COLORS=( $(${PLOTCAKE} --lcolors 2>/dev/null || true) )
 readonly LINE_COLORS_ARGS=( $(for t in ${LINE_COLORS[@]}; do echo "-C ${t}"; done) )
+readonly LINE_COLORS_CONST=( green red cyan white magenta blue yellow )
+readonly SUPPORT_JSON="$(${PLOTCAKE} --help | grep -wo json)"
 
 [[ -z ${I} ]] && I=0.001
 [[ -z ${TMOUT} ]] && TMOUT=200ms
@@ -29,6 +39,11 @@ sigint() {
 	return 0
 }
 trap sigint INT
+
+error() {
+	echo >&2 "ERROR: ${@}"
+	exit 1
+}
 
 _eval() {
 	eval "${@}"
@@ -82,14 +97,12 @@ stdin() {
 # __main__
 rm -f ${LOG}
 
-if [[ " ${LINE_TYPES[@]} " != " unicode-bold unicode-bold-dashed unicode-boldbold unicode unicode-dashed unicode-area-chart utf8 unicode-heart " ]]; then
-	echo >&2 "ERROR: line types not match!"
-	exit 1
+if [[ " ${LINE_TYPES[@]} " != " ${LINE_TYPES_CONST[@]} " ]]; then
+	error "line types not match!"
 fi
 
-if [[ " ${LINE_COLORS[@]} " != " green red cyan white magenta blue yellow " ]]; then
-	echo >&2 "ERROR: line color not match!"
-	exit 1
+if [[ " ${LINE_COLORS[@]} " != " ${LINE_COLORS_CONST[@]} " ]]; then
+	error "line color not match!"
 fi
 
 run -? --help
@@ -98,18 +111,49 @@ run --lcolors
 run --ltypes
 run -V --version
 run -M --ram
-stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
+run --title TITLE --xlabel XLABEL --ylabel YLABEL -C red -C red
+
+output="multi-words-label"
+title="Multiple Words Title"
+xlabel="Multiple Words X Label"
+ylabel="Multiple Words Y Label"
+run --title \"${title}\" --xlabel \"${xlabel}\" --ylabel \"${ylabel}\" -o ${output}
+if [[ ${SUPPORT_JSON} ]]; then
+	if [[ "$(jq -r '.plot.title' ${output}.json)" != "${title}" ]]; then
+		error "test '${title}' failed, see ${output}.json"
+	fi
+	if [[ "$(jq -r '.plot.xlabel' ${output}.json)" != "${xlabel}" ]]; then
+		error "test '${xlabel}' failed, see ${output}.json"
+	fi
+	if [[ "$(jq -r '.plot.ylabel' ${output}.json)" != "${ylabel}" ]]; then
+		error "test '${ylabel}' failed, see ${output}.json"
+	fi
+fi
+
 run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
+for axis in ${LINE_TYPES[@]}
+do
+	run --axis-curve-type=${axis}
+done
 run -o loadavg
 run -o loadavg2 -f loadavg.txt
-run -o loadavg3 -f loadavg.json
+if [[ ${SUPPORT_JSON} ]]; then
+	run -o loadavg3 -f loadavg.json
+fi
 run --ram -o memory
 run --ram -o memory2 -f memory.txt
-run --ram -o memory3 -f memory.json
+if [[ ${SUPPORT_JSON} ]]; then
+	run --ram -o memory3 -f memory.json
+fi
 run --logarithmic
 run --logarithmic10
 run --exponential
 run --delta
+run --x-index -o x-index
+if [[ ${SUPPORT_JSON} ]]; then
+	run -f x-index.json
+fi
+run -f x-index.txt
 
 stdin -V --version
 stdin --usage
@@ -129,6 +173,9 @@ while true; do
 done | ${PLOTCAKE} -o stdin ${args[@]}
 # Test file load for each stdin test from above test
 run -f stdin.txt
-run -f stdin.json
+if [[ ${SUPPORT_JSON} ]]; then
+	run -f stdin.json
+fi
 
+echo "SUPPORT_JSON=${SUPPORT_JSON}"
 echo "Byebye"

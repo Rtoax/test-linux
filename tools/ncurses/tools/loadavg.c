@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-// Copyright (C) 2026 Rong Tao
+// Copyright (C) 2026 Rong Tao. All rights reserved.
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -10,6 +10,7 @@
 static int loadavg_create_lines(struct lgroup *lg, void *arg)
 {
 	int n = 0;
+
 	n = new_line(lg, "load1", nextlcolor(C_RED)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
@@ -28,6 +29,7 @@ static void loadavg_update_data(struct lgroup *lg, void *arg)
 	double avg[3];
 	int i = 0;
 
+	/* or use sysinfo(2) */
 	getloadavg(avg, 3);
 
 	for_each_line(lg, line)

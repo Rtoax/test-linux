@@ -1,7 +1,7 @@
 #!/bin/bash
 # Running a program, this script be called in template.
 #
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Usage: runprog.sh [options] -- execution [args...]
 #
@@ -10,21 +10,27 @@ set -e
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly TEST_LINUX_ROOT=$(realpath ${WHERE_AM_I}/../)
 readonly prog_name=runprog
-LOG_CMD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
-LOG_FILE=runprog.log
+declare RECORD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
+declare LOG_FILE=runprog.log
 declare -a ENVS
-verbose=
-SUDO=
-TMOUT=
+declare verbose=
+declare SUDO=
+declare TMOUT=
+declare REAL_RET=0 EXPECT_RET=0
 
 . ${WHERE_AM_I}/liblog.sh
 
 __usage__()
 {
 	echo -e "
+runprog [OPTIONS]
+
+OPTIONS:
+
 -e, --env [ENV=<VAL>]  set a env (may be listed multiple times)
 -T, --timeout [SEC]    set timeout seconds
 --maybe-sudo           running with superuser if possible
+--expect-return [RET]  expect return value, default 0
 
 -l, --log [FILE]       set log file name
     --nolog            skipping log
@@ -47,6 +53,7 @@ GETOPT_ARGS=$(getopt \
 	--long help \
 	--long verbose \
 	--long maybe-sudo \
+	--long expect-return: \
 	-n ${prog_name} -- "$@")
 
 test $? != 0 && __usage__ 1
@@ -66,7 +73,7 @@ while true; do
 		;;
 	--nocmdlog)
 		shift
-		LOG_CMD_FILE=
+		RECORD_FILE=
 		;;
 	-T | --timeout)
 		shift
@@ -95,6 +102,14 @@ while true; do
 			SUDO="sudo -E"
 		fi
 		;;
+	--expect-return)
+		shift
+		EXPECT_RET=${1}
+		if ! [[ ${EXPECT_RET} =~ ^-?[0-9]+$ ]]; then
+			error "--expect-return must pass digist, got '${EXPECT_RET}'"
+		fi
+		shift
+		;;
 	--)
 		shift
 		break
@@ -102,58 +117,70 @@ while true; do
 	esac
 done
 
-LEFT_ARGS=( "${@}" )
-EXEC=${LEFT_ARGS[0]}
+SPAWN=( "${@}" )
+EXEC=${SPAWN[0]}
 
 if [[ -z ${EXEC} ]]; then
 	error "Need pass execution"
 fi
 
-# If not found EXEC in system env, and it's exist file under current directory,
-# add './' prefix.
+# If it's exist file under current directory, then, add './' prefix.
 if [[ -f ${EXEC} ]] &&
    [[ "${EXEC:0:1}" != "/" ]] &&
    [[ "${EXEC:0:2}" != "./" ]] &&
-   [[ "${EXEC:0:3}" != "../" ]] && \
-   [[ ! $(which ${EXEC} 2>/dev/null) ]]; then
+   [[ "${EXEC:0:3}" != "../" ]]; then
 	# If file has x permission, just add './'
 	if test -x ${EXEC}; then
-		LEFT_ARGS[0]="./${EXEC}"
+		SPAWN[0]="./${EXEC}"
 	fi
+# Otherwise, found EXEC in system env.
+elif [[ $(which ${EXEC} 2>/dev/null) ]]; then
+	SPAWN[0]=$(which ${EXEC})
+else
+	error "Not found program '${EXEC}'"
 fi
 
-SHEBANG=$(head -c 2 ${LEFT_ARGS[0]} 2>/dev/null || true)
-if [[ "${SHEBANG:0:2}" == "#!" ]]; then
-	SHEBANG=${SHEBANG:2}
+First2char=$(head -c 2 ${SPAWN[0]} 2>/dev/null || true)
+if [[ "${First2char}" == "#!" ]]; then
+	Firstline=$(head -n 1 ${SPAWN[0]} 2>/dev/null || true)
+	SHEBANG=${Firstline:2}
 else
 	SHEBANG=""
 fi
 
-CMD=""
-CMD+="${ENVS:+env ${ENVS[@]} }"
-CMD+="${SUDO:+${SUDO} }"
-CMD+="${TMOUT:+timeout ${TMOUT} }"
-CMD+="${SHEBANG:+${SHEBANG} }"
-CMD+="${LEFT_ARGS[@]}"
+WHOLE_CMD=""
+WHOLE_CMD+="${ENVS:+env ${ENVS[@]} }"
+WHOLE_CMD+="${SUDO:+${SUDO} }"
+WHOLE_CMD+="${TMOUT:+timeout ${TMOUT} }"
+WHOLE_CMD+="${SHEBANG:+${SHEBANG} }"
+WHOLE_CMD+="${SPAWN[@]}"
 
 if [[ ${LOG_FILE} ]]; then
-	eval "${CMD}" | tee ${LOG_FILE}
+	eval "${WHOLE_CMD}" > >(tee -a ${LOG_FILE}) || {
+		REAL_RET=$?
+		true
+	}
+
 else
-	eval "${CMD}"
+	eval "${WHOLE_CMD}" || {
+		REAL_RET=$?
+		true
+	}
 fi
-if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+
+if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
-	if [[ ${LOG_CMD_FILE} ]]; then
-		echo -e "Run '\033[31m${CMD}\033[m' failed in ${PWD}" >> ${LOG_CMD_FILE}
+	if [[ ${RECORD_FILE} ]]; then
+		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}" >> ${RECORD_FILE}
 	fi
 	error "${@}: run failed"
 else
-	if [[ ${LOG_CMD_FILE} ]]; then
-		echo -e "Run '\033[32m${CMD}\033[m' success in ${PWD}" >> ${LOG_CMD_FILE}
+	if [[ ${RECORD_FILE} ]]; then
+		echo -e "Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}" >> ${RECORD_FILE}
 	fi
 fi
 
 # If you run with sudo, then we need to reset the owner of the log file.
-if [[ ${SUDO_USER} ]] && [[ ${LOG_CMD_FILE} ]]; then
-	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${LOG_CMD_FILE}
+if [[ ${SUDO_USER} ]] && [[ ${RECORD_FILE} ]]; then
+	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${RECORD_FILE}
 fi

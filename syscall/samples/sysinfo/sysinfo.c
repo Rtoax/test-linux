@@ -33,7 +33,8 @@ void print_sysinfo(struct sysinfo *si)
 	printf("freeram     \t%ld.\n", si->freeram);
 	printf("sharedram   \t%ld.\n", si->sharedram);
 	printf("bufferram   \t%ld.\n", si->bufferram);
-	printf("totalswap   \t%ld.\n", si->totalswap);
+	printf("totalswap   \t%ld (swap %s).\n", si->totalswap,
+	       si->totalswap > 0 ? "on" : "off");
 	printf("freeswap    \t%ld.\n", si->freeswap);
 	printf("procs       \t%d.\n",  si->procs);
 	printf("totalhigh   \t%ld.\n", si->totalhigh);
@@ -54,8 +55,10 @@ void get_ram_usage(struct ram_occupy *info)
 	info->totalSwapMb = (unsigned long)(si.totalswap / megabyte);
 	info->freeSwapMb = (unsigned long)(si.freeswap / megabyte);
 
-	double occupyRam = (info->totalRamMemMb - info->freeRamMemMb) * 1.0 / info->totalRamMemMb;
-	double occupySwap = (info->totalSwapMb - info->freeSwapMb) * 1.0 / info->totalSwapMb;
+	double occupyRam = (info->totalRamMemMb - info->freeRamMemMb) * 1.0 /
+			   info->totalRamMemMb;
+	double occupySwap = (info->totalSwapMb - info->freeSwapMb) * 1.0 /
+			    info->totalSwapMb;
 
 	info->occupyRam.integer = (int)(occupyRam * 100);
 	info->occupyRam.decimal = (int)(occupyRam * 10000 / 100);

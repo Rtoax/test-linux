@@ -1,0 +1,8 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	system("cd /etc/; pwd");
+	system("ls");
+	exit();
+}

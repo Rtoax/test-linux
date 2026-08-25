@@ -1,6 +1,6 @@
-=======================================================
-BMC and IPMI(Intelligent Platform Management Interface)
-=======================================================
+=====================================================
+BMC: Baseboard Management Controller (基板管理控制器)
+=====================================================
 
 Architecture
 ------------
@@ -54,3 +54,4 @@ Links
 -----
 
 - https://github.com/openbmc/openbmc
+- https://github.com/openbmc/bmcweb

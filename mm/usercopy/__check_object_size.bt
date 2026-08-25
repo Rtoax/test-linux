@@ -4,7 +4,7 @@
  *
  * see CONFIG_HARDENED_USERCOPY
  *
- * Copyright (C) 2022-2026 Rong Tao
+ * Copyright (C) 2022-2026 Rong Tao. All rights reserved.
  *
  * 2023-08-06	Rong Tao	Create this.
  */

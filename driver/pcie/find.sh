@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. libpcie.sh
+. ../../scripts/libpcie.sh
 
 find_slot_pci_device() {
 	local slot=$1

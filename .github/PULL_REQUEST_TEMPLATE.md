@@ -7,7 +7,7 @@ Then please complete the checklist.
 ##### Checklist
 
 - [ ] If this is your first submission, maybe you need to add your name to the `AUTHORS`.
-- [ ] The new behaviour is covered by tests.
+- [ ] The new behaviour is covered by compilcations or tests.
 
 ## Motivation
 

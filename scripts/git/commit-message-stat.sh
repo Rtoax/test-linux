@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2026 Rong Tao
+# Copyright (C) 2026 Rong Tao. All rights reserved.
 #
 # Usage: commit-message-stat.sh [downer-commit] [upper-commit]
 set -e
@@ -16,13 +16,16 @@ elif [[ ${from_commit} ]]; then
 fi
 
 # Statistic os
-stat_os() {
+stat_os_sed() {
 	git log ${COMMITS_ARG} --format=%B | \
-		grep "Vers:" | sed -E 's/.*Vers: ([^,]*),.*/\1/' | sort | uniq -c
+		grep -E "Vers(ions)?:" | \
+		sed -E 's/.*Vers(ions)?: ([^,]*),.*/\2/' | \
+		grep -vE "Vers(ions)?:" | sort | uniq -c
 }
 stat_os_awk() {
 	git log ${COMMITS_ARG} --format=%B | \
-		awk '/Vers:/ {split($0, a, ","); sub(/.*Vers: /, "", a[1]); print a[1]}' | sort | uniq -c
+		awk '/Vers(ions)?:/ {split($0, a, ","); sub(/.*Vers(ions)?: /, "", a[1]); print a[1]}' | \
+		grep -vE "Vers(ions)?:" | sort | uniq -c
 }
 
 stat_linux() {
@@ -38,6 +41,12 @@ stat_arch() {
 echo "------------- linux ---------------"
 stat_linux
 echo "------------- os ---------------"
-stat_os
+os_sed="$(stat_os_sed)"
+os_awk="$(stat_os_awk)"
+if [[ "${os_sed}" != "${os_awk}" ]]; then
+	echo >&2 "ERROR: stat os sed != awk"
+	exit 1
+fi
+echo "${os_sed}"
 echo "------------- arch ---------------"
 stat_arch

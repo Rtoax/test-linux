@@ -1,4 +1,0 @@
-PTX - Parallel Thread eXecution
-===============================
-
-

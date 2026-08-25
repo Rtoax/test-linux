@@ -1,5 +1,5 @@
 {
-	"version": "0.0.3",
+	"version": "0.0.10",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -12,7 +12,10 @@
 				"minor": "minor",
 				"patch": "patchlevel"
 			}
-		}
+		},
+		"tags": [ "boot", "bpf", "development", "networking",
+			"software-management"
+		]
 	},
 	"software": {
 		"acpica-tools": {
@@ -21,32 +24,39 @@
 			"version": {
 				"length": [ 1 ]
 			},
-			"keys": [ "acpi", "acpidump" ]
+			"keys": [ "acpi", "acpidump" ],
+			"tags": [ "boot" ]
 		},
 		"acpitool": {
 			"name": "ACPITool",
-			"keys": [ "acpi", "acpitool" ]
+			"keys": [ "acpi", "acpitool" ],
+			"tags": [ "boot" ]
 		},
-		"pkg-config": {
-			"name": "PKG-Config",
-			"keys": [ "pkg-config" ]
+		"pkgconf": {
+			"name": "PKGConf",
+			"command": [ "pkg-config" ],
+			"keys": [ "pkg-config" ],
+			"tags": [ "development" ]
 		},
 		"anaconda": {
 			"name": "Anaconda",
 			"version": {
 				"length": [ 2 ]
 			},
-			"keys": [ "anaconda" ]
+			"keys": [ "anaconda" ],
+			"tags": [ "boot" ]
 		},
 		"apt": {
 			"name": "APT",
 			"extension": [ "deb" ],
-			"keys": [ "apt" ]
+			"keys": [ "apt" ],
+			"tags": [ "software-management" ]
 		},
 		"bcc": {
 			"name": "BCC",
 			"library": [ "libbcc.so", "libbcc_bpf.so" ],
-			"keys": [ "bcc", "bpfcc" ]
+			"keys": [ "bcc", "bpfcc" ],
+			"tags": [ "bpf" ]
 		},
 		"binutils": {
 			"name": "Binutils",
@@ -55,21 +65,25 @@
 				"length": [ 3, 2 ]
 			},
 			"extension": [ "s" ],
-			"keys": [ "addr2line", "asm", "bfd", "binutils" ]
+			"keys": [ "addr2line", "asm", "bfd", "binutils" ],
+			"tags": [ "basic" ]
 		},
 		"bpftool": {
 			"name": "BPFTool",
-			"keys": [ "bpftool", "btf" ]
+			"keys": [ "bpftool", "btf" ],
+			"tags": [ "bpf" ]
 		},
 		"bpftrace": {
 			"name": "BPFTrace",
 			"extension": [ "bt" ],
-			"keys": [ "bpftrace" ]
+			"keys": [ "bpftrace" ],
+			"tags": [ "bpf" ]
 		},
 		"capstone": {
 			"name": "Capstone",
 			"command": [ "cstool" ],
-			"keys": [ "capstone", "cstool" ]
+			"keys": [ "capstone", "cstool" ],
+			"tags": [ "development" ]
 		},
 		"clang": {
 			"name": "Clang",
@@ -128,7 +142,7 @@
 					"argument": [ "-V" ]
 				}
 			},
-			"keys": [ "fsck", "fsck.ext4" ]
+			"keys": [ "fsck", "fsck.ext4", "mkfs.ext4" ]
 		},
 		"edk2": {
 			"name": "EDK-II",
@@ -187,6 +201,11 @@
 			"name": "Findutils",
 			"command": [ "find" ],
 			"keys": [ "find", "findutils" ]
+		},
+		"fontconfig": {
+			"name": "Fontconfig",
+			"command": [ "fc-list" ],
+			"keys": [ "fontconfig" ]
 		},
 		"gcc": {
 			"name": "GCC",
@@ -274,6 +293,16 @@
 			"extension": [ "cu", "lc" ],
 			"keys": [ "hpcc", "htcc", "mars", "cuda" ]
 		},
+		"iproute": {
+			"name": "IProute",
+			"command": [ "devlink", "ifstat" ],
+			"version": {
+				"command": {
+					"argument": [ "-V" ]
+				}
+			},
+			"keys": [ "iproute" ]
+		},
 		"iptables": {
 			"name": "IPtabls",
 			"keys": [ "iptables" ]
@@ -284,11 +313,24 @@
 			"extension": [ "java" ],
 			"keys": [ "java", "jdk" ]
 		},
+		"jq": {
+			"name": "Jq",
+			"version": {
+				"length": [ 2 ]
+			},
+			"extension": [ "json" ],
+			"keys": [ "jq", "json" ]
+		},
 		"json-c": {
 			"name": "json-c",
 			"library": [ "libjson-c.so" ],
 			"extension": [ "json" ],
 			"keys": [ "json" ]
+		},
+		"kbd": {
+			"name": "KBD",
+			"command": [ "showconsolefont", "chvt" ],
+			"keys": [ "kbd" ]
 		},
 		"kmod": {
 			"name": "KMod",
@@ -310,6 +352,15 @@
 			},
 			"extension": [ "rst" ],
 			"keys": [ "latexmk", "sphinx", "Documentation" ]
+		},
+		"libblockdev": {
+			"name": "LibBlockDev",
+			"package": {
+				"deb": [ "libblockdev-nvdimm-dev" ],
+				"rpm": [ "libblockdev", "libblockdev-nvdimm" ]
+			},
+			"library": [ "libblockdev.so" ],
+			"keys": [ "libblockdev", "nvdimm" ]
 		},
 		"libbpf": {
 			"name": "LibBpf",
@@ -334,10 +385,27 @@
 			},
 			"keys": [ "dwarf", "libdwarf" ]
 		},
+		"libpmem": {
+			"name": "Libpmem",
+			"package": {
+				"deb": [ "libpmem-dev" ],
+				"rpm": [ "libpmem", "libpmem-devel" ]
+			},
+			"keys": [ "pmem" ]
+		},
 		"libsmbios": {
 			"name": "LibSMBIOS",
 			"library": [ "libsmbios_c.so" ],
 			"keys": [ "smbios" ]
+		},
+		"libtracefs": {
+			"name": "LibTracefs",
+			"package": {
+				"deb": [ "libtracefs", "libtracefs-dev" ],
+				"rpm": [ "libtracefs" ]
+			},
+			"library": [ "libtracefs.so" ],
+			"keys": [ "tracefs", "libtracefs" ]
 		},
 		"libunwind": {
 			"name": "Libunwind",
@@ -434,6 +502,9 @@
 		},
 		"nasm": {
 			"name": "Nasm",
+			"version": {
+				"length": [ 3, 2 ]
+			},
 			"extension": [ "asm", "s", "S" ],
 			"keys": [ "nasm" ]
 		},
@@ -487,6 +558,14 @@
 				"rpm": [ "numactl" ]
 			},
 			"keys": [ "numactl", "numa" ]
+		},
+		"openipmi": {
+			"name": "OpenIPMI",
+			"package": {
+				"rpm": [ "OpenIPMI-lanserv" ],
+				"deb": [ "openipmi" ]
+			},
+			"keys": [ "OpenIPMI", "ipmi_sim" ]
 		},
 		"openmpi": {
 			"name": "OpenMPI",
@@ -556,6 +635,7 @@
 		"qemu": {
 			"name": "Qemu",
 			"command": [
+				"/home/rongtao/Git/qemu/build/qemu-system-@ARCH@",
 				"qemu-kvm",
 				"/usr/libexec/qemu-kvm",
 				"/usr/bin/qemu-system-@ARCH@",
@@ -638,7 +718,12 @@
 				"length": [ 2, 1 ]
 			},
 			"extension": [ "service", "mount" ],
-			"keys": [ "systemd", "journalctl", "ukify" ]
+			"keys": [ "systemd", "journalctl", "udev", "ukify" ]
+		},
+		"sysstat": {
+			"name": "Sysstat",
+			"command": [ "sar" ],
+			"keys": [ "sar", "sysstat" ]
 		},
 		"tmux": {
 			"version": {
@@ -649,9 +734,16 @@
 			},
 			"keys": [ "tmux" ]
 		},
+		"trace-cmd": {
+			"package": {
+				"deb": [ "trace-cmd" ],
+				"rpm": [ "trace-cmd" ]
+			},
+			"keys": [ "trace-cmd", "ftrace" ]
+		},
 		"util-linux": {
 			"name": "Util-Linux",
-			"command": [ "getopt", "lscpu" ],
+			"command": [ "getopt", "lscpu", "dmesg" ],
 			"keys": [ "util-linux", "lscpu", "fsck" ]
 		},
 		"vim": {

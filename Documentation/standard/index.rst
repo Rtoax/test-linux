@@ -11,6 +11,8 @@ Standard
    ieee/index
    iso/index
    posix/index
+   rfc/index
    svr/index
+   dmtf/index
    pxe
    float-point/index

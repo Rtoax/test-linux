@@ -12,11 +12,14 @@ import sys
 doc_dir = os.path.dirname(os.path.abspath(__file__))
 
 project = 'The Test Linux Documentation'
+# scripts/update-copyright need Copyright
 copyright = 'Copyright (C) 2022-2026 Rong Tao'
+copyright = copyright.split(maxsplit=1)[1]
 author = 'Rong Tao'
-version = release = '0.0.281'
+version = release = '0.1.52'
 
-html_logo = "images/logo.svg"
+html_favicon = "images/tux.svg"
+html_logo = "images/tux.svg"
 # Theme: alabaster, sphinx_rtd_theme, sphinx_rtd_dark_mode
 html_theme = "sphinx_rtd_theme"
 

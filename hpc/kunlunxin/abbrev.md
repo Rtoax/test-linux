@@ -1,1 +1,0 @@
-- BANG: Baidu AI Neural Network GPU (百度AI神经网络GPU)

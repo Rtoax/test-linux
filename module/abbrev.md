@@ -1,2 +1,0 @@
-- KABI: Kernel Application Binary Interface (内核应用二进制接口)
-- LKM: Linux Kernel Module (内核模块)

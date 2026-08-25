@@ -1,3 +1,6 @@
+/**
+ * -fsanitize=address
+ */
 #include <malloc.h>
 #include <string.h>
 #include <unistd.h>

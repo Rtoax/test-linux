@@ -1,3 +1,0 @@
-- CCX: Core Complex (核心复合体)
-- DSQs: Dispatch Queues (分派队列)
-- SCX: Sched-ext,Extensible Scheduler Class (扩展调度器类)

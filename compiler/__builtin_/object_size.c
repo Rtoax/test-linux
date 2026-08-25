@@ -1,9 +1,15 @@
+/**
+ * size_t __builtin_object_size(const void *ptr, int type);
+ *
+ * Need _FORTIFY_SOURCE=1/2/3
+ * Compile time.
+ * See also __builtin_dynamic_object_size();
+ */
 #include <stdio.h>
 #include <assert.h>
 
 int main(void)
 {
-
 	struct V {
 		char buf1[10];
 		int b;
@@ -22,7 +28,6 @@ int main(void)
 	printf("%ld\n", __builtin_object_size(q, 2));
 	printf("%ld\n", __builtin_object_size(q, 3));
 	printf("%ld\n", __builtin_object_size(r, 0));
-
 
 	char b[10];
 	char *c = &b[5];

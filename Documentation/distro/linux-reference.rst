@@ -1,7 +1,14 @@
 Linux Kernel Reference
 ======================
 
-* 7.1.3 (fedora44)
+* 7.1.10 (fedora44)
+* 7.1.9 (fedora44)
+* 7.1.8 (fedora44)
+* 7.1.7 (fedora44)
+* 7.1.6 (fedora44)
+* 7.1.5 (fedora44)
+* 7.1.4 (fedora44)
+* 7.1.3 (fedora43,fedora44)
 * 7.0.14 (fedora44)
 * 7.0.13 (fedora44)
 * 7.0.12 (fedora43,fedora44)
@@ -21,6 +28,8 @@ Linux Kernel Reference
 * 6.19.8 (fedora42,fedora43)
 * 6.19.7 (fedora43)
 * 6.19.6 (fedora43)
+* 6.18.40 (alpine3.24.1)
+* 6.18.39 (alpine3.24.1)
 * 6.18.16 (fedora43)
 * 6.18.13 (fedora43)
 * 6.18.12 (fedora42,fedora43)
@@ -38,6 +47,8 @@ Linux Kernel Reference
 * 6.15.9 (fedora42)
 * 6.14.11 (fedora42)
 * 6.14.0 (ubuntu24.04)
+* 6.12.100 (debian13.6)
+* 6.12.96 (debian13.6)
 * 6.12.90 (debian13.5)
 * 6.12.88 (debian13.5)
 * 6.12.86 (debian13.4)

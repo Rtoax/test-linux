@@ -1,0 +1,19 @@
+Usage:
+
+   [mod] # insmod sillymod-event.ko
+   [mod] # cd /sys/kernel/debug/tracing
+   [tracing] # ls events
+   block   ext4    header_event  i915  jbd2  module  sched  skb       timer
+   enable  ftrace  header_page   irq   kmem  power   silly  syscalls  workqueue
+   [tracing] # ls events/silly
+   enable  filter  me_silly
+   [tracing] # echo 1 > events/silly/me_silly/enable
+   [tracing] # cat trace
+   # tracer: nop
+   #
+   #           TASK-PID    CPU#    TIMESTAMP  FUNCTION
+   #              | |       |          |         |
+       silly-thread-5377  [000]  1802.845581: me_silly: time=4304842209 count=10
+       silly-thread-5377  [000]  1803.845008: me_silly: time=4304843209 count=11
+       silly-thread-5377  [000]  1804.844451: me_silly: time=4304844209 count=12
+       silly-thread-5377  [000]  1805.843886: me_silly: time=4304845209 count=13

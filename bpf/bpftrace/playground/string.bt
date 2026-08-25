@@ -1,0 +1,29 @@
+#!/bin/env bpftrace
+macro memcpy($dest, $src, n) {
+  import "string.bpf.c";
+
+  __bpf_memcpy((int8*)&$dest, (int8*)&$src, (int32)n);
+}
+
+macro strncpy($dest, $src, n) {
+  import "string.bpf.c";
+
+  __bpf_strncpy((int8*)&$dest, (int8*)&$src, (int32)n);
+}
+
+BEGIN
+{
+  let $src : string[256];
+  let $s1 : string[256];
+  let $s2 : string[256];
+
+  $src = "abcdefghijklmnopqrstuvwxyz1234567890";
+
+  memcpy($s1, $src, 250);
+  printf("%s, %s\n", $src, $s1);
+
+  strncpy($s2, $src, 25);
+  printf("%s, %s\n", $src, $s2);
+
+  exit();
+}

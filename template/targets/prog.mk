@@ -16,12 +16,12 @@ include dir.mk
 include runprog.mk
 
 ${OUTPUT}%.prog.log: %
-	$(call log_tgt,PROG,$(@))
+	@$(call log_tgt,PROG,$(@))
 	$(Q)$(RUNPROG) --log $(@) $(PROG_ENVS) $(PROG_ENVS_$(<)) -- $(<) ${PROG_ARGS} $(PROG_ARGS_$(<))
 
 define add_prog_target
 ${OUTPUT}%.prog.log.${1}: %
-	$$(call log_tgt,PROG,$$(@))
+	@$$(call log_tgt,PROG,$$(@))
 	$$(Q)$$(RUNPROG) --log $$(@) $$(PROG_ENVS) $$(PROG_ENVS_$$(<).${1}) -- $$(<) $$(PROG_ARGS) $$(PROG_ARGS_$$(<).${1})
 endef
 

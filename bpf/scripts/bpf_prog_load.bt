@@ -1,7 +1,8 @@
 #!/usr/bin/env bpftrace
+#ifndef BPFTRACE_HAVE_BTF
 #include <linux/filter.h>
 #include <uapi/linux/bpf.h>
-
+#endif
 
 BEGIN
 {

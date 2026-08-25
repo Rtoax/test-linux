@@ -1,0 +1,25 @@
+#!/usr/bin/env bpftrace
+
+macro call_0($s)
+{
+	call_1($s);
+}
+
+macro call_1($s)
+{
+	for $j : ((uint64)0)..((uint64)32) {
+		call_2($s);
+	}
+}
+
+macro call_2($s)
+{
+	assert_str($s);
+}
+
+BEGIN
+{
+	let $s : string[4];
+	call_0($s);
+	exit();
+}

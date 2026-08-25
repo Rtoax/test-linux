@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
+subdir-y += align
 subdir-y += bitmap
 subdir-y += bitmask
 subdir-y += bitops

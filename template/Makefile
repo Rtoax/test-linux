@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 # Test all template mk
 #
 # Usage: $ make {mk|MK}=<os.mk> [DEBUG=1]
@@ -7,6 +7,7 @@
 OUTPUT := .output/
 
 V ?= 1
+TEST ?= 1
 
 $(if ${mk}, $(eval MK := ${mk}))
 

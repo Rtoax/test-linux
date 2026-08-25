@@ -1,0 +1,15 @@
+#!/bin/env bpftrace
+macro v1234() {
+  import "dummy.bpf.c";
+
+  let $v = __bpf_dummy();
+
+  $v
+}
+
+BEGIN
+{
+  printf("%s\n", v1234);
+
+  exit();
+}

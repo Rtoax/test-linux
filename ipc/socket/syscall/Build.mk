@@ -14,4 +14,7 @@ target-y += recv
 target-y += tcp-srv-1 tcp-clt-1
 target-${HAVE_LIBBPF} += AF_XDP
 
+prog-y += getsockname
+prog-y += getsockopt
+
 connect-objs := fd.o

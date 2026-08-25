@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2026 Rong Tao
+# Copyright (C) 2026 Rong Tao. All rights reserved.
 #
 ifndef _COMPILER_TYPES_MK
 _COMPILER_TYPES_MK = 1
@@ -47,6 +47,8 @@ $(call make_append_var_to_file,CC_SUPPORT_TYPE___float128,${cachefile})
 $(call make_append_var_to_file,CC_SUPPORT_TYPE__Float128,${cachefile})
 $(call make_append_var_to_file,CC_SUPPORT_TYPE__float80,${cachefile})
 $(call make_append_var_to_file,CC_SUPPORT_TYPE___uint128_t,${cachefile})
+$(call make_append_var_to_file,CC_lquadmath,${cachefile})
+$(call make_append_var_to_file,CC_H_quadmath_h,${cachefile})
 
 endif # end of cache file exist
 

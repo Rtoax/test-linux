@@ -1,29 +1,38 @@
 #!/bin/bash
-# Wrote by Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
+#
+# Build fedora/rhel like operate system's rootfs with dnf/rpm package manager.
+#
 set -e
-readonly prog=rootfs-fedora
 
+readonly prog=rootfs-fedora
+readonly ROOTFS_FEDORA_DIR=$(dirname $(realpath $0))
+readonly TUNA="https://mirrors.tuna.tsinghua.edu.cn"
+
+. ${ROOTFS_FEDORA_DIR}/../liblog.sh
 . /etc/os-release
 
-TARGET_ARCH=$(uname -m)
-ROOTFS_DIR=
+declare TARGET_ARCH=$(uname -m)
+declare ROOTFS_DIR
 
-IMAGE=
-IMAGE_TYPE=
-IMAGE_NEW=
+declare IMAGE
+declare IMAGE_TYPE
+declare IMAGE_NEW
 
-INITRD=
+declare INITRD
 
-KVER=
+declare KVER
 
-declare -a pkgs
-pkgs+=( autoconf automake binutils cmake dnf dracut gcc gcc-c++ gdb git
-	glibc-devel glibc-static hostname iproute libtool ltrace make
-	NetworkManager openssh-server pciutils pkgconf rpm strace sudo vim )
+declare -a pkgs=( autoconf automake binutils cmake dnf dracut gcc gcc-c++ gdb
+		git glibc-devel hostname iproute libtool ltrace make
+		NetworkManager openssh-server pciutils pkgconf rpm strace
+		sudo vim )
 
 declare -a dnf_args
-verbose=
-dry_run=
+
+declare force_fedora
+declare verbose
+declare dry_run
 
 __usage__() {
 	echo -e "
@@ -35,10 +44,12 @@ SYNOPSIS
 
 DESCRIPTION
 	-r, --rootfs [DIR]      specify rootfs directory.
-	    --image [NAME]      specify image filename
+	    --image [NAME]      specify image filename, format: raw, qcow2
 	    --initrd [NAME]     generate initrd based on rootfs.
 
 	    --kver [VERSION]    speicfy kernel version, use to install, dracut, etc.
+
+	--force-fedora          force to build fedora if not running on fedora.
 
 	-i, --install [PKG]     install package (may be listed multiple times)
 
@@ -62,6 +73,7 @@ TEMP_ARGS=$(getopt --options r:i:uhv \
 	--long initrd: \
 	--long kver: \
 	--long install: \
+	--long force-fedora \
 	--long dry-run \
 	--long verbose \
 	--long help \
@@ -83,11 +95,10 @@ while true; do
 		IMAGE=$1
 		IMAGE_TYPE=${IMAGE##*.}
 		if ! [[ " raw qcow2 " =~ " ${IMAGE_TYPE} " ]]; then
-			echo >&2 "ERROR: ${IMAGE} is not raw or qcow2."
-			exit 1
+			error "${IMAGE} is not raw or qcow2."
 		fi
 		if [[ -e ${IMAGE} ]]; then
-			echo >&2 "WARNING: ${IMAGE} already exist."
+			warning "${IMAGE} is already exist."
 		else
 			IMAGE_NEW=YES
 		fi
@@ -116,6 +127,10 @@ while true; do
 		shift
 		dry_run=YES
 		;;
+	--force-fedora)
+		shift
+		force_fedora=YES
+		;;
 	-v | --verbose)
 		shift
 		verbose=YES
@@ -128,8 +143,7 @@ while true; do
 done
 
 if [[ -z ${ROOTFS_DIR} ]]; then
-	echo >&2 "ERROR: Must speicfy rootfs directory"
-	exit 1
+	error "Must speicfy rootfs directory, see -h, --help"
 fi
 
 ROOTFS_DIR=$(realpath ${ROOTFS_DIR})
@@ -173,7 +187,7 @@ image_create_and_mount() {
 	[[ -z ${IMAGE} ]] && return 0
 
 	if [[ ${IMAGE} ]] && [[ ! -e ${IMAGE} ]]; then
-		_eval qemu-img create -f ${IMAGE_TYPE} ${IMAGE} 10G
+		_eval qemu-img create -f ${IMAGE_TYPE} ${IMAGE} 100G
 	fi
 
 	_eval sudo modprobe nbd max_part=16 || true
@@ -217,36 +231,51 @@ if [[ ${IMAGE} ]]; then
 	image_create_and_mount
 fi
 
+_eval sudo mkdir -p ${ROOTFS_DIR}/etc/yum.repos.d/
+
 # If not running on fedora or rhel like distrobution, just make newest fedora as
 # default, and install newest fedora-release rpm first.
-# TODO: add more distrobutions support
-if ! [[ " fedora " =~ " ${ID} " ]]; then
+if ! [[ " fedora " =~ " ${ID} " ]] && [[ ${force_fedora} ]]; then
 	# Default to fedora
 	ID=fedora
-	VERSION_ID=43 # Newest fedora now(2026-04-08)
+	VERSION_ID=44 # Newest fedora now(2026-04-08)
 
-	TUNA="https://mirrors.tuna.tsinghua.edu.cn"
-	F_YUM="${TUNA}/fedora/releases/${VERSION_ID}/Everything/${TARGET_ARCH}/os/"
+	repo_name=tmp
+	repo_file=${ROOTFS_DIR}/etc/yum.repos.d/${repo_name}.repo
 
-	sudo mkdir -p ${ROOTFS_DIR}/etc/yum.repos.d/
-	tmprepo=${ROOTFS_DIR}/etc/yum.repos.d/tmp.repo
-	sudo tee ${tmprepo} <<-EOF
-	[tmp]
+	pkgs+=( glibc-static )
+
+	_eval "sudo tee ${repo_file} <<-EOF
+	[${repo_name}]
 	name=Temp Fedora ${VERSION_ID} YUM
 	enabled=0
-	baseurl=${F_YUM}
+	baseurl=${TUNA}/fedora/releases/${VERSION_ID}/Everything/${TARGET_ARCH}/os/
 	gpgcheck=0
-	EOF
+	EOF"
 
 	# These is no gpg key in your system, just skip the check.
 	dnf_args+=( --nogpgcheck )
 	dnf_args+=( --disablerepo=updates )
 
-	rootfs_dnf install -y --disablerepo=* --enablerepo=tmp fedora-release
+	rootfs_dnf install -y --disablerepo=* --enablerepo=${repo_name} fedora-release
 
-	sudo rm -f ${tmprepo}
+	_eval sudo rm -f ${repo_file}
+
+# Running on cclinux
+elif [[ " cclinux " =~ " ${ID} " ]]; then
+	repo_file=${ROOTFS_DIR}/etc/yum.repos.d/tmp.repo
+
+	dnf_args+=( --nogpgcheck )
+
+	_eval sudo cp /etc/yum.repos.d/cclinux.repo ${repo_file}
+
+	rootfs_dnf install -y --disablerepo=* --enablerepo=baseos,appstream,crb system-release
+
+	_eval sudo rm -f ${repo_file}
 fi
 
+rootfs_dnf clean all
+rootfs_dnf makecache
 rootfs_dnf install -y ${pkgs[@]}
 
 # Create user and change password

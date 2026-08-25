@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2026 Rong Tao */
+/* Copyright (C) 2026 Rong Tao. All rights reserved. */
 /**
  * cudaError_t cudaMemPoolCreate(cudaMemPool_t *memPool, const struct cudaMemPoolProps *poolProps);
  * cudaError_t cudaMemPoolDestroy(cudaMemPool_t memPool);

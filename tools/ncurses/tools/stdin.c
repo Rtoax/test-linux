@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-// Copyright (C) 2026 Rong Tao
+// Copyright (C) 2026 Rong Tao. All rights reserved.
 #include <ctype.h>
 #include <errno.h>
 #include <unistd.h>
@@ -53,7 +53,7 @@ static int stdin_create_lines(struct lgroup *lg, void *arg)
 
 static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 {
-	int i, narg;
+	int i, nval;
 	double *values = malloc(sizeof(double) * a->nline);
 
 	if (*buf == '\0')
@@ -65,7 +65,7 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 		buf = skip(buf);
 	}
 
-	/* found more values, we could apped new line */
+	/* found more values, we should append new line */
 	while (*buf != '\0') {
 		buf = skip(buf);
 		if (!isdigit(*buf))
@@ -76,7 +76,7 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 		values = realloc(values, sizeof(double) * ++a->nline);
 		values[i++] = strtod(buf, &buf);
 	}
-	narg = i;
+	nval = i;
 
 	i = 0;
 	for_each_line(lg, line)
@@ -87,7 +87,7 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 		 * data. If it's more than before, we've already added lines
 		 * above it.
 		 */
-		if (i < narg) {
+		if (i < nval) {
 			line_add_value(line, values[i], -1, NULL);
 		} else {
 			line_add_value(line, line->tail->v, -1, NULL);
@@ -106,11 +106,11 @@ static void __stdin_update_data(struct lgroup *lg, struct stdin_arg *a)
 
 	char *s = buf;
 
-	/**
-	 * The buf could be "0.49 0.64 0.68\n0.49 0.64 0.68\n", split it by '\n'
-	 * first.
-	 */
 	while (s && *s != '\0') {
+		/**
+		 * The buf could be splited by '\n', such as:
+		 * "0.49 0.64 0.68\n0.49 0.64 0.68\n"
+		 */
 		char *ln_end = strchr(s, '\n');
 		if (ln_end) {
 			*ln_end = '\0';
@@ -169,4 +169,5 @@ struct lgroup lg_stdin = {
 
 struct lgroup lg_stdin_no_ops = {
 	.name = "stdin",
+	.ops = NULL,
 };

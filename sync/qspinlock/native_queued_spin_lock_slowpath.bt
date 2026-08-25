@@ -2,7 +2,7 @@
 /**
  * native_queued_spin_lock_slowpath.bt - Tracing qspinlock slowpath latency
  *
- * Copyright (C) 2022-2026 Rong Tao
+ * Copyright (C) 2022-2026 Rong Tao. All rights reserved.
  *
  * 2023-10-25	Rong Tao	Create this.
  */

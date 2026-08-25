@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Output definitions:
 # - cflags-arch=
@@ -9,8 +9,10 @@
 # - IS_X86_64=[y]
 # - IS_AARCH64=[y]
 # - IS_LOONGARCH64=[y]
+# - IS_PPC64LE=[y]
 # - IS_RISCV64=[y]
 # - IS_SW_64=[y]
+# - IS_S390X=[y]
 #
 ifndef _ARCH_MK
 _ARCH_MK = 1
@@ -33,6 +35,10 @@ else ifeq (${CPU_ARCH},loongarch64)
   export IS_LOONGARCH64 := y
 else ifeq (${CPU_ARCH},riscv64)
   export IS_RISCV64 := y
+else ifeq (${CPU_ARCH},s390x)
+  export IS_S390X := y
+else ifeq (${CPU_ARCH},ppc64le)
+  export IS_PPC64LE := y
 else
   $(error Not support ${CPU_ARCH})
 endif

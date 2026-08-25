@@ -1,22 +1,23 @@
 #!/bin/bash
+#set -e
 
 bridge_name=Bridge0
 bridge_ifname=br0
-bridge_ip4=10.255.94.21/27
-bridge_gw4=10.255.94.30
+bridge_ip4=10.252.20.29/27
+bridge_gw4=10.252.20.30
 
-bond_name=Bond0
-bond_ifname=bond0
+bond_name=Bond4
+bond_ifname=bond4
 
 vlan_name=Vlan0
 vlan_id=1091
 vlan_ifname=bond0.${vlan_id}
 
 slave0_name=Slave0
-slave0_ifname=eno0
+slave0_ifname=enP4s22f0
 
-slave1_name=Slave1
-slave1_ifname=eno1
+slave1_name=
+slave1_ifname=
 
 
 delete() {
@@ -41,8 +42,10 @@ create() {
 	sudo nmcli connection add type bond-slave con-name ${slave0_name} \
 		ifname ${slave0_ifname} master ${bond_ifname}
 
-	sudo nmcli connection add type bond-slave con-name ${slave1_name} \
-		ifname ${slave1_ifname} master ${bond_ifname}
+	if [[ ${slave1_name} ]]; then
+		sudo nmcli connection add type bond-slave con-name ${slave1_name} \
+			ifname ${slave1_ifname} master ${bond_ifname}
+	fi
 
 	bridge() {
 		sudo nmcli connection add type bridge con-name ${bridge_name} \
@@ -89,4 +92,3 @@ delete)
 	echo "$0 [delete|create]"
 ;;
 esac
-

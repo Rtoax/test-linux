@@ -1,9 +1,10 @@
 #!/bin/bash
 # link: https://github.com/brendangregg/FlameGraph
+set -e
 
 FLAMEGRAPH_ROOT=${HOME}/Git/brendangregg/FlameGraph/
 
-function perf_pid_record()
+perf_pid_record()
 {
 	local pid=$1
 	local sec=$2
@@ -11,7 +12,7 @@ function perf_pid_record()
 	sudo perf record -F 99 -p $pid -g -- sleep $sec
 }
 
-function flamegraph_gen_svg()
+flamegraph_gen_svg()
 {
 	sudo perf script > out.perf
 	$FLAMEGRAPH_ROOT/stackcollapse-perf.pl out.perf > out.stack

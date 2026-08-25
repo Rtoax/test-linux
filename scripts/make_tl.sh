@@ -60,7 +60,7 @@ if [[ -z ${makefile} ]] && [[ -f ${workdir}/Build.mk ]]; then
 fi
 
 if [[ -z ${makefile} ]] && [[ -f ${workdir}/Kbuild ]]; then
-	# __IN_KMOD__ used in main.mk
+	# __IN_KMOD__ be used in main.mk
 	make_kmod_args+=( __IN_KMOD__=1 )
 	make_kmod_args+=( -f ${TEST_LINUX_ROOT}/scripts/Makefile.kmod )
 fi

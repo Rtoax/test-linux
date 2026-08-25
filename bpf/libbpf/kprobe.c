@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
+#include <argp.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
@@ -27,6 +29,46 @@
 #error "Not support skel"
 #endif
 
+unsigned long offset = 0;
+int verbose = false;
+
+const char argp_prog_doc[] = "USAGE: [-o <offset] [-v|--verbose]\n";
+
+static const struct argp_option opts[] = {
+	{ "offset", 'o', "OFFSET", 0, "offset of attach point" },
+	{ "verbose", 'v', NULL, 1, "Display detail" },
+	{},
+};
+
+static error_t parse_arg(int key, char *arg, struct argp_state *state)
+{
+	switch (key) {
+	case 'o':
+		if (strlen(arg) >= 2 && arg[0] == '0' && arg[1] == 'x')
+			offset = strtoul(arg, NULL, 16);
+		else if (strlen(arg) >= 1 && arg[0] == '0')
+			offset = strtoul(arg, NULL, 8);
+		else
+			offset = strtoul(arg, NULL, 10);
+		break;
+	case 'v':
+		verbose = true;
+		break;
+	case ARGP_KEY_ARG:
+	case ARGP_KEY_END:
+		break;
+	default:
+		return ARGP_ERR_UNKNOWN;
+	}
+	return 0;
+}
+
+static const struct argp argp = {
+	.options = opts,
+	.parser = parse_arg,
+	.doc = argp_prog_doc,
+};
+
 void sig_handler(int sig)
 {
 	read_trace_pipe_stop();
@@ -36,6 +78,12 @@ int main(int argc, char **argv)
 {
 	struct struct_bpf *skel;
 	int err;
+
+	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
+	if (err) {
+		fprintf(stderr, "argp_parse return %d\n", err);
+		return -err;
+	}
 
 	signal(SIGINT, sig_handler);
 
@@ -48,11 +96,32 @@ int main(int argc, char **argv)
 
 	init_stackmap(skel->maps.stackmap, 1024);
 
+#if defined(KPROBE)
+	DECLARE_LIBBPF_OPTS(bpf_kprobe_opts, kprobe_opts, .offset = offset,
+			    .retprobe = false, .attach_mode = 0, );
+	skel->links.do_execveat_common = bpf_program__attach_kprobe_opts(
+		skel->progs.do_execveat_common, KSYM_DO_EXECVEAT_COMMON,
+		&kprobe_opts);
+
+	DECLARE_LIBBPF_OPTS(bpf_kprobe_opts, kretprobe_opts, .offset = 0,
+			    .retprobe = true, .attach_mode = 0, );
+	skel->links.do_execveat_common_exit = bpf_program__attach_kprobe_opts(
+		skel->progs.do_execveat_common_exit, KSYM_DO_EXECVEAT_COMMON,
+		&kretprobe_opts);
+
+	if (!skel->links.do_execveat_common ||
+	    !skel->links.do_execveat_common_exit) {
+		fprintf(stderr, "Failed to attach BPF kprobe\n");
+		err = errno;
+		goto cleanup;
+	}
+#else
 	err = _bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton\n");
 		goto cleanup;
 	}
+#endif
 
 	printf("Successfully started!\n");
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Usage:
 # $ [AV=1] [VCM=1] [FORCE/FCM=1] git commit ...
@@ -32,9 +32,14 @@ readonly LAST_SUBMITTED_FILES=( $(git log -1 --oneline --name-only --pretty=form
 declare -a CHANGED_FILES SHEBANGS
 declare is_commit_amend
 
+if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
+	. ${GIT_TOPDIR}/.gitconfig.sh
+fi
+
 # Remove old Env first.
-sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Kmods:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
 
 CHANGED_FILES+=( ${UNCOMMITTED_FILES[@]} )
 
@@ -59,6 +64,7 @@ readonly CHANGED_FILES_RO=( ${CHANGED_FILES[@]} )
 
 Versions=""
 Environments=""
+KernelModules=""
 
 fatal() {
 	echo >&2 "FATAL: "${@}", try FCM=1/FORCE=1 or VCM=1"
@@ -74,7 +80,11 @@ __add_ver() {
 	local mode=$1
 	shift
 
-	[[ -z "${@}" ]] && fatal "Bad call of add_ver()"
+	if [[ -z "${@}" ]]; then
+		fatal "Bad call of __add_ver(), need argument"
+		warning "Skipping..."
+		return 0
+	fi
 	[[ -z ${CHANGED_FILES_RO} ]] && return 0
 
 	if [[ -z "$(echo ${@} | grep -oE '[0-9]')" ]]; then
@@ -116,6 +126,28 @@ add_env() {
 	[[ ${Environments} ]] && Environments+=", "
 	Environments+="$@"
 }
+
+# $1: kernel module name, like 'nvidia'
+get_kmod_ver() {
+	local kmod=$1
+	sudo modinfo ${kmod} | awk '/^version:/ {print $2}'
+}
+
+add_kmod() {
+	[[ -z ${CHANGED_FILES_RO} ]] && return 0
+
+	[[ -z "${@}" ]] && return 0
+
+	# Already exist
+	if [[ "${KernelModules}" =~ "${@}" ]]; then
+		return 0
+	fi
+
+	[[ ${KernelModules} ]] && KernelModules+=", "
+	KernelModules+="$@"
+}
+
+nvidia_kmod() { add_kmod "nvidia $(get_kmod_ver nvidia)"; }
 
 # input some key words.
 # echo "YES" if any key matched.
@@ -183,6 +215,7 @@ match_content() {
 	get_content() {
 		git status --verbose | cat
 		git diff --staged | cat
+		git status --short | cat
 		if [[ ${is_commit_amend} ]]; then
 			git log -1 --patch --oneline | cat
 		fi
@@ -207,6 +240,7 @@ virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
 
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
 	fatal "must signed with -s/--signoff"
+	exit 0
 fi
 
 if [[ -z ${signed_off_by_line} ]]; then
@@ -215,7 +249,7 @@ if [[ -z ${signed_off_by_line} ]]; then
 fi
 
 # __main__
-if [[ "$(match_type asm S s)$(has_changed_file asm arch insn cpu bpf)" ]]; then
+if [[ "$(match_type asm S s)$(has_changed_file asm arch bpf cxl cpu insn qemu)" ]]; then
 	cpu_env
 fi
 
@@ -236,6 +270,7 @@ if [[ "$(has_changed_file cuda nvidia)" ]]; then
 	name=$(${TOPDIR}/hpc/nvidia/gpuname.sh)
 	if [[ ! -z ${name} ]]; then
 		add_env "${name}"
+		nvidia_kmod
 	fi
 fi
 
@@ -267,21 +302,29 @@ auto_versions() {
 auto_versions
 
 # Add lines
-if [[ ${Versions} ]]; then
-	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE} || {
-		fatal "Failed handle Vers: ${Versions}"
-	}
-fi
 if [[ ${Environments} ]]; then
 	sed -i "$((${signed_off_by_line}+1))i Envs: ${Environments}" ${COMMIT_MSG_FILE} || {
 		fatal "Failed handle Envs: ${Environments}"
 	}
 fi
+if [[ ${KernelModules} ]]; then
+	sed -i "$((${signed_off_by_line}+1))i Kmods: ${KernelModules}" ${COMMIT_MSG_FILE} || {
+		fatal "Failed handle Kmods: ${KernelModules}"
+	}
+fi
+if [[ ${Versions} ]]; then
+	sed -i "$((${signed_off_by_line}+1))i Vers: ${Versions}" ${COMMIT_MSG_FILE} || {
+		fatal "Failed handle Vers: ${Versions}"
+	}
+fi
 
-# If only modify The Documentation, try add Commit Message Title
+# If Documentation was modified, auto add Commit Message Title
 pushd ${GIT_TOPDIR} >/dev/null
-if [[ -z "$(git status --short | grep -v '^ ' | grep -v Documentation || :)" ]] && \
-   [[ -z ${is_commit_amend} ]]; then
+
+Docs=( $(git status --short | grep -v '^ ' | grep Documentation | awk '{print $2}') )
+NonDocs=( $(git status --short | grep -v '^ ' | grep -v Documentation | awk '{print $2}') )
+
+if [[ "${Docs[@]}" ]] && [[ -z ${is_commit_amend} ]]; then
 	# Added files
 	add_files=( $(git status --short | grep -v '^ ' | grep ^A | grep -Eo 'Documentation.*' | grep -vw conf.py) )
 	add_names=( $(for f in ${add_files[@]}; do basename ${f}; done) )
@@ -294,18 +337,53 @@ if [[ -z "$(git status --short | grep -v '^ ' | grep -v Documentation || :)" ]] 
 	mod_files=( $(git status --short | grep -v '^ ' | grep ^M | grep -Eo 'Documentation.*' | grep -vw conf.py) )
 	mod_names=( $(for f in ${mod_files[@]}; do basename ${f}; done) )
 
+	# Rename files
+	rename_files=( $(git status --short | grep -v '^ ' | grep '^R' | awk '{print $NF}' | grep -Eo 'Documentation.*' | grep -vw conf.py) )
+	rename_names=( $(for f in ${rename_files[@]}; do basename ${f}; done) )
+
 	# All files
 	doc_files=( $(git status --short | grep -v '^ ' | grep -Eo 'Documentation.*' | grep -vw conf.py) )
-	doc_names=( $(for f in ${doc_files[@]}; do basename ${f}; done) )
 	doc_dirs=( $(for f in ${doc_files[@]}; do basename $(dirname ${f}); done | sort -u ) )
+	# Filter out 'Documentation' directory
+	mapfile -t doc_dirs < <(printf '%s\n' "${doc_dirs[@]}" | grep -iv 'Documentation')
 
 	doc_label=$(IFS=,; echo "${doc_dirs[*]}")
 
-	message="Doc: ${doc_label}:"
-	message+="${mod_names:+update ${mod_names[*]}, }"
-	message+="${add_names:+add ${add_names[*]}, }"
-	message+="${del_names:+delete ${del_names[*]}, }"
-	sed -i "1i ${message}" ${COMMIT_MSG_FILE} || {
+	# sort and uniq names
+	mod_names=( $(printf '%s\n' "${mod_names[@]}" | sort -u) )
+	add_names=( $(printf '%s\n' "${add_names[@]}" | sort -u) )
+	del_names=( $(printf '%s\n' "${del_names[@]}" | sort -u) )
+	rename_names=( $(printf '%s\n' "${rename_names[@]}" | sort -u) )
+
+	# Construct the message
+	message="Doc: ${doc_label}: "
+
+	message+="${mod_names:+update ${mod_names[*]}}"
+	if [[ ${mod_names} ]] && [[ ${rename_names}${add_names}${del_names} ]]; then
+		message+=", "
+	fi
+
+	message+="${rename_names:+rename ${rename_names[*]}}"
+	if [[ ${rename_names} ]] && [[ ${add_names}${del_names} ]]; then
+		message+=", "
+	fi
+
+	message+="${add_names:+add ${add_names[*]}}"
+	if [[ ${add_names} ]] && [[ ${del_names} ]]; then
+		message+=", "
+	fi
+
+	message+="${del_names:+delete ${del_names[*]}}"
+
+	line=1
+	# have other changes except Documentation, then, add it to 2nd line.
+	if [[ "${NonDocs[@]}" ]]; then
+		# insert newline after 1st line
+		sed -i "1G" ${COMMIT_MSG_FILE}
+		line=3
+	fi
+
+	sed -i "${line}i ${message}" ${COMMIT_MSG_FILE} || {
 		fatal "Failed add Documentation commit message"
 	}
 fi

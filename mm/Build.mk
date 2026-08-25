@@ -1,9 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2023-2026 Rong Tao
+# Copyright (C) 2023-2026 Rong Tao. All rights reserved.
 include kconfig.mk
 include helpers.mk
 
-subdir-y := aslr
+subdir-y += aslr
+subdir-y += cma
+subdir-y += e820
 subdir-y += rss
 subdir-y += cache
 subdir-y += hugepage

@@ -4,7 +4,8 @@ Abbrev
 - AAVMF: ARM Architecture Virtual Machine Firmware (Arm虚拟机固件) @OVMF
 - BT: Binary Translation (二进制转译) @SBT @DBT
 - DBT: Dynamic Binary Translation (动态二进制转译) @BT @SBT @JIT
-- HMP: Human Monitor Protocol
+- HMP: Human Monitor Protocol (人类监控协议)
+- KCS: Keyboard Controller Style (键盘控制风格) @BMC
 - MTTCG: Multi-Thread Tiny Code Generator () @TCG
 - OVMF: Open Virtual Machine Firmware (开放虚拟机固件) @AAVMF
 - QCOW: QEMU Copy On Write (Qemu 写时复制) @QCOW2 @QCOW3

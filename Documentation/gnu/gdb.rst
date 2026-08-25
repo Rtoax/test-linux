@@ -2,6 +2,21 @@
 GDB
 ===
 
+/proc/sys/kernel/core_pattern
+-----------------------------
+
+systemd-coredump
+~~~~~~~~~~~~~~~~
+
+Examples:
+
+.. code-block:: text
+   :caption: systemd-coredump pattern
+
+   |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F
+   |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h
+
+
 x86 debug registers (DR0-DR7)
 -----------------------------
 

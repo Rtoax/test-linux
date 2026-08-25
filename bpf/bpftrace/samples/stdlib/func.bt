@@ -1,0 +1,8 @@
+#!/usr/bin/env bpftrace
+
+kprobe:schedule
+{
+	print(func);
+	print(__builtin_func);
+	exit();
+}

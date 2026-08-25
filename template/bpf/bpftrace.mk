@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Output definitions:
 # - HAVE_BPFTRACE=[y|n]
@@ -39,8 +39,8 @@ ifdef DEBUG
   $(info BPFTRACE_PATCHLEVEL = ${BPFTRACE_PATCHLEVEL})
 endif
 
-# The newest bpftrace is 0.26.0 right now.
-ifneq ($(call bpftrace_lt,0,27,0),y)
+# The newest bpftrace is 0.27.0 right now.
+ifneq ($(call bpftrace_lt,0,28,0),y)
   $(error "Call bpftrace_lt failed, $(call bpftrace,0,26,0)")
 endif
 

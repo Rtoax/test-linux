@@ -1,5 +1,6 @@
 /atof
 /abort
+/abs
 /atexit
 /mkdtemp
 /mktemp
@@ -35,6 +36,8 @@
 /on_exit
 /mkostemp
 /l64a
+/labs
+/llabs
 /initstate
 /grantpt
 /getpt

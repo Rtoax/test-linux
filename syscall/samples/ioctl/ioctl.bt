@@ -2,7 +2,7 @@
 /**
  * Tracing ioctl(2) syscall
  *
- * Copyright (C) 2022-2026 Rong Tao
+ * Copyright (C) 2022-2026 Rong Tao. All rights reserved.
  *
  * 2023-07-06	Rong Tao	Create this.
  * 2023-07-20	Rong Tao	Add latency.

@@ -9,4 +9,3 @@ assignees: ''
 
 **Describe the Knowledge (Required)**
 A clear and concise description of what the Knowledge is.
-

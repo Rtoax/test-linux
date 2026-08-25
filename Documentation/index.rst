@@ -38,14 +38,17 @@ Standard and Development
 
    Standard <standard/index>
    UEFI <uefi/index>
+   license/index
+
+
+Development
+===========
 
 .. toctree::
    :maxdepth: 1
 
    Linux <linux/index>
-   Linux Distributions <distro/index>
    Test Linux Development <devel/index>
-   BSD <bsd/index>
 
 
 Development Tools
@@ -56,6 +59,21 @@ Development Tools
 
    Shell <shell/index>
    The GNU Project <gnu/index>
+   Compiler <compiler/index>
+   Computer Language <lang/index>
+   elf/index
+   crash/index
+
+
+Operating System
+================
+
+.. toctree::
+   :maxdepth: 1
+
+   Linux Distributions <distro/index>
+   bsd/index
+   darwin/index
 
 
 Hardware Architecture
@@ -64,12 +82,14 @@ Hardware Architecture
 .. toctree::
    :maxdepth: 1
 
-   PCIe <pcie/index>
    CPU Architecture <arch/index>
+   cxl/index
+   driver/index
    GPU Architecture <gpu/index>
-   superPod <superpod/index>
-   CXL <cxl/index>
+   hpc/index
    Interrupt <interrupt/index>
+   PCIe <pcie/index>
+   superPod <superpod/index>
 
 
 Linux Kernel
@@ -78,44 +98,19 @@ Linux Kernel
 .. toctree::
    :maxdepth: 1
 
-   File System <fs/index>
-   Scheduler <sched/index>
-
-
-Debug and Observability
-=======================
-
-.. toctree::
-   :maxdepth: 1
-
    eBPF <bpf/index>
-
-
-Network and Servers
-===================
-
-.. toctree::
-   :maxdepth: 1
-
+   File System (FS) <fs/index>
+   InterProcess Communication (IPC) <ipc/index>
+   Memory Management (MM) <mm/index>
+   Namespace <namespace/index>
+   cgroup/index
    Network <network/index>
-
-
-Virtualization
-==============
-
-.. toctree::
-   :maxdepth: 1
-
-   virt/index
-
-
-Benchmark System
-================
-
-.. toctree::
-   :maxdepth: 1
-
-   Benchmark <benchmark/index>
+   Scheduler <sched/index>
+   Storage <storage/index>
+   Syscall <syscall/index>
+   synchronization/index
+   Time <time/index>
+   Virtualization <virt/index>
 
 
 Tools
@@ -124,10 +119,22 @@ Tools
 .. toctree::
    :maxdepth: 1
 
-   Grub <grub/index>
+   Benchmark <benchmark/index>
+   Boot <boot/index>
+   Container <container/index>
    Systemd <systemd/index>
    Tools <tools/index>
    vDSO <vdso/index>
+   unwind <unwind/index>
+
+
+eBPF
+====
+
+.. toctree::
+   :maxdepth: 3
+
+   eBPF <bpf/index>
 
 
 Frontier and Future Technology
@@ -136,9 +143,20 @@ Frontier and Future Technology
 .. toctree::
    :maxdepth: 1
 
-   AI <ai/index>
+   ai/index
    Big Data <bigdata/index>
    Cloud Native <cloud-native/index>
+   Database <database/index>
+
+
+Security
+========
+
+.. toctree::
+   :maxdepth: 1
+
+   CVE <cve/index>
+   security/index
 
 
 Misc
@@ -148,6 +166,7 @@ Misc
    :maxdepth: 1
 
    abbrev
+   algorithm/index
    history
 
 

@@ -5,7 +5,23 @@ AI (Artificial Intelligence)
 .. toctree::
    :maxdepth: 1
 
+   abbrev
    aiops
+   keras
+   mnist
+   os
+   paddle
+   pytorch
+   sglang
+   tensorflow
+   transformers
+   vllm
+
+
+.. toctree::
+   :maxdepth: 2
+
+   models/index
 
 
 Links

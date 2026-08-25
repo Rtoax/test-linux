@@ -3,6 +3,8 @@
  *
  * Refs:
  * - https://en.wikipedia.org/wiki/Variadic_macro
+ * - gcc commit fb771b9dad6e ("Implement __VA_OPT__")
+ *   basepoints/gcc-8-4567-gfb771b9dad6e
  */
 #ifdef __cplusplus
 #include <iostream>

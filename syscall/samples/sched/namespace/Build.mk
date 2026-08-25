@@ -9,9 +9,10 @@ dummy-vfork-objs := helpers.o
 dummy-popen-objs := helpers.o
 
 CFLAGS := -D__USE_GNU
-CFLAGS += -pthread
 
 CFLAGS_dummy := -static
 CFLAGS_dummy-fork := -static -DTRY_FORK=1
 CFLAGS_dummy-vfork := -static -DTRY_VFORK=1
 CFLAGS_dummy-popen := -static -DTRY_POPEN=1
+
+LDFLAGS += -pthread

@@ -5,6 +5,7 @@ subdir-y += access
 subdir-y += aio
 subdir-y += bpf
 subdir-y += capability
+subdir-y += close
 subdir-y += io
 subdir-y += ioctl
 subdir-y += poll
@@ -70,12 +71,6 @@ target-y += setgid setegid setregid
 target-y += getuid setuid seteuid setreuid
 target-y += setpgrp
 target-y += tee tee2
-target-y += close
-ifneq ($(wildcard /usr/include/linux/close_range.h),)
-  target-y += close_range
-else
-  $(warning "WARNING: not found /usr/include/linux/close_range.h")
-endif
 target-y += setitimer
 target-y += unlink
 target-y += rmdir

@@ -23,4 +23,4 @@ PTRACE_GETREGSET-objs := ptrace_helpers.o
 ptrace-strace-objs := ptrace_helpers.o
 ptrace-execve-objs := ptrace_helpers.o
 
-CFLAGS += -pthread
+LDFLAGS += -pthread

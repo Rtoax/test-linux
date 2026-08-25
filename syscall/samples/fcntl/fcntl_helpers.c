@@ -9,7 +9,6 @@
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <linux/version.h>
-
 #include "fcntl_helpers.h"
 
 #if !defined(__aarch64__) && !defined(__riscv) && !defined(__loongarch64)

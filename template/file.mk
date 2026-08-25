@@ -1,14 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2022-2026 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao. All rights reserved.
 #
 # Export functions:
 # - reset_file($file)
 # - is_newer($file1, $file2)=[y|n]
+# - fexist()=[y|n]
 #
 ifndef _FILE_MK
 _FILE_MK = 1
 
 include shell.mk
+include sudo.mk
 
 # Rename file to file.old, by recursion, old files are not deleted.
 # $1: filename
@@ -33,6 +35,12 @@ define is_newer
 $(shell if [[ ${1} -nt ${2} ]]; then echo y; else echo n; fi)
 endef
 
+# Check file exist or not
+# $1: file to check
+define fexist
+$(shell if ${SUDO_NOPASSWD} test -e ${1}; then echo y; else echo n; fi)
+endef
+
 # do some tests
 ifneq ($(call is_newer,/etc/os-release,/etc/os-release),n)
   $(error is_newer: expect n, but y)
@@ -42,6 +50,12 @@ ifneq ($(call is_newer,__non_exist__/nonsense,/etc/os-release),n)
 endif
 ifneq ($(call is_newer,/proc/self/stat,/etc/os-release),y)
   $(error is_newer: /proc/self/stat should newer than /etc/os-release)
+endif
+ifneq ($(call fexist,/etc/os-release),y)
+  $(error fexist test failed, /etc/os-release)
+endif
+ifneq ($(call fexist,/etc/__non_exist__),n)
+  $(error fexist test nonexist failed)
 endif
 
 endif

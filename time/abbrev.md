@@ -1,2 +1,0 @@
-- NTP: Network Time Protocol (网络时间协议)
-- UTS: UNIX Time-sharing System (UNIX 时间共享系统)

@@ -1,3 +1,6 @@
+/**
+ * char *strcpy(char *dst, const char *src);
+ */
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>

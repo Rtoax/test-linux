@@ -1,4 +1,5 @@
 target-y += abort
+target-y += abs labs llabs
 target-y += atof
 target-y += mkdtemp mktemp mkstemp mkostemp
 target-y += env environ setenv getenv clearenv putenv unsetenv

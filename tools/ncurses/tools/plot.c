@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2026 Rong Tao */
+/* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #include <assert.h>
 #include <errno.h>
 #include <ctype.h>
@@ -233,7 +233,7 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		int w = p->plotwidth + p->bnd.left - (nvs - ivs);
 
 		attron(color);
-		ln->ops->horizon(ln, h, w);
+		ln->ops->horizon(p, h, w, 1);
 		attroff(color);
 
 		/**
@@ -244,13 +244,13 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		if (prev_h != -1) {
 			attron(color);
 			if (prev_h > h) {
-				ln->ops->lrcorner(ln, prev_h, w);
-				ln->ops->ulcorner(ln, h, w);
-				ln->ops->vertical(ln, h + 1, w, prev_h - h - 1);
+				ln->ops->lrcorner(p, prev_h, w);
+				ln->ops->ulcorner(p, h, w);
+				ln->ops->vertical(p, h + 1, w, prev_h - h - 1);
 			} else if (h > prev_h) {
-				ln->ops->urcorner(ln, prev_h, w);
-				ln->ops->llcorner(ln, h, w);
-				ln->ops->vertical(ln, prev_h + 1, w,
+				ln->ops->urcorner(p, prev_h, w);
+				ln->ops->llcorner(p, h, w);
+				ln->ops->vertical(p, prev_h + 1, w,
 						  h - prev_h - 1);
 			}
 			attroff(color);
@@ -260,9 +260,20 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 
 		/* set x axis */
 		if ((ivs - 1) % 10 == 0) {
-			char buf[10];
-			strftime(buf, 10, "%T", localtime(&v->tv.tv_sec));
-			mvprintw(p->height - p->bnd.bottom + 1, w, "%s", buf);
+			switch (p->x_type) {
+			case X_TIMEVAL: {
+				char buf[32];
+				mvprintw(p->height - p->bnd.bottom + 1, w, "%s",
+					 timeval_str(&v->x_v.tv, buf));
+				break;
+			}
+			case X_INDEX:
+				mvprintw(p->height - p->bnd.bottom + 1, w,
+					 "%ld", v->x_v.idx);
+				break;
+			default:
+				break;
+			}
 		}
 
 		/* set y axis */
@@ -332,15 +343,16 @@ static void __draw_title(const struct plot *p)
 
 static void __draw_axes(const struct plot *p)
 {
-	mvhline(p->plotheight + p->bnd.top, p->bnd.left, T_HLINE, p->plotwidth);
-	mvvline(p->bnd.top, p->bnd.left, T_VLINE, p->plotheight);
-	mvaddch(p->plotheight + p->bnd.top, p->bnd.left, T_LLCR);
+	const struct ltype_ops *ops = ltype_type2ops(p->axis_curve_type);
 
-	mvaddch(p->bnd.top, p->bnd.left, T_UARR);
-	mvprintw(p->bnd.top, p->bnd.left, U25B2);
+	ops->horizon(p, p->plotheight + p->bnd.top, p->bnd.left, p->plotwidth);
+	ops->vertical(p, p->bnd.top, p->bnd.left, p->plotheight);
+	ops->llcorner(p, p->plotheight + p->bnd.top, p->bnd.left);
+	ops->uarrow(p, p->bnd.top, p->bnd.left);
+	ops->rarrow(p, p->plotheight + p->bnd.top, p->plotwidth + p->bnd.left);
+
+	/* x/y axis labels */
 	mvaddstr(p->bnd.top - 1, p->bnd.left, p->label_y);
-
-	mvprintw(p->plotheight + p->bnd.top, p->plotwidth + p->bnd.left, U25BA);
 	mvaddstr(p->plotheight + p->bnd.top + 1, p->plotwidth + p->bnd.left,
 		 p->label_x);
 }
@@ -411,11 +423,16 @@ void __plot_debug_llabel(const struct lgroup *lg, int height)
 		if (ln->count <= 0)
 			mvprintw(i + height, p->bnd.left + 1, "%d: %s: %ld",
 				 ln->id, ln->name, ln->count);
-		else
+		else {
+			char buf[64];
+
 			mvprintw(i + height, p->bnd.left + 1,
-				 "%d: %s: %ld %f - %lf~%lf", ln->id, ln->name,
-				 ln->count, ln->tail->v, ln->min->v,
-				 ln->max->v);
+				 "%d: %s: %ld %f x(%s) y(%lf~%lf)", ln->id,
+				 ln->name, ln->count, ln->tail->v,
+				 x_axis_range_str(lg->plot->x_type,
+						  &ln->x_range, buf),
+				 ln->min->v, ln->max->v);
+		}
 		attroff(color);
 		i++;
 	}
@@ -570,8 +587,7 @@ void plot_llabel(const struct plot *p)
 			const int n = 6;
 
 			attron(colors[ln->color] | A_BOLD);
-			for (int x = 0; x < n; x++)
-				ln->ops->horizon(ln, hi, w + x);
+			ln->ops->horizon(p, hi, w, n);
 			mvprintw(hi, w + n + 1, " %s", ln->name);
 			attroff(colors[ln->color] | A_BOLD);
 			i++;
@@ -656,7 +672,8 @@ static int key_right(int key, void *arg)
 	return 0;
 }
 
-int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug)
+int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
+	      enum x_axis_type x_type, enum ltype_enum axis)
 {
 	int err = 0;
 
@@ -667,7 +684,11 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug)
 
 	plot_scaling_init(p);
 
+	p->axis_curve_type = axis;
 	p->kb = kb;
+	if (x_type < X_TIMEVAL || x_type > X_INDEX)
+		return -EINVAL;
+	p->x_type = x_type;
 
 	err = err ?: register_key_handler(kb, 'r', p, key_r);
 	err = err ?: register_key_handler(kb, 't', p, key_t);

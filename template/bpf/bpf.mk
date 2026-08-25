@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2024-2026 Rong Tao
+# Copyright (C) 2024-2026 Rong Tao. All rights reserved.
 #
 # Output definitions:
 # - BPFFS=[/sys/fs/bpf/]
-# - BPF_TARGET_ARCH=
-# - bpf-cflags=
+# - BPF_TARGET_ARCH=[x86|arm|arm64|riscv]
+# - bpf-cflags=-D__IN_BPF__=1 ...
 #
 ifndef _BPF_BPF_MK
 _BPF_BPF_MK = 1
 
 BPFFS := /sys/fs/bpf/
-bpf-cflags :=
+bpf-cflags := -D__IN_BPF__=1
 
 BPF_TARGET_ARCH := $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/arm.*/arm/' \
@@ -18,6 +18,7 @@ BPF_TARGET_ARCH := $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/ppc64le/powerpc/' \
 			 | sed 's/mips.*/mips/' \
 			 | sed 's/riscv64/riscv/' \
+			 | sed 's/s390x/s390/' \
 			 | sed 's/loongarch64/loongarch/')
 ifeq (${BPF_TARGET_ARCH},$(shell uname -m))
   $(error Not handle arch ${shell uname -m} yet, please add it)

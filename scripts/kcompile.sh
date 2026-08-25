@@ -6,7 +6,7 @@
 # - https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
 # - https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf
 #
-# Copyright (C) 2024-2026 Rong Tao
+# Copyright (C) 2024-2026 Rong Tao. All rights reserved.
 #
 set -e
 
@@ -92,14 +92,24 @@ compile()
 
 install_from_source()
 {
-	kver=$(make kernelversion)
+	# kernelrelease: = uname -r
+	# kernelversion: = Makefile's VERSION.PATCHLEVEL.SUBLEVEL${EXTRAVERSION}
+	kver=$(make kernelrelease)
 
 	check_root
 	check_kver
 
-	# install
+	# Install modules and headers
+	# INSTALL_HDR_PATH default ${objtree}/usr = ./usr
 	make ${INSTALL_MOD_PATH:+INSTALL_MOD_PATH=${INSTALL_MOD_PATH}} modules_install
 	make ${INSTALL_HDR_PATH:+INSTALL_HDR_PATH=${INSTALL_HDR_PATH}} headers_install
+
+	# Then, maybe create UKI images with 'ukify' and 'kernel-install'
+	# commands.
+	#
+	# see init/uki/makeuki.sh
+
+	# Install kernel
 	make ${INSTALL_PATH:+INSTALL_PATH=${INSTALL_PATH}} install
 
 	# Generate initramfs if need

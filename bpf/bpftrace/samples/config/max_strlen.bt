@@ -1,0 +1,15 @@
+#!/bin/env bpftrace
+
+config = {
+   missing_probes = warn;
+   max_strlen = 256;
+}
+
+tracepoint:syscalls:sys_enter_open,
+tracepoint:syscalls:sys_enter_openat
+{
+  let $file : string[256];
+  $file = str(args.filename);
+  printf("max_strlen %ld\n", config.max_strlen);
+  exit();
+}

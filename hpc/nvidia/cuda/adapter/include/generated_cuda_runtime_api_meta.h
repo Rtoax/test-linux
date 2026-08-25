@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2026 Rong Tao */
+/* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #include "wrapper_defs.h"
 
 #define cudaMemcpy_v3020_params cudaX(Memcpy_params)

@@ -5,4 +5,4 @@ target-y += fstatfs
 
 statfs-objs := ${PROC_HELPERS}
 
-CFLAGS := -pthread
+LDFLAGS := -pthread

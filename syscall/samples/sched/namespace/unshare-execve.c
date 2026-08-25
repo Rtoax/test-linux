@@ -1,5 +1,5 @@
 /**
- * unshare(1)
+ * unshare(1) and unshare(2)
  *
  * CLONE_NEWPID
  *

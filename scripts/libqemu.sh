@@ -1,11 +1,14 @@
 #!/bin/bash
+# SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+# Copyright (C) 2023-2026 Rong Tao. All rights reserved.
+
 readonly LIBQEMU_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_ROOT}/liblog.sh
 
 find_qemu_emulator()
 {
-	local qemu_kvm=""
+	local qemu_kvm
 	local emulators=( "$@" )
 
 	for b in ${emulators[@]}
@@ -17,37 +20,37 @@ find_qemu_emulator()
 	done
 
 	if [[ -z $qemu_kvm ]]; then
-		error "Not found qemu-kvm emulator" >&2
+		error "Not found qemu-kvm emulator"
 	else
 		echo $qemu_kvm
 	fi
 }
 
-get_qemu_kvm_emulator()
-{
-	local qemu_kvm_possible_emulators=(
-		/usr/libexec/qemu-kvm
-		/usr/libexec/qemu-system-$(uname -m)
-		/usr/bin/qemu-system-$(uname -m)
-		/usr/local/bin/qemu-system-$(uname -m)
-	)
-
-	find_qemu_emulator ${qemu_kvm_possible_emulators[@]}
-	return 0
-}
-
+# $1: specify cpu architecture, like: aarch64
 get_qemu_kvm_emulator_arch()
 {
 	local arch=$1
 	if [[ -z ${arch} ]]; then
 		error "Must specify arch" >&2
 	fi
-	local qemu_kvm_possible_emulators=(
+
+	local emulators=(
+		/home/rongtao/Git/qemu/build/qemu-system-${arch}
 		/usr/libexec/qemu-system-${arch}
 		/usr/bin/qemu-system-${arch}
 		/usr/local/bin/qemu-system-${arch}
 	)
 
-	find_qemu_emulator ${qemu_kvm_possible_emulators[@]}
+	if [[ $(uname -m) == ${arch} ]]; then
+		emulators+=( /usr/libexec/qemu-kvm )
+	fi
+
+	find_qemu_emulator ${emulators[@]}
+	return 0
+}
+
+get_qemu_kvm_emulator()
+{
+	get_qemu_kvm_emulator_arch $(uname -m)
 	return 0
 }

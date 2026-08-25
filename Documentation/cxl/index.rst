@@ -6,8 +6,40 @@ CXL (Compute Express Link)
    :maxdepth: 1
 
    abbrev
-   acpi
-   cxl
-   pcie
-   qemu
    history
+   overview
+   paper
+
+
+CXL 技术
+--------
+
+CXL Software
+~~~~~~~~~~~~
+
+.. toctree::
+   :maxdepth: 1
+
+   fm
+   qemu
+   software
+
+
+CXL Hardware
+~~~~~~~~~~~~
+
+.. toctree::
+   :maxdepth: 1
+
+   acpi
+   pcie
+   switch
+
+
+CXL 厂商和产品
+--------------
+
+.. toctree::
+   :maxdepth: 2
+
+   product/index

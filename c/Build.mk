@@ -59,6 +59,8 @@ target-y += typeof
 # preprocessing
 prep-y := ${OUTPUT}return.o.bin
 
+prog-y := $(filter-out while while-sleep stub return, ${target-y})
+
 ptr-dim-objs := c_helpers.o
 __STDC__c89-objs := __STDC__.1.o
 __STDC__c90-objs := __STDC__.2.o

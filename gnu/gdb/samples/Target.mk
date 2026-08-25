@@ -9,5 +9,5 @@ define mystrip
 endef
 
 %.strip:
-	$(call log_tgt,STRIP,$(@))
+	@$(call log_tgt,STRIP,$(@))
 	$(call mystrip,$(^))

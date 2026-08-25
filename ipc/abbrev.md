@@ -1,2 +1,0 @@
-- DBus/D-Bus: Desktop Bus ()
-- IPC: Interprocess Communication (进程间通信)

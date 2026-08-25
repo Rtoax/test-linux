@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2026 Rong Tao */
+/* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #pragma once
 #include <stdint.h>
 
+/**
+ * PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.1. Type 0/1 Common Configuration Space
+ */
 struct pci_cs_hdr_common {
 	uint16_t vendor_id;
 	uint16_t device_id;
@@ -22,8 +25,12 @@ struct pci_cs_hdr_common {
 	uint8_t bist;
 } __attribute__((packed));
 
+/**
+ * PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.2. Type 0 Configuration Space Header
+ */
 struct pci_cs_hdr_type0 {
 	struct pci_cs_hdr_common common;
+	/* Base Address Register */
 	uint32_t bar[6];
 	uint32_t cardbus_cis_ptr;
 	uint16_t subsystem_vendor_id;
@@ -37,8 +44,11 @@ struct pci_cs_hdr_type0 {
 	uint8_t max_lat;
 } __attribute__((packed));
 
+/**PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.3. Type 1 Configuration Space Header
+ */
 struct pci_cs_hdr_type1 {
 	struct pci_cs_hdr_common common;
+	/* Base Address Register */
 	uint32_t bar[2];
 	uint8_t primary_bus;
 	uint8_t second_bus;

@@ -1,0 +1,6 @@
+#!/bin/env bpftrace
+
+test:myprobe
+{
+  return 0;
+}

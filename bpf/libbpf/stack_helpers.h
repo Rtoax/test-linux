@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2025-2026 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao. All rights reserved. */
 #pragma once
 
 #define STACK_MAX_DEPTH	127

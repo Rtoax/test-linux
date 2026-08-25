@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include bpf/bpf.mk
 
-target-y := __has_builtin
+target-y += __has_builtin
 target-y += apply_args
 target-y += apply
 target-y += abs
@@ -11,6 +11,7 @@ target-y += bswap64
 target-y += clz
 target-y += constant_p
 target-y += cpu_supports
+target-y += dynamic_object_size
 target-y += exp
 target-y += expect
 target-y += frame_address
@@ -40,6 +41,7 @@ target-todo := read8
 target-todo += va_arg_pack
 target-todo += preserve_enum_value
 
+CFLAGS += -I../__attribute__/
 # TODO: Fix this warning skip
 CFLAGS_apply_args := -Wno-incompatible-pointer-types
 CFLAGS_popcount := -Wno-int-conversion
@@ -47,6 +49,8 @@ CFLAGS_popcount := -Wno-int-conversion
 CFLAGS_frame_address := -Wno-error=frame-address
 # TODO: error: calling ‘__builtin_return_address’ with a nonzero argument is unsafe
 CFLAGS_return_address := -Wno-error=frame-address
+CFLAGS_dynamic_object_size += -O2 -D_FORTIFY_SOURCE=1
+CFLAGS_object_size += -O2 -D_FORTIFY_SOURCE=1
 
 # [1] https://gcc.gnu.org/onlinedocs/gcc/BPF-Built-in-Functions.html
 #CFLAGS_preserve_field_info := -mxbpf -mco-re

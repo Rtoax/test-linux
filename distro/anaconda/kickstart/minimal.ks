@@ -1,4 +1,4 @@
-# Copyright (C) 2024-2026 Rong Tao
+# Copyright (C) 2024-2026 Rong Tao. All rights reserved.
 
 text
 poweroff

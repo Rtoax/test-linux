@@ -1,0 +1,9 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	if (1 || 0) {
+	} else if (2) {
+	} else {
+	}
+}

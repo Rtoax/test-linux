@@ -1,0 +1,8 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("max_strlen %ld %ld\n", config.max_strlen,
+		__builtin_config.max_strlen);
+	exit();
+}

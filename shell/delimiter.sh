@@ -64,3 +64,18 @@ NONCE=NONE
             AWS_REGION: ${Region}
             NONCE: $NONCE
 EOF
+
+################################################################################
+run() {
+	echo "{{{${@}}}}"
+	eval "${@}"
+}
+
+var2="Variable 2"
+
+run 'cat <<-EOF
+Cat EOF with run(), var2=${var2}
+EOF'
+run "cat <<-EOF
+Cat EOF with run(), var2=${var2}
+EOF"

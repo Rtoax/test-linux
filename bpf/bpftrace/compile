@@ -4,21 +4,30 @@ set -e
 
 readonly prog=bpftrace-compile
 
-flags_deps=
-flags_config=
-flags_install=
-flags_test=
+enable_deps=
+enable_config=
+enable_compile=YES
+enable_install=
+enable_test=
 use_jobs=$(nproc)
 llvm_version=
 llvm_dir=
 verbose=
+dry_run=
 
 declare -a cmake_args
 
 . /etc/os-release
 
+run() {
+	echo -e "\033[1;32m$ ${@}\033[m"
+	if [[ -z ${dry_run} ]]; then
+		eval "${@}"
+	fi
+}
+
 deb_pkgs() {
-	sudo apt-get install -y \
+	run sudo apt-get install -y \
 		googletest \
 		asciidoctor \
 		binutils-dev \
@@ -45,10 +54,13 @@ deb_pkgs() {
 		systemtap-sdt-dev \
 		xxd \
 		zlib1g-dev
+	if [[ " ubuntu " =~ " ${ID} " ]]; then
+		run sudo apt install llvm-20 llvm-20-dev clang-20 libclang-20-dev
+	fi
 }
 
 rpm_pkgs() {
-	sudo dnf install -y --skip-broken \
+	run sudo dnf install -y --skip-broken \
 		blazesym-c-devel \
 		python3-looseversion \
 		rubygem-asciidoctor
@@ -69,6 +81,8 @@ DESCRIPTION
 ARGUMENT
 	-d, --deps              install depends
 	-c, --config            execute the config to generate Makefile
+	    --nocompile         do not compile
+	    --sanitizers        enable sanitizers
 	-i, --install           execute the make install
 	-t, --test              execute the bpftrace_test
 
@@ -78,6 +92,7 @@ ARGUMENT
 	--use-system-libbpf     use system libbpf instead of submodule
 	-v, --verbose           run with verbose mode
 	-h, --help              show this info
+	-u, --dry-run           dry run
 
 EXAMPLES
 	$ ./compile -d -c -i --llvm-version=$(llvm-config --version) --llvm-dir=$(dirname $(llvm-config --libdir))/
@@ -91,9 +106,11 @@ SEE ALSO
 	exit ${1-0}
 }
 
-TEMP_ARGS=$(getopt --options dcitj:vh \
+TEMP_ARGS=$(getopt --options dcitj:vhu \
 	--long deps \
 	--long config \
+	--long nocompile \
+	--long sanitizers \
 	--long install \
 	--long test \
 	--long jobs: \
@@ -102,6 +119,7 @@ TEMP_ARGS=$(getopt --options dcitj:vh \
 	--long use-system-libbpf \
 	--long verbose \
 	--long help \
+	--long dry-run \
 	--name ${prog} -- "$@")
 
 test $? != 0 && __usage__ 1
@@ -112,19 +130,27 @@ while true; do
 	case $1 in
 	-d | --deps)
 		shift
-		flags_deps=YES
+		enable_deps=YES
 		;;
 	-c | --config)
 		shift
-		flags_config=YES
+		enable_config=YES
+		;;
+	--nocompile)
+		shift
+		enable_compile=
+		;;
+	--sanitizers)
+		shift
+		cmake_args+=( -DBUILD_ASAN=ON -DBUILD_UBSAN=ON )
 		;;
 	-i | --install)
 		shift
-		flags_install=YES
+		enable_install=YES
 		;;
 	-t | --test)
 		shift
-		flags_test=YES
+		enable_test=YES
 		;;
 	-j | --jobs)
 		shift
@@ -155,6 +181,10 @@ while true; do
 		shift
 		__usage__
 		;;
+	-u | --dry-run)
+		shift
+		dry_run=YES
+		;;
 	--)
 		shift
 		break
@@ -167,7 +197,7 @@ if [[ ${verbose} ]]; then
 	set -x
 fi
 
-if [[ ${flags_deps} ]]; then
+if [[ ${enable_deps} ]]; then
 	if [[ " debian ubuntu " =~ " ${ID} " ]]; then
 		deb_pkgs
 	elif [[ " rhel centos fedora " =~ " ${ID} " ]]; then
@@ -175,8 +205,8 @@ if [[ ${flags_deps} ]]; then
 	fi
 fi
 
-if [[ ${flags_config} ]]; then
-	cmake \
+if [[ ${enable_config} ]]; then
+	run cmake \
 		-DCMAKE_INSTALL_PREFIX=/usr/ \
 		-DCMAKE_BUILD_TYPE=Debug \
 		-DBUILD_TESTING=ON \
@@ -185,13 +215,13 @@ if [[ ${flags_config} ]]; then
 fi
 
 # Must execute make command at least
-make -j${use_jobs} ${verbose:+VERBOSE=1}
+[[ ${enable_compile} ]] && run make -j${use_jobs} ${verbose:+VERBOSE=1}
 
-[[ ${flags_install} ]] && sudo make install
+[[ ${enable_install} ]] && run sudo make install
 
 # Check for the clang-format
-git clang-format --diff origin/master --extensions cpp,h
+run git clang-format --diff origin/master --extensions cpp,h
 
-if [[ ${flags_test} ]]; then
-	sudo ./tests/bpftrace_test
+if [[ ${enable_test} ]]; then
+	run sudo ./tests/bpftrace_test
 fi

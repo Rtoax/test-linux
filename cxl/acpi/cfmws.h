@@ -1,6 +1,12 @@
+// SPDX-License-Identifier: GPL-3.0
+// Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 /**
  * CXL Fixed Memory Window Structure (CFMWS)
- * CXL 3.0 Specification, Section 9.17.1.3
+ * CXL 3.0 Specification, Section 9.17.1.3, Table 9-22.
+ *
+ * Abbrev:
+ * - HPA: Host Physical Address
+ * - NIW: Number of Interleave Ways
  */
 #pragma once
 #include <stdint.h>
@@ -13,10 +19,15 @@ struct cfmws {
 	 */
 	uint16_t record_length;
 	uint32_t reserved2;
-	uint8_t base_hpa;
-	uint8_t window_size;
+	uint64_t base_hpa;
+	uint64_t window_size;
 	/**
 	 * Encoded Number of Interleave Ways (ENIW)
+	 *
+	 * NIW is the raw count of Interleave ways whereas ENIW is the encoded
+	 * value:
+	 * - If ENIW <  8, NIW = 2^ENIW
+	 * - If ENIW >= 8, NIW = 3 * 2^(ENIW - 8)
 	 */
 	uint8_t eniw;
 	uint8_t interleave_arithmetic;
@@ -33,9 +44,10 @@ struct cfmws {
 	/* QTAG ID */
 	uint16_t qtag_id;
 	/**
-	 * Number of Interleave Ways (NIW)
+	 * A list of all the Interleave Targets.
+	 * size = 4 * NIW
 	 */
 	uint32_t interleave_target_list[];
-};
+} __attribute__((packed));
 
 void display_cfmws(struct cfmws *cfmws);

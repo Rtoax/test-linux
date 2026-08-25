@@ -14,5 +14,6 @@ info inferiors
 info thread
 info threads
 info stack
+info sharedlibrary
 c
 quit

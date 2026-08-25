@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include helpers.mk
 
-subdir-y := icmp
+subdir-y += icmp
 subdir-y += infiniband
 subdir-y += netfilter
 subdir-y += netlink

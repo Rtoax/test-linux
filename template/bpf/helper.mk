@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Helper functions are part of a stable UAPI and generally remain backward
 # compatible.
@@ -7,6 +7,9 @@
 # Kfunc (kernel functions) are internal exports of the kernel exposed to BPF,
 # and there is no ABI stability guarantee, meaning they may change between
 # kernel versions.
+#
+# The helpers/kfuncs entries in this file are sorted in ascending order of
+# kernel version number.
 #
 # Output definitions:
 # - SUPPORT_<upcase helper or kfunc name>=[y]
@@ -28,6 +31,7 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
 else
 
 include kernel.mk
+include ksyms.mk
 include pahole.mk
 include string.mk
 include bpf/btf.mk
@@ -57,10 +61,27 @@ $(call bpf_def_helper,bpf_map_lookup_elem)
 $(call bpf_def_helper,bpf_map_update_elem)
 $(call bpf_def_helper,bpf_map_delete_elem)
 
-# linux v5.12-rc4-1654-g7b15523a989b
-# commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
-ifeq ($(call kver_gt,5,12,0),y)
-  $(call bpf_def_helper,bpf_snprintf)
+# linux v4.0-rc5-419-g9c959c863f82
+# commit 9c959c863f82 ("tracing: Allow BPF programs to call bpf_trace_printk()")
+$(call bpf_def_helper,bpf_trace_printk)
+
+# linux >= v4.3
+# https://docs.ebpf.io/linux/helper-function/bpf_perf_event_read/
+$(call bpf_def_helper,bpf_perf_event_read)
+# linux >= v4.4
+# https://docs.ebpf.io/linux/helper-function/bpf_perf_event_output/
+$(call bpf_def_helper,bpf_perf_event_output)
+# linux >= v4.15
+# https://docs.ebpf.io/linux/helper-function/bpf_perf_event_read_value/
+$(call bpf_def_helper,bpf_perf_event_read_value)
+
+# v5.0-rc4-620-gd83525ca62cf
+# commit d83525ca62cf ("bpf: introduce bpf_spin_lock")
+# https://docs.ebpf.io/linux/helper-function/bpf_spin_lock/
+# https://docs.ebpf.io/linux/helper-function/bpf_spin_unlock/
+ifeq ($(call kver_ge,5,1,0),y)
+  $(call bpf_def_helper,bpf_spin_lock)
+  $(call bpf_def_helper,bpf_spin_unlock)
 endif
 
 # linux v5.2-rc1-220-g8b401f9ed244
@@ -77,9 +98,35 @@ ifeq ($(call kver_gt,5,4,0),y)
   $(call bpf_def_helper,bpf_send_signal_thread)
 endif
 
+# linux >= v5.5
+# https://docs.ebpf.io/linux/helper-function/bpf_probe_read_kernel_str/
+ifeq ($(call kver_ge,5,5,0),y)
+  $(call bpf_def_helper,bpf_probe_read_kernel_str)
+endif
+
+# linux v5.11-4611-g69c087ba6225
+# commit 69c087ba6225 ("bpf: Add bpf_for_each_map_elem() helper")
+# https://docs.ebpf.io/linux/helper-function/bpf_for_each_map_elem/
+ifeq ($(call kver_ge,5,13,0),y)
+  $(call bpf_def_helper,bpf_for_each_map_elem)
+endif
+
+# linux v5.12-rc4-1654-g7b15523a989b
+# commit 7b15523a989b ("bpf: Add a bpf_snprintf helper")
+ifeq ($(call kver_gt,5,12,0),y)
+  $(call bpf_def_helper,bpf_snprintf)
+endif
+
+# linux v5.13-5401-g9b99edcae5c8
+# commit 9b99edcae5c8 ("bpf: Add bpf_get_func_ip helper for tracing programs")
+# linux v6.5-rc5-1670-g686328d80c43
+# commit 686328d80c43 ("bpf: Add bpf_get_func_ip helper support for uprobe link")
+ifeq ($(call kver_gt,5,13,0),y)
+  $(call bpf_def_helper,bpf_get_func_ip)
+endif
+
 # linux v5.15-12938-ge6f2dd0f8067
 # commit e6f2dd0f8067 ("bpf: Add bpf_loop helper")
-#
 # https://docs.ebpf.io/linux/helper-function/bpf_loop/ said >= v5.17
 ifeq ($(call kver_ge,5,16,0),y) # failed on 5.15.131
   $(call bpf_def_helper,bpf_loop)
@@ -95,6 +142,13 @@ endif
 # commit 376040e47334 ("bpf: Add bpf_copy_from_user_task() helper")
 ifeq ($(call vmlinux_has_sym_shell,btf_bpf_copy_from_user_task),y)
   $(call bpf_def_helper,bpf_copy_from_user_task)
+endif
+
+# linux v5.18-rc3-811-g07343110b293
+# commit 07343110b293 ("bpf: add bpf_map_lookup_percpu_elem for percpu map")
+# https://docs.ebpf.io/linux/helper-function/bpf_map_lookup_percpu_elem/
+ifeq ($(call kver_ge,5,19,0),y)
+  $(call bpf_def_helper,bpf_map_lookup_percpu_elem)
 endif
 
 # linux v5.18-rc3-856-g263ae152e962
@@ -134,6 +188,14 @@ endif
 # commit 3f0e6f2b41d3 ("bpf: Add bpf_task_from_pid() kfunc")
 ifeq ($(call kver_ge,6,1,0),y)
   $(call bpf_def_helper,bpf_task_from_pid)
+endif
+
+# linux v6.1-rc4-1167-g9bb00b2895cb
+# commit 9bb00b2895cb ("bpf: Add kfunc bpf_rcu_read_lock/unlock()")
+# https://docs.ebpf.io/linux/kfuncs/bpf_rcu_read_lock/
+ifeq ($(call kver_ge,6,1,0),y)
+  $(call bpf_def_helper,bpf_rcu_read_lock)
+  $(call bpf_def_helper,bpf_rcu_read_unlock)
 endif
 
 # linux v6.2-5289-gb5964b968ac6
@@ -259,13 +321,38 @@ ifeq ($(call pahole_lt,1,26),y)
   bpf-helper-cflags += -DBPF_NO_KFUNC_PROTOTYPES=1
 endif
 
+# TODO: libbpf has more macro helpers in bpf_helpers.h, such as bpf_for(), we
+# should add it here.
+
+################################################################################
 # From here, store developing kfuncs checks
 
-# https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
-# lkml: https://lore.kernel.org/lkml/tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com/
-ifeq ($(shell grep -wo -m1 bpf_task_cwd_from_pid /proc/kallsyms),bpf_task_cwd_from_pid)
-  bpf-helper-cflags += -DSUPPORT_BPF_TASK_CWD_FROM_PID=1
-endif
+# See test-linux/bpf/kfunc/modules/bpf_task_cwd_from_pid.c
+#     https://github.com/Rtoax/linux/tree/p056-bpf_task_cwd
+# rejected: https://lore.kernel.org/lkml/CAADnVQ+hUk2wV3M+9mgv_i5sNt_FuHpAnDpkQJ22D37bxAJHsQ@mail.gmail.com/
+#ifeq ($(call ksyms_have_func,bpf_task_cwd_from_pid),y)
+#  $(call bpf_def_helper,bpf_task_cwd_from_pid)
+#endif
+
+# refs:
+# rejected: https://lore.kernel.org/lkml/CAEf4BzY6RPkm0xv=RHAKoNphYxM_6GmyLdhDbbZ3nAqNhkdW_g@mail.gmail.com/
+# v5: https://lore.kernel.org/lkml/tencent_60882E4BE4F247C5F6D564F41BF1C3004805@qq.com/
+# v4: https://lore.kernel.org/lkml/tencent_AFC1869057D6C3E59E0AF86BD7A80AA29A06@qq.com/
+# v3: https://lore.kernel.org/lkml/tencent_7B0E22F21BB4086D66815C86AA5CBC5E8E0A@qq.com/
+#     https://github.com/Rtoax/linux/tree/p062-bpf_strcat-v3
+# v2: https://lore.kernel.org/lkml/tencent_9EC04DC824CBF5124305E73564341511C405@qq.com/
+#     https://github.com/Rtoax/linux/tree/p062-bpf_strcat-v2
+# v1: https://lore.kernel.org/lkml/tencent_59689407B1C3204B08362BEEF244A5FE5505@qq.com/
+#     https://github.com/Rtoax/linux/tree/p062-bpf_strcat
+#ifeq ($(call ksyms_have_func,bpf_strcat),y)
+#  $(call bpf_def_helper,bpf_strcat)
+#endif
+#ifeq ($(call ksyms_have_func,bpf_strncat),y)
+#  $(call bpf_def_helper,bpf_strncat)
+#endif
+
+# End of test developing kfuncs
+################################################################################
 
 $(call make_append_var_to_file,bpf-helper-cflags,${cachefile})
 

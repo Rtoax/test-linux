@@ -1,57 +1,76 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0
 #
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
+#
 # Use the qemu command to create a virtual machine directly, without using
 # libvirt, but directly use the qemu command line parameters.
 #
-# Copyright (C) 2025-2026 Rong Tao
-#
 set -e
 
+readonly PROG=qemu-vm
+readonly ARCH=$(uname -m)
+readonly VERSION="v1.1.11"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
+. ${QEMU_VM_ROOT}/libcpu.sh
 . ${QEMU_VM_ROOT}/libfile.sh
 . ${QEMU_VM_ROOT}/liblog.sh
+. ${QEMU_VM_ROOT}/libnbd.sh
+. ${QEMU_VM_ROOT}/librun.sh
+. ${QEMU_VM_ROOT}/libnet.sh
+. ${QEMU_VM_ROOT}/libuuid.sh
 . ${QEMU_VM_ROOT}/libqemu.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 
-readonly PROG=qemu-vm
-readonly arch=$(uname -m)
-QEMU_KVM=$(get_qemu_kvm_emulator)
+declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
 
-readonly BUS_PCIE0=pcie.0 # q35 default root bus
-pcie_root_port_num=2
+# on x86_64: 'q35' default root bus
+readonly BUS_PCIE0=pcie.0
+declare pcie_root_port_num=2
 
-q_vm_name=$(mktemp -u vm-XXXXXX)
-q_memory=2G
+declare q_vm_name=$(mktemp -u vm-XXXXXX)
+declare q_cpus=4
+declare q_cpu_model=host
+declare q_memory=2G
 
-f_kernel=
-f_initrd=
-k_rdinit=
+declare f_kernel
+declare f_initrd
+declare k_rdinit
 
-f_rootfs=
-f_rootfs_type=
-k_init=
-k_root=
-# root mount attr: ro, rw. default: rw
-k_rw=rw
+declare f_rootfs
+declare f_rootfs_type
+declare k_init
+declare k_root
+# root mount attr: 'ro', 'rw'. default: 'rw'
+declare k_rw
 
 declare -a f_nvdimms
 
 # Disk shoud contains boot(EFI) partition, kernel, initramfs, etc.
 declare -a f_disks
 
-f_virtiofs_sock=
-q_virtiofs_tag=
+declare -a f_virtiofs_sock
+declare -a q_virtiofs_tag
 
-q_stdio=
-q_monitor=
-readonly q_monitor_telnet_port=8087
-q_gdb=
+declare q_stdio
+declare q_daemon
+declare q_gdb
 
-dry_run=
-verbose=
-debug=
+declare dry_run
+declare verbose
+declare debug
+readonly TMPDIR=/tmp/${PROG}
+
+# Store VM specific files on host filesystem
+declare vm_tmpdir
+declare vm_cmd_sh
+declare vm_port_hostfwd_ssh22
+declare vm_port_monitor_telnet
+
+# Port
+declare TCP_PORT_HOSTFWM_SSH22
+declare TCP_PORT_MONITOR_TELNET
 
 # Disk configuratios
 readonly DISK_VIRTIO=virtio
@@ -67,28 +86,41 @@ declare -a cleanup_files
 
 readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 
-__usage__() {
+__usage_internal__() {
 	echo -e "
 ${BOLD}NAME${RST}
     ${PROG} - Running a virtual machine with Qemu-KVM
 
 ${BOLD}SYNOPSIS${RST}
-    ${PROG} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio] [--monitor]
+    ${PROG} ${GRAY}[subcmd]${RST} -k=<kernel> -i=<initrd> [-r=<rootfs>] [-m=4G] [--stdio]
 
 ${BOLD}DESCRIPTION${RST}
     Running a virtual machine with Qemu-KVM, support flexable arguments.
 
-${BOLD}OPTIONS${RST}
+    Virtual machine monitor, port see ${UL}${PROG} list --port${RST}, connect with
+    ${GRAY}$ telnet localhost PORT${RST} or ${GRAY}$ nc localhost PORT${RST} for qemu monitor,
+    connect guest ssh with ${GRAY}$ ssh -p PORT USER:localhost${RST}.
+
+${BOLD}SUBCOMMAND OPTIONS${RST}
+    list                    listing all current running VMs
+    destroy [NAME]          destroy a virtual machine
+
+${BOLD}VM OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
 
+    --cpu [ARGS]            config CPU, please see ${BOLD}--cpu help${RST}
     -m, --memory [SIZE]     Sets guest startup RAM size, default: ${q_memory},
                             format see ${UL}SIZE${RST} section.
 
-    -k, --kernel [KERNEL]   specify vmlinuz, bzImage
+    -k, --kernel [KERNEL]   specify ${UL}vmlinux${RST}, ${UL}vmlinuz${RST}, ${UL}bzImage${RST}
         --kcmd [ARG]        add kernel cmdline (may be listed multiple times)
                             example: --kcmd=${GRAY}rdinit=/usr/bin/bash${RST}
 
-    -i, --initrd [INITRD]   specify initrd image
+    -i, --initrd [INITRD]   specify initrd image.
+                            If you use ${UL}dracut${RST} generate initrd, and you
+                            pass the rootfs, you must add ${UL}--no-host-only${RST} argument,
+                            otherwise, ${UL}/dev/disk/by-xxx${RST} may not be found.
+
         --rdinit [PATH]     specify initrd's init process.
 
     -r, --rootfs [type=TYPE,file=ROOTFS,<rw|ro>]|[ROOTFS]
@@ -106,18 +138,21 @@ ${BOLD}OPTIONS${RST}
                             if stdio, you could set ${UL}TERM=xterm-256color${RST}
                             or ${UL}TERM=linux${RST} in your virtual machine.
 
-    --monitor               enable monitor, link with ${GRAY}$ telnet localhost ${q_monitor_telnet_port}${RST}
-
   ${BOLD}VirtIO OPTIONS${RST}
     --virtio-fs-sock [SOCK] specify virtio-fs vhost-fs.sock, this sock created
                             by ${GRAY}$ virtiofsd --socket-path=/var/run/vhost-fs.sock -o source=/path/to/host/${RST}
-    --virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}myfs${RST}
+                            (may be listed multiple times)
+    --virtio-fs-tag [TAG]   specify virtio-fs tag, like: ${GRAY}${UL}myfs${RST}, then,
+                            in guest os: ${GRAY}$ sudo mount -t virtiofs ${UL}myfs${RST} ${GRAY}/mnt${RST}
+                            (may be listed multiple times)
 
   ${BOLD}UEFI OPTIONS${RST}
     --uefi [ARGS]           UEFI by Qemu. please see ${BOLD}--uefi help${RST}
 
   ${BOLD}QEMU OPTIONS${RST}
-    -Q, --qemu [qemu-kvm]   specify qemu emulator binary.
+    -Q, --qemu [qemu-kvm]   specify qemu emulator binary,
+                            default: ${UL}${QEMU}${RST}, version ${UL}${QEMU_VERSION}${RST}
+
         --gdb               enable qemu debugging, usage:${GRAY}
                             $ gdb -q kernel.elf
                             (gdb) target remote :1234
@@ -126,17 +161,18 @@ ${BOLD}OPTIONS${RST}
                             the ${UL}kernel.elf${RST} also could get:${GRAY}
                             $ objcopy --only-keep-debug vmlinux kernel.elf${RST}
 
-    --qarg [ARG]            append ARG to qemu arguments, for example:
-                            pass ${BOLD}-fw_cfg${RST} to qemu:
+    --qarg [ARG]            append ARG to qemu arguments,
+                            (may be listed multiple times)
+                            for example:
+                            if want to pass ${BOLD}-fw_cfg${RST} to qemu:
                               ${GRAY}-fw_cfg [name=]<name>,file=<file>${RST}
                               ${GRAY}-fw_cfg [name=]<name>,[name=]<name>,string=<str>${RST}
                             you could:
                               ${GRAY}$ ${PROG} --qarg \"-fw_cfg name=${USER},file=/etc/os-release\"${RST}
-                            in guest, check ${BOLD}/sys/firmware/qemu_fw_cfg/${RST}
-                            (may be listed multiple times)
+                            in guestos, check ${BOLD}/sys/firmware/qemu_fw_cfg/${RST}
 
   ${BOLD}CXL OPTIONS${RST}
-    --cxl [ARGS]            CXL by Qemu. please see ${BOLD}--cxl help${RST}
+    --cxl [ARGS]            CXL by Qemu. please see ${BOLD}--cxl help|?${RST}
 
                             CXL require Qemu >= ${UL}9.0${RST} on aarch64,
                             Qemu >= ${UL}7.2${RST} on x86_64.
@@ -145,13 +181,40 @@ ${BOLD}OPTIONS${RST}
     -u, --dry-run           only show commands
     -D, --debug             enable debug mode.
     -v, --verbose           enable verbose mode.
-    -h, --help              show this help information
+    -V, --version           show version
+    -h, --help              show this help information"
 
+	local kernel="${GRAY}${ITALIC}/boot/vmlinuz-$(uname -r)${RST}"
+	local initrd="${GRAY}${ITALIC}/boot/initramfs-$(uname -r).img${RST}"
+
+	echo -e "
 ${BOLD}EXAMPLES${RST}
-    $ sudo ${PROG} --kernel ${GRAY}${ITALIC}/boot/vmlinuz-${arch}${RST} \\
-        --initrd ${GRAY}${ITALIC}/boot/initramfs-${arch}.img${RST} ${GRAY}[--rdinit=/bin/bash]${RST} \\
-        ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST}
+    $ sudo ${PROG} --kernel ${kernel} \\
+        --initrd ${initrd} ${GRAY}[--rdinit=/bin/bash]${RST} \\
+        ${GRAY}[--rootfs vm.raw] [--init=/usr/bin/bash]${RST} --stdio"
 
+	echo -e "
+${BOLD}MINIMAL QEMU COMMANDS${RST}"
+
+	case ${ARCH} in
+	x86_64)
+		echo -e "
+    ${GRAY}# On x86_64${RST}
+    $ sudo ${QEMU} -machine q35 -cpu host -accel kvm -m 2G \\
+        -kernel ${kernel} -initrd ${initrd} \\
+        -append \"console=ttyS0,115200 rdinit=/bin/bash rw\" \\
+        -nographic ${q_gdb:+-s -S}"
+		;;
+	aarch64)
+		echo -e "
+    ${GRAY}# On aarch64${RST}
+    $ sudo ${QEMU} -machine virt -cpu host -accel kvm -m 2G \\
+        -kernel ${kernel} -initrd ${initrd} \\
+        -append \"earlycon console=ttyAMA0 rdinit=/bin/bash rw\" \\
+	-nographic ${q_gdb:+-s -S}"
+		;;
+	esac
+	echo -e "
 ${BOLD}FORMAT${RST}
 
   ${FORMAT_SIZE}
@@ -159,14 +222,38 @@ ${BOLD}FORMAT${RST}
 ${BOLD}SEE ALSO${RST}
     qemu(1), qemu-kvm(1), etc.
 "
+}
+
+__usage__() {
+	__usage_internal__ "${@}" | more
 	exit ${1-0}
 }
 
-check_file_exist_and_exit() {
-	local f=$1
-	if [[ ! -e ${f} ]] && [[ -z ${dry_run} ]]; then
-		error "${f} is not exist."
+# $1: qemu-kvm emulator
+set_qemu_kvm() {
+	QEMU=${1}
+
+	if [[ ! -f ${QEMU} ]] &&
+	   [[ -z "$(which ${QEMU})" ]] &&
+	   [[ -z ${dry_run} ]]; then
+		error "Not found qemu ${QEMU}"
 	fi
+
+	QEMU_VERSION="$(${QEMU} --version | \
+		grep -m1 -Ewo '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
+	QEMU_MAJOR="$(echo ${QEMU_VERSION} | awk -F '.' '{print $1}')"
+	QEMU_MINOR="$(echo ${QEMU_VERSION} | awk -F '.' '{print $2}')"
+	QEMU_PATCH="$(echo ${QEMU_VERSION} | awk -F '.' '{print $3}')"
+}
+
+check_files_exist_and_exit() {
+	local f
+	for f in ${@}
+	do
+		if [[ ! -e ${f} ]] && [[ -z ${dry_run} ]]; then
+			error "${f} is not exist."
+		fi
+	done
 }
 
 is_qemu_format() {
@@ -185,9 +272,81 @@ check_qemu_format_and_exit() {
 	fi
 }
 
+################################################################################
+# CPU
+
+cpu_arg_help() {
+	echo -e "
+${BOLD}CPU ARGUMENTS SYNTAX${RST}
+
+${BOLD}--cpu help${RST}: show this information
+
+${BOLD}--cpu [num]${RST}: set cpu number
+${BOLD}--cpu nr=[num]${RST}: set cpu number
+${BOLD}--cpu model=[MODEL]${RST}: set cpu model (default: ${UL}${q_cpu_model}${RST}), see ${GRAY}${QEMU} -cpu help${RST}
+"
+	exit 0
+}
+
+handle_cpu_arg() {
+	local arg args
+	local nr_cpus model
+
+	# Pre handle
+	args=( $(echo $1 | tr ',' ' ') )
+	for arg in ${args[@]}
+	do
+		case ${arg%%=*} in
+		help)
+			cpu_arg_help
+			;;
+		esac
+	done
+
+	if [[ ${#args[@]} -eq 1 ]] &&
+	   [[ $(echo ${1} | tr '=,' ' ' | wc -w) -eq 1 ]]; then
+		# Avoid extra non-digest char, like '--cpu 16,'
+		if ! [[ ${1} =~ ^[0-9]+$ ]]; then
+			error "cpu: unknown '${1}', see --cpu help"
+		fi
+	fi
+
+	unset args
+
+	if [[ $(echo $1 | tr '=,' ' ' | wc -w) -gt 1 ]]; then
+		args=( $(echo $1 | tr ',' ' ') )
+		for arg in ${args[@]}
+		do
+			case ${arg%%=*} in
+			nr)
+				nr_cpus=${arg:3}
+				;;
+			model)
+				model=${arg:6}
+				;;
+			*)
+				error "cpu: unknown arg '${arg}'"
+				;;
+			esac
+		done
+	else
+		nr_cpus=${1}
+	fi
+
+	if [[ ! -z ${nr_cpus} ]]; then
+		q_cpus=${nr_cpus}
+	fi
+	if [[ ! -z ${model} ]]; then
+		q_cpu_model=${model}
+	fi
+}
+
+################################################################################
+# UEFI
 declare -a UEFI_CODES=(
 	# OVMF: Open Virtual Machine Firmware
 	/usr/share/OVMF/OVMF_CODE.fd
+	/usr/share/OVMF/OVMF_CODE.secboot.fd
 	/usr/share/AAVMF/AAVMF_CODE.fd
 )
 
@@ -196,7 +355,7 @@ declare -a UEFI_VARS=(
 	/usr/share/AAVMF/AAVMF_VARS.fd
 )
 
-case ${arch} in
+case ${ARCH} in
 aarch64)
 	UEFI_CODES+=( /usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw )
 	UEFI_VARS+=( /usr/share/edk2/aarch64/QEMU_VARS.fd )
@@ -259,8 +418,8 @@ handle_uefi_arg() {
 		error "--uefi could not specify code and var at the same time."
 	fi
 
-	[[ ${code} ]] && check_file_exist_and_exit ${code}
-	[[ ${var} ]] && check_file_exist_and_exit ${var}
+	[[ ${code} ]] && check_files_exist_and_exit ${code}
+	[[ ${var} ]] && check_files_exist_and_exit ${var}
 
 	[[ ${code} ]] && uefi_code=${code}
 	[[ ${var} ]] && uefi_var=${var}
@@ -270,6 +429,9 @@ handle_uefi_arg() {
 	fi
 }
 
+################################################################################
+# Rootfs
+
 # Format: type=TYPE,file=FILE,ro,rw
 handle_rootfs_arg() {
 	local arg args
@@ -278,32 +440,43 @@ handle_rootfs_arg() {
 		args=( $(echo $1 | tr ',' ' ') )
 		for arg in ${args[@]}
 		do
-			case ${arg%%=*} in
+			local arg_key=${arg%%=*}
+			case ${arg_key} in
 			type)
 				f_rootfs_type=${arg:5}
 				if ! [[ " ${DISK_TYPES[@]} " =~ " ${f_rootfs_type} " ]]; then
-					error "rootfs unsupport ${arg}"
+					error "rootfs unsupport '${arg}'"
 				fi
 				;;
 			file)
 				f_rootfs=${arg:5}
 				;;
 			rw | ro)
-				if [[ ${arg} != ro ]] && [[ ${arg} != rw ]]; then
+				if [[ ${arg_key} != ro ]] &&
+				   [[ ${arg_key} != rw ]]; then
 					error "rootfs unknown ${arg}"
 				fi
-				k_rw=${arg}
+				k_rw=${arg_key}
 				;;
 			*)
-				error "rootfs unknown ${arg}"
+				if [[ -f ${arg_key} ]]; then
+					f_rootfs=${arg_key}
+				else
+					if [[ ${dry_run} ]]; then
+						warning "rootfs maybe use wrong file '${arg_key}'"
+						f_rootfs=${arg_key}
+					else
+						error "rootfs unknown ${arg}"
+					fi
+				fi
 				;;
 			esac
 		done
 		if [[ -z ${f_rootfs} ]]; then
-			error "not found file= for rootfs"
+			error "not found file for rootfs in '${args[@]}'"
 		fi
 	else
-		f_rootfs=$1
+		f_rootfs=${1}
 	fi
 
 	if [[ -z ${f_rootfs_type} ]]; then
@@ -318,8 +491,8 @@ ${BOLD}DISK ARGUMENTS SYNTAX: -d, --disk <ARGS>${RST}
 ${BOLD}ARGS${RST}
   ${BOLD}help${RST}: show this information
 
-  ${BOLD}[FILE]${RST}: specify disk file, see ${BOLD}[FILE]${RST}
-  ${BOLD}file=<FILE>${RST}: specify disk file, see ${BOLD}[FILE]${RST}
+  ${BOLD}[FILE],[ro|rw]${RST}: specify disk file, see ${BOLD}[FILE]${RST}
+  ${BOLD}file=<FILE>,[ro|rw]${RST}: specify disk file, see ${BOLD}[FILE]${RST}
 
 ${BOLD}FILE${RST}: disk file, should be one of qcow2, raw, MBR
 "
@@ -366,12 +539,26 @@ handle_disk_arg() {
 	f_disks+=( ${file} )
 }
 
+################################################################################
 # CXL
 # ===
-# - CXL level: pxb-cxl -> cxl-rp -> cxl-switch/cxl-type3
-#   pxb: PCIe eXpander Bridge
-#   rp: Root Port
+# - CXL level: PCIe.0 -> pxb-cxl -> cxl-rp -> [cxl-switch] -> cxl-type3
+#
 # - CXL fmw: Fixed Memory Window
+# - CXL pxb (PCIe eXpander Bridge)
+#           $ qemu-kvm -device pxb-cxl,...
+#           see commit b4271dd6068b ("qemu: cxl-pxb: 'lspci -tv'")
+# - CXL rp (Root Port)
+#           $ qemu-kvm -device cxl-rp,...
+#           see commit f6f541dae696 ("qemu: cxl-rp(root-port): 'lspci -tv'")
+# - CXL Switch
+#           $ qemu-kvm -device cxl-upstream,... -device cxl-downstream,...
+#           see commit 559bfebf5d44 ("qemu: cxl-switch: 'lspci -tv'")
+# - CXL Device
+#           $ qemu-kvm -device cxl-type3,...,persistent-memdev=...
+#           see commit 445c8c03b035 ("qemu: cxl-type3: persistent-memdev: lspci, acpi")
+#
+#           $ qemu-kvm -device cxl-type3,...,volatile-memdev=...
 #
 #       ┌────────────────────────────┐
 #       │    PCIe.0(q35)             │
@@ -408,15 +595,27 @@ handle_disk_arg() {
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 readonly CXL_DEV_VMEM=cxl-vmem
+readonly CXL_DEV_VMEM_DC=cxl-vmem-dc
 readonly CXL_DEV_VMEM_LSA=cxl-vmem-lsa
+readonly CXL_DEV_VMEM_LSA_DC=cxl-vmem-lsa-dc
 readonly CXL_DEV_VMEM_4WAY=cxl-vmem-4way
+readonly CXL_DEV_VMEM_4WAY_DC=cxl-vmem-4way-dc
 readonly CXL_DEV_VMEM_4WAY_SWITCH=cxl-vmem-4way-switch
+readonly CXL_DEV_VMEM_4WAY_SWITCH_DC=cxl-vmem-4way-switch-dc
 readonly CXL_DEV_PMEM=cxl-pmem
 readonly CXL_DEV_PMEM_4WAY=cxl-pmem-4way
 readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
-readonly CXL_DEVICES=( ${CXL_DEV_VMEM} ${CXL_DEV_VMEM_LSA}
-			${CXL_DEV_VMEM_4WAY} ${CXL_DEV_VMEM_4WAY_SWITCH}
-			${CXL_DEV_PMEM} ${CXL_DEV_PMEM_4WAY} ${CXL_DEV_PMEM_4WAY_SWITCH})
+readonly CXL_DEVICES=( ${CXL_DEV_VMEM}
+		       ${CXL_DEV_VMEM_DC}
+		       ${CXL_DEV_VMEM_LSA}
+		       ${CXL_DEV_VMEM_LSA_DC}
+		       ${CXL_DEV_VMEM_4WAY}
+		       ${CXL_DEV_VMEM_4WAY_DC}
+		       ${CXL_DEV_VMEM_4WAY_SWITCH}
+		       ${CXL_DEV_VMEM_4WAY_SWITCH_DC}
+		       ${CXL_DEV_PMEM}
+		       ${CXL_DEV_PMEM_4WAY}
+		       ${CXL_DEV_PMEM_4WAY_SWITCH} )
 
 declare -a cxl_fmw=( 0 ) # (0 1 2 3)
 
@@ -456,6 +655,7 @@ declare -A cxl_pmem_size # arr[name]=SIZE
 declare -a cxl_vmem_names # arr=( name1 name2 ... )
 declare -A cxl_vmem_bus # arr[name]=BUS
 declare -A cxl_vmem_lsa # arr[name]=LSA
+declare -A cxl_vmem_dc # arr[name]=[ON]
 declare -A cxl_vmem_size # arr[name]=SIZE
 # use to find root port id or switch downstream id of cxl-type3
 declare -A cxl_pvmem_id2bus # arr[type3-id]=[rp-id|switch-downstream-id]
@@ -471,20 +671,20 @@ cxl_arg_help() {
 	echo -e "
 ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 
-${BOLD}--cxl help${RST}: show this information
+${BOLD}--cxl [help|?]${RST}: show this information
 
-${BOLD}--cxl [DEV]${RST}: see ${BOLD}[DEV]${RST} below
-${BOLD}--cxl device=[DEV]${RST}
+${BOLD}--cxl [DEVICE]${RST}: see ${BOLD}[DEVICE]${RST} section below
+${BOLD}--cxl device=[DEVICE|<list|?>]${RST}: see ${BOLD}[DEVICE]${RST} section below
 
-${BOLD}--cxl pxb=<name>,[fmw=<N>]${RST}: create CXL PXB, fmw default 0
-${BOLD}--cxl rp=<name>,bus=<name>,port=<n>${RST}: create CXL RootPort
-${BOLD}--cxl switch,bus=<name>,nport=<n>,portprefix=<name>${RST}: create CXL Switch
+${BOLD}--cxl pxb=<name>,[fmw|fixed-memory-window=<N>]${RST}: create CXL PXB, fmw default 0
+${BOLD}--cxl <root-port|rp>=<name>,bus=<name>,port=<num>${RST}: create CXL RootPort
+${BOLD}--cxl switch,bus=<name>,nport=<num>,portprefix=<name>${RST}: create CXL Switch
 ${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
-${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>][size=<SIZE>]${RST}: create CXL Volatile Memory device
+${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>],[size=<SIZE>],[dc|dynamic-capacity]${RST}: create CXL Volatile Memory device
 
 ${BOLD}--cxl show=[topo]${RST}: display CXL information before vm startup, will not startup vm
 
-${BOLD}[DEV]${RST}
+${BOLD}[DEVICE]${RST}
 ${GRAY}${CXL_DEVICES[@]}${RST}
 
 ${BOLD}FORMAT${RST}
@@ -494,7 +694,6 @@ ${BOLD}FORMAT${RST}
 	exit 0
 }
 
-# Formats: device=<name>
 handle_cxl_arg() {
 	local arg args
 	local device
@@ -503,13 +702,14 @@ handle_cxl_arg() {
 	local rp_id
 	local switch nport portprefix
 	local pmem vmem lsa size
+	local enable_dc
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
 	for arg in ${args[@]}
 	do
 		case ${arg%%=*} in
-		help)
+		help|?)
 			cxl_arg_help
 			;;
 		esac
@@ -527,14 +727,26 @@ handle_cxl_arg() {
 			pxb)
 				pxb_id=${arg:4}
 				;;
-			fmw)
-				pxbfmw=${arg:4}
+			fmw|fixed-memory-window)
+				if [[ ${arg:0:3} == fmw ]]; then
+					pxbfmw=${arg:4}
+				elif [[ ${arg:0:19} == fixed-memory-window ]]; then
+					pxbfmw=${arg:20}
+				else
+					error "cxl: bad fmw '${arg}'"
+				fi
 				if ! [[ " 0 1 2 3 4 5 " =~ " ${pxbfmw} " ]]; then
 					error "bad cxl pxb ${arg} only support 0 1 2 3 4 5"
 				fi
 				;;
-			rp)
-				rp_id=${arg:3}
+			rp|root-port)
+				if [[ ${arg:0:2} == rp ]]; then
+					rp_id=${arg:3}
+				elif [[ ${arg:0:9} == root-port ]]; then
+					rp_id=${arg:10}
+				else
+					error "cxl: bad root-port '${arg}'"
+				fi
 				;;
 			bus)
 				bus=${arg:4}
@@ -570,6 +782,9 @@ handle_cxl_arg() {
 				[[ -z ${lsa} ]] && \
 					error "cxl lsa= syntax error"
 				;;
+			dc|dynamic-capacity)
+				enable_dc=ON
+				;;
 			size)
 				size=${arg:5}
 				[[ -z ${size} ]] && \
@@ -581,12 +796,12 @@ handle_cxl_arg() {
 					cxl_show_topology=ON
 					;;
 				*)
-					error "--cxl show= syntax"
+					error "cxl: not support show= syntax"
 					;;
 				esac
 				;;
 			*)
-				error "cxl unknown arg ${arg}"
+				error "cxl: unknown arg ${arg}"
 				;;
 			esac
 		done
@@ -595,62 +810,77 @@ handle_cxl_arg() {
 	fi
 
 	if [[ ${device} ]] && [[ ${pxb_id} ]]; then
-		error "--cxl not allow specify pxb= for device"
+		error "cxl: not allow specify pxb= for device"
 	fi
 
 	if [[ ${device} ]] && [[ ${rp_id} ]]; then
-		error "--cxl not allow specify rp= for device"
+		error "cxl: not allow specify rp= for device"
 	fi
 
 	if [[ ${device} ]] && [[ ${switch} ]]; then
-		error "--cxl not allow specify switch for device"
+		error "cxl: not allow specify switch for device"
 	fi
 
 	if [[ ${device} ]] && [[ ${pmem}${vmem} ]]; then
-		error "--cxl not allow specify pmem or vmem for device"
+		error "cxl: not allow specify pmem or vmem for device"
 	fi
 
 	local types=( ${pxb_id} ${rp_id} ${switch} ${vmem} ${pmem} )
 
 	if [[ ${#types[@]} -gt 1 ]]; then
-		error "--cxl not allow specify pxb,rp,switch,vmem,pmem at the same time"
+		error "cxl: not allow specify pxb,rp,switch,vmem,pmem at the same time"
 	fi
 
 	if [[ ${rp_id} ]]; then
 		if [[ -z ${bus} ]] || [[ -z ${port} ]]; then
-			error "--cxl rp need bus= port= at the same time"
+			error "cxl: rp need bus= port= at the same time"
 		fi
 	fi
 
 	if [[ ${switch} ]]; then
 		if [[ -z ${bus} ]] || [[ -z ${nport} ]] || [[ -z ${portprefix} ]]; then
-			error "--cxl switch need bus= nport= portprefix= at the same time"
+			error "cxl: switch need bus= nport= portprefix= at the same time"
 		fi
 	fi
 
 	if [[ ${pmem} ]]; then
 		if [[ -z ${bus} ]] || [[ -z ${lsa} ]]; then
-			error "--cxl pmem/vmem need bus= and lsa= parameter"
+			error "cxl: pmem/vmem need bus= and lsa= parameter"
+		fi
+		if [[ ${enable_dc} == ON ]]; then
+			error "cxl: pmem not support dynamic capacity yet, please check qemu upstream!"
 		fi
 	fi
 
 	if [[ ${vmem} ]]; then
 		if [[ -z ${bus} ]]; then
-			error "--cxl vmem need bus= parameter"
+			error "cxl: vmem need bus= parameter"
 		fi
 	fi
 
 	# set global
-	[[ ${device} ]] && cxl_device=${device}
+	if [[ ${device} ]]; then
+		case ${device} in
+		list|?)
+			echo ${CXL_DEVICES[@]}
+			exit 0
+			;;
+		esac
+		cxl_device=${device}
+	fi
+
 	if [[ ${pxb_id} ]]; then
+		if [[ " ${cxl_pxb_ids[@]} " =~ " ${pxb_id} " ]]; then
+			error "cxl: could not create pxb '${pxb_id}' twice"
+		fi
 		cxl_pxb_ids+=( ${pxb_id} )
 		cxl_pxb_fmw[$pxb_id]=${pxbfmw}
 	fi
 
 	if [[ ${rp_id} ]]; then
 		cxl_rp_ids+=( ${rp_id} )
-		[[ ${bus} ]] && cxl_rp_buss+=( ${bus} )
-		[[ ${port} ]] && cxl_rp_ports+=( ${port} )
+		cxl_rp_buss+=( ${bus} )
+		cxl_rp_ports+=( ${port} )
 	fi
 
 	if [[ ${switch} ]]; then
@@ -673,6 +903,7 @@ handle_cxl_arg() {
 		cxl_vmem_bus[$vmem]=${bus}
 		[[ -z ${lsa} ]] && lsa=SKIP
 		cxl_vmem_lsa[$vmem]=${lsa}
+		cxl_vmem_dc[$vmem]=${enable_dc}
 		[[ -z ${size} ]] && size=${CXL_DEFAULT_MSIZE}
 		cxl_vmem_size[$vmem]=${size}
 	fi
@@ -683,212 +914,140 @@ handle_cxl_arg() {
 	fi
 }
 
-TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDv \
-	--long name: \
-	--long memory: \
-	--long uefi: \
-	--long kernel: \
-	--long kcmd: \
-	--long initrd: \
-	--long rdinit: \
-	--long rootfs: \
-	--long init: \
-	--long root: \
-	--long disk: \
-	--long nvdimm: \
-	--long stdio \
-	--long monitor \
-	--long cxl: \
-	--long virtio-fs-sock: \
-	--long virtio-fs-tag: \
-	--long dry-run \
-	--long qemu: \
-	--long qarg: \
-	--long gdb \
-	--long debug \
-	--long verbose \
-	--long help \
-	--name ${PROG} -- "$@")
+# $1: vm-name
+config_prepare_vm_tmpdir() {
+	local name=${1}
+	# If dry-run, vm temp directly will not be created, thus, just set it
+	# to ${TMPDIR}.
+	if [[ ${dry_run} ]]; then
+		TMPDIR=/tmp
+		vm_tmpdir="${TMPDIR}"
+	else
+		vm_tmpdir=${TMPDIR}/${name}
+	fi
+	vm_cmd_sh=${vm_tmpdir}/cmds.sh
+	vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
+	vm_port_monitor_telnet=${vm_tmpdir}/port-monitor-telnet.txt
+}
 
-test $? != 0 && __usage__ 1
+################################################################################
+# VM Management
+__usage_list_vm__() {
+	echo -e "
+${BOLD}NAME${RST}
+    ${PROG} list - Listing virtual machine
 
-eval set -- "$TEMP_ARGS"
+${BOLD}SYNOPSIS${RST}
+    ${PROG} ${BOLD}list${RST} [-h|--help]
 
-while true; do
-	case $1 in
-	-n | --name)
-		shift
-		q_vm_name=$1
-		shift
-		;;
-	-m | --memory)
-		shift
-		q_memory=$(sizeceilfmt $1)
-		if [[ -z ${q_memory} ]]; then
-			error "Bad memory size parameter $1(${q_memory})"
+${BOLD}OPTIONS${RST}
+    -p, --port     list vm's network port
+    -h, --help     show this information
+"
+	exit ${1-0}
+}
+
+list_vm() {
+	local i pidfile
+	local pidfiles=( $(find ${TMPDIR} -name '*.pid' 2>/dev/null) )
+	local id=0
+	local list_port
+
+	local LIST_VM_ARGS=$(getopt --options ph \
+		--long port \
+		--long help \
+		--name list-vm -- "$@")
+
+	test $? != 0 && __usage_list_vm__ 1
+
+	eval set -- "$LIST_VM_ARGS"
+
+	while true; do
+		case $1 in
+		-h | --help)
+			shift
+			__usage_list_vm__
+			;;
+		-p | --port)
+			shift
+			list_port=ON
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+
+	printf "%-4s %-16s %-8s" Id Name State
+	if [[ ${list_port} ]]; then
+		printf " %-8s" SSH
+		printf " %-8s" TELNET
+	fi
+	printf "\n"
+	echo -n '---------------------------------------'
+	if [[ ${list_port} ]]; then
+		echo -n '-------------'
+	fi
+	echo
+
+	for pidfile in ${pidfiles[@]}
+	do
+		local name="${pidfile#${TMPDIR}/}"
+		name="$(dirname ${name})"
+
+		config_prepare_vm_tmpdir ${name}
+
+		local pid=$(sudo cat ${pidfile})
+		local state="unknown"
+
+		if [[ -d /proc/${pid} ]]; then
+			state="running"
+		elif [[ ! -d /proc/${pid} ]]; then
+			state="die"
 		fi
-		if [[ $(sizechkalign ${q_memory} 256MiB) != y ]]; then
-			error "Memory size must align 256MiB"
+
+		printf "%-4d %-16s %-8s" ${id} ${name} ${state}
+		if [[ ${list_port} ]]; then
+			printf " %-8d" $(cat ${vm_port_hostfwd_ssh22})
+			printf " %-8d" $(cat ${vm_port_monitor_telnet})
 		fi
-		shift
-		;;
-	--uefi)
-		shift
-		handle_uefi_arg ${1}
-		shift
-		;;
-	-k | --kernel)
-		shift
-		f_kernel=$1
-		shift
-		;;
-	--kcmd)
-		shift
-		kcmds+=( $1 )
-		shift
-		;;
-	-i | --initrd)
-		shift
-		f_initrd=$1
-		shift
-		;;
-	-r | --rootfs)
-		shift
-		handle_rootfs_arg ${1}
-		shift
-		;;
-	--rdinit)
-		shift
-		k_rdinit=$1
-		shift
-		;;
-	--init)
-		shift
-		k_init=$1
-		shift
-		;;
-	--root)
-		shift
-		k_root=$1
-		shift
-		;;
-	-d | --disk)
-		shift
-		handle_disk_arg ${1}
-		shift
-		;;
-	--nvdimm)
-		shift
-		f_nvdimms+=( $1 )
-		shift
-		;;
-	--cxl)
-		shift
-		handle_cxl_arg ${1}
-		shift
-		;;
-	--virtio-fs-sock)
-		shift
-		f_virtiofs_sock=$1
-		shift
-		;;
-	--virtio-fs-tag)
-		shift
-		q_virtiofs_tag=$1
-		shift
-		;;
-	--stdio)
-		shift
-		q_stdio=ON
-		;;
-	--monitor)
-		shift
-		q_monitor=ON
-		;;
-	-Q | --qemu)
-		shift
-		QEMU_KVM=$1
-		shift
-		;;
-	--qarg)
-		shift
-		qargs+=( "${1}" )
-		shift
-		;;
-	--gdb)
-		shift
-		q_gdb=ON
-		;;
-	-h | --help)
-		shift
-		__usage__
-		;;
-	-u | --dry-run)
-		shift
-		dry_run=ON
-		;;
-	-v | --verbose)
-		shift
-		verbose=ON
-		;;
-	-D | --debug)
-		shift
-		debug=ON
-		;;
-	--)
-		shift
-		break
-		;;
-	esac
-done
+		printf "\n"
 
-if [[ ${f_kernel} ]]; then
-	check_file_exist_and_exit ${f_kernel}
-	[[ -e ${f_kernel} ]] && f_kernel=$(realpath ${f_kernel})
-fi
+		id=$((id + 1))
+	done
+}
 
-if [[ ${f_initrd} ]]; then
-	check_file_exist_and_exit ${f_initrd}
-	[[ -e ${f_initrd} ]] && f_initrd=$(realpath ${f_initrd})
-fi
+# $1: virtual machine name
+kill_vm() {
+	local name=${1}
+	local pidfile=${TMPDIR}/${name}/pidfile.pid
 
-if [[ ${f_rootfs} ]]; then
-	check_file_exist_and_exit ${f_rootfs}
-	check_qemu_format_and_exit ${f_rootfs}
-	[[ -e ${f_rootfs} ]] && f_rootfs=$(realpath ${f_rootfs})
-fi
+	if [[ ! -f ${pidfile} ]]; then
+		error "Not found vm '${name}'"
+	fi
 
-[[ ${f_virtiofs_sock} ]] && check_file_exist_and_exit ${f_virtiofs_sock}
+	config_prepare_vm_tmpdir ${name}
 
-if [[ ! -f ${QEMU_KVM} ]] && [[ -z ${dry_run} ]]; then
-	error "Not found qemu ${QEMU_KVM}"
-fi
+	if [[ -f ${vm_port_monitor_telnet} ]]; then
+		warning "Destroy ${name} with Qemu monitor"
+		echo "system_powerdown" | sudo nc localhost $(cat ${vm_port_monitor_telnet})
+	else
+		# Kill host process is dangerous for guestos disk.
+		warning "Kill ${name} process on host"
+		local pid=$(sudo cat ${pidfile})
+		sudo kill ${pid}
+	fi
 
-if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]] && [[ -z ${f_disks} ]]; then
-	error "must specify kernel and initrd, or specify one disk at least"
-fi
-
-if [[ ${verbose} ]]; then
-	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
-	set -x
-fi
+	sudo rm -rf ${vm_tmpdir}
+}
 
 _eval()
 {
-	if [[ -z ${dry_run} ]]; then
-		echo >&2 -e "${BOLD}${GREEN}Startup: $@${RST}"
-		eval "$@"
-		echo >&2 -e "${BOLD}${YELLOW}Done: $@${RST}"
-	else
-		echo "$@"
-	fi
-}
+	DRY_RUN=${dry_run} dry_run "${@}"
 
-gen_uuid() {
-	if [[ -e /proc/sys/kernel/random/uuid ]]; then
-		cat /proc/sys/kernel/random/uuid
-	else
-		uuid
+	if [[ ! -z ${vm_cmd_sh} ]] && [[ -f ${vm_cmd_sh} ]]; then
+		echo "${@}" | sudo tee --append ${vm_cmd_sh}
 	fi
 }
 
@@ -911,50 +1070,95 @@ image2uuid() {
 		sudo losetup --detach ${dev_loop}
 		;;
 	qcow2)
-		local dev_nbd=/dev/nbd0
-		sudo modprobe nbd max_part=16 || true >/dev/null
+		local dev_nbd=$(nbd_find_idle_dev)
 		sudo qemu-nbd --connect ${dev_nbd} ${img} -f ${img_type} >/dev/null && sleep 1
 		sudo lsblk -o uuid ${dev_nbd} | grep -v UUID
 		sudo qemu-nbd --disconnect ${dev_nbd} >/dev/null
 		sudo rmmod nbd || true >/dev/null
 		;;
+	*)
+		error "Unknown image '${img}' extension '${img_type}'"
+		;;
 	esac
 }
 
 cleanup() {
-	_eval sudo rm -rf ${cleanup_files[@]}
+	local err=$?
+
+	# Qemu process maybe running on background, we do not need cleanup then.
+	if [[ -z ${q_daemon} ]]; then
+		_eval sudo rm -rf ${cleanup_files[@]}
+	fi
+
+	if [[ ${err} != 0 ]] && [[ -d ${vm_tmpdir} ]]; then
+		_eval sudo rm -rf ${vm_tmpdir}
+	fi
+
+	if [[ ${err} != 0 ]]; then
+		error "${PROG} running failed"
+	fi
+	exit ${err}
 }
-trap cleanup EXIT
+
+config_vm_tmpdir() {
+	TCP_PORT_HOSTFWM_SSH22=$(get_free_tcp_port)
+	TCP_PORT_MONITOR_TELNET=$(get_free_tcp_port)
+
+	if [[ ! -d ${TMPDIR} ]]; then
+		_eval mkdir -p ${TMPDIR}
+	fi
+
+	if [[ ! -d ${vm_tmpdir} ]]; then
+		_eval mkdir -p ${vm_tmpdir}
+	fi
+
+	_eval touch ${vm_cmd_sh}
+	_eval chmod +x ${vm_cmd_sh}
+
+	if [[ -z ${dry_run} ]]; then
+		fprintf ${vm_port_hostfwd_ssh22} ${TCP_PORT_HOSTFWM_SSH22}
+		fprintf ${vm_port_monitor_telnet} ${TCP_PORT_MONITOR_TELNET}
+	fi
+
+	cleanup_files+=( ${vm_cmd_sh} )
+	cleanup_files+=( ${vm_port_hostfwd_ssh22} )
+	cleanup_files+=( ${vm_port_monitor_telnet} )
+}
 
 config_basic() {
+	local pidfile=${vm_tmpdir}/pidfile.pid
+	local qmpfile=${vm_tmpdir}/qmp.sock
+
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid $(gen_uuid) )
+	# or use '-accel kvm'
 	qargs+=( -enable-kvm )
 	qargs+=( -boot menu=on )
 
 	# -qmp <protocol>:<path>[,server][,nowait]
-	# -qmp unix:/tmp/qmp-sock,server,nowait
-	# $ sudo socat - UNIX-CONNECT:/tmp/qmp-sock
+	# -qmp unix:./qmp.sock,server,nowait
+	# $ sudo socat - UNIX-CONNECT:./qmp.sock
 	# Or use:
 	# -qmp tcp:0.0.0.0:4444,server,nowait
 	# $ telnet localhost 4444
 	# Or use:
 	# -qmp stdio
-	qargs+=( -qmp unix:$PWD/qmp-${q_vm_name}.sock,server=on,wait=off )
-	cleanup_files+=( $PWD/qmp-${q_vm_name}.sock )
+	qargs+=( -qmp unix:${qmpfile},server=on,wait=off )
+	cleanup_files+=( ${qmpfile} )
 
-	qargs+=( -pidfile ${q_vm_name}.pid)
-	cleanup_files+=( ${q_vm_name}.pid )
+	qargs+=( -pidfile ${pidfile})
+	cleanup_files+=( ${pidfile} )
 
 	# Qemu monitor
-	if [[ ${q_monitor} ]]; then
-		# $ telnet localhost PORT
-		qargs+=( -monitor tcp:localhost:${q_monitor_telnet_port},server,nowait )
+	# $ telnet localhost PORT
+	qargs+=( -monitor tcp:localhost:${TCP_PORT_MONITOR_TELNET},server,nowait )
+	# Or could use:
+	# $ sudo socat - UNIX-CONNECT:./qemu-monitor-${q_vm_name}.sock
+	#qargs+=( -monitor unix:./qemu-monitor-${q_vm_name}.sock,server,nowait )
+	#cleanup_files+=( ./qemu-monitor-${q_vm_name}.sock )
 
-		# Or could use:
-		# $ sudo socat - UNIX-CONNECT:/tmp/qemu-monitor-${q_vm_name}.sock
-		#qargs+=( -monitor unix:/tmp/qemu-monitor-${q_vm_name}.sock,server,nowait )
-		#cleanup_files+=( /tmp/qemu-monitor-${q_vm_name}.sock )
+	if [[ ${q_stdio} ]] && [[ ${q_daemon} ]]; then
+		error "Could not use --stdio and --daemon at same time"
 	fi
 
 	if [[ ${q_stdio} ]]; then
@@ -964,7 +1168,12 @@ config_basic() {
 		qargs+=( -nographic )
 	fi
 
-	case ${arch} in
+	if [[ ${q_daemon} ]]; then
+		qargs+=( -daemonize )
+		qargs+=( -vnc :1 )
+	fi
+
+	case ${ARCH} in
 	x86_64)
 		qmachine+=( type=q35 )
 		;;
@@ -982,11 +1191,38 @@ config_basic() {
 	fi
 }
 
+# IPMI BMC
+config_bmc() {
+	# Internal Emulation (Built-in Simulator)
+	case ${ARCH} in
+	x86_64)
+		# ISA-Based Configuration (Standard x86 PC)
+		qargs+=( -device ipmi-bmc-sim,id=bmc0
+			 -device isa-ipmi-kcs,bmc=bmc0 )
+		;;
+	*)
+		# PCI-Based Configuration
+		qargs+=( -device ipmi-bmc-sim,id=bmc0
+			 -device pci-ipmi-kcs,bmc=bmc0 )
+		;;
+	esac
+
+	# TODO: except qemu internal emulation, external emulation has full
+	# featured such as OpenIPMI "ipmi_sim".
+	#qargs+=( -chardev socket,id=ipmi0,host=localhost,port=9012
+	#	 -device ipmi-bmc-extern,id=bmc0,chardev=ipmi0
+	#	 -device isa-ipmi-bt,bmc=bmc0 )
+}
+
 config_memory() {
 	local m=( ${q_memory} )
 	m+=( slots=8 )
 	m+=( maxmem=32768M )
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
+
+	# NUMA
+	qargs+=( -object memory-backend-memfd,id=mem,size=${q_memory},share=on
+			-numa node,memdev=mem )
 }
 
 # $1: require memory size
@@ -998,7 +1234,24 @@ min_memory_required() {
 }
 
 config_cpu() {
-	qargs+=( -cpu host -smp cpus=4 )
+	local cpu_args=( ${q_cpu_model} )
+
+	# Skip warning on Hygon:
+	# qemu-system-x86_64: host doesn't support requested feature: vPMU
+	if [[ "$(cpu_is_hygon)" ]]; then
+		cpu_args+=( pmu=off )
+	fi
+
+	qargs+=( -cpu $(IFS=,; echo "${cpu_args[*]}") )
+	qargs+=( -smp cpus=${q_cpus},maxcpus=$((q_cpus * 2)) )
+
+	# TODO: support more cpu
+	# qargs+=( -cpu kvm64,+kvm_pv_unhalt,+kvm-pv-ipi,+kvm-pv-tlb-flush )
+
+	# TODO: support numa
+	# -smp cpus=8,sockets=2,cores=4,threads=1
+	# -numa node,nodeid=0,cpus=0-3,mem=4G
+	# -numa node,nodeid=1,cpus=4-7,mem=4G
 }
 
 # $1: code
@@ -1024,7 +1277,7 @@ auto_uefi_pflash() {
 
 	# FIXME: aarch64 default UEFI, skip error:
 	# qemu-kvm: device requires 67108864 bytes, block backend provides 786432 bytes
-	if [[ ${arch} == aarch64 ]]; then
+	if [[ ${ARCH} == aarch64 ]]; then
 		return 0
 	fi
 
@@ -1042,8 +1295,8 @@ auto_uefi_pflash() {
 
 		# Copy a new VAR from system OS.
 		var=${i}
-		local newvar=${q_vm_name}_$(basename ${var})
-		cp ${var} ${newvar}
+		local newvar=${vm_tmpdir}/$(basename ${var})
+		_eval cp ${var} ${newvar}
 		cleanup_files+=( ${newvar} )
 		var=${newvar}
 		break
@@ -1098,11 +1351,11 @@ add_net_nic_tap() {
 
 # Usage:
 # on hostos:
-# $ ssh -p8086 root@localhost
+# $ ssh -p${PORT} root@localhost
 # Make sure port was not used, check with:
-# $ sudo netstat -tulpn | grep 8086
+# $ sudo netstat -tulpn | grep ${PORT}
 add_net_nic_user_tap() {
-	qargs+=( -net user,hostfwd=tcp::8086-:22 )
+	qargs+=( -net user,hostfwd=tcp::${TCP_PORT_HOSTFWM_SSH22}-:22 )
 	qargs+=( -net nic,model=virtio
 		-device virtio-net,netdev=network0
 		-netdev tap,id=network0,ifname=tap0,script=no,downscript=no )
@@ -1125,11 +1378,16 @@ config_kernel() {
 		kcmds+=( systemd.log_level=debug )
 	fi
 
+	kcmds+=( earlycon )
 	kcmds+=( earlyprintk=serial )
 	kcmds+=( net.ifnames=0 )
-	kcmds+=( selinux=0 audit=0 nokaslr )
-	case ${arch} in
+	kcmds+=( selinux=0 )
+	kcmds+=( audit=0 )
+	kcmds+=( nokaslr )
+
+	case ${ARCH} in
 	aarch64)
+		# see commit 26e8c4697445 ("qemu-vm.sh: aarch64: use console=ttyAMA0")
 		kcmds+=( console=ttyAMA0 )
 		;;
 	*)
@@ -1179,9 +1437,15 @@ config_kernel() {
 
 __disk_file_type() {
 	local file=$1
-	local type=$(ftype ${file})
-	[[ ${type} != qcow2 ]] && type=raw
-	echo ${type}
+	local ft=$(ftype ${file})
+	if [[ -z ${ft} ]] && [[ ${dry_run} ]]; then
+		ft=${file##*.}
+	fi
+	if [[ -z ${ft} ]]; then
+		ft=raw
+		warning "Treat ${file} as ${ft}"
+	fi
+	echo ${ft}
 }
 
 add_virtio_disk() {
@@ -1222,7 +1486,12 @@ add_nvdimm_blk() {
 	f_img=${1}
 	qmachine+=( nvdimm=on )
 
-	size=$(stat --format=%s ${f_img})
+	if [[ ${dry_run} ]]; then
+		# fake 10G
+		size=$(( 10 * 1024 * 1024 * 1024 ))
+	else
+		size=$(stat --format=%s ${f_img})
+	fi
 	skip_resize() {
 		if [[ ${size} -lt $((1024*1024*1024)) ]]; then
 			size=$((1024*1024*1024))
@@ -1266,7 +1535,7 @@ config_nvdimm() {
 	local nvdimm
 	for nvdimm in ${f_nvdimms[@]}
 	do
-		check_file_exist_and_exit ${nvdimm}
+		check_files_exist_and_exit ${nvdimm}
 		add_nvdimm_blk $(realpath ${nvdimm})
 	done
 }
@@ -1276,8 +1545,7 @@ next_pxb_cxl_id() {
 }
 
 # bus_nr=11,21,31,41,...
-__pxb_cxl_bus_nr_file=$(mktemp -u)
-cleanup_files+=( ${__pxb_cxl_bus_nr_file} )
+declare __pxb_cxl_bus_nr_file
 next_cxl_pxb_bus_nr() {
 	local num=11
 	if [[ -f ${__pxb_cxl_bus_nr_file} ]]; then
@@ -1291,8 +1559,7 @@ next_cxl_rp_id() {
 	echo $(mktemp -u cxl.rp.XXXX)
 }
 
-__cxl_slot_file=$(mktemp -u)
-cleanup_files+=( ${__cxl_slot_file} )
+declare __cxl_slot_file
 next_cxl_slot() {
 	local num=1
 	if [[ -f ${__cxl_slot_file} ]]; then
@@ -1356,14 +1623,15 @@ add_cxl_pxb() {
 	return 0
 }
 
-# root port
+# create a cxl root port
 # $1: bus (cxl pxb id)
 # $2: id, root port id, maybe generated by next_cxl_rp_id()
 # $3: port
-add_cxl_rp() {
+add_cxl_root_port() {
 	local bus=$1
 	local id=$2
 	local port=$3
+
 	local arg
 
 	arg+=( cxl-rp )
@@ -1481,12 +1749,14 @@ add_cxl_switch() {
 # --pmem <name>: set pmem name
 # --vmem <name>: set vmem name
 # --bus <name>: set bus
-# --lsa <name>: set lsa, skip if SKIP
+# --lsa <name>: set lsa, skip if 'SKIP'
+# --dynamic-capacity,--dc: enable Dynamic Capacity
 add_cxl_type3_dev() {
 	local arg tmparg
 	local pmem vmem name
 	local bus lsa
 	local size
+	local enable_dc
 
 	local TEMP=$(getopt \
 		--options t: \
@@ -1495,6 +1765,7 @@ add_cxl_type3_dev() {
 		--long bus: \
 		--long lsa: \
 		--long size: \
+		--long dynamic-capacity --long dc \
 		-n $0 -- "$@")
 
 	test $? != 0 && error "$0 parse arguments failed, ${@}"
@@ -1532,6 +1803,10 @@ add_cxl_type3_dev() {
 			fi
 			shift
 			;;
+		--dynamic-capacity | --dc)
+			enable_dc=ON
+			shift
+			;;
 		--)
 			shift
 			break
@@ -1557,13 +1832,24 @@ add_cxl_type3_dev() {
 	arg+=( bus=${bus} )
 
 	if [[ ${pmem} ]]; then
+		# persistent memory size cxl_pmem_size[] set in arguments first,
+		# if use CXL_DEVICES[], cxl_pmem_size[] will be empty, so, we
+		# just set it here.
 		if [[ -z ${lsa} ]] || [[ ${lsa} == SKIP ]]; then
 			error "lsa property must be set for persistent devices"
 		fi
 
+		if [[ ! -z ${cxl_pmem_size[$pmem]} ]]; then
+			if [[ $(sizeceilfmt ${size}) != $(sizeceilfmt ${cxl_pmem_size[$pmem]}) ]]; then
+				error "pmem set different size ${size} and ${cxl_pmem_size[$pmem]}"
+			fi
+		else
+			cxl_pmem_size[$pmem]=${size}
+		fi
+
 		arg+=( persistent-memdev=${pmem} )
 
-		local pmem_file=${PWD}/${pmem}.raw
+		local pmem_file=${vm_tmpdir}/${pmem}.raw
 		_eval qemu-img create -f raw ${pmem_file} ${size}
 		cleanup_files+=( ${pmem_file} )
 
@@ -1579,15 +1865,33 @@ add_cxl_type3_dev() {
 	fi
 
 	if [[ ${vmem} ]]; then
+		# volatile memory size cxl_vmem_size[] set in arguments first,
+		# if use CXL_DEVICES[], cxl_vmem_size[] will be empty, so, we
+		# just set it here.
+		if [[ ! -z ${cxl_vmem_size[$vmem]} ]]; then
+			if [[ $(sizeceilfmt ${size}) != $(sizeceilfmt ${cxl_vmem_size[$vmem]}) ]]; then
+				error "vmem set different size ${size} and ${cxl_vmem_size[$vmem]}"
+			fi
+		else
+			cxl_vmem_size[$vmem]=${size}
+		fi
+
 		name=${vmem}
 		qargs+=( -object memory-backend-ram,id=${vmem},share=on,size=${size} )
-		arg+=( volatile-memdev=${vmem} )
+
+		if [[ ${enable_dc} ]]; then
+			# commit 427db24ccb54 ("qemu-vm.sh: cxl: add volatile-dc-memdev support")
+			arg+=( volatile-dc-memdev=${vmem} )
+			arg+=( num-dc-regions=2 )
+		else
+			arg+=( volatile-memdev=${vmem} )
+		fi
 	fi
 
 	if [[ ${lsa} ]] && [[ ${lsa} != SKIP ]]; then
 		arg+=( lsa=${lsa} )
 
-		local lsa_file=${PWD}/${lsa}.raw
+		local lsa_file=${vm_tmpdir}/${lsa}.raw
 		_eval qemu-img create -f raw ${lsa_file} ${size}
 		cleanup_files+=( ${lsa_file} )
 
@@ -1619,7 +1923,7 @@ add_cxl_type3_dev() {
 		fi
 		cxl_switch_down2pvmem[${bus}]+=" ${type3_id}"
 	else
-		error "add cxl type3 device to non exist rootport or switch"
+		error "add cxl type3 device '${name}' to non exist rootport or switch"
 	fi
 
 	arg+=( id=${type3_id} )
@@ -1639,20 +1943,19 @@ __cxl_pmem_ways() {
 	min_memory_required $((${ways} + 1))G
 
 	local pxb_id1=$(next_pxb_cxl_id)
-	local pxb_id2=$(next_pxb_cxl_id)
 
 	add_cxl_pxb ${pxb_id1}
-	add_cxl_pxb ${pxb_id2}
 
 	for ((i = 1; i <= ${ways}; i++))
 	do
 		local tmparg
 		local rp_id=$(next_cxl_rp_id)
 
-		add_cxl_rp ${pxb_id1} ${rp_id} ${i}
+		add_cxl_root_port ${pxb_id1} ${rp_id} ${i}
 
 		# Or could add it to CXL switch
-		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=${rp_id} --lsa=cxl-lsa${i}
+		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=${rp_id} \
+			--lsa=cxl-pmem-lsa${i}
 	done
 }
 
@@ -1672,25 +1975,34 @@ cxl_pmem_4way_switch() {
 
 	add_cxl_pxb ${pxb_id}
 
-	add_cxl_rp ${pxb_id} ${rp_id1} 0
-	add_cxl_rp ${pxb_id} ${rp_id2} 1
+	add_cxl_root_port ${pxb_id} ${rp_id1} 0
+	add_cxl_root_port ${pxb_id} ${rp_id2} 1
 
 	add_cxl_switch --bus=${rp_id1} --nport=4 --port-prefix=swport
 
 	for i in $(seq 1 1 4)
 	do
-		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=swport.${i} --lsa=cxl-lsa${i}
+		add_cxl_type3_dev --pmem=$(next_cxl_pmem_id) --bus=swport.${i} \
+			--lsa=cxl-pmem-lsa${i}
 	done
 }
 
+# usage: <ways> [lsa|dc]
 __cxl_volatile_mem_lsa() {
 	local ways=${1}
-	local lsa=${2}
-	local LSA
+	local arg
+	local LSA DC
 
-	if [[ ${lsa} == lsa ]]; then
-		LSA="--lsa=cxl-lsa0"
-	fi
+	for arg in ${@}; do
+		case ${arg} in
+		lsa)
+			LSA=ON
+			;;
+		dc)
+			DC="--dynamic-capacity"
+			;;
+		esac
+	done
 
 	local pxb_id=$(next_pxb_cxl_id)
 
@@ -1700,9 +2012,10 @@ __cxl_volatile_mem_lsa() {
 	do
 		local rp_id=$(next_cxl_rp_id)
 
-		add_cxl_rp ${pxb_id} ${rp_id} ${i}
+		add_cxl_root_port ${pxb_id} ${rp_id} ${i}
 
-		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id} ${LSA}
+		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=${rp_id} \
+			${LSA:+--lsa cxl-vmem-lsa${i}} ${DC}
 	done
 }
 
@@ -1710,30 +2023,64 @@ cxl_volatile_mem() {
 	__cxl_volatile_mem_lsa 1
 }
 
+cxl_volatile_mem_dc() {
+	__cxl_volatile_mem_lsa 1 dc
+}
+
 cxl_volatile_mem_lsa() {
 	__cxl_volatile_mem_lsa 1 lsa
+}
+
+cxl_volatile_mem_lsa_dc() {
+	__cxl_volatile_mem_lsa 1 lsa dc
 }
 
 cxl_volatile_mem_4way() {
 	__cxl_volatile_mem_lsa 4
 }
 
-cxl_volatile_mem_4way_switch() {
+cxl_volatile_mem_4way_dc() {
+	__cxl_volatile_mem_lsa 4 lsa dc
+}
+
+__cxl_volatile_mem_4way_switch() {
 	local pxb_id=$(next_pxb_cxl_id)
 	local rp_id1=$(next_cxl_rp_id)
 	local rp_id2=$(next_cxl_rp_id)
+	local arg
+	local DC LSA
+
+	for arg in ${@}; do
+		case ${arg} in
+		lsa)
+			LSA=ON
+			;;
+		dc)
+			DC="--dynamic-capacity"
+			;;
+		esac
+	done
 
 	add_cxl_pxb ${pxb_id}
 
-	add_cxl_rp ${pxb_id} ${rp_id1} 0
-	add_cxl_rp ${pxb_id} ${rp_id2} 1
+	add_cxl_root_port ${pxb_id} ${rp_id1} 0
+	add_cxl_root_port ${pxb_id} ${rp_id2} 1
 
 	add_cxl_switch --bus=${rp_id1} --nport=4 --port-prefix swport
 
 	for i in $(seq 1 1 4)
 	do
-		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=swport.${i}
+		add_cxl_type3_dev --vmem=$(next_cxl_vmem_id) --bus=swport.${i} \
+			${LSA:+--lsa cxl-vmem-lsa${i}} ${DC}
 	done
+}
+
+cxl_volatile_mem_4way_switch() {
+	__cxl_volatile_mem_4way_switch
+}
+
+cxl_volatile_mem_4way_switch_dc() {
+	__cxl_volatile_mem_4way_switch dc
 }
 
 pcxltopo() {
@@ -1824,11 +2171,28 @@ cxl_topolopy() {
 config_cxl() {
 	local i j k
 
+	__pxb_cxl_bus_nr_file="${vm_tmpdir}/pxb-cxl-bus-nr.txt"
+	__cxl_slot_file="${vm_tmpdir}/cxl-slot.txt"
+
+	cleanup_files+=( ${__pxb_cxl_bus_nr_file} )
+	cleanup_files+=( ${__cxl_slot_file} )
+
 	if [[ -z "${cxl_device}${cxl_pxb_ids}" ]]; then
 		return 0
 	fi
 
-	qmachine+=( cxl=on )
+	# FIXME: only x86_64 q35 support cxl now
+	case ${ARCH} in
+	aarch64)
+		warning "cxl: not support ${ARCH} yet! Please check your qemu version."
+		return 0
+		;;
+	*)
+		qmachine+=( cxl=on )
+		;;
+	esac
+
+	qmachine+=( nvdimm=on )
 
 	# Create CXL PXB
 	for i in ${cxl_pxb_ids[@]}
@@ -1839,7 +2203,7 @@ config_cxl() {
 	# Create CXL RootPort
 	for ((i = 0; i < ${#cxl_rp_ids[@]}; i++))
 	do
-		add_cxl_rp ${cxl_rp_buss[i]} ${cxl_rp_ids[i]} \
+		add_cxl_root_port ${cxl_rp_buss[i]} ${cxl_rp_ids[i]} \
 			   ${cxl_rp_ports[i]}
 	done
 
@@ -1865,7 +2229,8 @@ config_cxl() {
 		add_cxl_type3_dev --vmem=${vmem} \
 			--bus=${cxl_vmem_bus[$vmem]} \
 			--lsa=${cxl_vmem_lsa[$vmem]} \
-			--size=${cxl_vmem_size[$vmem]}
+			--size=${cxl_vmem_size[$vmem]} \
+			${cxl_vmem_dc[$vmem]:+--dynamic-capacity}
 	done
 
 	case ${cxl_device} in
@@ -1881,14 +2246,26 @@ config_cxl() {
 	${CXL_DEV_VMEM})
 		cxl_volatile_mem
 		;;
+	${CXL_DEV_VMEM_DC})
+		cxl_volatile_mem_dc
+		;;
 	${CXL_DEV_VMEM_LSA})
 		cxl_volatile_mem_lsa
+		;;
+	${CXL_DEV_VMEM_LSA_DC})
+		cxl_volatile_mem_lsa_dc
 		;;
 	${CXL_DEV_VMEM_4WAY})
 		cxl_volatile_mem_4way
 		;;
+	${CXL_DEV_VMEM_4WAY_DC})
+		cxl_volatile_mem_4way_dc
+		;;
 	${CXL_DEV_VMEM_4WAY_SWITCH})
 		cxl_volatile_mem_4way_switch
+		;;
+	${CXL_DEV_VMEM_4WAY_SWITCH_DC})
+		cxl_volatile_mem_4way_switch_dc
 		;;
 	esac
 
@@ -1929,14 +2306,251 @@ config_virtiofs() {
 		error "Must specify --virtio-fs-sock and --virtio-fs-tag at the same time"
 	fi
 
+	if [[ ${#f_virtiofs_sock[@]} -ne ${#q_virtiofs_tag[@]} ]]; then
+		error "Number of --virtio-fs-sock must equal to --virtio-fs-tag"
+	fi
+
 	# ref: https://qemu-stsquad.readthedocs.io/en/doc-updates/tools/virtiofsd.html
-	qargs+=(-chardev socket,id=char0,path=${f_virtiofs_sock}
-		-device vhost-user-fs-pci,chardev=char0,bus=${BUS_PCIE0},tag=${q_virtiofs_tag}
-		-object memory-backend-memfd,id=mem,size=${q_memory},share=on
-		-numa node,memdev=mem )
+	local i
+	for ((i = 0; i < ${#f_virtiofs_sock[@]}; i++))
+	do
+		qargs+=( -chardev socket,id=char${i},path=${f_virtiofs_sock[i]}
+			-device vhost-user-fs-pci,chardev=char${i},bus=${BUS_PCIE0},tag=${q_virtiofs_tag[i]} )
+	done
 }
 
+################################################################################
+# Main
+
+# Handle subcommand first
+case ${1} in
+list)
+	shift
+	list_vm "${@}"
+	exit 0
+	;;
+destroy)
+	shift
+	if [[ -z ${1} ]]; then
+		error "'destroy' need pass virtual name, check with '${PROG} list'"
+	fi
+	kill_vm "${@}"
+	shift
+	exit 0
+	;;
+-*)
+	;;
+*)
+	error "Unknown subcommand '${1}'"
+	;;
+esac
+
+set_qemu_kvm $(get_qemu_kvm_emulator)
+
+TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDvV \
+	--long name: \
+	--long cpu: \
+	--long memory: \
+	--long uefi: \
+	--long kernel: \
+	--long kcmd: \
+	--long initrd: \
+	--long rdinit: \
+	--long rootfs: \
+	--long init: \
+	--long root: \
+	--long disk: \
+	--long nvdimm: \
+	--long stdio \
+	--long daemon \
+	--long cxl: \
+	--long virtio-fs-sock: \
+	--long virtio-fs-tag: \
+	--long dry-run \
+	--long qemu: \
+	--long qarg: \
+	--long gdb \
+	--long debug \
+	--long verbose \
+	--long version \
+	--long help \
+	--name ${PROG} -- "$@")
+
+test $? != 0 && __usage__ 1
+
+eval set -- "$TEMP_ARGS"
+
+while true; do
+	case $1 in
+	-n | --name)
+		shift
+		q_vm_name=$1
+		shift
+		;;
+	--cpu)
+		shift
+		handle_cpu_arg ${1}
+		shift
+		;;
+	-m | --memory)
+		shift
+		q_memory=$(sizeceilfmt $1)
+		if [[ -z ${q_memory} ]]; then
+			error "Bad memory size parameter $1(${q_memory})"
+		fi
+		if [[ $(sizechkalign ${q_memory} 256MiB) != y ]]; then
+			error "Memory size must align 256MiB"
+		fi
+		shift
+		;;
+	--uefi)
+		shift
+		handle_uefi_arg ${1}
+		shift
+		;;
+	-k | --kernel)
+		shift
+		f_kernel=$1
+		shift
+		;;
+	--kcmd)
+		shift
+		kcmds+=( $1 )
+		shift
+		;;
+	-i | --initrd)
+		shift
+		f_initrd=$1
+		shift
+		;;
+	-r | --rootfs)
+		shift
+		handle_rootfs_arg ${1}
+		shift
+		;;
+	--rdinit)
+		shift
+		k_rdinit=$1
+		shift
+		;;
+	--init)
+		shift
+		k_init=$1
+		shift
+		;;
+	--root)
+		shift
+		k_root=$1
+		shift
+		;;
+	-d | --disk)
+		shift
+		handle_disk_arg ${1}
+		shift
+		;;
+	--nvdimm)
+		shift
+		f_nvdimms+=( $1 )
+		shift
+		;;
+	--cxl)
+		shift
+		handle_cxl_arg ${1}
+		shift
+		;;
+	--virtio-fs-sock)
+		shift
+		f_virtiofs_sock+=( $1 )
+		shift
+		;;
+	--virtio-fs-tag)
+		shift
+		q_virtiofs_tag+=( $1 )
+		shift
+		;;
+	--stdio)
+		shift
+		q_stdio=ON
+		;;
+	--daemon)
+		shift
+		q_daemon=ON
+		;;
+	-Q | --qemu)
+		shift
+		set_qemu_kvm $1
+		shift
+		;;
+	--qarg)
+		shift
+		qargs+=( "${1}" )
+		shift
+		;;
+	--gdb)
+		shift
+		q_gdb=ON
+		;;
+	-h | --help)
+		shift
+		__usage__
+		;;
+	-u | --dry-run)
+		shift
+		dry_run=ON
+		;;
+	-v | --verbose)
+		shift
+		verbose=ON
+		;;
+	-V | --version)
+		shift
+		echo "${0} ${VERSION}"
+		exit 0
+		;;
+	-D | --debug)
+		shift
+		debug=ON
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+if [[ ${f_kernel} ]]; then
+	check_files_exist_and_exit ${f_kernel}
+	[[ -e ${f_kernel} ]] && f_kernel=$(realpath ${f_kernel})
+fi
+
+if [[ ${f_initrd} ]]; then
+	check_files_exist_and_exit ${f_initrd}
+	[[ -e ${f_initrd} ]] && f_initrd=$(realpath ${f_initrd})
+fi
+
+if [[ ${f_rootfs} ]]; then
+	check_files_exist_and_exit ${f_rootfs}
+	check_qemu_format_and_exit ${f_rootfs}
+	[[ -e ${f_rootfs} ]] && f_rootfs=$(realpath ${f_rootfs})
+fi
+
+check_files_exist_and_exit ${f_virtiofs_sock[@]}
+
+if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]] && [[ -z ${f_disks} ]]; then
+	error "must specify kernel and initrd, or specify one disk at least"
+fi
+
+if [[ ${verbose} ]]; then
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
+fi
+
+trap cleanup EXIT
+
+config_prepare_vm_tmpdir ${q_vm_name}
+config_vm_tmpdir
 config_basic
+config_bmc
 config_memory
 config_cpu
 config_uefi
@@ -1952,4 +2566,4 @@ config_virtiofs
 qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
-_eval ${QEMU_KVM} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}
+_eval ${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}

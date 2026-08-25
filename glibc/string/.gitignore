@@ -1,12 +1,16 @@
+/bcmp
 /bcopy
+/bzero
 /index
 /memchr
+/memccpy
 /memcpy
 /memcpy-stress
 /__memcpy_*-stress
 /memset
 /memset-stress
 /memmove
+/mempcpy
 /stpcpy
 /strcat
 /strchr

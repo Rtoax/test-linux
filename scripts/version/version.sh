@@ -1,47 +1,54 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2026 Rong Tao
+# Copyright (C) 2026 Rong Tao. All rights reserved.
+#
+# Env in config.json
+# @ARCH@: cpu architecture
+#
 set -e
 
-readonly ROOTDIR=$(dirname $(realpath $0))
-source ${ROOTDIR}/../liblog.sh
-readonly CONFIG=${ROOTDIR}/config.json
+readonly VERSION_DIR=$(dirname $(realpath $0))
+readonly CONFIG=${VERSION_DIR}/config.json
+
+source ${VERSION_DIR}/../liblog.sh
 
 if ! which jq 1>/dev/null 2>/dev/null; then
-	error "Not found command jq, please install jq"
+	error "Not found command 'jq', please install first"
+else
+	JQ=jq
 fi
+
 
 # If symlink, just run actual command.
 readonly symlink=$(basename $0)
 if [[ ${symlink} != version.sh ]]; then
-	${ROOTDIR}/version.sh -n ${symlink%.*} -V -- ${@}
+	${VERSION_DIR}/version.sh -n ${symlink%.*} -V -- ${@}
 	exit 0
 fi
 
-name=
-check=
+declare name check
 
-show_list=
-show_keys=
+declare show_list
+declare show_keys
 declare -a show_k2n # key to name
 declare -a show_e2n # extension to name
-show_exts=
-show_version=
+declare show_exts
+declare show_version
 
 declare -a version_parser_args
 
-readonly common_vlens=( $(jq -r '.common.version.length[]' ${CONFIG}) )
-readonly common_vargs=( $(jq -r '.common.version.command.argument[]' ${CONFIG}) )
-readonly common_vsep=$(jq -r '.common.version.format.seperator' ${CONFIG})
-readonly common_major=$(jq -r '.common.version.format.major' ${CONFIG})
-readonly common_minor=$(jq -r '.common.version.format.minor' ${CONFIG})
-readonly common_patch=$(jq -r '.common.version.format.patch' ${CONFIG})
+readonly common_vlens=( $(${JQ} -r '.common.version.length[]' ${CONFIG}) )
+readonly common_vargs=( $(${JQ} -r '.common.version.command.argument[]' ${CONFIG}) )
+readonly common_vsep=$(${JQ} -r '.common.version.format.seperator' ${CONFIG})
+readonly common_major=$(${JQ} -r '.common.version.format.major' ${CONFIG})
+readonly common_minor=$(${JQ} -r '.common.version.format.minor' ${CONFIG})
+readonly common_patch=$(${JQ} -r '.common.version.format.patch' ${CONFIG})
 
-readonly softwares=( $(jq -r '.software' ${CONFIG}  | jq -r 'keys[]') )
+readonly softwares=( $(${JQ} -r '.software' ${CONFIG}  | ${JQ} -r 'keys[]') )
 
 getswname() {
 	local sw=$1
-	local _name=$(jq -r --arg s "${sw}" '.software[$s].name' ${CONFIG} 2>/dev/null)
+	local _name=$(${JQ} -r --arg s "${sw}" '.software[$s].name' ${CONFIG} 2>/dev/null)
 	if [[ ${_name} == null ]]; then
 		warning "not found name for ${sw}, use ${sw} directly"
 		_name=${sw}
@@ -56,19 +63,19 @@ getswname() {
 
 getswpaths() {
 	local sw=$1
-	jq -r --arg s "${sw}" '.software[$s].path[]' ${CONFIG} 2>/dev/null || true
+	${JQ} -r --arg s "${sw}" '.software[$s].path[]' ${CONFIG} 2>/dev/null || true
 }
 
 getswsep() {
 	local sw=$1
-	local sep=$(jq -r --arg s "${sw}" '.software[$s].version.format.seperator' ${CONFIG} 2>/dev/null || true)
+	local sep=$(${JQ} -r --arg s "${sw}" '.software[$s].version.format.seperator' ${CONFIG} 2>/dev/null || true)
 	[[ -z ${sep} || ${sep} == null ]] && sep=${common_vsep}
 	echo ${sep}
 }
 
 getswcmds() {
 	local sw=$1
-	local orig_cmds=( $(jq -r --arg s "${sw}" '.software[$s].command[]' ${CONFIG} 2>/dev/null) )
+	local orig_cmds=( $(${JQ} -r --arg s "${sw}" '.software[$s].command[]' ${CONFIG} 2>/dev/null) )
 	if [[ ${#orig_cmds[@]} -lt 1 ]]; then
 		orig_cmds=( ${sw} )
 	fi
@@ -88,15 +95,15 @@ getswcmds() {
 
 getswlibs() {
 	local sw=$1
-	jq -r --arg s "${sw}" '.software[$s].library[]' ${CONFIG} 2>/dev/null || true
+	${JQ} -r --arg s "${sw}" '.software[$s].library[]' ${CONFIG} 2>/dev/null || true
 }
 
 getversion() {
 	local sw=$1
 	local cmd lib version
 
-	local vargs=( $(jq -r --arg s "${sw}" '.software[$s].version.command.argument[]' ${CONFIG} 2>/dev/null || true) )
-	local vlens=( $(jq -r --arg s "${sw}" '.software[$s].version.length[]' ${CONFIG} 2>/dev/null || true) )
+	local vargs=( $(${JQ} -r --arg s "${sw}" '.software[$s].version.command.argument[]' ${CONFIG} 2>/dev/null || true) )
+	local vlens=( $(${JQ} -r --arg s "${sw}" '.software[$s].version.length[]' ${CONFIG} 2>/dev/null || true) )
 	local vsep=$(getswsep ${sw})
 
 	[[ ${#vargs} -eq 0 ]] && vargs=( ${common_vargs[@]} )
@@ -139,6 +146,7 @@ getversion() {
 		echo ${@} | sed "s|@ARCH@|$(uname -m)|g"
 	}
 
+	# 1. Find version from commands
 	local cmds=( $(getswcmds ${sw}) )
 	for cmd in ${cmds[@]};
 	do
@@ -150,12 +158,33 @@ getversion() {
 		local arg
 		for arg in ${vargs[@]};
 		do
+			# Note: '$()' allow command return none zero value.
 			version_filter "$( ${cmd} ${arg} 2>&1 )"
 			[[ ${version} ]] && break
 		done # argument
 		[[ ${version} ]] && break
 	done # command
 
+	# 2. Find version from packages
+	if [[ -z ${version} ]]; then
+		local deb rpm
+		local debs=( $(${JQ} -r --arg s "${sw}" '.software[$s].package.deb[]' ${CONFIG} 2>/dev/null) )
+		for deb in ${debs[@]}
+		do
+			version_filter "$(dpkg-query -W -f='${Version}\n' ${deb} 2>/dev/null)"
+			[[ ${version} ]] && break
+		done
+		if [[ -z ${version} ]]; then
+			local rpms=( $(${JQ} -r --arg s "${sw}" '.software[$s].package.rpm[]' ${CONFIG} 2>/dev/null) )
+			for rpm in ${rpms[@]}
+			do
+				version_filter "$(rpm -q --queryformat='%{VERSION}-%{release}\n' ${rpm} 2>/dev/null)"
+				[[ ${version} ]] && break
+			done
+		fi
+	fi
+
+	# 3. Find version from libraries
 	if [[ -z ${version} ]]; then
 		local libs=( $(getswlibs ${sw}) )
 		for lib in ${libs[@]};
@@ -165,6 +194,8 @@ getversion() {
 		done # library
 	fi
 
+	# 4. Find version from path(symlink)
+	# such as: cuda is symlink of cuda-13.0
 	if [[ -z ${version} ]]; then
 		local paths=( $(getswpaths ${sw}) )
 		local path
@@ -176,24 +207,6 @@ getversion() {
 		done
 	fi
 
-	if [[ -z ${version} ]]; then
-		local deb rpm
-		local debs=( $(jq -r --arg s "${sw}" '.software[$s].package.deb[]' ${CONFIG} 2>/dev/null) )
-		for deb in ${debs[@]}
-		do
-			version_filter "$(dpkg-query -W -f='${Version}\n' ${deb} 2>/dev/null)"
-			[[ ${version} ]] && break
-		done
-		if [[ -z ${version} ]]; then
-			local rpms=( $(jq -r --arg s "${sw}" '.software[$s].package.rpm[]' ${CONFIG} 2>/dev/null) )
-			for rpm in ${rpms[@]}
-			do
-				version_filter "$(rpm -q --queryformat='%{VERSION}-%{release}\n' ${rpm} 2>/dev/null)"
-				[[ ${version} ]] && break
-			done
-		fi
-	fi
-
 	#echo "${sw}: ${cmds[@]}, ${vargs[@]}, ${vlens[@]}, ${vsep[@]}, ${version}"
 	echo ${version}
 }
@@ -201,10 +214,10 @@ getversion() {
 check_one() {
 	local sw=$1
 	local versionfromjson=( $(getversion ${sw}) )
-	if [[ -e ${ROOTDIR}/${sw}.sh ]]; then
-		local versionfromsh=( $(${ROOTDIR}/${sw}.sh) )
+	if [[ -e ${VERSION_DIR}/${sw}.sh ]]; then
+		local versionfromsh=( $(${VERSION_DIR}/${sw}.sh) )
 	else
-		local versionfromsh=( $(${ROOTDIR}/version.sh -n ${sw} -V) )
+		local versionfromsh=( $(${VERSION_DIR}/version.sh -n ${sw} -V) )
 	fi
 
 	if [[ "${versionfromjson[@]}" != "${versionfromsh[@]}" ]]; then
@@ -223,7 +236,7 @@ check_all() {
 
 extension_one() {
 	local sw=$1
-	local exts=( $(jq -r --arg s "${sw}" '.software[$s].extension[]' ${CONFIG} 2>/dev/null) )
+	local exts=( $(${JQ} -r --arg s "${sw}" '.software[$s].extension[]' ${CONFIG} 2>/dev/null) )
 	if [[ ${exts} == null ]]; then
 		warning "not found extensions for ${sw}, skipping"
 	fi
@@ -232,7 +245,7 @@ extension_one() {
 
 key_one() {
 	local sw=$1
-	local keys=( $(jq -r --arg s "${sw}" '.software[$s].keys[]' ${CONFIG} 2>/dev/null) )
+	local keys=( $(${JQ} -r --arg s "${sw}" '.software[$s].keys[]' ${CONFIG} 2>/dev/null) )
 	if [[ ${keys} == null ]]; then
 		warning "not found keys for ${sw}, skipping"
 	fi
@@ -253,9 +266,9 @@ version_format_parser() {
 	local sw=$1
 	shift
 
-	local major=$(jq -r --arg s "${sw}" '.software[$s].version.format.major' ${CONFIG} 2>/dev/null)
-	local minor=$(jq -r --arg s "${sw}" '.software[$s].version.format.minor' ${CONFIG} 2>/dev/null)
-	local patch=$(jq -r --arg s "${sw}" '.software[$s].version.format.patch' ${CONFIG} 2>/dev/null)
+	local major=$(${JQ} -r --arg s "${sw}" '.software[$s].version.format.major' ${CONFIG} 2>/dev/null)
+	local minor=$(${JQ} -r --arg s "${sw}" '.software[$s].version.format.minor' ${CONFIG} 2>/dev/null)
+	local patch=$(${JQ} -r --arg s "${sw}" '.software[$s].version.format.patch' ${CONFIG} 2>/dev/null)
 
 	[[ -z ${major} || ${major} == null ]] && major=${common_major}
 	[[ -z ${minor} || ${minor} == null ]] && minor=${common_minor}
@@ -448,7 +461,7 @@ fi
 
 key2name() {
 	local key=$1
-	jq -r --arg t "${key}" \
+	${JQ} -r --arg t "${key}" \
 		'.software | to_entries[] | select(.value.keys | index($t)) | .key' ${CONFIG}
 }
 
@@ -472,7 +485,7 @@ fi
 
 ext2name() {
 	local ext=$1
-	jq -r --arg t "${ext}" \
+	${JQ} -r --arg t "${ext}" \
 		'.software | to_entries[] | select(.value.extension | index($t)) | .key' ${CONFIG}
 }
 

@@ -1,2 +1,0 @@
-- VBR: Variable Bitrate (可变码率)
-- VPU: Video Processing Unit (视频处理单元)

@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Output definitions:
+# - USE_GNU_LIBC=[y|n]
 # - GLIBC_VERSION=
 # - LIBC_SO_PATH=
 #
@@ -16,6 +17,12 @@ _GLIBC_MK = 1
 include dir.mk
 include ldconfig.mk
 include version.mk
+
+ifeq ($(shell ldd --version 2>&1 | grep -owi -e gnu -e glibc),)
+  export USE_GNU_LIBC := n
+else
+
+export USE_GNU_LIBC := y
 
 glibcversh = ${TOPDIR}/scripts/version/glibc.sh
 
@@ -52,6 +59,7 @@ $(shell readelf --syms --wide ${LIBC_SO_PATH} \
 endef
 
 ifdef DEBUG
+  $(info USE_GNU_LIBC = ${USE_GNU_LIBC})
   $(info GLIBC_VERSION = ${GLIBC_VERSION})
   $(info GLIBC_MAJOR = ${GLIBC_MAJOR})
   $(info GLIBC_MINOR = ${GLIBC_MINOR})
@@ -62,4 +70,5 @@ endif
 export GLIBC_VERSION GLIBC_MAJOR GLIBC_MINOR
 export LIBC_SO_PATH
 
-endif
+endif # end of USE_GNU_LIBC
+endif # end of _GLIBC_MK

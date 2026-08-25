@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2022-2026 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao. All rights reserved.
+#
+# Input definitions:
+# - __IN_KMOD__ defined in scripts/make_tl.sh
+#
 ifndef _MAIN_MK
 _MAIN_MK = 1
 
@@ -106,28 +110,26 @@ endif
 
 .PHONY: build
 build: $(build-targets)
-	$(call log_warn,Building $(call strip_topdir_prefix,$(shell realpath .)))
-	$(call log_obj,BUILD DONE,$(call strip_topdir_prefix,$(shell realpath .)))
+	@$(call log_obj,BUILD DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: clean
 clean: $(subdir-y-clean) $(target-clean-y)
-	$(call log_warn,Cleaning $(call strip_topdir_prefix,$(shell realpath .)))
-	$(call log_tgt,CLEAN,${build-targets} ${target-clean-y})
+	@$(call log_tgt,CLEAN,${build-targets} ${target-clean-y})
 	${Q}rm -rf ${build-targets}
 	${Q}rm -f *.o *.o.d
 	${Q}rm -f *.log *.out *.class
 	${Q}rm -f *.so *.so.* *.a
 	${Q}rm -f *.dat *.bin
-	$(call log_obj,CLEAN DONE,$(call strip_topdir_prefix,$(shell realpath .)))
+	@$(call log_obj,CLEAN DONE,$(call strip_topdir_prefix,$(shell realpath .)))
 
 .PHONY: reset
 reset:
-	$(call log_warn,Reset)
+	$(call log_success,Reset)
 	$(call log_reset)
 
 .PHONY: done
 done:
-	$(call log_warn,Done)
+	$(call log_success,Done)
 	$(call log_display_failed)
 
 # All helpers, only include targets/helpers.mk if helpers.mk was included.
@@ -153,7 +155,6 @@ $(if $(python-y), $(eval include targets/python.mk))
 $(if $(target-go-y), $(eval include targets/golang.mk))
 $(if $(target-java-y), $(eval include targets/java.mk))
 ifeq (${KMOD}, y)
-  # __IN_KMOD__ defined in scripts/make_tl.sh
   $(if ${__IN_KMOD__}, $(eval include targets/kmod.mk))
 endif
 $(if $(subdir-y), $(eval include targets/subdir-footer.mk))

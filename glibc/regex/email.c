@@ -5,8 +5,9 @@
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 const char *emails[] = {
-	"123456789@qq.com",	//success
-	"###270401@163.com",	//error
+	"123456789@qq.com",	// success
+	"rtoax@foxmail.com",	// success
+	"###270401@163.com",	// failed
 };
 
 int main(void)
@@ -24,9 +25,9 @@ int main(void)
 		const char *buf = emails[ie];
 		status = regexec(&reg, buf, nmatch, pmatch, 0);
 		if (status == REG_NOMATCH) {
-			printf("no match\n");
+			printf("'%s': no match\n", buf);
 		} else if (status == 0) {
-			printf("match success\n");
+			printf("'%s': match success\n", buf);
 			for (i = pmatch[0].rm_so; i < pmatch[0].rm_eo; i++) {
 				putchar(buf[i]);
 			}

@@ -3,14 +3,14 @@ Abbrev
 
 - ABI: Application Binary Interface (应用程序二进制接口) @API
 - API: Application Programming Interface (应用程序接口) @ABI
-- CLA: Contributor License Agreement () @DCO
-- CLI: Command Line Interface (命令行接口)
 - CD: Continuous Delivery (持续交付) @CDF
 - CDF: Continuous Delivery Foundation (持续交付基金会) @CD
 - CI: Continuous Integration (持续集成)
-- DCO: Developer Certificate of Origin () @CLA
+- CLA: Contributor License Agreement () @DCO
+- CLI: Command Line Interface (命令行接口)
 - COSE: Common Open Software Environment (通用开源软件环境)
 - CRG: Computer Research Group (计算机研究组)
+- DCO: Developer Certificate of Origin () @CLA
 - DSO: Dynamic Shared Object (动态共享目标)
 - EEMBC: EDN Embedded Microprocessor Benchmark Consortium (嵌入式微处理器基准协会)
 - FOSS: Free and Open Source Software (自由开源软件)
@@ -18,7 +18,9 @@ Abbrev
 - gABI: Generic ABI (通用ABI) @ABI
 - HII: Human Interface Infrastructure (人机界面基础设施)
 - IEC: International Electrotechnical Commission (国际电工委员会)
+- IIUC: If I understand correctly (如果我理解的没错)
 - IMA: Integrity Measurement Architecture (完整性测量架构)
+- IMHO: In My Humble Opinion (依本人愚见)
 - IOPS: Input/Output operations Per Second (IO 操作数每秒)
 - KRR: Kernel Record and Replay (内核记录重演)
 - KSPP: Kernel Self-Protection Project ()
@@ -43,7 +45,7 @@ Abbrev
 - SMT: Satisfiability Modulo Theories (基于模理论的可满足性)
 - SOAT: State Of The Art (技术水平)
 - STL: Standard Template Library (标准模板库，C++模板库)
-- Tex: () @LaTeX
+- Tex: Tex () @LaTeX
 - TOC: The Technical Oversight Committee (技术监督委员会)
 - UI: UNIX International (UNIX国际)
 - USG: UNIX System Group (Unix系统组)

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. ../../../driver/pcie/libpcie.sh
+. ../../../scripts/libpcie.sh
 
 # Format, Number-Name-Slot:
 # GPU#0  X710-M  0002:04:00.0

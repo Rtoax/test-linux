@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2025-2026 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao. All rights reserved. */
 /**
  * Refs:
  * - https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html

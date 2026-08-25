@@ -1,5 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2026 Rong Tao
+# Copyright (C) 2026 Rong Tao. All rights reserved.
+#
+# Input definitions:
+# RUNPROG_ARGS=[...]
 #
 # Output definitions:
 # - RUNPROG=[/path/to/runprog.sh [args...]]
@@ -13,6 +16,7 @@ RUNPROG := ${TOPDIR}/scripts/runprog.sh
 
 $(if ${DEBUG}, $(eval RUNPROG += --verbose))
 $(if ${TMOUT}, $(eval RUNPROG += --timeout ${TMOUT}))
+RUNPROG += ${RUNPROG_ARGS}
 
 $(if ${DEBUG}, $(info RUNPROG = ${RUNPROG}))
 

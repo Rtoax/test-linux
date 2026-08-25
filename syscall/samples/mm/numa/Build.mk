@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2024-2026 Rong Tao
+# Copyright (C) 2024-2026 Rong Tao. All rights reserved.
 include numactl.mk
 
 target-${HAVE_LIBNUMA} += mbind
@@ -11,7 +11,7 @@ mbind-objs := numa_helpers.o
 move_pages-objs := numa_helpers.o
 get_mempolicy-objs := numa_helpers.o
 
-CFLAGS += -pthread
+LDFLAGS += -pthread
 LDFLAGS += -lnuma
 
 CFLAGS_mbind := -DALLOC_WITH_MMAP=1

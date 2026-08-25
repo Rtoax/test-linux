@@ -1,0 +1,8 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	let $s1 : string[1024];
+	// Assertion `module_.getDataLayout().getTypeAllocSize(ty) <= 256' failed.
+	$s1 = "hello";
+}

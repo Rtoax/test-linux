@@ -1,17 +1,20 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-/* Copyright (C) 2026 Rong Tao */
+/* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #pragma once
 #include <math.h>
 #include <sys/time.h>
 #include <time.h>
 #include "config.h"
+#include "axis.h"
 
 struct value {
 	double v;
 	double log_v; /* = sign(v) * log(1 + |v|) */
 	double log10_v; /* = sign(v) * log10(1 + |v|) */
 	double exp_v; /* = exp(v) */
-	struct timeval tv;
+
+	union x_axis_value x_v;
+
 	struct value *next;
 };
 

@@ -43,6 +43,7 @@ static volatile sig_atomic_t exiting = false;
 
 void sig_handler(int signum)
 {
+	read_trace_pipe_stop();
 	exiting = true;
 }
 
@@ -100,6 +101,8 @@ int main(void)
 
 	printf("Tracing execve(2) syscall, and kill 'top' command.\n");
 
+	read_trace_pipe_start();
+
 	while (!exiting) {
 		err = perf_buffer__poll(pb, 100 /* timeout, ms */);
 		/* Ctrl-C gives -EINTR */
@@ -112,6 +115,8 @@ int main(void)
 			break;
 		}
 	}
+
+	read_trace_pipe_wait();
 
 	printf("Exiting....\n");
 	print_stack(bpf_map__fd(skel->maps.stackmap), ksyms);

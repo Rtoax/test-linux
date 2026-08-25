@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 ifndef _EMOJI_MK
 _EMOJI_MK = 1
+
+include unicode/face-emojis.mk
 
 EMOJI_CLOCK := 🕘
 EMOJI_MOONS := 🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘 🌑
@@ -35,13 +37,21 @@ EMOJI_FIRE := 🔥
 
 EMOJI_POINT_RIGHT := 👉
 EMOJI_STAR := 🌟
+EMOJI_STAR2 := ⭐
+EMOJI_THUNDER := ⚡️
+
+EMOJI_LAUGH := ${U1F603}
+EMOJI_SAD := ${U1F615}
+EMOJI_CRY := ${U1F62D}
+EMOJI_ANGRY := ${U1F621}
 
 ifdef DEBUG
   $(info EMOJI ${EMOJI_MOONS}${EMOJI_LOCK}${EMOJI_UNLOCK}${EMOJI_KEY} \
          ${EMOJI_WARNING}${EMOJI_CHECK}${EMOJI_CROSS}${EMOJI_AIRPLANE} \
          ${EMOJI_HEART}${EMOJI_FIRE}${EMOJI_PENDING}${EMOJI_ROBOT} \
          ${EMOJI_COMPUTER}${EMOJI_LOOP}${EMOJI_BOY}${EMOJI_CLOCK} \
-	 ${EMOJI_POINT_RIGHT}${EMOJI_STAR})
+	 ${EMOJI_POINT_RIGHT}${EMOJI_STAR}${EMOJI_STAR2}${EMOJI_THUNDER} \
+	 ${EMOJI_LAUGH}${EMOJI_SAD}${EMOJI_CRY}${EMOJI_ANGRY})
 endif
 
 endif
