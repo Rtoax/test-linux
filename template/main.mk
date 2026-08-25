@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (C) 2022-2026 Rong Tao
+#
+# Input definitions:
+# - __IN_KMOD__ defined in scripts/make_tl.sh
+#
 ifndef _MAIN_MK
 _MAIN_MK = 1
 
@@ -153,7 +157,6 @@ $(if $(python-y), $(eval include targets/python.mk))
 $(if $(target-go-y), $(eval include targets/golang.mk))
 $(if $(target-java-y), $(eval include targets/java.mk))
 ifeq (${KMOD}, y)
-  # __IN_KMOD__ defined in scripts/make_tl.sh
   $(if ${__IN_KMOD__}, $(eval include targets/kmod.mk))
 endif
 $(if $(subdir-y), $(eval include targets/subdir-footer.mk))
