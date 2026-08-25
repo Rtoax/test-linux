@@ -53,5 +53,8 @@ sudo cxl disable-region region0
 # Destroy region0
 #
 # Write:
-# - 0 to /sys/bus/cxl/devices/root0/decoder0.0/region0/commit
+# - 0         to /sys/bus/cxl/devices/root0/decoder0.0/region0/commit
+# - ""        to /sys/bus/cxl/devices/root0/decoder0.0/region0/target0
+# - 0         to /sys/bus/cxl/devices/root0/port1/endpoint2/decoder2.0/dpa_size
+# - "region0" to /sys/bus/cxl/devices/root0/decoder0.0/delete_region
 sudo cxl destroy-region region0
