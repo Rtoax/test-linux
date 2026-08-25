@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2021-2026 Rong Tao */
+/* Copyright (C) 2021-2026 Rong Tao. All rights reserved. */
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>

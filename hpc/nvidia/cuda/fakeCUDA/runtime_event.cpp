@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2025-2026 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao. All rights reserved. */
 #include <sys/types.h>
 #include <string.h>
 #include <malloc.h>

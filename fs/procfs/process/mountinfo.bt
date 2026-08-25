@@ -2,7 +2,7 @@
 /**
  * mountinfo.bt - /proc/PID/mountinfo
  *
- * Copyright (C) 2022-2026 Rong Tao
+ * Copyright (C) 2022-2026 Rong Tao. All rights reserved.
  *
  * 2024-03-15	Rong Tao	Create this.
  */

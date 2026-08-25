@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2026 Rong Tao
+# Copyright (C) 2026 Rong Tao. All rights reserved.
 #
 # Build debian/ubuntu like operate system's rootfs with dnf/rpm package manager.
 #

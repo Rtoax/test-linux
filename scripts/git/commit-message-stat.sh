@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2026 Rong Tao
+# Copyright (C) 2026 Rong Tao. All rights reserved.
 #
 # Usage: commit-message-stat.sh [downer-commit] [upper-commit]
 set -e

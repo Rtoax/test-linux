@@ -1,6 +1,6 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2022-2026 Rong Tao
+# Copyright (C) 2022-2026 Rong Tao. All rights reserved.
 # This script use to install packages on Debian/RHEL like operate system.
 #
 # This script is part of test-linux [1], of course, you could run this script

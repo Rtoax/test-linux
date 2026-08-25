@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2025-2026 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao. All rights reserved. */
 /**
  * cudaMallocHost():
  * When you need to perform frequent data transfers, where data transfer

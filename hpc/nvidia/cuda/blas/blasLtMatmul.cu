@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2025-2026 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao. All rights reserved. */
 #include <stdio.h>
 #include <cuda_runtime.h>
 #include <cublas_v2.h>

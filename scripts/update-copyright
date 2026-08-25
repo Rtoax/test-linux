@@ -1,7 +1,7 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0
 #
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Usage: update-copyright [FILE...]
 #
@@ -12,6 +12,7 @@ readonly UPDATE_COPYRIGHT_ROOT=$(dirname $(realpath $0))
 . ${UPDATE_COPYRIGHT_ROOT}/liblog.sh
 
 AUTHOR='Rong Tao'
+readonly RIGHTS="All rights reserved"
 declare -a FILES
 THISYEAR=$(date +%Y)
 
@@ -55,12 +56,20 @@ replace_copyright() {
 	local old="$2"
 	local new="$3"
 
+	if [[ -z "$(grep "${old}\. ${RIGHTS}\." $file)" ]]; then
+		new+=". ${RIGHTS}"
+		if [[ -z "$(grep "${old}\." $file)" ]]; then
+			new+="."
+		fi
+	fi
+
 	if [[ "${new}" == "${old}" ]]; then
 		backlog "Skipping ${file}"
 		return 0
 	fi
 
 	echo "Handle $file: '${old}' -> '${new}'"
+
 	sed -i 's/'"$old"'/'"$new"'/g' $file
 }
 
@@ -124,6 +133,7 @@ for f in ${FILES[@]}
 do
 	[[ -L ${f} ]] && continue
 	[[ ${f:0:6} == ./.git ]] && continue
+	[[ "${f}" == *"Documentation/conf.py"* ]] && continue
 
 	__replace() {
 		if [[ "${old}" ]]; then

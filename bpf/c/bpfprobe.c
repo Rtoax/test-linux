@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2023-2026 Rong Tao */
+/* Copyright (C) 2023-2026 Rong Tao. All rights reserved. */
 #include <argp.h>
 #include <stdio.h>
 #include <stdbool.h>

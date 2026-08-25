@@ -1,7 +1,7 @@
 #!/bin/bash
 # osnoise tracing
 #
-# Copyright (C) 2023-2026 Rong Tao.
+# Copyright (C) 2023-2026 Rong Tao. All rights reserved.
 #
 # 2023-05-30	Rong Tao	Create this.
 #

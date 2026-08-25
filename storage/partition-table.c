@@ -1,7 +1,7 @@
 /**
  * Read and parse block information
  *
- * Copyright (C) 2023-2026 Rong Tao
+ * Copyright (C) 2023-2026 Rong Tao. All rights reserved.
  *
  * table:
  * - MBR: master boot record

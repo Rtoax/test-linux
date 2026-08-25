@@ -2,7 +2,7 @@
 /**
  * tcg-tb.bt - Tracing Translation Block alloc/remove/insert/lookup
  *
- * Copyright (C) 2022-2026 Rong Tao
+ * Copyright (C) 2022-2026 Rong Tao. All rights reserved.
  *
  * 2024-05-14	Rong Tao	Create this.
  */

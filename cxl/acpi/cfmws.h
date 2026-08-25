@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-// Copyright (C) 2025-2026 Rong Tao
+// Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 /**
  * CXL Fixed Memory Window Structure (CFMWS)
  * CXL 3.0 Specification, Section 9.17.1.3, Table 9-22.

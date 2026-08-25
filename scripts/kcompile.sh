@@ -6,7 +6,7 @@
 # - https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
 # - https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf
 #
-# Copyright (C) 2024-2026 Rong Tao
+# Copyright (C) 2024-2026 Rong Tao. All rights reserved.
 #
 set -e
 

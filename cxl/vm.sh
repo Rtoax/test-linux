@@ -6,7 +6,7 @@
 #   DEP=1: install depends first.
 #   GDB=1: enable gdb.
 #
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Refs:
 # - https://github.com/pmem/run_qemu

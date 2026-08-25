@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2026 Rong Tao */
+/* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #ifndef __CUDA_KERNEL_MISC_H
 #define __CUDA_KERNEL_MISC_H 1
 

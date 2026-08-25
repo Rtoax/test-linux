@@ -1,5 +1,5 @@
 #!/bin/env bpftrace
-// Copyright (C) 2022-2026 Rong Tao
+// Copyright (C) 2022-2026 Rong Tao. All rights reserved.
 /**
  * fork.bt - Tracing fork(2), vfork(2)
  *

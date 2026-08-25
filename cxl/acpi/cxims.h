@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-// Copyright (C) 2026 Rong Tao
+// Copyright (C) 2026 Rong Tao. All rights reserved.
 /**
  * CXL XOR Interleave Math Structure (CXIMS)
  * CXL 3.0 Specification, Section 9.17.1.4, Table 9-23.

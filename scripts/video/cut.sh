@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 set -e
 
 prog=$0

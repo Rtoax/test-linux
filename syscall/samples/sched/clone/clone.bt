@@ -2,7 +2,7 @@
 /**
  * clone.bt - Tracing clone(2), clone3(2) latency
  *
- * Copyright (C) 2024-2026 Rong Tao
+ * Copyright (C) 2024-2026 Rong Tao. All rights reserved.
  *
  * 2024-09-05	Rong Tao	Create this.
  */

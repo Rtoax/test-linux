@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2024-2026 Rong Tao
+# Copyright (C) 2024-2026 Rong Tao. All rights reserved.
 #
 # Usage:
 # $ [VC=1] [{FORCE|FC}=1] [NM=n] [NA=n] [ND=n] [NR=n] git commit ...

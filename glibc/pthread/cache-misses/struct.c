@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2023-2026 Rong Tao. */
+/* Copyright (C) 2023-2026 Rong Tao. All rights reserved. */
 /**
  * cache-misses.c - Test the program efficiency problems caused by the
  * influence of data structures on cache misses.

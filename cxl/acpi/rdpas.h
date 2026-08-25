@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-// Copyright (C) 2026 Rong Tao
+// Copyright (C) 2026 Rong Tao. All rights reserved.
 /**
  * RCEC Downstream Port Association Structure (RDPAS)
  * CXL 3.0 Specification, Section 9.17.1.5, Table 9-24.

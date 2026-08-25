@@ -2,7 +2,7 @@
 /**
  * register_virtio_device.bt
  *
- * Copyright (C) 2022-2026 Rong Tao
+ * Copyright (C) 2022-2026 Rong Tao. All rights reserved.
  */
 #include <linux/virtio.h>
 

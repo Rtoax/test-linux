@@ -1,7 +1,7 @@
 #!/bin/bash
 # Running a program, this script be called in template.
 #
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Usage: runprog.sh [options] -- execution [args...]
 #

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (C) 2025-2026 Rong Tao
+# Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 ifndef _TARGET_SUBDIR_FOOTER_MK
 _TARGET_SUBDIR_FOOTER_MK = 1
 

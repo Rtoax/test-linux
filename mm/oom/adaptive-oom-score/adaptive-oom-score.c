@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2025-2026 Rong Tao */
+/* Copyright (C) 2025-2026 Rong Tao. All rights reserved. */
 /**
  * This tool can dynamically decide or adjust which process OOM-Killer kills
  * based on the actual memory application of the process, instead of selecting

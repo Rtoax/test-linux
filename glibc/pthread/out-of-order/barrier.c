@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-/* Copyright (C) 2023-2026 Rong Tao */
+/* Copyright (C) 2023-2026 Rong Tao. All rights reserved. */
 /**
  * Prove that the CPU executes out of order and use memory barriers to
  * eliminate the impact of out of order execution.
