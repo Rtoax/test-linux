@@ -58,8 +58,8 @@ const char argp_prog_doc[] = ANSI_BOLD
 	"   by default, for example:\n"
 	"\n"
 	"   " ANSI_GRAY "# Draw opened file number\n" ANSI_RST ANSI_GREEN
-	"   $ while sleep .5; do\n"
-	"	awk '{print $1}' /proc/sys/fs/file-nr\n"
+	"   $ while awk '{print $1}' /proc/sys/fs/file-nr; do\n"
+	"        sleep 0.5\n"
 	"     done | plotcake --title 'Opened File Number' -l 'opened'\n" ANSI_RST
 	"\n"
 	"   " ANSI_GRAY "# Draw one line\n" ANSI_RST ANSI_GREEN
