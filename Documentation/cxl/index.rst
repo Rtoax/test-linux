@@ -20,7 +20,7 @@ CXL Software
 .. toctree::
    :maxdepth: 1
 
-   fm
+   fabric-manager
    qemu
    software
 

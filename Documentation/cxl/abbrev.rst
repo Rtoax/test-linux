@@ -24,6 +24,7 @@ CXL Abbrev
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
 - FM: Fabric Manager (Fabric 管理器) @MCTP
 - ISP: Interleave set position (交错set位置)
+- JBOM: Just a Bunch of Memory (一大堆内存)
 - LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
 - MC: Memory Controller (内存控制器)
