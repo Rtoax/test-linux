@@ -26,6 +26,7 @@ and this project adheres to
 - scripts: add libos.sh, librun.sh;
 - qemu-vm.sh: cxl: add volatile-dc-memdev support;
 #### Changed
+- procfs: rename directory from `process` to `self`;
 - copyright add `All rights reserved.` suffix;
 - ndctl: cxl: add subdir persistent, volatile;
 #### Deprecated

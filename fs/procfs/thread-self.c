@@ -1,1 +1,1 @@
-self.c
+self/self.c

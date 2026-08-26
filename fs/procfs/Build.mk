@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0
 include helpers.mk
 
-subdir-y += process
 subdir-y += kallsyms
 subdir-y += kcore
 subdir-y += modules
 subdir-y += net
+subdir-y += self
 subdir-y += sys
 subdir-y += sysrq-trigger
 
-target-y += self thread-self
+target-y += thread-self
 target-y += stat
 target-y += uptime
 
@@ -19,5 +19,4 @@ prog-y += mounts.sh
 prog-y += stat.sh
 prog-y += version.sh
 
-self-objs := ${PROC_HELPERS}
 thread-self-objs := ${PROC_HELPERS}
