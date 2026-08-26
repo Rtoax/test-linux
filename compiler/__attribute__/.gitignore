@@ -18,6 +18,7 @@
 /noinline
 /no_instrument_function
 /nonnull
+/nonstring
 /noplt
 /noplt-plt
 /noreturn

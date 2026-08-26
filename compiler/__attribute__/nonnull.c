@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 #define __my_nonnull1__ __attribute__((nonnull))
 #define __my_nonnull2__(params) __attribute__((__nonnull__ params))
 #define __my_nonnull3__(params) __attribute__((nonnull params))
@@ -33,4 +32,3 @@ int main(void)
 
 	return 0;
 }
-

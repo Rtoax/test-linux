@@ -22,6 +22,7 @@ target-y += __noclone__
 target-y += noinline
 target-y += no_instrument_function
 target-y += nonnull
+target-y += nonstring
 target-y += noplt noplt-plt
 target-y += noreturn
 target-y += optimize
