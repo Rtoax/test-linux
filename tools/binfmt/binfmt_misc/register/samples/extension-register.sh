@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-MISC=/proc/sys/fs/binfmt_misc/
+MISC=/proc/sys/fs/binfmt_misc
 NAME=python-extension
 
 register() {
