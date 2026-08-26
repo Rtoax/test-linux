@@ -1,5 +1,5 @@
-FM API - Fabric Manager Application Programming Interface
-=========================================================
+FM - Fabric Manager
+===================
 
 The **Fabric Manager** is an entity separate from the Switch or Host firmware that controls aspects of the system related to binding and management of pooled ports and devices.
 
@@ -9,6 +9,23 @@ CXL devices can be configured statically or dynamically via a Fabric Manager (FM
 - embedded software running on a `BMC`;
 - embedded firmware running on another CXL device or CXL switch;
 - a state machine running within the CXL device itself;
+
+
+CCI - Component Command Interface
+---------------------------------
+
+Two types:
+
+- Mailbox CCI – presented through memory registers
+- MCTP-based CCI – presented as an MCTP EP
+
+
+Command Set Categories
+----------------------
+
+- (0000h – 3FFFh) General Device Opcodes
+- (4000h – BFFFh) Class-specific Opcodes
+- (C000h – FFFFh) Vendor-specific Opcodes
 
 
 Links
