@@ -36,8 +36,8 @@ Links
 《沐曦异构并行计算软件栈》
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- 在线文档： https://m.zhangyue.com/readbook/13155075/4.html
-- 示例代码： https://gitee.com/Inkstoneydz/mxmaca-training-series-for-uestc
+- 在线文档: https://m.zhangyue.com/readbook/13155075/4.html
+- 示例代码: https://gitee.com/Inkstoneydz/mxmaca-training-series-for-uestc
 
 大语言模型
 ~~~~~~~~~~

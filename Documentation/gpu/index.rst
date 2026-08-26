@@ -21,6 +21,7 @@ Vendor
    metax/index
    nvidia/index
    opencl
+   tecorigin/index
 
 
 Msic
