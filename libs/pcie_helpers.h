@@ -24,6 +24,8 @@ struct pci_cs_hdr_common {
 	uint8_t header_type;
 	uint8_t bist;
 } __attribute__((packed));
+_Static_assert(sizeof(struct pci_cs_hdr_common) == 16,
+	       "Bad Type 0/1 Common Configuration Space size");
 
 /**
  * PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.2. Type 0 Configuration Space Header
@@ -43,8 +45,11 @@ struct pci_cs_hdr_type0 {
 	uint8_t min_gnt;
 	uint8_t max_lat;
 } __attribute__((packed));
+_Static_assert(sizeof(struct pci_cs_hdr_type0) == 64,
+	       "Bad Type 0 Configuration Space Header size");
 
-/**PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.3. Type 1 Configuration Space Header
+/**
+ * PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.3. Type 1 Configuration Space Header
  */
 struct pci_cs_hdr_type1 {
 	struct pci_cs_hdr_common common;
@@ -72,6 +77,8 @@ struct pci_cs_hdr_type1 {
 	uint8_t irq_pin;
 	uint16_t bridge_control;
 } __attribute__((packed));
+_Static_assert(sizeof(struct pci_cs_hdr_type1) == 64,
+	       "Bad Type 1 Configuration Space Header size");
 
 /**
  * Configuration space

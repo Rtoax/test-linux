@@ -113,6 +113,8 @@ void pci_cs_print_type0(struct pci_cs_hdr_type0 *t)
 		return;
 	}
 
+	printf("Type 0 Configuration Space Header\n");
+
 	pci_cs_print_common((void *)t);
 
 	for (i = 0; i < 6; i++)
@@ -138,6 +140,8 @@ void pci_cs_print_type1(struct pci_cs_hdr_type1 *t)
 			"WARNING: Not found pcie type0 header, skipping.\n");
 		return;
 	}
+
+	printf("Type 1 Configuration Space Header\n");
 
 	pci_cs_print_common((void *)t);
 
