@@ -2,9 +2,11 @@ Abbrev
 ======
 
 - AI: Artificial Intelligence (人工智能)
+- BERT: Bidirectional Encoder Representations from Transformers (来自Transformer的双向编码器表示)
 - CNN/CNNs/ConvNets: Convolutional Neural Networks (卷积神经网络)
 - DNN: Deep Neural Network (深度神经网络)
 - EP: Execution Provider (执行提供者) @PD
+- GPT: the Generative Pretrained Transformer (生成式预训练 Transformer)
 - Grid: Grid (线程网格)
 - KVCache: Key-Value Cache (键值缓存) @QKV
 - LLM: Large Language Model (大语言模型)
