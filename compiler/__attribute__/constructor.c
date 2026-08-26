@@ -1,13 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-
 /**
  * Note: attribute constructor and destructor is works in both dynamic and
  * static libraries.
  *
  * Execute procedure: _start() -> ctors -> main() -> dtors
  */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
 
 #define debug() do { \
 		printf("[%s:%s %d]\n", __FILE__, __func__, __LINE__); \
@@ -16,7 +16,7 @@
 void sig_handler(int signo)
 {
 	printf("Catch signal.\n");
-	exit(1);
+	exit(0);
 }
 
 void __attribute__((constructor)) before(void)
@@ -51,9 +51,10 @@ int main(void)
 
 	debug();
 	raise(SIGINT);
+
 	/**
 	 * The dtor still running after main
 	 */
-	exit(1);
+	exit(0);
 	return 0;
 }

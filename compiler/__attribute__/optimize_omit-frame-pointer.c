@@ -8,5 +8,6 @@ _omit_frame_pointer int foo(void)
 
 int main(void)
 {
-	return foo();
+	foo();
+	return 0;
 }

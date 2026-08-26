@@ -43,7 +43,7 @@ target-y += weak
 target-bpf-${HAVE_CLANG} += preserve_access_index.bpf.o
 target-bpf-${HAVE_CLANG} += btf_decl_tag.bpf.o
 
-prog-y += aligned
+prog-y += $(filter-out __naked__ noplt noplt-plt section-initcall, ${target-y})
 
 ifeq ($(feature-fcf-protection),y)
   CFLAGS_nocf_check := -fcf-protection

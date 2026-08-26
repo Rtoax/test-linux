@@ -8,5 +8,6 @@ _OPTIMIZE_O0 int foo(void)
 
 int main(void)
 {
-	return foo();
+	foo();
+	return 0;
 }
