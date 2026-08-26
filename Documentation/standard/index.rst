@@ -14,5 +14,10 @@ Standard
    rfc/index
    svr/index
    dmtf/index
-   pxe
    float-point/index
+
+
+Links
+-----
+
+- GitHub: https://github.com/Tvirus/ebook

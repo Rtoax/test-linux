@@ -30,6 +30,7 @@ Bootloader
    pxelinux
    syslinux
    lilo
+   pxe
    u-boot
 
 
