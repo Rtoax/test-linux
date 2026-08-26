@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include "offsetof.h"
 #include "container_of.h"
 #include "align.h"
@@ -89,4 +88,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-

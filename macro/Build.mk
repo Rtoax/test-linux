@@ -4,8 +4,6 @@ include cross-compile.mk
 include compiler.mk
 include os.mk
 
-target-y += align
-target-y += alias
 target-y += arch
 target-y += arg
 target-y += bit

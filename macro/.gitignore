@@ -30,8 +30,6 @@
 /__powerpc64__
 /__x86_64__
 /__s390x__
-/alias
-/align
 /arch
 /arg
 /bit

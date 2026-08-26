@@ -4,6 +4,7 @@ include compiler.mk
 
 target-y += access
 target-y += alias
+target-y += aligned
 target-y += always_inline
 target-y += cleanup
 target-y += const
@@ -41,6 +42,8 @@ target-y += weak
 
 target-bpf-${HAVE_CLANG} += preserve_access_index.bpf.o
 target-bpf-${HAVE_CLANG} += btf_decl_tag.bpf.o
+
+prog-y += aligned
 
 ifeq ($(feature-fcf-protection),y)
   CFLAGS_nocf_check := -fcf-protection

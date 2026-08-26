@@ -5,6 +5,7 @@
  * - or use -fpack-struct=1
  */
 #include <stdio.h>
+#include "aligned.h"
 
 #define CHK(st, sz) _Static_assert(sizeof(struct st) == sz, #st)
 #define PNT(st) printf("size of struct %-8s is %ld\n", #st, sizeof(struct st))
@@ -30,7 +31,7 @@ struct s1 {
 #pragma pack()
 CHK(s1, 9);
 
-struct __attribute__((packed)) s2 {
+struct __packed s2 {
 	int i1;
 	char c;
 	int i2;
@@ -41,7 +42,7 @@ CHK(s2, 9);
  * attribute before 'struct' is not useful, and GCC do not complain, CLANG does.
  */
 #if !defined(__clang__)
-__attribute__((packed, aligned(1))) struct s2_1 {
+__packed_aligned(1) struct s2_1 {
 	int i1;
 	char c;
 	int i2;
@@ -53,49 +54,49 @@ struct s3 {
 	int i1;
 	char c;
 	int i2;
-} __attribute__((packed));
+} __packed;
 CHK(s3, 9);
 
 struct s4 {
 	int i1;
 	char c;
 	int i2;
-} __attribute__((packed, aligned(1)));
+} __packed_aligned(1);
 CHK(s4, 9);
 
 struct s4_1 {
 	int i1;
 	char c;
 	int i2;
-} __attribute__((packed, aligned(2)));
+} __packed_aligned(2);
 CHK(s4_1, 10);
 
 struct s4_2 {
 	int i1;
 	char c;
 	int i2;
-} __attribute__((packed, aligned(4)));
+} __packed_aligned(4);
 CHK(s4_2, 12);
 
 struct s5 {
 	int i1;
 	char c;
 	int i2;
-} __attribute__((aligned(1)));
+} __aligned(1);
 CHK(s5, 12);
 
 struct s5_1 {
 	int i1;
 	char c;
 	int i2;
-} __attribute__((aligned(4)));
+} __aligned(4);
 CHK(s5_1, 12);
 
 struct s6 {
 	int i1;
 	char c;
 	int i2;
-} __attribute__((packed)) __attribute__((aligned(1)));
+} __packed __aligned(1);
 CHK(s6, 9);
 
 struct s {
