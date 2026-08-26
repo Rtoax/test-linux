@@ -2,6 +2,7 @@
 include clang.mk
 include compiler.mk
 
+target-y += access
 target-y += alias
 target-y += always_inline
 target-y += cleanup
