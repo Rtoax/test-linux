@@ -27,7 +27,7 @@ MCTP Protocol Support
    * - NVM Express
      - Management Messages
      - ❌
-   * - CXL (Fabric Manager, Type 3 DCCI)
+   * - CXL (:doc:`../../cxl/fabric-manager`, Type 3 DCCI)
      - ✅
      - ❌
    * - Platform Level Data Model
@@ -57,12 +57,6 @@ MCTP Protocol Support
    * - MMBI (incl. PCIe)
      - ❌
      - ✅
-
-
-Applications
-------------
-
-- :doc:`../../cxl/fabric-manager`
 
 
 Links
