@@ -1,2 +1,2 @@
-subdir-y += pci
+subdir-y += .pci
 subdir-y += platform
