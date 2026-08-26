@@ -2,7 +2,6 @@
 include helpers.mk
 
 subdir-y += process
-subdir-y += procps-ng
 subdir-y += kallsyms
 subdir-y += kcore
 subdir-y += modules

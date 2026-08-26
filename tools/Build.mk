@@ -49,6 +49,7 @@ subdir-y += pahole
 subdir-y += perf
 subdir-${HAVE_PODMAN} += podman
 subdir-y += printk
+subdir-y += procps-ng
 subdir-y += psmisc
 subdir-y += readline
 subdir-y += redis

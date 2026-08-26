@@ -42,6 +42,7 @@ and this project adheres to
 #### Scripts
 - libpcie.sh: move to scripts;
 #### Tools
+- procps-ng: move into tools;
 - util-linux: add libuuid subdir;
 - add skopeo, printk, fontconfig, kbd;
 #### Template
