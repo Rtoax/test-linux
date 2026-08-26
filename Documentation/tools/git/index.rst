@@ -1,5 +1,12 @@
+===
 Git
 ===
+
+.. toctree::
+   :maxdepth: 1
+
+   lfs
+
 
 Links
 -----

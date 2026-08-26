@@ -73,6 +73,7 @@ Operating System
 
    Linux Distributions <distro/index>
    bsd/index
+   coreos/index
    darwin/index
 
 

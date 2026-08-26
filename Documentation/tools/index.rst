@@ -20,7 +20,7 @@ User Space
    dkms
    flamegraph
    fontconfig
-   git
+   git/index
    kbd
    libcap-ng
    libguestfs
