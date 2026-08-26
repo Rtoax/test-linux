@@ -1,5 +1,5 @@
 {
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -469,6 +469,13 @@
 			"command": [ "llvm-config", "llvm-objdump" ],
 			"extension": [ "ll", "bc" ],
 			"keys": [ "llvm" ]
+		},
+		"lorax": {
+			"name": "Lorax",
+			"version": {
+				"length": [ 2 ]
+			},
+			"keys": [ "lorax" ]
 		},
 		"lsof": {
 			"name": "Lsof",

@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- lorax: first commit;
 - sysfs: add module subdir;
 - cxl: inject: add debugfs and cxl subdir;
 - debugfs: add cxl subdir for `/sys/kernel/debug/cxl/`;
@@ -48,7 +49,7 @@ and this project adheres to
 - cxl.mk: rename `HAVE_CXL_DEVICES` to `HAVE_CXL_DEVICE`;
 - add sanitizer.mk, util-linux.mk, unicode/face-emojis.mk;
 - file.mk: add fexist() function;
-- add systemd/udev.mk, terminal.mk;
+- add systemd/udev.mk, terminal.mk, lorax.mk;
 
 
 ## [v2.4.11] Phenomenal 2026-08-13

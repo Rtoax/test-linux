@@ -53,6 +53,7 @@ Build System
    dnf
    koji
    linuxkit
+   lorax
    rpm
    vagrant
 
