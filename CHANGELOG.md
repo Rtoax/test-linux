@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- mindspore: first commit;
 - lorax: first commit;
 - sysfs: add module subdir;
 - cxl: inject: add debugfs and cxl subdir;

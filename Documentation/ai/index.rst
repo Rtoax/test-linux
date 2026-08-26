@@ -8,6 +8,7 @@ AI (Artificial Intelligence)
    abbrev
    aiops
    keras
+   mindspore
    mnist
    os
    paddle
