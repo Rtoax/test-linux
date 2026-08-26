@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 static int i; /* .bss */
-static int big_arr[4096 * 1024];
+static int big_arr1[4096 * 1024]; /* .bss */
+int big_arr2[4096 * 1024]; /* .bss */
 
 int *foo(void)
 {
@@ -15,6 +16,6 @@ int main(void)
 {
 	int *p = foo();
 	(void)p;
-	(void)big_arr;
+	(void)big_arr1;
 	return 0;
 }

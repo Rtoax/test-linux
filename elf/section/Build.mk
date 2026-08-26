@@ -1,1 +1,2 @@
-target-y := bss
+target-y += bss
+target-y += data
