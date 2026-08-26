@@ -111,9 +111,21 @@ docs_check() {
 }
 
 # see also scripts/broken-symlinks.sh
-broken_symlinks=( $(find ${GIT_TOPDIR} -xtype l) )
-if [[ ${#broken_symlinks[@]} -ge 1 ]]; then
-	fatal "Broken-symlink: ${broken_symlinks[@]}"
+ALL_BROKEN_SYMLINKS=( $(find ${GIT_TOPDIR} -xtype l) )
+GIT_BROKEN_SYMLINKS=()
+for link in ${ALL_BROKEN_SYMLINKS[@]}
+do
+	# If the symlink not belongs to this git-repo, or the symlink file is
+	# ignored, just skip it.
+	if [[ -z "$(git ls-files ${link})" ]] ||
+	   [[ -u "$(git check-ignore ${link})" ]]; then
+		continue
+	fi
+	GIT_BROKEN_SYMLINKS+=( ${link} )
+done
+if [[ ${#GIT_BROKEN_SYMLINKS[@]} -ge 1 ]]; then
+	fatal "Broken-symlink: ${GIT_BROKEN_SYMLINKS[@]}"
+	# Exit any way, no force
 	exit 1
 fi
 
