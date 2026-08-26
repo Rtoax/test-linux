@@ -952,13 +952,16 @@ list_vm() {
 	local pidfiles=( $(find ${TMPDIR} -name '*.pid' 2>/dev/null) )
 	local id=0
 	local list_port
+	local LIST_VM_ARGS
 
-	local LIST_VM_ARGS=$(getopt --options ph \
+	LIST_VM_ARGS=$(getopt --options ph \
 		--long port \
 		--long help \
 		--name list-vm -- "$@")
-
-	test $? != 0 && __usage_list_vm__ 1
+	local status=$?
+	if [[ ${status} -ne 0 ]]; then
+		__usage_list_vm__ 1
+	fi
 
 	eval set -- "$LIST_VM_ARGS"
 
@@ -1676,15 +1679,18 @@ add_cxl_switch() {
 	local i
 	local bus nport portprefix
 	local dsarg # downstream arguments
+	local TEMP
 
-	local TEMP=$(getopt \
+	TEMP=$(getopt \
 		--options B: \
 		--long bus: \
 		--long nport: \
 		--long port-prefix: \
 		-n $0 -- "$@")
-
-	test $? != 0 && error "$0 parse arguments failed, ${@}"
+	local status=$?
+	if [[ ${status} -ne 0 ]]; then
+		error "$0 parse arguments failed, ${@}"
+	fi
 
 	eval set -- "$TEMP"
 
@@ -1757,8 +1763,9 @@ add_cxl_type3_dev() {
 	local bus lsa
 	local size
 	local enable_dc
+	local TEMP
 
-	local TEMP=$(getopt \
+	TEMP=$(getopt \
 		--options t: \
 		--long pmem: \
 		--long vmem: \
@@ -1767,8 +1774,11 @@ add_cxl_type3_dev() {
 		--long size: \
 		--long dynamic-capacity --long dc \
 		-n $0 -- "$@")
+	local status=$?
 
-	test $? != 0 && error "$0 parse arguments failed, ${@}"
+	if [[ ${status} -ne 0 ]]; then
+		error "$0 parse arguments failed, ${@}"
+	fi
 
 	eval set -- "$TEMP"
 

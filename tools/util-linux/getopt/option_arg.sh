@@ -1,17 +1,13 @@
 #!/bin/bash
 set -e
 
-# return: -- '1.1.1'
-getopt --options n:h --long name --long help -- -- 1.1.1
-# return: '1.1.1' --
-getopt --long name --long help -- -- 1.1.1
-
 option_arg() {
 	declare -a positional
+	local OPTS
 
 	# -v[V]: could not have any spaces
 	# --verbose[=V]: must use '='
-	local OPTS=$(getopt --options v:: --long verbose:: -n option_arg -- "${@}")
+	OPTS=$(getopt --options v:: --long verbose:: -n option_arg -- "${@}")
 	if [[ $? -ne 0 ]]; then
 		echo >%2 "ERROR: getopt failed, \"${@}\""
 		exit 1
@@ -43,6 +39,9 @@ option_arg() {
 			exit 1
 		esac
 	done
+
+	echo >&2 "DONE"
+	return 0
 }
 
 if [[ $(option_arg -v) != 1 ]] ||
@@ -52,4 +51,8 @@ if [[ $(option_arg -v) != 1 ]] ||
    [[ $(option_arg --verbose=XXX) != XXX ]]; then
 	echo >&2 "ERROR: test option_arg() failed"
 	exit 1
+fi
+
+if [[ $# -ge 1 ]]; then
+	option_arg "${@}"
 fi

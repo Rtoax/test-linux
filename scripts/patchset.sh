@@ -114,7 +114,9 @@ warning() {
 
 __patchset_getopt__()
 {
-	local TEMP=$(getopt \
+	local TEMP
+
+	TEMP=$(getopt \
 		--options o:p:nvhV \
 		--long subject-prefix: \
 		--long from: \
@@ -130,7 +132,10 @@ __patchset_getopt__()
 		--long help \
 		-n patchset -- "$@")
 
-	test $? != 0 && __patchset_usage__ 1
+	local status=$?
+	if [[ ${status} -ne 0 ]]; then
+		__patchset_usage__ 1
+	fi
 
 	eval set -- "$TEMP"
 

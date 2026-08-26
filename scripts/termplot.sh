@@ -54,8 +54,9 @@ drawline() {
 	local char
 	local arrow
 	local seq_args arrow_inc
+	local ARGS
 
-	local ARGS=$(getopt --options x:X:y:Y:ac: \
+	ARGS=$(getopt --options x:X:y:Y:ac: \
 		--long xstart: \
 		--long xend: \
 		--long xx: \
@@ -65,8 +66,10 @@ drawline() {
 		--long arrow \
 		--long char: \
 		-n drawline -- "$@")
-
-	test $? != 0 && error "$0: getopt failed"
+	local status=$?
+	if [[ ${status} -ne 0 ]]; then
+		error "$0: getopt failed"
+	fi
 
 	eval set -- "$ARGS"
 
@@ -188,10 +191,14 @@ drawcurve() {
 	local X=()
 	local Y=()
 	local char
-	local ARGS=$(getopt --options x:y:c: \
-		-n drawcurve -- "$@")
+	local ARGS
 
-	test $? != 0 && error "$0: getopt failed"
+	ARGS=$(getopt --options x:y:c: \
+		-n drawcurve -- "$@")
+	local status=$?
+	if [[ ${status} -ne 0 ]]; then
+		error "$0: getopt failed"
+	fi
 
 	eval set -- "$ARGS"
 

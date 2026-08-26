@@ -279,7 +279,9 @@ version_format_parser() {
 	local vsep=$(getswsep ${sw})
 	local ver_arr=( $(echo ${version} | tr "${vsep}" ' ') )
 
-	local TEMP=$(getopt \
+	local TEMP
+
+	TEMP=$(getopt \
 		--options Vh \
 		--long name \
 		--long pretty-name \
@@ -289,8 +291,11 @@ version_format_parser() {
 		--long verbose \
 		--long help \
 		-n version-format-parser -- "$@")
+	local status=$?
 
-	test $? != 0 && error "$0 parser args error"
+	if [[ ${status} -ne 0 ]]; then
+		error "$0 parse arguments failed, ${@}"
+	fi
 
 	eval set -- "$TEMP"
 
