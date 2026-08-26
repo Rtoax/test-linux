@@ -1,5 +1,5 @@
 {
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -31,17 +31,6 @@
 			"name": "ACPITool",
 			"keys": [ "acpi", "acpitool" ],
 			"tags": [ "boot" ]
-		},
-		"busybox": {
-			"name": "Busybox",
-			"command": [ "busybox" ],
-			"keys": [ "alpine", "busybox" ]
-		},
-		"pkgconf": {
-			"name": "PKGConf",
-			"command": [ "pkg-config" ],
-			"keys": [ "pkg-config" ],
-			"tags": [ "development" ]
 		},
 		"anaconda": {
 			"name": "Anaconda",
@@ -83,6 +72,11 @@
 			"extension": [ "bt" ],
 			"keys": [ "bpftrace" ],
 			"tags": [ "bpf" ]
+		},
+		"busybox": {
+			"name": "Busybox",
+			"command": [ "busybox" ],
+			"keys": [ "alpine", "busybox" ]
 		},
 		"capstone": {
 			"name": "Capstone",
@@ -166,6 +160,14 @@
 				"length": [ 1 ]
 			},
 			"keys": [ "efibootmgr" ]
+		},
+		"elfutils": {
+			"name": "elfutils",
+			"command": [ "eu-readelf" ],
+			"version": {
+				"length": [ 2 ]
+			},
+			"keys": [ "elfutils" ]
 		},
 		"ethtool": {
 			"name": "ETHTool",
@@ -615,6 +617,12 @@
 			"name": "PCIUtils",
 			"command": [ "lspci" ],
 			"keys": [ "pci", "pcie" ]
+		},
+		"pkgconf": {
+			"name": "PKGConf",
+			"command": [ "pkg-config" ],
+			"keys": [ "pkg-config" ],
+			"tags": [ "development" ]
 		},
 		"podman": {
 			"name": "Podman",

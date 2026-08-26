@@ -18,6 +18,7 @@ User Space
    code-formatter
    conda
    dkms
+   elfutils
    flamegraph
    fontconfig
    git/index
