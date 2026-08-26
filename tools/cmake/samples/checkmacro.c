@@ -3,7 +3,8 @@
 #endif
 
 #if !defined(__fedora__) && !defined(__ubuntu__) && !defined(__debian__) && \
-	!defined(__cclinux__) && !defined(__centos__)
+	!defined(__cclinux__) && !defined(__centos__) &&                    \
+	!defined(__openEuler__)
 #error Must define __${distro}__
 #endif
 
