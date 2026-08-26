@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include "align.h"
 
 struct a {

@@ -36,6 +36,7 @@ target-y += section-initcall
 target-y += section-readmostly
 target-y += vector_size
 target-y += visibility
+target-y += warning
 target-y += weak
 
 target-bpf-${HAVE_CLANG} += preserve_access_index.bpf.o
@@ -64,6 +65,7 @@ else
   # clang error: unknown warning option '-Werror=nonnull-compare'
   CFLAGS_nonnull += -Wno-error=nonnull-compare
 endif
+CFLAGS_warning += -Wno-error=attribute-warning
 
 CFLAGS_no_instrument_function := -pg -DTEST_MAIN=1
 CFLAGS_no_instrument_function += -Wno-error=frame-address

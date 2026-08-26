@@ -14,7 +14,5 @@ struct A {
 #endif
 
 #ifndef __aligned
-#define __aligned(v)	__attribute__((aligned(v)))
+#define __aligned(v) __attribute__((aligned(v)))
 #endif
-
-

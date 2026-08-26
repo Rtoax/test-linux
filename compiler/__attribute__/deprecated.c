@@ -1,7 +1,5 @@
 #include <stdio.h>
-
-
-#define __deprecated  __attribute__((deprecated("Symbol is not yet part of stable ABI")))
+#include "deprecated.h"
 
 __deprecated void print_something(void)
 {

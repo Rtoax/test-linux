@@ -5,4 +5,3 @@
 
 #define weak_alias(name, aliasname) \
 	extern typeof (name) aliasname __attribute__ ((weak, alias(#name)))
-
