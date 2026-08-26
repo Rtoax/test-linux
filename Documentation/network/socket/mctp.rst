@@ -12,7 +12,7 @@ MCTP可以在公共传输层上传输多种类型的消息，例如 **NCSI** 、
 一个系统可以包括多个MCTP网络，MCTP的网络包括多个physical transports，用于多个MCTP Endpoint之间的MCTP报文传输，MCTP Endpoint就是MCTP通信的一个终点。一个物理设备可以支持多个MCTP Endpoint，Endpoint的寻址是逻辑地址称为EID，EID类似于互联网上的IP地址。
 
 
-MCTP protocol support
+MCTP Protocol Support
 ---------------------
 
 .. list-table::
@@ -57,6 +57,12 @@ MCTP protocol support
    * - MMBI (incl. PCIe)
      - ❌
      - ✅
+
+
+Applications
+------------
+
+- :doc:`../../cxl/fabric-manager`
 
 
 Links

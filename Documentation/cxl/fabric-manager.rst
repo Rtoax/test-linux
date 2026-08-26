@@ -28,6 +28,17 @@ Command Set Categories
 - (C000h – FFFFh) Vendor-specific Opcodes
 
 
+MCTP Binding Specification
+--------------------------
+
+- SMBus/I2C
+- PCIe
+- USB
+- Serial
+
+More detail see :doc:`../network/socket/mctp`
+
+
 Links
 -----
 

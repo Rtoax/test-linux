@@ -2,9 +2,9 @@
 CXL Abbrev
 ==========
 
-- NIB: Number of Bitmap Entries (Bitmap 条目)
 - AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
 - AOC: Active Optical Cable (有源光缆) @AEC
+- BOs: Background Operations (后台操作) @CCI
 - CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
 - CEDT: CXL Early Discovery Table (CXL 早期发现表) @ACPI
@@ -22,7 +22,8 @@ CXL Abbrev
 - DPA: CXL Memory Device Physical Address (CXL 内存设备物理地址)
 - DSP: Downstream Switch Port (下游交换端口) @USP
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
-- FM: Fabric Manager (Fabric 管理器) @MCTP
+- EP: Endpoint (端点) @MCTP
+- FM: Fabric Manager (CXL 结构管理器) @MCTP
 - ISP: Interleave set position (交错set位置)
 - JBOM: Just a Bunch of Memory (一大堆内存)
 - LD: Logical Device (逻辑设备)
@@ -30,6 +31,7 @@ CXL Abbrev
 - MC: Memory Controller (内存控制器)
 - MHD: Muiltple Headed Device (多头设备)
 - MLD: Muiltple Logical Device (多逻辑设备) @SLD
+- NIB: Number of Bitmap Entries (Bitmap 条目)
 - OMI: Open Memory Interface (开放内存接口)
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
 - OSC: Operating System Capabilities (操作系统能力)
@@ -41,6 +43,7 @@ CXL Abbrev
 - TPP: Transparent Put (透明页放置) @Meta
 - UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)
 - USP: Upstream Switch Port (上游交换端口) @DSP
+- VH: Virtual Hierarchy (虚拟层次结构)
 - vPPB: Virtual PCI-to-PCI Bridge (虚拟 PPB) @PPB
 - VCS: Virtual CXL Switch (虚拟 CXL 交换机)
 - XHB: CXL Host Bridge (CXL Host 桥)
