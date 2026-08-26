@@ -11,3 +11,4 @@ trap cleanup EXIT
 
 sudo mount -t proc proc ${dir}
 ls ${dir}/
+sleep 0.5
