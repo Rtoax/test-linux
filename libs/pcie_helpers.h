@@ -10,6 +10,21 @@ struct pci_cs_hdr_common {
 	uint16_t vendor_id;
 	uint16_t device_id;
 	uint16_t command;
+	/**
+	 * Status Bits
+	 * 0: Immediate Readiness
+	 * 1-2: Reserved
+	 * 3: Interrupt Status
+	 * 4: Capabilities List
+	 * 5-7: Reserved
+	 * 8: Master Data Parity Error
+	 * 9-10: Reserved
+	 * 11: Signaled Target Abort
+	 * 12: Received Target Abort
+	 * 13: Received Master Abort
+	 * 14: Signaled System Error
+	 * 15: Detected Parity Error
+	 */
 	uint16_t status;
 	uint8_t revision_id;
 	uint8_t prog_if;

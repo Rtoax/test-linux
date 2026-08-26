@@ -88,10 +88,13 @@ const char *pci_cs_type_name(uint8_t header_type, char *buf, size_t buf_sz)
 void pci_cs_print_common(struct pci_cs_hdr_common *c)
 {
 	char buf[64];
+	uint16_t status = c->status;
 	printf("Vendor ID: 0x%x\n", c->vendor_id);
 	printf("Device ID: 0x%x\n", c->device_id);
 	printf("Command 0x%x\n", c->command);
-	printf("Status: 0x%x\n", c->status);
+	printf("Status: 0x%x (ImmRd %d, IrqStat %d, CapList %d, MasterDPErr %d, ...)\n",
+	       status, status & 0x0001, status & 0x0004, status & 0x0010,
+	       status & 0x0100);
 	printf("Revison ID: %x\n", c->revision_id);
 	printf("Class code (ProgIF): %x\n", c->prog_if);
 	printf("Class code (SubClass): %x\n", c->subclass);
@@ -100,7 +103,8 @@ void pci_cs_print_common(struct pci_cs_hdr_common *c)
 	printf("Latency Timer: %x\n", c->latency_timer);
 	printf("Header Type: %s\n",
 	       pci_cs_type_name(c->header_type, buf, sizeof(buf)));
-	printf("Bist: %d\n", c->bist);
+	printf("Bist: %d (Capable %d, Start BIST %d, Completion Code %d)\n",
+	       c->bist, c->bist & 0x40, c->bist & 0x20, c->bist & 0x07);
 }
 
 void pci_cs_print_type0(struct pci_cs_hdr_type0 *t)
@@ -125,8 +129,8 @@ void pci_cs_print_type0(struct pci_cs_hdr_type0 *t)
 	printf("SubSystem ID: %x\n", t->subsystem_id);
 	printf("Expansion ROM Base Addr: 0x%x\n", t->expansion_rom_base_addr);
 	printf("Capabilities Pointer 0x%x\n", t->capabilities_pointer);
-	printf("Interrypt Line: %x\n", t->interrupt_line);
-	printf("Interrypt Pin: %x\n", t->interrupt_pin);
+	printf("Interrupt Line: %x\n", t->interrupt_line);
+	printf("Interrupt Pin: %x\n", t->interrupt_pin);
 	printf("Min Gnt: %x\n", t->min_gnt);
 	printf("Max Lat: %x\n", t->max_lat);
 }
