@@ -6,6 +6,7 @@
 /__counted_by__
 /deprecated
 /error
+/__fallthrough__
 /format
 /__gnu_inline__
 /__has_attribute

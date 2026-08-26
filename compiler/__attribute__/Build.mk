@@ -10,6 +10,7 @@ target-y += constructor
 target-y += __counted_by__
 target-y += deprecated
 target-y += error
+target-y += __fallthrough__
 target-y += format
 target-y += __gnu_inline__
 target-y += __has_attribute
