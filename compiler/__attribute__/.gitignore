@@ -13,6 +13,7 @@
 /__mode__
 /__naked__
 /nocf_check
+/__noclone__
 /noinline
 /no_instrument_function
 /nonnull

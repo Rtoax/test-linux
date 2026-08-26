@@ -17,6 +17,7 @@ target-y += kernel_helper
 target-y += __mode__
 target-y += __naked__
 target-y += nocf_check
+target-y += __noclone__
 target-y += noinline
 target-y += no_instrument_function
 target-y += nonnull
