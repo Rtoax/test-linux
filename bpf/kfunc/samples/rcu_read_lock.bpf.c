@@ -6,6 +6,7 @@
  * - https://docs.ebpf.io/linux/kfuncs/bpf_rcu_read_lock/
  */
 #include "vmlinux.h"
+#include "compiler.h"
 
 extern void bpf_rcu_read_lock(void) __weak __ksym;
 extern void bpf_rcu_read_unlock(void) __weak __ksym;
