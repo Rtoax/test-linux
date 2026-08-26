@@ -68,6 +68,8 @@ int main(int argc, char *argv[])
 
 	pci_cs_check_headers();
 
+	printf("Parsing config %s\n", config);
+
 	fp = fopen(config, "r");
 	if (!fp) {
 		fprintf(stderr, "ERROR: open %s failed, %m\n", config);

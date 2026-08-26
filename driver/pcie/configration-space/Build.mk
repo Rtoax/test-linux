@@ -1,6 +1,6 @@
 include helpers.mk
 
 target-y += parse
-prog-y += info.sh
+prog-y += parse.sh
 
 parse-objs := ${PCIE_HELPERS}
