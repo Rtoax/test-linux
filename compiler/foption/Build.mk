@@ -16,6 +16,9 @@ target-y += fuse-ld
 target-${feature-fcf-protection} += fcf-protection
 target-${feature-fpatchable-function-entry} += fpatchable-function-entry
 
+prog-y += $(filter-out fstack-protector fstack-protector-strong \
+			fstack-protector-explicit, ${target-y})
+
 target-clean-y := clean0
 
 # command-line option ‘-fwpa’ is valid for LTO but not for C

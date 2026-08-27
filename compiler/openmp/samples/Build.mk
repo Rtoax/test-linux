@@ -56,6 +56,8 @@ target-y += omp_get_thread_limit
 target-y += omp_get_team_size
 target-y += omp_get_wtick
 
+prog-y += ${target-y}
+
 CFLAGS += -Wno-error=unused-variable
 CFLAGS +=  -fopenmp
 LDFLAGS += -fopenmp

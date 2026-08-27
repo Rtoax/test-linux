@@ -16,6 +16,8 @@ target-y += signal_fence
 target-${HAVE_LIBATOMIC} += always_lock_free
 target-${HAVE_LIBATOMIC} += is_lock_free
 
+prog-y += $(filter-out load-store-atomic-strict, ${target-y})
+
 LDFLAGS += -pthread
 
 CFLAGS_load-store := -DTEST_C_RAW=1

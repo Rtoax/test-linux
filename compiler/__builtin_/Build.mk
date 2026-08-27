@@ -41,6 +41,8 @@ target-todo := read8
 target-todo += va_arg_pack
 target-todo += preserve_enum_value
 
+prog-y += $(filter-out trap, ${target-y})
+
 CFLAGS += -I../__attribute__/
 # TODO: Fix this warning skip
 CFLAGS_apply_args := -Wno-incompatible-pointer-types

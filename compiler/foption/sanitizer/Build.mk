@@ -1,8 +1,8 @@
 include compiler.mk
 
-target-y += leak
 target-y += address
 target-cpp-y += address_cpp
+target-y += leak
 target-y += thread
 target-y += undefined
 target-y += uninitialized-member
