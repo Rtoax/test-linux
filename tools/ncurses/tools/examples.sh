@@ -178,4 +178,6 @@ if [[ ${SUPPORT_JSON} ]]; then
 fi
 
 echo "SUPPORT_JSON=${SUPPORT_JSON}"
+reset || :
+resize || :
 echo "Byebye"

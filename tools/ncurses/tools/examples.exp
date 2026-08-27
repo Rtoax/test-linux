@@ -87,4 +87,7 @@ test_key "\033\[C" "KEY_RIGHT"
 send "q"
 expect eof
 set stty_init "rows $init_rows cols $init_cols"
+
+spawn bash -c "reset || :"
+spawn bash -c "resize || :"
 puts "PASS"
