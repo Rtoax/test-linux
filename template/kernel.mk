@@ -18,6 +18,7 @@
 #
 # Functions:
 # - kver_{gt,ge,eq,lt,le}()=[y|n]
+# - kver_mod_{gt,ge,eq,lt,le}()=[y|n]
 # - kuapi_{gt,ge,eq,lt,le}()=[y|n]
 #
 ifndef _KERNEL_MK
@@ -45,6 +46,7 @@ KFLAGS += -DKPATCHLEVEL=$(KPATCHLEVEL)
 KFLAGS += -DKSUBLEVEL=$(KSUBLEVEL)
 
 $(eval $(call define_version,kver,version3_code1688,y,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+$(eval $(call define_version,kver_mod,version3_code1688,m,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
 $(eval $(call define_version,kuapi,version3_code1688,y,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}))
 
 export KVERSION KPATCHLEVEL KSUBLEVEL KVERSION_CODE
@@ -61,6 +63,9 @@ endif
 ifneq ($(call kver_gt,1,1,1),y)
   $(error "call kver_gt failed")
 endif
+ifneq ($(call kver_mod_gt,1,1,1),m)
+  $(error "call kver_mod_gt failed")
+endif
 ifneq ($(call kuapi_gt,1,1,1),y)
   $(error "call kuapi_gt failed")
 endif
@@ -69,11 +74,17 @@ endif
 ifneq ($(call kver_lt,7,3,0),y)
   $(error "call kver_lt failed, kver >= 7.3.0")
 endif
+ifneq ($(call kver_mod_lt,7,3,0),m)
+  $(error "call kver_mod_lt failed, kver >= 7.3.0")
+endif
 ifneq ($(call kuapi_lt,7,3,0),y)
   $(error "call kuapi_lt failed, kuapi version >= 7.3.0")
 endif
 ifneq (${KVERSION_CODE},${kver_VERSION_CODE})
   $(error define_version failed for kver)
+endif
+ifneq (${KVERSION_CODE},${kver_mod_VERSION_CODE})
+  $(error define_version failed for kver_mod)
 endif
 ifneq (${KUAPIVERSION_CODE},${kuapi_VERSION_CODE})
   $(error define_version failed for kuapi)
