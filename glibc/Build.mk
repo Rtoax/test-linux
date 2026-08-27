@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+include file.mk
+
 subdir-y += aio
 subdir-y += alloca
 subdir-y += argp
@@ -19,7 +21,7 @@ subdir-y += fcntl
 subdir-y += fenv
 subdir-y += float
 subdir-y += fnmatch
-subdir-y += fstab
+subdir-$(call fexist,/etc/fstab) += fstab
 subdir-y += ftw
 subdir-y += getopt
 subdir-y += glob

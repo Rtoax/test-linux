@@ -29,10 +29,9 @@ int main(void)
 	}
 
 	if (fstab) {
-		printf("%s:%s:%s:%s:%s:%d:%d\n",
-			fstab->fs_spec, fstab->fs_file,
-			fstab->fs_vfstype, fstab->fs_mntops,
-			fstab->fs_type, fstab->fs_freq, fstab->fs_passno);
+		printf("%s:%s:%s:%s:%s:%d:%d\n", fstab->fs_spec, fstab->fs_file,
+		       fstab->fs_vfstype, fstab->fs_mntops, fstab->fs_type,
+		       fstab->fs_freq, fstab->fs_passno);
 	} else {
 		fprintf(stderr, "Not found valide special_file.\n");
 	}
