@@ -5,3 +5,4 @@ subdir-${HAVE_CXL_DEVICE} += bus
 subdir-y += fm
 
 prog-${HAVE_CXL_DEVICE} += info.sh
+prog-y += vm_examples.sh

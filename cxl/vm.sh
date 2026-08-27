@@ -14,10 +14,10 @@
 set -e
 . /etc/os-release
 
-ROOTDIR=${HOME}/cxl
-vmlinuz=${ROOTDIR}/vmlinuz
-initramfs=${ROOTDIR}/initramfs.img
-rootfs=${ROOTDIR}/vm.qcow2
+readonly ROOTDIR=${HOME}/cxl
+readonly VMLINUX=${ROOTDIR}/vmlinuz
+readonly INITRD=${ROOTDIR}/initramfs.img
+readonly ROOTFS=${ROOTDIR}/vm.qcow2
 
 _dry_run=
 for a in ${@}
@@ -55,20 +55,20 @@ if [[ ! -d ${ROOTDIR} ]]; then
 	try_run sudo mkdir ${ROOTDIR}
 fi
 
-if [[ ! -e ${vmlinuz} ]]; then
-	try_run sudo cp /boot/vmlinuz-$(uname -r) ${vmlinuz}
+if [[ ! -e ${VMLINUX} ]]; then
+	try_run sudo cp /boot/vmlinuz-$(uname -r) ${VMLINUX}
 fi
 
-if ! [[ -e ${initramfs} ]]; then
+if ! [[ -e ${INITRD} ]]; then
 	try_run sudo dracut --kver $(uname -r) --no-hostonly --verbose --force \
 		--install '"insmod rmmod modprobe lspci ndctl cxl lsblk dmidecode tree"' \
 		--add '"bash systemd kernel-modules fs-lib"' \
 		--add-drivers '"cxl_acpi cxl_core cxl_mem cxl_pci cxl_pmem cxl_pmu cxl_port"' \
-		${initramfs}
+		${INITRD}
 fi
 
-if ! [[ -e ${rootfs} ]]; then
-	try_run sudo rootfs-fedora --rootfs vm.rootfs/ --image ${rootfs} \
+if ! [[ -e ${ROOTFS} ]]; then
+	try_run sudo rootfs-fedora --rootfs vm.rootfs/ --image ${ROOTFS} \
 		-i cxl-cli -i cxl-libs -i ndctl -i daxctl \
 		-i dmidecode -i kmod -i util-linux -i pciutils \
 		-i kernel-$(uname -r) \
@@ -89,11 +89,11 @@ fi
 
 qargs+=( --name vm-test-cxl )
 qargs+=( --memory 8192MiB )
-qargs+=( --kernel ${vmlinuz} )
-qargs+=( --initrd ${initramfs} )
+qargs+=( --kernel ${VMLINUX} )
+qargs+=( --initrd ${INITRD} )
 [[ ${QEMU} ]] && qargs+=( --qemu ${QEMU} )
 [[ ${GDB} ]] && qargs+=( --gdb )
-qargs+=( --rootfs ${rootfs},rw )
+qargs+=( --rootfs ${ROOTFS},rw )
 # When test it on Hygon CPU, console is not easy to use.
 if [[ "$(lscpu | grep -wo HygonGenuine)" ]] || [[ ${DAEMON} ]]; then
 	qargs+=( --daemon )
