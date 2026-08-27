@@ -41,7 +41,11 @@ static void BufferCompleted(CUcontext ctx, uint32_t streamId, uint8_t *buffer,
 #ifdef __LUCA__
 				CUpti_ActivityKernel8 *kernel = (CUpti_ActivityKernel8 *)record;
 #else
+# if CUDA_VERSION <= 12040
+				CUpti_ActivityKernel9 *kernel = (CUpti_ActivityKernel9 *)record;
+# else
 				CUpti_ActivityKernel10 *kernel = (CUpti_ActivityKernel10 *)record;
+# endif
 #endif
 				printf("kernel name = %s\n", kernel->name);
 				printf("kernel duration (ns) = %llu\n",
