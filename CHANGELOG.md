@@ -43,6 +43,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- runprog.sh: add --tty argument;
 - libpcie.sh: move to scripts;
 #### Tools
 - design-patterns: move to tools;

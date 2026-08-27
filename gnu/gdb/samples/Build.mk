@@ -13,6 +13,8 @@ prep-y := hello.strip
 
 prog-y := $(shell ls *.sh)
 
+PROG_ENVS_layout.sh := --tty
+
 CFLAGS += -O0 -ggdb
 LDFLAGS += -pthread
 

@@ -17,6 +17,7 @@ declare verbose=
 declare SUDO=
 declare TMOUT=
 declare REAL_RET=0 EXPECT_RET=0
+declare NEED_TTY=
 
 . ${WHERE_AM_I}/liblog.sh
 
@@ -31,6 +32,8 @@ OPTIONS:
 -T, --timeout [SEC]    set timeout seconds
 --maybe-sudo           running with superuser if possible
 --expect-return [RET]  expect return value, default 0
+
+--tty                  command need tty, the --log will be empty maybe
 
 -l, --log [FILE]       set log file name
     --nolog            skipping log
@@ -51,6 +54,7 @@ GETOPT_ARGS=$(getopt \
 	--long timeout: \
 	--long env: \
 	--long help \
+	--long tty \
 	--long verbose \
 	--long maybe-sudo \
 	--long expect-return: \
@@ -70,6 +74,10 @@ while true; do
 	--nolog)
 		shift
 		LOG_FILE=
+		;;
+	--tty)
+		shift
+		NEED_TTY=ON
 		;;
 	--nocmdlog)
 		shift
@@ -155,7 +163,7 @@ WHOLE_CMD+="${TMOUT:+timeout ${TMOUT} }"
 WHOLE_CMD+="${SHEBANG:+${SHEBANG} }"
 WHOLE_CMD+="${SPAWN[@]}"
 
-if [[ ${LOG_FILE} ]]; then
+exec_with_log() {
 	ERR_LOG_FILE=${LOG_FILE}.stderr
 	if [[ ${LOG_FILE##*.} == log ]]; then
 		ERR_LOG_FILE=${LOG_FILE%.*}.stderr.log
@@ -166,11 +174,26 @@ if [[ ${LOG_FILE} ]]; then
 		REAL_RET=$?
 		true
 	}
-else
+}
+
+exec_without_log() {
 	eval "${WHOLE_CMD}" || {
 		REAL_RET=$?
 		true
 	}
+}
+
+if [[ ${LOG_FILE} ]]; then
+	# Need TTY, do not redirect stdio.
+	if [[ -n ${NEED_TTY} ]]; then
+		exec_without_log
+		# Create the fake log file.
+		touch ${LOG_FILE}
+	else
+		exec_with_log
+	fi
+else
+	exec_without_log
 fi
 
 if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
