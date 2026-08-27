@@ -36,5 +36,6 @@ int main(void)
 		fprintf(stderr, "Not found valide special_file.\n");
 	}
 
+	endfsent();
 	return 0;
 }
