@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.11"
+readonly VERSION="v1.1.12"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -941,7 +941,8 @@ ${BOLD}SYNOPSIS${RST}
     ${PROG} ${BOLD}list${RST} [-h|--help]
 
 ${BOLD}OPTIONS${RST}
-    -p, --port     list vm's network port
+    -a, --all      list all VMs and their information
+    -p, --port     list VMs's network port
     -h, --help     show this information
 "
 	exit ${1-0}
@@ -951,10 +952,11 @@ list_vm() {
 	local i pidfile
 	local pidfiles=( $(find ${TMPDIR} -name '*.pid' 2>/dev/null) )
 	local id=0
-	local list_port
+	local list_all list_port
 	local LIST_VM_ARGS
 
-	LIST_VM_ARGS=$(getopt --options ph \
+	LIST_VM_ARGS=$(getopt --options aph \
+		--long all \
 		--long port \
 		--long help \
 		--name list-vm -- "$@")
@@ -970,6 +972,10 @@ list_vm() {
 		-h | --help)
 			shift
 			__usage_list_vm__
+			;;
+		-a | --all)
+			shift
+			list_port=ON
 			;;
 		-p | --port)
 			shift
