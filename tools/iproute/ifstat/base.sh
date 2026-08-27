@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-ifstat
+ifstat 1 1
