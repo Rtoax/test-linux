@@ -19,3 +19,4 @@ CUSTOM=1 vm
 GDB=1 vm
 VIRTIOFS=1 vm
 QEMU=/usr/bin/ls vm
+DEP=1 DAEMON=1 CUSTOM=1 GDB=1 VIRTIOFS=1 QEMU=/usr/bin/ls vm

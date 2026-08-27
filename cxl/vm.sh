@@ -3,8 +3,13 @@
 #
 # Usage: [DAEMON=1] [CUSTOM=1] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
+#   DAEMON=1: running vm in the background
+#   CUSTOM=1: custom cxl device
+#   NOCXL=1: no cxl device
 #   DEP=1: install depends first.
 #   GDB=1: enable gdb.
+#   VIRTIOFS=1: enable virtio-fs filesystem
+#   QEMU=: custom qemu process ELF
 #
 # Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
@@ -68,7 +73,8 @@ if ! [[ -e ${INITRD} ]]; then
 fi
 
 if ! [[ -e ${ROOTFS} ]]; then
-	try_run sudo rootfs-fedora --rootfs vm.rootfs/ --image ${ROOTFS} \
+	try_run sudo rootfs-fedora \
+		--rootfs vm.rootfs/ --image ${ROOTFS} \
 		-i cxl-cli -i cxl-libs -i ndctl -i daxctl \
 		-i dmidecode -i kmod -i util-linux -i pciutils \
 		-i kernel-$(uname -r) \
