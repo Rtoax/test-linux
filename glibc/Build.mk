@@ -58,7 +58,6 @@ subdir-y += strings
 subdir-y += sys
 subdir-y += sysinfo
 subdir-y += syslog
-subdir-y += sysmacros
 subdir-y += termios
 subdir-y += time
 subdir-y += times

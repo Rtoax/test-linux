@@ -27,6 +27,8 @@ target-y += open_pty_pair
 target-y += div
 target-y += demo-qsort-bsearch
 
+prog-y += $(filter-out abort rpmatch, ${target-y})
+
 CFLAGS_unlockpt := -D_XOPEN_SOURCE
 # TODO
 CFLAGS_unlockpt += -Wno-implicit-function-declaration

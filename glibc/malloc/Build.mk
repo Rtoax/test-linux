@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 include compiler.mk
 
+target-y += aligned_alloc
 target-y += malloc overflow use-after-free double-free
 target-y += mallinfo
 target-y += mallopt
@@ -8,7 +9,6 @@ target-y += malloc_get_state
 target-y += malloc_info
 target-y += malloc_stats
 target-y += posix_memalign
-target-y += aligned_alloc
 target-y += valloc
 target-y += realloc
 target-y += malloc_trim corrupted-size-vs.prev_size
@@ -17,6 +17,7 @@ target-y += memalign
 target-y += pvalloc
 
 prog-y := list-tunables.sh
+prog-y += $(filter-out double-free corrupted-size-vs.prev_size, ${target-y})
 
 mallinfo-objs := malloc_helpers.o
 malloc_trim-objs := malloc_helpers.o

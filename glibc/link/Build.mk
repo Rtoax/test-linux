@@ -5,6 +5,8 @@ target-y := dl_iterate_phdr
 target-y += dl_iterate_phdr-pie
 target-y += has_shared_object
 
+prog-y += ${target-y}
+
 dl_iterate_phdr-objs := ${PROC_HELPERS}
 dl_iterate_phdr-pie-objs := ${PROC_HELPERS}
 

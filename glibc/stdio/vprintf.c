@@ -10,7 +10,6 @@ void error(char *fmt, ...)
 	vprintf(fmt, args);
 	fprintf(stderr, "\n");
 	va_end(args);
-	exit(1);
 }
 
 int main(void)

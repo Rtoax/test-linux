@@ -4,6 +4,8 @@ target-y += obstack
 target-y += alloc-performance-cmp
 target-y += multithread
 
+prog-y += ${target-y}
+
 LDFLAGS := -pthread
 
 CFLAGS += ${jemalloc-cflags}

@@ -10,3 +10,4 @@ target-y += listdir
 target-y += remove_dir
 
 prog-y := remove_dir.sh
+prog-y += ${target-y}

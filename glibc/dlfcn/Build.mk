@@ -10,6 +10,8 @@ target-y += dlinfo
 
 target-${IS_AARCH64} += dlsym-RTLD_DEFAULT
 
+prog-y += ${target-y}
+
 target-libso-y := libhello.so.0.1
 target-libso-y += libglibc.so.6
 
@@ -19,7 +21,7 @@ libglibc.so.6-objs := libc.so.o
 socket-objs := libc.o
 dlinfo-objs := ${PROC_HELPERS}
 
-LDFLAGS := -ldl
-
 CFLAGS += -I../../
 CFLAGS += -I../../fs/procfs/
+
+LDFLAGS := -ldl

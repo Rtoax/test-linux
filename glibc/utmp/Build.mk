@@ -6,6 +6,8 @@ target-y += setutent endutent
 target-y += login logwtmp
 target-y += login_tty
 
+prog-y += $(filter-out login_tty, ${target-y})
+
 getutent-objs := utmp_helpers.o
 getutid-objs := utmp_helpers.o
 getutline-objs := utmp_helpers.o

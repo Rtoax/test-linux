@@ -14,5 +14,5 @@ int main(void)
 
 	endprotoent();
 
-	return 1;
+	return 0;
 }

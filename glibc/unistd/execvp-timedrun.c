@@ -7,7 +7,6 @@
 #include <sysexits.h>
 #include <assert.h>
 
-
 volatile sig_atomic_t caught_sig = 0;
 
 static void signal_handler(int which)

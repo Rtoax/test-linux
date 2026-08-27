@@ -13,7 +13,7 @@ int main(void)
 
 	sc_clk_tck = sysconf(_SC_CLK_TCK);
 	begin = times(&begin_tms);
-	sleep(2);
+	sleep(1);
 	end = times(&end_tms);
 
 	printf("real time: %lf\n", (end - begin) / (double)sc_clk_tck);

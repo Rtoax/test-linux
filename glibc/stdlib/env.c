@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-
 int main(void)
 {
 	char *env;
@@ -24,7 +23,7 @@ int main(void)
 		/* Run my sleep script */
 		char *argv[] = {
 			"mysleep.sh",
-			"2",
+			"0.5",
 			NULL
 		};
 		ret = execvp(argv[0], argv);

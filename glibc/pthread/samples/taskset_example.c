@@ -3,7 +3,6 @@
 #endif
 #include <sched.h>
 #include <unistd.h>
-
 #include <stdbool.h>
 #include <err.h>
 #include <errno.h>
@@ -14,10 +13,8 @@
 #include <memory.h>
 #include <pthread.h>
 #include <syscall.h>
-
 #include "pthread_helpers.h"
 #include "sched_helpers.h"
-
 
 struct task_arg {
 	char cpu_list[128];
@@ -69,4 +66,3 @@ int main(int argc, char**argv)
 
 	return 0;
 }
-

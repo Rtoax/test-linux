@@ -65,7 +65,15 @@ target-y += cond-demo1 cond-demo2 cond-demo3-latency
 target-${IS_X86_64} += mutex_latency
 target-y += taskset_example
 
-prog-y += create create.1
+prog-y += list-tunables.sh
+prog-y += create.1
+prog-y += $(filter-out atfork create_thread dead_lock-1 dead_lock-2 \
+			attr_setstack-2 attr_setstack-3 barrier_init \
+			create-deadline tryjoin_np spin-latency-loop \
+			sigmask kill taskset taskset_example rt_thread \
+			cond-demo1 cond-demo2 cond-demo3-latency, ${target-y})
+
+post-y := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${target-y}))
 
 PROG_ARGS_create := tout=1
 PROG_ARGS_create.1 := tout=1 nr=10
@@ -84,9 +92,6 @@ CFLAGS_cond_broadcast := -DCOND_ATTR=1
 CFLAGS_cond_signal := -DCOND_ATTR=1
 CFLAGS_create := -DNR_THREADS=5
 
-post-y := $(addprefix ${OUTPUT},$(patsubst %,%.c.s,${target-y}))
-prog-y := list-tunables.sh
-
 create_thread-objs := ${PTHREAD_HELPERS}
 attr_setstack-3-objs := ${TLC_HELPERS}
 attr_getdetachstate-objs := ${TLC_HELPERS}
@@ -95,3 +100,5 @@ attr_getschedpolicy-objs := ${TLC_HELPERS}
 attr_init-objs := ${TLC_HELPERS}
 create-deadline-objs := ${PTHREAD_HELPERS} ${SCHED_HELPERS}
 taskset_example-objs := ${SCHED_HELPERS}
+
+PROG_ARGS_multi_thread_stress := 10

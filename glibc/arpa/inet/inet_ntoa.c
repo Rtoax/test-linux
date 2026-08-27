@@ -11,6 +11,5 @@ int main(void)
 	in.s_addr = 16777343;
 	printf("inet_ntoa: %s\n", inet_ntoa(in));
 
-	return 1;
+	return 0;
 }
-

@@ -6,4 +6,6 @@ target-y += ucontext_t
 target-y += makecontext
 target-y += demo1
 
+prog-y += $(filter-out setcontext, ${target-y})
+
 CFLAGS_setcontext := -DTEST_SETCONTEXT=1

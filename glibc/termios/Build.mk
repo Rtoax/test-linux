@@ -12,6 +12,7 @@ cfmakeraw-objs := termios_helpers.o
 tcgetattr-objs := termios_helpers.o
 
 prog-y := tcsetattr.sh
+prog-y += $(filter-out password set_istrip set_input_mode, ${target-y})
 
 CFLAGS += -I../../../
 LDFLAGS += -lm

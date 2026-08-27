@@ -19,7 +19,7 @@ int main(void)
 {
 	warn("warn: %d\n", __LINE__);
 	warnx("warnx: %s\n", __func__);
-	err(1, "err: %s\n", __func__);
+	err(0, "err: %s\n", __func__);
 	errx(1, "errx: %d\n", __LINE__);
 
 	print_err("v: %s\n", "err+warn");

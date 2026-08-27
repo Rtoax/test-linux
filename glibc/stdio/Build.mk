@@ -27,9 +27,10 @@ target-y += fread
 target-y += fscanf
 target-y += fopencookie
 
+prog-y := os-release.sh
+prog-y += $(filter-out getchar getline getdelim scanf stdin, ${target-y})
+
 CFLAGS_printf := -DLIBC_PRINTF_SYMADDR=$(call glibc_sym_addr,printf)
 CFLAGS_getdelim := -DTEST_getdelim=1
 CFLAGS_sprintf := -Wno-error=format-overflow
 CFLAGS_snprintf := -Wno-error=format-truncation
-
-prog-y := os-release.sh

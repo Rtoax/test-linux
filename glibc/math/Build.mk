@@ -19,6 +19,8 @@ target-${IS_AARCH64} += __SVFloat32_t
 target-${IS_AARCH64} += __SVFloat64_t
 target-${IS_AARCH64} += __SVBool_t
 
+prog-y += $(filter-out sqrt-stress log-stress, ${target-y})
+
 target-clean-y := clean-tmp
 
 log10-objs := log.1.o

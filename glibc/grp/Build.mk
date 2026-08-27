@@ -7,3 +7,5 @@ target-y += initgroups
 target-y += setgrent
 target-y += getgroups
 target-y += demo-pwd-grp
+
+prog-y += ${target-y}

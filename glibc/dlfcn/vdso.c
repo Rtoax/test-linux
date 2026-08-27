@@ -13,7 +13,6 @@
 #include <sys/syscall.h>
 #include <dlfcn.h>
 
-
 typedef int (*vgettime_t)(clockid_t, struct timespec *);
 
 vgettime_t vdso_clock_gettime;

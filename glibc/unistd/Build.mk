@@ -31,6 +31,8 @@ target-y += getopt
 target-y += _exit
 target-y += gethostid
 
+prog-y += $(filter-out execvp-timedrun ualarm getpass, ${target-y})
+
 execvp-objs := unistd_helpers.o
 
 LDFLAGS := -lrt

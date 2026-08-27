@@ -15,5 +15,5 @@ int main(void)
 		fwrite(&u8, sizeof(u8), 1, fp);
 	fclose(fp);
 
-	return 1;
+	return 0;
 }

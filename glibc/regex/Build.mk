@@ -7,6 +7,8 @@ target-y += getprocessruntime-regex
 target-y += printf-format-arg-split
 target-y += tr069
 
+prog-y += $(filter-out re_search re_match getprocessruntime-regex tr069, ${target-y})
+
 CFLAGS += -D__USE_GNU=1
 
 # TODO: I don't know why `implicit declaration of function`

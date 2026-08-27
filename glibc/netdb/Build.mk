@@ -14,6 +14,8 @@ target-y += getipnodebyname
 target-y += herror
 target-y += getnameinfo
 
+prog-y += ${target-y}
+
 gethostbyaddr-objs := netdb_helpers.o
 gethostbyname-objs := netdb_helpers.o
 gethostbyname_r-objs := netdb_helpers.o

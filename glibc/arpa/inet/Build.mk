@@ -8,3 +8,5 @@ target-y += inet_pton
 target-y += inet_aton
 target-y += inet_addr
 target-y += inet_network
+
+prog-y += ${target-y}

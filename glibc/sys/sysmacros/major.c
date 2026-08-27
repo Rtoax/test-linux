@@ -1,1 +1,1 @@
-makedev.c
+minor.c

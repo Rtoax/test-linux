@@ -22,6 +22,8 @@ target-y += timeval
 target-y += show_systime
 target-y += process-runtime
 
+prog-y += $(filter-out timer-demo process-runtime, ${target-y})
+
 getdate-objs := time_helpers.o
 localtime-objs := time_helpers.o
 strptime-objs := time_helpers.o

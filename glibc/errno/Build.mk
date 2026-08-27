@@ -7,6 +7,8 @@ target-y += EDOM
 target-y += ENOENT
 target-y += EAFNOSUPPORT
 
+prog-y += ${target-y}
+
 target-clean-y := clean-more
 
 LDFLAGS := -pthread

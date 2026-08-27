@@ -98,6 +98,18 @@ else
   $(warning "         Need https://github.com/ARM-software/optimized-routines")
 endif
 
+prog-y += $(filter-out memcpy-stress memset-stress \
+			__memcpy_ssse3-stress \
+			__memcpy_erms-stress \
+			__memcpy_generic-stress \
+			__memcpy_simd-stress \
+			__memcpy_a64fx-stress \
+			__memcpy_avx512_unaligned-stress \
+			__memcpy_aarch64-stress \
+			__memcpy_aarch64_simd-stress \
+			__memcpy_aarch64_sve-stress \
+			, ${target-y})
+
 ifdef SIMD
   CFLAGS += -mavx2
 endif

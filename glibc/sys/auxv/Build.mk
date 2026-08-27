@@ -8,4 +8,6 @@ target-y += AT_PLATFORM
 target-y += AT_SYSINFO
 target-y += AT_SYSINFO_EHDR
 
+prog-y += ${target-y}
+
 LDFLAGS := -lm

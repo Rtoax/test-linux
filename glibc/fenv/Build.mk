@@ -7,6 +7,8 @@ target-y += fesetround
 target-y += fetestexcept
 target-y += demo-exception
 
+prog-y += ${target-y}
+
 CFLAGS += -Wno-unused-variable -Wno-unused-but-set-variable
 
 LDFLAGS += -lm
