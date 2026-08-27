@@ -1,6 +1,10 @@
+include kernel.mk
+
 obj-m += vmalloc-out-of-bounds.o
 obj-m += slab-out-of-bounds.o
 obj-m += global-out-of-bounds.o
 obj-m += use-after-free.o
-obj-m += slab.o
+# linux v6.7-rc1-9-g16a1d968358a
+# commit 16a1d968358a ("mm/slab: remove mm/slab.c and slab_def.h")
+obj-$(call kver_mod_lt,6,7,0) += slab.o
 obj-m += stack.o
