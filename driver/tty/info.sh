@@ -1,5 +1,1 @@
-#!/bin/bash
-
-# Console tty
-console_tty=$(cat /sys/class/tty/console/active)
-echo "console=${console_tty}"
+../../fs/sysfs/devices/virtual/tty/console/active.sh

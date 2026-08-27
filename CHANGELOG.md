@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sysfs: add tty relative subdirs;
 - elfutils: first commit;
 - mindspore: first commit;
 - lorax: first commit;
