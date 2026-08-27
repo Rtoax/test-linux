@@ -2,16 +2,17 @@
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <dlfcn.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <sched.h>
-#include <time.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 #include <sys/syscall.h>
-#include <dlfcn.h>
+#include <sys/types.h>
+#include <time.h>
+#include <unistd.h>
 
 typedef int (*vgettime_t)(clockid_t, struct timespec *);
 
@@ -19,17 +20,17 @@ vgettime_t vdso_clock_gettime;
 
 static void fill_function_pointers(void)
 {
-	void *vdso = dlopen("linux-vdso.so.1",
-				RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
+	void *vdso =
+		dlopen("linux-vdso.so.1", RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
 	if (!vdso)
 		vdso = dlopen("linux-gate.so.1",
-				RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
+			      RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
 	if (!vdso)
 		vdso = dlopen("linux-vdso32.so.1",
-				RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
+			      RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
 	if (!vdso)
 		vdso = dlopen("linux-vdso64.so.1",
-				RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
+			      RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
 	if (!vdso) {
 		fprintf(stderr, "[WARN]\tfailed to find vDSO\n");
 		return;
@@ -37,9 +38,13 @@ static void fill_function_pointers(void)
 
 	vdso_clock_gettime = (vgettime_t)dlsym(vdso, "__vdso_clock_gettime");
 	if (!vdso_clock_gettime)
-		vdso_clock_gettime = (vgettime_t)dlsym(vdso, "__kernel_clock_gettime");
-	if (!vdso_clock_gettime)
-		fprintf(stderr, "Warning: failed to find clock_gettime in vDSO\n");
+		vdso_clock_gettime =
+			(vgettime_t)dlsym(vdso, "__kernel_clock_gettime");
+	if (!vdso_clock_gettime) {
+		fprintf(stderr,
+			"Warning: failed to find clock_gettime in vDSO\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 static void test(clock_t clockid, char *clockstr)
