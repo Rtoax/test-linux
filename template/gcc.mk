@@ -41,7 +41,7 @@ GCC_MACHINE := $(shell ${GCC} -dumpmachine)
 
 include compiler.mk
 
-$(eval $(call define_version,gcc,version3_code1688,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL}))
+$(eval $(call define_version,gcc,version3_code1688,y,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL}))
 
 ifdef DEBUG
   $(info GCC = ${GCC})

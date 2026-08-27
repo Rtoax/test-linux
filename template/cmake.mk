@@ -32,7 +32,7 @@ else
   CMAKE_PATCHLEVEL := 0
 endif
 
-$(eval $(call define_version,cmake,version3_code1688,${CMAKE_MAJOR},${CMAKE_MINOR},${CMAKE_PATCHLEVEL}))
+$(eval $(call define_version,cmake,version3_code1688,y,${CMAKE_MAJOR},${CMAKE_MINOR},${CMAKE_PATCHLEVEL}))
 
 ifdef DEBUG
   $(info CMAKE_VERSION = ${CMAKE_VERSION})

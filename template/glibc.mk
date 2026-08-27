@@ -30,7 +30,7 @@ GLIBC_VERSION := $(shell ${glibcversh})
 GLIBC_MAJOR := $(shell ${glibcversh} --major)
 GLIBC_MINOR := $(shell ${glibcversh} --minor)
 
-$(eval $(call define_version,glibc,version2_code1616,${GLIBC_MAJOR},${GLIBC_MINOR}))
+$(eval $(call define_version,glibc,version2_code1616,y,${GLIBC_MAJOR},${GLIBC_MINOR}))
 
 # Get libc.so.6 abs-path
 LIBC_SO_PATH := $(call find_library_path,libc.so.6)

@@ -57,7 +57,7 @@ DWARVES_MINOR := ${PAHOLE_MINOR}
 pahole-cflags += -DPAHOLE_MAJOR=${PAHOLE_MAJOR}
 pahole-cflags += -DPAHOLE_MINOR=${PAHOLE_MINOR}
 
-$(eval $(call define_version,pahole,version2_code1616,${PAHOLE_MAJOR},${PAHOLE_MINOR}))
+$(eval $(call define_version,pahole,version2_code1616,y,${PAHOLE_MAJOR},${PAHOLE_MINOR}))
 
 ifdef DEBUG
   $(info PAHOLE_MAJOR = ${PAHOLE_MAJOR})

@@ -49,6 +49,7 @@ and this project adheres to
 - util-linux: add libuuid subdir;
 - add skopeo, printk, fontconfig, kbd;
 #### Template
+- version.mk: support specify yes letter, `y|m|?`
 - unicode: add arrow.mk;
 - sudo.mk: rename `SUDO` to `SUDO_NOPASSWD`;
 - cxl.mk: rename `HAVE_CXL_DEVICES` to `HAVE_CXL_DEVICE`;

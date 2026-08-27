@@ -122,7 +122,7 @@ ifneq (${CUDA_ROOT},)
   endif
 endif
 
-$(eval $(call define_version,cuda,version2_code100010,${CUDA_MAJOR},${CUDA_MINOR}))
+$(eval $(call define_version,cuda,version2_code100010,y,${CUDA_MAJOR},${CUDA_MINOR}))
 
 $(call check_file_and_def,${CUDA_ROOT}/include/cudnn.h,HAVE_CUDNN)
 $(call check_file_and_def,${CUDA_ROOT}/include/cupti.h,HAVE_CUPTI)

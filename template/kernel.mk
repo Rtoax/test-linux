@@ -44,8 +44,8 @@ KFLAGS += -DKVERSION=$(KVERSION)
 KFLAGS += -DKPATCHLEVEL=$(KPATCHLEVEL)
 KFLAGS += -DKSUBLEVEL=$(KSUBLEVEL)
 
-$(eval $(call define_version,kver,version3_code1688,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
-$(eval $(call define_version,kver_uapi,version3_code1688,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}))
+$(eval $(call define_version,kver,version3_code1688,y,${KVERSION},${KPATCHLEVEL},${KSUBLEVEL}))
+$(eval $(call define_version,kver_uapi,version3_code1688,y,${KUAPIVERSION},${KUAPIPATCHLEVEL},${KUAPISUBLEVEL}))
 
 export KVERSION KPATCHLEVEL KSUBLEVEL KVERSION_CODE
 export KUAPIVERSION KUAPIPATCHLEVEL KUAPISUBLEVEL KUAPIVERSION_CODE

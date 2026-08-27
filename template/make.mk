@@ -23,7 +23,7 @@ MAKE_VERSION := $(shell ${makeversh})
 MAKE_MAJOR := $(shell ${makeversh} --major)
 MAKE_MINOR := $(shell ${makeversh} --minor)
 
-$(eval $(call define_version,make,version2_code100010,${MAKE_MAJOR},${MAKE_MINOR}))
+$(eval $(call define_version,make,version2_code100010,y,${MAKE_MAJOR},${MAKE_MINOR}))
 
 # Sometimes including an mk file takes too long, and this function can be
 # used to effectively measure the time required to include the mk.

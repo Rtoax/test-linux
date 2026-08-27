@@ -30,7 +30,7 @@ BPFTRACE_MAJOR := $(shell ${bpftraceversh} --major)
 BPFTRACE_MINOR := $(shell ${bpftraceversh} --minor)
 BPFTRACE_PATCHLEVEL := $(shell ${bpftraceversh} --patchlevel)
 
-$(eval $(call define_version,bpftrace,version3_code1688,${BPFTRACE_MAJOR},${BPFTRACE_MINOR},${BPFTRACE_PATCHLEVEL}))
+$(eval $(call define_version,bpftrace,version3_code1688,y,${BPFTRACE_MAJOR},${BPFTRACE_MINOR},${BPFTRACE_PATCHLEVEL}))
 
 ifdef DEBUG
   $(info BPFTRACE = ${BPFTRACE})
