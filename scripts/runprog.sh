@@ -178,7 +178,7 @@ if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	if [[ ${RECORD_FILE} ]]; then
 		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}" >> ${RECORD_FILE}
 	fi
-	error "${@}: run failed"
+	error "${@}: run failed, exit with ${REAL_RET} (expect ${EXPECT_RET})"
 else
 	if [[ ${RECORD_FILE} ]]; then
 		echo -e "Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}" >> ${RECORD_FILE}
