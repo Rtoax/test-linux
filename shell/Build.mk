@@ -2,7 +2,6 @@
 subdir-y += alias
 subdir-y += array
 subdir-y += bash-completion
-subdir-y += commands
 subdir-y += env-passing
 subdir-y += exec
 subdir-y += math

@@ -46,6 +46,7 @@ and this project adheres to
 - runprog.sh: add --tty argument;
 - libpcie.sh: move to scripts;
 #### Tools
+- move all shell/commands into tools directory;
 - design-patterns: move to tools;
 - procps-ng: move into tools;
 - util-linux: add libuuid subdir;

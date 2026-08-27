@@ -11,6 +11,7 @@ squashfs-root
 *.xz
 *.gz
 *.npz
+*.cpio
 
 # Object files
 *.o
