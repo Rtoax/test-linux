@@ -20,7 +20,8 @@ CC_clang_loop_unroll := clang
 CC_clang_diagnostic := clang
 
 CFLAGS += -Werror=unknown-pragmas
-CFLAGS += -I../../
+CFLAGS += -I../attribute/
+CFLAGS += -I../macro/
 
 # TODO
 CFLAGS_call-func := -Wno-unknown-pragmas
