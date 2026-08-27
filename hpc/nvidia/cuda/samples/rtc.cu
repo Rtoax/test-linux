@@ -44,7 +44,7 @@ void launch_from_ptx(nvrtcProgram prog)
 
 	CHECK_CUDA_ERROR_EXIT(cuDeviceGet(&device, 0));
 
-# if CUDA_VERSION <= 12020
+# if CUDA_VERSION <= 12040
 	CHECK_CUDA_ERROR_EXIT(cuCtxCreate(&ctx, 0, device));
 # else
 	CHECK_CUDA_ERROR_EXIT(cuCtxCreate(&ctx, NULL, 0, device));
