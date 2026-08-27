@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-
 #include <capstone/platform.h>
 #include <capstone/capstone.h>
 
@@ -24,7 +23,6 @@ int fdisasm(FILE *fp, cs_arch arch, cs_mode mode, unsigned char *code,
 	csh handle;
 	int ret = 0;
 
-
 	cs_err err = cs_open(arch, mode, &handle);
 	if (err) {
 		fprintf(stderr, "cs_open() fatal returned: %u\n", err);
@@ -41,12 +39,11 @@ int fdisasm(FILE *fp, cs_arch arch, cs_mode mode, unsigned char *code,
 	}
 
 	fprintf(fp, "Disasm:\n");
-	for (j = 0; j < count; j++)
-		fprintf(fp, "0x%" PRIx64 ":\t%s\t%s\n",
-			insn[j].address,
-			insn[j].mnemonic,
-			insn[j].op_str);
-	fprintf(fp, "0x%" PRIx64 ":\n", insn[j-1].address + insn[j-1].size);
+	for (j = 0; j < count; j++) {
+		fprintf(fp, "0x%" PRIx64 ":\t%s\t%s\n", insn[j].address,
+			insn[j].mnemonic, insn[j].op_str);
+	}
+	fprintf(fp, "0x%" PRIx64 ":\n", insn[j - 1].address + insn[j - 1].size);
 
 	cs_free(insn, count);
 close:
@@ -79,7 +76,7 @@ int main(void)
 	"\x5a"                 \
 	"\xc3"
 
-#define AArch64_CODE \
+#define AArch64_CODE       \
 	"\x09\x00\x38\xd5" \
 	"\xbf\x40\x00\xd5" \
 	"\x0c\x05\x13\xd5" \

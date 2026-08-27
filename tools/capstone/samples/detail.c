@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <capstone/platform.h>
 #include <capstone/capstone.h>
 
@@ -19,7 +18,8 @@ struct platform {
 	cs_opt_value opt_value;
 };
 
-static void print_string_hex(const char *comment, unsigned char *str, size_t len)
+static void print_string_hex(const char *comment, unsigned char *str,
+			     size_t len)
 {
 	unsigned char *c;
 
@@ -186,7 +186,8 @@ static void print_insn_detail(csh ud, cs_mode mode, cs_insn *ins)
 	cs_regs regs_read, regs_write;
 	uint8_t regs_read_count, regs_write_count;
 
-	// detail can be NULL on "data" instruction if SKIPDATA option is turned ON
+	// detail can be NULL on "data" instruction if SKIPDATA option is
+	// turned ON
 	if (ins->detail == NULL)
 		return;
 
@@ -217,9 +218,11 @@ static void print_insn_detail(csh ud, cs_mode mode, cs_insn *ins)
 	if ((mode & CS_MODE_16) == 0) {
 		printf("\tsib: 0x%x\n", x86->sib);
 		if (x86->sib_base != X86_REG_INVALID)
-			printf("\t\tsib_base: %s\n", cs_reg_name(handle, x86->sib_base));
+			printf("\t\tsib_base: %s\n",
+			       cs_reg_name(handle, x86->sib_base));
 		if (x86->sib_index != X86_REG_INVALID)
-			printf("\t\tsib_index: %s\n", cs_reg_name(handle, x86->sib_index));
+			printf("\t\tsib_index: %s\n",
+			       cs_reg_name(handle, x86->sib_index));
 		if (x86->sib_scale != 0)
 			printf("\t\tsib_scale: %d\n", x86->sib_scale);
 	}
@@ -255,13 +258,16 @@ static void print_insn_detail(csh ud, cs_mode mode, cs_insn *ins)
 		printf("\timm_count: %u\n", count);
 		for (i = 1; i < count + 1; i++) {
 			int index = cs_op_index(ud, ins, X86_OP_IMM, i);
-			printf("\t\timms[%u]: 0x%" PRIx64 "\n", i, x86->operands[index].imm);
+			printf("\t\timms[%u]: 0x%" PRIx64 "\n", i,
+			       x86->operands[index].imm);
 			if (x86->encoding.imm_offset != 0) {
-				printf("\timm_offset: 0x%x\n", x86->encoding.imm_offset);
+				printf("\timm_offset: 0x%x\n",
+				       x86->encoding.imm_offset);
 			}
 
 			if (x86->encoding.imm_size != 0) {
-				printf("\timm_size: 0x%x\n", x86->encoding.imm_size);
+				printf("\timm_size: 0x%x\n",
+				       x86->encoding.imm_size);
 			}
 		}
 	}
@@ -275,23 +281,30 @@ static void print_insn_detail(csh ud, cs_mode mode, cs_insn *ins)
 
 		switch((int)op->type) {
 		case X86_OP_REG:
-			printf("\t\toperands[%u].type: REG = %s\n", i, cs_reg_name(handle, op->reg));
+			printf("\t\toperands[%u].type: REG = %s\n", i,
+			       cs_reg_name(handle, op->reg));
 			break;
 		case X86_OP_IMM:
-			printf("\t\toperands[%u].type: IMM = 0x%" PRIx64 "\n", i, op->imm);
+			printf("\t\toperands[%u].type: IMM = 0x%" PRIx64 "\n",
+			       i, op->imm);
 			break;
 		case X86_OP_MEM:
 			printf("\t\toperands[%u].type: MEM\n", i);
 			if (op->mem.segment != X86_REG_INVALID)
-				printf("\t\t\toperands[%u].mem.segment: REG = %s\n", i, cs_reg_name(handle, op->mem.segment));
+				printf("\t\t\toperands[%u].mem.segment: REG = %s\n",
+				       i, cs_reg_name(handle, op->mem.segment));
 			if (op->mem.base != X86_REG_INVALID)
-				printf("\t\t\toperands[%u].mem.base: REG = %s\n", i, cs_reg_name(handle, op->mem.base));
+				printf("\t\t\toperands[%u].mem.base: REG = %s\n",
+				       i, cs_reg_name(handle, op->mem.base));
 			if (op->mem.index != X86_REG_INVALID)
-				printf("\t\t\toperands[%u].mem.index: REG = %s\n", i, cs_reg_name(handle, op->mem.index));
+				printf("\t\t\toperands[%u].mem.index: REG = %s\n",
+				       i, cs_reg_name(handle, op->mem.index));
 			if (op->mem.scale != 1)
-				printf("\t\t\toperands[%u].mem.scale: %u\n", i, op->mem.scale);
+				printf("\t\t\toperands[%u].mem.scale: %u\n", i,
+				       op->mem.scale);
 			if (op->mem.disp != 0)
-				printf("\t\t\toperands[%u].mem.disp: 0x%" PRIx64 "\n", i, op->mem.disp);
+				printf("\t\t\toperands[%u].mem.disp: 0x%" PRIx64 "\n",
+				       i, op->mem.disp);
 			break;
 		default:
 			break;
@@ -299,7 +312,8 @@ static void print_insn_detail(csh ud, cs_mode mode, cs_insn *ins)
 
 		// AVX broadcast type
 		if (op->avx_bcast != X86_AVX_BCAST_INVALID)
-			printf("\t\toperands[%u].avx_bcast: %u\n", i, op->avx_bcast);
+			printf("\t\toperands[%u].avx_bcast: %u\n", i,
+			       op->avx_bcast);
 
 		// AVX zero opmask {z}
 		if (op->avx_zero_opmask != false)
@@ -322,7 +336,8 @@ static void print_insn_detail(csh ud, cs_mode mode, cs_insn *ins)
 		}
 	}
 
-	// Print out all registers accessed by this instruction (either implicit or explicit)
+	// Print out all registers accessed by this instruction (either implicit
+	// or explicit)
 	if (!cs_regs_access(ud, ins,
 				regs_read, &regs_read_count,
 				regs_write, &regs_write_count)) {
@@ -413,39 +428,49 @@ static void decompile(void)
 	int i;
 	size_t count;
 
-	for (i = 0; i < sizeof(platforms)/sizeof(platforms[0]); i++) {
-		cs_err err = cs_open(platforms[i].arch, platforms[i].mode, &handle);
+	for (i = 0; i < sizeof(platforms) / sizeof(platforms[0]); i++) {
+		cs_err err =
+			cs_open(platforms[i].arch, platforms[i].mode, &handle);
 		if (err) {
-			printf("Failed on cs_open() with error returned: %u\n", err);
+			printf("Failed on cs_open() with error returned: %u\n",
+			       err);
 			abort();
 		}
 
 		if (platforms[i].opt_type)
-			cs_option(handle, platforms[i].opt_type, platforms[i].opt_value);
+			cs_option(handle, platforms[i].opt_type,
+				  platforms[i].opt_value);
 
 		cs_option(handle, CS_OPT_DETAIL, CS_OPT_ON);
 
-		count = cs_disasm(handle, platforms[i].code, platforms[i].size, address, 0, &insn);
+		count = cs_disasm(handle, platforms[i].code, platforms[i].size,
+				  address, 0, &insn);
 		if (count) {
 			size_t j;
 
 			printf("****************\n");
 			printf("Platform: %s\n", platforms[i].comment);
-			print_string_hex("Code:", platforms[i].code, platforms[i].size);
+			print_string_hex("Code:", platforms[i].code,
+					 platforms[i].size);
 			printf("Disasm:\n");
 
 			for (j = 0; j < count; j++) {
-				printf("0x%" PRIx64 ":\t%s\t%s\n", insn[j].address, insn[j].mnemonic, insn[j].op_str);
-				print_insn_detail(handle, platforms[i].mode, &insn[j]);
+				printf("0x%" PRIx64 ":\t%s\t%s\n",
+				       insn[j].address, insn[j].mnemonic,
+				       insn[j].op_str);
+				print_insn_detail(handle, platforms[i].mode,
+						  &insn[j]);
 			}
-			printf("0x%" PRIx64 ":\n", insn[j-1].address + insn[j-1].size);
+			printf("0x%" PRIx64 ":\n",
+			       insn[j - 1].address + insn[j - 1].size);
 
 			// free memory allocated by cs_disasm()
 			cs_free(insn, count);
 		} else {
 			printf("****************\n");
 			printf("Platform: %s\n", platforms[i].comment);
-			print_string_hex("Code:", platforms[i].code, platforms[i].size);
+			print_string_hex("Code:", platforms[i].code,
+					 platforms[i].size);
 			printf("ERROR: Failed to disasm given code!\n");
 			abort();
 		}
