@@ -35,6 +35,10 @@
 #define MiB (KiB * 1024UL)
 #define GiB (MiB * 1024UL)
 
+#if __cplusplus > 201703L /* FIXME: maybe lower */
+#define INIT_WITH_INDEX
+#endif
+
 enum xfer_type {
 	XFER_BETWEEN_STORAGE__GPU,
 	XFER_BETWEEN_STORAGE__CPU,
@@ -48,6 +52,7 @@ enum xfer_type {
 };
 
 const char *xfer_name[XFER_NUM] = {
+#ifdef INIT_WITH_INDEX
 	[XFER_BETWEEN_STORAGE__GPU] = "Storage<->GPU",
 	[XFER_BETWEEN_STORAGE__CPU] = "Storage<->CPU",
 	[XFER_BETWEEN_STORAGE__CPU__GPU] = "Storage<->CPU<->GPU",
@@ -56,6 +61,16 @@ const char *xfer_name[XFER_NUM] = {
 	[XFER_BETWEEN_STORAGE__GPU_ASYNC] = "Storage<->GPU_ASYNC",
 	[XFER_BETWEEN_STORAGE__GPU_BATCH] = "Storage<->GPU_BATCH",
 	[XFER_BETWEEN_STORAGE__GPU_BATCH_STREAM] = "Storage<->GPU_BATCH_STREAM",
+#else
+	"Storage<->GPU",
+	"Storage<->CPU",
+	"Storage<->CPU<->GPU",
+	"Storage<->CPU<->GPU_ASYNC",
+	"Storage<->PageCache<->CPU<->GPU",
+	"Storage<->GPU_ASYNC",
+	"Storage<->GPU_BATCH",
+	"Storage<->GPU_BATCH_STREAM"
+#endif
 };
 
 enum op_type {
@@ -67,10 +82,17 @@ enum op_type {
 };
 
 const char *op_name[OP_NUM] = {
+#ifdef INIT_WITH_INDEX
 	[OP_READ] = "READ",
 	[OP_WRITE] = "WRITE",
 	[OP_RANDREAD] = "RANDREAD",
 	[OP_RANDWRITE] = "RANDWRITE",
+#else
+	"READ",
+	"WRITE",
+	"RANDREAD",
+	"RANDWRITE",
+#endif
 };
 
 static struct {
@@ -269,7 +291,7 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
 }
 
 static const struct argp argp = {
-#if __cplusplus > 201703L /* FIXME: maybe lower */
+#ifdef INIT_WITH_INDEX
 	.options = opts,
 	.parser = parse_arg,
 	.doc = argp_prog_doc,

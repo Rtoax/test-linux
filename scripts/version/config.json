@@ -221,8 +221,9 @@
 					"argument": [ "-dumpfullversion" ]
 				}
 			},
-			"extension": [ "c", "cpp", "h", "hpp", "c++" ],
-			"keys": [ "compiler", "cpp", "c++", "elf", "gcc" ]
+			"extension": [ "c", "cpp", "h", "hpp", "c++", "cu" ],
+			"keys": [ "compiler", "cpp", "c++", "elf", "gcc",
+				  "cuda" ]
 		},
 		"gdb": {
 			"name": "GDB",
