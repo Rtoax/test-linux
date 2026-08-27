@@ -15,7 +15,7 @@ include bpf/libbpf.mk
 include bpf/libxdp.mk
 include bpf/bpftool.mk
 include bpf/fentry.mk
-include bpf/netfilter.mk
+include bpf/program.mk
 
 helpers-y := ${OUTPUT}task_helpers.o \
 	${OUTPUT}stack_helpers.o \
