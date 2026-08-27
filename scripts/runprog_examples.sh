@@ -49,9 +49,19 @@ runprog --maybe-sudo -- du -sh /boot
 
 # test log
 {
+	# Test 1
 	runprog --log ls.log -- ls
 	if [[ ! -e ls.log ]] || [[ ! -e ls.stderr.log ]]; then
 		error "Generate log failed."
 	fi
 	rm -f ls.log ls.stderr.log
+
+	# Test 2
+	runprog --log ls.log --tty -- ls
+	if [[ $(stat -c '%s' ls.log) -ne 0 ]]; then
+		error "test --log with --tty failed"
+	fi
+	rm -rf ls.log
 }
+
+runprog --tty -- ls

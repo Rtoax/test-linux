@@ -1,3 +1,4 @@
+subdir-y += stat
 subdir-y += tty
 
 prog-y += expr.sh
