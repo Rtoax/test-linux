@@ -2,13 +2,14 @@
 # Copyright (C) 2026 Rong Tao. All rights reserved.
 #
 # Output definitions:
-# HAVE_CXL_DEVICE=[y|n]
+# - HAVE_CXL_DEVICE=[y|n]
 #
 ifndef _CXL_MK
 _CXL_MK = 1
 
 include define.mk
 
+# FIXME: if CONFIG_CXL_BUS=y, /sys/bus/cxl/ is exist.
 $(call check_file_and_def,/sys/bus/cxl/devices,HAVE_CXL_DEVICE)
 
 ifdef DEBUG
