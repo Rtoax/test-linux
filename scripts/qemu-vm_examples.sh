@@ -35,7 +35,9 @@ qemu --disk help
 qemu --uefi help
 qemu list
 qemu list -h --help
+qemu list -a --all
 qemu list -p --port
+qemu list --qemu-command
 
 # Test Basic
 run

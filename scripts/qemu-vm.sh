@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.12"
+readonly VERSION="v1.1.13"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 . ${QEMU_VM_ROOT}/libcpu.sh
@@ -943,6 +943,7 @@ ${BOLD}SYNOPSIS${RST}
 ${BOLD}OPTIONS${RST}
     -a, --all      list all VMs and their information
     -p, --port     list VMs's network port
+    --qemu-cmd     listing qemu command
     -h, --help     show this information
 "
 	exit ${1-0}
@@ -952,12 +953,13 @@ list_vm() {
 	local i pidfile
 	local pidfiles=( $(find ${TMPDIR} -name '*.pid' 2>/dev/null) )
 	local id=0
-	local list_all list_port
+	local list_all list_port list_qemucmd
 	local LIST_VM_ARGS
 
 	LIST_VM_ARGS=$(getopt --options aph \
 		--long all \
 		--long port \
+		--long qemu-command \
 		--long help \
 		--name list-vm -- "$@")
 	local status=$?
@@ -976,10 +978,15 @@ list_vm() {
 		-a | --all)
 			shift
 			list_port=ON
+			list_qemucmd=ON
 			;;
 		-p | --port)
 			shift
 			list_port=ON
+			;;
+		--qemu-command)
+			shift
+			list_qemucmd=ON
 			;;
 		--)
 			shift
@@ -1022,6 +1029,12 @@ list_vm() {
 			printf " %-8d" $(cat ${vm_port_monitor_telnet})
 		fi
 		printf "\n"
+
+		if [[ -n ${list_qemucmd} ]]; then
+			printf "\033[2mQemu: "
+			cat ${vm_tmpdir}/qemu-command.sh
+			printf "\033[m"
+		fi
 
 		id=$((id + 1))
 	done
@@ -2582,4 +2595,6 @@ config_virtiofs
 qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
+qemucmd=${vm_tmpdir}/qemu-command.sh
+echo "${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}" > >(sudo tee ${qemucmd})
 _eval ${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}
