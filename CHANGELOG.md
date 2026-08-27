@@ -49,6 +49,7 @@ and this project adheres to
 - util-linux: add libuuid subdir;
 - add skopeo, printk, fontconfig, kbd;
 #### Template
+- kernel.mk: rename `kver_uapi` to `kuapi`;
 - version.mk: support specify yes letter, `y|m|?`
 - unicode: add arrow.mk;
 - sudo.mk: rename `SUDO` to `SUDO_NOPASSWD`;

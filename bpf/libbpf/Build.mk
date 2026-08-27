@@ -89,7 +89,7 @@ target-${HAVE_LIBXDP} += xdp_xskmap
 ifeq ($(call kver_gt,6,2,0),y)
   # linux commit 9c395c1b99bd ("bpf: Add basic bpf_rb_{root,node} support")
   # v6.2-rc7-1571-g9c395c1b99bd add bpf_rb_root to uapi/linux/bpf.h
-  ifeq ($(call kver_uapi_lt,6,2,0),y)
+  ifeq ($(call kuapi_lt,6,2,0),y)
     $(warning "kuapi not support bpf_rb_root")
     CFLAGS += -DKAPI_NO_BPF_RB_ROOT=1
   endif
