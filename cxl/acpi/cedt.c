@@ -10,6 +10,7 @@
 #include <malloc.h>
 #include <errno.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include "cedt.h"
 #include "chbs.h"
 #include "cfmws.h"
@@ -63,12 +64,15 @@ int main(void)
 {
 	FILE *fp;
 	struct cedt_hdr hdr;
+	struct stat st;
 
 	fp = fopen(FILE_CEDT, "r");
 	if (!fp) {
 		fprintf(stderr, "fopen(%s) failed, %m.\n", FILE_CEDT);
 		return -errno;
 	}
+
+	stat(FILE_CEDT, &st);
 
 	fread(&hdr, sizeof(hdr), 1, fp);
 	display_cedt_hdr(&hdr);
@@ -108,6 +112,11 @@ int main(void)
 	}
 
 done:
+	if (st.st_size > ftell(fp)) {
+		fprintf(stderr,
+			"\033[31mWARNING: Still %ld bytes have not be parsed yet.\033[m\n",
+			st.st_size - ftell(fp));
+	}
 	fclose(fp);
 	return 0;
 }

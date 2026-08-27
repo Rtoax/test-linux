@@ -17,7 +17,7 @@ int main(void)
 	}
 
 	n = fread(avg, 1, sizeof(avg), f);
-	if (n <= 1) {
+	if (n <= 1 || ftell(f) != n) {
 		err = -1;
 		goto cleanup;
 	}

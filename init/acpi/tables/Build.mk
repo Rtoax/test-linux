@@ -1,5 +1,5 @@
 include file.mk
-subdir-y += cxl
+subdir-$(call fexist,/sys/firmware/acpi/tables/CEDT) += cedt
 
 target-y += bgrt
 target-y += dsdt
