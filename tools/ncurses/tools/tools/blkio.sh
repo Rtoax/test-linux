@@ -7,8 +7,9 @@ iostat_x() {
 }
 
 if which iostat 2>&1 >/dev/null; then
-	while sleep 1; do
+	while true; do
 		iostat_x | awk '{print $3, $4}'
+		sleep 1
 	done | ../plotcake ${args[@]} -T "$(iostat_x | awk '{print $1}') Read-Write" \
 			-l 'kB_read/s' -l 'kB_wrtn/s' --ylabel 'Rate' -o blkio ${@}
 fi

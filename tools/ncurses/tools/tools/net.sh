@@ -13,7 +13,8 @@ for i in ${iface[@]}; do
 		maxiface=${i}
 	fi
 done
-while sleep 1; do
+while true; do
 	grep ${maxiface} /proc/net/dev | awk '{print $2, $10}'
+	sleep 1
 done | ../plotcake ${args[@]} --title "${maxiface} tx/rx" --logarithmic \
 		-l RX -l TX -o net ${@}

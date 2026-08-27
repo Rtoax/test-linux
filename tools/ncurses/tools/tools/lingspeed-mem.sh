@@ -8,8 +8,9 @@ do
 	labels+=( -l ${gpu} )
 done
 
-while sleep 0.5; do
+while true; do
 	usage=( $(ls-smi --show-memory | grep 'vis_vram usage' | awk '{print $4}') )
 	echo ${usage[@]}
+	sleep 0.5
 done | ../plotcake --title 'LingSpeed Memory Usage' --ylabel '100%' ${labels[@]} \
 		--logarithmic -o lingspeed-mem ${@}
