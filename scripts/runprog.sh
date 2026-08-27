@@ -156,11 +156,16 @@ WHOLE_CMD+="${SHEBANG:+${SHEBANG} }"
 WHOLE_CMD+="${SPAWN[@]}"
 
 if [[ ${LOG_FILE} ]]; then
-	eval "${WHOLE_CMD}" > >(tee -a ${LOG_FILE}) || {
+	ERR_LOG_FILE=${LOG_FILE}.stderr
+	if [[ ${LOG_FILE##*.} == log ]]; then
+		ERR_LOG_FILE=${LOG_FILE%.*}.stderr.log
+	fi
+	# Store stderr and stdout logs separately
+	eval "${WHOLE_CMD}" > >(tee --append ${LOG_FILE}) \
+			   2> >(tee --append ${ERR_LOG_FILE} >&2) || {
 		REAL_RET=$?
 		true
 	}
-
 else
 	eval "${WHOLE_CMD}" || {
 		REAL_RET=$?
