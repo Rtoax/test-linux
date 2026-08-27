@@ -16,6 +16,8 @@ target-y += _Pragma
 
 target-bpf-y += clang_loop_unroll.bpf.o
 
+prog-y += ${target-y}
+
 CC_clang_loop_unroll := clang
 CC_clang_diagnostic := clang
 
