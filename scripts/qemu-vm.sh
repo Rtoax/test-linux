@@ -60,7 +60,7 @@ declare q_gdb
 declare dry_run
 declare verbose
 declare debug
-readonly TMPDIR=/tmp/${PROG}
+declare TMPDIR=/tmp/${PROG}
 
 # Store VM specific files on host filesystem
 declare vm_tmpdir
