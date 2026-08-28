@@ -73,6 +73,7 @@ readonly DISK_TYPES=( ${DISK_VIRTIO} ${DISK_SATA} ${DISK_NVME} ${DISK_SCSI}
 
 declare -a qargs qmachine kcmds
 declare -a cleanup_files
+declare have_cxl
 
 readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 
@@ -1326,6 +1327,7 @@ while true; do
 		;;
 	--cxl)
 		shift
+		have_cxl=ON
 		handle_cxl_arg ${1}
 		shift
 		;;
@@ -1434,14 +1436,14 @@ config_kernel
 config_rootfs
 config_disk
 config_nvdimm
-config_cxl
+[[ -n ${have_cxl} ]] && config_cxl
 config_virtiofs
 
-qmachine+=( "${cxl_qmachine[@]}" )
+[[ -n ${have_cxl} ]] && qmachine+=( "${cxl_qmachine[@]}" )
 qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
-qargs+=( ${cxl_qargs[@]} )
+[[ -n ${have_cxl} ]] && qargs+=( ${cxl_qargs[@]} )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
-kcmds+=( "${cxl_kcmds[@]}" )
+[[ -n ${have_cxl} ]] && kcmds+=( "${cxl_kcmds[@]}" )
 
 qemucmd=${vm_tmpdir}/qemu-command.sh
 echo "${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}" > >(sudo tee ${qemucmd})
