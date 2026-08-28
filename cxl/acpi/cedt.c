@@ -105,7 +105,8 @@ int main(void)
 		case CEDT_STRUCTURE_TYPE_RDPAS:
 			/* TODO */
 		default:
-			fprintf(stderr, "Unknown CEDT structure type %d\n",
+			fprintf(stderr,
+				"WARNING: Unknown CEDT structure type %d\n",
 				type);
 			goto done;
 		}

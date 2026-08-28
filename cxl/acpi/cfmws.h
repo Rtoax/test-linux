@@ -3,6 +3,7 @@
 /**
  * CXL Fixed Memory Window Structure (CFMWS)
  * CXL 3.0 Specification, Section 9.17.1.3, Table 9-22.
+ * CXL 2.0 not support CFMWS.
  *
  * Abbrev:
  * - HPA: Host Physical Address
@@ -12,6 +13,9 @@
 #include <stdint.h>
 
 struct cfmws {
+	/**
+	 * 1 = indicates this is a CFMWS entry
+	 */
 	uint8_t type;
 	uint8_t reserved;
 	/**

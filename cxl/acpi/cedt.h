@@ -1,4 +1,5 @@
 #pragma once
+#include <stdint.h>
 
 #define FILE_CEDT "/sys/firmware/acpi/tables/CEDT"
 

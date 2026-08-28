@@ -13,6 +13,9 @@
 #include <stdint.h>
 
 struct chbs {
+	/**
+	 * =0 to indicate this is a CHBS entry
+	 */
 	uint8_t type;
 	uint8_t reserved;
 	uint16_t record_length;

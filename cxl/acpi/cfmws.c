@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <math.h>
+#include "cedt.h"
 #include "cfmws.h"
 #include "constants.h"
 
@@ -15,9 +16,13 @@ void display_cfmws(struct cfmws *cfmws)
 #ifdef DEBUG
 	printf("struct cfmws size %ld\n", sizeof(struct cfmws));
 #endif
-	printf("CFMWS type %d, record length %d(0x%x), Base HPA 0x%lx, ",
-	       cfmws->type, cfmws->record_length, cfmws->record_length,
-	       cfmws->base_hpa);
+	if (cfmws->type != CEDT_STRUCTURE_TYPE_CFMWS) {
+		fprintf(stderr, "ERROR: CFMWS type is not %d.\n",
+			CEDT_STRUCTURE_TYPE_CFMWS);
+		exit(EXIT_FAILURE);
+	}
+	printf("CFMWS: record length %d(0x%x), Base HPA 0x%lx, ",
+	       cfmws->record_length, cfmws->record_length, cfmws->base_hpa);
 	printf("winsize %ld(%ld MiB, %ld GiB), ", cfmws->window_size,
 	       cfmws->window_size / MiB, cfmws->window_size / GiB);
 	printf("ENIW %d, ", cfmws->eniw);
