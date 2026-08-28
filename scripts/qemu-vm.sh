@@ -647,6 +647,7 @@ declare -A cxl_switch_up2downs # arr[up-id]="down-id id2 id3 ..."
 # cxl switch downstream id to upstream id
 declare -A cxl_switch_down2up # arr[downstream-id]=upstream-id
 declare -A cxl_switch_down2pvmem # arr[downstream-id]=type3-id
+declare __cxl_next_slot=1
 
 # cxl type3 devices
 declare -a cxl_pmem_names # arr=( name1 name2 ... )
@@ -1571,16 +1572,6 @@ next_cxl_rp_id() {
 	echo $(mktemp -u cxl.rp.XXXX)
 }
 
-declare __cxl_slot_file
-next_cxl_slot() {
-	local num=1
-	if [[ -f ${__cxl_slot_file} ]]; then
-		num=$(cat ${__cxl_slot_file})
-	fi
-	echo "${num}"
-	echo $((++num)) > ${__cxl_slot_file}
-}
-
 next_cxl_type3_id() {
 	echo $(mktemp -u cxl.type3.XXXX)
 }
@@ -1652,7 +1643,8 @@ add_cxl_root_port() {
 	arg+=( bus=${bus} )
 	arg+=( id=${id} )
 	arg+=( chassis=0 )
-	arg+=( slot=$(next_cxl_slot) )
+	arg+=( slot=${__cxl_next_slot} )
+	__cxl_next_slot=$((__cxl_next_slot + 1))
 
 	if ! [[ " ${cxl_pxb_ids[@]} " =~ " ${bus} " ]]; then
 		error "cxl root port can't use a non-exist bus pxb"
@@ -1749,7 +1741,8 @@ add_cxl_switch() {
 		dsarg+=( bus=${up_id} )
 		dsarg+=( id=${down_id} )
 		dsarg+=( chassis=0 )
-		dsarg+=( slot=$(next_cxl_slot) )
+		dsarg+=( slot=${__cxl_next_slot} )
+		__cxl_next_slot=$((__cxl_next_slot + 1))
 
 		# Each cxl switch downstream has a upstream, on upstream has
 		# not only one downstream.
@@ -2190,10 +2183,6 @@ cxl_topolopy() {
 
 config_cxl() {
 	local i j k
-
-	__cxl_slot_file="${vm_tmpdir}/cxl-slot.txt"
-
-	cleanup_files+=( ${__cxl_slot_file} )
 
 	if [[ -z "${cxl_device}${cxl_pxb_ids}" ]]; then
 		return 0
