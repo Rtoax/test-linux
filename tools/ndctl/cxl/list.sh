@@ -13,6 +13,8 @@ run() {
 	eval "${@}"
 }
 
+run sudo cxl list --verbose
+
 # Check info, see commit 5a32ccae21a6 ("cxl: cxl.sh: check decoder informations")
 run sudo cxl list --decoders
 
