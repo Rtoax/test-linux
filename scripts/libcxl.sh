@@ -58,6 +58,23 @@ cxl_memdev_serial() {
 	echo ${slot-?}
 }
 
+# $1: memdev name, like 'mem7'
+cxl_memdev_endpoint() {
+	# [
+	#  {
+	#    "endpoint":"endpoint17",
+	#    "host":"mem9",
+	#    "parent_dport":"0000:17:02.0",
+	#    "depth":3,
+	#    "decoders_committed":0
+	#  },
+	#  ....
+	# ]
+	local slot=$(sudo cxl list --endpoints | \
+		jq -r --arg dev "${1}" '.[] | select(.host == $dev) | .endpoint')
+	echo ${slot-?}
+}
+
 cxl_info_all() {
 	echo "ROOTDECODERS=\"${ROOTDECODERS[@]}\""
 	echo "PORTDECODERS=\"${PORTDECODERS[@]}\""
@@ -68,15 +85,16 @@ cxl_info_all() {
 	echo "VMEM_MEMDEVS=\"${VMEM_MEMDEVS[@]}\""
 	echo "OTHER_MEMDEVS=\"${OTHER_MEMDEVS[@]}\""
 
-	printf "\033[1;3;4;7m%-8s %-10s %-8s %-12s %-8s\033[m\n" \
-	       "MEMDEV" "TYPE" "SIZE" "PCI" "SERIAL"
+	printf "\033[1;3;4;7m%-8s %-10s %-8s %-12s %-8s %-13s\033[m\n" \
+	       "MEMDEV" "TYPE" "SIZE" "PCI" "SERIAL" "ENDPOINT"
 	for dev in ${PMEM_MEMDEVS[@]} ${VMEM_MEMDEVS[@]} ${OTHER_MEMDEVS[@]}
 	do
-		printf "%-8s %-10s %-8s %-12s %-8s\n" \
+		printf "%-8s %-10s %-8s %-12s %-8s %-13s\n" \
 			${dev} \
 			$(cxl_memdev_type ${dev}) \
 			$(sizeceilfmt $(cxl_memdev_size ${dev})) \
 			$(cxl_memdev_slot ${dev}) \
-			$(cxl_memdev_serial ${dev})
+			$(cxl_memdev_serial ${dev}) \
+			$(cxl_memdev_endpoint ${dev})
 	done
 }
