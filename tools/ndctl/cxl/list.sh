@@ -1,7 +1,8 @@
 #!/bin/bash
 # Commits:
 # - commit 1f866e735c78 ("cxl: list: 1-way vmem")
-# - commit b55af6465a43 ("cxl: list: 4-ways pmem + 4-ways vmem + 4-ways vmem with dynamic capacity")
+# - commit b55af6465a43 ("cxl: list: 4-ways pmem + 4-ways vmem + 4-ways vmem
+#                         with dynamic capacity")
 set -e
 
 readonly MY_ROOT=$(dirname $(realpath $0))
@@ -13,7 +14,8 @@ run() {
 	eval sudo "${@}"
 }
 
-# commit cf0a146594a4 ("cxl: list verbose of: 4-ways pmem + 4-ways vmem + 4-ways vmem with dynamic capacity")
+# commit cf0a146594a4 ("cxl: list verbose of: 4-ways pmem + 4-ways vmem +
+#                       4-ways vmem with dynamic capacity")
 run cxl list --verbose
 
 # Check info, see commit 5a32ccae21a6 ("cxl: cxl.sh: check decoder informations")
@@ -30,6 +32,8 @@ do
 	run cxl list --memdev ${memdev} --health
 done
 
+# commit d99d7c80b0cf ("cxl: list endpoints of: 4-ways pmem + 4-ways vmem +
+#                       4-ways vmem with dynamic capacity")
 run cxl list --endpoints
 
 # Bus and dimm
