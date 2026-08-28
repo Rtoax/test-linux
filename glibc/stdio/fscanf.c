@@ -22,6 +22,8 @@ int main(void)
 			fprintf(stderr, "fopen %s %m\n", stats[i]);
 			continue;
 		}
+		if (fp)
+			break;
 	}
 
 	if (!fp)
