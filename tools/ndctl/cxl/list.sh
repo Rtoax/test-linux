@@ -37,4 +37,6 @@ run cxl list --buses
 run ndctl list --buses
 run ndctl list --dimms
 
+run cxl list --regions
+
 cxl_info_all

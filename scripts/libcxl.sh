@@ -26,7 +26,7 @@ readonly OTHER_MEMDEVS=( $(sudo cxl list --memdevs | \
 
 # $1: memdev name, like 'mem7'
 cxl_memdev_size() {
-	local size=$(sudo cxl list | \
+	local size=$(sudo cxl list --memdevs | \
 		jq -r --arg dev "${1}" '.[] | select(.memdev == $dev) | (.pmem_size // .ram_size)')
 	[[ ${size} == null ]] && size=0
 	echo ${size-0}
@@ -46,14 +46,14 @@ cxl_memdev_type() {
 
 # $1: memdev name, like 'mem7'
 cxl_memdev_slot() {
-	local slot=$(sudo cxl list | \
+	local slot=$(sudo cxl list --memdevs | \
 		jq -r --arg dev "${1}" '.[] | select(.memdev == $dev) | .host')
 	echo ${slot-?}
 }
 
 # $1: memdev name, like 'mem7'
 cxl_memdev_serial() {
-	local slot=$(sudo cxl list | \
+	local slot=$(sudo cxl list --memdevs | \
 		jq -r --arg dev "${1}" '.[] | select(.memdev == $dev) | .serial')
 	echo ${slot-?}
 }

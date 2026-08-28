@@ -6,6 +6,7 @@ declare MODE=fsdax
 declare DEVS=( mem0 mem1 mem2 mem3 )
 declare SIZE=$(( 1024 * ${#DEVS[@]} ))M
 
+# Could not specify --type and --memdevs
 # commit 31a30fb65f93 ("cxl.sh: pmem: create-region")
 # commit ad01a8c86ce9 ("cxl.sh: pmem: create-region 4 ways")
 sudo cxl create-region --decoder decoder0.0 --size ${SIZE} --type pmem --memdevs ${DEVS[@]}
