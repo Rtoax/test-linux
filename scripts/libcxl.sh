@@ -11,6 +11,7 @@ readonly LIBCXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 readonly ROOTDECODERS=( $(sudo cxl list --decoders | jq -r '.[] | .["root decoders"][]? | .decoder') )
 readonly PORTDECODERS=( $(sudo cxl list --decoders | jq -r '.[] | .["port decoders"][]? | .decoder') )
+readonly EPDECODERS=( $(sudo cxl list --decoders | jq -r '.[] | .["endpoint decoders"][]? | .decoder') )
 readonly DECODERS=( $(sudo cxl list --decoders | jq -r '.[].decoder') )
 readonly ALL_MEMDEVS=( $(sudo cxl list --memdevs | jq -r '.[].memdev') )
 readonly PMEM_MEMDEVS=( $(sudo cxl list --memdevs | jq -r '.[] | select(has("pmem_size")) | .memdev') )
@@ -56,6 +57,7 @@ cxl_memdev_serial() {
 cxl_info_all() {
 	echo "ROOTDECODERS=\"${ROOTDECODERS[@]}\""
 	echo "PORTDECODERS=\"${PORTDECODERS[@]}\""
+	echo "EPDECODERS=\"${EPDECODERS[@]}\""
 	echo "DECODERS=\"${DECODERS[@]}\""
 	echo "ALL_MEMDEVS=\"${ALL_MEMDEVS[@]}\""
 	echo "PMEM_MEMDEVS=\"${PMEM_MEMDEVS[@]}\""
