@@ -20,7 +20,7 @@ and this project adheres to
 #### Security
 #### Scripts
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;
-- add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh;
+- add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`;
 #### Tools
 - add ima-evm subdir;
 #### Template

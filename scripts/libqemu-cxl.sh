@@ -60,9 +60,10 @@
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
+. ${LIBQEMU_CXL_ROOT}/libstring.sh
 
 declare -a cxl_qargs cxl_qmachine cxl_kcmds
-declare cxl_dry_run cxl_dry_run_log
+declare cxl_debug cxl_dry_run cxl_dry_run_log
 
 readonly CXL_DEV_VMEM=cxl-vmem
 readonly CXL_DEV_VMEM_DC=cxl-vmem-dc
@@ -393,7 +394,7 @@ handle_cxl_arg() {
 
 cxl_kernel_cmdline() {
 	if [[ -z "${cxl_device}${cxl_pxb_ids}" ]]; then
-		if [[ ${debug} ]]; then
+		if [[ ${cxl_debug} ]]; then
 			cxl_kcmds+=( "cxl_acpi.dyndbg=+fplm"
 				"cxl_pci.dyndbg=+fplm"
 				"cxl_core.dyndbg=+fplm"

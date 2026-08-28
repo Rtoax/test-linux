@@ -11,7 +11,7 @@ subdir-y += git
 subdir-y += rootfs
 subdir-y += version
 
-prog-y := code-count.sh
+prog-y += code-count.sh
 prog-y += moonlight.sh
 prog-y += gotoxy.sh
 prog-y += libcpu_examples.sh
@@ -22,6 +22,7 @@ prog-y += libnet_examples.sh
 prog-y += libos_examples.sh
 prog-y += libpcie_examples.sh
 prog-y += libqemu_examples.sh
+prog-y += libqemu-cxl_examples.sh
 prog-y += libso-multiver_examples.sh
 prog-y += libstring_examples.sh
 prog-y += libuuid_examples.sh

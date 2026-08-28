@@ -1386,6 +1386,7 @@ while true; do
 	-D | --debug)
 		shift
 		debug=ON
+		cxl_debug=ON
 		;;
 	--)
 		shift
