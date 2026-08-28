@@ -392,27 +392,6 @@ handle_cxl_arg() {
 	fi
 }
 
-cxl_kernel_cmdline() {
-	if [[ -z "${cxl_device}${cxl_pxb_ids}" ]]; then
-		if [[ ${cxl_debug} ]]; then
-			cxl_kcmds+=( "cxl_acpi.dyndbg=+fplm"
-				"cxl_pci.dyndbg=+fplm"
-				"cxl_core.dyndbg=+fplm"
-				"cxl_mem.dyndbg=+fplm"
-				"cxl_pmem.dyndbg=+fplm"
-				"cxl_port.dyndbg=+fplm"
-				"cxl_region.dyndbg=+fplm"
-				"cxl_test.dyndbg=+fplm"
-				"cxl_mock.dyndbg=+fplm"
-				"cxl_mock_mem.dyndbg=+fplm" )
-		fi
-		# Disable ACPI CXL enumeration at boot
-		# cxl_kcmds+=( acpi=off )
-		cxl_kcmds+=( cxl.mem=disable )
-		cxl_kcmds+=( cxl.acpi=0 )
-	fi
-}
-
 next_pxb_cxl_id() {
 	echo $(mktemp -u cxl.pxb.XXXX)
 }
@@ -1151,4 +1130,24 @@ config_cxl() {
 		# 256, 512, 1k, 2k, 4k, 8k, 16k, default 256
 		cxl_qmachine+=( cxl-fmw.${j}.interleave-granularity=4k )
 	done
+
+	# config kenrel cmdlines of cxl
+	if [[ ! -z "${cxl_device}${cxl_pxb_ids}" ]]; then
+		if [[ ${cxl_debug} ]]; then
+			cxl_kcmds+=( "cxl_acpi.dyndbg=+fplm"
+				"cxl_pci.dyndbg=+fplm"
+				"cxl_core.dyndbg=+fplm"
+				"cxl_mem.dyndbg=+fplm"
+				"cxl_pmem.dyndbg=+fplm"
+				"cxl_port.dyndbg=+fplm"
+				"cxl_region.dyndbg=+fplm"
+				"cxl_test.dyndbg=+fplm"
+				"cxl_mock.dyndbg=+fplm"
+				"cxl_mock_mem.dyndbg=+fplm" )
+		fi
+		# Disable ACPI CXL enumeration at boot
+		# cxl_kcmds+=( acpi=off )
+		cxl_kcmds+=( cxl.mem=disable )
+		cxl_kcmds+=( cxl.acpi=0 )
+	fi
 }

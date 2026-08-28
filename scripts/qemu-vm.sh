@@ -1061,9 +1061,6 @@ config_kernel() {
 			kcmds+=( root=UUID=$(image2uuid ${f_rootfs}) )
 		fi
 	fi
-
-	cxl_kernel_cmdline
-	kcmds+=( "${cxl_kcmds[@]}" )
 }
 
 __disk_file_type() {
@@ -1444,6 +1441,7 @@ qmachine+=( "${cxl_qmachine[@]}" )
 qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 qargs+=( ${cxl_qargs[@]} )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
+kcmds+=( "${cxl_kcmds[@]}" )
 
 qemucmd=${vm_tmpdir}/qemu-command.sh
 echo "${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}" > >(sudo tee ${qemucmd})
