@@ -625,6 +625,7 @@ declare -a cxl_pxb_ids # ( pxb-id1 pxb-id2 ... )
 declare -A cxl_pxb_fmw # arr[pxb-id]=0, default is 0
 declare -A cxl_pxb_sizes # arr[pxb-id]=2G
 declare -A cxl_pxb2rps # arr[pxb-id]="rp-id1 rp-id2 ..."
+declare __cxl_pxb_next_bus_nr=11 # bus_nr=11,21,31,41,...
 
 # cxl root port
 declare -a cxl_rp_ids cxl_rp_buss cxl_rp_ports
@@ -1566,17 +1567,6 @@ next_pxb_cxl_id() {
 	echo $(mktemp -u cxl.pxb.XXXX)
 }
 
-# bus_nr=11,21,31,41,...
-declare __pxb_cxl_bus_nr_file
-next_cxl_pxb_bus_nr() {
-	local num=11
-	if [[ -f ${__pxb_cxl_bus_nr_file} ]]; then
-		num=$(cat ${__pxb_cxl_bus_nr_file})
-	fi
-	echo "${num}"
-	echo $((num + 10)) > ${__pxb_cxl_bus_nr_file}
-}
-
 next_cxl_rp_id() {
 	echo $(mktemp -u cxl.rp.XXXX)
 }
@@ -1626,7 +1616,8 @@ add_cxl_pxb() {
 	arg+=( pxb-cxl )
 	arg+=( id=${id} )
 	arg+=( bus=${BUS_PCIE0} )
-	arg+=( bus_nr=$(next_cxl_pxb_bus_nr) )
+	arg+=( bus_nr=${__cxl_pxb_next_bus_nr} )
+	__cxl_pxb_next_bus_nr=$((__cxl_pxb_next_bus_nr + 10))
 
 	qargs+=( -device $(IFS=,; echo "${arg[*]}") )
 
@@ -2200,10 +2191,8 @@ cxl_topolopy() {
 config_cxl() {
 	local i j k
 
-	__pxb_cxl_bus_nr_file="${vm_tmpdir}/pxb-cxl-bus-nr.txt"
 	__cxl_slot_file="${vm_tmpdir}/cxl-slot.txt"
 
-	cleanup_files+=( ${__pxb_cxl_bus_nr_file} )
 	cleanup_files+=( ${__cxl_slot_file} )
 
 	if [[ -z "${cxl_device}${cxl_pxb_ids}" ]]; then
