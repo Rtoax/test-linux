@@ -3,8 +3,7 @@ set -e
 
 . libqemu-cxl.sh
 
-cxl_debug=on
-
+handle_cxl_arg debug
 handle_cxl_arg pxb=pxb.1
 config_cxl
 

@@ -63,7 +63,8 @@ readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 . ${LIBQEMU_CXL_ROOT}/libstring.sh
 
 declare -a cxl_qargs cxl_qmachine cxl_kcmds
-declare cxl_debug cxl_dry_run cxl_dry_run_log
+declare cxl_debug
+declare cxl_dry_run cxl_dry_run_log
 
 readonly CXL_DEV_VMEM=cxl-vmem
 readonly CXL_DEV_VMEM_DC=cxl-vmem-dc
