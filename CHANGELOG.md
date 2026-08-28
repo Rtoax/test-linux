@@ -11,6 +11,22 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Documentation
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Scripts
+#### Tools
+#### Template
+
+
+## [v2.4.12] Queen 2026-08-28
+
+#### Breaking Changes
+#### Added
 - add standard directory;
 - sysfs: add tty relative subdirs;
 - elfutils: first commit;
