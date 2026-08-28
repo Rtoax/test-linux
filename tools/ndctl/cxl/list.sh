@@ -13,6 +13,7 @@ run() {
 	eval "${@}"
 }
 
+# commit cf0a146594a4 ("cxl: list verbose of: 4-ways pmem + 4-ways vmem + 4-ways vmem with dynamic capacity")
 run sudo cxl list --verbose
 
 # Check info, see commit 5a32ccae21a6 ("cxl: cxl.sh: check decoder informations")
@@ -31,6 +32,7 @@ done
 
 # Bus and dimm
 # commit a8b5d8d7094b ("cxl: ndctl list: shows bus and dimm info")
+run sudo cxl list --buses
 run sudo ndctl list --buses
 run sudo ndctl list --dimms
 
