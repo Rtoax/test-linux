@@ -25,6 +25,7 @@ cxl_memdev_size() {
 
 # $1: memdev name, like 'mem7'
 cxl_memdev_type() {
+	# FIXME: may not only dynamic capacity for lost `size` label.
 	local type=$(sudo cxl list --memdevs | \
 		jq -r --arg dev "${1}" '
 			.[] | select(.memdev == $dev) |
@@ -32,6 +33,13 @@ cxl_memdev_type() {
 				elif has("ram_size") then "ram"
 				else "ram(DyCap)" end')
 	echo ${type-unknown}
+}
+
+# $1: memdev name, like 'mem7'
+cxl_memdev_slot() {
+	local slot=$(sudo cxl list | \
+		jq -r --arg dev "${1}" '.[] | select(.memdev == $dev) | .host')
+	echo ${slot-?}
 }
 
 cxl_info_all() {
@@ -43,9 +51,14 @@ cxl_info_all() {
 	echo "VMEM_MEMDEVS=\"${VMEM_MEMDEVS[@]}\""
 	echo "OTHER_MEMDEVS=\"${OTHER_MEMDEVS[@]}\""
 
-	printf "\033[1;7m%-8s %-16s %-10s\033[m\n" "MEMDEV" "SIZE" "TYPE"
+	printf "\033[1;7m%-8s %-10s %-16s %-16s\033[m\n" \
+	       "MEMDEV" "TYPE" "SIZE" "PCI"
 	for dev in ${PMEM_MEMDEVS[@]} ${VMEM_MEMDEVS[@]} ${OTHER_MEMDEVS[@]}
 	do
-		printf "%-8s %-16ld %-10s\n" ${dev} $(cxl_memdev_size ${dev}) $(cxl_memdev_type ${dev})
+		printf "%-8s %-10s %-16ld %-16s\n" \
+			${dev} \
+			$(cxl_memdev_type ${dev}) \
+			$(cxl_memdev_size ${dev}) \
+			$(cxl_memdev_slot ${dev})
 	done
 }
