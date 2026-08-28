@@ -19,7 +19,19 @@ readonly OTHER_MEMDEVS=( $(sudo cxl list --memdevs | \
 cxl_memdev_size() {
 	local size=$(sudo cxl list | \
 		jq -r --arg dev "${1}" '.[] | select(.memdev == $dev) | (.pmem_size // .ram_size)')
+	[[ ${size} == null ]] && size=0
 	echo ${size-0}
+}
+
+# $1: memdev name, like 'mem7'
+cxl_memdev_type() {
+	local type=$(sudo cxl list --memdevs | \
+		jq -r --arg dev "${1}" '
+			.[] | select(.memdev == $dev) |
+				if has("pmem_size") then "pmem"
+				elif has("ram_size") then "ram"
+				else "ram(DyCap)" end')
+	echo ${type-unknown}
 }
 
 cxl_info_all() {
@@ -31,9 +43,9 @@ cxl_info_all() {
 	echo "VMEM_MEMDEVS=\"${VMEM_MEMDEVS[@]}\""
 	echo "OTHER_MEMDEVS=\"${OTHER_MEMDEVS[@]}\""
 
-	printf "\033[1;7m%-8s %-16s\033[m\n" "MEMDEV" "SIZE"
-	for dev in ${PMEM_MEMDEVS[@]} ${VMEM_MEMDEVS[@]}
+	printf "\033[1;7m%-8s %-16s %-10s\033[m\n" "MEMDEV" "SIZE" "TYPE"
+	for dev in ${PMEM_MEMDEVS[@]} ${VMEM_MEMDEVS[@]} ${OTHER_MEMDEVS[@]}
 	do
-		printf "%-8s %-16ld\n" ${dev} $(cxl_memdev_size ${dev})
+		printf "%-8s %-16ld %-10s\n" ${dev} $(cxl_memdev_size ${dev}) $(cxl_memdev_type ${dev})
 	done
 }
