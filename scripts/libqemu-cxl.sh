@@ -150,6 +150,7 @@ cxl_arg_help() {
 ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 
 ${BOLD}--cxl [help|?]${RST}: show this information
+${BOLD}--cxl debug${RST}: enable debug mode.
 
 ${BOLD}--cxl [DEVICE]${RST}: see ${BOLD}[DEVICE]${RST} section below
 ${BOLD}--cxl <device|dev>=[DEVICE|<list|?>]${RST}: see ${BOLD}[DEVICE]${RST} section below
@@ -189,6 +190,10 @@ handle_cxl_arg() {
 		case ${arg%%=*} in
 		help|?)
 			cxl_arg_help
+			;;
+		debug)
+			shift
+			cxl_debug=ON
 			;;
 		esac
 	done

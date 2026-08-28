@@ -53,6 +53,7 @@ qemu list --qemu-command
 
 # Test Basic
 run
+run --debug
 run --memory 4GiB
 run --cpu 10
 run --cpu nr=10
@@ -69,6 +70,7 @@ done
 run --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
 
 # Test CXL
+run --cxl debug
 # Test CXL builtin devices
 dev_list1=( $(run --cxl device=list) )
 dev_list2=( $(run --cxl device=?) )
