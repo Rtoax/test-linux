@@ -24,6 +24,7 @@ and this project adheres to
 #### Tools
 - add ima-evm subdir;
 #### Template
+- add anaconda.mk;
 
 
 ## [v2.4.12] Queen 2026-08-28

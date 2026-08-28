@@ -1,5 +1,7 @@
+include anaconda.mk
+
 subdir-y += alpine
-subdir-y += anaconda
+subdir-${HAVE_ANACONDA} += anaconda
 subdir-y += apt
 subdir-y += dpkg
 subdir-y += flatpak
