@@ -1,2 +1,2 @@
-prog-y := fact.sh
-prog-y += pi.sh
+prog-y += fact.sh
+prog-y += factorial.sh

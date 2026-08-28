@@ -1,6 +1,7 @@
 #!/bin/bash
 # simple demonstration of the getopts command
-#
+set -e
+
 while getopts :ab:c opt
 do
 	case "$opt" in
