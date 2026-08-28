@@ -1,3 +1,4 @@
 # SPDX-License-Identifier: GPL-3.0
 subdir-y += pgrep
 subdir-y += ps
+subdir-y += sysctl
