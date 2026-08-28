@@ -5,6 +5,10 @@
 #
 set -e
 
+readonly LIBCXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
+
+. ${LIBCXL_ROOT}/libstring.sh
+
 readonly ROOTDECODERS=( $(sudo cxl list --decoders | jq -r '.[] | .["root decoders"][]? | .decoder') )
 readonly PORTDECODERS=( $(sudo cxl list --decoders | jq -r '.[] | .["port decoders"][]? | .decoder') )
 readonly DECODERS=( $(sudo cxl list --decoders | jq -r '.[].decoder') )
@@ -42,6 +46,13 @@ cxl_memdev_slot() {
 	echo ${slot-?}
 }
 
+# $1: memdev name, like 'mem7'
+cxl_memdev_serial() {
+	local slot=$(sudo cxl list | \
+		jq -r --arg dev "${1}" '.[] | select(.memdev == $dev) | .serial')
+	echo ${slot-?}
+}
+
 cxl_info_all() {
 	echo "ROOTDECODERS=\"${ROOTDECODERS[@]}\""
 	echo "PORTDECODERS=\"${PORTDECODERS[@]}\""
@@ -51,14 +62,15 @@ cxl_info_all() {
 	echo "VMEM_MEMDEVS=\"${VMEM_MEMDEVS[@]}\""
 	echo "OTHER_MEMDEVS=\"${OTHER_MEMDEVS[@]}\""
 
-	printf "\033[1;7m%-8s %-10s %-16s %-16s\033[m\n" \
-	       "MEMDEV" "TYPE" "SIZE" "PCI"
+	printf "\033[1;3;4;7m%-8s %-10s %-8s %-12s %-8s\033[m\n" \
+	       "MEMDEV" "TYPE" "SIZE" "PCI" "SERIAL"
 	for dev in ${PMEM_MEMDEVS[@]} ${VMEM_MEMDEVS[@]} ${OTHER_MEMDEVS[@]}
 	do
-		printf "%-8s %-10s %-16ld %-16s\n" \
+		printf "%-8s %-10s %-8s %-12s %-8s\n" \
 			${dev} \
 			$(cxl_memdev_type ${dev}) \
-			$(cxl_memdev_size ${dev}) \
-			$(cxl_memdev_slot ${dev})
+			$(sizeceilfmt $(cxl_memdev_size ${dev})) \
+			$(cxl_memdev_slot ${dev}) \
+			$(cxl_memdev_serial ${dev})
 	done
 }

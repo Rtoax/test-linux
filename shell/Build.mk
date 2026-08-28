@@ -7,6 +7,7 @@ subdir-y += exec
 subdir-y += math
 subdir-y += network
 subdir-y += shopt
+subdir-y += source
 subdir-y += string
 
 shell-y += args.sh
@@ -30,4 +31,3 @@ shell-y += test.sh
 shell-y += tracing.sh
 shell-y += trap.sh
 shell-y += while.sh
-shell-y += BASH_SOURCE.sh
