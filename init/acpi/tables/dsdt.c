@@ -12,6 +12,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#define DSDT "/sys/firmware/acpi/tables/DSDT"
+
 typedef struct {
 	char Signature[4]; // "DSDT"
 	uint32_t Length;
@@ -30,9 +32,9 @@ int main(void)
 {
 	ACPI_DSDT dsdt;
 
-	FILE *fp = fopen("/sys/firmware/acpi/tables/DSDT", "rb");
+	FILE *fp = fopen(DSDT, "rb");
 	if (!fp) {
-		perror("fopen DSDT");
+		perror("fopen " DSDT);
 		return 1;
 	}
 
@@ -48,10 +50,6 @@ int main(void)
 		return 1;
 	}
 
-	/**
-	 * TODO: Parse DefinitionBlock[] AML
-	 */
-
 	printf("DSDT Sign      : %c%c%c%c\n", dsdt.Signature[0],
 	       dsdt.Signature[1], dsdt.Signature[2], dsdt.Signature[3]);
 	printf("DSDT Length    : %d\n", dsdt.Length);
@@ -66,6 +64,10 @@ int main(void)
 	printf("DSDT OEM Revision  : %d\n", dsdt.OEMRevision);
 	printf("DSDT Creator ID : %d (0x%x)\n", dsdt.CreatorID, dsdt.CreatorID);
 	printf("DSDT Creator Revision  : %d\n", dsdt.CreatorRevision);
+
+	/**
+	 * TODO: Parse DefinitionBlock[] AML
+	 */
 
 	fclose(fp);
 
