@@ -21,6 +21,7 @@ readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 . ${QEMU_VM_ROOT}/libnet.sh
 . ${QEMU_VM_ROOT}/libuuid.sh
 . ${QEMU_VM_ROOT}/libqemu.sh
+. ${QEMU_VM_ROOT}/libqemu-cxl.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH

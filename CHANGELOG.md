@@ -19,7 +19,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
-- add libcxl.sh, `libcxl_examples.sh`;
+- add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh;
 #### Tools
 - add ima-evm subdir;
 #### Template
