@@ -180,6 +180,7 @@ ${BOLD}VM OPTIONS${RST}
 
   ${BOLD}CXL OPTIONS${RST}
     --cxl [ARGS]            CXL by Qemu. please see ${BOLD}--cxl help|?${RST}
+                            (may be listed multiple times)
 
                             CXL require Qemu >= ${UL}9.0${RST} on aarch64,
                             Qemu >= ${UL}7.2${RST} on x86_64.
