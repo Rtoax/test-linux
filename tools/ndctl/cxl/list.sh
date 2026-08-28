@@ -19,6 +19,13 @@ run() {
 	eval "${@}"
 }
 
+# $1: memdev name, like 'mem7'
+memdev_size() {
+	local size=$(sudo cxl list | \
+		jq -r --arg dev "${1}" '.[] | select(.memdev == $dev) | (.pmem_size // .ram_size)')
+	echo ${size-0}
+}
+
 # Check info, see commit 5a32ccae21a6 ("cxl: cxl.sh: check decoder informations")
 run sudo cxl list --decoders
 
@@ -45,3 +52,9 @@ echo "ALL_MEMDEVS=\"${ALL_MEMDEVS[@]}\""
 echo "PMEM_MEMDEVS=\"${PMEM_MEMDEVS[@]}\""
 echo "VMEM_MEMDEVS=\"${VMEM_MEMDEVS[@]}\""
 echo "OTHER_MEMDEVS=\"${OTHER_MEMDEVS[@]}\""
+
+printf "\033[1;7m%-8s %-16s\033[m\n" "MEMDEV" "SIZE"
+for dev in ${PMEM_MEMDEVS[@]} ${VMEM_MEMDEVS[@]}
+do
+	printf "%-8s %-16ld\n" ${dev} $(memdev_size ${dev})
+done
