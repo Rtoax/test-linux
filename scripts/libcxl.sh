@@ -9,6 +9,50 @@ readonly LIBCXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBCXL_ROOT}/libstring.sh
 
+# [
+#   {
+#     "root decoders":[
+#       {
+#         "decoder":"decoder0.0",
+#         "size":8589934592,
+#         "interleave_ways":1,
+#         "pmem_capable":true,
+#         "volatile_capable":true,
+#         "accelmem_capable":true,
+#         "qos_class":0,
+#         "nr_targets":1
+#       },
+#       ....
+#     ]
+#   },
+#   {
+#     "port decoders":[
+#       {
+#         "decoder":"decoder6.0",
+#         "size":2147483648,
+#         "interleave_ways":1,
+#         "region":"region0",
+#         "nr_targets":1
+#       },
+#       ....
+#     ]
+#   },
+#   {
+#     "endpoint decoders":[
+#       {
+#         "decoder":"decoder16.0",
+#         "size":2147483648,
+#         "interleave_ways":4,
+#         "interleave_granularity":256,
+#         "region":"region0",
+#         "dpa_resource":0,
+#         "dpa_size":536870912,
+#         "mode":"pmem"
+#       },
+#       ....
+#     ]
+#   }
+# ]
 readonly ROOTDECODERS=( $(sudo cxl list --decoders | jq -r '.[] | .["root decoders"][]? | .decoder') )
 readonly PORTDECODERS=( $(sudo cxl list --decoders | jq -r '.[] | .["port decoders"][]? | .decoder') )
 readonly EPDECODERS=( $(sudo cxl list --decoders | jq -r '.[] | .["endpoint decoders"][]? | .decoder') )
@@ -26,6 +70,32 @@ readonly OTHER_MEMDEVS=( $(sudo cxl list --memdevs | \
 
 # $1: memdev name, like 'mem7'
 cxl_memdev_size() {
+	# [
+	#   {
+	#     "memdev":"mem9",
+	#     "ram_size":2147483648,
+	#     "serial":7581,
+	#     "host":"0000:1a:00.0",
+	#     "firmware_version":"BWFW VERSION 00",
+	#     "poison_injectable":true
+	#   },
+	#   {
+	#     "memdev":"mem6",
+	#     "serial":8806,
+	#     "host":"0000:23:00.0",
+	#     "firmware_version":"BWFW VERSION 00",
+	#     "poison_injectable":true
+	#   },
+	#   {
+	#     "memdev":"mem8",
+	#     "pmem_size":2147483648,
+	#     "serial":28596,
+	#     "host":"0000:0e:00.0",
+	#     "firmware_version":"BWFW VERSION 00",
+	#     "poison_injectable":true
+	#   },
+	#   ....
+	# ]
 	local size=$(sudo cxl list --memdevs | \
 		jq -r --arg dev "${1}" '.[] | select(.memdev == $dev) | (.pmem_size // .ram_size)')
 	[[ ${size} == null ]] && size=0
