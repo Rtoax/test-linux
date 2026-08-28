@@ -15,6 +15,7 @@ prog-y := code-count.sh
 prog-y += moonlight.sh
 prog-y += gotoxy.sh
 prog-y += libcpu_examples.sh
+prog-y += libcxl_examples.sh
 prog-y += libfile_examples.sh
 prog-y += libnbd_examples.sh
 prog-y += libnet_examples.sh
