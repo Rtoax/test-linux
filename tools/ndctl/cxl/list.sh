@@ -30,6 +30,8 @@ do
 	run cxl list --memdev ${memdev} --health
 done
 
+run cxl list --endpoints
+
 # Bus and dimm
 # commit a8b5d8d7094b ("cxl: ndctl list: shows bus and dimm info")
 # commit 79942b178114 ("cxl: list: cxl list --buses .vs. ndctl list --buses")
