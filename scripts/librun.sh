@@ -12,4 +12,8 @@ dry_run()
 	echo >&2 -e "${BOLD}${GREEN}Startup: $@${RST}"
 	eval "${*}"
 	echo >&2 -e "${BOLD}${YELLOW}Done: $@${RST}"
+
+	if [[ ! -z ${DRY_RUN_LOG} ]] && [[ -f ${DRY_RUN_LOG} ]]; then
+		echo "${@}" | sudo tee --append ${DRY_RUN_LOG}
+	fi
 }

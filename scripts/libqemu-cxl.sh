@@ -62,6 +62,7 @@ readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
 
 declare -a cxl_qargs cxl_qmachine cxl_kcmds
+declare cxl_dry_run cxl_dry_run_log
 
 readonly CXL_DEV_VMEM=cxl-vmem
 readonly CXL_DEV_VMEM_DC=cxl-vmem-dc
@@ -74,17 +75,17 @@ readonly CXL_DEV_VMEM_4WAY_SWITCH_DC=cxl-vmem-4way-switch-dc
 readonly CXL_DEV_PMEM=cxl-pmem
 readonly CXL_DEV_PMEM_4WAY=cxl-pmem-4way
 readonly CXL_DEV_PMEM_4WAY_SWITCH=cxl-pmem-4way-switch
-readonly CXL_DEVICES=( ${CXL_DEV_VMEM}
-		       ${CXL_DEV_VMEM_DC}
-		       ${CXL_DEV_VMEM_LSA}
-		       ${CXL_DEV_VMEM_LSA_DC}
-		       ${CXL_DEV_VMEM_4WAY}
-		       ${CXL_DEV_VMEM_4WAY_DC}
-		       ${CXL_DEV_VMEM_4WAY_SWITCH}
-		       ${CXL_DEV_VMEM_4WAY_SWITCH_DC}
-		       ${CXL_DEV_PMEM}
-		       ${CXL_DEV_PMEM_4WAY}
-		       ${CXL_DEV_PMEM_4WAY_SWITCH} )
+readonly CXL_BUILTIN_DEVICES=( ${CXL_DEV_VMEM}
+			       ${CXL_DEV_VMEM_DC}
+			       ${CXL_DEV_VMEM_LSA}
+			       ${CXL_DEV_VMEM_LSA_DC}
+			       ${CXL_DEV_VMEM_4WAY}
+			       ${CXL_DEV_VMEM_4WAY_DC}
+			       ${CXL_DEV_VMEM_4WAY_SWITCH}
+			       ${CXL_DEV_VMEM_4WAY_SWITCH_DC}
+			       ${CXL_DEV_PMEM}
+			       ${CXL_DEV_PMEM_4WAY}
+			       ${CXL_DEV_PMEM_4WAY_SWITCH} )
 
 declare -a cxl_fmw=( 0 ) # (0 1 2 3)
 
@@ -138,6 +139,11 @@ readonly CXL_DEFAULT_MSIZE=1024M
 # display cxl device topology before vm startup
 declare cxl_show_topology
 
+cxl_eval()
+{
+	DRY_RUN=${cxl_dry_run} DRY_RUN_LOG=${cxl_dry_run_log} dry_run "${@}"
+}
+
 cxl_arg_help() {
 	echo -e "
 ${BOLD}CXL ARGUMENTS SYNTAX${RST}
@@ -156,7 +162,7 @@ ${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>],[size=<SIZE>],[dc|dynamic-capac
 ${BOLD}--cxl show=[topo]${RST}: display CXL information before vm startup, will not startup vm
 
 ${BOLD}[DEVICE]${RST}
-${GRAY}${CXL_DEVICES[@]}${RST}
+${GRAY}${CXL_BUILTIN_DEVICES[@]}${RST}
 
 ${BOLD}FORMAT${RST}
 
@@ -333,7 +339,7 @@ handle_cxl_arg() {
 	if [[ ${device} ]]; then
 		case ${device} in
 		list|?)
-			echo ${CXL_DEVICES[@]}
+			echo ${CXL_BUILTIN_DEVICES[@]}
 			exit 0
 			;;
 		esac
@@ -380,8 +386,8 @@ handle_cxl_arg() {
 	fi
 
 	# 2 spaces for empty cxl_device.
-	if ! [[ "  ${CXL_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
-		error "CXL not support device '${cxl_device}', support <${CXL_DEVICES[@]}>"
+	if ! [[ "  ${CXL_BUILTIN_DEVICES[@]} " =~ " ${cxl_device} " ]]; then
+		error "CXL not support device '${cxl_device}', support <${CXL_BUILTIN_DEVICES[@]}>"
 	fi
 }
 
@@ -688,8 +694,8 @@ add_cxl_type3_dev() {
 
 	if [[ ${pmem} ]]; then
 		# persistent memory size cxl_pmem_size[] set in arguments first,
-		# if use CXL_DEVICES[], cxl_pmem_size[] will be empty, so, we
-		# just set it here.
+		# if use CXL_BUILTIN_DEVICES[], cxl_pmem_size[] will be empty,
+		# so, we just set it here.
 		if [[ -z ${lsa} ]] || [[ ${lsa} == SKIP ]]; then
 			error "lsa property must be set for persistent devices"
 		fi
@@ -705,7 +711,7 @@ add_cxl_type3_dev() {
 		arg+=( persistent-memdev=${pmem} )
 
 		local pmem_file=${vm_tmpdir}/${pmem}.raw
-		_eval qemu-img create -f raw ${pmem_file} ${size}
+		cxl_eval qemu-img create -f raw ${pmem_file} ${size}
 		cleanup_files+=( ${pmem_file} )
 
 		name=${pmem}
@@ -721,8 +727,8 @@ add_cxl_type3_dev() {
 
 	if [[ ${vmem} ]]; then
 		# volatile memory size cxl_vmem_size[] set in arguments first,
-		# if use CXL_DEVICES[], cxl_vmem_size[] will be empty, so, we
-		# just set it here.
+		# if use CXL_BUILTIN_DEVICES[], cxl_vmem_size[] will be empty,
+		# so, we just set it here.
 		if [[ ! -z ${cxl_vmem_size[$vmem]} ]]; then
 			if [[ $(sizeceilfmt ${size}) != $(sizeceilfmt ${cxl_vmem_size[$vmem]}) ]]; then
 				error "vmem set different size ${size} and ${cxl_vmem_size[$vmem]}"
@@ -747,7 +753,7 @@ add_cxl_type3_dev() {
 		arg+=( lsa=${lsa} )
 
 		local lsa_file=${vm_tmpdir}/${lsa}.raw
-		_eval qemu-img create -f raw ${lsa_file} ${size}
+		cxl_eval qemu-img create -f raw ${lsa_file} ${size}
 		cleanup_files+=( ${lsa_file} )
 
 		tmparg+=( memory-backend-file,id=${lsa} )

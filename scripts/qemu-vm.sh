@@ -13,17 +13,6 @@ readonly ARCH=$(uname -m)
 readonly VERSION="v1.1.13"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
-. ${QEMU_VM_ROOT}/libcpu.sh
-. ${QEMU_VM_ROOT}/libfile.sh
-. ${QEMU_VM_ROOT}/liblog.sh
-. ${QEMU_VM_ROOT}/libnbd.sh
-. ${QEMU_VM_ROOT}/librun.sh
-. ${QEMU_VM_ROOT}/libnet.sh
-. ${QEMU_VM_ROOT}/libuuid.sh
-. ${QEMU_VM_ROOT}/libqemu.sh
-. ${QEMU_VM_ROOT}/libqemu-cxl.sh
-. ${QEMU_VM_ROOT}/libstring.sh
-
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
 
 # on x86_64: 'q35' default root bus
@@ -86,6 +75,22 @@ declare -a qargs qmachine kcmds
 declare -a cleanup_files
 
 readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
+
+. ${QEMU_VM_ROOT}/libcpu.sh
+. ${QEMU_VM_ROOT}/libfile.sh
+. ${QEMU_VM_ROOT}/liblog.sh
+. ${QEMU_VM_ROOT}/libnbd.sh
+. ${QEMU_VM_ROOT}/librun.sh
+. ${QEMU_VM_ROOT}/libnet.sh
+. ${QEMU_VM_ROOT}/libuuid.sh
+. ${QEMU_VM_ROOT}/libqemu.sh
+. ${QEMU_VM_ROOT}/libqemu-cxl.sh
+. ${QEMU_VM_ROOT}/libstring.sh
+
+qemu_eval()
+{
+	DRY_RUN_LOG=${vm_cmd_sh} DRY_RUN=${dry_run} dry_run "${@}"
+}
 
 __usage_internal__() {
 	echo -e "
@@ -551,9 +556,12 @@ config_prepare_vm_tmpdir() {
 	else
 		vm_tmpdir=${TMPDIR}/${name}
 	fi
+
 	vm_cmd_sh=${vm_tmpdir}/cmds.sh
 	vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
 	vm_port_monitor_telnet=${vm_tmpdir}/port-monitor-telnet.txt
+
+	cxl_dry_run_log=${vm_cmd_sh}
 }
 
 ################################################################################
@@ -690,15 +698,6 @@ kill_vm() {
 	sudo rm -rf ${vm_tmpdir}
 }
 
-_eval()
-{
-	DRY_RUN=${dry_run} dry_run "${@}"
-
-	if [[ ! -z ${vm_cmd_sh} ]] && [[ -f ${vm_cmd_sh} ]]; then
-		echo "${@}" | sudo tee --append ${vm_cmd_sh}
-	fi
-}
-
 image2uuid() {
 	if [[ ${dry_run} ]]; then
 		gen_uuid
@@ -735,11 +734,11 @@ cleanup() {
 
 	# Qemu process maybe running on background, we do not need cleanup then.
 	if [[ -z ${q_daemon} ]]; then
-		_eval sudo rm -rf ${cleanup_files[@]}
+		qemu_eval sudo rm -rf ${cleanup_files[@]}
 	fi
 
 	if [[ ${err} != 0 ]] && [[ -d ${vm_tmpdir} ]]; then
-		_eval sudo rm -rf ${vm_tmpdir}
+		qemu_eval sudo rm -rf ${vm_tmpdir}
 	fi
 
 	if [[ ${err} != 0 ]]; then
@@ -753,15 +752,15 @@ config_vm_tmpdir() {
 	TCP_PORT_MONITOR_TELNET=$(get_free_tcp_port)
 
 	if [[ ! -d ${TMPDIR} ]]; then
-		_eval mkdir -p ${TMPDIR}
+		qemu_eval mkdir -p ${TMPDIR}
 	fi
 
 	if [[ ! -d ${vm_tmpdir} ]]; then
-		_eval mkdir -p ${vm_tmpdir}
+		qemu_eval mkdir -p ${vm_tmpdir}
 	fi
 
-	_eval touch ${vm_cmd_sh}
-	_eval chmod +x ${vm_cmd_sh}
+	qemu_eval touch ${vm_cmd_sh}
+	qemu_eval chmod +x ${vm_cmd_sh}
 
 	if [[ -z ${dry_run} ]]; then
 		fprintf ${vm_port_hostfwd_ssh22} ${TCP_PORT_HOSTFWM_SSH22}
@@ -944,7 +943,7 @@ auto_uefi_pflash() {
 		# Copy a new VAR from system OS.
 		var=${i}
 		local newvar=${vm_tmpdir}/$(basename ${var})
-		_eval cp ${var} ${newvar}
+		qemu_eval cp ${var} ${newvar}
 		cleanup_files+=( ${newvar} )
 		var=${newvar}
 		break
@@ -1372,6 +1371,8 @@ while true; do
 	-u | --dry-run)
 		shift
 		dry_run=ON
+		cxl_dry_run=ON
+		export DRY_RUN=${dry_run}
 		;;
 	-v | --verbose)
 		shift
@@ -1445,4 +1446,4 @@ qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
 qemucmd=${vm_tmpdir}/qemu-command.sh
 echo "${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}" > >(sudo tee ${qemucmd})
-_eval ${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}
+qemu_eval ${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}
