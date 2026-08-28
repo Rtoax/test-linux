@@ -152,7 +152,7 @@ ${BOLD}CXL ARGUMENTS SYNTAX${RST}
 ${BOLD}--cxl [help|?]${RST}: show this information
 
 ${BOLD}--cxl [DEVICE]${RST}: see ${BOLD}[DEVICE]${RST} section below
-${BOLD}--cxl device=[DEVICE|<list|?>]${RST}: see ${BOLD}[DEVICE]${RST} section below
+${BOLD}--cxl <device|dev>=[DEVICE|<list|?>]${RST}: see ${BOLD}[DEVICE]${RST} section below
 
 ${BOLD}--cxl pxb=<name>,[fmw|fixed-memory-window=<N>]${RST}: create CXL PXB, fmw default 0
 ${BOLD}--cxl <root-port|rp>=<name>,bus=<name>,port=<num>${RST}: create CXL RootPort
@@ -201,6 +201,9 @@ handle_cxl_arg() {
 			case ${arg%%=*} in
 			device)
 				device=${arg:7}
+				;;
+			dev)
+				device=${arg:4}
 				;;
 			pxb)
 				pxb_id=${arg:4}

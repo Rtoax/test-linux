@@ -72,9 +72,12 @@ run --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
 # Test CXL builtin devices
 dev_list1=( $(run --cxl device=list) )
 dev_list2=( $(run --cxl device=?) )
+dev_list3=( $(run --cxl dev=list) )
+dev_list4=( $(run --cxl dev=?) )
 if [[ "${CXL_BUILTIN_DEVICES[@]}" != "${dev_list1[@]}" ]] ||
    [[ "${CXL_BUILTIN_DEVICES[@]}" != "${dev_list2[@]}" ]] ||
-   [[ "${dev_list1[@]}" != "${dev_list2[@]}" ]]; then
+   [[ "${CXL_BUILTIN_DEVICES[@]}" != "${dev_list3[@]}" ]] ||
+   [[ "${CXL_BUILTIN_DEVICES[@]}" != "${dev_list4[@]}" ]]; then
 	error "cxl: get device list failed, expect '${CXL_BUILTIN_DEVICES[@]}' but get '${dev_list1[@]}' and '${dev_list2[@]}'"
 fi
 for dev in ${CXL_BUILTIN_DEVICES[@]}; do
