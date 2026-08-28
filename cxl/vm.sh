@@ -144,6 +144,7 @@ custom_cxl() {
 	cxlargs+=( --cxl vmem=vmem.3,bus=sw2.3,size=2G )
 	cxlargs+=( --cxl vmem=vmem.4,bus=sw2.4,size=2G )
 
+	# Dynamic capacity vmem device could not see "ram_size" in 'cxl list'.
 	cxlargs+=( --cxl vmem=vmem.5,bus=sw3.1,lsa=vmem.5.lsa,dc )
 	cxlargs+=( --cxl vmem=vmem.6,bus=sw3.2,dc ) # vmem could not set lsa
 	cxlargs+=( --cxl vmem=vmem.7,bus=sw3.3,size=2G,dynamic-capacity )
