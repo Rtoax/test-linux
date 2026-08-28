@@ -30,7 +30,7 @@ static void fmt_parse(const char *fmt)
 		_CASE(i, PA_DOUBLE, "double");
 		_CASE(i, PA_DOUBLE|PA_FLAG_LONG_DOUBLE, "long double");
 		_CASE(i, PA_LAST, "LAST");
-
+#undef _CASE
 		default:
 			printf("\t%d unknown(%d).\n", i, argtypes[i]);
 			break;
@@ -79,4 +79,3 @@ int main(void)
 	}
 	return 0;
 }
-

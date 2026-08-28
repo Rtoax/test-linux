@@ -2,7 +2,6 @@
 #include <printf.h>
 #include <string.h>
 
-
 int prec;		 /* Precision.  */
 int width;			/* Width.  */
 wchar_t spec;		 /* Format letter.  */
@@ -22,7 +21,6 @@ unsigned int wide;	  /* Nonzero for wide character streams.  */
 unsigned int i18n;	  /* I flag.  */
 unsigned int __pad;	 /* Unused so far.  */
 unsigned short int user;  /* Bits for user-installed modifiers.  */
-
 
 int my_printf_function(FILE *__stream, const struct printf_info *__info,
 		       const void *const *__args)
@@ -58,7 +56,8 @@ int my_printf_arginfo_size_function(const struct printf_info *__info,
 
 int main(void)
 {
-	register_printf_specifier('d', my_printf_function, my_printf_arginfo_size_function);
+	register_printf_specifier('d', my_printf_function,
+				  my_printf_arginfo_size_function);
 
 	printf("%d %d\n", 1, 2);
 

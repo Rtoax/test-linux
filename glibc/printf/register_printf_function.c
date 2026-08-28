@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <printf.h>
 
-
 int my_printf_function(FILE *__stream, const struct printf_info *__info,
 		       const void *const *__args)
 {
@@ -20,9 +19,9 @@ int my_printf_arginfo_function(const struct printf_info *__info,
 
 int main(void)
 {
-	register_printf_function('d', my_printf_function, my_printf_arginfo_function);
+	register_printf_function('d', my_printf_function,
+				 my_printf_arginfo_function);
 
 	printf("%d %d\n", 1, 2);
 	return 0;
 }
-
