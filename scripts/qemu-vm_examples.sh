@@ -2,6 +2,17 @@
 set -eo pipefail
 readonly QEMU_VM_EXAMPLES_ROOT=$(dirname $(realpath $0))
 readonly DISK_TYPES=( virtio sata nvme nvdimm scsi )
+readonly CXL_BUILTIN_DEVICES=( cxl-vmem
+			       cxl-vmem-dc
+                               cxl-vmem-lsa
+                               cxl-vmem-lsa-dc
+                               cxl-vmem-4way
+                               cxl-vmem-4way-dc
+                               cxl-vmem-4way-switch
+                               cxl-vmem-4way-switch-dc
+                               cxl-pmem
+                               cxl-pmem-4way
+                               cxl-pmem-4way-switch )
 
 . ${QEMU_VM_EXAMPLES_ROOT}/liblog.sh
 
@@ -31,6 +42,7 @@ rm -f ${LOG}
 qemu --help
 qemu -V --version
 qemu --cxl help
+qemu --cxl ?
 qemu --disk help
 qemu --uefi help
 qemu list
@@ -57,27 +69,15 @@ done
 run --initrd=initramfs.img --rdinit=/bin/bash --rootfs vm.qcow2
 
 # Test CXL
-readonly CXL_DEVS=( cxl-vmem
-		    cxl-vmem-dc
-		    cxl-vmem-lsa
-		    cxl-vmem-lsa-dc
-		    cxl-vmem-4way
-		    cxl-vmem-4way-dc
-		    cxl-vmem-4way-switch
-		    cxl-vmem-4way-switch-dc
-		    cxl-pmem
-		    cxl-pmem-4way
-		    cxl-pmem-4way-switch )
-
 # Test CXL builtin devices
 dev_list1=( $(run --cxl device=list) )
 dev_list2=( $(run --cxl device=?) )
-if [[ "${CXL_DEVS[@]}" != "${dev_list1[@]}" ]] ||
-   [[ "${CXL_DEVS[@]}" != "${dev_list2[@]}" ]] ||
+if [[ "${CXL_BUILTIN_DEVICES[@]}" != "${dev_list1[@]}" ]] ||
+   [[ "${CXL_BUILTIN_DEVICES[@]}" != "${dev_list2[@]}" ]] ||
    [[ "${dev_list1[@]}" != "${dev_list2[@]}" ]]; then
-	error "cxl: get device list failed, expect '${CXL_DEVS[@]}' but get '${dev_list1[@]}' and '${dev_list2[@]}'"
+	error "cxl: get device list failed, expect '${CXL_BUILTIN_DEVICES[@]}' but get '${dev_list1[@]}' and '${dev_list2[@]}'"
 fi
-for dev in ${CXL_DEVS[@]}; do
+for dev in ${CXL_BUILTIN_DEVICES[@]}; do
 	run --memory 5GiB --cxl device=${dev}
 done
 

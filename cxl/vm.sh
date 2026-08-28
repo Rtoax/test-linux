@@ -154,7 +154,7 @@ custom_cxl() {
 if [[ ! -z ${CUSTOM} ]]; then
 	custom_cxl
 else
-	cxlargs+=( --cxl device=cxl-vmem )
+	cxlargs+=( --cxl device=cxl-pmem-4way )
 fi
 
 [[ -z ${NOCXL} ]] && qargs+=( ${cxlargs[@]} )
