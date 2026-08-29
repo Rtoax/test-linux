@@ -18,6 +18,7 @@ User Space
    code-formatter
    conda
    dkms
+   drawio
    elfutils
    flamegraph
    fontconfig
@@ -31,6 +32,7 @@ User Space
    lsof
    lttng
    memcached
+   motrix
    openblas
    opencv
    openipmi
@@ -45,6 +47,7 @@ User Space
    tmux
    trace-cmd
    util-linux/index
+   vscode
 
 
 Kernel Space
