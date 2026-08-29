@@ -46,6 +46,7 @@ subdir-y += libguestfs
 subdir-y += libosinfo
 subdir-y += libtracefs
 subdir-y += livepatch
+subdir-y += lm_sensors
 subdir-y += lsof
 subdir-y += makeself
 subdir-y += memcached

@@ -1,5 +1,5 @@
 {
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -472,6 +472,11 @@
 			"command": [ "llvm-config", "llvm-objdump" ],
 			"extension": [ "ll", "bc" ],
 			"keys": [ "llvm" ]
+		},
+		"lm_sensors": {
+			"name": "lm_sensors",
+			"command": [ "sensors" ],
+			"keys": [ "sensors" ]
 		},
 		"lorax": {
 			"name": "Lorax",
