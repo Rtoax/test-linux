@@ -115,9 +115,11 @@ unsigned long str2nsecs(const char *str)
 	else
 		ns = strtoull(str, &endptr, 10);
 
-	if (!endptr || (endptr && *endptr == '\0')) {
+	if (!endptr || *endptr == '\0') {
 		/* do nothing */
-	} else if (!strcasecmp(endptr, "s"))
+	} else if (!strcasecmp(endptr, "min"))
+		ns *= 1000000000UL * 60;
+	else if (!strcasecmp(endptr, "s"))
 		ns *= 1000000000UL;
 	else if (!strcasecmp(endptr, "ms"))
 		ns *= 1000000UL;
@@ -156,6 +158,8 @@ int main(void)
 	STR2NSECS("1", 1UL);
 	STR2NSECS("111", 111UL);
 	STR2NSECS("999", 999UL);
+	STR2NSECS("1min", 60 * 1000000000UL);
+	STR2NSECS("1MIN", 60 * 1000000000UL);
 	STR2NSECS("1S", 1000000000UL);
 	STR2NSECS("1s", 1000000000UL);
 	STR2NSECS("1MS", 1000000UL);

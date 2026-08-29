@@ -43,6 +43,9 @@ struct timeval diff_timeval(struct timeval *tv1, struct timeval *tv2)
 	return diff;
 }
 
+/**
+ * ref: libs/str.c
+ */
 unsigned long str2nsecs(const char *str)
 {
 	unsigned long ns = 0;
@@ -58,9 +61,11 @@ unsigned long str2nsecs(const char *str)
 	else
 		ns = strtoull(str, &endptr, 10);
 
-	if (!endptr || (endptr && *endptr == '\0')) {
+	if (!endptr || *endptr == '\0') {
 		/* do nothing */
-	} else if (!strcasecmp(endptr, "s"))
+	} else if (!strcasecmp(endptr, "min"))
+		ns *= 1000000000UL * 60;
+	else if (!strcasecmp(endptr, "s"))
 		ns *= 1000000000UL;
 	else if (!strcasecmp(endptr, "ms"))
 		ns *= 1000000UL;

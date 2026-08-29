@@ -6,12 +6,16 @@
  * The default plot is loadavg, loadavg graph of 1, 5, 15 minutes.
  *
  * see also
- * https://github.com/rtoax/plotcake
- * https://github.com/rtoax/test-linux scripts/loadavg.sh
+ * test-linux [1] scripts/loadavg.sh, plotcake [2]
  *
- * relative repository:
- * ttyplot: https://github.com/tenox7/ttyplot.git
- *          ttyplot is not good enough, I don't like his drawing style.
+ * ttyplot [3] is not good enough, I don't like his drawing style.
+ *
+ * Some APIs upstream is test-linux [1].
+ *
+ * Refs:
+ * [1] test-linux: https://github.com/rtoax/test-linux
+ * [2] plotcake: https://github.com/rtoax/plotcake
+ * [3] ttyplot: https://github.com/tenox7/ttyplot.git
  */
 #include <argp.h>
 #include <errno.h>
@@ -100,7 +104,7 @@ static const struct argp_option opts[] = {
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "SEC", 0,
 	  "Specify interval time, the default unit is nanoseconds, but units "
-	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
+	  "such as 'min', 's', 'ms', 'us', and 'ns' can also be used." },
 	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1,
 	  "Use natural logarithmic (shortcut " KEY_HELP_t ")" },
 	{ "logarithmic10", ARG_LOGARITHMIC10, NULL, 1,
@@ -113,7 +117,7 @@ static const struct argp_option opts[] = {
 	  "Use delta value (shortcut " KEY_HELP_t ")" },
 	{ "tmout", 't', "SEC", 0,
 	  "Specify timeout time, the default unit is nanoseconds, but units "
-	  "such as 's', 'ms', 'us', and 'ns' can also be used." },
+	  "such as 'min', 's', 'ms', 'us', and 'ns' can also be used." },
 	{ "ofile", 'o', "OFILE", 0,
 	  "Specify the output file name, excluding the extension." },
 	{ "file", 'f', "FILE", 0,
