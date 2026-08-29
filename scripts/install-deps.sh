@@ -8,6 +8,11 @@
 #
 # [1] https://github.com/rtoax/test-linux.git
 #
+# Useful 3rd tools:
+# - https://motrix.app/download
+# - https://code.visualstudio.com/docs/setup/linux
+# - https://www.drawio.com/, https://github.com/jgraph/drawio-desktop/releases/
+#
 set -e
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
@@ -739,9 +744,6 @@ pkgs_ostree+=( rpm-ostree )
 pkgs_media+=( inkscape ) # vector graphics editor
 pkgs_media+=( translate-shell )
 pkgs_media+=( vlc )
-# https://motrix.app/download
-# https://code.visualstudio.com/docs/setup/linux
-# https://www.drawio.com/, https://github.com/jgraph/drawio-desktop/releases/
 pkgs_media_3rd+=()
 
 # Desktop Packages
