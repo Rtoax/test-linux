@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 include helpers.mk
 
+subdir-y += root
+
 target-y += auxv
 target-y += cmdline
 target-y += environ
