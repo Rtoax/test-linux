@@ -102,7 +102,7 @@ static const struct argp_option opts[] = {
 	{ "lcolors", ARG_LINE_COLORS, NULL, 1,
 	  "show line colors for --lcolor" },
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
-	{ "interval", 'I', "SEC", 0,
+	{ "interval", 'I', "TIME", 0,
 	  "Specify interval time, the default unit is nanoseconds, but units "
 	  "such as 'min', 's', 'ms', 'us', and 'ns' can also be used." },
 	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1,
@@ -115,7 +115,7 @@ static const struct argp_option opts[] = {
 	  "Use base-e exponential (shortcut " KEY_HELP_t ")" },
 	{ "delta", ARG_DELTA, NULL, 1,
 	  "Use delta value (shortcut " KEY_HELP_t ")" },
-	{ "tmout", 't', "SEC", 0,
+	{ "tmout", 't', "TIME", 0,
 	  "Specify timeout time, the default unit is nanoseconds, but units "
 	  "such as 'min', 's', 'ms', 'us', and 'ns' can also be used." },
 	{ "ofile", 'o', "OFILE", 0,
