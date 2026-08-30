@@ -3,13 +3,17 @@
 #
 # see also test-linux/fs/procfs/stat.sh
 #
-# Usage: [I=<secs>] ./cpu.sh [cpu indexes]
+# Usage: [I=<secs>] [interval=<TIME>] ./cpu.sh [cpu indexes]
 # Example:
 # $ I=1 ./cpu.sh 0 1 2 3
-# $ taskset -c 0 bash -c 'while :; do sleep 0.002; done'
+# $ I=1 interval=1min ./cpu.sh 0 1 2 3
+#
+#   test peer:
+#     $ taskset -c 0 bash -c 'while :; do sleep 0.002; done'
 set -e
 
 [[ -z ${I} ]] && I=1
+[[ -z ${interval} ]] && interval=
 
 indexes=( ${@} )
 
@@ -62,4 +66,5 @@ while true; do
 		echo "${percent_idle[@]}"
 	fi
 	sleep ${I}
-done | ../plotcake --title 'CPU Loads %idle' --ylabel '%idle' -o cpu ${labels[@]} ${@}
+done | ../plotcake --title 'CPU Loads %idle' --ylabel '%idle' \
+	-o cpu ${labels[@]} ${interval:+-I ${interval}}

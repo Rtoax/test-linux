@@ -104,7 +104,8 @@ static const struct argp_option opts[] = {
 	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
 	{ "interval", 'I', "TIME", 0,
 	  "Specify interval time, the default unit is nanoseconds, but units "
-	  "such as 'min', 's', 'ms', 'us', and 'ns' can also be used." },
+	  "such as 'min', 's', 'ms', 'us', and 'ns' can also be used. If data "
+	  "comes from stdin, this interval will limit the ploting rate." },
 	{ "logarithmic", ARG_LOGARITHMIC, NULL, 1,
 	  "Use natural logarithmic (shortcut " KEY_HELP_t ")" },
 	{ "logarithmic10", ARG_LOGARITHMIC10, NULL, 1,
@@ -143,7 +144,7 @@ static int done = false;
 static int ram = false;
 static int verbose = false;
 static unsigned long tmout_nsecs = 0;
-static unsigned long interval_nsecs = 1000000000UL;
+static unsigned long interval_nsecs = 0;
 static char *output_file_prefix = NULL;
 static char *file = NULL;
 static char *title = NULL;
@@ -239,7 +240,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	case 'I':
 		interval_nsecs = str2nsecs(arg);
 		if (interval_nsecs == 0) {
-			fprintf(stderr, "ERROR: bad -I value\n");
+			fprintf(stderr, "ERROR: bad -I interval value\n");
 			err = -EINVAL;
 		}
 		break;
@@ -277,12 +278,41 @@ static const struct argp argp = {
 
 static int new_timerfd(unsigned long nsecs)
 {
-	int timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
-	unsigned long secs = nsecs / 1000000000UL;
+	int timerfd;
+	unsigned long secs;
+
+	/* default 1s */
+	if (nsecs == 0)
+		nsecs = 1000000000UL;
+
+	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
+
+	secs = nsecs / 1000000000UL;
 	nsecs -= secs * 1000000000UL;
+
 	struct itimerspec to = { { secs, nsecs }, { secs, nsecs } };
 	timerfd_settime(timerfd, 0, &to, NULL);
 	return timerfd;
+}
+
+static int update_data_and_check_interval(struct plot *p)
+{
+	static unsigned long last_plot_usecs = 0;
+
+	if (last_plot_usecs == 0)
+		/**
+		 * '- interval_nsecs' means the first data update is required,
+		 * and we don't want the first data update to wait for the
+		 * interval.
+		 */
+		last_plot_usecs = usecs() - interval_nsecs;
+
+	if ((usecs() - last_plot_usecs) * 1000UL >= interval_nsecs) {
+		plot_update_data(&plot);
+		last_plot_usecs = usecs();
+		return 0;
+	}
+	return 1;
 }
 
 int main(int argc, char *argv[])
@@ -549,7 +579,7 @@ int main(int argc, char *argv[])
 			uint64_t exp;
 			read(freshtimerfd, &exp, sizeof(exp));
 			redraw = true;
-			plot_update_data(&plot);
+			update_data_and_check_interval(&plot);
 		} else if (ret > 0 && FD_ISSET(tmoutfd, &fds)) {
 			uint64_t exp;
 			read(tmoutfd, &exp, sizeof(exp));
@@ -579,12 +609,13 @@ int main(int argc, char *argv[])
 			if (cnt > 0) {
 				redraw = true;
 			}
-			plot_update_data(&plot);
+			update_data_and_check_interval(&plot);
 		} else
 			continue;
 
-		if (redraw)
+		if (redraw) {
 			plot_redraw(&plot, verbose);
+		}
 	}
 
 end:
