@@ -36,13 +36,13 @@ declare dry_run
 
 __usage__() {
 	echo -e "
-NAME
+${BOLD}NAME${RST}
 	${prog} - make rootfs for fedora liked distrobution
 
-SYNOPSIS
+${BOLD}SYNOPSIS${RST}
 	${prog} --rootfs=<DIR> [--image=<vm.raw|vm.qcow2>]
 
-DESCRIPTION
+${BOLD}DESCRIPTION${RST}
 	-r, --rootfs [DIR]      specify rootfs directory.
 	    --image [NAME]      specify image filename, format: raw, qcow2
 	    --initrd [NAME]     generate initrd based on rootfs.
@@ -57,11 +57,14 @@ DESCRIPTION
 	-v, --verbose           enable verbose mode.
 	-h, --help              show this help information
 
-EXAMPLES
+${BOLD}EXAMPLES${RST}
 	$ sudo ${prog} --rootfs tmp-rootfs.dir --image rootfs.qcow2 \\
 		--initrd initramfs.img --install kernel-modules
 
-SEE ALSO
+${BOLD}AUTHOR${RST}
+	Written by Rong Tao.
+
+${BOLD}SEE ALSO${RST}
 	dnf(8), dracut(8)
 "
 	exit ${1-0}

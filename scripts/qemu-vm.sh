@@ -229,6 +229,9 @@ ${BOLD}FORMAT${RST}
 
 ${BOLD}SEE ALSO${RST}
     qemu(1), qemu-kvm(1), etc.
+
+${BOLD}AUTHOR${RST}
+    Written by Rong Tao.
 "
 }
 
