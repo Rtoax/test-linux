@@ -31,6 +31,7 @@ User Space
    liburing
    lsof
    lttng
+   mbw
    memcached
    motrix
    openblas
@@ -42,6 +43,7 @@ User Space
    restful
    samba
    sunfish
+   sysbench
    systemtap
    tigervnc
    tmux

@@ -1,0 +1,1 @@
+prog-y += bench.sh

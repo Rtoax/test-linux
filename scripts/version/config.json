@@ -1,5 +1,5 @@
 {
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -739,6 +739,10 @@
 				"length": [ 2 ]
 			},
 			"keys": [ "strace" ]
+		},
+		"sysbench": {
+			"name": "Sysbench",
+			"keys": [ "sysbench" ]
 		},
 		"systemd": {
 			"name": "Systemd",

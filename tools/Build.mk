@@ -72,6 +72,7 @@ subdir-y += sed
 subdir-y += skopeo
 subdir-y += static_key
 subdir-y += sudo
+subdir-${HAVE_SYSBENCH} += sysbench
 subdir-y += sysstat
 subdir-y += tcpdump
 subdir-${HAVE_TMUX} += tmux

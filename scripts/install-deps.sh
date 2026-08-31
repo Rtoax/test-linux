@@ -737,6 +737,7 @@ pkgs_cloud+=( prometheus )
 # Benchmark
 pkgs_bench+=( fio )
 pkgs_bench+=( iperf )
+pkgs_bench+=( sysbench )
 
 pkgs_ostree+=( ostree )
 pkgs_ostree+=( rpm-ostree )
@@ -964,7 +965,6 @@ dnf_add_packages()
 
 	pkgs_bench+=( iperf3 )
 	pkgs_bench+=( rtla )
-	pkgs_bench+=( sysbench )
 
 	pkgs_rdma+=( libibverbs )
 	pkgs_rdma+=( libibverbs-utils )
