@@ -391,7 +391,6 @@ double line_range_delta_min(struct line *l, int start, int interval, int len)
 
 /**
  * @limit: max length of line (number of values), if < 0, means no limit.
- * @tv: set timeval.
  */
 void line_add_value(struct line *l, double v, long limit, union x_axis_value *x)
 {
