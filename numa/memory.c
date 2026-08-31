@@ -4,7 +4,7 @@
  * Copyright (C) 2023-2026 Rong Tao. All rights reserved.
  *
  * Examples:
- * - Kunpeng 920
+ * - commit a49afb708c0c ("numa: memory.c: Kunpeng 920")
  */
 #include <stdio.h>
 #include <malloc.h>
