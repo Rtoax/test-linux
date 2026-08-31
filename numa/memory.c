@@ -5,7 +5,7 @@
  *
  * Examples:
  * - commit a49afb708c0c ("numa: memory.c: Kunpeng 920")
- * - Phytium
+ * - commit dd97054cbcf6 ("numa: memory.c: Phytium 5000C")
  */
 #include <stdio.h>
 #include <malloc.h>
