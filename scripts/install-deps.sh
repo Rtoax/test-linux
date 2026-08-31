@@ -1185,6 +1185,7 @@ apt_add_packages()
 	pkgs_base+=( gnu-which )
 
 	pkgs_bench+=( iperf3 )
+	pkgs_bench+=( mbw )
 
 	pkgs_boot+=( initramfs-tools )
 	pkgs_boot+=( shim-signed )

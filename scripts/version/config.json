@@ -1,5 +1,5 @@
 {
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -507,6 +507,13 @@
 			},
 			"extension": [ "mk", "mak" ],
 			"keys": [ "make", "Makefile" ]
+		},
+		"mbw": {
+			"name": "MBW",
+			"package": {
+				"deb": [ "mbw" ]
+			},
+			"keys": [ "mbw" ]
 		},
 		"memcached": {
 			"name": "Memcached",

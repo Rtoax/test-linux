@@ -49,6 +49,7 @@ subdir-y += livepatch
 subdir-y += lm_sensors
 subdir-y += lsof
 subdir-y += makeself
+subdir-y += mbw
 subdir-y += memcached
 subdir-y += nasm
 subdir-y += nbd
