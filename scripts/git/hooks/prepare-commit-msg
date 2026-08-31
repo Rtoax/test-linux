@@ -249,7 +249,7 @@ if [[ -z ${signed_off_by_line} ]]; then
 fi
 
 # __main__
-if [[ "$(match_type asm S s)$(has_changed_file asm arch bpf cxl cpu insn qemu)" ]]; then
+if [[ "$(match_type asm S s)$(has_changed_file asm arch bpf cxl cpu insn qemu numa)" ]]; then
 	cpu_env
 fi
 
