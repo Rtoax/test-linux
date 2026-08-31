@@ -2,6 +2,9 @@
 # display one storage read and write
 set -e
 
+readonly MYDIR=$(dirname $(realpath $0))
+. ${MYDIR}/lib-plotcake.sh
+
 iostat_x() {
 	iostat | grep -e ^sd -e ^nvme -e ^vd | head -1
 }
@@ -10,6 +13,6 @@ if which iostat 2>&1 >/dev/null; then
 	while true; do
 		iostat_x | awk '{print $3, $4}'
 		sleep 1
-	done | ../plotcake ${args[@]} -T "$(iostat_x | awk '{print $1}') Read-Write" \
+	done | ${PLOTCAKE} ${args[@]} -T "$(iostat_x | awk '{print $1}') Read-Write" \
 			-l 'kB_read/s' -l 'kB_wrtn/s' --ylabel 'Rate' -o blkio ${@}
 fi

@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+readonly MYDIR=$(dirname $(realpath $0))
+. ${MYDIR}/lib-plotcake.sh
+
 sudo bpftrace -e \
 'kprobe:net_tx_action {
 	@tx += 1;
@@ -17,5 +20,5 @@ END {
 	clear(@tx);
 	clear(@rx);
 }
-' 2>/dev/null | ../plotcake --title 'Network rx and tx action' --ylabel 'N/s' \
+' 2>/dev/null | ${PLOTCAKE} --title 'Network rx and tx action' --ylabel 'N/s' \
 			-l 'tx' -l 'rx' -o txrx ${@}

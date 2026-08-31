@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+readonly MYDIR=$(dirname $(realpath $0))
+. ${MYDIR}/lib-plotcake.sh
+
 sudo bpftrace -e \
 'tracepoint:syscalls:sys_enter_open* {
 	@open += 1;
@@ -17,5 +20,5 @@ END {
 	clear(@open);
 	clear(@close);
 }
-' 2>/dev/null | ../plotcake --title 'Open and Close Syscall Rate' --ylabel 'N/s' \
-			-l 'open' -l 'close' -o open ${@}
+' 2>/dev/null | ${PLOTCAKE} --title 'Open and Close Syscall Rate' \
+			--ylabel 'N/s' -l 'open' -l 'close' -o open ${@}

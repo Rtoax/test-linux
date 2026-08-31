@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+readonly MYDIR=$(dirname $(realpath $0))
+. ${MYDIR}/lib-plotcake.sh
+
 sudo bpftrace -e \
 'kprobe:vfs_write* {
 	@write += 1;
@@ -17,5 +20,5 @@ END {
 	clear(@write);
 	clear(@read);
 }
-' 2>/dev/null | ../plotcake --title 'VFS Read and Write' --ylabel 'N/s' \
+' 2>/dev/null | ${PLOTCAKE} --title 'VFS Read and Write' --ylabel 'N/s' \
 			-l 'write' -l 'read' -o vfs ${@}

@@ -15,6 +15,9 @@ set -e
 [[ -z ${I} ]] && I=1
 [[ -z ${interval} ]] && interval=
 
+readonly MYDIR=$(dirname $(realpath $0))
+. ${MYDIR}/lib-plotcake.sh
+
 indexes=( ${@} )
 
 declare -a labels
@@ -66,5 +69,5 @@ while true; do
 		echo "${percent_idle[@]}"
 	fi
 	sleep ${I}
-done | ../plotcake --title 'CPU Loads %idle' --ylabel '%idle' \
+done | ${PLOTCAKE} --title 'CPU Loads %idle' --ylabel '%idle' \
 	-o cpu ${labels[@]} ${interval:+-I ${interval}}
