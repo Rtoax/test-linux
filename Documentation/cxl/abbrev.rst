@@ -27,6 +27,7 @@ CXL Abbrev
 - FM: Fabric Manager (CXL 结构管理器) @MCTP
 - ISP: Interleave set position (交错set位置)
 - JBOM: Just a Bunch of Memory (一大堆内存)
+- LTSSM: Link Training and Status State Machine (链接训练和状态机)
 - LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
 - MC: Memory Controller (内存控制器)
