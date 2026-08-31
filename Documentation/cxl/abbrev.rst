@@ -4,6 +4,7 @@ CXL Abbrev
 
 - AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
 - AOC: Active Optical Cable (有源光缆) @AEC
+- APN: Alternative Protocol Negotiation (替代协议谈判)
 - BOs: Background Operations (后台操作) @CCI
 - CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
