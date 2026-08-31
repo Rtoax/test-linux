@@ -2,7 +2,7 @@
 /* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #pragma once
 
-#define MY_VERSION "v1.6.27"
+#define MY_VERSION "v1.6.28"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
