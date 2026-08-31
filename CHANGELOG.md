@@ -24,7 +24,7 @@ and this project adheres to
 #### Tools
 - add ima-evm, `lm_sensors` subdir;
 #### Template
-- add anaconda.mk, `lm_sensors.mk`;
+- add anaconda.mk, `lm_sensors.mk`, unicode/runes.mk;
 
 
 ## [v2.4.12] Queen 2026-08-28
