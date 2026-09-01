@@ -81,7 +81,8 @@ PROG_ARGS_create.1 := tout=1 nr=10
 # glibc >= 2.34, pthread APIs move from libpthread.so to libc.so.
 # ref: https://developers.redhat.com/articles/2021/12/17/why-glibc-234-removed-libpthread
 LDFLAGS := -pthread
-CFLAGS += -I$(shell realpath .)/../../../
+CFLAGS += -I../../../
+CFLAGS += -I../../../compiler
 ifeq ($(CC),clang)
   LDFLAGS += -Wl,-lm
 else

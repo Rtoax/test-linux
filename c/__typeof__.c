@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "unused.h"
+#include "attribute/compiler.h"
 
 struct test {
 	int i;

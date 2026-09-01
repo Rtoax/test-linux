@@ -1,6 +1,6 @@
 #include "likely.h"
 #include "inline.h"
-#include "unused.h"
+#include "attribute/compiler.h"
 
 #define DEFINE_FUNC(fname)	\
 	unsigned long __noinline f_##fname(unsigned long a) { return a + 1; }

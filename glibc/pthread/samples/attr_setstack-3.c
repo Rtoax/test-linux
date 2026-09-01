@@ -6,9 +6,8 @@
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
-
 #include "libs/memshow.h"
-#include "macro/unused.h"
+#include "attribute/compiler.h"
 
 #ifndef PTHREAD_STACK_MIN
 #define PTHREAD_STACK_MIN 16384

@@ -82,7 +82,7 @@ endef
 
 include cross-compile.mk
 
-CFLAGS += -I../macro/
+CFLAGS += -I../compiler/
 
 CFLAGS_assignment := -Wno-error=uninitialized
 CFLAGS_auto := -Wno-error=implicit-int

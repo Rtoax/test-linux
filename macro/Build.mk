@@ -51,6 +51,7 @@ prog-y := likely.sh
 prog-y += ${target-y}
 prog-y += ${target-cpp-y}
 
+CFLAGS += -I../compiler
 CFLAGS += ${KFLAGS}
 
 CFLAGS___stringify := -DSTDBOOL_HDR=stdbool.h

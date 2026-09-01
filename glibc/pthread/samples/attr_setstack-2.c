@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <sys/prctl.h>
 #include <ctype.h>
-#include "macro/unused.h"
+#include "attribute/compiler.h"
 
 #define DBG_PRINT(fmt, args...) { \
 	printf("%s %d ", __FUNCTION__, __LINE__); \

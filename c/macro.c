@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "unused.h"
+#include "attribute/compiler.h"
 
 struct attr {
 	void (*show)(void);

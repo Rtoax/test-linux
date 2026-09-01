@@ -1,8 +1,5 @@
 #include <stdio.h>
-
-#include "unused.h"
-
-#define __user __attribute__((noderef, address_space(1)))
+#include "attribute/compiler.h"
 
 int main(void)
 {

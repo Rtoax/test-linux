@@ -18,3 +18,7 @@
 #endif
 
 #define __hot __attribute__((hot))
+
+#define __unused __attribute__((unused))
+
+#define __user __attribute__((noderef, address_space(1)))

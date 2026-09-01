@@ -20,4 +20,4 @@ subdir-y += search
 
 target-y += pi
 
-CFLAGS += -I../macro/
+CFLAGS += -I../compiler/
