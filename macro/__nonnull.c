@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include "__nonnull.h"
-
+#include "attribute/compiler.h"
 
 int __nonnull((1)) print_ptr(void *ptr)
 {
