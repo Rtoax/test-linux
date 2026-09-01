@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include "../attribute/patchable_function_entry.h"
-#include "../attribute/hotpatch.h"
+#include "../attribute/compiler.h"
 
 /**
  *    nop <------------------------------------------------
