@@ -1,4 +1,4 @@
-#include "optimize.h"
+#include "compiler.h"
 
 _OPTIMIZE_O0 int foo(void)
 {

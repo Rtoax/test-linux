@@ -1,4 +1,4 @@
-#include "optimize.h"
+#include "compiler.h"
 
 _omit_frame_pointer int foo(void)
 {
