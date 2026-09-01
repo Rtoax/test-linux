@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
+# http://asciidoc.org
+#
 # Output definitions:
 # - ASCIIDOC=[/usr/bin/asciidoc]
 # - HAVE_ASCIIDOC=[y|n]

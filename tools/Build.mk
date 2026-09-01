@@ -1,3 +1,5 @@
+include asciidoc.mk
+include asciidoctor.mk
 include git.mk
 include libsmbios.mk
 include mbw.mk
@@ -6,6 +8,8 @@ include podman.mk
 include tmux.mk
 include zstd.mk
 
+subdir-${HAVE_ASCIIDOC} += asciidoc
+subdir-${HAVE_ASCIIDOCTOR} += asciidoctor
 subdir-y += bc
 subdir-y += binfmt
 subdir-y += capability

@@ -75,6 +75,18 @@ warning() {
 	echo >&2 "WARNING: "${@}
 }
 
+git_status_verbose() {
+	git status --verbose | grep -e '^+' -e '^-'
+}
+
+git_diff_staged() {
+	git diff --staged | grep -e '^+' -e '^-'
+}
+
+git_log_1_patch_oneline() {
+	git log -1 --patch --oneline | grep -e '^+' -e '^-'
+}
+
 # $1: specify mode, values: WEAK, STRONG
 __add_ver() {
 	local mode=$1
@@ -195,10 +207,8 @@ has_content() {
 	for str in ${@}
 	do
 		# search the 'str' in patch
-		if [[ "$(git status --verbose | grep -e '^+' -e '^-' | \
-				grep -o ${str})" ]] ||
-		   [[ "$(git diff --staged | grep -e '^+' -e '^-' | \
-				grep -o ${str})" ]]; then
+		if [[ "$(git_status_verbose | grep -o ${str})" ]] ||
+		   [[ "$(git_diff_staged | grep -o ${str})" ]]; then
 			echo "YES"
 			return 0
 		fi
@@ -213,11 +223,11 @@ match_content() {
 	[[ ${AV} ]] && echo "${str[@]}" && return 0
 
 	get_content() {
-		git status --verbose | cat
-		git diff --staged | cat
+		git_status_verbose | cat
+		git_diff_staged | cat
 		git status --short | cat
 		if [[ ${is_commit_amend} ]]; then
-			git log -1 --patch --oneline | cat
+			git_log_1_patch_oneline | cat
 		fi
 	}
 

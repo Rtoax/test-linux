@@ -23,7 +23,7 @@ and this project adheres to
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;
 - add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`;
 #### Tools
-- add ima-evm, `lm_sensors`, mbw, sysbench subdir;
+- add ima-evm, `lm_sensors`, mbw, sysbench, asciidoc, asciidoctor subdir;
 #### Template
 - numa.mk: add `NUMA_NODE_COUNT`, `numa-cflags`;
 - add anaconda.mk, `lm_sensors.mk`, unicode/runes.mk, mbw.mk, sysbench.mk, numa.mk, flatpak.mk, asciidoc.mk, asciidoctor.mk;
