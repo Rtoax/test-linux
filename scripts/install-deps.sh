@@ -722,6 +722,7 @@ pkgs_container+=( runc )
 pkgs_container+=( skopeo )
 pkgs_container+=( systemd-container )
 
+pkgs_docs+=( asciidoc )
 pkgs_docs+=( latexmk )
 pkgs_docs+=( mkdocs )
 pkgs_docs+=( texlive )
@@ -1070,6 +1071,7 @@ dnf_add_packages()
 
 	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx_rtd_theme )
+	pkgs_docs+=( rubygem-asciidoctor )
 	pkgs_docs+=( texlive-scheme-full )
 
 	pkgs_math+=( fftw-devel )
@@ -1291,6 +1293,7 @@ apt_add_packages()
 		pkgs_devel+=( libhipsparse-dev )
 	fi
 
+	pkgs_docs+=( asciidoctor )
 	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx-rtd-theme )
 	pkgs_docs+=( python3-sphinxcontrib-mermaid )

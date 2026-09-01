@@ -26,7 +26,7 @@ and this project adheres to
 - add ima-evm, `lm_sensors`, mbw, sysbench subdir;
 #### Template
 - numa.mk: add `NUMA_NODE_COUNT`, `numa-cflags`;
-- add anaconda.mk, `lm_sensors.mk`, unicode/runes.mk, mbw.mk, sysbench.mk, numa.mk, flatpak.mk;
+- add anaconda.mk, `lm_sensors.mk`, unicode/runes.mk, mbw.mk, sysbench.mk, numa.mk, flatpak.mk, asciidoc.mk, asciidoctor.mk;
 
 
 ## [v2.4.12] Queen 2026-08-28

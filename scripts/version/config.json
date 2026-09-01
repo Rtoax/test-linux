@@ -1,5 +1,5 @@
 {
-	"version": "0.0.17",
+	"version": "0.0.18",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -13,8 +13,8 @@
 				"patch": "patchlevel"
 			}
 		},
-		"tags": [ "boot", "bpf", "development", "networking",
-			"software-management"
+		"tags": [ "boot", "bpf", "development", "document",
+			"networking", "software-management"
 		]
 	},
 	"software": {
@@ -45,6 +45,18 @@
 			"extension": [ "deb" ],
 			"keys": [ "apt" ],
 			"tags": [ "software-management" ]
+		},
+		"asciidoc": {
+			"name": "asciidoc",
+			"extension": [ "adoc" ],
+			"keys": [ "asciidoc" ],
+			"tags": [ "document" ]
+		},
+		"asciidoctor": {
+			"name": "asciidoctor",
+			"extension": [ "adoc" ],
+			"keys": [ "asciidoctor" ],
+			"tags": [ "document" ]
 		},
 		"bcc": {
 			"name": "BCC",
@@ -359,7 +371,8 @@
 				"length": [ 2 ]
 			},
 			"extension": [ "rst" ],
-			"keys": [ "latexmk", "sphinx", "Documentation" ]
+			"keys": [ "latexmk", "sphinx", "Documentation" ],
+			"tags": [ "document" ]
 		},
 		"libblockdev": {
 			"name": "LibBlockDev",
@@ -731,7 +744,8 @@
 			"name": "Sphinx",
 			"command": [ "sphinx-build" ],
 			"extension": [ "rst" ],
-			"keys": [ "Documentation", "sphinx" ]
+			"keys": [ "Documentation", "sphinx" ],
+			"tags": [ "document" ]
 		},
 		"strace": {
 			"name": "STrace",
