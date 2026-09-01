@@ -16,7 +16,10 @@ target-y += signal_fence
 target-${HAVE_LIBATOMIC} += always_lock_free
 target-${HAVE_LIBATOMIC} += is_lock_free
 
-prog-y += $(filter-out load-store-atomic-strict, ${target-y})
+prog-y := $(filter-out load-store-atomic-strict, ${target-y})
+ifeq (${CPU_ARCH},aarch64)
+  prog-y := $(filter-out thread_fence, ${prog-y})
+endif
 
 LDFLAGS += -pthread
 
