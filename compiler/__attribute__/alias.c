@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "alias.h"
+#include "compiler.h"
 
 void foo(void)
 {

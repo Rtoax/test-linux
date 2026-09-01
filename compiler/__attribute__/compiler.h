@@ -1,5 +1,10 @@
 #pragma once
 
+#define __weak_alias(name) __attribute__((weak, alias(name)))
+
+#define weak_alias(name, aliasname) \
+	extern typeof(name) aliasname __attribute__((weak, alias(#name)))
+
 /**
  * The cold attribute on a function informs the compiler that the function is
  * unlikely to be executed.
