@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "cold.h"
+#include "compiler.h"
 
 __cold int foo(void)
 {

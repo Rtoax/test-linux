@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
-#include "cold.h"
+#include "compiler.h"
 
 int __attribute__((format(printf, 2, 3)))
 log_error(const char *err, const char *fmt, ...)
