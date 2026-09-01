@@ -1,5 +1,4 @@
 #include "likely.h"
-#include "inline.h"
 #include "attribute/compiler.h"
 
 #define DEFINE_FUNC(fname)	\

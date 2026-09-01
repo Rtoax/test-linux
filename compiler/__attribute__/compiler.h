@@ -23,6 +23,8 @@
 
 #define __user __attribute__((noderef, address_space(1)))
 
+#define __noinline __attribute__((noinline))
+
 #ifndef __attribute_nonnull__
 #define __attribute_nonnull__(params) __attribute__((__nonnull__ params))
 #endif
