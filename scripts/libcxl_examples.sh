@@ -15,6 +15,8 @@ do
 	# Be even more verbose and display everything we are able to parse,
 	# even if it doesn't look  interesting  at  all (e.g., undefined memory
 	# regions).
+	#
+	# commit b70dac1a4b3e ("cxl: lspci: Capabilities: 4-ways pmem + 4-ways vmem + 4-ways vmem")
 	dry_run sudo lspci -s ${slot} -vvv
 done
 

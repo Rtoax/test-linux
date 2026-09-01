@@ -3,6 +3,8 @@
 # - commit 1f866e735c78 ("cxl: list: 1-way vmem")
 # - commit b55af6465a43 ("cxl: list: 4-ways pmem + 4-ways vmem + 4-ways vmem
 #                         with dynamic capacity")
+# - commit b70dac1a4b3e ("cxl: lspci: Capabilities: 4-ways pmem + 4-ways vmem
+#                         + 4-ways vmem")
 set -e
 
 readonly MY_ROOT=$(dirname $(realpath $0))

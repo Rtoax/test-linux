@@ -115,6 +115,8 @@ cxl_memdev_type() {
 }
 
 # $1: memdev name, like 'mem7'
+# Then, you could show pci Capabilities with 'lspci -vvv'
+# commit b70dac1a4b3e ("cxl: lspci: Capabilities: 4-ways pmem + 4-ways vmem + 4-ways vmem")
 cxl_memdev_slot() {
 	local slot=$(sudo cxl list --memdevs | \
 		jq -r --arg dev "${1}" '.[] | select(.memdev == $dev) | .host')
