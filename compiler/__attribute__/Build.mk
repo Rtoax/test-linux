@@ -8,6 +8,7 @@ target-y += aligned
 target-y += alloc_align
 target-y += always_inline
 target-y += cleanup
+target-y += cold
 target-y += const
 target-y += constructor
 target-y += __counted_by__

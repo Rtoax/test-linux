@@ -4,6 +4,7 @@
 /alloc_align
 /always_inline
 /cleanup
+/cold
 /const
 /constructor
 /__counted_by__
