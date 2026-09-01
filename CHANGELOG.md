@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- debugfs: add directories `tracing/events/{pci,pci_controller}`;
 #### Changed
 #### Deprecated
 #### Documentation

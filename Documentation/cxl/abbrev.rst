@@ -2,6 +2,7 @@
 CXL Abbrev
 ==========
 
+- AAD: Additional Authentication Data (附加身份验证数据)
 - AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
 - AOC: Active Optical Cable (有源光缆) @AEC
 - APN: Alternative Protocol Negotiation (替代协议谈判)
@@ -17,6 +18,7 @@ CXL Abbrev
 - CS: CXL Switch (CXL 交换机)
 - CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
 - CXL: Compute Express Link (计算快速链接) @MCTP @CIM
+- D2H: Device to Host (设备到主机) @H2D
 - DAC: Direct Attach Copper (直接连接铜缆) @AEC
 - DC: Dynamic Capacity Device (动态能力) @DCD
 - DCD: Dynamic Capacity Device (动态能力设备) @DC
@@ -28,6 +30,7 @@ CXL Abbrev
 - EP: Endpoint (端点) @MCTP
 - FM: Fabric Manager (CXL 结构管理器) @MCTP
 - FMLD: FM owned LD (FM 拥有的逻辑设备)
+- H2D: Host to Device (主机到设备) @D2H
 - HDM: Host-managed Device Memory (主机管理的设备内存) @PDM
 - ISP: Interleave set position (交错set位置)
 - JBOM: Just a Bunch of Memory (一大堆内存)
@@ -36,6 +39,7 @@ CXL Abbrev
 - LD-ID: Logical Device Identifier (逻辑设备标识符)
 - LSA: Label Storage Area (标签存储区)
 - MC: Memory Controller (内存控制器)
+- MEFN: Memory Error Firmware Notification (内存错误固件通知)
 - MHD: Muiltple Headed Device (多头设备)
 - MLD: Muiltple Logical Device (多逻辑设备) @SLD
 - NIB: Number of Bitmap Entries (Bitmap 条目)
@@ -47,11 +51,11 @@ CXL Abbrev
 - RCEC: Root Complex Event Collector (根联合体事件收集器) @RDPAS
 - RDPAS: RCEC Downstream Port Association Structure (RCEC下游端口关联结构) @RCEC
 - SLD: Single Logical Device (单一逻辑设备) @MLD
-- TLP: Transaction Layer Packet (事务层包)
 - TMO: TMO? (透明内存卸载) @Meta
 - TPP: Transparent Put (透明页放置) @Meta
 - UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)
 - USP: Upstream Switch Port (上游交换端口) @DSP
+- VDM: Vendor Defined Message (厂商定义消息)
 - VH: Virtual Hierarchy (虚拟层次结构)
 - vPPB: Virtual PCI-to-PCI Bridge (虚拟 PPB) @PPB
 - VCS: Virtual CXL Switch (虚拟 CXL 交换机)
