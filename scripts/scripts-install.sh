@@ -22,7 +22,7 @@ systemd_install()
 		return
 	fi
 
-	ln -s ${SCRIPTS_DIR}/docs/sphinx-serve.service /usr/lib/systemd/system/sphinx-serve-tl.service
+	cp ${SCRIPTS_DIR}/docs/sphinx-serve.service /usr/lib/systemd/system/sphinx-serve-tl.service
 
 	systemctl daemon-reload
 	systemctl enable --now sphinx-serve-tl.service
