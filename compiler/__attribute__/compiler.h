@@ -6,6 +6,30 @@
 	extern typeof(name) aliasname __attribute__((weak, alias(#name)))
 
 /**
+ * aligned
+ * aligned (alignment)
+ *
+ * This attribute applies to functions, variables, typedefs, structs, and
+ * structure fields.
+ *
+ * packed
+ *
+ * This attribute can be attached to a struct, union, or C++ class definition,
+ * to a member of one, or to an enum definition.
+ */
+#ifndef __packed
+#define __packed __attribute__((packed))
+#endif
+
+#ifndef __aligned
+#define __aligned(v) __attribute__((aligned(v)))
+#endif
+
+#ifndef __packed_aligned
+#define __packed_aligned(v) __attribute__((packed, aligned(v)))
+#endif
+
+/**
  * The cold attribute on a function informs the compiler that the function is
  * unlikely to be executed.
  *

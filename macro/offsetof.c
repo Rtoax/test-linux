@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "offsetof.h"
 #include "container_of.h"
-#include "align.h"
+#include "attribute/compiler.h"
 
-#define STRLEN	128
+#define STRLEN 128
 
 struct A {
 	int id;
