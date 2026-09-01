@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "deprecated.h"
+#include "compiler.h"
 
 __deprecated void print_something(void)
 {
