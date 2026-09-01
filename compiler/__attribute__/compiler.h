@@ -1,3 +1,9 @@
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+/* Copyright (C) 2026 Rong Tao. All rights reserved. */
+/**
+ * Refs:
+ * - https://gcc.gnu.org/onlinedocs/gcc/Common-Attributes.html
+ */
 #pragma once
 
 #define __weak_alias(name) __attribute__((weak, alias(name)))
