@@ -1447,6 +1447,11 @@ if [[ ! -z "${pkgs_inst[@]}" ]]; then
 	os_install ${pkgs_inst[@]}
 fi
 
+if [[ ${have_desktop} ]] && [[ $(which flatpak) ]] &&
+   [[ $(is_os fedora) ]]; then
+	flatpak install -y wechat Wemeet Typora TeXstudio
+fi
+
 # Install python3 pip wheels
 if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
 	if [[ $(is_os debian ubuntu) ]]; then
