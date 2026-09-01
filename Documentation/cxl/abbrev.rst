@@ -5,6 +5,7 @@ CXL Abbrev
 - AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
 - AOC: Active Optical Cable (有源光缆) @AEC
 - APN: Alternative Protocol Negotiation (替代协议谈判)
+- ARB/MUX: Arbitration and Data Multiplexing/Demultiplexing (仲裁和数据复用/解复用)
 - BOs: Background Operations (后台操作) @CCI
 - CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
@@ -19,16 +20,20 @@ CXL Abbrev
 - DAC: Direct Attach Copper (直接连接铜缆) @AEC
 - DC: Dynamic Capacity Device (动态能力) @DCD
 - DCD: Dynamic Capacity Device (动态能力设备) @DC
+- DCOH: Device Coherency (为了解决缓存一致性，DCOH 是在设备侧的代理)
 - DOE: Data Object Exchange (数据对象交换) @DVSEC
 - DPA: CXL Memory Device Physical Address (CXL 内存设备物理地址)
 - DSP: Downstream Switch Port (下游交换端口) @USP
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
 - EP: Endpoint (端点) @MCTP
 - FM: Fabric Manager (CXL 结构管理器) @MCTP
+- FMLD: FM owned LD (FM 拥有的逻辑设备)
+- HDM: Host-managed Device Memory (主机管理的设备内存) @PDM
 - ISP: Interleave set position (交错set位置)
 - JBOM: Just a Bunch of Memory (一大堆内存)
 - LTSSM: Link Training and Status State Machine (链接训练和状态机)
 - LD: Logical Device (逻辑设备)
+- LD-ID: Logical Device Identifier (逻辑设备标识符)
 - LSA: Label Storage Area (标签存储区)
 - MC: Memory Controller (内存控制器)
 - MHD: Muiltple Headed Device (多头设备)
@@ -37,10 +42,12 @@ CXL Abbrev
 - OMI: Open Memory Interface (开放内存接口)
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
 - OSC: Operating System Capabilities (操作系统能力)
-- PXB: PCI eXpander Bridge (PCI 扩展桥)
+- PDM: Private Device Memory (私有设备内存)
+- PXB: PCI eXpander Bridge (PCI 扩展桥) @HDM
 - RCEC: Root Complex Event Collector (根联合体事件收集器) @RDPAS
 - RDPAS: RCEC Downstream Port Association Structure (RCEC下游端口关联结构) @RCEC
 - SLD: Single Logical Device (单一逻辑设备) @MLD
+- TLP: Transaction Layer Packet (事务层包)
 - TMO: TMO? (透明内存卸载) @Meta
 - TPP: Transparent Put (透明页放置) @Meta
 - UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)
