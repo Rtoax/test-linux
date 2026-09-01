@@ -5,6 +5,7 @@ include compiler.mk
 target-y += access
 target-y += alias
 target-y += aligned
+target-y += alloc_align
 target-y += always_inline
 target-y += cleanup
 target-y += const

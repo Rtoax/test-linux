@@ -1,6 +1,7 @@
 /access
 /alias
 /aligned
+/alloc_align
 /always_inline
 /cleanup
 /const
