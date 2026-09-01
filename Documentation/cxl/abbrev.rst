@@ -8,6 +8,7 @@ CXL Abbrev
 - APN: Alternative Protocol Negotiation (替代协议谈判)
 - ARB/MUX: Arbitration and Data Multiplexing/Demultiplexing (仲裁和数据复用/解复用)
 - BOs: Background Operations (后台操作) @CCI
+- CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
 - CCI: Component Command Interface (组件命令接口)
 - CCIX: Cache Coherent Interconnect for Accelerators (面向加速器的高速缓存一致性互连)
 - CEDT: CXL Early Discovery Table (CXL 早期发现表) @ACPI
@@ -18,45 +19,50 @@ CXL Abbrev
 - CS: CXL Switch (CXL 交换机)
 - CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
 - CXL: Compute Express Link (计算快速链接) @MCTP @CIM
-- D2H: Device to Host (设备到主机) @H2D
+- D2H: Device to Host (设备到主机) @H2D @CXL.cache
 - DAC: Direct Attach Copper (直接连接铜缆) @AEC
-- DC: Dynamic Capacity Device (动态能力) @DCD
 - DCD: Dynamic Capacity Device (动态能力设备) @DC
+- DC: Dynamic Capacity Device (动态能力) @DCD
 - DCOH: Device Coherency (为了解决缓存一致性，DCOH 是在设备侧的代理)
 - DOE: Data Object Exchange (数据对象交换) @DVSEC
 - DPA: CXL Memory Device Physical Address (CXL 内存设备物理地址)
+- DRS: Response with data - generically called Data Response (有数据响应) @S2M
 - DSP: Downstream Switch Port (下游交换端口) @USP
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
 - EP: Endpoint (端点) @MCTP
 - FM: Fabric Manager (CXL 结构管理器) @MCTP
 - FMLD: FM owned LD (FM 拥有的逻辑设备)
-- H2D: Host to Device (主机到设备) @D2H
+- H2D: Host to Device (主机到设备) @D2H @CXL.cache
 - HDM: Host-managed Device Memory (主机管理的设备内存) @PDM
 - ISP: Interleave set position (交错set位置)
 - JBOM: Just a Bunch of Memory (一大堆内存)
-- LTSSM: Link Training and Status State Machine (链接训练和状态机)
-- LD: Logical Device (逻辑设备)
 - LD-ID: Logical Device Identifier (逻辑设备标识符)
+- LD: Logical Device (逻辑设备)
 - LSA: Label Storage Area (标签存储区)
+- LTSSM: Link Training and Status State Machine (链接训练和状态机)
+- M2S: Master to Subordinate (主到从) @S2M @CXL.mem
 - MC: Memory Controller (内存控制器)
 - MEFN: Memory Error Firmware Notification (内存错误固件通知)
 - MHD: Muiltple Headed Device (多头设备)
 - MLD: Muiltple Logical Device (多逻辑设备) @SLD
+- NDR: Response without data - generically called No Data Response (无数据响应) @S2M
 - NIB: Number of Bitmap Entries (Bitmap 条目)
 - OMI: Open Memory Interface (开放内存接口)
-- CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
 - OSC: Operating System Capabilities (操作系统能力)
 - PDM: Private Device Memory (私有设备内存)
 - PXB: PCI eXpander Bridge (PCI 扩展桥) @HDM
 - RCEC: Root Complex Event Collector (根联合体事件收集器) @RDPAS
 - RDPAS: RCEC Downstream Port Association Structure (RCEC下游端口关联结构) @RCEC
+- Req: Request without data - generically called Requests (无数据请求) @M2S
+- RwD: Request with Data (有数据请求) @M2S
+- S2M: Subordinate to Master (从到主) @M2S @CXL.mem
 - SLD: Single Logical Device (单一逻辑设备) @MLD
 - TMO: TMO? (透明内存卸载) @Meta
 - TPP: Transparent Put (透明页放置) @Meta
 - UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)
 - USP: Upstream Switch Port (上游交换端口) @DSP
+- VCS: Virtual CXL Switch (虚拟 CXL 交换机)
 - VDM: Vendor Defined Message (厂商定义消息)
 - VH: Virtual Hierarchy (虚拟层次结构)
 - vPPB: Virtual PCI-to-PCI Bridge (虚拟 PPB) @PPB
-- VCS: Virtual CXL Switch (虚拟 CXL 交换机)
 - XHB: CXL Host Bridge (CXL Host 桥)
