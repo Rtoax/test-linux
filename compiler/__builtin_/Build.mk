@@ -43,7 +43,7 @@ target-todo += preserve_enum_value
 
 prog-y += $(filter-out trap, ${target-y})
 
-CFLAGS += -I../__attribute__/
+CFLAGS += -I..
 # TODO: Fix this warning skip
 CFLAGS_apply_args := -Wno-incompatible-pointer-types
 CFLAGS_popcount := -Wno-int-conversion

@@ -5,7 +5,7 @@
  * - or use -fpack-struct=1
  */
 #include <stdio.h>
-#include "attribute/compiler.h"
+#include "compiler.h"
 
 #define CHK(st, sz) _Static_assert(sizeof(struct st) == sz, #st)
 #define PNT(st) printf("size of struct %-8s is %ld\n", #st, sizeof(struct st))

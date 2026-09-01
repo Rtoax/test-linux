@@ -3,7 +3,7 @@
  * - https://people.kernel.org/gustavoars/how-to-use-the-new-counted_by-attribute-in-c-and-linux
  */
 #include <stdio.h>
-#include "__counted_by__.h"
+#include "compiler.h"
 
 struct foo {
 	int i;

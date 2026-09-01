@@ -11,7 +11,7 @@
  */
 #include <stdio.h>
 #include <malloc.h>
-#include "__counted_by__.h"
+#include "attribute/compiler.h"
 
 struct flex_struct {
 	size_t count;
