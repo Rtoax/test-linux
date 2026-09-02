@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.17"
+readonly VERSION="v1.1.18"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -111,6 +111,7 @@ ${BOLD}DESCRIPTION${RST}
 ${BOLD}SUBCOMMAND OPTIONS${RST}
     list                    listing all current running VMs
     destroy [NAME]          destroy a virtual machine
+    undefine [NAME]         undefine a virtual machine
 
 ${BOLD}VM OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
@@ -693,7 +694,7 @@ list_vm() {
 }
 
 # $1: virtual machine name
-kill_vm() {
+destroy_vm() {
 	local name=${1}
 	local pidfile=${TMPDIR}/${name}/pidfile.pid
 
@@ -712,6 +713,23 @@ kill_vm() {
 		local pid=$(sudo cat ${pidfile})
 		sudo kill ${pid}
 	fi
+}
+
+# $1: virtual machine name
+undefine_vm() {
+	local name=${1}
+	local dir=${TMPDIR}/${name}
+	local pidfile=${dir}/pidfile.pid
+
+	if [[ -f ${pidfile} ]] && [[ -e /proc/$(sudo cat ${pidfile}) ]]; then
+		error "VM '${name}' still running, shutdown it first with 'destroy'"
+	fi
+
+	if [[ ! -e ${dir} ]]; then
+		error "Not found vm '${name}'"
+	fi
+
+	config_prepare_vm_tmpdir ${name}
 
 	sudo rm -rf ${vm_tmpdir}
 }
@@ -1223,7 +1241,16 @@ destroy)
 	if [[ -z ${1} ]]; then
 		error "'destroy' need pass virtual name, check with '${PROG} list'"
 	fi
-	kill_vm "${@}"
+	destroy_vm "${@}"
+	shift
+	exit 0
+	;;
+undefine)
+	shift
+	if [[ -z ${1} ]]; then
+		error "'undefine' need pass virtual name, check with '${PROG} list'"
+	fi
+	undefine_vm "${@}"
 	shift
 	exit 0
 	;;
