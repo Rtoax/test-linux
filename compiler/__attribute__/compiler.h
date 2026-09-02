@@ -84,6 +84,9 @@
 #define __nonnull(params) __attribute_nonnull__(params)
 #endif
 
+#ifdef __counted_by
+#undef __counted_by
+#endif
 #if __has_attribute(__counted_by__)
 #define __counted_by(member) __attribute__((__counted_by__(member)))
 #else
