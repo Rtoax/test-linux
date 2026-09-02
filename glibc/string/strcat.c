@@ -32,13 +32,19 @@ void overflow(void)
 	/**
 	 * need cflags -Wno-error=stringop-overflow
 	 */
-	strcat(string, "12345678");
+	strcat(string, "1234567890");
 
-	printf("%s\n", string);
+	printf("string: %s\n", string);
 
 	/* overflow write to stack_buff[] */
-	printf("%s\n", stack_buff);
-	assert(!strcmp(stack_buff, "5678"));
+	/**
+	 * on aarch64, thinkforce, buf[] and buf_pre[] aligned by 8bytes, thus,
+	 * we should match "90".
+	 */
+	printf("stack_buff: %s\n", stack_buff);
+	if (strcmp(stack_buff, "567890") && strcmp(stack_buff, "90")) {
+		assert(0 && "stack buffer failed");
+	}
 }
 
 int main(void)
