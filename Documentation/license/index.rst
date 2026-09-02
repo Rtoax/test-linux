@@ -51,6 +51,7 @@ Licenses
 .. toctree::
    :maxdepth: 1
 
+   BSD-2-Clause
    CC-BY-SA
 
 
