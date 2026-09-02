@@ -2,7 +2,8 @@
 
 BEGIN
 {
-	printf("max_strlen %ld %ld\n", config.max_strlen,
-		__builtin_config.max_strlen);
+	printf("max_strlen %ld %ld %ld %ld\n", config.max_strlen,
+		config->max_strlen, __builtin_config.max_strlen,
+		__builtin_config->max_strlen);
 	exit();
 }
