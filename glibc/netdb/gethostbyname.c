@@ -10,14 +10,12 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <string.h>
-
 #include "netdb_helpers.h"
-
 
 int main(int argc, char* argv[])
 {
 	struct hostent *host;
-	const char name[] = "www.baidu.com";
+	const char name[] = "localhost";
 
 	host = gethostbyname(name);
 	if (!host) {
