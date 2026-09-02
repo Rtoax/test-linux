@@ -1,43 +1,32 @@
 #include <stdio.h>
 #include <ctype.h>
 
+void test(char ch)
+{
+#define T(func) \
+	printf("%16s(%c) = %s\n", #func, ch, func(ch) ? "true" : "false")
+	T(isalpha);
+	T(islower);
+	T(isupper);
+	T(isdigit);
+	T(isalnum);
+	T(isxdigit);
+	T(ispunct);
+	T(isspace);
+	T(isblank);
+	T(isgraph);
+	T(isprint);
+	T(iscntrl);
+	T(isascii);
+#undef T
+}
+
 int main(int argc, char *argv[])
 {
-	char ch;
+	char data[] = { "1aA_=? \t\n\b" };
 
-	if (argc > 1)
-		ch = argv[1][0];
-	else
-		ch = 'x';
-
-	printf("%c\n", ch);
-
-	if (isalpha(ch))
-		printf("isalpha\n");
-	if (islower(ch))
-		printf("islower\n");
-	if (isupper(ch))
-		printf("isupper\n");
-	if (isdigit(ch))
-		printf("isdigit\n");
-	if (isalnum(ch))
-		printf("isalnum\n");
-	if (isxdigit(ch))
-		printf("isxdigit\n");
-	if (ispunct(ch))
-		printf("ispunct\n");
-	if (isspace(ch))
-		printf("isspace\n");
-	if (isblank(ch))
-		printf("isblank\n");
-	if (isgraph(ch))
-		printf("isgraph\n");
-	if (isprint(ch))
-		printf("isprint\n");
-	if (iscntrl(ch))
-		printf("iscntrl\n");
-	if (isascii(ch))
-		printf("isascii\n");
+	for (int i = 0; i < sizeof(data); i++)
+		test(data[i]);
 
 	return 0;
 }
