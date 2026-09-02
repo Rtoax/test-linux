@@ -1,6 +1,8 @@
 /**
  * ACPI DSDT: Differentiated System Description Table
  *
+ * commit 8e162de96d50 ("acpi: parse DSDT use iasl (with CXL _OSC)")
+ *
  * Usage:
  * - CXL ACPI0016
  *   CXL™ 2.0 Specification.pdf, 9.14.2 CXL _OSC
@@ -11,6 +13,7 @@
  * Refs:
  * - ACPI Specification, Release 6.5
  *   5.2.11.1 Differentiated System Description Table (DSDT)
+ * - CXL™ 2.0 Specification.pdf, 9.14.2 CXL _OSC
  */
 #include <stdio.h>
 #include <stdint.h>
