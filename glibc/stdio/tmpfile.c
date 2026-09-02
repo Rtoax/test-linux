@@ -7,7 +7,7 @@
 int main(void)
 {
 	FILE *fp = tmpfile();
-	fprintf(fp, "Hello, Yue Hua!\n");
+	fprintf(fp, "Hello, GNU!\n");
 	fclose(fp);
 	return 0;
 }

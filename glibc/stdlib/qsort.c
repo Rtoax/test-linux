@@ -25,7 +25,7 @@ void test_string(void)
 	int j;
 
 	char *strs[] = {
-		"Rong", "Tao", "Love", "Xue", "Yue", "Hua",
+		"Rong", "Tao", "Love", "Linux", "eBPF", "bpftrace",
 	};
 
 	qsort(strs, ARRAY_SIZE(strs), sizeof(char *), cmpstringp);

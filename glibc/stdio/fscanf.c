@@ -5,6 +5,7 @@
 static const char *stats[] = {
 	"/sys/block/sda/stat",
 	"/sys/block/vda/stat",
+	"/sys/block/nvme0n1/stat",
 };
 
 int main(void)

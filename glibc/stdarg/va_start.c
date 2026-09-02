@@ -11,6 +11,6 @@ void fun(const char *fmt, ...)
 
 int main(void)
 {
-	fun("Rong Tao love %s\n", "Xue Yuehua");
+	fun("Rong Tao loves %s\n", "Linux");
 	return 0;
 }

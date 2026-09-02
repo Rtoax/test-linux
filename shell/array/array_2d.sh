@@ -9,8 +9,8 @@ skills["Rong Tao"]+="basketball"
 skills["Rong Tao"]+=" eat"
 skills["Rong Tao"]+=" coding"
 
-skills["Xue Yuehua"]+="learn"
-skills["Xue Yuehua"]+=" eat"
+skills["Li Haiqiang"]+="learn"
+skills["Li Haiqiang"]+=" eat"
 
 echo "${!skills[@]}"
 echo "${skills[@]}"

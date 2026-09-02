@@ -3,7 +3,7 @@
 int main(void)
 {
 	int i;
-	char string[256] = {"I love you, Yuehua Xue!"};
+	char string[256] = { "I love you, eBPF!" };
 	char outbuf[BUFSIZ];
 
 	setbuf(stdout, outbuf);
@@ -14,7 +14,7 @@ int main(void)
 	fflush(stdout);
 
 	for (i = 0; i < 32; i++)
-		fprintf(stdout, "Rong Tao \033[1;5;31m❤\033[m %s\n", "Xue Yuehua");
+		fprintf(stdout, "Rong Tao \033[1;5;31m❤\033[m %s\n", "Linux");
 
 	printf("%s\n", string);
 
