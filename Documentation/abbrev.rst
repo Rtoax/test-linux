@@ -49,3 +49,4 @@ Abbrev
 - TOC: The Technical Oversight Committee (技术监督委员会)
 - UI: UNIX International (UNIX国际)
 - USG: UNIX System Group (Unix系统组)
+- UUID: Universal Unique Identifier (全局唯一ID)

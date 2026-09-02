@@ -3,6 +3,10 @@
  *
  * Usage:
  * - CXL ACPI0016
+ *   CXL™ 2.0 Specification.pdf, 9.14.2 CXL _OSC
+ *
+ *   The _OSC interface for a CXL hierarchy is identified by the Universal
+ *   Unique Identifier (UUID) 68f2d50b-c469-4d8a-bd3d-941a103fd3fc.
  *
  * Refs:
  * - ACPI Specification, Release 6.5
@@ -24,7 +28,7 @@ typedef struct {
 	uint32_t OEMRevision;
 	uint32_t CreatorID;
 	uint32_t CreatorRevision;
-	/* n bytes of AML code */
+	/* n bytes of AML code (AML: ACPI Machine Language) */
 	uint8_t DefinitionBlock[];
 } ACPI_DSDT;
 
@@ -65,8 +69,13 @@ int main(void)
 	printf("DSDT Creator ID : %d (0x%x)\n", dsdt.CreatorID, dsdt.CreatorID);
 	printf("DSDT Creator Revision  : %d\n", dsdt.CreatorRevision);
 
+	printf("DSDT DefinitionBlock Length: %ld\n",
+	       dsdt.Length - sizeof(ACPI_DSDT));
+
 	/**
-	 * TODO: Parse DefinitionBlock[] AML
+	 * Note: Parse DefinitionBlock[] AML is too complex, use iasl instead.
+	 *
+	 * $ sudo iasl -p DSDT -d /sys/firmware/acpi/tables/DSDT
 	 */
 
 	fclose(fp);
