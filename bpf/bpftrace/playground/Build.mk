@@ -1,3 +1,4 @@
+subdir-y += config
 subdir-y += map
 subdir-y += string
 

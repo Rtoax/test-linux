@@ -1,0 +1,12 @@
+#!/bin/env bpftrace
+
+config = {
+   max_strlen = 256;
+}
+
+BEGIN
+{
+  print(config.max_strlen);
+  let $s : string[config.max_strlen] = "hello";
+  print(($s, sizeof($s)));
+}
