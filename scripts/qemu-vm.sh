@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.15"
+readonly VERSION="v1.1.16"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -584,6 +584,7 @@ ${BOLD}OPTIONS${RST}
     -p, --port     list VMs's network port
     --qemu-cmd     listing qemu command
     -h, --help     show this information
+    -v, --verbose  enable verbose mode
 "
 	exit ${1-0}
 }
@@ -595,11 +596,12 @@ list_vm() {
 	local list_all list_port list_qemucmd
 	local LIST_VM_ARGS
 
-	LIST_VM_ARGS=$(getopt --options aph \
+	LIST_VM_ARGS=$(getopt --options aphv \
 		--long all \
 		--long port \
 		--long qemu-command \
 		--long help \
+		--long verbose \
 		--name list-vm -- "$@")
 	local status=$?
 	if [[ ${status} -ne 0 ]]; then
@@ -626,6 +628,10 @@ list_vm() {
 		--qemu-command)
 			shift
 			list_qemucmd=ON
+			;;
+		-v | --verbose)
+			shift
+			enable_verbose
 			;;
 		--)
 			shift
@@ -1421,8 +1427,7 @@ if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]] && [[ -z ${f_disks} ]]; then
 fi
 
 if [[ ${verbose} ]]; then
-	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
-	set -x
+	enable_verbose
 fi
 
 trap cleanup EXIT

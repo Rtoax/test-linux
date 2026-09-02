@@ -41,3 +41,8 @@ backlog() {
 	echo >&2 -en "${@}\r"
 	tput rc # restore old curse
 }
+
+enable_verbose() {
+	export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
+	set -x
+}
