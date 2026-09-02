@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - debugfs: add directories `tracing/events/{pci,pci_controller}`;
 #### Changed
+- move licenses directory into Documentation;
 #### Deprecated
 #### Documentation
 #### Fixed
