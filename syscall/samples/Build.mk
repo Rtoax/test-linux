@@ -113,6 +113,10 @@ ifeq ($(shell uname -m),riscv64)
   target-y := $(filter-out getdents, $(target-y))
 endif
 
+prog-y += $(filter-out chown fchownat tee tee2 setitimer userfaultfd \
+			sethostname sethostid vhangup getdomainname \
+			, ${target-y})
+
 CFLAGS += -I../../
 LDFLAGS += -pthread
 
