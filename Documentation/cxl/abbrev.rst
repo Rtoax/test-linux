@@ -4,6 +4,7 @@ CXL Abbrev
 
 - AAD: Additional Authentication Data (附加身份验证数据)
 - AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
+- ALMPs: ARB/MUX Link Management Packets (ARB/MUX 链接管理包)
 - AOC: Active Optical Cable (有源光缆) @AEC
 - APN: Alternative Protocol Negotiation (替代协议谈判)
 - ARB/MUX: Arbitration and Data Multiplexing/Demultiplexing (仲裁和数据复用/解复用)
@@ -38,6 +39,7 @@ CXL Abbrev
 - JBOM: Just a Bunch of Memory (一大堆内存)
 - LD-ID: Logical Device Identifier (逻辑设备标识符)
 - LD: Logical Device (逻辑设备)
+- LRSM: Local Retry State Machine (本地重试状态机) @RRSM
 - LSA: Label Storage Area (标签存储区)
 - LTSSM: Link Training and Status State Machine (链接训练和状态机)
 - M2S: Master to Subordinate (主到从) @S2M @CXL.mem
@@ -54,6 +56,7 @@ CXL Abbrev
 - RCEC: Root Complex Event Collector (根联合体事件收集器) @RDPAS
 - RDPAS: RCEC Downstream Port Association Structure (RCEC下游端口关联结构) @RCEC
 - Req: Request without data - generically called Requests (无数据请求) @M2S
+- RRSM: Remote Retry State Machine (远端重试状态机) @LRSM
 - RwD: Request with Data (有数据请求) @M2S
 - S2M: Subordinate to Master (从到主) @M2S @CXL.mem
 - SLD: Single Logical Device (单一逻辑设备) @MLD
@@ -64,5 +67,6 @@ CXL Abbrev
 - VCS: Virtual CXL Switch (虚拟 CXL 交换机)
 - VDM: Vendor Defined Message (厂商定义消息)
 - VH: Virtual Hierarchy (虚拟层次结构)
+- vLSMs: virtual Link State Machines (虚拟链接状态机)
 - vPPB: Virtual PCI-to-PCI Bridge (虚拟 PPB) @PPB
 - XHB: CXL Host Bridge (CXL Host 桥)
