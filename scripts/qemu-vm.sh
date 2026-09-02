@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.16"
+readonly VERSION="v1.1.17"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -590,8 +590,8 @@ ${BOLD}OPTIONS${RST}
 }
 
 list_vm() {
-	local i pidfile
-	local pidfiles=( $(find ${TMPDIR} -name '*.pid' 2>/dev/null) )
+	local i
+	local vmnames=( $(ls ${TMPDIR}) )
 	local id=0
 	local list_all list_port list_qemucmd
 	local LIST_VM_ARGS
@@ -652,26 +652,33 @@ list_vm() {
 	fi
 	echo
 
-	for pidfile in ${pidfiles[@]}
+	local name
+	for name in ${vmnames[@]}
 	do
-		local name="${pidfile#${TMPDIR}/}"
-		name="$(dirname ${name})"
-
 		config_prepare_vm_tmpdir ${name}
-
-		local pid=$(sudo cat ${pidfile})
+		local pidfile=${TMPDIR}/${name}/pidfile.pid
 		local state="unknown"
 
-		if [[ -d /proc/${pid} ]]; then
-			state="running"
-		elif [[ ! -d /proc/${pid} ]]; then
-			state="die"
+		if [[ -e ${pidfile} ]]; then
+			local pid=$(sudo cat ${pidfile})
+			if [[ -d /proc/${pid} ]]; then
+				state="running"
+			elif [[ ! -d /proc/${pid} ]]; then
+				state="die"
+			fi
+		else
+			state="shut-off"
 		fi
 
 		printf "%-4d %-16s %-8s" ${id} ${name} ${state}
 		if [[ ${list_port} ]]; then
-			printf " %-8d" $(cat ${vm_port_hostfwd_ssh22})
-			printf " %-8d" $(cat ${vm_port_monitor_telnet})
+			if [[ ${state} == running ]]; then
+				printf " %-8d" $(cat ${vm_port_hostfwd_ssh22})
+				printf " %-8d" $(cat ${vm_port_monitor_telnet})
+			else
+				printf " %-8s" "-"
+				printf " %-8s" "-"
+			fi
 		fi
 		printf "\n"
 
