@@ -199,7 +199,7 @@ fi
 if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
 	if [[ ${RECORD_FILE} ]]; then
-		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}" >> ${RECORD_FILE}
+		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}, err ${REAL_RET}" >> ${RECORD_FILE}
 	fi
 	error "${@}: run failed, exit with ${REAL_RET} (expect ${EXPECT_RET})"
 else
