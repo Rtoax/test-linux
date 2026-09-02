@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.18"
+readonly VERSION="v1.1.19"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -112,6 +112,7 @@ ${BOLD}SUBCOMMAND OPTIONS${RST}
     list                    listing all current running VMs
     destroy [NAME]          destroy a virtual machine
     undefine [NAME]         undefine a virtual machine
+    start [NAME]            start a inactive virtual machine
 
 ${BOLD}VM OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
@@ -721,17 +722,36 @@ undefine_vm() {
 	local dir=${TMPDIR}/${name}
 	local pidfile=${dir}/pidfile.pid
 
-	if [[ -f ${pidfile} ]] && [[ -e /proc/$(sudo cat ${pidfile}) ]]; then
-		error "VM '${name}' still running, shutdown it first with 'destroy'"
-	fi
-
 	if [[ ! -e ${dir} ]]; then
 		error "Not found vm '${name}'"
+	fi
+
+	if [[ -f ${pidfile} ]] && [[ -e /proc/$(sudo cat ${pidfile}) ]]; then
+		error "VM '${name}' still running, shutdown it first with 'destroy'"
 	fi
 
 	config_prepare_vm_tmpdir ${name}
 
 	sudo rm -rf ${vm_tmpdir}
+}
+
+# $1: virtual machine name
+start_vm() {
+	local name=${1}
+	local dir=${TMPDIR}/${name}
+	local pidfile=${dir}/pidfile.pid
+
+	if [[ ! -e ${dir} ]]; then
+		error "Not found vm '${name}'"
+	fi
+
+	if [[ -f ${pidfile} ]] && [[ -e /proc/$(sudo cat ${pidfile}) ]]; then
+		error "VM '${name}' still running, no need to start again"
+	fi
+
+	config_prepare_vm_tmpdir ${name}
+
+	sudo ${SHELL} ${dir}/qemu-command.sh
 }
 
 image2uuid() {
@@ -1251,6 +1271,15 @@ undefine)
 		error "'undefine' need pass virtual name, check with '${PROG} list'"
 	fi
 	undefine_vm "${@}"
+	shift
+	exit 0
+	;;
+start)
+	shift
+	if [[ -z ${1} ]]; then
+		error "'start' need pass virtual name, check with '${PROG} list'"
+	fi
+	start_vm "${@}"
 	shift
 	exit 0
 	;;
