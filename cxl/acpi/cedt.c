@@ -5,6 +5,7 @@
  * ACPI0017 CXL Root Object
  */
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -15,7 +16,7 @@
 #include "chbs.h"
 #include "cfmws.h"
 
-void display_cedt_hdr(struct cedt_hdr *hdr)
+void display_cedt_hdr(struct cedt_hdr *hdr, bool with_title)
 {
 	if (hdr->signature[0] != 'C' || hdr->signature[1] != 'E' ||
 	    hdr->signature[2] != 'D' || hdr->signature[3] != 'T') {
@@ -23,7 +24,8 @@ void display_cedt_hdr(struct cedt_hdr *hdr)
 		return;
 	}
 
-	printf("---------------- CEDT ----------------\n");
+	if (with_title)
+		printf("\033[1;3;7mCEDT (CXL Early Discovery Table)\033[m\n");
 	printf("CEDT length %d\n", hdr->length);
 	printf("Signature:\t%c%c%c%c\n", hdr->signature[0], hdr->signature[1],
 	       hdr->signature[2], hdr->signature[3]);
@@ -65,6 +67,7 @@ int main(void)
 	FILE *fp;
 	struct cedt_hdr hdr;
 	struct stat st;
+	int count_chbs = 0, count_cfmws = 0;
 
 	fp = fopen(FILE_CEDT, "r");
 	if (!fp) {
@@ -75,7 +78,7 @@ int main(void)
 	stat(FILE_CEDT, &st);
 
 	fread(&hdr, sizeof(hdr), 1, fp);
-	display_cedt_hdr(&hdr);
+	display_cedt_hdr(&hdr, 1);
 
 	while (1) {
 		int type = probe_structure_type(fp);
@@ -85,7 +88,7 @@ int main(void)
 		case CEDT_STRUCTURE_TYPE_CHBS: {
 			struct chbs chbs;
 			fread(&chbs, sizeof(chbs), 1, fp);
-			display_chbs(&chbs);
+			display_chbs(&chbs, count_chbs++ == 0);
 			break;
 		}
 		case CEDT_STRUCTURE_TYPE_CFMWS: {
@@ -96,7 +99,7 @@ int main(void)
 			cfmws = malloc(tmp.record_length);
 			fsetpos(fp, &old_pos);
 			fread(cfmws, tmp.record_length, 1, fp);
-			display_cfmws(cfmws);
+			display_cfmws(cfmws, count_cfmws++ == 0);
 			free(cfmws);
 			break;
 		}

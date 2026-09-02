@@ -8,11 +8,12 @@
 #include "cfmws.h"
 #include "constants.h"
 
-void display_cfmws(struct cfmws *cfmws)
+void display_cfmws(struct cfmws *cfmws, bool with_title)
 {
 	int niw;
 
-	printf("---------------- CFMWS ----------------\n");
+	if (with_title)
+		printf("\033[1;3;7mCFMWS (CXL Fixed Memory Window Structure)\033[m\n");
 #ifdef DEBUG
 	printf("struct cfmws size %ld\n", sizeof(struct cfmws));
 #endif

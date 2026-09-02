@@ -1,3 +1,12 @@
+// SPDX-License-Identifier: GPL-3.0
+// Copyright (C) 2025-2026 Rong Tao. All rights reserved.
+/**
+ * CXL Early Discovery Table (CEDT)
+ * ACPI0017 CXL Root Object
+ *
+ * CXL 2.0 Specification, Section 9.14.1
+ * CXL 3.0 Specification, Section 9.17.1
+ */
 #pragma once
 #include <stdint.h>
 
@@ -10,11 +19,6 @@
 #define CEDT_STRUCTURE_TYPE_CXIMS 2
 #define CEDT_STRUCTURE_TYPE_RDPAS 3
 
-/**
- * CXL Early Discovery Table (CEDT)
- * CXL 2.0 Specification, Section 9.14.1
- * CXL 3.0 Specification, Section 9.17.1
- */
 struct cedt_hdr {
 	uint8_t signature[4]; /* CEDT */
 	uint32_t length;

@@ -10,6 +10,7 @@
  * - $ qemu -device pxb-cxl ...
  */
 #pragma once
+#include <stdbool.h>
 #include <stdint.h>
 
 struct chbs {
@@ -37,4 +38,4 @@ struct chbs {
 	uint64_t length;
 } __attribute__((packed));
 
-void display_chbs(struct chbs *chbs);
+void display_chbs(struct chbs *chbs, bool with_title);

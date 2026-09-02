@@ -5,9 +5,10 @@
 #include "cedt.h"
 #include "chbs.h"
 
-void display_chbs(struct chbs *chbs)
+void display_chbs(struct chbs *chbs, bool with_title)
 {
-	printf("---------------- CHBS ----------------\n");
+	if (with_title)
+		printf("\033[1;3;7mCHBS (CXL Host Bridge Structure)\033[m\n");
 #ifdef DEBUG
 	printf("struct chbs size %ld\n", sizeof(struct chbs));
 #endif

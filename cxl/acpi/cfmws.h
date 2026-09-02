@@ -10,6 +10,7 @@
  * - NIW: Number of Interleave Ways
  */
 #pragma once
+#include <stdbool.h>
 #include <stdint.h>
 
 struct cfmws {
@@ -54,4 +55,4 @@ struct cfmws {
 	uint32_t interleave_target_list[];
 } __attribute__((packed));
 
-void display_cfmws(struct cfmws *cfmws);
+void display_cfmws(struct cfmws *cfmws, bool with_title);
