@@ -1,5 +1,5 @@
 {
-	"version": "0.0.18",
+	"version": "0.0.19",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -643,6 +643,11 @@
 			"name": "PCIUtils",
 			"command": [ "lspci" ],
 			"keys": [ "pci", "pcie" ]
+		},
+		"php": {
+			"name": "PHP",
+			"extension": [ "php" ],
+			"keys": [ "php" ]
 		},
 		"pkgconf": {
 			"name": "PKGConf",
