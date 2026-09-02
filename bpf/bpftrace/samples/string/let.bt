@@ -4,7 +4,9 @@ macro test_base()
 {
 	let $s1 : string[64];
 	$s1 = "a";
+	let $s2 : string[64] = "b";
 	print($s1);
+	print($s2);
 }
 
 macro test_size()
