@@ -25,8 +25,9 @@ and this project adheres to
 #### Tools
 - add ima-evm, `lm_sensors`, mbw, sysbench, asciidoc, asciidoctor subdir;
 #### Template
+- net/ping.mk: add `host_is_reachable()`;
 - numa.mk: add `NUMA_NODE_COUNT`, `numa-cflags`;
-- add anaconda.mk, `lm_sensors.mk`, unicode/runes.mk, mbw.mk, sysbench.mk, numa.mk, flatpak.mk, asciidoc.mk, asciidoctor.mk;
+- add anaconda.mk, `lm_sensors.mk`, unicode/runes.mk, mbw.mk, sysbench.mk, numa.mk, flatpak.mk, asciidoc.mk, asciidoctor.mk, net/ping.mk;
 
 
 ## [v2.4.12] Queen 2026-08-28
