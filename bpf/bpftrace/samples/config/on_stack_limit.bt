@@ -1,0 +1,9 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("on_stack_limit %ld %ld %ld %ld\n", config.on_stack_limit,
+		config->on_stack_limit, __builtin_config.on_stack_limit,
+		__builtin_config->on_stack_limit);
+	exit();
+}

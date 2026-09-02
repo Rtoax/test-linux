@@ -1,0 +1,8 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("license %s %s %s %s\n", config.license, config->license,
+		__builtin_config.license, __builtin_config->license);
+	exit();
+}

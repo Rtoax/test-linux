@@ -1,0 +1,10 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("lazy_symbolication %ld %ld %ld %ld\n",
+		config.lazy_symbolication, config->lazy_symbolication,
+		__builtin_config.lazy_symbolication,
+		__builtin_config->lazy_symbolication);
+	exit();
+}

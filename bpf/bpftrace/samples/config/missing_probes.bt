@@ -1,0 +1,9 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("missing_probes %s %s %s %s\n", config.missing_probes,
+		config->missing_probes, __builtin_config.missing_probes,
+		__builtin_config->missing_probes);
+	exit();
+}

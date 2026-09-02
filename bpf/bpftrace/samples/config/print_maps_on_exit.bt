@@ -1,0 +1,10 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("print_maps_on_exit %ld %ld %ld %ld\n",
+		config.print_maps_on_exit, config->print_maps_on_exit,
+		__builtin_config.print_maps_on_exit,
+		__builtin_config->print_maps_on_exit);
+	exit();
+}

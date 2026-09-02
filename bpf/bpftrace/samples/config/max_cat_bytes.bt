@@ -1,0 +1,9 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("max_cat_bytes %ld %ld %ld %ld\n", config.max_cat_bytes,
+		config->max_cat_bytes, __builtin_config.max_cat_bytes,
+		__builtin_config->max_cat_bytes);
+	exit();
+}

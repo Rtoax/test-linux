@@ -1,0 +1,9 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("show_debug_info %ld %ld %ld %ld\n", config.show_debug_info,
+		config->show_debug_info, __builtin_config.show_debug_info,
+		__builtin_config->show_debug_info);
+	exit();
+}

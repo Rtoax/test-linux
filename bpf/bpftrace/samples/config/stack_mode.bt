@@ -1,0 +1,9 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("stack_mode %s %s %s %s\n", config.stack_mode,
+		config->stack_mode, __builtin_config.stack_mode,
+		__builtin_config->stack_mode);
+	exit();
+}

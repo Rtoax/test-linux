@@ -1,0 +1,9 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("perf_rb_pages %ld %ld %ld %ld\n", config.perf_rb_pages,
+		config->perf_rb_pages, __builtin_config.perf_rb_pages,
+		__builtin_config->perf_rb_pages);
+	exit();
+}

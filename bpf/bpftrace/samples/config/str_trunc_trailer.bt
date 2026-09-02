@@ -1,0 +1,9 @@
+#!/bin/env bpftrace
+
+BEGIN
+{
+	printf("str_trunc_trailer %s %s %s %s\n", config.str_trunc_trailer,
+		config->str_trunc_trailer, __builtin_config.str_trunc_trailer,
+		__builtin_config->str_trunc_trailer);
+	exit();
+}
