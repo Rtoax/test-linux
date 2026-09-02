@@ -31,7 +31,11 @@ typedef struct {
 	uint32_t OEMRevision;
 	uint32_t CreatorID;
 	uint32_t CreatorRevision;
-	/* n bytes of AML code (AML: ACPI Machine Language) */
+	/**
+	 * n bytes of AML code (AML: ACPI Machine Language)
+	 *
+	 * commit 8e162de96d50 ("acpi: parse DSDT use iasl (with CXL _OSC)")
+	 */
 	uint8_t DefinitionBlock[];
 } ACPI_DSDT;
 
@@ -60,7 +64,10 @@ int main(void)
 	printf("DSDT Sign      : %c%c%c%c\n", dsdt.Signature[0],
 	       dsdt.Signature[1], dsdt.Signature[2], dsdt.Signature[3]);
 	printf("DSDT Length    : %d\n", dsdt.Length);
-	printf("DSDT Revision  : %d\n", dsdt.Revision);
+	printf("DSDT Revision  : %d%s\n", dsdt.Revision,
+	       dsdt.Revision == 1 ?
+		       " **** 32-bit table (V1), no 64-bit math support" :
+		       "");
 	printf("DSDT Checksum  : %d\n", dsdt.Checksum);
 	printf("DSDT OEMID     : %c%c%c%c%c%c\n", dsdt.OEMID[0], dsdt.OEMID[1],
 	       dsdt.OEMID[2], dsdt.OEMID[3], dsdt.OEMID[4], dsdt.OEMID[5]);
@@ -80,6 +87,8 @@ int main(void)
 	 *
 	 * $ sudo iasl -p DSDT -d /sys/firmware/acpi/tables/DSDT
 	 */
+	fprintf(stderr, "\nPlease parse DefinitionBlock[] with:\n\n");
+	fprintf(stderr, "$ sudo iasl -p DSDT -d %s\n", DSDT);
 
 	fclose(fp);
 
