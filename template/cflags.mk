@@ -16,15 +16,21 @@
 ifndef _CFLAGS_MK
 _CFLAGS_MK = 1
 
-CFLAGS += -I${OUTPUT}
-CFLAGS += -D_GNU_SOURCE
-CFLAGS += -Werror -Wall
+include dir.mk
+
+cflags_common += -I${TOPDIR}
+cflags_common += -I${OUTPUT}
+cflags_common += -D_GNU_SOURCE
+cflags_common += -Werror -Wall
+
+CFLAGS += ${cflags_common}
+CFLAGS_A += ${cflags_common}
+CFLAGS_SO += ${cflags_common}
+CXXFLAGS += ${cflags_common}
+CXXFLAGS_A += ${cflags_common}
+CXXFLAGS_SO += ${cflags_common}
 # C special, not for C++
 CFLAGS += -Wstrict-prototypes
-
-CXXFLAGS += -I${OUTPUT}
-CXXFLAGS += -D_GNU_SOURCE
-CXXFLAGS += -Werror -Wall
 
 ifdef DEBUG
   $(info Compile with DEBUG=1)
@@ -82,9 +88,11 @@ ifdef DEBUG
   $(info CFLAGS_A = ${CFLAGS_A})
   $(info CFLAGS_SO = ${CFLAGS_SO})
   $(info CFLAGS_BPF = ${CFLAGS_BPF})
+
   $(info CXXFLAGS = ${CXXFLAGS})
   $(info CXXFLAGS_A = ${CXXFLAGS_A})
   $(info CXXFLAGS_SO = ${CXXFLAGS_SO})
+
   $(info LDFLAGS = ${LDFLAGS})
   $(info LDXXFLAGS = ${LDXXFLAGS})
 endif
