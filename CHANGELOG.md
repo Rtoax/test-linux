@@ -24,6 +24,7 @@ and this project adheres to
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;
 - add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`;
 #### Tools
+- sysstat: add iostat directory;
 - add ima-evm, `lm_sensors`, mbw, sysbench, asciidoc, asciidoctor, acpica-tools subdir;
 #### Template
 - targets/bpftrace.mk: add `BT_ENVS` and `BT_ENVS_x`;
