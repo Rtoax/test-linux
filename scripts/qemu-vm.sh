@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.19"
+readonly VERSION="v1.1.20"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -674,13 +674,8 @@ list_vm() {
 
 		printf "%-4d %-16s %-8s" ${id} ${name} ${state}
 		if [[ ${list_port} ]]; then
-			if [[ ${state} == running ]]; then
-				printf " %-8d" $(cat ${vm_port_hostfwd_ssh22})
-				printf " %-8d" $(cat ${vm_port_monitor_telnet})
-			else
-				printf " %-8s" "-"
-				printf " %-8s" "-"
-			fi
+			printf " %-8d" $(cat ${vm_port_hostfwd_ssh22})
+			printf " %-8d" $(cat ${vm_port_monitor_telnet})
 		fi
 		printf "\n"
 
@@ -803,9 +798,28 @@ cleanup() {
 	exit ${err}
 }
 
+vm_get_free_tcp_port() {
+	local exist_port_files=( $(find ${TMPDIR} -name 'port-*') )
+	local exist_ports=()
+	local file
+	for file in ${exist_port_files[@]}
+	do
+		exist_ports+=( $(cat ${file}) )
+	done
+
+	while true; do
+		local new=$(get_free_tcp_port)
+		if [[ " ${exist_ports[@]} " =~ " ${new} " ]]; then
+			continue
+		fi
+		echo ${new}
+		return 0
+	done
+}
+
 config_vm_tmpdir() {
-	TCP_PORT_HOSTFWM_SSH22=$(get_free_tcp_port)
-	TCP_PORT_MONITOR_TELNET=$(get_free_tcp_port)
+	TCP_PORT_HOSTFWM_SSH22=$(vm_get_free_tcp_port)
+	TCP_PORT_MONITOR_TELNET=$(vm_get_free_tcp_port)
 
 	if [[ ! -d ${TMPDIR} ]]; then
 		qemu_eval mkdir -p ${TMPDIR}

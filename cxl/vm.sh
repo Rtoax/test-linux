@@ -93,7 +93,7 @@ if [[ ${VIRTIOFS} ]]; then
 	qargs+=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
 fi
 
-qargs+=( --name vm-test-cxl )
+qargs+=( --name vm-test-cxl-$(mktemp -u XXXX) )
 qargs+=( --memory 8192MiB )
 qargs+=( --kernel ${VMLINUX} )
 qargs+=( --initrd ${INITRD} )
