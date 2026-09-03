@@ -11,38 +11,31 @@ License
 Patents and Licenses
 --------------------
 
-Does a License Convey Patent Rights?
+- [1] Does a License Convey Patent Rights?
 
 .. list-table::
    :header-rows: 1
 
    * - License
-     - Yes
-     - No
+     - [1]
    * - Apache 2.0
      - ✅
-     -
-   * - GPL 3.0 and LGPL 3.0
+   * - GPL 3.0
      - ✅
-     -
+   * - LGPL 3.0
+     - ✅
    * - MPL 1.0, 1.1, 2.0
      - ✅
-     -
    * - EPL 1.0
      - ✅
-     -
    * - CDDL 1.0
      - ✅
-     -
    * - BSD 2-Clause, 3-Clause
-     -
-     - ❎
+     - ❌
    * - MIT
-     -
-     - ❎
+     - ❌
    * - GPL 2.0 and LGPL 2.1
-     -
-     - ❎
+     - ❌
 
 
 Licenses
