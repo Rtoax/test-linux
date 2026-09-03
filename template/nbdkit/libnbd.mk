@@ -4,7 +4,7 @@
 #
 # Definitions:
 #
-ifndef _LIBNBD_MK
-_LIBNBD_MK = 1
+ifndef _NBDKIT_LIBNBD_MK
+_NBDKIT_LIBNBD_MK = 1
 
-endif # end of _LIBNBD_MK
+endif # end of _NBDKIT_LIBNBD_MK

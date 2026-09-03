@@ -852,6 +852,7 @@ fi
 pkgs_storage+=( lvm2 )
 pkgs_storage+=( iotop )
 pkgs_storage+=( mdadm ) # manage MD devices aka Linux Software RAID
+pkgs_storage+=( nbdkit )
 pkgs_storage+=( ndctl ) # for nvdimm/libndctl
 
 pkgs_net+=( ethtool )
@@ -1090,6 +1091,7 @@ dnf_add_packages()
 	pkgs_storage+=( libnbd )
 	pkgs_storage+=( libnbd-dev )
 	pkgs_storage+=( nbd )
+	pkgs_storage+=( nbdkit-server )
 
 	pkgs_virt+=( edk2-ovmf )
 	pkgs_virt+=( libguestfs )

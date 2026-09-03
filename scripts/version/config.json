@@ -1,5 +1,5 @@
 {
-	"version": "0.0.21",
+	"version": "0.0.22",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -600,6 +600,11 @@
 			"name": "Node-Exporter",
 			"command": [ "node_exporter" ],
 			"keys": [ "node-expoter", "node_exporter" ]
+		},
+		"nbdkit": {
+			"name": "Nbdkit",
+			"command": [ "nbdkit" ],
+			"keys": [ "nbdkit" ]
 		},
 		"numactl": {
 			"name": "NumaCTL",

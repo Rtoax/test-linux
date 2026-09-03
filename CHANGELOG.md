@@ -24,9 +24,11 @@ and this project adheres to
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;
 - add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`;
 #### Tools
+- add nbdkit/nbdkit directory;
 - sysstat: add iostat, pidstat directory;
 - add ima-evm, `lm_sensors`, mbw, sysbench, asciidoc, asciidoctor, acpica-tools, libguestfs/virt-v2v subdir;
 #### Template
+- add nbdkit directory and move libnbd.mk into nbdkit;
 - targets/bpftrace.mk: add `BT_ENVS` and `BT_ENVS_x`;
 - net/ping.mk: add `host_is_reachable()`;
 - numa.mk: add `NUMA_NODE_COUNT`, `numa-cflags`;
