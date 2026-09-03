@@ -1,5 +1,5 @@
 {
-	"version": "0.0.19",
+	"version": "0.0.20",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -406,6 +406,11 @@
 			},
 			"keys": [ "dwarf", "libdwarf" ]
 		},
+		"libguestfs": {
+			"name": "Libguestfs",
+			"command": [ "guestfish" ],
+			"keys": [ "guestfs", "guestfish", "guestmount" ]
+		},
 		"libpmem": {
 			"name": "Libpmem",
 			"package": {
@@ -811,6 +816,11 @@
 			},
 			"extension": [ "vim" ],
 			"keys": [ "vim" ]
+		},
+		"virt-v2v": {
+			"name": "Virt-v2v",
+			"command": [ "virt-v2v" ],
+			"keys": [ "virt-v2v" ]
 		},
 		"wayland": {
 			"name": "WayLand",

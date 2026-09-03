@@ -41,4 +41,3 @@ cp initramfs-xxx.img  qcow2-dir/boot/
 guestunmount qcow2-dir
 
 # 此时，linux-os.qcow2 就是自定义 initramfs 后的 qcow2 镜像了.
-

@@ -728,6 +728,7 @@ pkgs_docs+=( mkdocs )
 pkgs_docs+=( texlive )
 
 pkgs_virt+=( virt-manager )
+pkgs_virt+=( virt-v2v )
 pkgs_virt+=( virtiofsd )
 #pkgs_virt+=( wine )
 
