@@ -779,7 +779,8 @@
 		"sysstat": {
 			"name": "Sysstat",
 			"command": [ "sar" ],
-			"keys": [ "sar", "mpstat", "iostat", "sysstat" ]
+			"keys": [ "sar", "mpstat", "iostat", "sysstat",
+				"pidstat" ]
 		},
 		"tmux": {
 			"version": {
