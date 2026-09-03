@@ -23,7 +23,7 @@ struct test_bf {
 #else
 #define TEST_BF_SIZE 1
 #endif
-_Static_assert(sizeof(struct test_bf) == TEST_BF_SIZE);
+_Static_assert(sizeof(struct test_bf) == TEST_BF_SIZE, "ERROR");
 
 /**
  * Structure definitions
