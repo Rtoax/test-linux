@@ -1,5 +1,5 @@
 {
-	"version": "0.0.20",
+	"version": "0.0.21",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -301,6 +301,11 @@
 			},
 			"extension": [ "efi" ],
 			"keys": [ "grub", "bootloader" ]
+		},
+		"guestfs-tools": {
+			"name": "Guestfs-tools",
+			"command": [ "virt-df" ],
+			"keys": [ "guestfs-tools" ]
 		},
 		"fmt": {
 			"name": "FmtLib",
