@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.24"
+readonly VERSION="v1.1.25"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -1119,6 +1119,7 @@ add_net_nic_user_tap() {
 get_port_hostfwd_ssh22() {
 	if [[ -e ${vm_port_hostfwd_ssh22} ]]; then
 		cat ${vm_port_hostfwd_ssh22}
+		return 0
 	elif [[ -e ${vm_qemu_cmd} ]]; then
 		local port=$(grep -Eo 'hostfwd=tcp::[0-9]+-:22' ${vm_qemu_cmd} | \
 				awk -F ':' '{printf $3}' | tr -d '-')
