@@ -656,7 +656,7 @@ list_vm() {
 	fi
 	printf "\n"
 
-	for ((i = 0; i < max_name_len; i += 4))
+	for ((i = 0; i < max_name_len + 4; i += 4))
 	do
 		echo -n "----"
 	done
