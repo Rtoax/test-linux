@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.20"
+readonly VERSION="v1.1.21"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -1533,4 +1533,5 @@ qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 
 qemucmd=${vm_tmpdir}/qemu-command.sh
 echo "${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}" > >(sudo tee ${qemucmd})
+cleanup_files+=( ${qemucmd} )
 qemu_eval ${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}
