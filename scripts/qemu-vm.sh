@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.22"
+readonly VERSION="v1.1.23"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -803,9 +803,17 @@ cleanup() {
 }
 
 vm_get_free_tcp_port() {
-	local exist_port_files=( $(find ${TMPDIR} -name 'port-*') )
+	local exist_port_files
 	local exist_ports=()
 	local file
+
+	if [[ ${dry_run} ]]; then
+		echo ${RANDOM}
+		return 0
+	else
+		exist_port_files=( $(find ${TMPDIR} -name 'port-*') )
+	fi
+
 	for file in ${exist_port_files[@]}
 	do
 		exist_ports+=( $(cat ${file}) )
