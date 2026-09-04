@@ -4,11 +4,12 @@
 # test-linux Makefile
 # Wrote by Rong Tao <rtoax@foxmail.com>
 #
-# Change the CHANGELOG.md at the same time, and get the statistic of code with
-# cloc will be better (add cloc output to commit message).
 ifndef _TEST_LINUX_MK
 export _TEST_LINUX_MK = 1
 
+# Change the CHANGELOG.md at the same time, and get the statistic of code with
+# cloc will be better (add cloc output to commit message), and add the git
+# history stat information is good (see scripts/git/commit-message-stat.sh).
 VERSION = 2
 PATCHLEVEL = 4
 SUBLEVEL = 12
