@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.25"
+readonly VERSION="v1.1.26"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -47,21 +47,17 @@ declare q_stdio
 declare q_daemon
 declare q_gdb
 
-declare dry_run
-declare verbose
-declare debug
+declare flag_dry_run
+declare flag_debug
 declare TMPDIR=/tmp/${PROG}
 
 # Store VM specific files on host filesystem
 declare vm_tmpdir
 declare vm_cmd_sh
 declare vm_qemu_cmd
-declare vm_port_hostfwd_ssh22
-declare vm_port_monitor_telnet
-
 # Port
-declare TCP_PORT_HOSTFWM_SSH22
-declare TCP_PORT_MONITOR_TELNET
+declare f_vm_port_hostfwd_ssh22 TCP_PORT_HOSTFWD_SSH22
+declare f_vm_port_monitor_telnet TCP_PORT_MONITOR_TELNET
 
 # Disk configuratios
 readonly DISK_VIRTIO=virtio
@@ -91,7 +87,7 @@ readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 
 qemu_eval()
 {
-	DRY_RUN_LOG=${vm_cmd_sh} DRY_RUN=${dry_run} dry_run "${@}"
+	DRY_RUN_LOG=${vm_cmd_sh} DRY_RUN=${flag_dry_run} dry_run "${@}"
 }
 
 __usage_internal__() {
@@ -249,7 +245,7 @@ set_qemu_kvm() {
 
 	if [[ ! -f ${QEMU} ]] &&
 	   [[ -z "$(which ${QEMU})" ]] &&
-	   [[ -z ${dry_run} ]]; then
+	   [[ -z ${flag_dry_run} ]]; then
 		error "Not found qemu ${QEMU}"
 	fi
 
@@ -264,7 +260,7 @@ check_files_exist_and_exit() {
 	local f
 	for f in ${@}
 	do
-		if [[ ! -e ${f} ]] && [[ -z ${dry_run} ]]; then
+		if [[ ! -e ${f} ]] && [[ -z ${flag_dry_run} ]]; then
 			error "${f} is not exist."
 		fi
 	done
@@ -281,7 +277,8 @@ is_qemu_format() {
 }
 
 check_qemu_format_and_exit() {
-	if [[ $(is_qemu_format ${f_rootfs}) != yes ]] && [[ -z ${dry_run} ]]; then
+	if [[ $(is_qemu_format ${f_rootfs}) != yes ]] &&
+	   [[ -z ${flag_dry_run} ]]; then
 		error "${f_rootfs} is not raw or qcow2."
 	fi
 }
@@ -476,7 +473,7 @@ handle_rootfs_arg() {
 				if [[ -f ${arg_key} ]]; then
 					f_rootfs=${arg_key}
 				else
-					if [[ ${dry_run} ]]; then
+					if [[ ${flag_dry_run} ]]; then
 						warning "rootfs maybe use wrong file '${arg_key}'"
 						f_rootfs=${arg_key}
 					else
@@ -558,7 +555,7 @@ config_prepare_vm_tmpdir() {
 	local name=${1}
 	# If dry-run, vm temp directly will not be created, thus, just set it
 	# to ${TMPDIR}.
-	if [[ ${dry_run} ]]; then
+	if [[ ${flag_dry_run} ]]; then
 		TMPDIR=/tmp
 		vm_tmpdir="${TMPDIR}"
 	else
@@ -567,8 +564,8 @@ config_prepare_vm_tmpdir() {
 
 	vm_cmd_sh=${vm_tmpdir}/cmds.sh
 	vm_qemu_cmd=${vm_tmpdir}/qemu-command.sh
-	vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
-	vm_port_monitor_telnet=${vm_tmpdir}/port-monitor-telnet.txt
+	f_vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
+	f_vm_port_monitor_telnet=${vm_tmpdir}/port-monitor-telnet.txt
 
 	cxl_dry_run_log=${vm_cmd_sh}
 }
@@ -721,9 +718,9 @@ destroy_vm() {
 
 	config_prepare_vm_tmpdir ${name}
 
-	if [[ -f ${vm_port_monitor_telnet} ]]; then
+	if [[ -f ${f_vm_port_monitor_telnet} ]]; then
 		warning "Destroy ${name} with Qemu monitor"
-		echo "system_powerdown" | sudo nc localhost $(cat ${vm_port_monitor_telnet})
+		echo "system_powerdown" | sudo nc localhost $(cat ${f_vm_port_monitor_telnet})
 	else
 		# Kill host process is dangerous for guestos disk.
 		warning "Kill ${name} process on host"
@@ -771,7 +768,7 @@ start_vm() {
 }
 
 image2uuid() {
-	if [[ ${dry_run} ]]; then
+	if [[ ${flag_dry_run} ]]; then
 		gen_uuid
 		return
 	fi
@@ -819,7 +816,7 @@ vm_get_free_tcp_port() {
 	local exist_ports=()
 	local file
 
-	if [[ ${dry_run} ]]; then
+	if [[ ${flag_dry_run} ]]; then
 		echo ${RANDOM}
 		return 0
 	else
@@ -842,7 +839,7 @@ vm_get_free_tcp_port() {
 }
 
 config_vm_tmpdir() {
-	TCP_PORT_HOSTFWM_SSH22=$(vm_get_free_tcp_port)
+	TCP_PORT_HOSTFWD_SSH22=$(vm_get_free_tcp_port)
 	TCP_PORT_MONITOR_TELNET=$(vm_get_free_tcp_port)
 
 	if [[ ! -d ${TMPDIR} ]]; then
@@ -857,15 +854,15 @@ config_vm_tmpdir() {
 	qemu_eval chmod +x ${vm_cmd_sh}
 	qemu_eval chmod +x ${vm_qemu_cmd}
 
-	if [[ -z ${dry_run} ]]; then
-		fprintf ${vm_port_hostfwd_ssh22} ${TCP_PORT_HOSTFWM_SSH22}
-		fprintf ${vm_port_monitor_telnet} ${TCP_PORT_MONITOR_TELNET}
+	if [[ -z ${flag_dry_run} ]]; then
+		fprintf ${f_vm_port_hostfwd_ssh22} ${TCP_PORT_HOSTFWD_SSH22}
+		fprintf ${f_vm_port_monitor_telnet} ${TCP_PORT_MONITOR_TELNET}
 	fi
 
 	cleanup_files+=( ${vm_cmd_sh} )
 	cleanup_files+=( ${vm_qemu_cmd} )
-	cleanup_files+=( ${vm_port_hostfwd_ssh22} )
-	cleanup_files+=( ${vm_port_monitor_telnet} )
+	cleanup_files+=( ${f_vm_port_hostfwd_ssh22} )
+	cleanup_files+=( ${f_vm_port_monitor_telnet} )
 }
 
 config_basic() {
@@ -937,8 +934,8 @@ config_monitor() {
 }
 
 get_port_monitor_telnet() {
-	if [[ -e ${vm_port_monitor_telnet} ]]; then
-		cat ${vm_port_monitor_telnet}
+	if [[ -e ${f_vm_port_monitor_telnet} ]]; then
+		cat ${f_vm_port_monitor_telnet}
 		return 0
 	fi
 	# TODO: Read from "vm_qemu_cmd"
@@ -1057,7 +1054,7 @@ auto_uefi_pflash() {
 		break
 	done
 
-	if [[ -z ${code} ]] && [[ -z ${dry_run} ]]; then
+	if [[ -z ${code} ]] && [[ -z ${flag_dry_run} ]]; then
 		error "not found uefi code: ${UEFI_CODES[@]}"
 	fi
 
@@ -1110,15 +1107,15 @@ add_net_nic_tap() {
 # Make sure port was not used, check with:
 # $ sudo netstat -tulpn | grep ${PORT}
 add_net_nic_user_tap() {
-	qargs+=( -net user,hostfwd=tcp::${TCP_PORT_HOSTFWM_SSH22}-:22 )
+	qargs+=( -net user,hostfwd=tcp::${TCP_PORT_HOSTFWD_SSH22}-:22 )
 	qargs+=( -net nic,model=virtio
 		-device virtio-net,netdev=network0
 		-netdev tap,id=network0,ifname=tap0,script=no,downscript=no )
 }
 
 get_port_hostfwd_ssh22() {
-	if [[ -e ${vm_port_hostfwd_ssh22} ]]; then
-		cat ${vm_port_hostfwd_ssh22}
+	if [[ -e ${f_vm_port_hostfwd_ssh22} ]]; then
+		cat ${f_vm_port_hostfwd_ssh22}
 		return 0
 	elif [[ -e ${vm_qemu_cmd} ]]; then
 		local port=$(grep -Eo 'hostfwd=tcp::[0-9]+-:22' ${vm_qemu_cmd} | \
@@ -1144,7 +1141,7 @@ config_kernel() {
 		return 0
 	fi
 
-	if [[ ${debug} ]]; then
+	if [[ ${flag_debug} ]]; then
 		kcmds+=( rd.debug )
 		kcmds+=( systemd.log_level=debug )
 	fi
@@ -1190,7 +1187,7 @@ config_kernel() {
 __disk_file_type() {
 	local file=$1
 	local ft=$(ftype ${file})
-	if [[ -z ${ft} ]] && [[ ${dry_run} ]]; then
+	if [[ -z ${ft} ]] && [[ ${flag_dry_run} ]]; then
 		ft=${file##*.}
 	fi
 	if [[ -z ${ft} ]]; then
@@ -1238,7 +1235,7 @@ add_nvdimm_blk() {
 	f_img=${1}
 	qmachine+=( nvdimm=on )
 
-	if [[ ${dry_run} ]]; then
+	if [[ ${flag_dry_run} ]]; then
 		# fake 10G
 		size=$(( 10 * 1024 * 1024 * 1024 ))
 	else
@@ -1510,13 +1507,13 @@ while true; do
 		;;
 	-u | --dry-run)
 		shift
-		dry_run=ON
+		flag_dry_run=ON
 		cxl_dry_run=ON
-		export DRY_RUN=${dry_run}
+		export DRY_RUN=${flag_dry_run}
 		;;
 	-v | --verbose)
 		shift
-		verbose=ON
+		enable_verbose
 		;;
 	-V | --version)
 		shift
@@ -1525,7 +1522,7 @@ while true; do
 		;;
 	-D | --debug)
 		shift
-		debug=ON
+		flag_debug=ON
 		handle_cxl_arg debug
 		;;
 	--)
@@ -1555,10 +1552,6 @@ check_files_exist_and_exit ${f_virtiofs_sock[@]}
 
 if [[ -z ${f_kernel} ]] && [[ -z ${f_initrd} ]] && [[ -z ${f_disks} ]]; then
 	error "must specify kernel and initrd, or specify one disk at least"
-fi
-
-if [[ ${verbose} ]]; then
-	enable_verbose
 fi
 
 trap cleanup EXIT
