@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- devtmpfs: add cxl directory;
 - debugfs: add directories `tracing/events/{pci,pci_controller}`;
 #### Changed
 - move licenses directory into Documentation;
