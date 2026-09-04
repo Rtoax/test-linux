@@ -53,6 +53,7 @@ else
   $(warning WARNING: ${CC} not support -fcf-protection=full)
 endif
 
+CFLAGS += -I..
 CFLAGS_noplt := -DNOPLT=1
 CFLAGS_cleanup := -Werror=attributes
 CFLAGS_noreturn := -Werror=attributes -Werror
