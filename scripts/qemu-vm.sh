@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.23"
+readonly VERSION="v1.1.24"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -594,7 +594,7 @@ ${BOLD}OPTIONS${RST}
 }
 
 list_vm() {
-	local i
+	local i name max_name_len=0
 	local vmnames=( $(ls ${TMPDIR}) )
 	local id=0
 	local list_all list_port list_qemucmd
@@ -644,19 +644,31 @@ list_vm() {
 		esac
 	done
 
-	printf "%-4s %-16s %-12s" Id Name State
+	for name in ${vmnames[@]}
+	do
+		local len=${#name}
+		if [[ ${len} -gt ${max_name_len} ]]; then
+			max_name_len=${len}
+		fi
+	done
+
+	printf "%-4s %-*s %-12s" Id ${max_name_len} Name State
 	if [[ ${list_port} ]]; then
 		printf " %-8s" SSH
 		printf " %-8s" TELNET
 	fi
 	printf "\n"
-	echo -n '---------------------------------------'
+
+	for ((i = 0; i < max_name_len; i += 4))
+	do
+		echo -n "----"
+	done
+	echo -n '------------------'
 	if [[ ${list_port} ]]; then
-		echo -n '-------------'
+		echo -n '-----------------'
 	fi
 	echo
 
-	local name
 	for name in ${vmnames[@]}
 	do
 		config_prepare_vm_tmpdir ${name}
@@ -681,7 +693,7 @@ list_vm() {
 			state="non-exist"
 		fi
 
-		printf "%-4d %-16s %-12s" ${id} ${name} ${state}
+		printf "%-4d %-*s %-12s" ${id} ${max_name_len} ${name} ${state}
 		if [[ ${list_port} ]]; then
 			printf " %-8d" $(get_port_hostfwd_ssh22)
 			printf " %-8d" $(get_port_monitor_telnet)
