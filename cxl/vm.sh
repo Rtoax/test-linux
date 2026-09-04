@@ -1,10 +1,10 @@
 #!/bin/bash
 # Test CXL devices with Qemu.
 #
-# Usage: [DAEMON=1] [CUSTOM=1] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+# Usage: [DAEMON=1] [CUSTOM=<type>] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
 #   DAEMON=1: running vm in the background
-#   CUSTOM=1: custom cxl device
+#   CUSTOM=<type>: custom cxl device
 #   NOCXL=1: no cxl device
 #   DEP=1: install depends first.
 #   GDB=1: enable gdb.
@@ -52,6 +52,7 @@ if [[ ${DEP} ]]; then
 		;;
 	*)
 		echo >&2 "ERROR: not support ${ID}"
+		exit 1
 		;;
 	esac
 fi
@@ -107,7 +108,7 @@ else
 	qargs+=( --stdio )
 fi
 
-custom_cxl() {
+custom_cxl_1() {
 	# $ qemu-kvm -device pxb-cxl,...
 	# see commit b4271dd6068b ("qemu: cxl-pxb: 'lspci -tv'")
 	cxlargs+=( --cxl pxb=pxb.1 ) # fmw default 0
@@ -151,11 +152,35 @@ custom_cxl() {
 	cxlargs+=( --cxl vmem=vmem.8,bus=sw3.4,size=2G,dynamic-capacity )
 }
 
-if [[ ! -z ${CUSTOM} ]]; then
-	custom_cxl
-else
+# ref https://docs.kernel.org/driver-api/cxl/linux/cxl-driver.html
+custom_cxl_2() {
+	cxlargs+=( --cxl pxb=pxb.1 )
+	cxlargs+=( --cxl pxb=pxb.2 )
+	cxlargs+=( --cxl pxb=pxb.3 )
+	cxlargs+=( --cxl pxb=pxb.4 )
+
+	cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
+	cxlargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
+
+	cxlargs+=( --cxl vmem=vmem.1,bus=rp.1,lsa=vmem.1.lsa )
+	cxlargs+=( --cxl vmem=vmem.2,bus=rp.2,lsa=vmem.2.lsa )
+}
+
+case ${CUSTOM} in
+1)
+	custom_cxl_1
+	;;
+2)
+	custom_cxl_2
+	;;
+"")
 	cxlargs+=( --cxl device=cxl-pmem-4way )
-fi
+	;;
+*)
+	echo >&2 "ERROR: not support CUSTOM=${CUSTOM}"
+	exit 1
+	;;
+esac
 
 [[ -z ${NOCXL} ]] && qargs+=( ${cxlargs[@]} )
 
