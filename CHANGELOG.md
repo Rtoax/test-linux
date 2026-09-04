@@ -18,6 +18,7 @@ and this project adheres to
 - move licenses directory into Documentation;
 #### Deprecated
 #### Documentation
+- cxl: add hdm.rst;
 #### Fixed
 #### Linux Kernel
 #### Removed

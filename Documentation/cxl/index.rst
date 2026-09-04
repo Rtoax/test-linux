@@ -32,6 +32,7 @@ CXL Hardware
    :maxdepth: 1
 
    acpi
+   hdm
    pcie
    switch
 

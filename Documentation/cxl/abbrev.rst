@@ -35,7 +35,9 @@ CXL Abbrev
 - FMLD: FM owned LD (FM 拥有的逻辑设备)
 - H2D: Host to Device (主机到设备) @D2H @CXL.cache
 - HDM: Host-managed Device Memory (主机管理的设备内存) @PDM
-- ISP: Interleave set position (交错set位置)
+- IG: Interleave Granularity (交织粒度)
+- ISP: Interleave set position (交织set位置)
+- IW: Interleave Way (交织 Way)
 - JBOM: Just a Bunch of Memory (一大堆内存)
 - LD-ID: Logical Device Identifier (逻辑设备标识符)
 - LD: Logical Device (逻辑设备)
