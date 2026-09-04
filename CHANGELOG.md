@@ -25,7 +25,7 @@ and this project adheres to
 #### Security
 #### Scripts
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;
-- add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`;
+- add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`, libyes.sh, `libyes_examples.sh`;
 #### Tools
 - add nbdkit/nbdkit directory;
 - sysstat: add iostat, pidstat directory;

@@ -91,7 +91,7 @@ case $answer in
 			[Yy]|[Yy][Ee]|[Yy][Ee][Ss])
 				break
 				;;
-			[Nn]|[Nn][On])
+			[Nn]|[Nn][Oo])
 				echo "Bye!"
 				exit 0
 				;;

@@ -4,7 +4,7 @@ set -e
 yes_or_no()
 {
 	case $1 in
-	[Nn]|[Nn][On])
+	[Nn]|[Nn][Oo])
 		echo No
 		;;
 	[Yy]|[Yy][Ee]|[Yy][Ee][Ss])

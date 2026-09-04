@@ -26,6 +26,7 @@ prog-y += libqemu-cxl_examples.sh
 prog-y += libso-multiver_examples.sh
 prog-y += libstring_examples.sh
 prog-y += libuuid_examples.sh
+prog-y += libyes_examples.sh
 prog-y += termplot_examples.sh
 prog-y += kconfig_compare.sh
 prog-y += kversion.sh kversion.sh.1

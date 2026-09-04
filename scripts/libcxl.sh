@@ -3,7 +3,6 @@
 #
 # Depends: jq, ndctl
 #
-set -e
 
 readonly LIBCXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
