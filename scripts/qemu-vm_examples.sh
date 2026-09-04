@@ -50,6 +50,7 @@ qemu list -h --help
 qemu list -a --all
 qemu list -p --port
 qemu list --qemu-command
+qemu destroy -h --help
 
 # Test Basic
 run

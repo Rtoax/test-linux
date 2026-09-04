@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.26"
+readonly VERSION="v1.1.27"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -707,26 +707,87 @@ list_vm() {
 	done
 }
 
+__usage_destroy_vm__() {
+	echo -e "
+${BOLD}NAME${RST}
+    ${PROG} destroy - Destroy virtual machine
+
+${BOLD}SYNOPSIS${RST}
+    ${PROG} ${BOLD}destroy${RST} [--force] <name>
+
+${BOLD}OPTIONS${RST}
+    -h, --help     show this information
+    -f, --force    enable verbose mode
+"
+	exit ${1-0}
+}
+
+declare destroy_vm_force
+
 # $1: virtual machine name
-destroy_vm() {
+destroy_one_vm() {
 	local name=${1}
 	local pidfile=${TMPDIR}/${name}/pidfile.pid
 
 	if [[ ! -f ${pidfile} ]]; then
-		error "Not found vm '${name}'"
+		error "Not found vm '${name}' or '${name}' is shut-off," \
+		      "see ${BOLD}${PROG} list${RST}"
 	fi
 
 	config_prepare_vm_tmpdir ${name}
 
-	if [[ -f ${f_vm_port_monitor_telnet} ]]; then
-		warning "Destroy ${name} with Qemu monitor"
-		echo "system_powerdown" | sudo nc localhost $(cat ${f_vm_port_monitor_telnet})
-	else
+	force_kill_vm() {
 		# Kill host process is dangerous for guestos disk.
 		warning "Kill ${name} process on host"
 		local pid=$(sudo cat ${pidfile})
-		sudo kill ${pid}
+		if [[ -e /proc/${pid} ]]; then
+			sudo kill ${pid}
+		fi
+	}
+
+	if [[ -f ${f_vm_port_monitor_telnet} ]]; then
+		warning "Destroy ${name} with Qemu monitor"
+		echo "system_powerdown" | sudo nc localhost $(cat ${f_vm_port_monitor_telnet})
+		if [[ ${destroy_vm_force} ]]; then
+			force_kill_vm
+		fi
+	else
+		force_kill_vm
 	fi
+}
+
+destroy_vm() {
+	local DESTROY_VM_ARGS
+
+	DESTROY_VM_ARGS=$(getopt --options hf \
+		--long help \
+		--long force \
+		--name destroy-vm -- "$@")
+	local status=$?
+	if [[ ${status} -ne 0 ]]; then
+		__usage_destroy_vm__ 1
+	fi
+
+	eval set -- "$DESTROY_VM_ARGS"
+
+	while true; do
+		case $1 in
+		-h | --help)
+			shift
+			__usage_destroy_vm__
+			;;
+		-f | --force)
+			shift
+			destroy_vm_force=ON
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+
+	destroy_one_vm ${1}
 }
 
 # $1: virtual machine name
