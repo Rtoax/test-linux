@@ -114,7 +114,7 @@ ifeq ($(shell uname -m),riscv64)
 endif
 
 prog-y += $(filter-out chown fchownat tee tee2 setitimer userfaultfd \
-			sethostname sethostid vhangup getdomainname \
+			sethostname sethostid vhangup getdomainname pause \
 			, ${target-y})
 
 CFLAGS += -I../../

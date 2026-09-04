@@ -1,6 +1,4 @@
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE
-#endif
+#include <errno.h>
 #include <unistd.h>
 #include <sys/syscall.h>
 #include <string.h>
@@ -16,7 +14,7 @@ int sysctl(struct __sysctl_args *args)
 {
 	if (syscall(SYS__sysctl, args) == -1) {
 		perror("_sysctl");
-		exit(EXIT_FAILURE);
+		return -ENOSYS;
 	}
 	return 0;
 }
