@@ -36,7 +36,7 @@ CXL Abbrev
 - H2D: Host to Device (主机到设备) @D2H @CXL.cache
 - HDM: Host-managed Device Memory (主机管理的设备内存) @PDM
 - IG: Interleave Granularity (交织粒度)
-- ISP: Interleave set position (交织set位置)
+- ISP: Interleave Set Position (交织 Set 位置)
 - IW: Interleave Way (交织 Way)
 - JBOM: Just a Bunch of Memory (一大堆内存)
 - LD-ID: Logical Device Identifier (逻辑设备标识符)
@@ -51,6 +51,7 @@ CXL Abbrev
 - MLD: Muiltple Logical Device (多逻辑设备) @SLD
 - NDR: Response without data - generically called No Data Response (无数据响应) @S2M
 - NIB: Number of Bitmap Entries (Bitmap 条目)
+- NXM: Non-eXistent Memory (不存在的内存)
 - OMI: Open Memory Interface (开放内存接口)
 - OSC: Operating System Capabilities (操作系统能力)
 - PDM: Private Device Memory (私有设备内存)
@@ -69,6 +70,7 @@ CXL Abbrev
 - VCS: Virtual CXL Switch (虚拟 CXL 交换机)
 - VDM: Vendor Defined Message (厂商定义消息)
 - VH: Virtual Hierarchy (虚拟层次结构)
+- VIP: Verification IP (验证 IP)
 - vLSMs: virtual Link State Machines (虚拟链接状态机)
 - vPPB: Virtual PCI-to-PCI Bridge (虚拟 PPB) @PPB
 - XHB: CXL Host Bridge (CXL Host 桥)
