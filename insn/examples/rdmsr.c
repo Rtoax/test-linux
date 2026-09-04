@@ -12,7 +12,6 @@
 #include <inttypes.h>
 #include <linux/types.h>
 
-
 uint64_t rdmsr_on_cpu(uint32_t reg, int cpu)
 {
 	uint64_t data;

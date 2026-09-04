@@ -1,1 +1,1 @@
-../../device/input/event0.c
+../../fs/devtmpfs/input/event0.c

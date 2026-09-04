@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
 	char event[64];
 	struct input_event ev;
 
-
 	/* My NUC10's keyboard is index 4 */
 	idx = 4;
 
@@ -37,7 +36,7 @@ int main(int argc, char *argv[])
 		/* Keyboard event */
 		if (ev.type == EV_KEY) {
 			printf("Key %d (%s)\n", ev.code,
-				ev.value ? "pressed" : "released");
+			       ev.value ? "pressed" : "released");
 		}
 	}
 

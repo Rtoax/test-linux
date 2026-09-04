@@ -4,9 +4,9 @@
 #include <fcntl.h>
 
 #if defined(DEV_INPUT_MOUSE0)
-# define DEV	"/dev/input/mouse0"
+#define DEV "/dev/input/mouse0"
 #else
-# define DEV	"/dev/input/mice"
+#define DEV "/dev/input/mice"
 #endif
 
 int main(void)
