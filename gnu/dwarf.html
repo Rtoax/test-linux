@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dwarf - Debugging With Attributed Record Formats &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GLibc" href="glibc/index.html" />
+    <link rel="prev" title="GDB" href="gdb.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The GNU Project</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">GNU History</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#project">Project</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bash.html">Bash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bison.html">Bison - GNU Project parser generator (yacc replacement)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="binutils.html">Binutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coreutils.html">Coreutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="findutils.html">findutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcc.html">GCC (GNU Compiler Collection)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gdb.html">GDB</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Dwarf - Debugging With Attributed Record Formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sections">Sections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#declaration-information">Declaration Information</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glibc/index.html">GLibc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gnuplot.html">GNU Plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gnupg.html">GNU PG - GNU Privacy Guard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gperf.html">Gperf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ncurses.html">Ncurses</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">The GNU Project</a></li>
+      <li class="breadcrumb-item active">Dwarf - Debugging With Attributed Record Formats</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/gnu/dwarf.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dwarf-debugging-with-attributed-record-formats">
+<h1>Dwarf - Debugging With Attributed Record Formats<a class="headerlink" href="#dwarf-debugging-with-attributed-record-formats" title="Link to this heading"></a></h1>
+<p><cite>DWARF</cite> 调试格式和ELF格式的关系是： <cite>DWARF</cite> 是 <cite>ELF</cite> 最常用的调试信息格式，它不一定与 <cite>ELF</cite> 相关，但两者是一起发展的，因此在开发中常一起使用。</p>
+<ul class="simple">
+<li><p><cite>DWARF</cite> 格式中，高级语言的源文件、函数、变量、类型等调试信息在 <cite>.debug_info</cite> 节区中存储;</p></li>
+<li><p>为了节省存储空间， <cite>DWARF</cite> 在 <cite>.debug_abbrev</cite> 节区中定义了所有节点的类型和格式;</p></li>
+<li><p><cite>.debug_info</cite> 和 <cite>.debug_abbrev</cite> 节区中，每个节点表示一种调试信息，例如 <cite>DW_TAG_compile_unit</cite> 表示源文件调试信息;</p></li>
+</ul>
+<p>例如：</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ gcc -g hello.c
+$ readelf -S a.out | grep debug
+  [27] .debug_aranges    PROGBITS         0000000000000000  00002c0c
+  [28] .debug_info       PROGBITS         0000000000000000  00002c3c
+  [29] .debug_abbrev     PROGBITS         0000000000000000  00002f66
+  [30] .debug_line       PROGBITS         0000000000000000  00003047
+  [31] .debug_str        PROGBITS         0000000000000000  0000313b
+</pre></div>
+</div>
+<section id="sections">
+<h2>Sections<a class="headerlink" href="#sections" title="Link to this heading"></a></h2>
+<section id="debug-info-debug-abbrev">
+<h3>.debug_info .debug_abbrev<a class="headerlink" href="#debug-info-debug-abbrev" title="Link to this heading"></a></h3>
+<p>这两个节是在一起的两个节，它们是“ <cite>实例和类型</cite> ”的关系， <cite>.debug_info</cite> 节中的内容是 <cite>.debug_abbrev</cite> 节中的一个结构的实例。在abbrev节中声明了很多中不同的Dwarf类型组合(我们可以想象为C语言中的结构声明，而这些类型都是DWARF格式约定好的类型)，然后在info节的每一项都声明自己使用的是abbrev节中的那个类型，也就是说明自己是那个结构的实例。</p>
+<ul class="simple">
+<li><p><cite>.debug_info</cite>: dwarfdump –print-info (-i)</p></li>
+<li><p><cite>.debug_abbrev</cite>: dwarfdump –print-abbrev (-b)</p></li>
+</ul>
+</section>
+<section id="debug-frame">
+<h3>.debug_frame<a class="headerlink" href="#debug-frame" title="Link to this heading"></a></h3>
+<p>该节主要是为了表示函数栈帧的关系。也就是当执行一个函数的时候，这个函数中的各个寄存器的存放位置及变化情况，栈帧的计算方法的变化情况等。</p>
+<ul class="simple">
+<li><p><cite>.debug_frame</cite>: dwarfdump –print-frame (-f)</p></li>
+</ul>
+</section>
+<section id="debug-line">
+<h3>.debug_line<a class="headerlink" href="#debug-line" title="Link to this heading"></a></h3>
+<p>这里包含的是行号和机器指令之间的映射关系，这也是实现源代码级调试的重要依据。</p>
+<ul class="simple">
+<li><p><cite>.debug_line</cite>: dwarfdump –print-lines (-l)</p></li>
+</ul>
+</section>
+<section id="debug-str">
+<h3>.debug_str<a class="headerlink" href="#debug-str" title="Link to this heading"></a></h3>
+<p>C语言中的字符串组，它们以零结束，放在一个单独的节是为了提高存储效率。</p>
+<ul class="simple">
+<li><p><cite>.debug_str</cite>: dwarfdump –print-strings (-s)</p></li>
+</ul>
+</section>
+</section>
+<section id="declaration-information">
+<h2>Declaration Information<a class="headerlink" href="#declaration-information" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://gcc.gnu.org/wiki/LTO_Reader/Writer">https://gcc.gnu.org/wiki/LTO_Reader/Writer</a></p></li>
+</ul>
+<p>以下内容尚未出现在变量和函数的 <cite>DWARF</cite> 信息中：</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>DECL_SECTION_NAME
+DECL_VISIBILITY
+DECL_ONE_ONLY
+DECL_COMDAT
+DECL_WEAK
+DECL_DLLIMPORT_P
+DECL_UNINLINABLE
+DECL_IS_MALLOC
+DECL_IS_RETURNS_TWICE
+DECL_IS_PURE
+DECL_IS_NOVOPS
+DECL_STATIC_CONSTRUCTOR
+DECL_STATIC_DESTRUCTOR
+DECL_NO_INSTRUMENT_FUNCTION_ENTRY_EXIT
+DECL_NO_LIMIT_STACK
+DECL_NO_STATIC_CHAIN
+DECL_INLINE
+DECL_HARD_REGISTER
+DECL_HAS_INIT_PRIORITY
+DECL_INIT_PRIORITY
+DECL_TLS_MODEL
+DECL_THREAD_LOCAL_P
+DECL_IN_TEXT_SECTION
+DECL_COMMON
+</pre></div>
+</div>
+<p>我们不应该盲目地为所有这些字段创建`DWARF`属性。</p>
+<p>例如，表示 <cite>DECL_INIT_PRIORITY</cite> 的正确方法可能是该字段的 <cite>DWARF</cite> 属性，但表示 <cite>DECL_HAS_INIT_PRIORITY</cite> 的正确方法可能是由于 <cite>DECL_INIT_PRIORITY</cite> 的 <cite>DWARF</cite> 属性不存在而不是单独的位。作为另一个例子，可以计算 <cite>DECL_SECTION_NAME</cite> 通过查看 <cite>ELF</cite> 符号表。</p>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://wiki.dwarfstd.org/">https://wiki.dwarfstd.org/</a></p></li>
+<li><p><a class="reference external" href="https://dwarfstd.org/download.html">https://dwarfstd.org/download.html</a></p></li>
+<li><p><a class="reference external" href="https://dwarfstd.org/">DWARF Debugging Standard Website</a></p></li>
+<li><p>IDA: <a class="reference external" href="https://my.hex-rays.com/dashboard/download-center/">https://my.hex-rays.com/dashboard/download-center/</a></p></li>
+<li><p><a class="reference external" href="https://github.com/davea42/libdwarf-code.git">https://github.com/davea42/libdwarf-code.git</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gdb.html" class="btn btn-neutral float-left" title="GDB" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="glibc/index.html" class="btn btn-neutral float-right" title="GLibc" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

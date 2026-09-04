@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FakeCUDA &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../../_static/tux.svg"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="NVIDIA NCCL (NVIDIA Collective Communication Library)" href="nccl.html" />
+    <link rel="prev" title="cu-bridge" href="cu-bridge.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../darwin/index.html">Darwin</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">GPU Architecture</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#vendor">Vendor</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../amd/index.html">AMD GPU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cestc/index.html">LS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../huawei/index.html">Ascend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kunlunxin/index.html">Kunlun</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../metax/index.html">MetaX - 沐曦</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">NVIDIA GPU</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l4"><a class="reference internal" href="abbrev-vpu.html">Abbrev VPU</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#hardware">Hardware</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#software">Software</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../opencl.html">OpenCL (Open Computing Language)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tecorigin/index.html">tecorigin - 太初元基</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#msic">Msic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#isa">ISA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">GPU (Graph Process Unit)</a></li>
+          <li class="breadcrumb-item"><a href="index.html">NVIDIA GPU</a></li>
+      <li class="breadcrumb-item active">FakeCUDA</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/gpu/nvidia/fakeCUDA.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fakecuda">
+<h1>FakeCUDA<a class="headerlink" href="#fakecuda" title="Link to this heading"></a></h1>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>    CUDA Program 1                     realCUDA
+   ┌──────────────┐                ┌────────────────┐
+   │cublasSgemm();│────────────────▶libcublas.so.12 │
+   │              │                │                │
+   └┬─────────────┘                └────────────────┘
+    │
+   LD_LIBRARY_PATH
+    │                                                             fakeCUDA
+┏━━━┿━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃   │                     Library Adaptive Layer                          ┃
+┃  ┌┼──────────────────────────────────────────────────────────────────┐  ┃
+┃  ││      Nvidia                  AMD                  Huawei         │  ┃
+┃  ││ ┌────────────────┐     ┌───────────────┐    ┌─────────────────┐  │  ┃
+┃  │└─▶libcublas.so.12 │     │libhipblas.so.1│    │libaclblas.so.x  │  │  ┃
+┃  │  │libcublas.so.13 │     │libhipblas.so.2│    │libaclblas.so.y  │  │  ┃
+┃  │  └────────────────┘     └───────────────┘    └─────────────────┘  │  ┃
+┃  └───────────────────────────────────────────────────────────────────┘  ┃
+┃                                                                         ┃
+┃                            version scripts                              ┃
+┃  ┌───────────────────────────────────────────────────────────────────┐  ┃
+┃  │  libcublas.so.12 {     libhipblas.so.1 {      libaclblas.so.x {   │  ┃
+┃  │    global:               global:                global:           │  ┃
+┃  │      cublasSgemm_v2;       hipblasSgemm;          aclblasGemm;    │  ┃
+┃  │  }                     }                      }                   │  ┃
+┃  └───────────────────────────────────────────────────────────────────┘  ┃
+┃                                                                         ┃
+┃                           API Adaptive Layer                            ┃
+┃  ┌───────────────────────────────────────────────────────────────────┐  ┃
+┃  │cublasSgemm_v2() {      hipblasSgemm() {        aclblasGemm() {    │  ┃
+┃  │  fakeSgemm();            fakeSgemm();            fakeSgemm();     │  ┃
+┃  │}                       }                       }                  │  ┃
+┃  └───────────────────────────────────────────────────────────────────┘  ┃
+┃                                                                         ┃
+┃                            Algorithm Layer                              ┃
+┃  ┌───────────────────────────────────────────────────────────────────┐  ┃
+┃  │                         fakeSgemm() {                             │  ┃
+┃  │                           ...                                     │  ┃
+┃  │                         }                                         │  ┃
+┃  └───────────────────────────────────────────────────────────────────┘  ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+╔═══════════╗  ╔══════════╗  ╔════════════╗ ╔══════════╗  ╔═══════════════╗
+║Nvidia GPU ║  ║ AMD GPU  ║  ║ Ascend NPU ║ ║   CPU    ║  ║Other hardware ║
+╚═══════════╝  ╚══════════╝  ╚════════════╝ ╚══════════╝  ╚═══════════════╝
+</pre></div>
+</div>
+</section>
+<section id="support-list">
+<h2>Support List<a class="headerlink" href="#support-list" title="Link to this heading"></a></h2>
+<section id="cuda">
+<h3>CUDA<a class="headerlink" href="#cuda" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>libcuda.so.1</p></li>
+<li><p>libcudart.so.12</p></li>
+<li><p>libcudart.so.13</p></li>
+<li><p>libcublas.so.12</p></li>
+<li><p>libcublas.so.13</p></li>
+<li><p>libcublasLt.so.12</p></li>
+<li><p>libcublasLt.so.13</p></li>
+<li><p>libcufft.so.11</p></li>
+<li><p>libcufft.so.12</p></li>
+<li><p>libcurand.so.10</p></li>
+<li><p>libcusparse.so.12</p></li>
+</ul>
+</section>
+<section id="rocm">
+<h3>ROCm<a class="headerlink" href="#rocm" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>libamdhip64.so.5</p></li>
+<li><p>libamdhip64.so.6</p></li>
+<li><p>libhipfft.so.0</p></li>
+<li><p>librocfft.so.0</p></li>
+<li><p>libhipsparse.so.1</p></li>
+<li><p>librocsparse.so.1</p></li>
+<li><p>libhiprand.so.1</p></li>
+<li><p>libhipblas.so.2</p></li>
+<li><p>libhipblaslt.so.0</p></li>
+</ul>
+</section>
+<section id="hpcc">
+<h3>HPCC<a class="headerlink" href="#hpcc" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>libhccompiler.so</p></li>
+<li><p>libhccl.so</p></li>
+<li><p>libhcruntime.so</p></li>
+<li><p>libhcblas.so</p></li>
+<li><p>libhcblasLt.so</p></li>
+<li><p>libhcfft.so</p></li>
+<li><p>libhcrand.so</p></li>
+<li><p>libhcsparse.so</p></li>
+</ul>
+</section>
+</section>
+<section id="envs">
+<h2>ENVs<a class="headerlink" href="#envs" title="Link to this heading"></a></h2>
+<section id="fakecuda-debug">
+<h3>FAKECUDA_DEBUG<a class="headerlink" href="#fakecuda-debug" title="Link to this heading"></a></h3>
+<p>Enable fakeCUDA debug mode, this mode will enable fakeCUDA console log.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nv">FAKECUDA_DEBUG</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>./fakeCUDA.sh<span class="w"> </span>sparse
+</pre></div>
+</div>
+</section>
+<section id="fakecuda-dump">
+<h3>FAKECUDA_DUMP<a class="headerlink" href="#fakecuda-dump" title="Link to this heading"></a></h3>
+<p>Enable fakeCUDA dump mode. This mode will dump some memory to files.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nv">FAKECUDA_DUMP</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>./fakeCUDA.sh<span class="w"> </span>sparse
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3>CUDA<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;curand.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">version</span><span class="p">;</span>
+<span class="w">      </span><span class="n">curandGetVersion</span><span class="p">(</span><span class="o">&amp;</span><span class="n">version</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;curand version %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>nvcc<span class="w"> </span>rand.cu<span class="w"> </span>-lcurand<span class="w"> </span>-o<span class="w"> </span>rand
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./rand
+curand<span class="w"> </span>version<span class="w"> </span><span class="m">10400</span>
+$<span class="w"> </span>./fakeCUDA.sh<span class="w"> </span>./rand
+curand<span class="w"> </span>version<span class="w"> </span><span class="m">10</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="todo">
+<h2>TODO<a class="headerlink" href="#todo" title="Link to this heading"></a></h2>
+<p>It’s a pity that <strong>private kernel functions are not supported</strong>. Perhaps in the future, this can be achieved through instruction set translation, similar to the GCN instruction set of AMD GPUs.</p>
+<p>If it is just a CUDA program, it is a good choice to use llvm to compile the PTX intermediate expression into the machine code of the target hardware, such as <a class="reference external" href="https://github.com/vosen/ZLUDA">ZLUDA</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cu-bridge.html" class="btn btn-neutral float-left" title="cu-bridge" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nccl.html" class="btn btn-neutral float-right" title="NVIDIA NCCL (NVIDIA Collective Communication Library)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

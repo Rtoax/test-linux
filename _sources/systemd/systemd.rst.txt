@@ -1,0 +1,49 @@
+Systemd
+=======
+
+systemd is a system and service manager that runs as **PID 1** and starts the
+rest of the system. It provides aggressive parallelization capabilities, uses
+**socket** and **D-Bus** activation for starting services, offers on-demand
+starting of daemons, keeps track of processes using Linux control groups,
+maintains mount and automount points, and implements an elaborate transactional
+dependency-based service control logic.
+
+systemd supports **SysV** and **LSB** init scripts and works as a replacement
+for sysvinit. Other parts of this package are a logging daemon, utilities to
+control basic system configuration like the hostname, date, locale, maintain
+a list of logged-in users, system accounts, runtime directories and settings,
+and a logging daemons.
+
+
+Enter Shell
+-----------
+
+1. Reboot
+2. 按 'e' 修改内核参数，添加 **systemd.debug-shell=1** ，同时可以添加 **systemd.log_level=debug**
+    - 有时候添加 **console=ttyS0,115200** 是好的选择，arm64有时添加 **console=ttyAMA0** 。
+3. 按 F10 启动
+4. 启动后，进入紧急模式，此时还是会显示 **root account is locked**
+5. 按 **Alt+Ctrl+F9** 进入 **tty9**，即可进入 **sh#**
+
+
+Enter initramfs Shell
+---------------------
+
+1. cmdline: **rd.break** (see dracut.cmdline(7))
+
+
+Modify /etc/fstab
+-----------------
+
+如果报只读，需要重新挂载
+
+.. code-block:: text
+
+    $ sudo mount -o remount,rw ./mnt ./mnt
+
+
+Links
+-----
+
+- https://github.com/systemd/systemd
+- https://vmware.github.io/photon/assets/files/html/3.0/photon_troubleshoot/enabling-systemd-debug.html

@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>广播 &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../../_static/tux.svg"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">广播</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/network/socket/broadcast.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>广播<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>直接广播：直接广播的IP地址除了网络地址外其余的所有主机地址全部设置为1.例如：向网络地址为192.168.8网络地址中所有主机发送数据时，可以向IP地址为192.168.8.255传输数据。</p></li>
+<li><p>本地广播：本地广播中限定IP地址为255.255.255.255.例如：在网络地址为192.168.8的主机向ip地址为255.255.255.255发送数据，数据讲传送到192.168.8网络地址下的所有主机中。</p></li>
+</ul>
+<section id="id2">
+<h2>更改套接字默认值以允许广播<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>&gt; 默认生成的套接字会阻止广播，我们需要按照以下方法修改默认值。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/socket.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;arpa/inet.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">sock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">PF_INET</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_DGRAM</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">broadcast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="n">setsockopt</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="n">SOL_SOCKET</span><span class="p">,</span><span class="w"> </span><span class="n">SO_BROADCAST</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">broadcast</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">broadcast</span><span class="p">));</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

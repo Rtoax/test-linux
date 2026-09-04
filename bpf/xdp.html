@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XDP (eXpress Data Path) &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BPF Scheduler Extensions sched-ext (v6.12)" href="sched_ext.html" />
+    <link rel="prev" title="BPF JIT - Just In Time Compiler" href="jit.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">eBPF</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="abbrev-sched_ext.html">Abbrev sched_ext</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#ebpf-theory">eBPF Theory</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="history.html">BPF History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bpf.html">eBPF (Extended Berkeley Packet Filter)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isa.html">BPF ISA (Instruction Set Architecture)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcc.html">BPF Support in the GNU Toolchain (GCC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="btf.html">BTF (BPF Type Format)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verifier.html">eBPF verifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kfunc.html">BPF Kernel Functions (kfuncs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jit.html">BPF JIT - Just In Time Compiler</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">XDP (eXpress Data Path)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#xdp-action">XDP Action</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#xdp-type-and-load-attach">XDP Type and Load/Attach</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#af-xdp">AF_XDP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#libxdp">libxdp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sched_ext.html">BPF Scheduler Extensions sched-ext (v6.12)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ebpf-software">eBPF Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ebpf-program">eBPF Program</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">eBPF</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="abbrev-sched_ext.html">Abbrev sched_ext</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#ebpf-theory">eBPF Theory</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="history.html">BPF History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bpf.html">eBPF (Extended Berkeley Packet Filter)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isa.html">BPF ISA (Instruction Set Architecture)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcc.html">BPF Support in the GNU Toolchain (GCC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="btf.html">BTF (BPF Type Format)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verifier.html">eBPF verifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kfunc.html">BPF Kernel Functions (kfuncs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jit.html">BPF JIT - Just In Time Compiler</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">XDP (eXpress Data Path)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#xdp-action">XDP Action</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#xdp-type-and-load-attach">XDP Type and Load/Attach</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#af-xdp">AF_XDP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#libxdp">libxdp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sched_ext.html">BPF Scheduler Extensions sched-ext (v6.12)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ebpf-software">eBPF Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ebpf-program">eBPF Program</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">eBPF: Extended Berkeley Packet Filter</a></li>
+      <li class="breadcrumb-item active">XDP (eXpress Data Path)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/bpf/xdp.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="xdp-express-data-path">
+<h1>XDP (eXpress Data Path)<a class="headerlink" href="#xdp-express-data-path" title="Link to this heading"></a></h1>
+<section id="xdp-action">
+<h2>XDP Action<a class="headerlink" href="#xdp-action" title="Link to this heading"></a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* User return codes for XDP prog type.</span>
+<span class="cm"> * A valid XDP program must return one of these defined values. All other</span>
+<span class="cm"> * return codes are reserved for future use. Unknown return codes will</span>
+<span class="cm"> * result in packet drops and a warning via bpf_warn_invalid_xdp_action().</span>
+<span class="cm"> */</span>
+<span class="k">enum</span><span class="w"> </span><span class="n">xdp_action</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">XDP_ABORTED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="n">XDP_DROP</span><span class="p">,</span>
+<span class="w">        </span><span class="n">XDP_PASS</span><span class="p">,</span>
+<span class="w">        </span><span class="n">XDP_TX</span><span class="p">,</span>
+<span class="w">        </span><span class="n">XDP_REDIRECT</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference internal" href="#id1"><span class="std std-ref">XDP Action</span></a></p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id3">
+<span id="id1"></span><div class="code-block-caption"><span class="caption-text">XDP Action</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                                                                    Network
+                                                                     stack
+                     +---------+                                  +----------+
+                     |Userspace|                                  |          |
+                     | AF_XDP  |                                  |----------|
+                     +---------+                                  |          |
+                          ^                                       |----------|
+                          |                                       |          |
+                    XDP_REDIRECT                                  |          |
+                          |                                       |          |
+                          |                                       |          |
+                          |    XDP_PASS                           |          |
+ +---------+           +--+---+        +-------+     +-------+    |----------|    +-------+    +---------+
+ |   NIC   +----------&gt;|  XDP +-------&gt;|SK_BUFF+----&gt;|ingress+---&gt;|          |---&gt;|egress +---&gt;|Interface|
+ |  Driver |&lt;----------| eBPF |        +-------+     |(qdisc)|    |          |    |(qdisc)|    | output  |
+ +---------+   XDP_TX  +-+---++       alloc_skb()    +-------+    +----------+    +-------+    +---------+
+      ^                  |   |                                                                      ^
+      |                  |   |                                                                      |
+ +----+----+             |   | XDP_REDIRECT                                                         |
+ | RX_RING |             |   +----------------------------------------------------------------------+
+ +---------+             |
+      ^                  |
+      |          XDP_DROP/XDP_ABORTED
+ +----+----+             |
+ |   NIC   |             |
+ +---------+             v
+</pre></div>
+</div>
+</div>
+</section>
+<section id="xdp-type-and-load-attach">
+<h2>XDP Type and Load/Attach<a class="headerlink" href="#xdp-type-and-load-attach" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt><strong>Native XDP</strong>: Runs directly on the network driver, providing higher performance.</dt><dd><ul class="simple">
+<li><p>BCC: <code class="code docutils literal notranslate"><span class="pre">b.attach_xdp(&quot;eth0&quot;,</span> <span class="pre">fn,</span> <span class="pre">flags=BPF.XDP_FLAGS_DRV_MODE)</span></code></p></li>
+<li><dl class="simple">
+<dt>iproute:</dt><dd><ul>
+<li><p>attach: <code class="code docutils literal notranslate"><span class="pre">ip</span> <span class="pre">link</span> <span class="pre">set</span> <span class="pre">dev</span> <span class="pre">[IF]</span> <span class="pre">xdp</span> <span class="pre">obj</span> <span class="pre">xdp_program.o</span> <span class="pre">sec</span> <span class="pre">xdp</span></code></p></li>
+<li><p>show: <code class="code docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">ip</span> <span class="pre">-details</span> <span class="pre">link</span> <span class="pre">show</span> <span class="pre">dev</span> <span class="pre">[IF]</span></code></p></li>
+<li><p>detach: <code class="code docutils literal notranslate"><span class="pre">ip</span> <span class="pre">link</span> <span class="pre">set</span> <span class="pre">dev</span> <span class="pre">[IF]</span> <span class="pre">xdp</span> <span class="pre">off</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>bpftool:</dt><dd><ul>
+<li><p>load:   <code class="code docutils literal notranslate"><span class="pre">bpftool</span> <span class="pre">prog</span> <span class="pre">load</span> <span class="pre">proto.o</span> <span class="pre">/sys/fs/bpf/proto</span></code></p></li>
+<li><p>attach: <code class="code docutils literal notranslate"><span class="pre">bpftool</span> <span class="pre">net</span> <span class="pre">attach</span> <span class="pre">xdpdrv</span> <span class="pre">pinned</span> <span class="pre">/sys/fs/bpf/proto</span> <span class="pre">dev</span> <span class="pre">[IF]</span></code></p></li>
+<li><p>detach: <code class="code docutils literal notranslate"><span class="pre">bpftool</span> <span class="pre">net</span> <span class="pre">detach</span> <span class="pre">xdpdrv</span> <span class="pre">dev</span> <span class="pre">[IF]</span></code></p></li>
+<li><p>unload: <code class="code docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-f</span> <span class="pre">/sys/fs/bpf/proto</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>libbpf: <code class="code docutils literal notranslate"><span class="pre">bpf_xdp_attach(XDP_FLAGS_DRV_MODE)</span></code>, <code class="code docutils literal notranslate"><span class="pre">bpf_set_link_xdp_fd(XDP_FLAGS_DRV_MODE)</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Offloaded XDP</strong>:</dt><dd><ul class="simple">
+<li><p>BCC: <code class="code docutils literal notranslate"><span class="pre">b.attach_xdp(&quot;eth0&quot;,</span> <span class="pre">fn,</span> <span class="pre">flags=BPF.XDP_FLAGS_HW_MODE)</span></code></p></li>
+<li><p>iproute: <code class="code docutils literal notranslate"><span class="pre">ip</span> <span class="pre">link</span> <span class="pre">set</span> <span class="pre">dev</span> <span class="pre">[IF]</span> <span class="pre">xdp</span> <span class="pre">offload</span> <span class="pre">obj</span> <span class="pre">xdp_program.o</span> <span class="pre">sec</span> <span class="pre">xdp</span></code></p></li>
+<li><dl class="simple">
+<dt>bpftool:</dt><dd><ul>
+<li><p>load:   <code class="code docutils literal notranslate"><span class="pre">bpftool</span> <span class="pre">prog</span> <span class="pre">load</span> <span class="pre">proto.o</span> <span class="pre">/sys/fs/bpf/proto</span></code></p></li>
+<li><p>attach: <code class="code docutils literal notranslate"><span class="pre">bpftool</span> <span class="pre">net</span> <span class="pre">attach</span> <span class="pre">xdpoffload</span> <span class="pre">pinned</span> <span class="pre">/sys/fs/bpf/proto</span> <span class="pre">dev</span> <span class="pre">[IF]</span></code></p></li>
+<li><p>detach: <code class="code docutils literal notranslate"><span class="pre">bpftool</span> <span class="pre">net</span> <span class="pre">detach</span> <span class="pre">xdpoffload</span> <span class="pre">dev</span> <span class="pre">[IF]</span></code></p></li>
+<li><p>unload: <code class="code docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-f</span> <span class="pre">/sys/fs/bpf/proto</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>libbpf: <code class="code docutils literal notranslate"><span class="pre">bpf_xdp_attach(XDP_FLAGS_HW_MODE)</span></code>, <code class="code docutils literal notranslate"><span class="pre">bpf_set_link_xdp_fd(XDP_FLAGS_HW_MODE)</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Generic XDP</strong>: Runs on the kernel’s network stack, providing compatibility with all network drivers but with lower performance.</dt><dd><ul class="simple">
+<li><p>BCC: <code class="code docutils literal notranslate"><span class="pre">b.attach_xdp(&quot;eth0&quot;,</span> <span class="pre">fn,</span> <span class="pre">flags=BPF.XDP_FLAGS_SKB_MODE)</span></code></p></li>
+<li><p>iproute: <code class="code docutils literal notranslate"><span class="pre">ip</span> <span class="pre">link</span> <span class="pre">set</span> <span class="pre">dev</span> <span class="pre">[IF]</span> <span class="pre">xdpgeneric</span> <span class="pre">obj</span> <span class="pre">xdp_program.o</span> <span class="pre">sec</span> <span class="pre">xdp</span></code></p></li>
+<li><dl class="simple">
+<dt>bpftool:</dt><dd><ul>
+<li><p>load:   <code class="code docutils literal notranslate"><span class="pre">bpftool</span> <span class="pre">prog</span> <span class="pre">load</span> <span class="pre">proto.o</span> <span class="pre">/sys/fs/bpf/proto</span></code></p></li>
+<li><p>attach: <code class="code docutils literal notranslate"><span class="pre">bpftool</span> <span class="pre">net</span> <span class="pre">attach</span> <span class="pre">xdpgeneric</span> <span class="pre">pinned</span> <span class="pre">/sys/fs/bpf/proto</span> <span class="pre">dev</span> <span class="pre">[IF]</span></code></p></li>
+<li><p>detach: <code class="code docutils literal notranslate"><span class="pre">bpftool</span> <span class="pre">net</span> <span class="pre">detach</span> <span class="pre">xdpgeneric</span> <span class="pre">dev</span> <span class="pre">[IF]</span></code></p></li>
+<li><p>unload: <code class="code docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-f</span> <span class="pre">/sys/fs/bpf/proto</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>libbpf: <code class="code docutils literal notranslate"><span class="pre">bpf_xdp_attach(XDP_FLAGS_SKB_MODE)</span></code>, <code class="code docutils literal notranslate"><span class="pre">bpf_set_link_xdp_fd(XDP_FLAGS_SKB_MODE)</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</section>
+<section id="af-xdp">
+<h2>AF_XDP<a class="headerlink" href="#af-xdp" title="Link to this heading"></a></h2>
+<p>Examples of such use cases are:</p>
+<ul class="simple">
+<li><p>Custom protocol implementations</p></li>
+<li><p>DDoS protection</p></li>
+<li><p>Application specific optimization</p></li>
+</ul>
+</section>
+<section id="libxdp">
+<h2>libxdp<a class="headerlink" href="#libxdp" title="Link to this heading"></a></h2>
+<p>libxdp is a light eBPF library who add 2 features for XDP programs.</p>
+<ul class="simple">
+<li><p>Load multiple programs on single network device using a “dispatcher program” thanks to <a class="reference external" href="https://docs.ebpf.io/linux/program-type/BPF_PROG_TYPE_EXT/">freplace</a>.</p></li>
+<li><p>Configuring <cite>AF_XDP</cite> and functions to read and write on theses sockets</p></li>
+</ul>
+<p>You can check more information on the libxdp readme.</p>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=0p987hCplbk">A Beginners Guide to eBPF Programming for Networking</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Express_Data_Path">https://en.wikipedia.org/wiki/Express_Data_Path</a></p></li>
+<li><p><a class="reference external" href="https://upload.wikimedia.org/wikipedia/commons/3/37/Netfilter-packet-flow.svg">https://upload.wikimedia.org/wikipedia/commons/3/37/Netfilter-packet-flow.svg</a></p></li>
+<li><dl class="simple">
+<dt><a class="reference external" href="https://github.com/xdp-project">https://github.com/xdp-project</a></dt><dd><ul>
+<li><p><a class="reference external" href="https://github.com/xdp-project/xdp-tools">xdp-tools</a></p></li>
+<li><p><a class="reference external" href="https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp">xdp-tools/libxdp</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><a class="reference external" href="https://docs.ebpf.io/linux/concepts/af_xdp/">AF_XDP</a></p></li>
+<li><p><a class="reference external" href="https://docs.ebpf.io/ebpf-library/libxdp/libxdp/">ebpf-library/libxdp</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="jit.html" class="btn btn-neutral float-left" title="BPF JIT - Just In Time Compiler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sched_ext.html" class="btn btn-neutral float-right" title="BPF Scheduler Extensions sched-ext (v6.12)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

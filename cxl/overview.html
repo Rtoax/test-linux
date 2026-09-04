@@ -1,0 +1,416 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CXL Overview &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CXL Paper" href="paper.html" />
+    <link rel="prev" title="CXL History" href="history.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">CXL (Compute Express Link)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">CXL Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">CXL History</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CXL Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cxl">CXL 三种协议实现</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cxl-io">CXL.io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cxl-cache">CXL.cache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cxl-memory-cxl-mem">CXL.memory（又名 CXL.mem）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cxl-type-1-2-3">CXL Type 1/2/3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">CXL 标准对比</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cxl-4-0-cxl-3-0">CXL 4.0 相比 CXL 3.0 新增特性支持</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cxl-3-0-cxl-2-0">CXL 3.0 相比 CXL 2.0 新增特性支持</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cxl-2-0-cxl-1-0">CXL 2.0 相比 CXL 1.0 新增特性支持</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cxl-1-1">CXL 1.1</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#linux-kernel">Linux Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#edsff">EDSFF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#links">Links</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#specification">Specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kernel">Kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github">GitHub</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qemu">Qemu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#others">Others</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="paper.html">CXL Paper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#cxl">CXL 技术</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">CXL 厂商和产品</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">CXL (Compute Express Link)</a></li>
+      <li class="breadcrumb-item active">CXL Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/cxl/overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cxl-overview">
+<h1>CXL Overview<a class="headerlink" href="#cxl-overview" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><strong>Compute Express Link (CXL)</strong> is an open standard interconnect for
+high-speed, high capacity central processing unit (CPU)-to-device and
+CPU-to-memory connections, designed for high performance data center
+computers.</p></li>
+<li><p>CXL is built on the serial PCI Express (PCIe) physical and electrical
+interface and includes PCIe-based block input/output protocol (<strong>CXL.io</strong>)
+and new cache-coherent protocols for accessing system memory (<strong>CXL.cache</strong>)
+and device memory (<strong>CXL.mem</strong>).</p></li>
+<li><p>The serial communication and pooling capabilities allows CXL memory to
+overcome performance and socket packaging limitations of common DIMM memory
+when implementing high storage capacities.</p></li>
+</ul>
+<ul class="simple">
+<li><p>保持了完全的向后兼容性。</p></li>
+<li><dl class="simple">
+<dt>PCIe 物理层上动态多路复用。</dt><dd><ul>
+<li><p><strong>事务层</strong> 负责处理与每个协议相关的事务以及任何架构排序语义、流量控制和信用。 <strong>具有较低的延迟</strong></p></li>
+<li><p><strong>数据链路层（或链路层）</strong> 负责可靠的数据传输服务，并在设备之间建立逻辑连接。 <strong>具有较低的延迟</strong></p></li>
+<li><dl class="simple">
+<dt><strong>物理层</strong> 负责物理信息交换、接口初始化和维护。</dt><dd><ul>
+<li><p><cite>物理层进行多路复用</cite> 有助于为 CXL.cache 和 CXL.mem 流量提供低延迟路径。</p></li>
+<li><p>物理层可区分 CXL.io、CXL.cache-mem、ALMP（Arb/Mux 链路管理包） 和 NULL Flits（不发送任何内容）。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>每一层都有一组 <cite>寄存器</cite> ，软件可访问这些寄存器来配置、控制和获取链路状态。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<section id="cxl">
+<h2>CXL 三种协议实现<a class="headerlink" href="#cxl" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>CXL.io</p></li>
+<li><p>CXL.cache</p></li>
+<li><p>CXL.memory</p></li>
+</ul>
+<section id="cxl-io">
+<h3>CXL.io<a class="headerlink" href="#cxl-io" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>CXL.io 对所有设备都是强制性的；</p></li>
+<li><p>CXL.io 协议基于 PCIe；</p></li>
+<li><p>用于设备发现、状态报告、虚拟到物理地址转换、I/O 虚拟化和直接内存访问（DMA）。</p></li>
+</ul>
+</section>
+<section id="cxl-cache">
+<h3>CXL.cache<a class="headerlink" href="#cxl-cache" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>CXL.cache 是可选的。</p></li>
+<li><p>CXL.cache 用于设备缓存系统内存。</p></li>
+</ul>
+</section>
+<section id="cxl-memory-cxl-mem">
+<h3>CXL.memory（又名 CXL.mem）<a class="headerlink" href="#cxl-memory-cxl-mem" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>CXL.mem 是可选的。</p></li>
+<li><p>CXL.mem 使 CPU 和其他 CXL 设备能将设备内存作为可缓存内存访问。</p></li>
+<li><p>CXL.mem 使连接到设备的内存成为可缓存内存（称为主机管理设备内存 (HDM)），类似于主机内存，从而实现主机在 HDM 和主机内存之间的统一视图</p></li>
+</ul>
+</section>
+</section>
+<section id="cxl-type-1-2-3">
+<h2>CXL Type 1/2/3<a class="headerlink" href="#cxl-type-1-2-3" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Item</p></th>
+<th class="head"><p>CXL Type 1</p></th>
+<th class="head"><p>CXL Type 2</p></th>
+<th class="head"><p>CXL Type 3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>支持协议</p></td>
+<td><p>CXL.io + CXL.cache</p></td>
+<td><p>CXL.io + CXL.cache + CXL.mem</p></td>
+<td><p>CXL.io + CXL.mem</p></td>
+</tr>
+<tr class="row-odd"><td><p>设备是否有本地内存</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>是否缓存主机内存</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>❌</p></td>
+</tr>
+<tr class="row-odd"><td><p>典型应用</p></td>
+<td><p>SmartNIC, FPGA 加速卡</p></td>
+<td><p>GPU、AI 加速卡、FPGA 异构计算</p></td>
+<td><p>内存扩展，内存池化，分层内存</p></td>
+</tr>
+<tr class="row-even"><td><p>商业产品</p></td>
+<td><p>Intel Agilex FPGA, …</p></td>
+<td><p>Intel Agilex FPGA, …</p></td>
+<td><p>Samsung CXL Memory Module (CMM-D), …</p></td>
+</tr>
+<tr class="row-odd"><td><p>成熟度</p></td>
+<td><p>已有原型/少量产品</p></td>
+<td><p>极少产品，未来方向</p></td>
+<td><p>大量量产，生态最成熟</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id1">
+<h2>CXL 标准对比<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="cxl-4-0-cxl-3-0">
+<h3>CXL 4.0 相比 CXL 3.0 新增特性支持<a class="headerlink" href="#cxl-4-0-cxl-3-0" title="Link to this heading"></a></h3>
+</section>
+<section id="cxl-3-0-cxl-2-0">
+<h3>CXL 3.0 相比 CXL 2.0 新增特性支持<a class="headerlink" href="#cxl-3-0-cxl-2-0" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>多级 CXL Switch；</p></li>
+<li><p>引入了名为 “动态容量设备 “的扩展，灵活性更高；</p></li>
+</ol>
+</section>
+<section id="cxl-2-0-cxl-1-0">
+<h3>CXL 2.0 相比 CXL 1.0 新增特性支持<a class="headerlink" href="#cxl-2-0-cxl-1-0" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>热插拔；</p></li>
+<li><p>安全增强；</p></li>
+<li><p>pmem；</p></li>
+<li><p>内存错误上报；</p></li>
+<li><p>遥测；</p></li>
+<li><p>支持single-level交换，跨多个虚拟层次结构池设备的能力，包括对内存设备的多域支持；</p></li>
+<li><p>引入 CXL Switch；</p></li>
+<li><p><strong>内存池</strong> ，设备池；</p></li>
+</ol>
+</section>
+<section id="cxl-1-1">
+<h3>CXL 1.1<a class="headerlink" href="#cxl-1-1" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>为直接连接到主机的设备引入了一致性和内存语义;</p></li>
+</ul>
+</section>
+</section>
+<section id="linux-kernel">
+<h2>Linux Kernel<a class="headerlink" href="#linux-kernel" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>/sys/bus/cxl/</p></li>
+<li><p>/dev/cxl/memX: ioctl(2)</p></li>
+</ul>
+</section>
+<section id="edsff">
+<h2>EDSFF<a class="headerlink" href="#edsff" title="Link to this heading"></a></h2>
+<p>EDSFF: Enterprise and Data Center Standard Form Factor 企业和数据中心标准外形尺寸.</p>
+<ul class="simple">
+<li><p><strong>Ex #1</strong>: EDSFF E1.S (Smaller), 12 ~ 25W</p></li>
+<li><p><strong>Ex #2</strong>: EDSFF E3.S / E3.L (Larger), 25W ~ 40W (1T), 40W ~ 70W (2T)</p></li>
+<li><p><strong>Ex #3</strong>: Add-in Card (AIC) (Larger than E3.S/L), Similar range compared to E3.S/L</p></li>
+</ul>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<section id="specification">
+<h3>Specification<a class="headerlink" href="#specification" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://computeexpresslink.org/cxl-specification/">https://computeexpresslink.org/cxl-specification/</a></p></li>
+</ul>
+</section>
+<section id="kernel">
+<h3>Kernel<a class="headerlink" href="#kernel" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://lore.kernel.org/linux-cxl/">https://lore.kernel.org/linux-cxl/</a></p></li>
+<li><p><a class="reference external" href="https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git">https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git</a></p></li>
+</ul>
+</section>
+<section id="github">
+<h3>GitHub<a class="headerlink" href="#github" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/pmem/ndctl">https://github.com/pmem/ndctl</a></p></li>
+<li><p><a class="reference external" href="https://github.com/computexpresslink/">https://github.com/computexpresslink/</a> (This account does not represent, nor is associated with, the Compute Express Link (CXL) Consortium)</p></li>
+<li><p><a class="reference external" href="https://github.com/Compute-Express-Link">https://github.com/Compute-Express-Link</a> (seems legacy)</p></li>
+<li><p>OpenBMC: <a class="reference external" href="https://github.com/openbmc/openbmc.git">https://github.com/openbmc/openbmc.git</a></p></li>
+<li><p>EDK-II: <a class="reference external" href="https://github.com/tianocore/edk2.git">https://github.com/tianocore/edk2.git</a></p></li>
+</ul>
+</section>
+<section id="qemu">
+<h3>Qemu<a class="headerlink" href="#qemu" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.qemu.org/docs/master/system/devices/cxl.html">https://www.qemu.org/docs/master/system/devices/cxl.html</a></p></li>
+</ul>
+</section>
+<section id="others">
+<h3>Others<a class="headerlink" href="#others" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Compute_Express_Link">https://en.wikipedia.org/wiki/Compute_Express_Link</a></p></li>
+<li><p><a class="reference external" href="https://www.lazystones.com/project/559625">https://www.lazystones.com/project/559625</a></p></li>
+<li><p>For CI testing of CXL emulation work and other things I might want to do in the future. <a class="reference external" href="https://gitlab.com/jic23/qemu">https://gitlab.com/jic23/qemu</a></p></li>
+<li><p>CXL，最强科普！ <a class="reference external" href="https://fpga.eetrend.com/content/2024/100583618.html">https://fpga.eetrend.com/content/2024/100583618.html</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="history.html" class="btn btn-neutral float-left" title="CXL History" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="paper.html" class="btn btn-neutral float-right" title="CXL Paper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Native &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Abbrev" href="abbrev.html" />
+    <link rel="prev" title="Big Data" href="../bigdata/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cloud Native</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cncf.html">Cloud Native Computing Foundation (CNCF)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pod.html">Pod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes.html">Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="microservices.html">MicroServices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="service-mesh.html">Service Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#container">Container</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kata-containers.html">kata-containers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#observability">Observability</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metrics">Metrics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grafana.html">Grafana</a></li>
+<li class="toctree-l4"><a class="reference internal" href="node-exporter.html">node-exporter</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tracing">Tracing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="jaeger.html">Jaeger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skywalking.html">SkyWalking</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#logging">Logging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#microservice">MicroService</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="istio.html">Istio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envoy.html">Envoy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cloud-infrastructure-technologies">Cloud Infrastructure Technologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#storage-drivers">Storage Drivers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#docker-storage-drivers">Docker Storage Drivers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#podman-storage-drivers">Podman Storage Drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Cloud Native</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/cloud-native/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cloud-native">
+<h1>Cloud Native<a class="headerlink" href="#cloud-native" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cncf.html">Cloud Native Computing Foundation (CNCF)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pod.html">Pod</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="microservices.html">MicroServices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="service-mesh.html">Service Mesh</a></li>
+</ul>
+</div>
+<section id="container">
+<h2>Container<a class="headerlink" href="#container" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kata-containers.html">kata-containers</a></li>
+</ul>
+</div>
+</section>
+<section id="observability">
+<h2>Observability<a class="headerlink" href="#observability" title="Link to this heading"></a></h2>
+<section id="metrics">
+<h3>Metrics<a class="headerlink" href="#metrics" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grafana.html">Grafana</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node-exporter.html">node-exporter</a></li>
+</ul>
+</div>
+</section>
+<section id="tracing">
+<h3>Tracing<a class="headerlink" href="#tracing" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="jaeger.html">Jaeger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skywalking.html">SkyWalking</a></li>
+</ul>
+</div>
+</section>
+<section id="logging">
+<h3>Logging<a class="headerlink" href="#logging" title="Link to this heading"></a></h3>
+</section>
+</section>
+<section id="microservice">
+<h2>MicroService<a class="headerlink" href="#microservice" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="istio.html">Istio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="envoy.html">Envoy</a></li>
+</ul>
+</div>
+</section>
+<section id="cloud-infrastructure-technologies">
+<h2>Cloud Infrastructure Technologies<a class="headerlink" href="#cloud-infrastructure-technologies" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><cite>IaaS</cite>: IaaS uses hypervisors, such as Xen, KVM, VMware ESXi, Hyper-V, or
+Nitro.</p></li>
+<li><p><cite>PaaS</cite>: PaaS can be deployed on top of IaaS or independently on VMs,
+bare-metal servers, and containers.</p></li>
+</ul>
+</section>
+<section id="storage-drivers">
+<h2>Storage Drivers<a class="headerlink" href="#storage-drivers" title="Link to this heading"></a></h2>
+<section id="docker-storage-drivers">
+<h3>Docker Storage Drivers<a class="headerlink" href="#docker-storage-drivers" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><cite>BtrFS</cite>: Supports snapshots.</p></li>
+<li><p><cite>Device Mapper</cite>: For earlier CentOS and RHEL releases.</p></li>
+<li><p><cite>Fuse-Overlay</cite>: Preferred for rootless mode.</p></li>
+<li><p><cite>Overlay2</cite>: Preferred for all supported Linux distributions (Ubuntu, Debian,
+CentOS, Fedora, RHEL, SLES 15).</p></li>
+<li><p><cite>VFS</cite> (Virtual File System): For testing only, not for production.</p></li>
+<li><p><cite>ZFS</cite>: Supports snapshots.</p></li>
+</ul>
+</section>
+<section id="podman-storage-drivers">
+<h3>Podman Storage Drivers<a class="headerlink" href="#podman-storage-drivers" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><cite>AUFS</cite> (Another Union File System)</p></li>
+<li><p><cite>BtrFS</cite></p></li>
+<li><p><cite>Thinpool</cite> (Device Mapper)</p></li>
+<li><p><cite>Overlay</cite></p></li>
+<li><p><cite>VFS</cite> (Virtual File System)</p></li>
+<li><p><cite>ZFS</cite></p></li>
+</ul>
+</section>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://swiftorial.com/archview/cloud-native/cloud-native-system-overview">Cloud Native System Overview</a></p></li>
+<li><p>GitHub markdown: <a class="reference external" href="https://github.com/wso2/reference-architecture/blob/master/reference-cloud-native-architecture-digital-enterprise.md">Reference Architecture for a Cloud Native Digital Enterprise</a></p></li>
+<li><p>GitHub: <a class="reference external" href="https://github.com/moby/libnetwork/blob/master/docs/design.md">Docker Container Network Model (CNM)</a></p></li>
+<li><dl class="simple">
+<dt>GitHub: <a class="reference external" href="https://github.com/containernetworking/cni">https://github.com/containernetworking/cni</a></dt><dd><ul>
+<li><p>GitHub: <a class="reference external" href="https://github.com/containernetworking/cni/blob/main/SPEC.md">Container Network Interface (CNI) Specification</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference external" href="https://opencontainers.org/">https://opencontainers.org/</a></dt><dd><ul>
+<li><p><a class="reference external" href="https://github.com/opencontainers">https://github.com/opencontainers</a></p></li>
+<li><p><a class="reference external" href="https://opencontainers.org/posts/blog/2024-02-18-oci-runtime-spec-v1-2/">OCI Runtime Spec v1.2</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../bigdata/index.html" class="btn btn-neutral float-left" title="Big Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="abbrev.html" class="btn btn-neutral float-right" title="Abbrev" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

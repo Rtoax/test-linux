@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scheduler &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CFS - 完全公平调度" href="cfs.html" />
+    <link rel="prev" title="如何解决恼人的 TIME_WAIT 问题" href="../network/QA/TIME_WAIT.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scheduler</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#key-words">Key Words</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contents">Contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cfs.html">CFS - 完全公平调度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deadline.html">DL: Dead-Line Schedule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eevdf.html">EEVDF - Earliest Eligible Virtual Deadline First</a></li>
+<li class="toctree-l3"><a class="reference internal" href="load.html">LOAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="migration.html">Migration Kthread</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pelt.html">PELT - Per-Entity Load Tracking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preempt.html">preempt - PREEMPT_RT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rt.html">Real-Time Sched Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtlinux.html">RTLinux - Real-Time Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rtos.html">RTOS - real-time operating system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="smt.html">SMT - Simultaneous Multithreading (同步多线程)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task_struct.html">Process - 进程 (task_struct)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task_struct.html#tss-task-state-segment">TSS 任务状态段 task state segment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ttwu.html">TTWU - Try To Wake Up</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Scheduler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#priority">Priority</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scheduler</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/sched/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scheduler">
+<h1>Scheduler<a class="headerlink" href="#scheduler" title="Link to this heading"></a></h1>
+<p><a class="reference internal" href="abbrev.html"><span class="doc">Abbrev</span></a></p>
+<section id="key-words">
+<h2>Key Words<a class="headerlink" href="#key-words" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>等效让渡时长差值</strong></p></li>
+</ul>
+</section>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cfs.html">CFS - 完全公平调度</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deadline.html">DL: Dead-Line Schedule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eevdf.html">EEVDF - Earliest Eligible Virtual Deadline First</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">LOAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration Kthread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pelt.html">PELT - Per-Entity Load Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preempt.html">preempt - PREEMPT_RT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rt.html">Real-Time Sched Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtlinux.html">RTLinux - Real-Time Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtos.html">RTOS - real-time operating system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smt.html">SMT - Simultaneous Multithreading (同步多线程)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_struct.html">Process - 进程 (task_struct)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="task_struct.html#tss-task-state-segment">TSS 任务状态段 task state segment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ttwu.html">TTWU - Try To Wake Up</a></li>
+</ul>
+</div>
+</section>
+<section id="id1">
+<h2>Scheduler<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>调度算法</p></th>
+<th class="head"><p>类型</p></th>
+<th class="head"><p>特点</p></th>
+<th class="head"><p>优点</p></th>
+<th class="head"><p>缺点</p></th>
+<th class="head"><p>使用场景</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="cfs.html"><span class="doc">CFS - 完全公平调度</span></a></p></td>
+<td><p>抢占式</p></td>
+<td><p>Linux默认调度器，基于虚拟运⾏时间（vruntime）分配CPU，红⿊树管理任务队列</p></td>
+<td><p>低延迟、⾼公平性</p></td>
+<td><p>对实时任务⽀持需额外配置</p></td>
+<td><p>通⽤系统（现代Linux内核）</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="priority">
+<h2>Priority<a class="headerlink" href="#priority" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                                                  -20 ~ 10 (nice)
++-----------------------------------------+----------------------+
+|                  1 ~ 99                 |       100 ~ 139      |  Priority
++-----------------------------------------+----------------------+
+|                SCHED_FIFO               | SCHED_NORMAL (SCHED_OTHER)
+|                SCHED_RR                 | SCHED_BATCH          |
+|                                         | SCHED_IDLE           |
+
+|                       sched_setattr(2)                         |
+|                       sched_getattr(2)                         |
+|                       sched_setscheduler(2)                    |
+|                       sched_getscheduler(2)                    |
+
+|            sched_setparam(2)            |    setpriority(2)    |
+|            sched_getparam(2)            |    getpriority(2)    |
+|                                         |    nice(2)           |
+|            sched_get_priority_min(2)    |                      |
+|            sched_get_priority_max(2)    |                      |
+</pre></div>
+</div>
+<p>see also ‘chrt –max’.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>|     Policy      |  Priority   |   Nice   |  top PR    |
+| --------------- | ----------- | -------- | ---------- |
+| SCHED_FIFO      |   0 - 99    |          |  -1 - P    |
+| SCHED_RR        |   0 - 99    |          |  -1 - P    |
+| SCHED_DEADLINE  |             |          |            |
+| SCHED_NORMAL    | 100 - 139   | -20 - 10 | 20 + Nice  |
+| SCHED_BATCH     | 100 - 139   | -20 - 10 | 20 + Nice  |
+| SCHED_IDLE      | 100 - 139   | -20 - 10 | 20 + Nice  |
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../network/QA/TIME_WAIT.html" class="btn btn-neutral float-left" title="如何解决恼人的 TIME_WAIT 问题" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cfs.html" class="btn btn-neutral float-right" title="CFS - 完全公平调度" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

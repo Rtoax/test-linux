@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Binutils &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Coreutils" href="coreutils.html" />
+    <link rel="prev" title="Bison - GNU Project parser generator (yacc replacement)" href="bison.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The GNU Project</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html">GNU History</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#project">Project</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bash.html">Bash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bison.html">Bison - GNU Project parser generator (yacc replacement)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Binutils</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bfd-binary-file-descriptor-library">BFD (Binary File Descriptor Library)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#opcode-operation-code">Opcode (Operation Code)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="coreutils.html">Coreutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="findutils.html">findutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcc.html">GCC (GNU Compiler Collection)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gdb.html">GDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dwarf.html">Dwarf - Debugging With Attributed Record Formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glibc/index.html">GLibc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gnuplot.html">GNU Plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gnupg.html">GNU PG - GNU Privacy Guard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gperf.html">Gperf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ncurses.html">Ncurses</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">The GNU Project</a></li>
+      <li class="breadcrumb-item active">Binutils</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/gnu/binutils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="binutils">
+<h1>Binutils<a class="headerlink" href="#binutils" title="Link to this heading"></a></h1>
+<p>The GNU Binutils are a collection of binary tools. The main ones are:</p>
+<ul class="simple">
+<li><p>ld: the GNU linker.</p></li>
+<li><p>as: the GNU assembler.</p></li>
+<li><p>gold: a new, faster, ELF only linker.</p></li>
+</ul>
+<p>But they also include:</p>
+<ul class="simple">
+<li><p>addr2line: Converts addresses into filenames and line numbers.</p></li>
+<li><p>ar: A utility for creating, modifying and extracting from archives.</p></li>
+<li><p>c++filt: Filter to demangle encoded C++ symbols.</p></li>
+<li><p>dlltool: Creates files for building and using DLLs.</p></li>
+<li><p>elfedit: Allows alteration of ELF format files.</p></li>
+<li><p>gprof: Displays profiling information.</p></li>
+<li><p>gprofng: Collects and displays application performance data.</p></li>
+<li><p>nlmconv: Converts object code into an NLM.</p></li>
+<li><p>nm: Lists symbols from object files.</p></li>
+<li><p>objcopy: Copies and translates object files.</p></li>
+<li><p>objdump: Displays information from object files.</p></li>
+<li><p>ranlib: Generates an index to the contents of an archive.</p></li>
+<li><p>readelf: Displays information from any ELF format object file.</p></li>
+<li><p>size: Lists the section sizes of an object or archive file.</p></li>
+<li><p>strings: Lists printable strings from files.</p></li>
+<li><p>strip: Discards symbols.</p></li>
+<li><p>windmc: A Windows compatible message compiler.</p></li>
+<li><p>windres: A compiler for Windows resource files.</p></li>
+</ul>
+<p>As well as some libraries:</p>
+<ul class="simple">
+<li><p>libbfd: A library for manipulating binary files in a variety of different
+formats.</p></li>
+<li><p>libctf: A library for manipulating the CTF debug format.</p></li>
+<li><p>libopcodes: A library for assembling and disassembling a variety of different
+assembler languages.</p></li>
+<li><p>libsframe: A library for manipulating the SFRAME debug format.</p></li>
+</ul>
+<section id="bfd-binary-file-descriptor-library">
+<h2>BFD (Binary File Descriptor Library)<a class="headerlink" href="#bfd-binary-file-descriptor-library" title="Link to this heading"></a></h2>
+<p>The Binary File Descriptor library (BFD) is the GNU Project’s main mechanism
+for the portable manipulation of object files in a variety of formats. As of
+2003, it supports approximately 50 file formats for some 25 instruction set
+architectures.</p>
+</section>
+<section id="opcode-operation-code">
+<h2>Opcode (Operation Code)<a class="headerlink" href="#opcode-operation-code" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#opcode-table"><span class="std std-ref">Opcode table</span></a></p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id1">
+<span id="opcode-table"></span><div class="code-block-caption"><span class="caption-text">Opcode table</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   |  0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+ --+---------------------------------------------------------------
+  0|  00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
+  1|  10  11  12  13  14  15  16  17  18  19  1A  1B  5C  1D  1E  1F
+  2|  20  21  22  23  24  25  26  27  28  29  2A  2B  2C  2D  2E  2F
+  3|  30  31  32  33  34  35  36  37  38  39  3A  3B  3C  3D  3E  3F
+  4|  40  41  42  43  44  45  46  47  48  49  4A  4B  4C  4D  4E  4F
+  5|  50  51  52  53  54  55  56  57  58  59  5A  5B  5C  5D  5E  5F
+  6|  60  61  62  63  64  65  66  67  68  69  6A  6B  6C  6D  6E  6F
+  7|  70  71  72  73  74  75  76  77  78  79  7A  7B  7C  7D  7E  7F
+  8|  80  81  82  83  84  85  86  87  88  89  8A  8B  8C  8D  8E  8F
+  9|  90  91  92  93  94  95  96  97  98  99  9A  9B  9C  9D  9E  9F
+  A|  A0  A1  A2  A3  A4  A5  A6  A7  A8  A9  AA  AB  AC  AD  AE  AF
+  B|  B0  B1  B2  B3  B4  B5  B6  B7  B8  B9  BA  BB  BC  BD  BE  BF
+  C|  C0  C1  C2  C3  C4  C5  C6  C7  C8  C9  CA  CB  CC  CD  CE  CF
+  D|  D0  D1  D2  D3  D4  D5  D6  D7  D8  D9  DA  DB  DC  DD  DE  DF
+  E|  E0  E1  E2  E3  E4  E5  E6  E7  E8  E9  EA  EB  EC  ED  EE  EF
+  F|  F0  F1  F2  F3  F4  F5  F6  F7  F8  F9  FA  FB  FC  FD  FE  FF
+</pre></div>
+</div>
+</div>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://sourceware.org/binutils">https://sourceware.org/binutils</a></p></li>
+<li><p><a class="reference external" href="https://sourceware.org/git/binutils-gdb.git">https://sourceware.org/git/binutils-gdb.git</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Binary_File_Descriptor_library">BFD</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Opcode">https://en.wikipedia.org/wiki/Opcode</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Opcode_table">https://en.wikipedia.org/wiki/Opcode_table</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="bison.html" class="btn btn-neutral float-left" title="Bison - GNU Project parser generator (yacc replacement)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="coreutils.html" class="btn btn-neutral float-right" title="Coreutils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

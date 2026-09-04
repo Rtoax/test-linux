@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vsyscall &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="UNWind" href="../unwind/index.html" />
+    <link rel="prev" title="vvar" href="vvar.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">vDSO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vvar.html">vvar</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">vsyscall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">内核命令行参数</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#vdso">vDSO 介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#vdso-image">vDSO image的构建过程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#vdso-mapping">应用程序如何使用vDSO mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">vDSO mapping支持重映射</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#vvar-mapping">vvar mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">vDSO - Virtual Dynamic Shared Object</a></li>
+      <li class="breadcrumb-item active">vsyscall</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/vdso/vsyscall.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="vsyscall">
+<h1>vsyscall<a class="headerlink" href="#vsyscall" title="Link to this heading"></a></h1>
+<p>芯片厂商的争斗导致的结果就是libc和内核开发者需要对不同的快速系统调用指令进行适配，而且开发人员肯定希望用一种通用方案能够同时解决两家芯片厂商不同的快速系统调用实现方式。</p>
+<p>在那段时间里，开发人员针对当时的x86系统开发了vsyscall机制，即glibc通过调用__kernel_vsyscall来确定到底应该执行syscall/sysret指令还是sysenter/sysexit指令。__kernel_vsyscall是一个特殊的页，其位于内核地址空间，但也是唯一允许用户访问的区域，该区域的地址固定为0xffffffffff600000（64位系统），大小固定为4K。由于所有的进程都共享内核映射，因此所有的进程也自然而言能够访问到vsyscall page。</p>
+<p>此外，vsyscall还提供了另一个重要的作用：加速某些系统调用函数的执行效率。以gettimeofday()系统调用为例。该系统调用返回的结果起始并不涉及任何数据安全问题，因为特权用户root和非特权用户都会获得相同的结果。这就意味着其实完全可以通过新的实现机制来避免执行系统调用的开销，因为本质上gettimeofday()就是从内核中读取与时间相关的数据（虽然会有一些复杂的计算过程）。与其费尽心力一定要通过陷入内核的方式来读取这些数据，不如在内核与用户态之间建立一段共享内存区域，由内核定期“推送”最新值到该共享内存区域，然后用户态程序在调用这些系统调用的glibc库函数的时候，库函数并不真正执行系统调用，而是通过vsyscall page来读取该数据的最新值，相当于将系统调用改造成了函数调用，直接提升了执行性能。vsyscall机制支持的系统调用有3个：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gettimeofday</span><span class="p">()</span>
+<span class="n">time</span><span class="p">()</span>
+<span class="n">getcpu</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>从`glibc`提供的头文件`/usr/include/asm/vsyscall.h`中就可以看出vsyscall page的用法.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef _ASM_X86_VSYSCALL_H</span>
+<span class="cp">#define _ASM_X86_VSYSCALL_H</span>
+
+<span class="k">enum</span><span class="w"> </span><span class="n">vsyscall_num</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">__NR_vgettimeofday</span><span class="p">,</span>
+<span class="w">        </span><span class="n">__NR_vtime</span><span class="p">,</span>
+<span class="w">        </span><span class="n">__NR_vgetcpu</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="cp">#define VSYSCALL_START (-10UL &lt;&lt; 20)</span>
+<span class="cp">#define VSYSCALL_SIZE 1024</span>
+<span class="cp">#define VSYSCALL_END (-2UL &lt;&lt; 20)</span>
+<span class="cp">#define VSYSCALL_MAPPED_PAGES 1</span>
+<span class="cp">#define VSYSCALL_ADDR(vsyscall_nr) (VSYSCALL_START+VSYSCALL_SIZE*(vsyscall_nr))</span>
+
+<span class="cp">#endif </span><span class="cm">/* _ASM_X86_VSYSCALL_H */</span>
+</pre></div>
+</div>
+<p>但由于一些原因，开发人员又抛弃了vsyscall机制：</p>
+<p><cite>vsyscall</cite> 的映射地址是固定不变的（从`vsyscall.h`的定义就可以看出），因此很容易成为`ret2libc`攻击的跳板。
+<cite>vsyscall</cite> 能支持的系统调用数有限，无法很方便地进行扩展。</p>
+<p>虽然开发人员在x86-64上实现了emulated vsyscall机制，同时借助vvar mapping在一定程度上缓解了第一个问题，但执行性能上不如vsyscall native模式。于是开发人员设计了vDSO机制来取代vsyscall，同时必须克服vsyscall的所有缺点。</p>
+<p>vDSO与vsyscall最大的不同体现在以下方面:</p>
+<p>vDSO本质上是一个ELF共享目标文件；而vsyscall只是一段内存代码和数据。</p>
+<p>vsyscall位于内核地址空间，采用静态地址映射方式；而vDSO借助共享目标文件天生具有的PIC特性，可以以进程为粒度动态映射到进程地址空间中。</p>
+<p>不过vDSO的引入也带来了新的混乱：在Intel正式支持`syscall/sysret`指令后，内核开发人员决定不再在x86-64系统中对`sysenter/sysexit`提供支持，转而全部使用`syscall/sysret`，相当于vsyscall中对多种快速系统调用提供支持的`__kernel_vsyscall`功能被移除了。由于后来很多人都不再提这个特性，因此vsyscall这个词又有了第二层含义：一种旧有的实现`gettimeofday()`, <cite>time()</cite> 和 <cite>getcpu()</cite> 快速系统调用的方式。</p>
+<p>混乱之上再增加新的混乱其实也就没啥了。为了让仍旧依赖vsyscall机制的老旧程序（包括32位和64位）继续能够在x86-64系统上运行，vsyscall机制仍旧被保留了下来（包括native模式和emulation模式）。这也是为什么你在`/proc/&lt;pid&gt;/maps`中会同时看到`vvar`, <cite>vdso</cite>, <cite>vsyscall</cite> 三种特殊的mapping。</p>
+<section id="id1">
+<h2>内核命令行参数<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><cite>vsyscall=native|emulate</cite></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="vvar.html" class="btn btn-neutral float-left" title="vvar" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../unwind/index.html" class="btn btn-neutral float-right" title="UNWind" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

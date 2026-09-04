@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PCIe Device Class &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="PCIe Configuration Space" href="configuration-space.html" />
+    <link rel="prev" title="PIO (Port I/O)" href="pio.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">PCIe</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#pci-bus">PCI Bus</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#contents">Contents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="abbrev.html">PCIe Abbrev</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mmio.html">MMIO (Memory Mapping I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pio.html">PIO (Port I/O)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PCIe Device Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#network-controller">Network controller</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="configuration-space.html">PCIe Configuration Space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bar.html">BAR (Base Address Register)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aer.html">AER (Advanced Error Reporting)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernel-cmdline.html">PCIe Linux kernel cmdline</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">PCI - Peripheral Component Interconnect (外围组件互联)</a></li>
+      <li class="breadcrumb-item active">PCIe Device Class</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pcie/device-class.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pcie-device-class">
+<h1>PCIe Device Class<a class="headerlink" href="#pcie-device-class" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://admin.pci-ids.ucw.cz/read/PD">PCI Device Classes</a></p></li>
+</ul>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15.4%" />
+<col style="width: 38.5%" />
+<col style="width: 23.1%" />
+<col style="width: 23.1%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Code</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Examples</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0x00</p></td>
+<td><p>Unclassified Device</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x01</p></td>
+<td><p>Mass Storage Controller</p></td>
+<td><p>SATA, NVMe, SCSI, IDE</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x02</p></td>
+<td><p>Network Controller</p></td>
+<td></td>
+<td><p>以太网设备: lspci -d ::0200; 无线网卡: lspci -d ::0280</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x03</p></td>
+<td><p>Display Controller</p></td>
+<td><p>VGA, 3D, XGA</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x04</p></td>
+<td><p>Multimedia Controller</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x05</p></td>
+<td><p>Memory Controller</p></td>
+<td><p>RAM(00), FLASH(01), CXL(02)</p></td>
+<td><p>CXL: lspci -d ::0502</p></td>
+</tr>
+<tr class="row-even"><td><p>0x06</p></td>
+<td><p>Bridge Device</p></td>
+<td><p>PCI-PCI, ISA, CardBus, PCIe-PCI</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x07</p></td>
+<td><p>Simple Communication Controller</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x08</p></td>
+<td><p>Generic System Peripheral</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x09</p></td>
+<td><p>Input Device Controller</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x0a</p></td>
+<td><p>Docking Station</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x0b</p></td>
+<td><p>Processor</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x0c</p></td>
+<td><p>Serial Bus Controller</p></td>
+<td><p>USB, Firewire, SPI, I2C</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x0d</p></td>
+<td><p>Wireless Controller</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x0e</p></td>
+<td><p>Intelligent I/O controller</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x0f</p></td>
+<td><p>Satellite communications controller</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x10</p></td>
+<td><p>Encryption/Decryption Controller</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x11</p></td>
+<td><p>Data Acquisition and Signal Processing</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x12</p></td>
+<td><p>Processing accelerators</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x13</p></td>
+<td><p>Non-Essential Instrumentation</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x14</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x15</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x16</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0x40</p></td>
+<td><p>Coprocessor</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0x64</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0xff</p></td>
+<td><p>Unassigned class</p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<section id="network-controller">
+<h2>Network controller<a class="headerlink" href="#network-controller" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://admin.pci-ids.ucw.cz/read/PD/02">Network Controller Device subclasses</a></p></li>
+</ul>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Id</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>00</p></td>
+<td><p>Ethernet controller</p></td>
+<td><p>lspci -d ::0200</p></td>
+</tr>
+<tr class="row-odd"><td><p>80</p></td>
+<td><p>Network controller</p></td>
+<td><p>lspci -d ::0280</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pio.html" class="btn btn-neutral float-left" title="PIO (Port I/O)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration-space.html" class="btn btn-neutral float-right" title="PCIe Configuration Space" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

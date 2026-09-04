@@ -1,0 +1,360 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ELF GOT: Global Offset Table &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ELF PLT: Procedure Linkage Table" href="plt.html" />
+    <link rel="prev" title="Abbrev" href="abbrev.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ELF (Executable and Linkable Format)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ELF GOT: Global Offset Table</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#got-sections">GOT 相关 Sections 详细介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-link-procedure">Dynamic Link Procedure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#x86-32bits">x86 32bits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#x86-64bits-diagram">x86 64bits diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plt.html">ELF PLT: Procedure Linkage Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library.html">ELF Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pie.html">ELF PIE: Position Independent Executables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relocation.html">ELF Relocation Sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">ELF (Executable and Linkable Format)</a></li>
+      <li class="breadcrumb-item active">ELF GOT: Global Offset Table</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/elf/got.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="elf-got-global-offset-table">
+<h1>ELF GOT: Global Offset Table<a class="headerlink" href="#elf-got-global-offset-table" title="Link to this heading"></a></h1>
+<p><cite>.got</cite> 节保存了全局偏移表。 <cite>.got</cite> 节和 <cite>.plt</cite> 节一起提供了对导入的共享函数的访问入口，有动态链接器在运行时进行修改。</p>
+<p>当一个共享库被加载进一个进程的地址空间中时，一定有指向此共享库的重定位。动态链接器会修改可执行文件中的 <cite>GOT</cite> 。 <cite>GOT</cite> 位于数据段 <cite>.got.plt</cite> 节中。</p>
+<section id="got-sections">
+<h2>GOT 相关 Sections 详细介绍<a class="headerlink" href="#got-sections" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt><cite>.plt</cite> 保存了一小段代码，外加`foo&#64;plt`代码;</dt><dd><ul>
+<li><p>或用独立的`.plt.got`节保存`foo&#64;plt`代码;</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>.got</cite></dt><dd><ul>
+<li><p><cite>.got</cite> entries are never resolved lazily;</p></li>
+<li><p><cite>.got</cite> 用于存放全局变量的地址和不需要延迟绑定的函数的地址;</p></li>
+<li><p><cite>.rela.dyn</cite> are <cite>R_X86_64_GLOB_DAT</cite></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>.got.plt</cite> 保存了 <cite>_GLOBAL_OFFSET_TABLE_</cite>;</dt><dd><ul>
+<li><p><cite>.got.plt</cite> entries can be resolved lazily;</p></li>
+<li><p><cite>.got.plt</cite> 用于存放需要延迟绑定的函数的地址;</p></li>
+<li><p><cite>.rela.plt</cite> are <cite>R_X86_64_JUMP_SLOT</cite></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="dynamic-link-procedure">
+<h2>Dynamic Link Procedure<a class="headerlink" href="#dynamic-link-procedure" title="Link to this heading"></a></h2>
+<section id="x86-32bits">
+<h3>x86 32bits<a class="headerlink" href="#x86-32bits" title="Link to this heading"></a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 调试 32bit 程序</span>
+$<span class="w"> </span>gdb<span class="w"> </span>./_GLOBAL_OFFSET_TABLE_-32
+
+<span class="c1"># 查看地址空间</span>
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>info<span class="w"> </span>proc<span class="w">  </span>mappings
+...
+<span class="w">      </span>Start<span class="w"> </span>Addr<span class="w">   </span>End<span class="w"> </span>Addr<span class="w">       </span>Size<span class="w">     </span>Offset<span class="w">  </span>Perms<span class="w">   </span>objfile
+<span class="w">       </span>0x8048000<span class="w">  </span>0x8049000<span class="w">     </span>0x1000<span class="w">        </span>0x0<span class="w">  </span>r--p<span class="w">   </span>_GLOBAL_OFFSET_TABLE_-32
+<span class="w">       </span>0x8049000<span class="w">  </span>0x804a000<span class="w">     </span>0x1000<span class="w">     </span>0x1000<span class="w">  </span>r-xp<span class="w">   </span>_GLOBAL_OFFSET_TABLE_-32
+<span class="w">       </span>0x804a000<span class="w">  </span>0x804b000<span class="w">     </span>0x1000<span class="w">     </span>0x2000<span class="w">  </span>r--p<span class="w">   </span>_GLOBAL_OFFSET_TABLE_-32
+<span class="w">       </span>0x804b000<span class="w">  </span>0x804c000<span class="w">     </span>0x1000<span class="w">     </span>0x2000<span class="w">  </span>r--p<span class="w">   </span>_GLOBAL_OFFSET_TABLE_-32
+<span class="w">       </span>0x804c000<span class="w">  </span>0x804d000<span class="w">     </span>0x1000<span class="w">     </span>0x3000<span class="w">  </span>rw-p<span class="w">   </span>_GLOBAL_OFFSET_TABLE_-32
+<span class="w">      </span>0xf7d9d000<span class="w"> </span>0xf7dc0000<span class="w">    </span>0x23000<span class="w">        </span>0x0<span class="w">  </span>r--p<span class="w">   </span>/usr/lib/libc.so.6
+<span class="w">      </span>0xf7dc0000<span class="w"> </span>0xf7f1f000<span class="w">   </span>0x15f000<span class="w">    </span>0x23000<span class="w">  </span>r-xp<span class="w">   </span>/usr/lib/libc.so.6
+<span class="w">      </span>0xf7f1f000<span class="w"> </span>0xf7f92000<span class="w">    </span>0x73000<span class="w">   </span>0x182000<span class="w">  </span>r--p<span class="w">   </span>/usr/lib/libc.so.6
+<span class="w">      </span>0xf7f92000<span class="w"> </span>0xf7f94000<span class="w">     </span>0x2000<span class="w">   </span>0x1f5000<span class="w">  </span>r--p<span class="w">   </span>/usr/lib/libc.so.6
+<span class="w">      </span>0xf7f94000<span class="w"> </span>0xf7f95000<span class="w">     </span>0x1000<span class="w">   </span>0x1f7000<span class="w">  </span>rw-p<span class="w">   </span>/usr/lib/libc.so.6
+<span class="w">      </span>...
+<span class="w">      </span>0xf7fc9000<span class="w"> </span>0xf7fca000<span class="w">     </span>0x1000<span class="w">        </span>0x0<span class="w">  </span>r--p<span class="w">   </span>/usr/lib/ld-linux.so.2
+<span class="w">      </span>0xf7fca000<span class="w"> </span>0xf7fed000<span class="w">    </span>0x23000<span class="w">     </span>0x1000<span class="w">  </span>r-xp<span class="w">   </span>/usr/lib/ld-linux.so.2
+<span class="w">      </span>0xf7fed000<span class="w"> </span>0xf7ffb000<span class="w">     </span>0xe000<span class="w">    </span>0x24000<span class="w">  </span>r--p<span class="w">   </span>/usr/lib/ld-linux.so.2
+<span class="w">      </span>0xf7ffb000<span class="w"> </span>0xf7ffd000<span class="w">     </span>0x2000<span class="w">    </span>0x31000<span class="w">  </span>r--p<span class="w">   </span>/usr/lib/ld-linux.so.2
+<span class="w">      </span>0xf7ffd000<span class="w"> </span>0xf7ffe000<span class="w">     </span>0x1000<span class="w">    </span>0x33000<span class="w">  </span>rw-p<span class="w">   </span>/usr/lib/ld-linux.so.2
+
+<span class="c1"># 查看 GOT 地址</span>
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>x<span class="w"> </span>/x<span class="w"> </span>_GLOBAL_OFFSET_TABLE_
+0x804bff4:<span class="w">    </span>0xf7ffda200804bf08
+
+<span class="c1"># 查看三个 GOT 条目值：GOT[0], GOT[1], GOT[2], GOT[3], GOT[4]</span>
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>p<span class="w"> </span>/x<span class="w"> </span>_GLOBAL_OFFSET_TABLE_<span class="o">[</span><span class="m">0</span><span class="o">]</span>
+<span class="nv">$5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>0x804bf08
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>p<span class="w"> </span>/x<span class="w"> </span>_GLOBAL_OFFSET_TABLE_<span class="o">[</span><span class="m">1</span><span class="o">]</span>
+<span class="nv">$6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>0xf7ffda20
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>p<span class="w"> </span>/x<span class="w"> </span>_GLOBAL_OFFSET_TABLE_<span class="o">[</span><span class="m">2</span><span class="o">]</span>
+<span class="nv">$7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>0xf7fdaf70
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>p<span class="w"> </span>/x<span class="w"> </span>_GLOBAL_OFFSET_TABLE_<span class="o">[</span><span class="m">3</span><span class="o">]</span>
+<span class="nv">$3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>0x8049036
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>p<span class="w"> </span>/x<span class="w"> </span>_GLOBAL_OFFSET_TABLE_<span class="o">[</span><span class="m">4</span><span class="o">]</span>
+<span class="nv">$13</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>0x8049046
+
+<span class="c1"># 查看 PLT 条目代码</span>
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>disassemble<span class="w"> </span><span class="s1">&#39;printf@plt&#39;</span>
+Dump<span class="w"> </span>of<span class="w"> </span>assembler<span class="w"> </span>code<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="k">function</span><span class="w"> </span>printf@plt:
+<span class="w">   </span>0x08049040<span class="w"> </span>&lt;+0&gt;:<span class="w">   </span>jmp<span class="w">    </span>*0x804c004
+<span class="w">   </span>0x08049046<span class="w"> </span>&lt;+6&gt;:<span class="w">   </span>push<span class="w">   </span><span class="nv">$0</span>x8
+<span class="w">   </span>0x0804904b<span class="w"> </span>&lt;+11&gt;:<span class="w">  </span>jmp<span class="w">    </span>0x8049020
+
+<span class="w">    </span><span class="c1"># 首先执行 jmp    *0x804c004</span>
+<span class="w">    </span><span class="c1"># 这会跳转到 got.plt 条目执行，如下，会执行 0x08049046 的代码。</span>
+<span class="w">    </span><span class="c1"># 这就会继续执行 push   $0x8</span>
+<span class="w">    </span><span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>x<span class="w"> </span>/x<span class="w"> </span>0x804c004
+<span class="w">    </span>0x804c004<span class="w"> </span>&lt;printf@got.plt&gt;:<span class="w">       </span>0x08049046
+
+<span class="w">    </span><span class="c1"># 执行 push   $0x8</span>
+<span class="w">    </span><span class="c1"># 立即数 $0x8 表示偏移</span>
+
+<span class="w">    </span><span class="c1"># 然后执行 jmp    0x8049020</span>
+<span class="w">    </span><span class="c1"># 地址 0x8049020 实际是 section .plt 的地址</span>
+
+<span class="c1"># 查看地址 0x8049020 内容</span>
+<span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>disassemble<span class="w"> </span>/s<span class="w"> </span>0x8049020,+0x8
+Dump<span class="w"> </span>of<span class="w"> </span>assembler<span class="w"> </span>code<span class="w"> </span>from<span class="w"> </span>0x8049020<span class="w"> </span>to<span class="w"> </span>0x8049030:
+<span class="w">  </span>0x08049020:<span class="w"> </span>push<span class="w">   </span>0x804bff8
+<span class="w">  </span>0x08049026:<span class="w"> </span>jmp<span class="w">    </span>*0x804bffc
+
+<span class="w">    </span><span class="c1"># 执行 push   0x804bff8</span>
+<span class="w">    </span><span class="c1"># 地址为 GOT[1]，保存了 link_map 结构的地址</span>
+<span class="w">    </span><span class="c1"># 可以这样查看</span>
+<span class="w">    </span><span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>p<span class="w"> </span>*<span class="o">(</span>struct<span class="w"> </span>link_map<span class="w"> </span>*<span class="o">)</span>0xf7ffda20
+<span class="w">    </span><span class="c1"># 或</span>
+<span class="w">    </span><span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>p<span class="w"> </span>*<span class="o">(</span>struct<span class="w"> </span>link_map<span class="w"> </span>*<span class="o">)</span>_GLOBAL_OFFSET_TABLE_<span class="o">[</span><span class="m">1</span><span class="o">]</span>
+
+<span class="w">    </span><span class="c1"># 执行 jmp    *0x804bffc</span>
+<span class="w">    </span><span class="c1"># 地址 0x804bffc 为 GOT[2]，GOT[2]=0xf7fdaf70</span>
+<span class="w">    </span><span class="c1"># 那么，跳转到 0xf7fdaf70 执行</span>
+<span class="w">    </span><span class="c1"># 这实际上是函数 _dl_runtime_resolve()</span>
+<span class="w">    </span><span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>disassemble<span class="w"> </span>/s<span class="w"> </span>0xf7fdaf70,+0x8
+<span class="w">      </span>0xf7fdaf70<span class="w"> </span>&lt;_dl_runtime_resolve+0&gt;:<span class="w">     </span>push<span class="w">   </span>%eax
+<span class="w">    </span><span class="c1"># 或者</span>
+<span class="w">    </span><span class="o">(</span>gdb<span class="o">)</span><span class="w"> </span>disassemble<span class="w"> </span>/s<span class="w"> </span>_GLOBAL_OFFSET_TABLE_<span class="o">[</span><span class="m">2</span><span class="o">]</span>,+0x8
+
+<span class="w">    </span><span class="c1"># 此时，控制权交给了链接器</span>
+</pre></div>
+</div>
+</section>
+<section id="x86-64bits-diagram">
+<h3>x86 64bits diagram<a class="headerlink" href="#x86-64bits-diagram" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>   +------------------+                                        +--------------------------+
+   | int main(void) { |                                        | ld-linux:                |
+   |    printf@plt(); |                                      +-+-&gt;  _dl_runtime_resolve() |
+   | }     |          |                GOT (.got.plt)        | +------+-------------------+
+   +-------+----------+             +-----------------+      |        |
+           |                        |                 |      |        |
+           |                        +-----------------+      |        |Modify GOT[plt]
+           |                        |                 |      |        |
++----------+                        +-----------------+      |        |
+|                              +---&gt;|   GOT[2]        +------+        |
+|                              |    +-----------------+               |
+|     printf@plt()             |    |                 |               |
+|  +----------------------+    |    +-----------------+               |
++--+&gt;jmp    *0x2fc2(%rip)-+----+---&gt;| printf@got[plt] +-----+ &lt;-------+
++--+&gt;push   $0x1          |    |    +-----------------+     |
+|  | jmp    0x40102 ---+  |    |    |                 |     |                   libc.so
+|  +-------------------+--+    |    +-----------------+     |                 +----------+
+|                      |       |    |                 |     +----------------&gt;| printf() |
+|                      |       |    +-----------------+     |   Second call   +----------+
+|                      |       |                            |
+|                      |       |                            |
++----------------------+-------+----------------------------+
+                       |       |                   First call
+                       |       |
++----------------------+       |
+|                              |
+|       .plt                   |
+|   +----------------------+   |
++---&gt; push   0x2fca(%rip)  |   |
+    | jmp    *0x2fcc(%rip)-+---+
+    +----------------------+
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="abbrev.html" class="btn btn-neutral float-left" title="Abbrev" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plt.html" class="btn btn-neutral float-right" title="ELF PLT: Procedure Linkage Table" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

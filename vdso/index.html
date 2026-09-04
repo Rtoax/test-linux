@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vDSO - Virtual Dynamic Shared Object &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Abbrev" href="abbrev.html" />
+    <link rel="prev" title="Linux Watchdog" href="../tools/watchdog.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">vDSO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vvar.html">vvar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vsyscall.html">vsyscall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vdso">vDSO 介绍</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vdso-names">vDSO names</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#vdso-image">vDSO image的构建过程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vdso-mapping">应用程序如何使用vDSO mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">vDSO mapping支持重映射</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vvar-mapping">vvar mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">vDSO - Virtual Dynamic Shared Object</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/vdso/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="vdso-virtual-dynamic-shared-object">
+<h1>vDSO - Virtual Dynamic Shared Object<a class="headerlink" href="#vdso-virtual-dynamic-shared-object" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vvar.html">vvar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vsyscall.html">vsyscall</a></li>
+</ul>
+</div>
+<section id="vdso">
+<h2>vDSO 介绍<a class="headerlink" href="#vdso" title="Link to this heading"></a></h2>
+<p>VDSO就是`Virtual Dynamic Shared Object`，就是内核提供的虚拟的.so,这个.so文件不在磁盘上，而是在内核里头。内核把包含某.so的内存页在程序启动的时候映射入其内存空间，对应的程序就可以当普通的.so来使用里头的函数。比如syscall()这个函数就是在`linux-vdso.so.1`里头的，但是磁盘上并没有对应的文件.可以通过ldd/bin/bash看看。</p>
+<p>Linux下传统的系统调用是通过软中断(0x80)实现的,采用传统的int 0x80的系统调用浪费了很多时间,而sysenter/sysexit可以弥补这个缺点，所以才最终决定在linux内核中用后替换前者（最终在2.6版本的内核中才加入了此功能，即采用sysenter/sysexit）。</p>
+<p>如何用替换sysenter/sysexit替换以前的int 0x80呢？</p>
+<p>linux kenerl 需要考虑到这点：有的机器并不支持sysenter/sysexit，于是它跟glibc说好了，“你以后调用系统调用的时候就从我给你的这个地址调用，这个地址指向的内容要么是int 0x80调用方式，要么是sysenter/sysexit调用方式，我会根据机器来选择其中一个”（kernel与glibc的配合是如此的默契），这个地址便是vsyscall的首地址。</p>
+<p>可以将`vdso`看成一个shared objdect file（这个文件实际上不存在）,内核将其映射到某个地址空间，被所有程序所共享。（我觉得这里用到了一个技术：多个虚拟页面映射到同一个物理页面。即内核把vdso映射到某个物理页面上，然后所有程序都会有一个页表项指向它，以此来共享，这样每个程序的vdso地址就可以不相同了）</p>
+<p>可以看到，vDSO mapping的名称叫linux-vdso.so.1，其映射的基地址每次都是不同的：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ldd<span class="w"> </span><span class="sb">`</span>which<span class="w"> </span>bash<span class="sb">`</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>vdso
+<span class="w">    </span>linux-vdso.so.1<span class="w"> </span><span class="o">(</span>0x00007ffe63bf8000<span class="o">)</span>
+
+$<span class="w"> </span>ldd<span class="w"> </span><span class="sb">`</span>which<span class="w"> </span>bash<span class="sb">`</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>vdso
+<span class="w">    </span>linux-vdso.so.1<span class="w"> </span><span class="o">(</span>0x00007ffd11978000<span class="o">)</span>
+
+$<span class="w"> </span>ldd<span class="w"> </span><span class="sb">`</span>which<span class="w"> </span>bash<span class="sb">`</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>vdso
+<span class="w">    </span>linux-vdso.so.1<span class="w"> </span><span class="o">(</span>0x00007fff6b3f1000<span class="o">)</span>
+</pre></div>
+</div>
+<p>这利用了内核的ASLR特性，以解决vsyscall page固定映射地址的安全问题。为了方便地利用ASLR特性，vDSO mapping的本体是一个ELF共享目标文件（x86-64下的文件名称叫做vdso64.so，位于内核源码arch/x86/entry/vdso/下）。</p>
+<section id="vdso-names">
+<h3>vDSO names<a class="headerlink" href="#vdso-names" title="Link to this heading"></a></h3>
+<p>参见 <cite>man vdso</cite>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>user ABI   vDSO name
+─────────────────────────────
+aarch64    linux-vdso.so.1
+arm        linux-vdso.so.1
+ia64       linux-gate.so.1
+mips       linux-vdso.so.1
+ppc/32     linux-vdso32.so.1
+ppc/64     linux-vdso64.so.1
+riscv      linux-vdso.so.1
+s390       linux-vdso32.so.1
+s390x      linux-vdso64.so.1
+sh         linux-gate.so.1
+i386       linux-gate.so.1
+x86-64     linux-vdso.so.1
+x86/x32    linux-vdso.so.1
+</pre></div>
+</div>
+</section>
+</section>
+<section id="vdso-image">
+<h2>vDSO image的构建过程<a class="headerlink" href="#vdso-image" title="Link to this heading"></a></h2>
+<p>DSO image的构建过程比较复杂，下面是一个简要的过程描述：</p>
+<p>编译出组成vDSO image的三个目标文件：<cite>vdso-note.o vclock_gettime.o vgetcpu.o</cite> 这几个目标文件主要就是实现了以下几个快速系统调用的函数实现：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">clock_gettime</span><span class="p">()</span>
+<span class="n">gettimeofday</span><span class="p">()</span>
+<span class="n">time</span><span class="p">()</span>
+<span class="n">getcpu</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>由于vDSO取代了vsyscall，内核开发人员也就不再在vsyscall上添加新的快速系统调用函数了，不过vDSO其实也就比vsyscall多实现了一个`clock_gettime()`。</p>
+<ul class="simple">
+<li><p>使用专门定义的外部链接脚本vdso.lds生成raw vDSO image文件vdso64.so.dbg</p></li>
+<li><p>调用objdump将vdso64.so.dbg strip为vdso64.so。</p></li>
+<li><p>使用vdso2c工具将vdso64.so转换为vdso-image-64.c。vdso-image-64.c定义的是有关vdso64.so的各种blob信息，其中最重要一部分就是将vdso64.so的全部内容以C字节数组的形式放到了vdso-image-64.c中。</p></li>
+<li><p>将vdso-image-64.c编译为vdso-image-64.o，并与内核中vDSO初始化相关的代码一起编译进内核。</p></li>
+</ul>
+</section>
+<section id="vdso-mapping">
+<h2>应用程序如何使用vDSO mapping<a class="headerlink" href="#vdso-mapping" title="Link to this heading"></a></h2>
+<p>在内核加载ELF binary时，内核中的ELF loader会通过辅助向量来向用户态传递一些信息；而getauxval()就是用来通过辅助向量来获取这些信息的函数：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/auxv.h&gt;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">vdso</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uintptr_t</span><span class="p">)</span><span class="w"> </span><span class="n">getauxval</span><span class="p">(</span><span class="n">AT_SYSINFO_EHDR</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>辅助向量中的每个entry是一个键值对儿：key称作类型，value就是值。与vDSO相关的辅助向量类型是`AT_SYSINFO_EHDR`，该向量值保存了vDSO mapping的基地址。</p>
+<p>当然，识别vDSO mapping只是第一步，伴随而来的是繁复的解析工作；这些工作通常由glibc来承担，应用程序只要还是按照传统方式直接调用C库即可。这就意味着如果真遇到应用程序开发人员非要深入到vDSO如此细节的程度，要么是遇到了非常严重的问题，要么就是彻底搞错了方向。</p>
+</section>
+<section id="id1">
+<h2>vDSO mapping支持重映射<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>其实这个也没什么神秘的。既然内核能够在加载ELF可执行文件的时候偷偷建立vDSO mapping，那应用程序在运行时也可以自己unmap掉它；还可以再重新映射到其他地址上。</p>
+</section>
+<section id="vvar-mapping">
+<h2>vvar mapping<a class="headerlink" href="#vvar-mapping" title="Link to this heading"></a></h2>
+<p>与vDSO mapping相伴的是vvar mapping，大小8-12K，包含vDSO mapping中的代码要访问的内核与用户进程之间要共享的数据。</p>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://lwn.net/Articles/446528/">LWN: On vsyscalls and the vDSO</a></p></li>
+<li><p><a class="reference external" href="https://lwn.net/Articles/615809/">LWN: Implementing virtual system calls</a></p></li>
+<li><p><a class="reference external" href="https://lwn.net/Articles/795128/">LWN: vDSO, 32-bit time, and seccomp</a></p></li>
+<li><p>selftests in linux:tools/testing/selftests/vDSO</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tools/watchdog.html" class="btn btn-neutral float-left" title="Linux Watchdog" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="abbrev.html" class="btn btn-neutral float-right" title="Abbrev" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

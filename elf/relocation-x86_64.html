@@ -1,0 +1,442 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>x86_64 Relocation &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Kernel Crash" href="../crash/index.html" />
+    <link rel="prev" title="aarch64 Relocation" href="relocation-aarch64.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ELF (Executable and Linkable Format)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="got.html">ELF GOT: Global Offset Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plt.html">ELF PLT: Procedure Linkage Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library.html">ELF Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pie.html">ELF PIE: Position Independent Executables</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="relocation.html">ELF Relocation Sections</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="relocation-aarch64.html">aarch64 Relocation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">x86_64 Relocation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#relocation-types">Relocation Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="relocation.html#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">ELF (Executable and Linkable Format)</a></li>
+          <li class="breadcrumb-item"><a href="relocation.html">ELF Relocation Sections</a></li>
+      <li class="breadcrumb-item active">x86_64 Relocation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/elf/relocation-x86_64.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="x86-64-relocation">
+<h1>x86_64 Relocation<a class="headerlink" href="#x86-64-relocation" title="Link to this heading"></a></h1>
+<section id="relocation-types">
+<h2>Relocation Types<a class="headerlink" href="#relocation-types" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><cite>A</cite>: Represents the addend used to compute the value of the relocatable field.</p></li>
+<li><p><cite>B</cite>: Represents the base address at which a shared object has been loaded into memory during execution. Generally, a shared object is built with a 0 base virtual address, but the execution address will be different.</p></li>
+<li><p><cite>G</cite>: Represents the offset into the global offset table at which the relocatio n entry’s symbol will reside during execution.</p></li>
+<li><p><cite>GOT</cite>: Represents the address of the global offset table.</p></li>
+<li><p><cite>L</cite>: Represents the place (section offset or address) of the Procedure Linkage Table entry for a symbol.</p></li>
+<li><p><cite>P</cite>: Represents the place (section offset or address) of the storage unit being relocated (computed using <cite>r_offset</cite>).</p></li>
+<li><p><cite>S</cite>: Represents the value of the symbol whose index resides in the relocation entry.</p></li>
+<li><p><cite>Z</cite>: Represents the size of the symbol whose index resides in the relocation entry.</p></li>
+</ul>
+<p>The AMD64 ABI architectures uses only Elf64_Rela relocation entries with explicit addends. The r_addend member serves as the relocation addend.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Field</p></th>
+<th class="head"><p>Calculation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R_X86_64_NONE</p></td>
+<td><p>0</p></td>
+<td><p>none</p></td>
+<td><p>none</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_64</p></td>
+<td><p>1</p></td>
+<td><p>word64</p></td>
+<td><p>S + A</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_PC32</p></td>
+<td><p>2</p></td>
+<td><p>word32</p></td>
+<td><p>S + A - P</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_GOT32</p></td>
+<td><p>3</p></td>
+<td><p>word32</p></td>
+<td><p>G + A</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_PLT32</p></td>
+<td><p>4</p></td>
+<td><p>word32</p></td>
+<td><p>L + A - P</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_COPY</p></td>
+<td><p>5</p></td>
+<td><p>none</p></td>
+<td><p>none</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_GLOB_DAT</p></td>
+<td><p>6</p></td>
+<td><p>word64</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_JUMP_SLOT</p></td>
+<td><p>7</p></td>
+<td><p>word64</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_RELATIVE</p></td>
+<td><p>8</p></td>
+<td><p>word64</p></td>
+<td><p>B + A</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_GOTPCREL</p></td>
+<td><p>9</p></td>
+<td><p>word32</p></td>
+<td><p>G + GOT + A - P</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_32</p></td>
+<td><p>10</p></td>
+<td><p>word32</p></td>
+<td><p>S + A</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_32S</p></td>
+<td><p>11</p></td>
+<td><p>word32</p></td>
+<td><p>S + A</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_16</p></td>
+<td><p>12</p></td>
+<td><p>word16</p></td>
+<td><p>S + A</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_PC16</p></td>
+<td><p>13</p></td>
+<td><p>word16</p></td>
+<td><p>S + A - P</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_8</p></td>
+<td><p>14</p></td>
+<td><p>word8</p></td>
+<td><p>S + A</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_PC8</p></td>
+<td><p>15</p></td>
+<td><p>word8</p></td>
+<td><p>S + A - P</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_DTPMOD64</p></td>
+<td><p>16</p></td>
+<td><p>word64</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_DTPOFF64</p></td>
+<td><p>17</p></td>
+<td><p>word64</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_TPOFF64</p></td>
+<td><p>18</p></td>
+<td><p>word64</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_TLSGD</p></td>
+<td><p>19</p></td>
+<td><p>word32</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_TLSLD</p></td>
+<td><p>20</p></td>
+<td><p>word32</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_DTPOFF32</p></td>
+<td><p>21</p></td>
+<td><p>word32</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_GOTTPOFF</p></td>
+<td><p>22</p></td>
+<td><p>word32</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_TPOFF32</p></td>
+<td><p>23</p></td>
+<td><p>word32</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_PC64</p></td>
+<td><p>24</p></td>
+<td><p>word64</p></td>
+<td><p>S + A - P</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_GOTOFF64</p></td>
+<td><p>25</p></td>
+<td><p>word64</p></td>
+<td><p>S + A - GOT</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_GOTPC32</p></td>
+<td><p>26</p></td>
+<td><p>word32</p></td>
+<td><p>GOT + A - P</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_GOT64</p></td>
+<td><p>27</p></td>
+<td><p>word64</p></td>
+<td><p>G + A</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_GOTPCREL64</p></td>
+<td><p>28</p></td>
+<td><p>word64</p></td>
+<td><p>G + GOT - P + A</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_GOTPC64</p></td>
+<td><p>29</p></td>
+<td><p>word64</p></td>
+<td><p>GOT - P + A</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_GOTPLT64</p></td>
+<td><p>30</p></td>
+<td><p>word64</p></td>
+<td><p>G + A</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_PLTOFF64</p></td>
+<td><p>31</p></td>
+<td><p>word64</p></td>
+<td><p>L - GOT + A</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_SIZE32</p></td>
+<td><p>32</p></td>
+<td><p>word32</p></td>
+<td><p>Z + A</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_SIZE64</p></td>
+<td><p>33</p></td>
+<td><p>word64</p></td>
+<td><p>Z + A</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_GOTPC32_TLSDESC</p></td>
+<td><p>34</p></td>
+<td><p>word32</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_TLSDESC_CALL</p></td>
+<td><p>35</p></td>
+<td><p>none</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_TLSDESC</p></td>
+<td><p>36</p></td>
+<td><p>word64x2</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_IRELATIVE</p></td>
+<td><p>37</p></td>
+<td><p>word64</p></td>
+<td><p>indirect (B + A)</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_RELATIVE64</p></td>
+<td><p>38</p></td>
+<td><p>word64</p></td>
+<td><p>B + A</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_X86_64_GOTPCRELX</p></td>
+<td><p>41</p></td>
+<td><p>word32</p></td>
+<td><p>G + GOT + A - P</p></td>
+</tr>
+<tr class="row-even"><td><p>R_X86_64_REX_GOTPCRELX</p></td>
+<td><p>42</p></td>
+<td><p>word32</p></td>
+<td><p>G + GOT + A - P</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.mindfruit.co.uk/posts/2012/06/relocations/#excerpts-from-the-amd-abi">https://www.mindfruit.co.uk/posts/2012/06/relocations/#excerpts-from-the-amd-abi</a></p></li>
+<li><p><a class="reference external" href="https://refspecs.linuxbase.org/elf/x86_64-abi-0.99.pdf">https://refspecs.linuxbase.org/elf/x86_64-abi-0.99.pdf</a></p></li>
+<li><p><a class="reference external" href="https://refspecs.linuxbase.org/elf/x86_64-abi-0.98.pdf">https://refspecs.linuxbase.org/elf/x86_64-abi-0.98.pdf</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="relocation-aarch64.html" class="btn btn-neutral float-left" title="aarch64 Relocation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../crash/index.html" class="btn btn-neutral float-right" title="Kernel Crash" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

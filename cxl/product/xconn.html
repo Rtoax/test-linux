@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xconn CXL 2.0 交换机 &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../../_static/tux.svg"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Linux Driver" href="../../driver/index.html" />
+    <link rel="prev" title="Samsung CXL" href="samsung.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../darwin/index.html">Darwin</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">CXL (Compute Express Link)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../abbrev.html">CXL Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html">CXL History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html">CXL Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paper.html">CXL Paper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#cxl">CXL 技术</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#id1">CXL 厂商和产品</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">CXL Product</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="amd.html">AMD CXL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gigabyte.html">Gigabyte CXL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="h3platform.html">H3 CXL Memory Pooling Solution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="intel.html">Intel CXL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="samsung.html">Samsung CXL</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Xconn CXL 2.0 交换机</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">CXL (Compute Express Link)</a></li>
+          <li class="breadcrumb-item"><a href="index.html">CXL Product</a></li>
+      <li class="breadcrumb-item active">Xconn CXL 2.0 交换机</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/cxl/product/xconn.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="xconn-cxl-2-0">
+<h1>Xconn CXL 2.0 交换机<a class="headerlink" href="#xconn-cxl-2-0" title="Link to this heading"></a></h1>
+<section id="xc50256">
+<h2>XC50256<a class="headerlink" href="#xc50256" title="Link to this heading"></a></h2>
+<p>XConn的CXL 2.0交换芯片（XC50256）是全球首款兼容CXL 2.0和PCIe 5.0的解决方案，具备以下优势：</p>
+<ul class="simple">
+<li><p><strong>性能卓越</strong> 提供高达2,048 GB/s的带宽和低延迟，适用于高性能计算场景。</p></li>
+<li><p><strong>节能设计</strong> 每端口功耗极低，并优化了PCB面积，从而降低系统成本（TCO）。</p></li>
+<li><p><strong>多功能性</strong> 支持内存扩展、池化和共享，同时兼容CXL和PCIe的混合模式，为数据中心和企业计算提供灵活性。</p></li>
+<li><p>上市时间客户样品现已推出，计划于2024年9月正式量产。</p></li>
+</ul>
+<p>这款产品定位为高效的CXL解决方案，适合未来数据中心和内存计算场景的需求。</p>
+<p>DCMFM (Data Center Fabric Manager) 数据中心Fabric管理器是CXL交换机和设备的核心管理组件，通过REST API和FM Agent实现与编排器和底层设备的通信，支持高效的资源管理和故障转移能力。
+技术特点 包括支持Redfish管理协议、时间敏感的操作，以及对Fabric架构的参考实现，助力实现高性能、可扩展的内存管理解决方案。</p>
+</section>
+<section id="cxl-2-0">
+<h2>CXL 2.0 交换机 热插拔特性<a class="headerlink" href="#cxl-2-0" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>CXL 2.0 的新特性支持 <strong>热添加（hot-add）</strong> 和 <strong>受控热移除（managed hot-remove）</strong> ，允许在不关闭系统的情况下动态添加或移除内存设备。</p></li>
+<li><p><strong>受控移除</strong> 的关键点需要软件配合，通过清空缓存和下线相关页面确保安全移除。</p></li>
+<li><p>限制 <strong>不支持意外移除（surprise removal）</strong> ，否则可能导致系统异常。</p></li>
+<li><p>兼容性基于PCIe规范定义的热插拔模型，确保了跨设备的标准化操作。</p></li>
+<li><p>应用场景该功能提高了数据中心的灵活性和可扩展性，特别是在动态内存池化和共享的使用中。</p></li>
+</ul>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://cloud.tencent.com/developer/article/2495652">Xconn：CXL 2.0 交换机实现内存共享</a></p></li>
+<li><p><a class="reference external" href="https://www.servethehome.com/xconn-xc50256-cxl-2-0-switch-chip-shown/">XConn XC50256 CXL 2.0 Switch Chip Shown</a></p></li>
+<li><p><a class="reference external" href="https://www.servethehome.com/xconn-xc50256-cxl-2-0-switch-chip-linked-and-running-at-fms-2023/">XConn XC50256 CXL 2.0 Switch Chip Linked and Running at FMS 2023</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="samsung.html" class="btn btn-neutral float-left" title="Samsung CXL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../driver/index.html" class="btn btn-neutral float-right" title="Linux Driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

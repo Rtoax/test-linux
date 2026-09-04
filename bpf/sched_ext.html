@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BPF Scheduler Extensions sched-ext (v6.12) &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="bpftool" href="bpftool.html" />
+    <link rel="prev" title="XDP (eXpress Data Path)" href="xdp.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">eBPF</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="abbrev-sched_ext.html">Abbrev sched_ext</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#ebpf-theory">eBPF Theory</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="history.html">BPF History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bpf.html">eBPF (Extended Berkeley Packet Filter)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isa.html">BPF ISA (Instruction Set Architecture)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcc.html">BPF Support in the GNU Toolchain (GCC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="btf.html">BTF (BPF Type Format)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verifier.html">eBPF verifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kfunc.html">BPF Kernel Functions (kfuncs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jit.html">BPF JIT - Just In Time Compiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xdp.html">XDP (eXpress Data Path)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">BPF Scheduler Extensions sched-ext (v6.12)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ebpf-software">eBPF Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ebpf-program">eBPF Program</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">eBPF</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="abbrev.html">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="abbrev-sched_ext.html">Abbrev sched_ext</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#ebpf-theory">eBPF Theory</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="history.html">BPF History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bpf.html">eBPF (Extended Berkeley Packet Filter)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isa.html">BPF ISA (Instruction Set Architecture)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcc.html">BPF Support in the GNU Toolchain (GCC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="btf.html">BTF (BPF Type Format)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="verifier.html">eBPF verifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kfunc.html">BPF Kernel Functions (kfuncs)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="jit.html">BPF JIT - Just In Time Compiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xdp.html">XDP (eXpress Data Path)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">BPF Scheduler Extensions sched-ext (v6.12)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ebpf-software">eBPF Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ebpf-program">eBPF Program</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">eBPF: Extended Berkeley Packet Filter</a></li>
+      <li class="breadcrumb-item active">BPF Scheduler Extensions sched-ext (v6.12)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/bpf/sched_ext.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bpf-scheduler-extensions-sched-ext-v6-12">
+<h1>BPF Scheduler Extensions sched-ext (v6.12)<a class="headerlink" href="#bpf-scheduler-extensions-sched-ext-v6-12" title="Link to this heading"></a></h1>
+<p><cite>sched_ext</cite> is a Linux kernel feature which enables implementing kernel thread schedulers in BPF and dynamically loading them.</p>
+<p>Register with <cite>register_bpf_struct_ops(&amp;bpf_sched_ext_ops, …)</cite>.</p>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<section id="document">
+<h3>Document<a class="headerlink" href="#document" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><dl class="simple">
+<dt><a class="reference external" href="https://docs.kernel.org/scheduler/sched-ext.html">https://docs.kernel.org/scheduler/sched-ext.html</a></dt><dd><ul>
+<li><p><a class="reference external" href="https://www.kernel.org/doc/html/next/scheduler/sched-ext.html">https://www.kernel.org/doc/html/next/scheduler/sched-ext.html</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><a class="reference external" href="https://docs.ebpf.io/linux/program-type/BPF_PROG_TYPE_STRUCT_OPS/sched_ext_ops/">https://docs.ebpf.io/linux/program-type/BPF_PROG_TYPE_STRUCT_OPS/sched_ext_ops/</a></p></li>
+<li><p><a class="reference external" href="https://sched-ext.com/">https://sched-ext.com/</a></p></li>
+</ul>
+</section>
+<section id="code">
+<h3>Code<a class="headerlink" href="#code" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/sched-ext/scx.git">https://github.com/sched-ext/scx.git</a></p></li>
+<li><p>read-only: sched-ext-release-v6.6: <a class="reference external" href="https://github.com/sched-ext/sched_ext/tree/sched_ext-release-v6.6">https://github.com/sched-ext/sched_ext/tree/sched_ext-release-v6.6</a></p></li>
+<li><p><a class="reference external" href="https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git/">https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git/</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="xdp.html" class="btn btn-neutral float-left" title="XDP (eXpress Data Path)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bpftool.html" class="btn btn-neutral float-right" title="bpftool" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

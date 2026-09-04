@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VM Sockets(vsock) &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../../_static/tux.svg"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../superpod/index.html">superPod</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage/index.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">VM Sockets(vsock)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/network/socket/vsock.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="vm-sockets-vsock">
+<h1>VM Sockets(vsock)<a class="headerlink" href="#vm-sockets-vsock" title="Link to this heading"></a></h1>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p>VM Sockets(vsock) is a fast and efficient communication mechanism between guest virtual machines and their host. It was added by VMware in commit <a class="reference external" href="https://github.com/torvalds/linux/commit/d021c344051af91f42c5ba9fdedc176740cbd238">VSOCK: Introduce VM Sockets</a>. The commit added a new socket address family named vsock and its vmci transport.</p>
+<p>VM Sockets can be used in a lot of situation such as the VMware Tools inside the guest. As vsock is very useful the community has development vsock supporting other hypervisor such as <strong>qemu&amp;&amp;kvm</strong> and <strong>HyperV</strong>. Redhat added the virtio transport for vsock in <a class="reference external" href="https://github.com/torvalds/linux/commit/0ea9e1d3a9e3ef7d2a1462d3de6b95131dc7d872">VSOCK: Introduce virtio_transport.ko</a>, for vhost transport in host was added in comit <a class="reference external" href="https://github.com/torvalds/linux/commit/433fc58e6bf2c8bd97e57153ed28e64fd78207b8">VSOCK: Introduce vhost_vsock.ko</a>. Microsoft added the HyperV transport in commit <a class="reference external" href="https://github.com/torvalds/linux/commit/ae0078fcf0a5eb3a8623bfb5f988262e0911fdb9">hv_sock: implements Hyper-V transport for Virtual Sockets (AF_VSOCK)</a>, Of course this host transport is in Windows kernel and no open sourced.</p>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌───────┐ ┌───────┐           ┌────────┐
+│ Guest │ │ Guest │           │ Guest  │
+│ CID=3 │ │ CID=5 │           │ CID=135│
+└───▲───┘ └───▲───┘           └────▲───┘
+    │         │                    │
+    │         │                    │
+┌───▼─────────▼────────────────────▼───┐
+│                 Host                 │
+│          VMADDR_CID_HOST(2)          │
+└──────────────────────────────────────┘
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>POSIX Socket API</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌────────────┐
+│      ┌───┐ │
+│Guest │APP│ │
+│      └─▲─┘ │
+├────────┼───┤
+│┌───────▼──┐│
+││  Socket  ││
+│├──────────┤│
+││ AF_VSOCK ││
+│└────▲─────┘│
+└─────┼──────┘
+      │
+┌─────┼────────────────────────────────┐
+│     │                         ┌─────┐│
+│     │                         │ APP ││
+│     │                         └──▲──┘│
+├─────┼────────────────────────────┼───┤
+│     │                    ┌───────▼──┐│
+│     │                    │  Socket  ││
+│     │                    ├──────────┤│
+│     └────────────────────▶ AF_VSOCK ││
+│ Host                     └──────────┘│
+└──────────────────────────────────────┘
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>vhost+virtio</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌──────────────┐
+│     Guest    │
+│ virtio-vsock │
+└───────▲──────┘
+        │
+┌───────▼──────────────────────────────┐
+│                 Host                 │
+│             vhost-vsock.ko           │
+└──────────────────────────────────────┘
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>loopback: need module <cite>vsock_loopback</cite></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌──────────┐                ┌──────────┐
+│  Server  │                │  Client  │
+└─────▲────┘                └────▲─────┘
+      │                          │
+      │     VMADDR_CID_LOCAL     │
+      │                          │
+┌─────▼──────────────────────────▼─────┐
+│           vsock_loopback.ko          │
+└──────────────────────────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="qemu">
+<h2>Qemu<a class="headerlink" href="#qemu" title="Link to this heading"></a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>host<span class="o">)</span><span class="c1"># qemu-system-x86_64 -device vhost-vsock-pci,guest-cid=3 ...</span>
+</pre></div>
+</div>
+</section>
+<section id="libvirt">
+<h2>Libvirt<a class="headerlink" href="#libvirt" title="Link to this heading"></a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;domain</span><span class="w"> </span><span class="na">type=</span><span class="s">&#39;kvm&#39;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;devices&gt;</span>
+<span class="w">    </span><span class="nt">&lt;vsock</span><span class="w"> </span><span class="na">model=</span><span class="s">&#39;virtio&#39;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="cm">&lt;!-- start from 3 --&gt;</span>
+<span class="w">      </span><span class="nt">&lt;cid</span><span class="w"> </span><span class="na">auto=</span><span class="s">&#39;no&#39;</span><span class="w"> </span><span class="na">address=</span><span class="s">&#39;3&#39;</span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="cm">&lt;!-- or auto --&gt;</span>
+<span class="w">      </span><span class="nt">&lt;cid</span><span class="w"> </span><span class="na">auto=</span><span class="s">&#39;yes&#39;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/vsock&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/devices&gt;</span>
+<span class="nt">&lt;/domain&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="device">
+<h2>Device<a class="headerlink" href="#device" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>/dev/vsock: vsock.ko</p></li>
+</ul>
+</section>
+<section id="drivers">
+<h2>Drivers<a class="headerlink" href="#drivers" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>vsock.ko</p></li>
+<li><p>vhost-vsock.ko</p></li>
+</ul>
+</section>
+<section id="common-use-case-is-guest-agents">
+<h2>Common use case is guest agents<a class="headerlink" href="#common-use-case-is-guest-agents" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>qemu-guest-agent</p></li>
+<li><p>kata-agent</p></li>
+</ul>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.man7.org/linux/man-pages/man7/vsock.7.html">https://www.man7.org/linux/man-pages/man7/vsock.7.html</a></p></li>
+<li><p><a class="reference external" href="https://wiki.qemu.org/Features/VirtioVsock">https://wiki.qemu.org/Features/VirtioVsock</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

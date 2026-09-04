@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abbrev &mdash; The Test Linux Documentation 0.1.88 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a2da7bf9" />
+
+  
+    <link rel="shortcut icon" href="../_static/tux.svg"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6d3ab3d9"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Abbrev Device Tree" href="abbrev-device-tree.html" />
+    <link rel="prev" title="Storage" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            The Test Linux Documentation
+              <img src="../_static/tux.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../standard/index.html">Standard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uefi/index.html">UEFI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license/index.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../devel/index.html">Test Linux Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../shell/index.html">Shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gnu/index.html">The GNU Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compiler/index.html">Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lang/index.html">Computer Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../elf/index.html">ELF (Executable and Linkable Format)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crash/index.html">Kernel Crash</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../distro/index.html">Linux Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bsd/index.html">BSD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coreos/index.html">CoreOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../darwin/index.html">Darwin</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">CPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cxl/index.html">CXL (Compute Express Link)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../driver/index.html">Linux Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gpu/index.html">GPU Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc/index.html">HPC (High Performance Computing)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interrupt/index.html">Interrupt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pcie/index.html">PCIe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../superpod/index.html">superPod</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fs/index.html">File System (FS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipc/index.html">InterProcess Communication (IPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mm/index.html">Memory Management (MM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../namespace/index.html">Namespace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cgroup/index.html">Linux CGroup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sched/index.html">Scheduler</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Storage</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Abbrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="abbrev-device-tree.html">Abbrev Device Tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="abbrev-nvme.html">Abbrev NVMe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#technology">Technology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tools">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">主流的软件分区技术</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#links">Links</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../syscall/index.html">Syscall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronization/index.html">Synchronization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time/index.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virt/index.html">Virtualization</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/index.html">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../boot/index.html">Boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../container/index.html">Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../systemd/index.html">Systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vdso/index.html">vDSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unwind/index.html">unwind</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../bpf/index.html">eBPF</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai/index.html">AI (Artificial Intelligence)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bigdata/index.html">Big Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud-native/index.html">Cloud Native</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database/index.html">Database</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cve/index.html">CVE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security/index.html">Security</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../abbrev.html">Abbrev</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">The Test Linux Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Storage</a></li>
+      <li class="breadcrumb-item active">Abbrev</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/storage/abbrev.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="abbrev">
+<h1>Abbrev<a class="headerlink" href="#abbrev" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>AAP: Advanced Active Partitions (扩展激活分区)</p></li>
+<li><p>AFA: All-Flash Array (全闪存阵列)</p></li>
+<li><p>BB: Bad Block (坏块)</p></li>
+<li><p>BDEV: Block Device Abstraction (bdev, 跨设备抽象层) &#64;SPDK</p></li>
+<li><p>CHS: Cylinder Head Sector (柱面磁头扇区)</p></li>
+<li><p>CRUSH: Controlled Replication Under Scalable Hashing (可扩展哈希下的受控复制) &#64;Ceph</p></li>
+<li><p>DM: Device Mapper (设备映射)</p></li>
+<li><p>DM-MPIO: Device Mapper Multipath Input Output / DM-Multipathing ()</p></li>
+<li><p>EBR: Extended Boot Record (扩展启动记录) &#64;VBR</p></li>
+<li><p>FCP: Fibre Channel Protocol (光纤通道)</p></li>
+<li><p>GPP: General Purpose Partitions ()</p></li>
+<li><p>GPT: GUID Partition Table (GUID 分区表) &#64;MBR</p></li>
+<li><p>HDD: Hard Disk Drives (硬盘驱动)</p></li>
+<li><p>iSCSI: Internet Small Computer Systems Interface (互联网小型计算机系统接口) &#64;SCSI</p></li>
+<li><p>iSER: iSCSI Extensions for RDMA (RDMA 的 iSCSI 扩展) &#64;iSCSI &#64;RDMA</p></li>
+<li><p>JBOD: Just a Bunch Of Disks / Just a Bunch Of Drives (“简单磁盘捆绑”或者“磁盘簇”，通常又称为Span)</p></li>
+<li><p>LSM: Live Storage Migration (存储热迁移) &#64;LVM</p></li>
+<li><p>LVM: Logical Volume Manager (逻辑卷管理)</p></li>
+<li><p>MBR: Master Boot Record (主引导记录) &#64;GPT</p></li>
+<li><p>NAS: Network Attached Storage (网络附加存储)</p></li>
+<li><p>NDCTL: NVDIMM Control (NVDIMM 控制)</p></li>
+<li><p>NFIT: NVDIMM Firmware Interface Table (NVDIMM 固件接口表) &#64;NVDIMM</p></li>
+<li><p>NVDIMM: Non-Volatile Dual In-line Memory Module (非易失性双列直插式存储器模块) &#64;DIMM</p></li>
+<li><p>NVDIMM-F: DIMM with flash storage () &#64;NVDIMM</p></li>
+<li><p>NVDIMM-N: DIMM with flash storage and traditional DRAM on the same module () &#64;NVDIMM</p></li>
+<li><p>NVDIMM-P: enables computer main memory to be persistent () &#64;NVDIMM</p></li>
+<li><p>NVRAM: Non-Volatile Random-Access Memory (非易失性随机存取存储器)</p></li>
+<li><p>OFED: OpenFabrics Enterprise Distribution (OpenFabrics企业分发)</p></li>
+<li><p>PD: Physical Disk (物理磁盘)</p></li>
+<li><p>RAID: Redundant Arrays of Independent Disks (独立磁盘冗余阵列)</p></li>
+<li><p>RPMB: Replay Protected Memory Block (Partition)</p></li>
+<li><p>SAN: Storage Area Network (存储区域网络)</p></li>
+<li><p>SDS: Software Defined Storage (软件定义存储)</p></li>
+<li><p>SSD: Solid-State Drive (固态驱动)</p></li>
+<li><p>SCSI: Small Computer Systems Interface (小型计算机系统接口) &#64;iSCSI</p></li>
+<li><p>SPDK: Storage Performance Development Kit (存储性能开发套件) &#64;bdev</p></li>
+<li><p>SRP: SCSI RDMA Protocol ()</p></li>
+<li><p>UDA: User Data Area (Partition)</p></li>
+<li><p>VBR: Volume Boot Record (卷启动记录) &#64;EBR</p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Storage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="abbrev-device-tree.html" class="btn btn-neutral float-right" title="Abbrev Device Tree" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright (C) 2022-2026 Rong Tao.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
