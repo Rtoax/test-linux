@@ -94,7 +94,6 @@ if [[ ${VIRTIOFS} ]]; then
 	qargs+=( --virtio-fs-sock=/var/run/vhost-fs-git.sock --virtio-fs-tag Git )
 fi
 
-qargs+=( --name vm-test-cxl-$(mktemp -u XXXX) )
 qargs+=( --memory 8192MiB )
 qargs+=( --kernel ${VMLINUX} )
 qargs+=( --initrd ${INITRD} )
@@ -174,15 +173,17 @@ case ${CUSTOM} in
 	custom_cxl_2
 	;;
 "")
-	cxlargs+=( --cxl device=cxl-pmem-4way )
+	CUSTOM=cxl-vmem-4way
+	cxlargs+=( --cxl device=${CUSTOM} )
 	;;
 *)
-	echo >&2 "ERROR: not support CUSTOM=${CUSTOM}"
-	exit 1
+	cxlargs+=( --cxl device=${CUSTOM} )
 	;;
 esac
 
 [[ -z ${NOCXL} ]] && qargs+=( ${cxlargs[@]} )
+
+qargs+=( --name cxl-${CUSTOM:+custom-${CUSTOM}-}$(mktemp -u XXXX) )
 
 try_run sudo qemu-vm "${qargs[@]}" "${@}"
 
