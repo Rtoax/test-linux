@@ -4,7 +4,6 @@
 #include <obstack.h>
 #include <pthread.h>
 
-
 #define NR_THREAD 4
 
 void *mymalloc(ssize_t size)
@@ -24,7 +23,7 @@ char *copystring(struct obstack *obj, char *string)
 {
 	size_t len = strlen(string) + 1;
 	char *s = (char*)obstack_alloc(obj, len);
-	memcpy (s, string, len);
+	memcpy(s, string, len);
 	return s;
 }
 
@@ -40,10 +39,15 @@ void *routine_task(void *arg)
 	obstack_free(pobs, str1);
 	obstack_free(pobs, str2);
 
-	char *str3 = (char*)obstack_alloc(pobs, obstack_chunk_size(pobs));
-	printf("str3 = %p\n", str3);
-
+#ifdef ERROR
+	/**
+	 * FIXME: Aborted here.
+	 */
+	char *str3 = (char *)obstack_alloc(pobs, obstack_chunk_size(pobs));
+	printf("str3 = %p, chunck size %ld\n", str3, obstack_chunk_size(pobs));
 	obstack_free(pobs, str3);
+#endif
+
 	pthread_exit(NULL);
 }
 
@@ -55,10 +59,12 @@ int main(void)
 
 	obstack_init(&string_obstack);
 
-	printf("obstack_chunk_size = %ld\n", obstack_chunk_size(&string_obstack));
+	printf("obstack_chunk_size = %ld\n",
+	       obstack_chunk_size(&string_obstack));
 
 	for (i = 0; i < NR_THREAD; i++){
-		pthread_create(&threadids[i], NULL, routine_task, &string_obstack);
+		pthread_create(&threadids[i], NULL, routine_task,
+			       &string_obstack);
 	}
 
 	for (i = 0; i < NR_THREAD; i++){
@@ -69,4 +75,3 @@ int main(void)
 
 	return 0;
 }
-
