@@ -3,6 +3,7 @@ include openssl.mk
 
 subdir-y += access
 subdir-y += crypto
+subdir-y += cve
 subdir-${HAVE_OPENSSL} += openssl
 subdir-y += openssh
 subdir-y += pam

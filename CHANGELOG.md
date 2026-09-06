@@ -14,6 +14,7 @@ and this project adheres to
 - devtmpfs: add cxl directory;
 - debugfs: add directories `tracing/events/{pci,pci_controller}`;
 #### Changed
+- move cve into security directory;
 - devtmpfs: move some device/ to devtmpfs directory;
 - move licenses directory into Documentation;
 #### Deprecated
