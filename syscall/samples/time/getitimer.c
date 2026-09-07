@@ -5,12 +5,12 @@
 #include <string.h>
 #include <errno.h>
 
-
 void printmsg(int sig)
 {
 	printf("Hello world\n");
 	return ;
 }
+
 int main(void)
 {
 	struct itimerval curr_value;
@@ -19,10 +19,12 @@ int main(void)
 
 	signal(SIGALRM, printmsg);
 
-	tick.it_value.tv_sec = 1; //1s 后启动定时器
+	/* startup timer after 1s */
+	tick.it_value.tv_sec = 1;
 	tick.it_value.tv_usec = 2;
 
-	tick.it_interval.tv_sec = 1; //定时器启动后，每个一秒执行响应函数
+	/* Timer interval 1s */
+	tick.it_interval.tv_sec = 1;
 	tick.it_interval.tv_usec = 4;
 
 	ret = setitimer(ITIMER_REAL, &tick, NULL);
@@ -50,6 +52,6 @@ int main(void)
 	printf("it_value.tv_use = %ld\n", curr_value.it_value.tv_usec);
 
 	printf("Wait. getchar\n");
-	getchar();
+	sleep(2);
 	return 0;
 }

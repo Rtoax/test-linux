@@ -38,7 +38,7 @@ int main(void)
 
 	printf("Wait.\n");
 
-	getchar();
+	sleep(2);
 
 	return 0;
 }
