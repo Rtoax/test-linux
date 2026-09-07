@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.30"
+readonly VERSION="v1.1.31"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -799,7 +799,7 @@ destroy_vm() {
 }
 
 # $1: virtual machine name
-undefine_vm() {
+undefine_one_vm() {
 	local name=${1}
 	local dir=${TMPDIR}/${name}
 	local pidfile=${dir}/pidfile.pid
@@ -815,6 +815,15 @@ undefine_vm() {
 	config_prepare_vm_tmpdir ${name}
 
 	sudo rm -rf ${vm_tmpdir}
+}
+
+# $@: vm names
+undefine_vm() {
+	local name
+	for name in ${@}
+	do
+		undefine_one_vm ${name}
+	done
 }
 
 # $1: virtual machine name
