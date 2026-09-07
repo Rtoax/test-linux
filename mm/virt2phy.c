@@ -47,27 +47,31 @@
 #define LOG_DEBUG(fmt...) do {} while (0)
 #endif
 
-static int run_on_cpu;
-static int cpu_numa;
-int mbind_to_numa = -1;
-
-static struct mem {
+struct mem {
 	int prot;
 	int fd; /* file or memfd */
 	void *mem;
 	size_t sz;
-} map_file_ro, map_file_rw, map_file_rw_cow, map_anon_ro, map_anon_rw
+};
+
+#if defined(HAVE_MAIN)
+static int run_on_cpu;
+static int cpu_numa;
+static int mbind_to_numa = -1;
+
+static struct mem map_file_ro, map_file_rw, map_file_rw_cow, map_anon_ro,
+		map_anon_rw
 #ifdef CONFIG_MEMFD_CREATE
 , memfd_ro
 #endif
 ;
 
-unsigned long vaddr = 0;
-int verbose = false;
-int force = false;
-const char * const version = "v1.0.0";
+static unsigned long vaddr = 0;
+static int verbose = false;
+static int force = false;
+static const char *const version = "v1.0.1";
 
-const char argp_prog_doc[] =
+static const char argp_prog_doc[] =
 	"USAGE: [-b <NUMA>] [-v|--verbose] [-f|--force]\n";
 
 static const struct argp_option opts[] = {
@@ -120,7 +124,7 @@ static const struct argp argp = {
 	.parser = parse_arg,
 	.doc = argp_prog_doc,
 };
-
+#endif
 
 void mem_range_rw(void *mem, size_t sz, bool r, bool w)
 {
