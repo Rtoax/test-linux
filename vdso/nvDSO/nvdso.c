@@ -98,6 +98,7 @@ static int proc_pid_mem_read(int mem_fd, off_t paddr, void *buf, size_t len)
 	return ret;
 }
 
+#if 0
 static int proc_pid_mem_write(int mem_fd, off_t paddr, void *src, size_t len)
 {
 	int ret;
@@ -106,6 +107,7 @@ static int proc_pid_mem_write(int mem_fd, off_t paddr, void *src, size_t len)
 		LOG_ERROR("pwrite: %m.\n");
 	return ret;
 }
+#endif
 
 static int proc_vdso_dump(const char *filename)
 {
@@ -150,7 +152,6 @@ static int map_new_vdso(const char *vdsoelf, void *addr, size_t size, bool anon)
 	Elf64_Ehdr *ehdr;
 	int flags = MAP_PRIVATE;
 	int prot = PROT_READ | PROT_EXEC;
-	char *nvdso_name = "vdso.new";
 
 	fd = open(vdsoelf, O_RDONLY);
 	if (fd == -1) {
@@ -226,10 +227,12 @@ static int map_new_vdso(const char *vdsoelf, void *addr, size_t size, bool anon)
 		 * (isprint(3)), except '[', ']', '\', '$', and '`'.
 		 */
 		char *vma_name = getenv("NVDSO_NAME");
+		char *nvdso_name = "vdso.new";
 		if (vma_name)
 			nvdso_name = vma_name;
 		LOG_DEBUG("set vdso name to %s", nvdso_name);
-		if (prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, addr, size, nvdso_name) != 0) {
+		if (prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, addr, size,
+			  nvdso_name) != 0) {
 			perror("prctl: PR_SET_VMA_ANON_NAME");
 			ret = -EINVAL;
 		}
@@ -237,7 +240,6 @@ static int map_new_vdso(const char *vdsoelf, void *addr, size_t size, bool anon)
 # pragma message("Kernel is not support CONFIG_ANON_VMA_NAME!!!")
 #endif
 	}
-done_to_set_name:
 
 	ehdr = (void *)mem;
 
