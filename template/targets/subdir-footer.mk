@@ -23,11 +23,11 @@ endif
 define make_sub_dir
   $(call log_debug,${1} $(call strip_topdir_prefix,$(2)))
   $(Q)pushd $(2) >/dev/null || exit 1; \
-  start_ms=$$(date +%s%3N); \
+  start_ms=$$(date +%s%9N); \
   DRY_RUN=${DRY_RUN} ${MAKE} ${1} ${SUBMKFLAGS}; \
   makeret=$$?; \
-  end_ms=$$(date +%s%3N); \
-  cost_ms=$$((end_ms - start_ms)); \
+  end_ms=$$(date +%s%9N); \
+  cost_ms=$$(( (end_ms - start_ms) / 1000000 )); \
   if [ $${makeret} -ne 0 ]; then \
     $(call log_fail,${EMOJI_CROSS}${EMOJI_SAD} Failed ${1} $(call strip_topdir_prefix,$(2)) cost $${cost_ms} ms); \
     $(call _exit,${makeret}) \
