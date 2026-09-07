@@ -22,6 +22,8 @@ sudo cxl list --regions
 # - devdax: /dev/daxN.M (char device), commit 62cb28cc8244 ("cxl: devdax: create, list and test /dev/dax0.0")
 #   1. mmap(2): commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
 #   2. libpmem
+#
+# @SIZE: could different from create-region
 sudo ndctl create-namespace --region=region0 --mode=${MODE} --size=${SIZE}
 
 # note: Create namespace cost times...
