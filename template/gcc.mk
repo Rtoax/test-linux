@@ -15,7 +15,7 @@
 # - GCC_MACHINE=[x86_64-linux-gnu]
 #
 # Functions:
-# - gcc_{gt,ge,eq,lt,le}()=[y|n]
+# - gcc_{gt,ge,eq,lt,le}(major, minor, patchlevel)=[y|n]
 #
 ifndef _GCC_MK
 _GCC_MK = 1

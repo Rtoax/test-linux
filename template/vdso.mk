@@ -8,18 +8,20 @@
 ifndef _VDSO_MK
 _VDSO_MK = 1
 
+include dir.mk
+include gcc.mk
+
 VDSO_CFLAGS :=
-VDSO_ROOT := $(shell realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST))))/../vdso/)
 
 # kernel command line 'vdso=0' could disable vDSO
 CMDLINE_VDSO := $(shell grep -o vdso=0 /proc/cmdline)
 
 # see vdso(7)
 VDSO_NAME := linux-vdso.so.1
-VDSO_NAME_AARCH64 = linux-vdso.so.1
-VDSO_NAME_ARM = linux-vdso.so.1
-VDSO_NAME_X86_64 = linux-vdso.so.1
-VDSO_NAME_X86_32 = linux-vdso.so.1
+VDSO_NAME_AARCH64 = ${VDSO_NAME}
+VDSO_NAME_ARM = ${VDSO_NAME}
+VDSO_NAME_X86_64 = ${VDSO_NAME}
+VDSO_NAME_X86_32 = ${VDSO_NAME}
 
 KVDSO64 :=
 
@@ -36,7 +38,10 @@ ifeq ($(wildcard $(KVDSO64)),)
   KVDSO64 := ${VDSO_NAME}
 endif
 
-VDSO_CFLAGS += -nolibc
+# Note: OpenCloudOS 8.10 gcc 8.5.0 not support -nolibc
+ifeq ($(call gcc_gt,8,5,0),y)
+  VDSO_CFLAGS += -nolibc
+endif
 
 ifeq ($(shell uname -m),x86_64)
   # See linux:/arch/x86/entry/vdso/Makefile
@@ -60,12 +65,11 @@ endif
 
 # $1 - vdso name
 define gen_vdso_elf
-${Q}$(VDSO_ROOT)/dump.sh -s -n $1
+${Q}$(TOPDIR)/vdso/dump.sh -s -n $1
 endef
 
 ifdef DEBUG
   $(info CMDLINE_VDSO=${CMDLINE_VDSO})
-  $(info VDSO_ROOT ${VDSO_ROOT})
   $(info VDSO_NAME ${VDSO_NAME})
 endif
 
