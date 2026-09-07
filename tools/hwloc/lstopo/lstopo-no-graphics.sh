@@ -1,3 +1,3 @@
 #!/bin/bash
 set -e
-lstopo-no-graphics --of txt
+timeout 5 lstopo-no-graphics --of txt

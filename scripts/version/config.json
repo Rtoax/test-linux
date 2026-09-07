@@ -1,5 +1,5 @@
 {
-	"version": "0.0.22",
+	"version": "0.0.23",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -14,7 +14,7 @@
 			}
 		},
 		"tags": [ "boot", "bpf", "development", "document",
-			"networking", "software-management"
+			"networking", "software-management", "hardware"
 		]
 	},
 	"software": {
@@ -317,6 +317,12 @@
 			"path": [ "/opt/hpcc/" ],
 			"extension": [ "cu", "lc" ],
 			"keys": [ "hpcc", "htcc", "mars", "cuda" ]
+		},
+		"hwloc": {
+			"name": "hwloc",
+			"command": [ "lstopo" ],
+			"keys": [ "hwloc", "lstopo" ],
+			"tags": [ "hardware" ]
 		},
 		"iproute": {
 			"name": "IProute",

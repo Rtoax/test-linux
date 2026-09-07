@@ -1,3 +1,3 @@
 #!/bin/bash
 set -e
-lstopo --of txt
+timeout 5 lstopo --of txt
