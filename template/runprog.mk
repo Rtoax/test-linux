@@ -15,6 +15,7 @@ include dir.mk
 RUNPROG := ${TOPDIR}/scripts/runprog.sh
 
 $(if ${DEBUG}, $(eval RUNPROG += --verbose))
+$(if ${FORCE}, $(eval RUNPROG += --force))
 $(if ${TMOUT}, $(eval RUNPROG += --timeout ${TMOUT}))
 RUNPROG += ${RUNPROG_ARGS}
 

@@ -14,6 +14,7 @@ declare RECORD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
 declare LOG_FILE=runprog.log
 declare -a ENVS
 declare verbose=
+declare FORCE=
 declare SUDO=
 declare TMOUT=
 declare REAL_RET=0 EXPECT_RET=0
@@ -39,6 +40,7 @@ OPTIONS:
     --nolog            skipping log
     --nocmdlog         skipping cmd log file
 
+-f, --force            run force mode
 -v, --verbose          run verbose mode
 -h, --help             show this help information
 " | more
@@ -47,7 +49,7 @@ OPTIONS:
 }
 
 GETOPT_ARGS=$(getopt \
-	--options l:e:T:vh \
+	--options l:e:T:fvh \
 	--long log: \
 	--long nolog \
 	--long nocmdlog \
@@ -55,6 +57,7 @@ GETOPT_ARGS=$(getopt \
 	--long env: \
 	--long help \
 	--long tty \
+	--long force \
 	--long verbose \
 	--long maybe-sudo \
 	--long expect-return: \
@@ -92,6 +95,10 @@ while true; do
 		shift
 		ENVS+=( ${1} )
 		shift
+		;;
+	-f | --force)
+		shift
+		FORCE=ON
 		;;
 	-v | --verbose)
 		shift
@@ -201,7 +208,13 @@ if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	if [[ ${RECORD_FILE} ]]; then
 		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}, err ${REAL_RET}" >> ${RECORD_FILE}
 	fi
-	error "${@}: run failed, exit with ${REAL_RET} (expect ${EXPECT_RET})"
+
+	logmsg="${@}: run failed, exit with ${REAL_RET} (expect ${EXPECT_RET})"
+	if [[ ${FORCE} ]]; then
+		warning "${logmsg}"
+	else
+		error "${logmsg}"
+	fi
 else
 	if [[ ${RECORD_FILE} ]]; then
 		echo -e "Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}" >> ${RECORD_FILE}

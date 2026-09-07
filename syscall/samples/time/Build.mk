@@ -20,4 +20,4 @@ nanosleep-objs := time_helpers.o
 LDFLAGS += -pthread
 LDFLAGS += -lrt
 
-prog-y := $(filter-out timer-demo, ${target-y})
+prog-y := $(filter-out setitimer setitimer-1 settimeofday timer-demo, ${target-y})
