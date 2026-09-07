@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.2"
+readonly LIBQEMU_CXL_VERSION="v0.0.3"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -999,16 +999,17 @@ cxl_topolopy() {
 		fi
 
 		[[ -z ${rp} ]] && error "not found root-port or switch-downstream-port for '${mem_id}'"
-		cxl_display_topo "${rp}->"
 
 		recursive_switch_find_pxb() {
 			pxb=${cxl_rp2pxb[$rp]}
 			swup=${cxl_switch_down2up[$rp]}
 
+			cxl_display_topo "${rp}->"
+
 			if [[ -z ${pxb} ]] && [[ -z ${swup} ]]; then
 				error "'${rp}' appears to be neither root-port and switch-downstream-port"
 			elif [[ -z ${pxb} ]] && [[ ${swup} ]]; then
-				cxl_display_topo "${rp}->${swup}->"
+				cxl_display_topo "${swup}->"
 				# When CXL switches are cascaded, it is
 				# necessary to recursively traverse all
 				# switches to find the root port and pxb.
