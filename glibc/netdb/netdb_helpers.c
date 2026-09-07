@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+#include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,9 +10,10 @@
 #include <string.h>
 #include "netdb_helpers.h"
 
-
 int print_netent(struct netent *net)
 {
+	if (!net)
+		return -EINVAL;
 	printf("netent: n_name: %s\n", net->n_name);
 	printf("netent: n_aliases[0]: %s\n", net->n_aliases[0]);
 	printf("netent: n_addrtype: %d\n", net->n_addrtype);
@@ -31,7 +33,7 @@ int print_hostent(struct hostent *host)
 	struct in_addr in;
 
 	if (!host)
-		return -1;
+		return -EINVAL;
 
 	printf("Domain name: %s \n", host->h_name);
 	for (i = 0; host->h_aliases[i]; i++) {
@@ -51,6 +53,8 @@ int print_hostent(struct hostent *host)
 
 int print_servent(struct servent *ser)
 {
+	if (!ser)
+		return -EINVAL;
 	printf("name:  %s\n", ser->s_name);
 	printf("port:  %d\n", ntohs(ser->s_port));
 	printf("proto: %s\n", ser->s_proto);
@@ -60,6 +64,8 @@ int print_servent(struct servent *ser)
 
 int print_protoent(struct protoent *pro)
 {
+	if (!pro)
+		return -EINVAL;
 	printf("name:   %s\n", pro->p_name);
 	printf("number: %d\n", pro->p_proto);
 	printf("alias:  %s\n", pro->p_aliases[0]);
