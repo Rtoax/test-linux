@@ -27,4 +27,5 @@ static void __attribute__((destructor(109))) after2(void)
 int foo_ctor(void)
 {
 	printf("call foo_ctor.\n");
+	return 0;
 }
