@@ -173,8 +173,9 @@ custom_cxl_3() {
 
 	cxlargs+=( --cxl switch,bus=rp.1,nport=4,portprefix=sw1 )
 	cxlargs+=( --cxl switch,bus=sw1.1,nport=4,portprefix=sw2 )
+	cxlargs+=( --cxl switch,bus=sw2.1,nport=4,portprefix=sw3 )
 
-	cxlargs+=( --cxl vmem=vmem.1,bus=sw2.1,lsa=vmem.1.lsa )
+	cxlargs+=( --cxl vmem=vmem.1,bus=sw3.1,lsa=vmem.1.lsa )
 }
 
 case ${CUSTOM} in
