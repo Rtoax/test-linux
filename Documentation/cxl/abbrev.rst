@@ -31,6 +31,7 @@ CXL Abbrev
 - DSP: Downstream Switch Port (下游交换端口) @USP
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
 - EP: Endpoint (端点) @MCTP
+- Flit: Flexible-Length Interface Transport (柔性长度接口传输，一种长度可变的数据包格式)
 - FM: Fabric Manager (CXL 结构管理器) @MCTP
 - FMLD: FM owned LD (FM 拥有的逻辑设备)
 - H2D: Host to Device (主机到设备) @D2H @CXL.cache
@@ -54,6 +55,7 @@ CXL Abbrev
 - NXM: Non-eXistent Memory (不存在的内存)
 - OMI: Open Memory Interface (开放内存接口)
 - OSC: Operating System Capabilities (操作系统能力)
+- PBR: Port Based Routing (端口路由)
 - PDM: Private Device Memory (私有设备内存)
 - PXB: PCI eXpander Bridge (PCI 扩展桥) @HDM
 - RCEC: Root Complex Event Collector (根联合体事件收集器) @RDPAS
