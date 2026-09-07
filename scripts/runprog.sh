@@ -21,6 +21,7 @@ declare REAL_RET=0 EXPECT_RET=0
 declare NEED_TTY=
 
 . ${WHERE_AM_I}/liblog.sh
+. ${WHERE_AM_I}/libtime.sh
 
 __usage__()
 {
@@ -190,6 +191,7 @@ exec_without_log() {
 	}
 }
 
+start_nsecs=$(get_nsecs)
 if [[ ${LOG_FILE} ]]; then
 	# Need TTY, do not redirect stdio.
 	if [[ -n ${NEED_TTY} ]]; then
@@ -202,11 +204,15 @@ if [[ ${LOG_FILE} ]]; then
 else
 	exec_without_log
 fi
+end_nsecs=$(get_nsecs)
+cost_nsecs=$(( end_nsecs - start_nsecs ))
+cost_ms=$(( cost_nsecs / 1000000 ))
+costlogmsg="cost ${cost_ms} ms"
 
 if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
 	if [[ ${RECORD_FILE} ]]; then
-		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}, err ${REAL_RET}" >> ${RECORD_FILE}
+		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}, err ${REAL_RET}, ${costlogmsg}" >> ${RECORD_FILE}
 	fi
 
 	logmsg="${@}: run failed, exit with ${REAL_RET} (expect ${EXPECT_RET})"
@@ -217,7 +223,7 @@ if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	fi
 else
 	if [[ ${RECORD_FILE} ]]; then
-		echo -e "Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}" >> ${RECORD_FILE}
+		echo -e "Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}, ${costlogmsg}" >> ${RECORD_FILE}
 	fi
 fi
 
