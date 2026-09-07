@@ -25,6 +25,7 @@ prog-y += libqemu_examples.sh
 prog-y += libqemu-cxl_examples.sh
 prog-y += libso-multiver_examples.sh
 prog-y += libstring_examples.sh
+prog-y += libtime_examples.sh
 prog-y += libuuid_examples.sh
 prog-y += libyes_examples.sh
 prog-y += termplot_examples.sh

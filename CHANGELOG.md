@@ -26,6 +26,8 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- libtime.sh: add `get_nsecs()`;
+- add `libtime.sh` and `libtime_examples.sh`;
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;
 - add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`, libyes.sh, `libyes_examples.sh`;
 #### Tools
