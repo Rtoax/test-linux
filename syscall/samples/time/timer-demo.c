@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
 void sigev_notify_fn(union sigval sv)
 {
 	timer_t *ptimerid = (timer_t *)sv.sival_ptr;
@@ -53,4 +52,3 @@ int main(void)
 
 	return 0;
 }
-

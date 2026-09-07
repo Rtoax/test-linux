@@ -14,15 +14,12 @@ target-y += timegm
 target-y += gmtime
 target-y += mktime
 
-target-y += timer_create
-target-y += timer-demo
-
 target-y += iso8601
 target-y += timeval
 target-y += show_systime
 target-y += process-runtime
 
-prog-y += $(filter-out timer-demo process-runtime, ${target-y})
+prog-y += $(filter-out process-runtime, ${target-y})
 
 getdate-objs := time_helpers.o
 localtime-objs := time_helpers.o

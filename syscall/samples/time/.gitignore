@@ -12,3 +12,5 @@
 /gettimeofday
 /settimeofday
 /time
+/timer_create
+/timer-demo

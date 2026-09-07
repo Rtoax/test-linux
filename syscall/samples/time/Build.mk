@@ -8,6 +8,8 @@ target-y += nanosleep
 target-y += timeval
 target-y += getitimer setitimer setitimer-1
 target-y += gettimeofday settimeofday
+target-y += timer_create
+target-y += timer-demo
 
 clock_getres-objs := time_helpers.o
 clock_gettime-objs := time_helpers.o
@@ -16,3 +18,6 @@ clock_nanosleep-objs := time_helpers.o
 nanosleep-objs := time_helpers.o
 
 LDFLAGS += -pthread
+LDFLAGS += -lrt
+
+prog-y := $(filter-out timer-demo, ${target-y})
