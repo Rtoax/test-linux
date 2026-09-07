@@ -36,7 +36,10 @@ CXL Abbrev
 - FMLD: FM owned LD (FM 拥有的逻辑设备)
 - H2D: Host to Device (主机到设备) @D2H @CXL.cache
 - HBR: Hierarchical Based Routing (基于层次路由) @PBR
-- HDM: Host-managed Device Memory (主机管理的设备内存) @PDM
+- HDM: Host-managed Device Memory (主机管理的设备内存) @PDM @HDM-H @HDM-D
+- HDM-D: HDM Bias based Device Coherent (基于偏置的设备一致性) @HDM
+- HDM-DB: HDM Device Coherent using Back-Invalidate (使用反向失效的设备一致性) @HDM
+- HDM-H: HDM Host-only Coherent (主机一致性) @HDM
 - IG: Interleave Granularity (交织粒度)
 - ISP: Interleave Set Position (交织 Set 位置)
 - IW: Interleave Way (交织 Way)
