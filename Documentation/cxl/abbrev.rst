@@ -35,6 +35,7 @@ CXL Abbrev
 - FM: Fabric Manager (CXL 结构管理器) @MCTP
 - FMLD: FM owned LD (FM 拥有的逻辑设备)
 - H2D: Host to Device (主机到设备) @D2H @CXL.cache
+- HBR: Hierarchical Based Routing (基于层次路由) @PBR
 - HDM: Host-managed Device Memory (主机管理的设备内存) @PDM
 - IG: Interleave Granularity (交织粒度)
 - ISP: Interleave Set Position (交织 Set 位置)
@@ -55,7 +56,7 @@ CXL Abbrev
 - NXM: Non-eXistent Memory (不存在的内存)
 - OMI: Open Memory Interface (开放内存接口)
 - OSC: Operating System Capabilities (操作系统能力)
-- PBR: Port Based Routing (端口路由)
+- PBR: Port Based Routing (端口路由) @HBR
 - PDM: Private Device Memory (私有设备内存)
 - PXB: PCI eXpander Bridge (PCI 扩展桥) @HDM
 - RCEC: Root Complex Event Collector (根联合体事件收集器) @RDPAS
