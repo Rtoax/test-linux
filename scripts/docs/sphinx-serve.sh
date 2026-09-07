@@ -4,7 +4,7 @@ set -e
 
 readonly MYDIR=$(dirname $(realpath $0))
 readonly DOCDIR=$(realpath ${MYDIR}/../../Documentation/)
-readonly sphinx_build=${MYDIR}/sphinx-build.sh
+readonly doc_build=${MYDIR}/sphinx-build.sh
 
 monitor_pid=
 server_pid=
@@ -15,6 +15,13 @@ hint()
 	echo -e "\033[1;32m-----------------------------------------------\033[m"
 	echo -e "\033[1;32mWebsite: http://localhost:${PORT}/\033[m"
 	echo -e "\033[1;32m-----------------------------------------------\033[m"
+}
+
+doc_server()
+{
+	python -m http.server ${PORT} --directory ./build/html/ &
+	server_pid=$!
+	echo "server $server_pid"
 }
 
 kill_all()
@@ -44,7 +51,7 @@ file_monitor()
 		local exit_code=$?
 		if [[ $exit_code -eq 0 ]]; then
 			# build again
-			$sphinx_build || {
+			$doc_build || {
 				continue
 			}
 			hint
@@ -55,7 +62,7 @@ file_monitor()
 	done
 }
 
-${sphinx_build}
+${doc_build}
 
 pushd ${DOCDIR}
 
@@ -63,9 +70,7 @@ file_monitor &
 monitor_pid=$!
 echo "Monitor $monitor_pid"
 
-python -m http.server ${PORT} --directory ./build/html/ &
-server_pid=$!
-echo "Server $server_pid"
+doc_server
 hint
 
 sig_handler()
