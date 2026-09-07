@@ -57,6 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
+readonly LIBQEMU_CXL_VERSION="v0.0.1"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
