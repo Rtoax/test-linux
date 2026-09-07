@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.29"
+readonly VERSION="v1.1.30"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -717,7 +717,7 @@ ${BOLD}NAME${RST}
     ${PROG} destroy - Destroy virtual machine
 
 ${BOLD}SYNOPSIS${RST}
-    ${PROG} ${BOLD}destroy${RST} [--force] <name>
+    ${PROG} ${BOLD}destroy${RST} [--force] <name...>
 
 ${BOLD}OPTIONS${RST}
     -h, --help     show this information
@@ -791,7 +791,11 @@ destroy_vm() {
 		esac
 	done
 
-	destroy_one_vm ${1}
+	local name
+	for name in ${@}
+	do
+		destroy_one_vm ${name}
+	done
 }
 
 # $1: virtual machine name
