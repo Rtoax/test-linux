@@ -166,6 +166,8 @@ custom_cxl_2() {
 }
 
 # Multi-level switch
+# commit 01b7599e8876 ("libqemu-cxl.sh: cxl-switch support cascading")
+# commit 6645c5129d6a ("cxl: vm.sh: Three-level cascading of switches")
 custom_cxl_3() {
 	cxlargs+=( --cxl pxb=pxb.1 )
 
