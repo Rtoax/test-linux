@@ -593,7 +593,7 @@ ${BOLD}OPTIONS${RST}
 list_vm() {
 	local i name max_name_len=0
 	local vmnames=()
-	local id=0
+	local vmid=0
 	local list_all list_port list_qemucmd
 	local LIST_VM_ARGS
 
@@ -694,7 +694,7 @@ list_vm() {
 			state="non-exist"
 		fi
 
-		printf "%-4d %-*s %-12s" ${id} ${max_name_len} ${name} ${state}
+		printf "%-4d %-*s %-12s" ${vmid} ${max_name_len} ${name} ${state}
 		if [[ ${list_port} ]]; then
 			printf " %-8d" $(get_port_hostfwd_ssh22)
 			printf " %-8d" $(get_port_monitor_telnet)
@@ -707,7 +707,7 @@ list_vm() {
 			printf "\033[m"
 		fi
 
-		id=$((id + 1))
+		vmid=$((vmid + 1))
 	done
 }
 
