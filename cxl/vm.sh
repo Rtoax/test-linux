@@ -165,12 +165,27 @@ custom_cxl_2() {
 	cxlargs+=( --cxl vmem=vmem.2,bus=rp.2,lsa=vmem.2.lsa )
 }
 
+# Multi-level switch
+custom_cxl_3() {
+	cxlargs+=( --cxl pxb=pxb.1 )
+
+	cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
+
+	cxlargs+=( --cxl switch,bus=rp.1,nport=4,portprefix=sw1 )
+	cxlargs+=( --cxl switch,bus=sw1.1,nport=4,portprefix=sw2 )
+
+	cxlargs+=( --cxl vmem=vmem.1,bus=sw2.1,lsa=vmem.1.lsa )
+}
+
 case ${CUSTOM} in
 1)
 	custom_cxl_1
 	;;
 2)
 	custom_cxl_2
+	;;
+3 | multi-level-switch)
+	custom_cxl_3
 	;;
 "")
 	CUSTOM=cxl-vmem-4way
@@ -180,6 +195,8 @@ case ${CUSTOM} in
 	cxlargs+=( --cxl device=${CUSTOM} )
 	;;
 esac
+
+cxlargs+=( --cxl show=topo )
 
 [[ -z ${NOCXL} ]] && qargs+=( ${cxlargs[@]} )
 

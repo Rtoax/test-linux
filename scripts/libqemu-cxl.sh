@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.1"
+readonly LIBQEMU_CXL_VERSION="v0.0.2"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -495,7 +495,7 @@ add_cxl_root_port() {
 	# Each root port belongs to one single pxb, and pxb has many root port.
 	cxl_pxb2rps[${bus}]+=" ${id}"
 	[[ ${cxl_rp2pxb[${id}]} ]] && \
-		error "cxl rp ${id} already has pxb ${cxl_rp2pxb[${id}]}"
+		error "cxl root-port '${id}' already has pxb '${cxl_rp2pxb[${id}]}'"
 	cxl_rp2pxb[${id}]="${bus}"
 
 	cxl_qargs+=( -device $(IFS=,; echo "${arg[*]}") )
@@ -934,7 +934,7 @@ cxl_volatile_mem_4way_switch_dc() {
 	__cxl_volatile_mem_4way_switch dc
 }
 
-pcxltopo() {
+cxl_display_topo() {
 	if [[ -z ${cxl_show_topology} ]]; then
 		return
 	fi
@@ -944,25 +944,25 @@ pcxltopo() {
 cxl_topolopy() {
 	local pxb rp swup swdown pvmem
 
-	pcxltopo "cxl_pxb_ids: [${cxl_pxb_ids[*]}]\n"
+	cxl_display_topo "cxl_pxb_ids: [${cxl_pxb_ids[*]}]\n"
 	for pxb in ${cxl_pxb_ids[@]}
 	do
-		pcxltopo "cxl_pxb_fmw[$pxb]: ${cxl_pxb_fmw[$pxb]}\n"
-		pcxltopo "cxl_pxb2rps[${pxb}]: ${cxl_pxb2rps[$pxb]}\n"
+		cxl_display_topo "cxl_pxb_fmw[$pxb]: ${cxl_pxb_fmw[$pxb]}\n"
+		cxl_display_topo "cxl_pxb2rps[${pxb}]: ${cxl_pxb2rps[$pxb]}\n"
 		for rp in ${cxl_pxb2rps[$pxb]}
 		do
 			if [[ "${cxl_rp2swup[$rp]}" ]]; then
-				pcxltopo "cxl_rp2swup[$rp]: ${cxl_rp2swup[$rp]}\n"
+				cxl_display_topo "cxl_rp2swup[$rp]: ${cxl_rp2swup[$rp]}\n"
 				for swup in ${cxl_rp2swup[$rp]}
 				do
-					pcxltopo "cxl_switch_up2downs[$swup]: ${cxl_switch_up2downs[$swup]}\n"
+					cxl_display_topo "cxl_switch_up2downs[$swup]: ${cxl_switch_up2downs[$swup]}\n"
 					for swdown in ${cxl_switch_up2downs[$swup]}
 					do
-						pcxltopo "cxl_switch_down2pvmem[$swdown] = ${cxl_switch_down2pvmem[$swdown]}\n"
+						cxl_display_topo "cxl_switch_down2pvmem[$swdown] = ${cxl_switch_down2pvmem[$swdown]}\n"
 					done
 				done
 			elif [[ "${cxl_rp2pvmem[$rp]}" ]]; then
-				pcxltopo "cxl_rp2pvmem[$rp]: ${cxl_rp2pvmem[$rp]}\n"
+				cxl_display_topo "cxl_rp2pvmem[$rp]: ${cxl_rp2pvmem[$rp]}\n"
 			fi
 		done
 	done
@@ -986,23 +986,42 @@ cxl_topolopy() {
 		[[ ${pmemsz} ]] && memsz=${pmemsz}
 		[[ ${vmemsz} ]] && memsz=${vmemsz}
 
-		pcxltopo "${mem_id}(${memname},size=${memsz})->"
+		cxl_display_topo "${mem_id}(${memname},size=${memsz})->"
 
 		swdown=${bus}
 		swup=${cxl_switch_down2up[$swdown]}
 
 		if [[ ${swup} ]]; then
-			pcxltopo "${swdown}->${swup}->"
+			cxl_display_topo "${swdown}->${swup}->"
 			rp=${cxl_switch_up2rp[$swup]}
 		else
 			rp=${bus}
 		fi
 
-		[[ -z ${rp} ]] && error "not found rp"
-		pcxltopo "${rp}->"
+		[[ -z ${rp} ]] && error "not found root-port or switch-downstream-port for '${mem_id}'"
+		cxl_display_topo "${rp}->"
 
-		pxb=${cxl_rp2pxb[$rp]}
-		[[ -z ${pxb} ]] && error "not found pxb"
+		recursive_switch_find_pxb() {
+			pxb=${cxl_rp2pxb[$rp]}
+			swup=${cxl_switch_down2up[$rp]}
+
+			if [[ -z ${pxb} ]] && [[ -z ${swup} ]]; then
+				error "'${rp}' appears to be neither root-port and switch-downstream-port"
+			elif [[ -z ${pxb} ]] && [[ ${swup} ]]; then
+				cxl_display_topo "${rp}->${swup}->"
+				# When CXL switches are cascaded, it is
+				# necessary to recursively traverse all
+				# switches to find the root port and pxb.
+				rp=${cxl_switch_up2rp[$swup]}
+				recursive_switch_find_pxb
+			elif [[ ${pxb} ]] && [[ -z ${swup} ]]; then
+				# Found pxb
+				return 0
+			else
+				error "duplicate name of '${rp}' for both root-port and switch-downstream port"
+			fi
+		}
+		recursive_switch_find_pxb
 
 		# update pxb size
 		memsz=$(size2bytes ${memsz})
@@ -1010,12 +1029,12 @@ cxl_topolopy() {
 		prevsz=$(sizeceilfmt $(( prevsz + memsz )))
 		cxl_pxb_sizes[$pxb]=${prevsz}
 
-		pcxltopo "${pxb}(fmw=${cxl_pxb_fmw[$pxb]})->${BUS_PCIE0}\n"
+		cxl_display_topo "${pxb}(fmw=${cxl_pxb_fmw[$pxb]})->${BUS_PCIE0}\n"
 	done
 
 	for pxb in ${!cxl_pxb_sizes[@]}
 	do
-		pcxltopo "pxb ${pxb} total size ${cxl_pxb_sizes[$pxb]}\n"
+		cxl_display_topo "pxb ${pxb} total size ${cxl_pxb_sizes[$pxb]}\n"
 	done
 }
 
