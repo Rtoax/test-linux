@@ -6,7 +6,7 @@ subdir-y := adaptive-oom-score
 target-y := oom
 target-y += oom_minimal
 
-oom-objs := glibc.o ${OOM_HELPERS} ${PROC_HELPERS} ${TLC_HELPERS}
+oom-objs := glibc.o mmap.o ${OOM_HELPERS} ${PROC_HELPERS} ${TLC_HELPERS}
 
 CFLAGS += ${libcgroup-cflags}
 LDFLAGS += ${libcgroup-ldflags}

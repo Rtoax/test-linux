@@ -187,17 +187,6 @@ static inline void whitespace(FILE *fp, int n)
 		____prev_n = ____n;				\
 	} while (0)
 
-void *mmap_anon_alloc(size_t size)
-{
-	return mmap(NULL, size, PROT_READ | PROT_WRITE,
-		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-}
-
-void mmap_anon_free(void *mem, size_t size)
-{
-	munmap(mem, size);
-}
-
 void default_pagefault(void *mem, size_t size, bool pf_verbose)
 {
 	size_t i;
@@ -219,14 +208,6 @@ void default_pagefault(void *mem, size_t size, bool pf_verbose)
 		}
 	}
 }
-
-struct oom_operations mmap_anon_ops = {
-	.name = "MMAP",
-	.total_size = 0,
-	.alloc = mmap_anon_alloc,
-	.pagefault = default_pagefault,
-	.free = mmap_anon_free,
-};
 
 int test_popen(void)
 {

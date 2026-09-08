@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include "oom.h"
 
-void *glibc_alloc(size_t size)
+static void *glibc_alloc(size_t size)
 {
 	return malloc(size);
 }
 
-void glibc_free(void *mem, size_t size)
+static void glibc_free(void *mem, size_t size)
 {
 	free(mem);
 }

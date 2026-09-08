@@ -19,8 +19,6 @@ struct oom_operations {
 };
 
 extern struct oom_operations glibc_ops;
-
-void *glibc_alloc(size_t size);
-void glibc_free(void *mem, size_t size);
+extern struct oom_operations mmap_anon_ops;
 
 void default_pagefault(void *mem, size_t size, bool pf_verbose);
