@@ -16,11 +16,11 @@ sudo cxl list --regions
 
 # Create namespace
 # Could create more than one namespaces, you just need call 'create-namespace'
-# multiple times.
+# multiple times, see commit 6954f5147000 ("cxl: pmem: create more than one
+# namespaces (block and device) from one region")
 #
 # mode: raw, fsdax, devdax
 # - raw: /dev/pmemN (block device), commit df86a43c93e1 ("cxl: pmem: test 'raw' mode (same as fsdax)")
-#   see also 'fsdax'
 # - fsdax: /dev/pmemN (block device), commit d61a78f78d31 ("cxl: pmem: test block device of 1way pmem")
 # - devdax: /dev/daxN.M (char device), commit 62cb28cc8244 ("cxl: devdax: create, list and test /dev/dax0.0")
 #   1. mmap(2): commit 1a630215e445 ("cxl: pmem: test --mode=devdax")
