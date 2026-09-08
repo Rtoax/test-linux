@@ -187,16 +187,6 @@ static inline void whitespace(FILE *fp, int n)
 		____prev_n = ____n;				\
 	} while (0)
 
-void *glibc_alloc(size_t size)
-{
-	return malloc(size);
-}
-
-void glibc_free(void *mem, size_t size)
-{
-	free(mem);
-}
-
 void *mmap_anon_alloc(size_t size)
 {
 	return mmap(NULL, size, PROT_READ | PROT_WRITE,
@@ -229,14 +219,6 @@ void default_pagefault(void *mem, size_t size, bool pf_verbose)
 		}
 	}
 }
-
-struct oom_operations glibc_ops = {
-	.name = "GLIBC",
-	.total_size = 0,
-	.alloc = glibc_alloc,
-	.pagefault = default_pagefault,
-	.free = glibc_free,
-};
 
 struct oom_operations mmap_anon_ops = {
 	.name = "MMAP",
