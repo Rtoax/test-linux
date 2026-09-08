@@ -11,8 +11,8 @@
 #     awk '{print $1, $2}' /proc/loadavg
 #   done | ttyplot -t "Load Averages (1m, 5m)" -u "load" -2
 #
-# Note: `while :; do tput; print; done` mode is too slow, we should use pure C.
-# see tools/ncurses/tools/plotcake.c.
+# Note: `while :; do tput; print; done` mode is too slow, we should use pure C,
+# see tools/ncurses/tools/plotcake.c or github.com/rtoax/plotcake.
 set -e
 
 if [[ ${VERBOSE} ]]; then
@@ -56,7 +56,8 @@ cleanup() {
 	tput rmcup
 	stty "$old_tty"
 	exec 2>&-
-	echo -e "\033[1;31mWARNING: Using ncurses/tools is better!\033[m"
+	echo -e "\033[1;31mWARNING: Using ncurses/tools (plotcake) is better!\033[m"
+	echo -e "\033[1;31m         plotcake: github.com/rtoax/plotcake\033[m"
 	exit ${ret}
 }
 
