@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.33"
+readonly VERSION="v1.1.34"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -750,6 +750,8 @@ destroy_one_vm() {
 		fi
 	}
 
+	warning "Destroy virtual machine '${name}'"
+
 	if [[ -f ${f_vm_port_monitor_telnet} ]]; then
 		warning "Destroy ${name} with Qemu monitor"
 		echo "system_powerdown" | sudo nc localhost $(cat ${f_vm_port_monitor_telnet})
@@ -815,6 +817,7 @@ undefine_one_vm() {
 
 	config_prepare_vm_tmpdir ${name}
 
+	warning "Undefining virtual machine '${name}'"
 	sudo rm -rf ${vm_tmpdir}
 }
 
@@ -843,6 +846,7 @@ start_vm() {
 
 	config_prepare_vm_tmpdir ${name}
 
+	warning "Starting virtual machine '${name}'"
 	sudo ${SHELL} ${vm_qemu_cmd}
 }
 
