@@ -19,4 +19,8 @@ show
 tmux send-keys -t "$SESSION" "q"
 show
 
+# tmux attach-session -t $SESSION
+# Then, open new terminal:
+# tmux detach-client
+
 tmux kill-session -t $SESSION

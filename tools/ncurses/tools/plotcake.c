@@ -69,8 +69,13 @@ const char argp_prog_doc[] = ANSI_BOLD
 	"   " ANSI_GRAY "# Draw one line\n" ANSI_RST ANSI_GREEN
 	"   $ seq 1 1 10 | plotcake\n" ANSI_RST "   " ANSI_GRAY
 	"# Draw ten line\n" ANSI_RST ANSI_GREEN
-	"   $ seq -s=' ' 1 1 10 | plotcake\n" ANSI_RST "\n" ANSI_BOLD
-	"SHORTCUT KEY:\n" ANSI_RST "\n"
+	"   $ seq -s=' ' 1 1 10 | plotcake\n" ANSI_RST "\n"
+	"   " ANSI_GRAY "# Work with tmux\n" ANSI_RST ANSI_GREEN
+	"   $ tmux new-session -d -s plotcake plotcake [options]\n"
+	"   $ tmux attach-session -t plotcake\n"
+	"   $ tmux detach-client " ANSI_RST ANSI_GRAY
+	"# Anther terminal\n" ANSI_RST "\n" ANSI_BOLD "SHORTCUT KEY:\n" ANSI_RST
+	"\n"
 	"   " KEY_HELP_h "\n"
 	"   " KEY_HELP_l "\n"
 	"   " KEY_HELP_q "\n"
