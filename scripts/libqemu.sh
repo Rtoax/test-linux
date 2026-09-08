@@ -1,7 +1,9 @@
 #!/bin/bash
 # SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 # Copyright (C) 2023-2026 Rong Tao. All rights reserved.
+if [[ -z ${__LIBQEMU_SH} ]]; then
 
+readonly LIBQEMU_VERSION="v0.1.0"
 readonly LIBQEMU_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_ROOT}/liblog.sh
@@ -54,3 +56,6 @@ get_qemu_kvm_emulator()
 	get_qemu_kvm_emulator_arch $(uname -m)
 	return 0
 }
+
+export __LIBQEMU_SH=1
+fi # end of __LIBQEMU_SH

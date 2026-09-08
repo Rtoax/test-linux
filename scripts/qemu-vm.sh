@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.32"
+readonly VERSION="v1.1.33"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -1574,6 +1574,7 @@ while true; do
 	-V | --version)
 		shift
 		echo -e "${BOLD}${PROG}${RST} ${VERSION}"
+		echo -e "  ${BOLD}libqemu${RST} ${LIBQEMU_VERSION}"
 		echo -e "  ${BOLD}libqemu-cxl${RST} ${LIBQEMU_CXL_VERSION}"
 		echo -e "  ${BOLD}libqemu-ipmi${RST} ${LIBQEMU_IPMI_VERSION}"
 		exit 0

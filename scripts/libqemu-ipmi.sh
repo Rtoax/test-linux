@@ -3,8 +3,11 @@
 # Copyright (C) 2026 Rong Tao. All rights reserved.
 
 readonly LIBQEMU_IPMI_VERSION="v0.0.1"
+readonly LIBQEMU_IPMI_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 declare -a ipmi_qargs
+
+. ${LIBQEMU_IPMI_ROOT}/libqemu.sh
 
 # IPMI BMC
 config_bmc() {
