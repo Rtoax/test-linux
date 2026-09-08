@@ -1619,7 +1619,7 @@ config_prepare_vm_tmpdir ${q_vm_name}
 config_vm_tmpdir
 config_basic
 config_monitor
-config_bmc
+config_bmc ${ARCH}
 config_memory
 config_cpu
 config_uefi
