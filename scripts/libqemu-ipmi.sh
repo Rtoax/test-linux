@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 # Copyright (C) 2026 Rong Tao. All rights reserved.
 
-readonly LIBQEMU_IPMI_VERSION="v0.0.2"
+readonly LIBQEMU_IPMI_VERSION="v0.0.3"
 readonly LIBQEMU_IPMI_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 declare -a ipmi_qargs
@@ -12,8 +12,8 @@ declare -a ipmi_qargs
 ipmi_check_device() {
 	local qemu=$(get_qemu_kvm_emulator)
 
-	local log=$(timeout 0.5 qemu-system-aarch64 -machine virt --nographic "${@}" 2>&1 || :)
-	if [[ " ${log} " =~ " 'ipmi-bmc-sim' is not a valid device model name " ]]; then
+	if [[ "$(timeout 0.5 ${qemu} -machine virt --nographic "${@}" 2>&1 | \
+			grep 'is not a valid device model name')" ]]; then
 		return
 	fi
 	echo YES
