@@ -1634,6 +1634,7 @@ config_virtiofs
 [[ -n ${have_cxl} ]] && qmachine+=( "${cxl_qmachine[@]}" )
 qmachine=( $(printf "%s\n" ${qmachine[@]} | sort -u) )
 [[ -n ${have_cxl} ]] && qargs+=( ${cxl_qargs[@]} )
+qargs+=( ${ipmi_qargs[@]} )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 [[ -n ${have_cxl} ]] && kcmds+=( "${cxl_kcmds[@]}" )
 
