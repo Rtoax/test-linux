@@ -174,11 +174,16 @@ custom_cxl_3() {
 	cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
 
 	cxlargs+=( --cxl switch,bus=rp.1,nport=4,portprefix=sw1 )
-	cxlargs+=( --cxl switch,bus=sw1.1,nport=4,portprefix=sw2 )
-	cxlargs+=( --cxl switch,bus=sw2.1,nport=4,portprefix=sw3 )
 
-	cxlargs+=( --cxl vmem=vmem.1,bus=sw3.1,lsa=vmem.1.lsa )
-	cxlargs+=( --cxl pmem=pmem.1,bus=sw3.2,lsa=pmem.1.lsa )
+	# specify switch cascading level
+	local lv LV=3
+	for ((lv = 1; lv <= ${LV}; lv++))
+	do
+		cxlargs+=( --cxl switch,bus=sw${lv}.1,nport=4,portprefix=sw$((lv+1)) )
+	done
+
+	cxlargs+=( --cxl vmem=vmem.1,bus=sw${lv}.1,lsa=vmem.1.lsa )
+	cxlargs+=( --cxl pmem=pmem.1,bus=sw${lv}.2,lsa=pmem.1.lsa )
 }
 
 case ${CUSTOM} in
