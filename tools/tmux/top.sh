@@ -21,6 +21,6 @@ show
 
 # tmux attach-session -t $SESSION
 # Then, open new terminal:
-# tmux detach-client
+# tmux detach-client -s $SESSION
 
 tmux kill-session -t $SESSION
