@@ -21,7 +21,7 @@ kprobe:read_cache_page_gfp
 	$address_space = (struct address_space*)arg0;
 	$inode = (struct inode*)$address_space->host;
 	$i_ino = $inode->i_ino;
-	
+
 	/* stat [filename] check inode number */
 	@ino_count[$i_ino] = count();
 	@comm_count[comm] = count();

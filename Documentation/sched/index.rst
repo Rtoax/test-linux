@@ -65,12 +65,12 @@ Priority
   |                SCHED_FIFO               | SCHED_NORMAL (SCHED_OTHER)
   |                SCHED_RR                 | SCHED_BATCH          |
   |                                         | SCHED_IDLE           |
-  
+
   |                       sched_setattr(2)                         |
   |                       sched_getattr(2)                         |
   |                       sched_setscheduler(2)                    |
   |                       sched_getscheduler(2)                    |
-  
+
   |            sched_setparam(2)            |    setpriority(2)    |
   |            sched_getparam(2)            |    getpriority(2)    |
   |                                         |    nice(2)           |

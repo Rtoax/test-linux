@@ -59,6 +59,6 @@ int main(void)
 	for (i = 0; i < 100; ++i) {
 		printf("%f %f %f, %f, %f\n", dst_serial[i], dst_vla[i], dst_vla2[i], src[i], c);
 	}
-	return 0; 
+	return 0;
 }
 

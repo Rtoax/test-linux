@@ -30,7 +30,7 @@ static int __init my_init(void)
 {
 	printk("my module is working..\n");
 	printk("check /proc/sys/kernel/rt1 \n");
-	
+
 	rongtao_header = register_sysctl_paths(&kernel_path, &rongtao);
 
 	return 0;

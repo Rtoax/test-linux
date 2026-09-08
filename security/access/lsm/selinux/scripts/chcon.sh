@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 # https://milestone-of-se.nesuke.com/en/sv-advanced/selinux/selinux-summary/
 
 # You must `yum -y install attr`
@@ -6,7 +6,7 @@
 rm -f test1.txt
 touch test1.txt
 
-#  
+#
 getfattr -m security.selinux -d test1.txt
  # file: test1.txt
  #security.selinux="unconfined_u:object_r:admin_home_t:s0"

@@ -145,9 +145,9 @@ static int load_monitor_init(void)
 	ptr_avenrun = (void *)kallsyms_lookup_name("avenrun");
 	if (!ptr_avenrun)
 		return -EINVAL;
-	
+
 	start_timer();
-	
+
 	printk("load-monitor loaded.\n");
 
 	return 0;

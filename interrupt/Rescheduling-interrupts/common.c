@@ -20,22 +20,22 @@
 #include "common.h"
 #include "utils.h"
 
-int epoll_context_init(struct epoll_context *ctx) 
+int epoll_context_init(struct epoll_context *ctx)
 {
-	
+
 	int epollfd = epoll_create(10);
 	if (epollfd == -1) {
 		perror("epoll_create");
 		exit(EXIT_FAILURE);
 	}
 	memset(ctx, 0, sizeof(struct epoll_context));
-	
+
 	ctx->epollfd = epollfd;
-	
+
 	return epollfd;
 }
 
-void epoll_add_fd(struct epoll_context *ctx, int evt_fd) 
+void epoll_add_fd(struct epoll_context *ctx, int evt_fd)
 {
 	struct epoll_event ev;
 
@@ -45,14 +45,14 @@ void epoll_add_fd(struct epoll_context *ctx, int evt_fd)
 		perror("epoll_ctl: listen_sock");
 		exit(EXIT_FAILURE);
 	}
-	
+
 }
 
-int select_context_init(struct select_context *ctx) 
+int select_context_init(struct select_context *ctx)
 {
 	int i;
 	memset(ctx, 0, sizeof(struct select_context));
-	
+
 	FD_ZERO(&ctx->allset);
 	ctx->maxfd    = 0;
 
@@ -62,16 +62,16 @@ int select_context_init(struct select_context *ctx)
 	pthread_rwlock_init(&ctx->rwlock, NULL);
 	return 0;
 }
-void select_add_fd(struct select_context *ctx, int evt_fd) 
+void select_add_fd(struct select_context *ctx, int evt_fd)
 {
 	int i;
-	
+
 	pthread_rwlock_wrlock(&ctx->rwlock);
 	FD_SET(evt_fd, &ctx->allset);
 	if (evt_fd > ctx->maxfd) {
 		ctx->maxfd = evt_fd;
 	}
-	
+
 	for(i = 0; i < MAX_EVENTS; ++i) {
 		if (ctx->producer[i] < 0) {
 			ctx->producer[i] = evt_fd;
@@ -82,7 +82,7 @@ void select_add_fd(struct select_context *ctx, int evt_fd)
 	printf("Select add: fd = %d, maxfd = %d.\n", evt_fd, ctx->maxfd);
 }
 
-int eventfd_create(void) 
+int eventfd_create(void)
 {
 	int efd = eventfd(0, EFD_CLOEXEC);
 	if (efd <= 0) {
@@ -102,21 +102,21 @@ static const char* __sched_policy_s(int policy) {
 	return "unknown";
 }
 
-void reset_self_sched(int sched_policy, int sched_priority) 
-{   
+void reset_self_sched(int sched_policy, int sched_priority)
+{
 	printf("[SCHED] pid %ld, policy:%s, prio:%d\n",
 		gettid(), __sched_policy_s(sched_policy), sched_priority);
 
 	struct sched_param _param;
 	_param.sched_priority = sched_priority;
-	
+
 	if (0 > sched_setscheduler (gettid(), sched_policy, &_param)) {
-		printf("[ERROR]: sched_setscheduler(%ld, %s, %d) ", 
+		printf("[ERROR]: sched_setscheduler(%ld, %s, %d) ",
 				gettid(), __sched_policy_s(sched_policy), sched_priority);
 		assert(0);
 	}
 	if (0 != sched_setparam(gettid(), &_param)) {
-		printf("[ERROR]: sched_setparam(%ld, %d) ", 
+		printf("[ERROR]: sched_setparam(%ld, %d) ",
 					gettid(), sched_priority);
 		assert(0);
 	}
@@ -191,7 +191,7 @@ void reset_self_cpuset(char *cpu_list)
 	CPU_ZERO(&cpu_set);
 	__parse_cpu_list(cpu_list, &cpu_set);
 	if (0 != sched_setaffinity(pid, sizeof(cpu_set_t), &cpu_set)) {
-		printf("[ERROR]: sched_setaffinity(%ld, %ld, %s) ", 
+		printf("[ERROR]: sched_setaffinity(%ld, %ld, %s) ",
 					gettid(), sizeof(cpu_set_t), cpu_list);
 		assert(0);
 	}

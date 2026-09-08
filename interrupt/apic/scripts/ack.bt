@@ -5,7 +5,7 @@
  *	Date: 2022-02-04
  *
  *	Description:
- *	
+ *
  */
 #include <linux/irq.h>
 #include <linux/irqdomain.h>

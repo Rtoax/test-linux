@@ -32,7 +32,7 @@ kprobe:selinux_syslog
 	printf("%-6d %-16s %s\n", pid, comm, @syslog_type[$type]);
 }
 
-END 
+END
 {
 	clear(@syslog_type);
 	printf("Bye.\n");

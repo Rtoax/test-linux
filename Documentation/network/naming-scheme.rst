@@ -57,7 +57,7 @@ net.ifnames .vs. biosdevname
      - em1
    * - 0
      - 0 eth1
-     - 
+     -
 
 
 示例

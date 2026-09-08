@@ -1,5 +1,5 @@
 /**
- *	
+ *
  *	Reference:
  *	https://github.com/JAORMX/Writing-Netfilter-Modules-Tutorial
  */
@@ -139,7 +139,7 @@ static struct xt_match ipaddr_mt6_reg __read_mostly = {
 static int __init ipaddr_mt_reg(void)
 {
 	int ret;
-	
+
 	ret = xt_register_match(&ipaddr_mt4_reg);
 
 	pr_info("The Netfilter module has been successfully loaded...\n");

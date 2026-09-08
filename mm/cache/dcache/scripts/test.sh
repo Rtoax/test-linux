@@ -44,8 +44,8 @@ test_create_dir()
 # 生成 negative dentry
 test_create_neg_dentry
 {
-	while :; 
-	do 
+	while :;
+	do
 		cd `mktemp -u /tmp/rongXXX` 2>/dev/null
 	done
 }

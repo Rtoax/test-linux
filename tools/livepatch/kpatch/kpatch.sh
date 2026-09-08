@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 kpatch-build --skip-compiler-check \
 	-s . \

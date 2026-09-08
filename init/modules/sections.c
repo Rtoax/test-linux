@@ -18,7 +18,7 @@ static void print_sections(void)
 	 * _text is undefined
 	 */
 	extern char __attribute__((unused)) _text[];
-	//printk("_text = %p\n", _text);	
+	//printk("_text = %p\n", _text);
 }
 
 static int kernel_init(void)

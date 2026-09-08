@@ -1,25 +1,25 @@
 //----------------------------------------------------------------
 //	fileview.cpp
 //
-//	This program displays the contents of a specified file 
+//	This program displays the contents of a specified file
 //	in hexadecimal and ascii formats (including any device
 //	special files representing storage media).  A user may
 //	navigate the file's contents using arrow-key commands,
 //	or may adjust the format of the hexadecimal display to
-//	select from among five data-sizes: byte (B), word (W), 
+//	select from among five data-sizes: byte (B), word (W),
 //	doubleword (D), quadword (Q) or octaword (O).  It also
 //	is possible to seek to a specified position within the
 //	file by hitting the <ENTER>-key and then typing in the
-//	desired (hexadecimal) address.  Type <ESCAPE> to quit.  
+//	desired (hexadecimal) address.  Type <ESCAPE> to quit.
 //
 //	       compile-and-link using: $ make fileview
 //
 //	programmer: ALLAN CRUSE
 //	written on: 26 OCT 2002
-//	revised on: 07 JUN 2006 -- removed reliance on 'ncurses' 
+//	revised on: 07 JUN 2006 -- removed reliance on 'ncurses'
 //----------------------------------------------------------------
 
-#include <stdio.h>	// for printf(), perror(), fflush() 
+#include <stdio.h>	// for printf(), perror(), fflush()
 #include <fcntl.h>	// for open()
 #include <string.h>	// for strncpy()
 #include <unistd.h>	// for read(), lseek64()
@@ -64,14 +64,14 @@ int main( int argc, char *argv[] )
 
 	// obtain the filesize (if possible)
 	long long	filesize = lseek64( fd, 0LL, SEEK_END );
-	if ( filesize < 0LL ) 
-		{ 
-		fprintf( stderr, "cannot locate \'end-of-file\' \n" ); 
-		exit(1); 
+	if ( filesize < 0LL )
+		{
+		fprintf( stderr, "cannot locate \'end-of-file\' \n" );
+		exit(1);
 		}
 
 	long long	incmin = ( 1LL <<  8 );
-	long long	incmax = ( 1LL << 36 );		
+	long long	incmax = ( 1LL << 36 );
 	long long	posmin = 0LL;
 	long long	posmax = (filesize - 241LL)&~0xF;
 	if ( posmax < posmin ) posmax = posmin;
@@ -83,7 +83,7 @@ int main( int argc, char *argv[] )
 	tty_work.c_lflag &= ~( ECHO | ICANON );  // | ISIG );
 	tty_work.c_cc[ VMIN ]  = 1;
 	tty_work.c_cc[ VTIME ] = 0;
-	tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_work );	
+	tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_work );
 	printf( "\e[H\e[J" );
 
 	// display the legend
@@ -114,21 +114,21 @@ int main( int argc, char *argv[] )
 		if ( pageincr == 0LL ) pageincr = incmax;
 		else if ( pageincr < incmin ) pageincr = incmin;
 		else if ( pageincr > incmax ) pageincr = incmax;
-		
+
 		// get current location of file-pointer position
 		location = lseek64( fd, position, SEEK_SET );
-		
+
 		// try to fill 'buffer[]' with data from the file
 		char	*where = buffer;
 		int	to_read = BUFSIZE;
 		while ( to_read > 0 )
 			{
 			int	nbytes = read( fd, where, to_read );
-			if ( nbytes <= 0 ) break; 
+			if ( nbytes <= 0 ) break;
 			to_read -= nbytes;
 			where += nbytes;
 			}
-		int	datalen = BUFSIZE - to_read; 
+		int	datalen = BUFSIZE - to_read;
 
 		// display the data just read into the 'buffer[]' array
 		unsigned char		*bp;
@@ -141,14 +141,14 @@ int main( int argc, char *argv[] )
 
 			// draw the line-location (13-digit hexadecimal)
 			linelen = sprintf( outline, "%013llX ", location );
-			
+
 			// draw the line in the selected hexadecimal format
 			switch ( format )
 				{
 				case 1:	// 'byte' format
 				bp = (unsigned char*)&buffer[ i*BUFWIDE ];
 				for (j = 0; j < BUFWIDE; j++)
-					linelen += sprintf( outline+linelen, 
+					linelen += sprintf( outline+linelen,
 						"%02X ", bp[j] );
 				break;
 
@@ -176,9 +176,9 @@ int main( int argc, char *argv[] )
 				case 16: // 'octaword'
 				qp = (unsigned long long*)&buffer[ i*BUFWIDE ];
 				linelen += sprintf( outline+linelen, "     " );
-				linelen += sprintf( outline+linelen, 
+				linelen += sprintf( outline+linelen,
 					"   %016llX%016llX   ", qp[1], qp[0] );
-				linelen += sprintf( outline+linelen, "     " ); 
+				linelen += sprintf( outline+linelen, "     " );
 				break;
 				}
 
@@ -190,19 +190,19 @@ int main( int argc, char *argv[] )
 				linelen += sprintf( outline+linelen, "%c", ch);
 				}
 
-			// transfer this output-line to the screen 
+			// transfer this output-line to the screen
 			printf( "\e[%d;%dH%s", ROW+i, COL, outline );
 
 			// advance 'location' for the next output-line
 			location += BUFWIDE;
-			} 	
+			}
 		printf( "\e[%d;%dH", 23, COL );
-		fflush( stdout );	
-	
-		// await keypress 	
+		fflush( stdout );
+
+		// await keypress
 		long long	inch = 0LL;
 		read( STDIN_FILENO, &inch, sizeof( inch ) );
-		printf( "\e[%d;%dH%60s", 23, COL, " " );	
+		printf( "\e[%d;%dH%60s", 23, COL, " " );
 
 		// interpret navigation or formatting command
 		inch &= 0x00FFFFFFLL;
@@ -251,38 +251,38 @@ int main( int argc, char *argv[] )
 				if ( ch == KB_LEFT ) ch = KB_BACK;
 				if ( ch == KB_DEL ) ch = KB_BACK;
 				if (( ch == KB_BACK )&&( i > 0 ))
-					{ 
-					inbuf[--i] = 0; 
-					printf( "\b \b" ); 
+					{
+					inbuf[--i] = 0;
+					printf( "\b \b" );
 					fflush( stdout );
 					}
 				if (( ch < 0x20 )||( ch > 0x7E )) continue;
 				inbuf[ i++ ] = ch;
 				printf( "%c", ch );
 				fflush( stdout );
-				}		
+				}
 			printf( "\e[%d;%dH%70s", 23, COL, " " );
 			fflush( stdout );
 			position = strtoull( inbuf, NULL, 16 );
 			position &= ~0xFLL;	// paragraph align
 			}
-			break;			
+			break;
 
-			// program termination 
+			// program termination
 			case KB_QUIT:	done = 1; break;
 
-			default:	
-			printf( "\e[%d;%dHHit <ESC> to quit", 23, 2 ); 
+			default:
+			printf( "\e[%d;%dHHit <ESC> to quit", 23, 2 );
 			}
 		fflush( stdout );
 
 		// insure that 'position' remains within bounds
 		if ( position < posmin ) position = posmin;
 		if ( position > posmax ) position = posmax;
-		}	
+		}
 
 	// restore canonical terminal behavior
-	tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_orig );	
+	tcsetattr( STDIN_FILENO, TCSAFLUSH, &tty_orig );
 	printf( "\e[%d;%dH\e[0J\n", 23, 0 );
 }
 

@@ -51,7 +51,7 @@ struct proc_dir_entry *proc_softirqs;
 static int hello_init(void)
 {
 	printk(KERN_ALERT "init: NR_SOFTIRQS is %d\n", NR_SOFTIRQS);
-	proc_softirqs = proc_create_single("softirqs-rongtao", 
+	proc_softirqs = proc_create_single("softirqs-rongtao",
 						0, NULL, show_softirqs);
 	return 0;
 }

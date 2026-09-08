@@ -17,7 +17,7 @@ MODULE_PARM_DESC(irqnum, "irq number, acpi is OK");
 
 static char *name = "workqueue-template";
 module_param( name, charp, S_IRUGO);
-MODULE_PARM_DESC(name, "irq name");	
+MODULE_PARM_DESC(name, "irq name");
 
 struct myirq {
 	int devid;

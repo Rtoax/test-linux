@@ -43,7 +43,7 @@ static struct mytest test;
 #else
 # define Sfmt "%lx"
 # define STATE state
-#endif 
+#endif
 
 /**
  * works ok

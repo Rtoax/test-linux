@@ -129,18 +129,18 @@ int app_setup_uring(struct submitter *s) {
 
     /*
      * io_uring communication happens via 2 shared kernel-user space ring buffers,
-     * which can be jointly mapped with a single mmap() call in recent kernels. 
-     * While the completion queue is directly manipulated, the submission queue 
+     * which can be jointly mapped with a single mmap() call in recent kernels.
+     * While the completion queue is directly manipulated, the submission queue
      * has an indirection array in between. We map that in as well.
      * */
 
     int sring_sz = p.sq_off.array + p.sq_entries * sizeof(unsigned);
     int cring_sz = p.cq_off.cqes + p.cq_entries * sizeof(struct io_uring_cqe);
 
-    /* In kernel version 5.4 and above, it is possible to map the submission and 
-     * completion buffers with a single mmap() call. Rather than check for kernel 
-     * versions, the recommended way is to just check the features field of the 
-     * io_uring_params structure, which is a bit mask. If the 
+    /* In kernel version 5.4 and above, it is possible to map the submission and
+     * completion buffers with a single mmap() call. Rather than check for kernel
+     * versions, the recommended way is to just check the features field of the
+     * io_uring_params structure, which is a bit mask. If the
      * IORING_FEAT_SINGLE_MMAP is set, then we can do away with the second mmap()
      * call to map the completion ring.
      * */
@@ -154,7 +154,7 @@ int app_setup_uring(struct submitter *s) {
     /* Map in the submission and completion queue ring buffers.
      * Older kernels only map in the submission queue, though.
      * */
-    sq_ptr = mmap(0, sring_sz, PROT_READ | PROT_WRITE, 
+    sq_ptr = mmap(0, sring_sz, PROT_READ | PROT_WRITE,
             MAP_SHARED | MAP_POPULATE,
             s->ring_fd, IORING_OFF_SQ_RING);
     if (sq_ptr == MAP_FAILED) {
@@ -166,7 +166,7 @@ int app_setup_uring(struct submitter *s) {
         cq_ptr = sq_ptr;
     } else {
         /* Map in the completion queue ring buffer in older kernels separately */
-        cq_ptr = mmap(0, cring_sz, PROT_READ | PROT_WRITE, 
+        cq_ptr = mmap(0, cring_sz, PROT_READ | PROT_WRITE,
                 MAP_SHARED | MAP_POPULATE,
                 s->ring_fd, IORING_OFF_CQ_RING);
         if (cq_ptr == MAP_FAILED) {

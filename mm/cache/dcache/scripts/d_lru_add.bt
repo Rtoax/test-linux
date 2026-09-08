@@ -13,7 +13,7 @@ BEGIN
 }
 
 /**
- * 测试: 
+ * 测试:
  *	while :; do ls `mktemp -u /tmp/rongXXX`; done
  *
  * TODO: 当执行上面测试程序时，很容易将 map 打满

@@ -17,7 +17,7 @@ kprobe:kvm_irq_map_gsi
 	/**
 	 *  One of stack like:
 	 *  -------------------------------------
-	 *	kstack 
+	 *	kstack
 	 *	     kvm_irq_map_gsi+1
 	 *	     irqfd_update+155
 	 *	     kvm_irq_routing_update+115
@@ -26,8 +26,8 @@ kprobe:kvm_irq_map_gsi
 	 *	     __x64_sys_ioctl+293
 	 *	     do_syscall_64+55
 	 *	     entry_SYSCALL_64_after_hwframe+68
-	 *	
-	 *	ustack 
+	 *
+	 *	ustack
 	 *	     ioctl+11
 	 *	     0x100000000
 	 */

@@ -15,7 +15,7 @@ huge_prep:
 	mount -t hugetlbfs nodev /huge
 	echo 1024 | sudo tee /proc/sys/vm/nr_hugepages
 	cat /proc/meminfo | grep Huge
-		
+
 huge:
 	cc hugepage.c -o hugepage
 

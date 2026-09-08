@@ -1,4 +1,4 @@
-#!/usr/bin/env bpftrace 
+#!/usr/bin/env bpftrace
 /**
  * File: qemu_dma_io.bt
  * Author: Rong Tao <rtoax@foxmail.com>

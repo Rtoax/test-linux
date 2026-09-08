@@ -1,5 +1,5 @@
 #!/bin/bash
-# 
+#
 # Summarizing the tracepoint library names and numbers of tracepoints, on my
 # Linux 4.10 system:
 tp_list()

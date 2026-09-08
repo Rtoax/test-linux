@@ -12,7 +12,7 @@ DEFINE_RWLOCK(my_rwlock2);
 static int kernel_init(void)
 {
 	printk(KERN_INFO "Init.\n");
-	rwlock_init(&my_rwlock);	
+	rwlock_init(&my_rwlock);
 	return 0;
 }
 

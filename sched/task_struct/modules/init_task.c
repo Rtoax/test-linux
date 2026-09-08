@@ -21,7 +21,7 @@ static int __init print_pid(void)
 
 	printk("Printf process'message begin:\n");
 	task = &init_task;
-	
+
 	/**
 	 * TODO: Not safe here.
 	 */
@@ -43,7 +43,7 @@ static int __init print_pid(void)
 			p->STATE,
 			p->prio,p->static_prio,(p->parent)->pid,
 			atomic_read((&(p->files)->count)),(p->fs)->umask);
-		
+
 		if ((p->mm)!=NULL)
 			printk("total_vm:%ld;",(p->mm)->total_vm);
 		if (p->STATE == TASK_UNINTERRUPTIBLE)
@@ -53,7 +53,7 @@ static int __init print_pid(void)
 		if (p->STATE == TASK_RUNNING)
 			cnt_running++;
 	}
-	
+
 	printk("Total process number is %ld\n", count);
 	printk("Uninterruptible %ld\n", cnt_uninterruptible);
 	printk("  Interruptible %ld\n", cnt_interruptible);

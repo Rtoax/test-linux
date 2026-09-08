@@ -61,7 +61,7 @@ kretprobe:selinux_socket_unix_stream_connect
     delete(@name[tid]);
 }
 
-END 
+END
 {
 	clear(@start);
 	clear(@name);

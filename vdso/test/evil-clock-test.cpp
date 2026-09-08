@@ -63,7 +63,7 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
 
 	  if (val < 0 || val >= CPU_SETSIZE)
 	    argp_error(state, "bad cpu number");
-	  
+
 	  cpus[i++] = val;
 	}
       free(arg_copy);
@@ -529,7 +529,7 @@ private:
 
 	if (end)
 	  return;
-	    
+
 	TestScorer checker;
 	checker.CompareArrays(results_len, 2, results_2, 1, results_1);
 	if (verbosity >= 2)
@@ -615,7 +615,7 @@ private:
   {
     static inline Time read() { return ClockType::read_strict(); }
   };
-  
+
   enum { results_len = 1048576 };
   uint64_t results_1[results_len], results_2[results_len];
 
@@ -649,7 +649,7 @@ private:
 
 	if (end)
 	  return;
-	    
+
 	TestScorer checker;
 	checker.CompareArrays(results_len, 1, results_1, 2, results_2);
 	if (verbosity >= 2)

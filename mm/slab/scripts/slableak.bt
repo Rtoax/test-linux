@@ -1,6 +1,6 @@
 #!/usr/bin/bpftrace --unsafe
 /**
- * File: slableak.bt 
+ * File: slableak.bt
  *
  * Description: Check slab memory leak
  *

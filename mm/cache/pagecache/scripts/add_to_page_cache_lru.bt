@@ -14,7 +14,7 @@ BEGIN
 
 kprobe:add_to_page_cache_lru
 {
-	$page = (struct page *)arg0; 
+	$page = (struct page *)arg0;
 	$mapping = (struct address_space *)arg1;
 
 }

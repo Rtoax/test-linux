@@ -1,5 +1,5 @@
 /**
- *	File ./walk_page_table.c 
+ *	File ./walk_page_table.c
  *	Author Rong Tao
  *	Time 2021.11.10
  *
@@ -66,7 +66,7 @@ static struct page *walk_page_table(unsigned long addr)
 static int __init pagewalktest_init(void)
 {
 	struct page *find_page;
-	
+
 	printk("pagewalktest_init.\n");
 
 	find_page = walk_page_table((unsigned long)&i);

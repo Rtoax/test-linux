@@ -16,9 +16,9 @@ int main (int argc, char * argv[])
 struct Item {
   volatile struct Item* next;
 };
- 
+
 volatile struct Item *head;
- 
+
 void addItem( struct Item *i ) {
   volatile struct Item *oldHead;
 

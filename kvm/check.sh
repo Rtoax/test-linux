@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 kvm=`grep -c -E '(vmx|svm)' /proc/cpuinfo`
 if [ kvm = 0 ]; then

@@ -4,7 +4,7 @@ all:
 	@echo "Command"
 	@echo sudo make build
 	@echo sudo make install
-	@echo make check 
+	@echo make check
 	@echo sudo make sepolicy
 	@echo make rebuild
 	@echo make restart
@@ -25,7 +25,7 @@ build:
 	gcc -o mydaemon mydaemon.c
 
 install:
-	sudo cp mydaemon /usr/local/bin/ 
+	sudo cp mydaemon /usr/local/bin/
 	sudo cp mydaemon.service /usr/lib/systemd/system
 	sudo systemctl start mydaemon
 	sudo systemctl status mydaemon

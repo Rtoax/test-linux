@@ -186,7 +186,7 @@ static const struct file_operations ioapic1_fops = {
 	.llseek  = seq_lseek,
 	.release = single_release,
 };
-#endif 
+#endif
 
 static int __init ioapic_init(void)
 {

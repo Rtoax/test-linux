@@ -1,6 +1,6 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
-#include <linux/interrupt.h> 
+#include <linux/interrupt.h>
 #include <linux/version.h>
 
 char tasklet_data[] = "Using a string but it could easily be struct pointer\n";

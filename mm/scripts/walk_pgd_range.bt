@@ -16,7 +16,7 @@ kprobe:walk_pgd_range
 	$start = arg0;
 	$end = arg1;
 
-	printf("%-6d %-8s %-16lx %-16lx\n", 
+	printf("%-6d %-8s %-16lx %-16lx\n",
 		pid, comm, $start, $end);
 }
 

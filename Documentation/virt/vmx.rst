@@ -39,6 +39,6 @@ Guest Software Instructions:
   #define VMXOFF_OPCODE ".byte 0x0f,0x01,0xc4\n"
   #define VMXON_OPCODE ".byte 0xf3,0x0f,0xc7\n"
   #define VMRESUME_OPCODE ".byte 0x0f,0x01,0xc3\n"
-  
+
   #define INVEPT_OPCODE ".byte 0x66,0x0f,0x38,0x80\n" /* m128,r64/32 */
   #define INVVPID_OPCODE ".byte 0x66,0x0f,0x38,0x81\n" /* m128,r64/32 */

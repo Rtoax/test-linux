@@ -65,7 +65,7 @@ int add_entry(void (*fn)(void*), void* data)
 		g_wq_tail->next = new;
 
 	g_wq_tail = new;
-	
+
 	spin_unlock(&g_wq_lock);
 
 	wake_up(&g_wq_wait);
@@ -82,12 +82,12 @@ void do_waitqueue(void)
 		head = g_wq_head;
 		g_wq_head = NULL;
 		g_wq_tail = NULL;
-	
+
 		spin_unlock(&g_wq_lock);
 
 		while (head) {
 			wq_entry_t*   next;
-			
+
 			head->fn(head->data);
 			// move to next
 			next = head->next;

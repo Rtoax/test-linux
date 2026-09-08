@@ -1,6 +1,6 @@
 /**
  *	File NR_IRQS.c
- *	Time 2021.11.20 
+ *	Time 2021.11.20
  *	Author Rong Tao
  */
 #include <linux/init.h>

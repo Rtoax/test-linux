@@ -1,6 +1,6 @@
 #!/usr/bin/bpftrace --unsafe
 /**
- * File: dcacheleak.bt 
+ * File: dcacheleak.bt
  *
  * Description: Check dentry slab memory leak
  *

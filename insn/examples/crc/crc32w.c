@@ -8,7 +8,7 @@
 
 int main()
 {
-	uint32_t crc=0xFFFFFFFF; 
+	uint32_t crc=0xFFFFFFFF;
 	uint32_t val=100;
 	asm volatile("crc32w %w0, %w0, %w1": "+r" (crc): "r" (val)  );
 }

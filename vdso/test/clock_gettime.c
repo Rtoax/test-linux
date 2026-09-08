@@ -69,7 +69,7 @@ int rdtsc_clock_gettime(clockid_t clockid, struct timespec *tp)
 
 #if defined(ACCURATE_TO_SEC)
 	uint64_t time_spend_sec = tsc_diff / tsc_freq;
-	
+
 	tp->tv_sec = start_timespec.tv_sec + time_spend_sec;
 	tp->tv_nsec = start_timespec.tv_nsec;
 #else
@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
 	clock_gettime(CLOCK_MONOTONIC, &start);
 	func(nloop, te);
 	clock_gettime(CLOCK_MONOTONIC, &end);
-	
+
 	diff_ns = longtime(end) - longtime(start);
 
 	printf("diff %lld, (%Lf nspc)\n", diff_ns, diff_ns*1.0L / nloop);

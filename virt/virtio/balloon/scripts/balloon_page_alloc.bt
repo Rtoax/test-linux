@@ -1,6 +1,6 @@
-#!/usr/bin/env bpftrace 
+#!/usr/bin/env bpftrace
 /**
- *	Tracing VirtIO Balloon 
+ *	Tracing VirtIO Balloon
  *
  *	Rong Tao
  */

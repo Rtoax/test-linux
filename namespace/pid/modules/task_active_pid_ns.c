@@ -1,6 +1,6 @@
 /**
  *	find pid namespace struct by PID
- *	
+ *
  *	Author	Rong Tao <rtoax@foxmail.com>
  *	Time	2022-03-24
  */
@@ -40,7 +40,7 @@ static int __init find_pidtest_init(void)
 	if(task) {
 		printk("PID %d task name %s\n", PID, task->comm);
 	}
-	
+
 	task = get_pid_task(pid, PIDTYPE_PID);
 	if(task) {
 		printk("PID %d task name %s\n", PID, task->comm);

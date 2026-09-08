@@ -27,7 +27,7 @@ static int __init my_init(void)
 {
 	printk("my module is working..\n");
 	printk("check /proc/sys/rongtao/rt1 \n");
-	
+
 	rongtao_header = register_sysctl("rongtao", &rongtao);
 
 	return 0;

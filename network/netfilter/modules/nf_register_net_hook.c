@@ -3,7 +3,7 @@
  *	Time	2021.11.07
  *	Author	Rong Tao <rtoax@foxmail.com>
  *
- *  Reference: 
+ *  Reference:
  *  http://cs241.cs.illinois.edu/assignments/notorious_netfilter
  */
 
@@ -40,14 +40,14 @@ unsigned int main_hook(void *priv,
 static int kernel_init(void)
 {
     printk(KERN_INFO "my init.\n");
-    
+
     netfilter_ops.hook = main_hook;
     netfilter_ops.pf = PF_INET;
     netfilter_ops.hooknum = 0;
     netfilter_ops.priority = NF_IP_PRI_FIRST;
-    
+
     nf_register_net_hook(&init_net, &netfilter_ops);
-    
+
     return 0;
 }
 

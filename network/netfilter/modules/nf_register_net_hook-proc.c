@@ -3,7 +3,7 @@
  *	Time	2021.11.07
  *	Author	Rong Tao <rtoax@foxmail.com>
  *
- *  Reference: 
+ *  Reference:
  *  http://cs241.cs.illinois.edu/assignments/notorious_netfilter
  */
 
@@ -54,7 +54,7 @@ ssize_t filter_read(struct file *f, char __user *u, size_t req, loff_t *off)
 
     copy_to_user(u, message+*off, req);
     *off += req;
-    
+
     return req;
 }
 struct file_operations fops = {
@@ -65,19 +65,19 @@ struct proc_dir_entry *filterdir;
 static int kernel_init(void)
 {
     printk(KERN_INFO "my init.\n");
-    
+
     // Creates  /proc/filter/
-    filterdir = proc_mkdir("filter", NULL); 
+    filterdir = proc_mkdir("filter", NULL);
     // creates /proc/filter/status
-    proc_create("status", 0666, filterdir, &fops); 
-    
+    proc_create("status", 0666, filterdir, &fops);
+
     netfilter_ops.hook = main_hook;
     netfilter_ops.pf = PF_INET;
     netfilter_ops.hooknum = 0;
     netfilter_ops.priority = NF_IP_PRI_FIRST;
-    
+
     nf_register_net_hook(&init_net, &netfilter_ops);
-    
+
     return 0;
 }
 

@@ -1,5 +1,5 @@
 /*
-usage: Compiling this file by make 
+usage: Compiling this file by make
 and using the following command to insert the mode which the make generated just now
 
 command: sudo insmod filename.ko irq=1 devname=myirq

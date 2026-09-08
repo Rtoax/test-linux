@@ -25,7 +25,7 @@ BEGIN
 kprobe:vdso_mremap
 {
 	$vma = (struct vm_area_struct *)arg1;
-	
+
 	/**
 	 * VMA start-end is same as `sudo cat /proc/[PID]/maps | grep vdso`
 	 */

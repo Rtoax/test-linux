@@ -1,7 +1,7 @@
 Mupti Processor - MP
 ====================
 
-Intel multi-processor 
+Intel multi-processor
 
 
 Links

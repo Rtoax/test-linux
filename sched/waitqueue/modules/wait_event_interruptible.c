@@ -1,5 +1,5 @@
 /**
- *	
+ *
  *	Reference
  *	https://medium.com/geekculture/the-linux-kernel-locking-api-and-shared-objects-1169c2ae88ff
  */
@@ -40,9 +40,9 @@ static int __init my_init(void)
 	 *	有时（如果不是大部分时间），这可能会导致严重的问题
 	 */
 	if(wait_event_interruptible(my_wq, condition != 0)) {
-		pr_info("Catch a crash signal.\n"); 
-		/* 处理这种情况，不访问数据 */ 
-	} else { 
+		pr_info("Catch a crash signal.\n");
+		/* 处理这种情况，不访问数据 */
+	} else {
 		/* 访问数据并处理它 */
 	}
 	pr_info("woken up by the work job\n");

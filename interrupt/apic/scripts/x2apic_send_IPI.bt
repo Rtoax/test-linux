@@ -21,7 +21,7 @@ kprobe:x2apic_send_IPI
 {
 	$cpu = (struct irq_data*)arg0;
 	$vector = (struct irq_chip*)arg1;
-	
+
 	printf("%d, %d\n", $cpu, $vector);
 
 	//@stack_count[kstack] = count();

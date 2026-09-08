@@ -17,7 +17,7 @@ s64 time_in_nsec = 500 * NSEC_PER_MSEC;
 enum hrtimer_restart restart=HRTIMER_NORESTART;
 
 /**
- *	
+ *
  */
 static enum hrtimer_restart timer_callback(struct hrtimer *timer)
 {
@@ -32,7 +32,7 @@ static enum hrtimer_restart timer_callback(struct hrtimer *timer)
 }
 
 static int init_timer(void)
-{   
+{
 	ktime_t ktime;
 
 	restart = HRTIMER_RESTART;

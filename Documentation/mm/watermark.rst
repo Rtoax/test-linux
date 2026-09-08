@@ -10,7 +10,7 @@ WaterMark - 水位
   Free
   Page
   |
-  |+                                  Back to High 
+  |+                                  Back to High
   | +                                 WaterMark           +
   |  +                                      \         +
   |   +                                      \    +

@@ -38,7 +38,7 @@ To activate it, you can modprobe it like any other module:
 
 Except, you don't actually need to do it, since `iptables` automatically modprobes for you when you use the shared object in the next section.
 
-(also, you can use `insmod` instead of `modprobe` if you don't want to install and can afford to insert manually.) 
+(also, you can use `insmod` instead of `modprobe` if you don't want to install and can afford to insert manually.)
 
 ### SO
 
@@ -60,7 +60,7 @@ Note that the "install" target is just a `cp`, so it can be reverted effortlessl
 
 	node A	(192.0.2.1) ----- node B (192.0.2.5)
 
-Insert the module and the rule by running this on node A. 
+Insert the module and the rule by running this on node A.
 
 	# iptables -A INPUT -m ipaddr --ipsrc 192.0.2.5
 
@@ -79,7 +79,7 @@ Keep in mind that, whenever you need to change the code, you need to remove the 
 
 ## License
 
-Copyright © 2014 ydahhrk <-@->  
+Copyright © 2014 ydahhrk <-@->
 This work is free. You can redistribute it and/or modify it under the
 terms of the Do What The Fuck You Want To Public License, Version 2,
 as published by Sam Hocevar. See the COPYING file for more details.

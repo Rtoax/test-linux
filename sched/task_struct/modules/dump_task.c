@@ -18,7 +18,7 @@ static void dump_task(struct task_struct *p)
 # define Sfmt "%x"
 #else
 # define Sfmt "%lx"
-#endif 
+#endif
 
 	printk("pid:%d; state:"Sfmt"; prio:%d; static_prio:%d; parent'pid:%d; count:%d; umask:%d;",
 		p->pid,
@@ -29,12 +29,12 @@ static void dump_task(struct task_struct *p)
 #endif
 		p->prio, p->static_prio, (p->parent)->pid,
 		atomic_read((&(p->files)->count)), (p->fs)->umask);
-		
+
 	if ((p->mm)!=NULL)
 		printk("total_vm:%ld;", (p->mm)->total_vm);
 #else
 	/**
-	 * linux-5.10.13 
+	 * linux-5.10.13
 	 * mm/oom_kill.c/dump_task()
 	 * but when insmod will killed.
 	 */
@@ -63,8 +63,8 @@ static int __init print_pid(void)
 		count++;
 		dump_task(p);
 	}
-	
-	printk("Total process number is %d\n",count);	
+
+	printk("Total process number is %d\n",count);
 
 	return -EINVAL;
 }
