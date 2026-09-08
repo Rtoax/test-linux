@@ -62,14 +62,14 @@ target-libso-y += libreboot_helpers.so
 target-libso-y += libcgroup_helpers.so
 target-libso-${HAVE_NCURSES_H} += libncurses_helpers.so
 
-target-nvcc-libso-${HAVE_CUDA} := libcuda_helpers.so
-target-liba-${HAVE_CUDA} := libcuda_helpers.a
-target-hipcc-libso-${HAVE_HIP} := libhip_helpers.so
-target-liba-${HAVE_HIP} := libhip_helpers.a
-target-htcc-libso-${HAVE_HPCC} := libhpcc_helpers.so
-target-liba-${HAVE_HPCC} := libhpcc_helpers.a
-target-lscc-libso-${HAVE_LUCA} := libluca_helpers.so
-target-liba-${HAVE_LUCA} := libluca_helpers.a
+target-nvcc-libso-${HAVE_CUDA} += libcuda_helpers.so
+target-liba-${HAVE_CUDA} += libcuda_helpers.a
+target-hipcc-libso-${HAVE_HIP} += libhip_helpers.so
+target-liba-${HAVE_HIP} += libhip_helpers.a
+target-htcc-libso-${HAVE_HPCC} += libhpcc_helpers.so
+target-liba-${HAVE_HPCC} += libhpcc_helpers.a
+target-lscc-libso-${HAVE_LUCA} += libluca_helpers.so
+target-liba-${HAVE_LUCA} += libluca_helpers.a
 
 objs-dynamic += byte.so.o
 objs-dynamic += endian.so.o
