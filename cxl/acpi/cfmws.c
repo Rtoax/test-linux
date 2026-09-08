@@ -11,6 +11,8 @@
 /**
  * CXL 3.0 Specification, 8.2.4.19.7 CXL HDM Decoder n Control Register (Offset 20h*n+20h)
  * - Interleave Granularity size: 256, 512, 1k, 2k, 4k, 8k, 16k
+ *
+ * see also commit 8fa9cfc96204 ("cxl: interleave granularity(256B,512B,1K,2K,4K,8K,16K) and test with qemu-vm.sh")
  */
 static const char *hbig_str(uint32_t hbig)
 {

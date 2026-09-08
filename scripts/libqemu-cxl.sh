@@ -468,6 +468,8 @@ __add_cxl_fmw_from_pxb() {
 # $1: fmw index: 0 1 2 3, see also __add_cxl_fmw_from_pxb()
 # $2: interleave granularity, size: 256, 512, 1k, 2k, 4k, 8k, 16k, default 256,
 #     see CFMWS's field Host Bridge Interleave Granularity (HBIG).
+#     see also commit 8fa9cfc96204 ("cxl: interleave granularity(256B,512B,1K,2K,4K,8K,16K)
+#                                    and test with qemu-vm.sh")
 add_cxl_fmw_ig() {
 	local support_ig=( 256 512 1k 2k 4k 8k 16k )
 	local fmw=$1
