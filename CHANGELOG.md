@@ -26,6 +26,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- libqemu-ipmi.sh: split from qemu-vm.sh;
 - add remove-trailing-whitespace.sh;
 - libtime.sh: add `get_nsecs()`;
 - add `libtime.sh` and `libtime_examples.sh`;

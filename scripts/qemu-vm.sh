@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.31"
+readonly VERSION="v1.1.32"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -83,6 +83,7 @@ readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 . ${QEMU_VM_ROOT}/libuuid.sh
 . ${QEMU_VM_ROOT}/libqemu.sh
 . ${QEMU_VM_ROOT}/libqemu-cxl.sh
+. ${QEMU_VM_ROOT}/libqemu-ipmi.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 
 qemu_eval()
@@ -1021,29 +1022,6 @@ get_port_monitor_telnet() {
 	return 0
 }
 
-# IPMI BMC
-config_bmc() {
-	# Internal Emulation (Built-in Simulator)
-	case ${ARCH} in
-	x86_64)
-		# ISA-Based Configuration (Standard x86 PC)
-		qargs+=( -device ipmi-bmc-sim,id=bmc0
-			 -device isa-ipmi-kcs,bmc=bmc0 )
-		;;
-	*)
-		# PCI-Based Configuration
-		qargs+=( -device ipmi-bmc-sim,id=bmc0
-			 -device pci-ipmi-kcs,bmc=bmc0 )
-		;;
-	esac
-
-	# TODO: except qemu internal emulation, external emulation has full
-	# featured such as OpenIPMI "ipmi_sim".
-	#qargs+=( -chardev socket,id=ipmi0,host=localhost,port=9012
-	#	 -device ipmi-bmc-extern,id=bmc0,chardev=ipmi0
-	#	 -device isa-ipmi-bt,bmc=bmc0 )
-}
-
 config_memory() {
 	local m=( ${q_memory} )
 	m+=( slots=8 )
@@ -1597,6 +1575,7 @@ while true; do
 		shift
 		echo -e "${BOLD}${PROG}${RST} ${VERSION}"
 		echo -e "  ${BOLD}libqemu-cxl${RST} ${LIBQEMU_CXL_VERSION}"
+		echo -e "  ${BOLD}libqemu-ipmi${RST} ${LIBQEMU_IPMI_VERSION}"
 		exit 0
 		;;
 	-D | --debug)
