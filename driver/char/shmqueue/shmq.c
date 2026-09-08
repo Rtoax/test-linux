@@ -26,7 +26,6 @@
 #include <linux/dma-mapping.h>
 #include <linux/kthread.h>
 #include <asm/uaccess.h>
-
 #include <linux/acpi.h>
 
 #include "shmq.h"
@@ -70,7 +69,7 @@ typedef enum {
 	SHMQ_EMERG,
 	SHMQ_ALERT,
 	SHMQ_WARNING,
-	SHMQ_ERR,  
+	SHMQ_ERR,
 } shmq_log_lv;
 
 static struct {
@@ -127,14 +126,14 @@ static int shmq_open(struct inode *inode, struct file *file)
 	return 0;
 }
 
-static int condition = 0; 
+static int condition = 0;
 static ssize_t shmq_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
 {
 	shmq_debug(__SHMQ_DEV_NAME"\n");
-	
-#if __SHMQ_RWLOCK	
+
+#if __SHMQ_RWLOCK
 	write_lock(&shmq_dev[0]->rwlock);
-#else 
+#else
 	mutex_lock(&shmq_dev[0]->mxlock);
 #endif
 
@@ -142,16 +141,16 @@ static ssize_t shmq_write(struct file *file, const char __user *buf, size_t coun
 	if (copy_from_user(shmq_dev[0]->testmap, buf, count)) {
 		shmq_err("write error!\n");
 	}
-	
-#if __SHMQ_RWLOCK	
+
+#if __SHMQ_RWLOCK
 	write_unlock(&shmq_dev[0]->rwlock);
-#else 
+#else
 	mutex_unlock(&shmq_dev[0]->mxlock);
 #endif
 
 	condition = 1;
 	wake_up_interruptible(&shmq_dev[0]->queue);
-	
+
 	return count;
 }
 
@@ -161,10 +160,10 @@ static ssize_t shmq_read(struct file *file, char __user *buf, size_t count, loff
 
 	if (!condition)	//条件可以在中断处理函数或另外的接口中置位
 		wait_event_interruptible((shmq_dev[0]->queue), condition);
-	
-#if __SHMQ_RWLOCK  
+
+#if __SHMQ_RWLOCK
 	read_lock(&shmq_dev[0]->rwlock);
-#else 
+#else
 	mutex_lock(&shmq_dev[0]->mxlock);
 #endif
 
@@ -173,10 +172,10 @@ static ssize_t shmq_read(struct file *file, char __user *buf, size_t count, loff
 	}
 
 	condition = 0;
-	
-#if __SHMQ_RWLOCK  
+
+#if __SHMQ_RWLOCK
 	read_unlock(&shmq_dev[0]->rwlock);
-#else 
+#else
 	mutex_unlock(&shmq_dev[0]->mxlock);
 #endif
 
@@ -216,10 +215,10 @@ static unsigned int shmq_poll(struct file *file, struct poll_table_struct *tab)
 static long shmq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
 	int result;
-	
+
 	shmq_debug(__SHMQ_DEV_NAME"\n");
-	
-	switch (cmd) {	
+
+	switch (cmd) {
 	case __SHMQ_IOC_WAIT:
 		result=10;
 		break;
@@ -227,9 +226,9 @@ static long shmq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		result=20;
 		break;
 	default:
-		return -ENOTTY;			
+		return -ENOTTY;
 	}
-	
+
 	return(result);
 }
 
@@ -244,7 +243,7 @@ static int shmq_mmap(struct file *file, struct vm_area_struct *vma)
 	if (ret != 0) {
 		shmq_warning("remap_pfn_range error.\n");
 		return -EAGAIN;
-	} 
+	}
 	return ret;
 }
 
@@ -268,39 +267,39 @@ static struct file_operations shmq_flops = {
 	.compat_ioctl = shmq_ioctl,
 	.mmap = shmq_mmap,
 	.release = shmq_release,
-	
+
 };
 
 static int __init shmq_init(void)
 {
 	int ret;
 	unsigned char *virt_addr;
-	
+
 	/* init shmq_dev */
 	memset(&shmq_dev[0], 0, sizeof(shmq_dev_t*) * sizeof(shmq_dev)/sizeof(shmq_dev_t*));
 	shmq_dev[0]  = (shmq_dev_t*)kzalloc(sizeof(shmq_dev_t), GFP_KERNEL);
-	
+
 	shmq_dev[0]->dev_no = MKDEV(__SHMQ_MAJOR , 0);
-	   
+
 	ret = register_chrdev_region(shmq_dev[0]->dev_no , 1 ,__SHMQ_DEV_NAME);
 	if (ret < 0) {
 		shmq_warning(__SHMQ_DEV_NAME " can't register major number.\n");
 		goto err0;
 	}
-	
+
 	cdev_init(&shmq_dev[0]->cdev , &shmq_flops) ;
 	shmq_dev[0]->cdev.owner = THIS_MODULE ;
 	shmq_dev[0]->cdev.ops = &shmq_flops ;
-	
+
 	shmq_debug(__SHMQ_DEV_NAME " Initialized.\n");
-	
+
 	ret = cdev_add(&shmq_dev[0]->cdev , shmq_dev[0]->dev_no , 1) ;
 	if (ret < 0) {
 		shmq_debug(__SHMQ_DEV_NAME "cdev add error !\n") ;
 		ret = -1;
 		goto err2;
 	}
-	
+
 #if 0
 	shmq_dev[0]->class = class_create(THIS_MODULE, __SHMQ_DEV_NAME);
 	if (IS_ERR((void *)shmq_dev[0]->class)) {
@@ -319,31 +318,31 @@ static int __init shmq_init(void)
 		dev_info(shmq_dev[0]->device, "Device: %s\n", __SHMQ_DEV_NAME);
 	}
 
-#if __SHMQ_RWLOCK  
+#if __SHMQ_RWLOCK
 	rwlock_init(&shmq_dev[0]->rwlock); //read write lock is better
-#else	
+#else
 	mutex_init(&shmq_dev[0]->mxlock);
 #endif
-	
+
 	/* TEST */
 	shmq_dev[0]->testmap = kmalloc(4096,GFP_KERNEL);
 	shmq_dev[0]->kmalloc_area=(unsigned char *)(((unsigned long)shmq_dev[0]->testmap +PAGE_SIZE-1)&PAGE_MASK);
 	if (shmq_dev[0]->testmap == NULL) {
 		shmq_err("Kernel mem get pages error\n");
-	} 
-	
+	}
+
 	for (virt_addr = (unsigned char *)shmq_dev[0]->kmalloc_area;
 		virt_addr<(unsigned char *)shmq_dev[0]->kmalloc_area+4096;
 		virt_addr+=PAGE_SIZE) {
-		SetPageReserved(virt_to_page(virt_addr)); 
+		SetPageReserved(virt_to_page(virt_addr));
 	}
-	memset(shmq_dev[0]->testmap, 0, 100); 
+	memset(shmq_dev[0]->testmap, 0, 100);
 	shmq_debug("Test drv reg success !\n") ;
 
 	init_waitqueue_head(&shmq_dev[0]->queue);
-	
+
 	return 0;
-	
+
 err2:
 #if 0
 	device_destroy(shmq_dev[0]->class, shmq_dev[0]->dev_no);
@@ -352,12 +351,12 @@ err2:
 	cdev_del(&shmq_dev[0]->cdev);
 
 	unregister_chrdev_region(shmq_dev[0]->dev_no, 1);
-	
+
 err0:
 	kfree(shmq_dev[0]);
 	shmq_dev[0] = NULL;
 	shmq_err("init failed");
-	
+
 	return -1;
 }
 
@@ -369,7 +368,7 @@ static void __exit shmq_exit(void)
 			device_destroy(shmq_dev[0]->class, shmq_dev[0]->dev_no);
 			class_destroy(shmq_dev[0]->class);
 		}
-		
+
 		cdev_del(&shmq_dev[0]->cdev);
 
 		unregister_chrdev_region(shmq_dev[0]->dev_no, 1);
@@ -377,7 +376,7 @@ static void __exit shmq_exit(void)
 		kfree(shmq_dev[0]);
 		shmq_dev[0] = NULL;
 	}
-#else   
+#else
 	cdev_del(&shmq_dev[0]->cdev) ;
 	unregister_chrdev_region(shmq_dev[0]->dev_no , 1);
 #endif
@@ -387,4 +386,3 @@ module_init(shmq_init);
 module_exit(shmq_exit);
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Rong Tao");
-

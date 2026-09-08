@@ -1,7 +1,7 @@
 #!/usr/bin/env bpftrace
 
 /**
- *	fs/xfs/xfs_linux.h 
+ *	fs/xfs/xfs_linux.h
  *
  *	See https://github.com/iovisor/bpftrace/issues/2094
  */

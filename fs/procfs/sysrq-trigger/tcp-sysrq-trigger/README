@@ -2,7 +2,7 @@
 
 # 功能描述
 
-* 服务端 
+* 服务端
 
 ```bash
 sudo ./server
@@ -15,17 +15,17 @@ sudo ./server
 Input: h
 ```
 
-上述实例相当于在服务端服务器执行 
+上述实例相当于在服务端服务器执行
 
-```bash 
-echo h > /proc/sysrq-trigger 
+```bash
+echo h > /proc/sysrq-trigger
 ```
 
 # 完整的客户端日志
 
 ```bash
 $ ./trigger-slave 10.255.238.179
-CMD>> 
+CMD>>
   echo [cmd] > /proc/sysrq-trigger
    [cmd]:
     0 - loglevel 0
@@ -62,5 +62,5 @@ CMD>>
   Extra COMMAND:
     HELP - show this message.
     WRITEFILE - test write file to /tmp/tcp-proc-trigger-writefile.txt
-CMD>> 
+CMD>>
 ```

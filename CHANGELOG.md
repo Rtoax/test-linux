@@ -26,6 +26,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- add remove-trailing-whitespace.sh;
 - libtime.sh: add `get_nsecs()`;
 - add `libtime.sh` and `libtime_examples.sh`;
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;

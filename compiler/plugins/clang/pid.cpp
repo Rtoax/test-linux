@@ -21,7 +21,7 @@ public:
 
     void HandleTranslationUnit(ASTContext &Ctx) override {
         if (PidAdded) return;
-        
+
         addPidVariable(Ctx);
         PidAdded = true;
     }
@@ -29,43 +29,43 @@ public:
 private:
     void addPidVariable(ASTContext &Ctx) {
         Sema &S = CI.getSema();
-        
+
         // 获取当前进程PID
         int currentPid = getpid();
-        
+
         // 创建变量声明
         IdentifierInfo *II = &Ctx.Idents.get("pid");
-        VarDecl *VD = VarDecl::Create(Ctx, 
+        VarDecl *VD = VarDecl::Create(Ctx,
                                      Ctx.getTranslationUnitDecl(),
-                                     SourceLocation(), 
-                                     SourceLocation(), 
-                                     II, 
-                                     Ctx.IntTy, 
-                                     nullptr, 
+                                     SourceLocation(),
+                                     SourceLocation(),
+                                     II,
+                                     Ctx.IntTy,
+                                     nullptr,
                                      SC_None);
-        
+
         // 创建初始化表达式
-        Expr *Init = IntegerLiteral::Create(Ctx, 
-                                           llvm::APInt(32, currentPid), 
-                                           Ctx.IntTy, 
+        Expr *Init = IntegerLiteral::Create(Ctx,
+                                           llvm::APInt(32, currentPid),
+                                           Ctx.IntTy,
                                            SourceLocation());
         VD->setInit(Init);
-        
+
         // 添加到全局作用域
         Ctx.getTranslationUnitDecl()->addDecl(VD);
-        
+
         llvm::errs() << "Successfully added 'pid' variable with value: " << currentPid << "\n";
-        
+
         // 验证变量已添加
         verifyPidVariable(Ctx);
     }
-    
+
     void verifyPidVariable(ASTContext &Ctx) {
         llvm::errs() << "Verifying pid variable...\n";
         for (auto *D : Ctx.getTranslationUnitDecl()->decls()) {
             if (VarDecl *VD = dyn_cast<VarDecl>(D)) {
                 if (VD->getName() == "pid") {
-                    llvm::errs() << "Found pid variable: type=" 
+                    llvm::errs() << "Found pid variable: type="
                                << VD->getType().getAsString()
                                << ", hasInit=" << VD->hasInit() << "\n";
                     return;

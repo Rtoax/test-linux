@@ -40,7 +40,7 @@ module PCIChar
     f.seek(addr, IO::SEEK_SET)
     f.write([data].pack("L"))
     f.close
-  end 
+  end
 
 end
 

@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 watch -n1 tail -n15 /tmp/tcp-proc-trigger-writefile.txt
 

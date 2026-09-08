@@ -11,7 +11,7 @@
 #define PNT(st) printf("size of struct %-8s is %ld\n", #st, sizeof(struct st))
 
 /**
- * support by GCC, MSVC, Clang, ARMCC, IAR 
+ * support by GCC, MSVC, Clang, ARMCC, IAR
  */
 #pragma pack(push, 1)
 struct s0 {

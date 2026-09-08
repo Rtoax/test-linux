@@ -16,7 +16,7 @@ find_pthread_so()
 			break;
 		fi
 	done
-	
+
 	if [[ -z ${lib} ]]; then
 		echo "ERROR: Not found lib.so.6" >&2
 		exit 1

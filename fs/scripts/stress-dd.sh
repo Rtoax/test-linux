@@ -5,7 +5,7 @@
 OUT_DIR=/home/rongtao/
 
 for ((i=1;i<10000000;i++))
-do 
+do
 	echo -e "\033[1;31m=== $i = `date` ===\033[m"
 	dd if=/dev/zero of=$OUT_DIR/delete-me bs=4k count=262144
 	rm -f $OUT_DIR/delete-me

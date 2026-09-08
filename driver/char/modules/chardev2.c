@@ -18,7 +18,7 @@ static int hello_open(struct inode *inode, struct file *file)
 /**
  *	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
  */
-static ssize_t hello_write(struct file *file, const char __user *buf, 
+static ssize_t hello_write(struct file *file, const char __user *buf,
 						size_t count, loff_t *ppos)
 {
 	printk(KERN_EMERG "driver: hello_write\n");

@@ -3,7 +3,7 @@
 BEGIN
 {
     printf("Tracing sync syscalls... Hit Ctrl-C to end.\n");
-    printf("%-9s %-6s %-16s %-16s %-16s %-16s\n", 
+    printf("%-9s %-6s %-16s %-16s %-16s %-16s\n",
 		   "TIME", "PID", "COMM", "TYPE", "FROM", "TO");
 }
 
@@ -17,7 +17,7 @@ tracepoint:syscalls:sys_enter_mount
     @name[tid] = "mount(2)";
 
 	time("%H:%M:%S  ");
-    printf("%-6d %-16s %-16s %-16s %-16s\n", 
+    printf("%-6d %-16s %-16s %-16s %-16s\n",
 		   pid, comm, str($type), str($dev_name), str($dir_name));
 }
 

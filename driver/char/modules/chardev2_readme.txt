@@ -1,6 +1,6 @@
 
 1.编译
-	$ make 
+	$ make
 
 2.加载
 	$ sudo insmod chardev2.ko

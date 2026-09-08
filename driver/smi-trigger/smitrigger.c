@@ -1,8 +1,8 @@
 #include <linux/device.h>
 #include <linux/fs.h>
-#include <linux/init.h>   
-#include <linux/kernel.h> 
-#include <linux/module.h> 
+#include <linux/init.h>
+#include <linux/kernel.h>
+#include <linux/module.h>
 
 #define SUCCESS 0
 #define DEVICE_NAME "smitrigger"
@@ -58,7 +58,7 @@ static int __init smitrigger_init(void) {
 }
 
 static void __exit smitrigger_exit(void) {
-  device_destroy(smitriggerClass, MKDEV(majorNumber, 0)); 
+  device_destroy(smitriggerClass, MKDEV(majorNumber, 0));
   class_unregister(smitriggerClass);
   class_destroy(smitriggerClass);
   unregister_chrdev(majorNumber, DEVICE_NAME);
@@ -79,7 +79,7 @@ static int device_release(struct inode *inode, struct file *file) {
 }
 
 static ssize_t device_read(struct file *filp,
-                           char *buffer, 
+                           char *buffer,
                            size_t length,
                            loff_t *offset) {
   printk(KERN_INFO "Smitrigger read\n");

@@ -25,7 +25,7 @@ static int demodrv_open(struct inode *inode, struct file *file)
 static ssize_t demodrv_read(struct file *file, char __user *buf,size_t lbuf,loff_t *ppos)
 {
 	printk("%s enter\n",__func__);
-	
+
 	return 0;
 }
 
@@ -33,7 +33,7 @@ static ssize_t demodrv_read(struct file *file, char __user *buf,size_t lbuf,loff
 static ssize_t demodrv_write(struct file *file, const char __user *buf,size_t count,loff_t *f_pos)
 {
 	printk("%s enter\n",__func__);
-	
+
 	return 0;
 }
 
@@ -57,7 +57,7 @@ static int __init simple_char_init(void)
 		return ret;
 	}
 	demo_cdev = cdev_alloc();
-	if(!demo_cdev) 
+	if(!demo_cdev)
 	{
 		printk("cdev_alloc failed\n");
 		goto unregister_chrdev;
@@ -84,7 +84,7 @@ unregister_chrdev:
 	unregister_chrdev_region(dev,count);
 
 	return ret;
-} 
+}
 
 
 static void __exit simple_char_exit(void)

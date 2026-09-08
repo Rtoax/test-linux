@@ -136,7 +136,7 @@ void SuperBlock::SetRootInode(uint32_t root) noexcept
 		reinterpret_cast<struct aufs_super_block *>(
 			m_super_block->Data());
 
-	ASB_ROOT_INODE(sb) = htonl(root);	
+	ASB_ROOT_INODE(sb) = htonl(root);
 }
 
 void SuperBlock::FillSuper(BlocksCache &cache) noexcept
@@ -160,7 +160,7 @@ void SuperBlock::FillBlockMap(BlocksCache &cache) noexcept
 	BitIterator const it(m_block_map->Data(), 0);
 	std::fill(it, it + 3 + inode_blocks, false);
 	std::fill(it + 3 + inode_blocks, it + blocks, true);
-	std::fill(it + blocks, it + cache.Config()->BlockSize() * 8, false); 
+	std::fill(it + blocks, it + cache.Config()->BlockSize() * 8, false);
 }
 
 void SuperBlock::FillInodeMap(BlocksCache &cache) noexcept

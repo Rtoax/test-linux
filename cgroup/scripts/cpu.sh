@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 set -euo pipefail
 
 # create cgroup CPU
@@ -14,13 +14,13 @@ echo 30000 >  /sys/fs/cgroup/cpu/rongtao/cpu.cfs_quota_us
 while :; do :; done &
 while :; do :; done &
 
-# use pidof or ps check above processes PID 
+# use pidof or ps check above processes PID
 # and add to cgroup
 cgclassify -g cpu:rongtao 181481
 cgclassify -g cpu:rongtao 181482
 
 # check cgroup's processes
-# will show 
+# will show
 # 181481
 # 181482
 more /sys/fs/cgroup/cpu/rongtao/tasks

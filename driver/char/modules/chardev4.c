@@ -84,7 +84,7 @@ static int __init simple_char_init(void)
 	printk("successed register char device: %s\n",DEMO_NAME);
 
 	return 0;
-} 
+}
 
 
 static void __exit simple_char_exit(void)

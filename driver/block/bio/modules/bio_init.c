@@ -14,7 +14,7 @@ static int kernel_init(void)
 	int nr_pages = 32;
 
 	printk(KERN_INFO "my bio test init.\n");
-	
+
 	vecs = kmalloc_array(nr_pages, sizeof(struct bio_vec), GFP_KERNEL);
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5, 17, 0)

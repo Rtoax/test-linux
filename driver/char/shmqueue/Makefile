@@ -1,6 +1,6 @@
 MODULE_NAME = shmqueue
 
-$(MODULE_NAME)-objs := shmq.o 
+$(MODULE_NAME)-objs := shmq.o
 obj-m := $(MODULE_NAME).o
 
 KERNEL_DIR=/lib/modules/`uname -r`/build
@@ -32,17 +32,17 @@ rmnod:
 test:
 	${Q}make rmmod
 	${Q}make rmnod
-	${Q}make 
+	${Q}make
 	${Q}make mknod
 	${Q}make insmod
 	@echo "Test------------"
 	gcc test.c -pthread -lrt
 	@./a.out
 	@echo "SHMQ LOG------------"
-	grep SHMQ /var/log/messages -n 
+	grep SHMQ /var/log/messages -n
 	@echo "Test------------"
 	@./a.out
-	
+
 clean distclean:
 	@echo "clean"
 	${Q}make -C $(KERNEL_DIR) M=$(MODULEDIR) clean

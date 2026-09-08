@@ -1,4 +1,4 @@
-#!/usr/bin/env bpftrace 
+#!/usr/bin/env bpftrace
 
 BEGIN
 {
@@ -6,7 +6,7 @@ BEGIN
 	printf("%-8s %-16s %-16s\n", "PID", "COMM", "PROBE");
 }
 
-kprobe:proc_cgroup_show 
+kprobe:proc_cgroup_show
 {
 	printf("%-8d %-16s %-16s\n", pid, comm, probe);
 }

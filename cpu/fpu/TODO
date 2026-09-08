@@ -1,4 +1,4 @@
-2021.11.23 Rong Tao 
+2021.11.23 Rong Tao
 - cpu/fpu/test_fpu.c:43:8: error: SSE register return with SSE disabled
 -  d = a + b;
 -      ~~^~~

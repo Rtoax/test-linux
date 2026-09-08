@@ -21,7 +21,7 @@ interval:s:1
 	clear(@);
 }
 
-END 
+END
 {
 	clear(@);
 }
