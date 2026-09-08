@@ -1,4 +1,5 @@
 #!/bin/bash
+# Test qemu-vm.sh and it's libraries.
 set -eo pipefail
 readonly QEMU_VM_EXAMPLES_ROOT=$(dirname $(realpath $0))
 readonly DISK_TYPES=( virtio sata nvme nvdimm scsi )
@@ -96,8 +97,16 @@ cxl_pxb2() {
 }
 cxl_pxb4() {
 	cxl_pxb2 \
-		--cxl pxb=pxb.3,fixed-memory-window=2 --cxl fmw=2,ig=1k \
-		--cxl pxb=pxb.4,fixed-memory-window=3 --cxl fmw=3,ig=2k \
+		--cxl pxb=pxb.3,fixed-memory-window=2 --cxl fmw=2,interleave-granularity=1k \
+		--cxl pxb=pxb.4,fixed-memory-window=3 --cxl fmw=3,interleave-granularity=2k \
+		"${@}"
+}
+cxl_pxb8() {
+	cxl_pxb4 \
+		--cxl pxb=pxb.5,fixed-memory-window=4 --cxl fmw=4,interleave-granularity=4k \
+		--cxl pxb=pxb.6,fixed-memory-window=5 --cxl fmw=5,interleave-granularity=8k \
+		--cxl pxb=pxb.7,fixed-memory-window=6 --cxl fmw=6,interleave-granularity=16k \
+		--cxl pxb=pxb.8,fixed-memory-window=7 --cxl fmw=7,interleave-granularity=16k \
 		"${@}"
 }
 cxl_pxb4_rp4() {
@@ -167,5 +176,6 @@ cxl_pxb4_rp4_sw4_pmem4
 cxl_pxb4_rp4_vmem4
 cxl_pxb4_rp4_sw4_vmem4
 cxl_pxb4_rp4_sw4_vmem4_dc
+cxl_pxb8
 
 echo -e "\nDONE"
