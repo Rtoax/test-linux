@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.3"
+readonly LIBQEMU_CXL_VERSION="v0.0.4"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -91,6 +91,8 @@ readonly CXL_BUILTIN_DEVICES=( ${CXL_DEV_VMEM}
 			       ${CXL_DEV_PMEM_4WAY_SWITCH} )
 
 declare -a cxl_fmw=( 0 ) # (0 1 2 3)
+# IG: interleave granularity, see add_cxl_fmw_ig() for the detail.
+declare -A cxl_fmw_ig # arr[fmw]=size
 
 # cxl-pxb specify id=, this is CHBS(CXL Host Bridge Structure)
 # and use to -machine cxl-fmw.0.targets.M
@@ -158,6 +160,7 @@ ${BOLD}--cxl [DEVICE]${RST}: see ${BOLD}[DEVICE]${RST} section below
 ${BOLD}--cxl <device|dev>=[DEVICE|<list|?>]${RST}: see ${BOLD}[DEVICE]${RST} section below
 
 ${BOLD}--cxl pxb=<name>,[fmw|fixed-memory-window=<N>]${RST}: create CXL PXB, fmw default 0
+${BOLD}--cxl [fmw|fixed-memory-window]=<id>,[ig|interleave-granularity=<SIZE>]${RST}: set fmw feature
 ${BOLD}--cxl <root-port|rp>=<name>,bus=<name>,port=<num>${RST}: create CXL RootPort
 ${BOLD}--cxl switch,bus=<name>,nport=<num>,portprefix=<name>${RST}: create CXL Switch
 ${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
@@ -178,7 +181,8 @@ ${BOLD}FORMAT${RST}
 handle_cxl_arg() {
 	local arg args
 	local device
-	local pxb_id pxbfmw=0
+	local pxb_id
+	local fmw_idx fmw_ig
 	local bus port
 	local rp_id
 	local switch nport portprefix
@@ -217,14 +221,23 @@ handle_cxl_arg() {
 				;;
 			fmw|fixed-memory-window)
 				if [[ ${arg:0:3} == fmw ]]; then
-					pxbfmw=${arg:4}
+					fmw_idx=${arg:4}
 				elif [[ ${arg:0:19} == fixed-memory-window ]]; then
-					pxbfmw=${arg:20}
+					fmw_idx=${arg:20}
 				else
 					error "cxl: bad fmw '${arg}'"
 				fi
-				if ! [[ " 0 1 2 3 4 5 " =~ " ${pxbfmw} " ]]; then
-					error "bad cxl pxb ${arg} only support 0 1 2 3 4 5"
+				if ! [[ " 0 1 2 3 4 5 6 7 8 9 " =~ " ${fmw_idx} " ]]; then
+					error "bad cxl pxb ${arg} only support 0 1 2 3 4 5 ..."
+				fi
+				;;
+			ig|interleave-granularity)
+				if [[ ${arg:0:2} == ig ]]; then
+					fmw_ig=${arg:3}
+				elif [[ ${arg:0:22} == interleave-granularity ]]; then
+					fmw_ig=${arg:23}
+				else
+					error "cxl: bad fmw-ig '${arg}'"
 				fi
 				;;
 			rp|root-port)
@@ -362,7 +375,24 @@ handle_cxl_arg() {
 			error "cxl: could not create pxb '${pxb_id}' twice"
 		fi
 		cxl_pxb_ids+=( ${pxb_id} )
-		cxl_pxb_fmw[$pxb_id]=${pxbfmw}
+		if [[ -z ${fmw_idx} ]]; then
+			fmw_idx=0
+		fi
+		cxl_pxb_fmw[$pxb_id]=${fmw_idx}
+	fi
+
+	# Set fmw feature
+	if [[ ${fmw_idx} ]] && [[ -z ${pxb_id} ]]; then
+		if [[ ${fmw_idx} != 0 ]]; then
+			if ! [[ " ${cxl_pxb_fmw[@]} " =~ " ${fmw_idx} " ]]; then
+				error "CXL: not found fmw '${fmw_idx}' in pxb's fmw '${cxl_pxb_fmw[@]}', specify pxb first"
+			fi
+		fi
+		if [[ ${fmw_ig} ]]; then
+			add_cxl_fmw_ig ${fmw_idx} ${fmw_ig}
+		else
+			error "CXL: not found any fmw feature was specified"
+		fi
 	fi
 
 	if [[ ${rp_id} ]]; then
@@ -427,10 +457,31 @@ next_cxl_switch_upstream_id() {
 }
 
 # $1: 0 1 2 3
-add_cxl_fmw() {
+__add_cxl_fmw_from_pxb() {
 	if ! [[ " ${cxl_fmw[@]} " =~ " $1 " ]]; then
 		cxl_fmw+=( $1 )
 	fi
+	return 0
+}
+
+# Specify cxl fmw interleave granularity
+# $1: fmw index: 0 1 2 3, see also __add_cxl_fmw_from_pxb()
+# $2: interleave granularity, size: 256, 512, 1k, 2k, 4k, 8k, 16k, default 256,
+#     see CFMWS's field Host Bridge Interleave Granularity (HBIG).
+add_cxl_fmw_ig() {
+	local support_ig=( 256 512 1k 2k 4k 8k 16k )
+	local fmw=$1
+	local ig=$2
+
+	if [[ -z $ig ]]; then
+		error "CXL: not specify fmw '${fmw}' interleave granularity"
+	fi
+
+	if ! [[ " ${support_ig[@]} " =~ " $ig " ]]; then
+		error "CXL: bad interleave-granularity '${ig}', support '${support_ig[@]}'"
+	fi
+
+	cxl_fmw_ig[$fmw]=$ig
 	return 0
 }
 
@@ -460,7 +511,7 @@ add_cxl_pxb() {
 		error "cxl: try to set different fmw for pxb ${id} (old ${cxl_pxb_fmw[$id]}, new ${fmw})"
 	fi
 	[[ -z ${cxl_pxb_fmw[$id]} ]] && cxl_pxb_fmw[$id]=${fmw}
-	add_cxl_fmw ${fmw}
+	__add_cxl_fmw_from_pxb ${fmw}
 
 	return 0
 }
@@ -1157,8 +1208,11 @@ config_cxl() {
 		[[ -z ${fmwsz} ]] && error "cxl: failed to get pxb size sum"
 		cxl_qmachine+=( cxl-fmw.${j}.size=${fmwsz} )
 
-		# 256, 512, 1k, 2k, 4k, 8k, 16k, default 256
-		cxl_qmachine+=( cxl-fmw.${j}.interleave-granularity=4k )
+		local fmw_ig=4k
+		if [[ ${cxl_fmw_ig[$j]} ]]; then
+			fmw_ig=${cxl_fmw_ig[$j]}
+		fi
+		cxl_qmachine+=( cxl-fmw.${j}.interleave-granularity=${fmw_ig} )
 	done
 
 	# config kenrel cmdlines of cxl

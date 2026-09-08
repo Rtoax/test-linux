@@ -8,6 +8,32 @@
 #include "cfmws.h"
 #include "constants.h"
 
+/**
+ * CXL 3.0 Specification, 8.2.4.19.7 CXL HDM Decoder n Control Register (Offset 20h*n+20h)
+ * - Interleave Granularity size: 256, 512, 1k, 2k, 4k, 8k, 16k
+ */
+static const char *hbig_str(uint32_t hbig)
+{
+	switch (hbig) {
+	case 0:
+		return "256B";
+	case 1:
+		return "512B";
+	case 2:
+		return "1K";
+	case 3:
+		return "2K";
+	case 4:
+		return "4K";
+	case 5:
+		return "8K";
+	case 6:
+		return "16K";
+	default:
+		return "Unknown-Size";
+	}
+}
+
 void display_cfmws(struct cfmws *cfmws, bool with_title)
 {
 	int niw;
@@ -28,7 +54,8 @@ void display_cfmws(struct cfmws *cfmws, bool with_title)
 	       cfmws->window_size / MiB, cfmws->window_size / GiB);
 	printf("ENIW %d, ", cfmws->eniw);
 	printf("Interleave Arithmetic %d", cfmws->interleave_arithmetic);
-	printf(", hbig 0x%x (%d MB)", cfmws->hbig, cfmws->hbig / MiB);
+	printf(", hbig 0x%x (Interleave Granularity %s)", cfmws->hbig,
+	       hbig_str(cfmws->hbig));
 	printf(", qtag id %d", cfmws->qtag_id);
 
 	niw = (cfmws->record_length - 0x24) / 4;

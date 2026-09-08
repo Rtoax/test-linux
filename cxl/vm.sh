@@ -116,6 +116,15 @@ custom_cxl_1() {
 	cxlargs+=( --cxl pxb=pxb.4,fixed-memory-window=3 )
 	cxlargs+=( --cxl pxb=pxb.5,fixed-memory-window=4 )
 	cxlargs+=( --cxl pxb=pxb.6,fixed-memory-window=5 )
+	cxlargs+=( --cxl pxb=pxb.7,fixed-memory-window=6 )
+
+	cxlargs+=( --cxl fmw=0,ig=256 )
+	cxlargs+=( --cxl fmw=1,ig=512 )
+	cxlargs+=( --cxl fmw=2,ig=1k )
+	cxlargs+=( --cxl fmw=3,ig=2k )
+	cxlargs+=( --cxl fmw=4,ig=4k )
+	cxlargs+=( --cxl fmw=5,ig=8k )
+	cxlargs+=( --cxl fmw=6,ig=16k )
 
 	# $ qemu-kvm -device cxl-rp,...
 	# see commit f6f541dae696 ("qemu: cxl-rp(root-port): 'lspci -tv'")

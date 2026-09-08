@@ -89,15 +89,15 @@ done
 
 # Test CXL custom device
 cxl_pxb1() {
-	run --cxl pxb=pxb.1 "${@}"
+	run --cxl pxb=pxb.1 --cxl fmw=0,ig=256 "${@}"
 }
 cxl_pxb2() {
-	cxl_pxb1 --cxl pxb=pxb.2,fmw=1 "${@}"
+	cxl_pxb1 --cxl pxb=pxb.2,fmw=1 --cxl fmw=1,ig=512 "${@}"
 }
 cxl_pxb4() {
 	cxl_pxb2 \
-		--cxl pxb=pxb.3,fixed-memory-window=2 \
-		--cxl pxb=pxb.4,fixed-memory-window=4 \
+		--cxl pxb=pxb.3,fixed-memory-window=2 --cxl fmw=2,ig=1k \
+		--cxl pxb=pxb.4,fixed-memory-window=3 --cxl fmw=3,ig=2k \
 		"${@}"
 }
 cxl_pxb4_rp4() {

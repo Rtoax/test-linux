@@ -43,6 +43,18 @@ struct cfmws {
 	 * The number of consecutive bytes within the interleave that are
 	 * decoded by each target in the Interleave Target List represented in
 	 * an encoded format.
+	 *
+	 * CXL 3.0 Specification, 8.2.4.19.7 CXL HDM Decoder n Control Register (Offset 20h*n+20h)
+	 * - Interleave Granularity size: 256, 512, 1k, 2k, 4k, 8k, 16k
+	 *
+	 * - 0h – 256 Bytes
+	 * - 1h – 512 Bytes
+	 * - 2h – 1024 Bytes (1 KB)
+	 * - 3h – 2048 Bytes (2 KB)
+	 * - 4h – 4096 Bytes (4 KB)
+	 * - 5h – 8192 Bytes (8 KB)
+	 * - 6h – 16384 Bytes (16 KB)
+	 * - All other – Reserved
 	 */
 	uint32_t hbig;
 	uint16_t window_restrictions;
