@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <malloc.h>
 
-
 int main(void)
 {
 	char *oldpwd, *listenq, *c_include_path;
