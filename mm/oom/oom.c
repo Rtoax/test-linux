@@ -17,15 +17,10 @@
 #endif
 #include "oom_helpers.h"
 #include "proc_helpers.h"
+#include "oom.h"
 
 #define OOM_VERSION "1.0.0"
 volatile sig_atomic_t keep_going = 1;
-
-enum ops_type {
-	OP_GLIBC = 1,
-	OP_MMAP_ANON,
-	OP_MMAP_FILE,
-};
 
 struct {
 	enum ops_type ops_type;
@@ -191,14 +186,6 @@ static inline void whitespace(FILE *fp, int n)
 			fprintf(stderr, "\n");			\
 		____prev_n = ____n;				\
 	} while (0)
-
-struct oom_operations {
-	const char *name;
-	size_t total_size;
-	void *(*alloc)(size_t size);
-	void (*pagefault)(void *mem, size_t size, bool pf_verbose);
-	void (*free)(void *mem, size_t size);
-};
 
 void *glibc_alloc(size_t size)
 {
