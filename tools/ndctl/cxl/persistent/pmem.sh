@@ -14,8 +14,11 @@ sudo cxl create-region --decoder decoder0.0 --size ${SIZE} --type pmem --memdevs
 sudo ndctl list --regions
 sudo cxl list --regions
 
-# Create namespace, generate /dev/pmem0
-# mode: raw, sector, fsdax, devdax
+# Create namespace
+# Could create more than one namespaces, you just need call 'create-namespace'
+# multiple times.
+#
+# mode: raw, fsdax, devdax
 # - raw: /dev/pmemN (block device), commit df86a43c93e1 ("cxl: pmem: test 'raw' mode (same as fsdax)")
 #   see also 'fsdax'
 # - fsdax: /dev/pmemN (block device), commit d61a78f78d31 ("cxl: pmem: test block device of 1way pmem")
