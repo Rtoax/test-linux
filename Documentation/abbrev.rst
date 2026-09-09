@@ -6,7 +6,6 @@ Abbrev
 - CD: Continuous Delivery (持续交付) @CDF
 - CDF: Continuous Delivery Foundation (持续交付基金会) @CD
 - CI: Continuous Integration (持续集成)
-- CIM: Compute In Memory (存内计算) @PIM
 - CLA: Contributor License Agreement () @DCO
 - CLI: Command Line Interface (命令行接口)
 - COSE: Common Open Software Environment (通用开源软件环境)
@@ -37,9 +36,6 @@ Abbrev
 - OSF: Open Software Foundation (开源基金会)
 - OSI: Open Source Initiative (开源倡议)
 - OSS: Open Source Software (开源软件)
-- PIM: Processing in Memory (存内处理) @CIM @PuM @PnM
-- PuM: Processing-using-memory (使用存储器的处理) @PIM
-- PnM: Processing-near-memory (近内存处理) @PIM
 - QoS: Quality of Service (服务质量)
 - RAS: Reliability, Availability, Serviceability (可靠性、可用性、可维护性) @CPU
 - RC: Release Candidate (候选版本,例如rc1)
