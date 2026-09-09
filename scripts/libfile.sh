@@ -75,9 +75,22 @@ ftype() {
 }
 
 # $1: file to write
-# $2: content to write
+# $2: set open mode(-a, -w) or message to write
 fprintf() {
 	local f=${1}
 	shift
-	python3 -c "open('${f}','w').write('${@}')"
+	local mode=w
+
+	case ${1} in
+	-a)
+		shift
+		mode=a
+		;;
+	-w)
+		shift
+		mode=w
+		;;
+	esac
+
+	python3 -c "open('${f}','${mode}').write('${@}')"
 }

@@ -28,8 +28,12 @@ if [[ $(ftype ${ls}) != elf ]] ||
 	error "ftype() test failed"
 fi
 
-message1="Hello World"
+message1="Hello World, XXX"
 fprintf a.tmp "${message1}"
 if [[ "${message1}" != "$(cat a.tmp)" ]]; then
 	error "fprintf() test failed"
+fi
+fprintf a.tmp -a "${message1}"
+if [[ "${message1}${message1}" != "$(cat a.tmp)" ]]; then
+	error "fprintf() test -a failed, '$(cat a.tmp)'"
 fi
