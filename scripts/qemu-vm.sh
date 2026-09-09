@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.35"
+readonly VERSION="v1.1.36"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -53,8 +53,8 @@ declare TMPDIR=/tmp/${PROG}
 
 # Store VM specific files on host filesystem
 declare vm_tmpdir
-declare vm_cmd_sh
-declare vm_qemu_cmd
+declare f_vm_cmd_sh
+declare f_vm_qemu_cmd
 # Port
 declare f_vm_port_hostfwd_ssh22 TCP_PORT_HOSTFWD_SSH22
 declare f_vm_port_monitor_telnet TCP_PORT_MONITOR_TELNET
@@ -88,7 +88,7 @@ readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 
 qemu_eval()
 {
-	DRY_RUN_LOG=${vm_cmd_sh} DRY_RUN=${flag_dry_run} dry_run "${@}"
+	DRY_RUN_LOG=${f_vm_cmd_sh} DRY_RUN=${flag_dry_run} dry_run "${@}"
 }
 
 __usage_internal__() {
@@ -563,12 +563,12 @@ config_prepare_vm_tmpdir() {
 		vm_tmpdir=${TMPDIR}/${name}
 	fi
 
-	vm_cmd_sh=${vm_tmpdir}/cmds.sh
-	vm_qemu_cmd=${vm_tmpdir}/qemu-command.sh
+	f_vm_cmd_sh=${vm_tmpdir}/cmds.sh
+	f_vm_qemu_cmd=${vm_tmpdir}/qemu-command.sh
 	f_vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
 	f_vm_port_monitor_telnet=${vm_tmpdir}/port-monitor-telnet.txt
 
-	cxl_dry_run_log=${vm_cmd_sh}
+	cxl_dry_run_log=${f_vm_cmd_sh}
 }
 
 ################################################################################
@@ -685,7 +685,7 @@ list_vm() {
 			elif [[ ! -d /proc/${pid} ]]; then
 				state="die"
 			fi
-		elif [[ -e ${vm_qemu_cmd} ]]; then
+		elif [[ -e ${f_vm_qemu_cmd} ]]; then
 			state="shut-off"
 		elif [[ -z "$(ls ${vm_tmpdir})" ]]; then
 			# It's and empty directory, just remove it.
@@ -704,7 +704,7 @@ list_vm() {
 
 		if [[ -n ${list_qemucmd} ]]; then
 			printf "\033[2mQemu: "
-			cat ${vm_qemu_cmd}
+			cat ${f_vm_qemu_cmd}
 			printf "\033[m"
 		fi
 
@@ -847,7 +847,7 @@ start_vm() {
 	config_prepare_vm_tmpdir ${name}
 
 	warning "Starting virtual machine '${name}'"
-	sudo ${SHELL} ${vm_qemu_cmd}
+	sudo ${SHELL} ${f_vm_qemu_cmd}
 }
 
 image2uuid() {
@@ -933,17 +933,17 @@ config_vm_tmpdir() {
 		qemu_eval mkdir -p ${vm_tmpdir}
 	fi
 
-	qemu_eval touch ${vm_cmd_sh} ${vm_qemu_cmd}
-	qemu_eval chmod +x ${vm_cmd_sh}
-	qemu_eval chmod +x ${vm_qemu_cmd}
+	qemu_eval touch ${f_vm_cmd_sh} ${f_vm_qemu_cmd}
+	qemu_eval chmod +x ${f_vm_cmd_sh}
+	qemu_eval chmod +x ${f_vm_qemu_cmd}
 
 	if [[ -z ${flag_dry_run} ]]; then
 		fprintf ${f_vm_port_hostfwd_ssh22} ${TCP_PORT_HOSTFWD_SSH22}
 		fprintf ${f_vm_port_monitor_telnet} ${TCP_PORT_MONITOR_TELNET}
 	fi
 
-	cleanup_files+=( ${vm_cmd_sh} )
-	cleanup_files+=( ${vm_qemu_cmd} )
+	cleanup_files+=( ${f_vm_cmd_sh} )
+	cleanup_files+=( ${f_vm_qemu_cmd} )
 	cleanup_files+=( ${f_vm_port_hostfwd_ssh22} )
 	cleanup_files+=( ${f_vm_port_monitor_telnet} )
 }
@@ -1021,7 +1021,7 @@ get_port_monitor_telnet() {
 		cat ${f_vm_port_monitor_telnet}
 		return 0
 	fi
-	# TODO: Read from "vm_qemu_cmd"
+	# TODO: Read from "f_vm_qemu_cmd"
 	echo 0
 	return 0
 }
@@ -1177,8 +1177,8 @@ get_port_hostfwd_ssh22() {
 	if [[ -e ${f_vm_port_hostfwd_ssh22} ]]; then
 		cat ${f_vm_port_hostfwd_ssh22}
 		return 0
-	elif [[ -e ${vm_qemu_cmd} ]]; then
-		local port=$(grep -Eo 'hostfwd=tcp::[0-9]+-:22' ${vm_qemu_cmd} | \
+	elif [[ -e ${f_vm_qemu_cmd} ]]; then
+		local port=$(grep -Eo 'hostfwd=tcp::[0-9]+-:22' ${f_vm_qemu_cmd} | \
 				awk -F ':' '{printf $3}' | tr -d '-')
 		if [[ ${port} ]]; then
 			echo ${port}
@@ -1643,5 +1643,5 @@ qargs+=( ${ipmi_qargs[@]} )
 qargs+=( -machine $(IFS=,; echo "${qmachine[*]}") )
 [[ -n ${have_cxl} ]] && kcmds+=( "${cxl_kcmds[@]}" )
 
-echo "${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}" > >(sudo tee ${vm_qemu_cmd})
+echo "${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}" > >(sudo tee ${f_vm_qemu_cmd})
 qemu_eval ${QEMU} ${qargs[@]} ${kcmds:+-append \"${kcmds[@]}\"}
