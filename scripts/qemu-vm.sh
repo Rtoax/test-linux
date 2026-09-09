@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.40"
+readonly VERSION="v1.1.41"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -586,7 +586,7 @@ ${BOLD}SYNOPSIS${RST}
     ${PROG} ${BOLD}list${RST} [-h|--help]
 
 ${BOLD}OPTIONS${RST}
-    -a, --all      list all VMs and their information
+    -a, --all      list all status VMs
     -p, --port     list VMs's network port
     --uuid         list VMs's UUID
     --qemu-cmd     listing qemu command
@@ -630,8 +630,7 @@ list_vm() {
 			;;
 		-a | --all)
 			shift
-			list_port=ON
-			list_qemucmd=ON
+			list_all=ON
 			;;
 		-p | --port)
 			shift
@@ -708,6 +707,10 @@ list_vm() {
 			continue
 		else
 			state="non-exist"
+		fi
+
+		if [[ ${state} != running ]] && [[ -z ${list_all} ]]; then
+			continue
 		fi
 
 		printf "%-4d %-*s %-12s" ${vmid} ${max_name_len} ${name} ${state}
