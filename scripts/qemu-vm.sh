@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.41"
+readonly VERSION="v1.1.42"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -663,6 +663,7 @@ list_vm() {
 		fi
 	done
 
+	printf "\033[1;7m"
 	printf "%-4s %-*s %-12s" Id ${max_name_len} Name State
 	if [[ ${list_port} ]]; then
 		printf " %-8s" SSH
@@ -671,18 +672,19 @@ list_vm() {
 	if [[ ${list_uuid} ]]; then
 		printf " %-36s" UUID
 	fi
+	printf "\033[m"
 	printf "\n"
 
-	for ((i = 0; i < max_name_len + 4; i += 4))
-	do
-		echo -n "----"
-	done
 	echo -n '------------------'
+	for ((i = 0; i < max_name_len; i++))
+	do
+		echo -n "-"
+	done
 	if [[ ${list_port} ]]; then
-		echo -n '-----------------'
+		echo -n '------------------'
 	fi
 	if [[ ${list_uuid} ]]; then
-		echo -n '------------------------------------'
+		echo -n '-------------------------------------'
 	fi
 	echo
 
