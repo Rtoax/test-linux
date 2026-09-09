@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.36"
+readonly VERSION="v1.1.37"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -53,6 +53,7 @@ declare TMPDIR=/tmp/${PROG}
 
 # Store VM specific files on host filesystem
 declare vm_tmpdir
+declare f_vm_info
 declare f_vm_cmd_sh
 declare f_vm_qemu_cmd
 # Port
@@ -563,6 +564,7 @@ config_prepare_vm_tmpdir() {
 		vm_tmpdir=${TMPDIR}/${name}
 	fi
 
+	f_vm_info=${vm_tmpdir}/info.sh
 	f_vm_cmd_sh=${vm_tmpdir}/cmds.sh
 	f_vm_qemu_cmd=${vm_tmpdir}/qemu-command.sh
 	f_vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
@@ -933,7 +935,8 @@ config_vm_tmpdir() {
 		qemu_eval mkdir -p ${vm_tmpdir}
 	fi
 
-	qemu_eval touch ${f_vm_cmd_sh} ${f_vm_qemu_cmd}
+	qemu_eval touch ${f_vm_info} ${f_vm_cmd_sh} ${f_vm_qemu_cmd}
+	qemu_eval chmod +x ${f_vm_info}
 	qemu_eval chmod +x ${f_vm_cmd_sh}
 	qemu_eval chmod +x ${f_vm_qemu_cmd}
 
@@ -942,6 +945,7 @@ config_vm_tmpdir() {
 		fprintf ${f_vm_port_monitor_telnet} ${TCP_PORT_MONITOR_TELNET}
 	fi
 
+	cleanup_files+=( ${f_vm_info} )
 	cleanup_files+=( ${f_vm_cmd_sh} )
 	cleanup_files+=( ${f_vm_qemu_cmd} )
 	cleanup_files+=( ${f_vm_port_hostfwd_ssh22} )
@@ -951,9 +955,14 @@ config_vm_tmpdir() {
 config_basic() {
 	local pidfile=${vm_tmpdir}/pidfile.pid
 	local qmpfile=${vm_tmpdir}/qmp.sock
+	local uuid=$(gen_uuid)
+
+	fprintf ${f_vm_info} "VM_TMPDIR=${vm_tmpdir}\n"
+	fprintf ${f_vm_info} -a "VM_NAME=${q_vm_name}\n"
+	fprintf ${f_vm_info} -a "VM_UUID=${uuid}\n"
 
 	qargs+=( -name ${q_vm_name} )
-	qargs+=( -uuid $(gen_uuid) )
+	qargs+=( -uuid ${uuid} )
 	# or use '-accel kvm'
 	qargs+=( -enable-kvm )
 	qargs+=( -boot menu=on )
