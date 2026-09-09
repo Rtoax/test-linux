@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.39"
+readonly VERSION="v1.1.40"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -588,6 +588,7 @@ ${BOLD}SYNOPSIS${RST}
 ${BOLD}OPTIONS${RST}
     -a, --all      list all VMs and their information
     -p, --port     list VMs's network port
+    --uuid         list VMs's UUID
     --qemu-cmd     listing qemu command
     -h, --help     show this information
     -v, --verbose  enable verbose mode
@@ -599,7 +600,7 @@ list_vm() {
 	local i name max_name_len=0
 	local vmnames=()
 	local vmid=0
-	local list_all list_port list_qemucmd
+	local list_all list_port list_qemucmd list_uuid
 	local LIST_VM_ARGS
 
 	if [[ -d ${TMPDIR} ]]; then
@@ -610,6 +611,7 @@ list_vm() {
 		--long all \
 		--long port \
 		--long qemu-command \
+		--long uuid \
 		--long help \
 		--long verbose \
 		--name list-vm -- "$@")
@@ -634,6 +636,10 @@ list_vm() {
 		-p | --port)
 			shift
 			list_port=ON
+			;;
+		--uuid)
+			shift
+			list_uuid=ON
 			;;
 		--qemu-command)
 			shift
@@ -663,6 +669,9 @@ list_vm() {
 		printf " %-8s" SSH
 		printf " %-8s" TELNET
 	fi
+	if [[ ${list_uuid} ]]; then
+		printf " %-36s" UUID
+	fi
 	printf "\n"
 
 	for ((i = 0; i < max_name_len + 4; i += 4))
@@ -672,6 +681,9 @@ list_vm() {
 	echo -n '------------------'
 	if [[ ${list_port} ]]; then
 		echo -n '-----------------'
+	fi
+	if [[ ${list_uuid} ]]; then
+		echo -n '------------------------------------'
 	fi
 	echo
 
@@ -702,6 +714,10 @@ list_vm() {
 		if [[ ${list_port} ]]; then
 			printf " %-8d" $(get_port_hostfwd_ssh22)
 			printf " %-8d" $(get_port_monitor_telnet)
+		fi
+		if [[ ${list_uuid} ]]; then
+			source ${f_vm_info}
+			printf " %-36s" ${VM_UUID}
 		fi
 		printf "\n"
 
