@@ -11,6 +11,7 @@ Abbrev
 - ECC: Error Checking and Correcting () @UE @CE
 - EDAC: Error Detection And Correction (错误探测和纠正)
 - GDT: Global Descriptor Table (全局描述符表)
+- IRAM: Intelligent RAM (智能 RAM)
 - ISB: Instruction Synchronization Barrier (指令同步屏障) @arm @DMB @DSB
 - KPTI: Kernel Page Table Isolation (内核页表隔离) @PTI
 - LDT: Local Descriptor Table (局部描述符表)
