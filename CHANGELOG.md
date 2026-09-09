@@ -35,6 +35,7 @@ and this project adheres to
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;
 - add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`, libyes.sh, `libyes_examples.sh`;
 #### Tools
+- plotcake: support CMakeLists.txt;
 - add nbdkit/nbdkit directory;
 - sysstat: add iostat, pidstat directory;
 - add ima-evm, `lm_sensors`, mbw, sysbench, asciidoc, asciidoctor, acpica-tools, libguestfs/virt-v2v subdir;

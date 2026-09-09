@@ -16,3 +16,5 @@ CFLAGS += ${json-c-cflags}
 LDFLAGS += -lm
 LDFLAGS += ${json-c-ldflags}
 LDFLAGS += ${ncurses-ldflags}
+
+post-y := build/plotcake
