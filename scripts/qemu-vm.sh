@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.38"
+readonly VERSION="v1.1.39"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -950,12 +950,14 @@ config_vm_tmpdir() {
 }
 
 config_basic() {
-	local qmpfile=${vm_tmpdir}/qmp.sock
+	local sock_qmp=${vm_tmpdir}/qmp.sock
 	local uuid=$(gen_uuid)
 
-	fprintf ${f_vm_info} "VM_TMPDIR=${vm_tmpdir}\n"
+	fprintf ${f_vm_info} -a "VM_TMPDIR=${vm_tmpdir}\n"
 	fprintf ${f_vm_info} -a "VM_NAME=${q_vm_name}\n"
 	fprintf ${f_vm_info} -a "VM_UUID=${uuid}\n"
+	fprintf ${f_vm_info} -a "VM_PIDFILE=${f_vm_pidfile}\n"
+	fprintf ${f_vm_info} -a "VM_SOCK_QMP=${sock_qmp}\n"
 
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid ${uuid} )
@@ -971,8 +973,8 @@ config_basic() {
 	# $ telnet localhost 4444
 	# Or use:
 	# -qmp stdio
-	qargs+=( -qmp unix:${qmpfile},server=on,wait=off )
-	cleanup_files+=( ${qmpfile} )
+	qargs+=( -qmp unix:${sock_qmp},server=on,wait=off )
+	cleanup_files+=( ${sock_qmp} )
 
 	qargs+=( -pidfile ${f_vm_pidfile})
 	cleanup_files+=( ${f_vm_pidfile} )
