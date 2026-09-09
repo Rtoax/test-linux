@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.4"
+readonly LIBQEMU_CXL_VERSION="v0.0.5"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -90,7 +90,7 @@ readonly CXL_BUILTIN_DEVICES=( ${CXL_DEV_VMEM}
 			       ${CXL_DEV_PMEM_4WAY}
 			       ${CXL_DEV_PMEM_4WAY_SWITCH} )
 
-declare -a cxl_fmw=( 0 ) # (0 1 2 3)
+declare -a cxl_fmw_ids=( 0 ) # (0 1 2 3)
 # IG: interleave granularity, see add_cxl_fmw_ig() for the detail.
 declare -A cxl_fmw_ig # arr[fmw]=size
 
@@ -458,8 +458,8 @@ next_cxl_switch_upstream_id() {
 
 # $1: 0 1 2 3
 __add_cxl_fmw_from_pxb() {
-	if ! [[ " ${cxl_fmw[@]} " =~ " $1 " ]]; then
-		cxl_fmw+=( $1 )
+	if ! [[ " ${cxl_fmw_ids[@]} " =~ " $1 " ]]; then
+		cxl_fmw_ids+=( $1 )
 	fi
 	return 0
 }
@@ -1190,7 +1190,7 @@ config_cxl() {
 	cxl_topolopy
 
 	# Config CFMW (CXL Fixed Memory Window)
-	for j in ${cxl_fmw[@]}
+	for j in ${cxl_fmw_ids[@]}
 	do
 		local fmwsz=0
 
