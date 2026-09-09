@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.37"
+readonly VERSION="v1.1.38"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -54,6 +54,7 @@ declare TMPDIR=/tmp/${PROG}
 # Store VM specific files on host filesystem
 declare vm_tmpdir
 declare f_vm_info
+declare f_vm_pidfile
 declare f_vm_cmd_sh
 declare f_vm_qemu_cmd
 # Port
@@ -565,6 +566,7 @@ config_prepare_vm_tmpdir() {
 	fi
 
 	f_vm_info=${vm_tmpdir}/info.sh
+	f_vm_pidfile=${vm_tmpdir}/pidfile.pid
 	f_vm_cmd_sh=${vm_tmpdir}/cmds.sh
 	f_vm_qemu_cmd=${vm_tmpdir}/qemu-command.sh
 	f_vm_port_hostfwd_ssh22=${vm_tmpdir}/port-hostfwd-ssh22.txt
@@ -677,11 +679,10 @@ list_vm() {
 	do
 		config_prepare_vm_tmpdir ${name}
 
-		local pidfile=${vm_tmpdir}/pidfile.pid
 		local state="unknown"
 
-		if [[ -e ${pidfile} ]]; then
-			local pid=$(sudo cat ${pidfile})
+		if [[ -e ${f_vm_pidfile} ]]; then
+			local pid=$(sudo cat ${f_vm_pidfile})
 			if [[ -d /proc/${pid} ]]; then
 				state="running"
 			elif [[ ! -d /proc/${pid} ]]; then
@@ -734,19 +735,17 @@ declare destroy_vm_force
 # $1: virtual machine name
 destroy_one_vm() {
 	local name=${1}
-	local pidfile=${TMPDIR}/${name}/pidfile.pid
+	config_prepare_vm_tmpdir ${name}
 
-	if [[ ! -f ${pidfile} ]]; then
+	if [[ ! -f ${f_vm_pidfile} ]]; then
 		error "Not found vm '${name}' or '${name}' is shut-off," \
 		      "see ${BOLD}${PROG} list${RST}"
 	fi
 
-	config_prepare_vm_tmpdir ${name}
-
 	force_kill_vm() {
 		# Kill host process is dangerous for guestos disk.
 		warning "Kill ${name} process on host"
-		local pid=$(sudo cat ${pidfile})
+		local pid=$(sudo cat ${f_vm_pidfile})
 		if [[ -e /proc/${pid} ]]; then
 			sudo kill ${pid}
 		fi
@@ -806,18 +805,17 @@ destroy_vm() {
 # $1: virtual machine name
 undefine_one_vm() {
 	local name=${1}
-	local dir=${TMPDIR}/${name}
-	local pidfile=${dir}/pidfile.pid
 
-	if [[ ! -e ${dir} ]]; then
+	config_prepare_vm_tmpdir ${name}
+
+	if [[ ! -e ${vm_tmpdir} ]]; then
 		error "Not found vm '${name}'"
 	fi
 
-	if [[ -f ${pidfile} ]] && [[ -e /proc/$(sudo cat ${pidfile}) ]]; then
+	if [[ -f ${f_vm_pidfile} ]] &&
+	   [[ -e /proc/$(sudo cat ${f_vm_pidfile}) ]]; then
 		error "VM '${name}' still running, shutdown it first with 'destroy'"
 	fi
-
-	config_prepare_vm_tmpdir ${name}
 
 	warning "Undefining virtual machine '${name}'"
 	sudo rm -rf ${vm_tmpdir}
@@ -835,18 +833,17 @@ undefine_vm() {
 # $1: virtual machine name
 start_vm() {
 	local name=${1}
-	local dir=${TMPDIR}/${name}
-	local pidfile=${dir}/pidfile.pid
 
-	if [[ ! -e ${dir} ]]; then
+	config_prepare_vm_tmpdir ${name}
+
+	if [[ ! -e ${vm_tmpdir} ]]; then
 		error "Not found vm '${name}'"
 	fi
 
-	if [[ -f ${pidfile} ]] && [[ -e /proc/$(sudo cat ${pidfile}) ]]; then
+	if [[ -f ${f_vm_pidfile} ]] &&
+	   [[ -e /proc/$(sudo cat ${f_vm_pidfile}) ]]; then
 		error "VM '${name}' still running, no need to start again"
 	fi
-
-	config_prepare_vm_tmpdir ${name}
 
 	warning "Starting virtual machine '${name}'"
 	sudo ${SHELL} ${f_vm_qemu_cmd}
@@ -953,7 +950,6 @@ config_vm_tmpdir() {
 }
 
 config_basic() {
-	local pidfile=${vm_tmpdir}/pidfile.pid
 	local qmpfile=${vm_tmpdir}/qmp.sock
 	local uuid=$(gen_uuid)
 
@@ -978,8 +974,8 @@ config_basic() {
 	qargs+=( -qmp unix:${qmpfile},server=on,wait=off )
 	cleanup_files+=( ${qmpfile} )
 
-	qargs+=( -pidfile ${pidfile})
-	cleanup_files+=( ${pidfile} )
+	qargs+=( -pidfile ${f_vm_pidfile})
+	cleanup_files+=( ${f_vm_pidfile} )
 
 	if [[ ${q_stdio} ]] && [[ ${q_daemon} ]]; then
 		error "Could not use --stdio and --daemon at same time"
