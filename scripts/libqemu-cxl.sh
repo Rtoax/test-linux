@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.5"
+readonly LIBQEMU_CXL_VERSION="v0.0.6"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -92,7 +92,10 @@ readonly CXL_BUILTIN_DEVICES=( ${CXL_DEV_VMEM}
 
 declare -a cxl_fmw_ids=( 0 ) # (0 1 2 3)
 # IG: interleave granularity, see add_cxl_fmw_ig() for the detail.
-declare -A cxl_fmw_ig # arr[fmw]=size
+# CXL 3.0 Specification, 8.2.4.19.7 CXL HDM Decoder n Control Register (Offset 20h*n+20h)
+# - Interleave Granularity size
+declare -a CXL_SUPPORT_IG=( 256 512 1k 2k 4k 8k 16k )
+declare -A cxl_fmw_ig # arr[fmw_id]=ig-size
 
 # cxl-pxb specify id=, this is CHBS(CXL Host Bridge Structure)
 # and use to -machine cxl-fmw.0.targets.M
@@ -471,7 +474,6 @@ __add_cxl_fmw_from_pxb() {
 #     see also commit 8fa9cfc96204 ("cxl: interleave granularity(256B,512B,1K,2K,4K,8K,16K)
 #                                    and test with qemu-vm.sh")
 add_cxl_fmw_ig() {
-	local support_ig=( 256 512 1k 2k 4k 8k 16k )
 	local fmw=$1
 	local ig=$2
 
@@ -479,8 +481,8 @@ add_cxl_fmw_ig() {
 		error "CXL: not specify fmw '${fmw}' interleave granularity"
 	fi
 
-	if ! [[ " ${support_ig[@]} " =~ " $ig " ]]; then
-		error "CXL: bad interleave-granularity '${ig}', support '${support_ig[@]}'"
+	if ! [[ " ${CXL_SUPPORT_IG[@]} " =~ " $ig " ]]; then
+		error "CXL: bad interleave-granularity '${ig}', support '${CXL_SUPPORT_IG[@]}'"
 	fi
 
 	cxl_fmw_ig[$fmw]=$ig
