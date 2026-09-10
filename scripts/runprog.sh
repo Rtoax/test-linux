@@ -212,7 +212,7 @@ costlogmsg="cost ${cost_ms} ms"
 if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
 	if [[ ${RECORD_FILE} ]]; then
-		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}, err ${REAL_RET}, ${costlogmsg}" >> ${RECORD_FILE}
+		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}, \033[1;31merr=${REAL_RET}\033[m, ${costlogmsg}" >> ${RECORD_FILE}
 	fi
 
 	logmsg="${@}: run failed, exit with ${REAL_RET} (expect ${EXPECT_RET})"
