@@ -9,6 +9,7 @@ subdir-y += network
 subdir-y += shopt
 subdir-y += source
 subdir-y += string
+subdir-y += trap
 
 shell-y += args.sh
 shell-y += call.sh
@@ -29,5 +30,4 @@ shell-y += select.sh
 shell-y += shebang.sh
 shell-y += test.sh
 shell-y += tracing.sh
-shell-y += trap.sh
 shell-y += while.sh

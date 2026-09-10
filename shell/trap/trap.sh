@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 exit_handler() {
 	local ret=$?
