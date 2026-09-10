@@ -1,11 +1,16 @@
+// SPDX-License-Identifier: GPL-2.0
+/* Copyright (C) 2025-2026 Rong Tao. All rights reserved. */
 #include <argp.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "pcie_helpers.h"
 
+/* Host bridge */
+#define HOST_BRIDGE_CONFIG "/sys/bus/pci/devices/0000:00:00.0/config"
+
+static char config[256] = { 0 };
 static char slot[64] = { 0 };
-static char config[256] = "/sys/bus/pci/devices/0000:02:02.0/config";
 
 const char argp_prog_doc[] = "PCIe configuration space";
 
@@ -55,6 +60,12 @@ int main(int argc, char *argv[])
 		return -err;
 	}
 
+	if (strlen(slot) > 0 && strlen(config) > 0) {
+		fprintf(stderr,
+			"Could not set config and slot at the same time\n");
+		exit(EINVAL);
+	}
+
 	if (strlen(slot) > 0) {
 		/* TODO: maybe not 0000: */
 		if (strncmp(slot, "0000:", 5)) {
@@ -64,6 +75,8 @@ int main(int argc, char *argv[])
 			snprintf(config, sizeof(config),
 				 "/sys/bus/pci/devices/%s/config", slot);
 		}
+	} else {
+		strncpy(config, HOST_BRIDGE_CONFIG, sizeof(config));
 	}
 
 	pci_cs_check_headers();
