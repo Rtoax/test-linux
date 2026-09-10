@@ -4,7 +4,7 @@
 # - LSPCI=[/usr/bin/lspci]
 # - HAVE_LSPCI=[y|n]
 # - HAVE_PCIUTILS=[y|n]
-# - HAVE_PCIUTILS_PCI_H=[y|n]
+# - HAVE_PCIUTILS_HDR=[y|n]
 #
 # Functions:
 # - find_pci_device()=[y|n]
@@ -26,10 +26,10 @@ else
   export HAVE_PCIUTILS := y
   ifneq ($(wildcard /usr/include/pci/pci.h),)
     # Fedora
-    $(call check_file_and_def,/usr/include/pci/pci.h,HAVE_PCIUTILS_PCI_H)
+    $(call check_file_and_def,/usr/include/pci/pci.h,HAVE_PCIUTILS_HDR)
   else ifneq ($(wildcard /usr/include/${CPU_ARCH}-linux-gnu/pci/pci.h),)
     # Ubuntu
-    $(call check_file_and_def,/usr/include/${CPU_ARCH}-linux-gnu/pci/pci.h,HAVE_PCIUTILS_PCI_H)
+    $(call check_file_and_def,/usr/include/${CPU_ARCH}-linux-gnu/pci/pci.h,HAVE_PCIUTILS_HDR)
   endif
 endif # end of found PCIUTILS
 
@@ -44,7 +44,7 @@ endef
 
 ifdef DEBUG
   $(info HAVE_PCIUTILS = ${HAVE_PCIUTILS})
-  $(info HAVE_PCIUTILS_PCI_H = ${HAVE_PCIUTILS_PCI_H})
+  $(info HAVE_PCIUTILS_HDR = ${HAVE_PCIUTILS_HDR})
 endif
 
 endif # end of _PCIUTILS_MK
