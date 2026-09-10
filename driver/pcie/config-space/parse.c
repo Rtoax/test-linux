@@ -3,7 +3,8 @@
 /**
  * Parse PCIe Configuration Space
  *
- * see also 'lspci -vvv -s SLOT'.
+ * see also 'lspci -vvv -s SLOT', commit 1579a58efb25 ("pcie: config-space:
+ * 'lspci -vvv' show config-space detail (cxl for example)").
  */
 #include <argp.h>
 #include <stdlib.h>
