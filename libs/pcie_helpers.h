@@ -5,6 +5,7 @@
 
 /**
  * PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.1. Type 0/1 Common Configuration Space
+ * PCI Express® Base Specification Revision 5.0 Version 1.0, 7.5.1.1 Type 0/1 Common Configuration Space
  */
 struct pci_cs_hdr_common {
 	uint16_t vendor_id;
@@ -38,12 +39,16 @@ struct pci_cs_hdr_common {
 	 */
 	uint8_t header_type;
 	uint8_t bist;
+	/**
+	 * Type Specific Fields here....
+	 */
 } __attribute__((packed));
 _Static_assert(sizeof(struct pci_cs_hdr_common) == 16,
 	       "Bad Type 0/1 Common Configuration Space size");
 
 /**
  * PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.2. Type 0 Configuration Space Header
+ * PCI Express® Base Specification Revision 5.0 Version 1.0, 7.5.1.2 Type 0 Configuration Space Header
  */
 struct pci_cs_hdr_type0 {
 	struct pci_cs_hdr_common common;
@@ -65,6 +70,7 @@ _Static_assert(sizeof(struct pci_cs_hdr_type0) == 64,
 
 /**
  * PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.3. Type 1 Configuration Space Header
+ * PCI Express® Base Specification Revision 5.0 Version 1.0, 7.5.1.3 Type 1 Configuration Space Header
  */
 struct pci_cs_hdr_type1 {
 	struct pci_cs_hdr_common common;
@@ -73,7 +79,7 @@ struct pci_cs_hdr_type1 {
 	uint8_t primary_bus;
 	uint8_t second_bus;
 	uint8_t sub_bus;
-	uint8_t snd_latency_timer;
+	uint8_t secondary_latency_timer;
 	uint8_t io_base;
 	uint8_t io_limit;
 	uint16_t secondary_status;

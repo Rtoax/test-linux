@@ -48,7 +48,7 @@ void pci_cs_check_headers(void)
 	CHK(primary_bus, PCI_PRIMARY_BUS);
 	CHK(second_bus, PCI_SECONDARY_BUS);
 	CHK(sub_bus, PCI_SUBORDINATE_BUS);
-	CHK(snd_latency_timer, PCI_SEC_LATENCY_TIMER);
+	CHK(secondary_latency_timer, PCI_SEC_LATENCY_TIMER);
 	CHK(io_base, PCI_IO_BASE);
 	CHK(io_limit, PCI_IO_LIMIT);
 	CHK(secondary_status, PCI_SEC_STATUS);
@@ -155,7 +155,7 @@ void pci_cs_print_type1(struct pci_cs_hdr_type1 *t)
 	printf("Primary Bus: %x\n", t->primary_bus);
 	printf("Second Bus: %x\n", t->second_bus);
 	printf("Sub Bus: %x\n", t->sub_bus);
-	printf("Second Latency Timer: %x\n", t->snd_latency_timer);
+	printf("Second Latency Timer: %x\n", t->secondary_latency_timer);
 	printf("IO Base: %x\n", t->io_base);
 	printf("IO Limit: %x\n", t->io_limit);
 	printf("Secondary Status: %x\n", t->secondary_status);
