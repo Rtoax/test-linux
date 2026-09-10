@@ -26,6 +26,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- add liberrno.sh and `liberrno_examples.sh`;
 - libfile.sh: fprintf support set open mode -a,-w;
 - qemu-vm.sh: cxl: support specify cxl fmw interleave granularity;
 - libqemu-ipmi.sh: split from qemu-vm.sh;
