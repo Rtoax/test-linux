@@ -5,5 +5,5 @@ set -e
 
 for ((i=0;i<${NR_ERRNO};i++))
 do
-	echo -e "${ERRNO[$i]}=$i"
+	echo -e "ERRNAMES[$i]=${ERRNAMES[$i]}"
 done
