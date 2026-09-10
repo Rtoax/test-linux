@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "pcie_helpers.h"
 
 /* Host bridge */
@@ -53,6 +54,7 @@ int main(int argc, char *argv[])
 	struct pci_cs_hdr_common common_header;
 	struct pci_cs_hdr_type0 type0_header;
 	struct pci_cs_hdr_type1 type1_header;
+	struct stat stat_config;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -81,13 +83,18 @@ int main(int argc, char *argv[])
 
 	pci_cs_check_headers();
 
-	printf("Parsing config %s\n", config);
-
 	fp = fopen(config, "r");
 	if (!fp) {
 		fprintf(stderr, "ERROR: open %s failed, %m\n", config);
 		exit(EXIT_FAILURE);
 	}
+
+	if (stat(config, &stat_config) != 0) {
+		fprintf(stderr, "ERROR: could not stat(%s), %m\n", config);
+		goto done;
+	}
+
+	printf("Parsing config %s, size %ld B\n", config, stat_config.st_size);
 
 	fread(&common_header, sizeof(common_header), 1, fp);
 	rewind(fp);
@@ -105,6 +112,8 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+done:
+	printf("Read %ld B of %ld B.\n", ftell(fp), stat_config.st_size);
 	fclose(fp);
 	return 0;
 }

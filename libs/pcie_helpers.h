@@ -4,6 +4,19 @@
 #include <stdint.h>
 
 /**
+ * PCI-Compatible Configuration Registers
+ *
+ * The first 256 bytes of a Function’s Configuration Space form the PCI-
+ * compatible region. This region completely aliases the conventional PCI
+ * Configuration Space of the Function. Legacy PCI devices can also be
+ * accessed with the ECAM without requiring any modifications to the device
+ * hardware or device driver software.
+ *
+ * Layout of the Configuration Space and format of individual configuration
+ * registers are depicted following the little-endian convention.
+ */
+
+/**
  * PCI Express® Base Specification Revision 4.0 Version 0.3, 7.5.1. Type 0/1 Common Configuration Space
  * PCI Express® Base Specification Revision 5.0 Version 1.0, 7.5.1.1 Type 0/1 Common Configuration Space
  */

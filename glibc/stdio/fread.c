@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <unistd.h>
 
 int main(void)
 {
 	int n, err = 0;
 	char avg[64];
 	FILE *f;
+	int nloop = 4;
 
 	f = fopen("/proc/loadavg", "r");
 	if (!f) {
@@ -16,13 +18,18 @@ int main(void)
 		return -1;
 	}
 
-	n = fread(avg, 1, sizeof(avg), f);
-	if (n <= 1 || ftell(f) != n) {
-		err = -1;
-		goto cleanup;
-	}
+	while (nloop--) {
+		memset(avg, 0, sizeof(avg));
+		n = fread(avg, 1, sizeof(avg), f);
+		if (n <= 1 || ftell(f) != n) {
+			err = -1;
+			goto cleanup;
+		}
+		rewind(f);
 
-	printf("loadavg: %s", avg);
+		printf("loadavg: %s", avg);
+		usleep(10000);
+	}
 
 cleanup:
 	fclose(f);
