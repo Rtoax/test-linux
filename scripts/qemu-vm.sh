@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.43"
+readonly VERSION="v1.1.44"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -590,6 +590,7 @@ ${BOLD}OPTIONS${RST}
     -p, --port     list VMs's network port
     --uuid         list VMs's UUID
     --qemu-cmd     listing qemu command
+    --qemu-command same as --qemu-cmd
     -h, --help     show this information
     -v, --verbose  enable verbose mode
 "
@@ -610,6 +611,7 @@ list_vm() {
 	LIST_VM_ARGS=$(getopt --options aphv \
 		--long all \
 		--long port \
+		--long qemu-cmd \
 		--long qemu-command \
 		--long uuid \
 		--long help \
@@ -640,7 +642,7 @@ list_vm() {
 			shift
 			list_uuid=ON
 			;;
-		--qemu-command)
+		--qemu-cmd | --qemu-command)
 			shift
 			list_qemucmd=ON
 			;;
