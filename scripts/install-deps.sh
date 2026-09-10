@@ -954,7 +954,7 @@ dnf_add_packages()
 	pkgs_base+=( pam )                  # /etc/security/limits.conf
 	pkgs_base+=( pam-devel )
 	pkgs_base+=( perf )
-	pkgs_base+=( procps-ng )            # pidof, top, etc.
+	pkgs_base+=( procps-ng )            # free, ps, pidof, top, etc.
 	pkgs_base+=( python3-dbus ) # D-Bus
 	pkgs_base+=( python3-scapy )
 	pkgs_base+=( readline-devel )
@@ -1060,6 +1060,7 @@ dnf_add_packages()
 	pkgs_devel+=( pandoc )
 	pkgs_devel+=( pciutils-devel )
 	pkgs_devel+=( pixman-devel )
+	pkgs_devel+=( procps-ng-devel )
 	pkgs_devel+=( python3-build )
 	pkgs_devel+=( python3-devel )
 	pkgs_devel+=( python3-installer )
