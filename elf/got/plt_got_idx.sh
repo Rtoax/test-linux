@@ -137,8 +137,6 @@ TEMP=$(getopt \
 	--long help \
 	-n ${prog_name} -- "$@")
 
-test $? != 0 && __usage__ 1
-
 eval set -- "$TEMP"
 
 while true; do

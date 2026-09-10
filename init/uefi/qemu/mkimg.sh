@@ -66,15 +66,13 @@ ${prog} [-n=name] [-b=NUM] [-V=vendor] [-h|--help]
 
 # __main__
 GETOPT_ARGS=$(getopt \
-	--options n:b:V:hv \
-	--long name: \
-	--long vendor: \
-	--long bootflow: \
-	--long help \
-	--long verbose \
-	-n ${prog} -- "$@")
-
-test $? != 0 && __usage__ 1
+		--options n:b:V:hv \
+		--long name: \
+		--long vendor: \
+		--long bootflow: \
+		--long help \
+		--long verbose \
+		-n ${prog} -- "$@")
 
 eval set -- "$GETOPT_ARGS"
 

@@ -79,8 +79,6 @@ GETOPT_ARGS=$(getopt \
 	--long dry-run \
 	-n ${prog} -- "$@")
 
-test $? != 0 && __usage__ 1
-
 eval set -- "$GETOPT_ARGS"
 
 while true; do

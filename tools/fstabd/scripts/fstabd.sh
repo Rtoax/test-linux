@@ -96,8 +96,6 @@ __main__() {
 		--long verbose \
 		-n fstabd -- "$@")
 
-	test $? != 0 && __usage__ 1
-
 	eval set -- "$TEMP"
 
 	while true; do

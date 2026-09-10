@@ -195,8 +195,6 @@ __getopt__() {
 		--long help \
 		--name ${prog} -- "$@")
 
-	test $? != 0 && __usage__ 1
-
 	eval set -- "$TEMP_ARGS"
 
 	while true; do

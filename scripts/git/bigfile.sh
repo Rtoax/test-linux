@@ -44,18 +44,16 @@ __eval__() {
 }
 
 TEMP=$(getopt \
-		--options n:eash \
-		--long num: \
-		--long exist \
-		--long non-exist \
-		--long no-color \
-		--long abs-path \
-		--long size \
-		--long dry-run \
-		--long help \
-		-n git-bigfile -- "$@")
-
-test $? != 0 && __usage__ 1
+	--options n:eash \
+	--long num: \
+	--long exist \
+	--long non-exist \
+	--long no-color \
+	--long abs-path \
+	--long size \
+	--long dry-run \
+	--long help \
+	-n git-bigfile -- "$@")
 
 eval set -- "$TEMP"
 

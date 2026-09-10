@@ -40,12 +40,10 @@ SEE ALSO
 }
 
 TEMP_ARGS=$(getopt --options uhv \
-	--long dry-run \
-	--long verbose \
-	--long help \
-	--name ${prog} -- "$@")
-
-test $? != 0 && __usage__ 1
+		--long dry-run \
+		--long verbose \
+		--long help \
+		--name ${prog} -- "$@")
 
 eval set -- "$TEMP_ARGS"
 

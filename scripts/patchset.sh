@@ -10,7 +10,7 @@
 #
 set -e
 
-readonly VERSION="v1.1.5"
+readonly VERSION="v1.1.6"
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 
 subject_prefix=
@@ -131,11 +131,6 @@ __patchset_getopt__()
 		--long version \
 		--long help \
 		-n patchset -- "$@")
-
-	local status=$?
-	if [[ ${status} -ne 0 ]]; then
-		__patchset_usage__ 1
-	fi
 
 	eval set -- "$TEMP"
 

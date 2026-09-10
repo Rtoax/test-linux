@@ -31,8 +31,6 @@ ARGS=$(getopt \
 	--long help \
 	-n softirqs -- "$@")
 
-test $? != 0 && __usage__ 1
-
 eval set -- "$ARGS"
 
 while true; do

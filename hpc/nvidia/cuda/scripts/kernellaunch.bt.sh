@@ -37,14 +37,12 @@ error() {
 }
 
 TEMP_ARGS=$(getopt \
-	--options C:T:vh \
-	--long comm: \
-	--long trace-type: \
-	--long verbose \
-	--long help \
-	-n patchset -- "$@")
-
-test $? != 0 && __usage__ 1
+		--options C:T:vh \
+		--long comm: \
+		--long trace-type: \
+		--long verbose \
+		--long help \
+		-n kernellaunch -- "$@")
 
 eval set -- "$TEMP_ARGS"
 

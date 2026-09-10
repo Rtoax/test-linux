@@ -56,18 +56,16 @@ drawline() {
 	local seq_args arrow_inc
 	local ARGS
 
-	ARGS=$(getopt --options x:X:y:Y:ac: \
-		--long xstart: \
-		--long xend: \
-		--long xx: \
-		--long ystart: \
-		--long yend: \
-		--long yy: \
-		--long arrow \
-		--long char: \
-		-n drawline -- "$@")
-	local status=$?
-	if [[ ${status} -ne 0 ]]; then
+	if ! ARGS=$(getopt --options x:X:y:Y:ac: \
+			--long xstart: \
+			--long xend: \
+			--long xx: \
+			--long ystart: \
+			--long yend: \
+			--long yy: \
+			--long arrow \
+			--long char: \
+			-n drawline -- "$@"); then
 		error "$0: getopt failed"
 	fi
 
@@ -193,10 +191,7 @@ drawcurve() {
 	local char
 	local ARGS
 
-	ARGS=$(getopt --options x:y:c: \
-		-n drawcurve -- "$@")
-	local status=$?
-	if [[ ${status} -ne 0 ]]; then
+	if ! ARGS=$(getopt --options x:y:c: -n drawcurve -- "$@"); then
 		error "$0: getopt failed"
 	fi
 

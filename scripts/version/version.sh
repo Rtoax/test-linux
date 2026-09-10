@@ -281,19 +281,16 @@ version_format_parser() {
 
 	local TEMP
 
-	TEMP=$(getopt \
-		--options Vh \
-		--long name \
-		--long pretty-name \
-		--long ${major} \
-		--long ${minor} \
-		--long ${patch} \
-		--long verbose \
-		--long help \
-		-n version-format-parser -- "$@")
-	local status=$?
-
-	if [[ ${status} -ne 0 ]]; then
+	if ! TEMP=$(getopt \
+			--options Vh \
+			--long name \
+			--long pretty-name \
+			--long ${major} \
+			--long ${minor} \
+			--long ${patch} \
+			--long verbose \
+			--long help \
+			-n version-format-parser -- "$@"); then
 		error "$0 parse arguments failed, ${@}"
 	fi
 
@@ -386,8 +383,6 @@ TEMP_ARGS=$(getopt \
 	--long verbose \
 	--long help \
 	-n version -- "$@")
-
-test $? != 0 && __version_usage__ 1
 
 eval set -- "$TEMP_ARGS"
 

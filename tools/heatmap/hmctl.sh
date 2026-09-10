@@ -65,8 +65,6 @@ __record_main__()
 		--long help \
 		-n ${program_name} -- "$@")
 
-	test $? != 0 && __record_usage__ 1
-
 	eval set -- "$TEMP"
 
 	while true; do
@@ -163,8 +161,6 @@ __bolt_main__()
 		--long verbose \
 		--long help \
 		-n ${program_name}-bolt -- "$@")
-
-	test $? != 0 && __bolt_usage__ 1
 
 	eval set -- "$TEMP"
 
@@ -263,8 +259,6 @@ __report_main__()
 		--long verbose \
 		--long help \
 		-n ${program_name}-report -- "$@")
-
-	test $? != 0 && __report_usage__ 1
 
 	eval set -- "$TEMP"
 
@@ -369,8 +363,6 @@ __sampleip_main__()
 		--long verbose \
 		--long help \
 		-n ${program_name}-sampleip -- "$@")
-
-	test $? != 0 && __sampleip_usage__ 1
 
 	eval set -- "$TEMP"
 

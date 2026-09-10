@@ -18,8 +18,6 @@ ARG_TEMP=$(getopt \
 	--long help \
 	-n ${0} -- "$@")
 
-test $? != 0 && __usage__ 1
-
 eval set -- "$ARG_TEMP"
 
 while true; do

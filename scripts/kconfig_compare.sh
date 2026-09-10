@@ -54,13 +54,12 @@ SEE ALSO
 }
 
 TEMP_ARGS=$(getopt --options hvb:c:d: \
-	--long base: \
-	--long config: \
-	--long display: \
-	--long verbose \
-	--long help \
-	--name ${prog} -- "$@")
-test $? != 0 && __usage__ 1
+		--long base: \
+		--long config: \
+		--long display: \
+		--long verbose \
+		--long help \
+		--name ${prog} -- "$@")
 
 eval set -- "$TEMP_ARGS"
 

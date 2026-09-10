@@ -343,7 +343,7 @@ compile-gcc [clean] [args]
 
 __main__()
 {
-	local noclean testonly
+	local noclean testonly TEMP
 
 	TEMP=$(getopt \
 		--options c:t:al:vh \
@@ -356,8 +356,6 @@ __main__()
 		--long verbose \
 		--long help \
 		-n compile-gcc -- "$@")
-
-	test $? != 0 && __usage__ 1
 
 	eval set -- "$TEMP"
 

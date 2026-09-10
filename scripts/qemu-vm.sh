@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.44"
+readonly VERSION="v1.1.45"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -609,18 +609,14 @@ list_vm() {
 	fi
 
 	LIST_VM_ARGS=$(getopt --options aphv \
-		--long all \
-		--long port \
-		--long qemu-cmd \
-		--long qemu-command \
-		--long uuid \
-		--long help \
-		--long verbose \
-		--name list-vm -- "$@")
-	local status=$?
-	if [[ ${status} -ne 0 ]]; then
-		__usage_list_vm__ 1
-	fi
+			--long all \
+			--long port \
+			--long qemu-cmd \
+			--long qemu-command \
+			--long uuid \
+			--long help \
+			--long verbose \
+			--name list-vm -- "$@")
 
 	eval set -- "$LIST_VM_ARGS"
 
@@ -791,13 +787,9 @@ destroy_vm() {
 	local DESTROY_VM_ARGS
 
 	DESTROY_VM_ARGS=$(getopt --options hf \
-		--long help \
-		--long force \
-		--name destroy-vm -- "$@")
-	local status=$?
-	if [[ ${status} -ne 0 ]]; then
-		__usage_destroy_vm__ 1
-	fi
+			--long help \
+			--long force \
+			--name destroy-vm -- "$@")
 
 	eval set -- "$DESTROY_VM_ARGS"
 
@@ -1448,35 +1440,33 @@ esac
 set_qemu_kvm $(get_qemu_kvm_emulator)
 
 TEMP_ARGS=$(getopt --options n:m:k:i:r:d:Q:huDvV \
-	--long name: \
-	--long cpu: \
-	--long memory: \
-	--long uefi: \
-	--long kernel: \
-	--long kcmd: \
-	--long initrd: \
-	--long rdinit: \
-	--long rootfs: \
-	--long init: \
-	--long root: \
-	--long disk: \
-	--long nvdimm: \
-	--long stdio \
-	--long daemon \
-	--long cxl: \
-	--long virtio-fs-sock: \
-	--long virtio-fs-tag: \
-	--long dry-run \
-	--long qemu: \
-	--long qarg: \
-	--long gdb \
-	--long debug \
-	--long verbose \
-	--long version \
-	--long help \
-	--name ${PROG} -- "$@")
-
-test $? != 0 && __usage__ 1
+		--long name: \
+		--long cpu: \
+		--long memory: \
+		--long uefi: \
+		--long kernel: \
+		--long kcmd: \
+		--long initrd: \
+		--long rdinit: \
+		--long rootfs: \
+		--long init: \
+		--long root: \
+		--long disk: \
+		--long nvdimm: \
+		--long stdio \
+		--long daemon \
+		--long cxl: \
+		--long virtio-fs-sock: \
+		--long virtio-fs-tag: \
+		--long dry-run \
+		--long qemu: \
+		--long qarg: \
+		--long gdb \
+		--long debug \
+		--long verbose \
+		--long version \
+		--long help \
+		--name ${PROG} -- "$@")
 
 eval set -- "$TEMP_ARGS"
 

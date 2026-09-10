@@ -86,8 +86,6 @@ ARGS=$(getopt --options n:t:k:v:e:ub:Vh \
 	--long help \
 	--name ${prog} -- "$@")
 
-test $? != 0 && __usage__ 1
-
 eval set -- "${ARGS}"
 
 while true; do

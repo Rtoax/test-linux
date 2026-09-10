@@ -64,8 +64,6 @@ GETOPT_ARGS=$(getopt \
 	--long expect-return: \
 	-n ${prog_name} -- "$@")
 
-test $? != 0 && __usage__ 1
-
 eval set -- "$GETOPT_ARGS"
 
 while true; do

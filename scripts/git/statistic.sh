@@ -125,8 +125,6 @@ __main__()
 		--long help \
 		-n git-statistic -- "$@")
 
-	test $? != 0 && __usage__ 1
-
 	eval set -- "$TEMP"
 
 	while true; do

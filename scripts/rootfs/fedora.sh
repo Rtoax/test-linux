@@ -71,18 +71,16 @@ ${BOLD}SEE ALSO${RST}
 }
 
 TEMP_ARGS=$(getopt --options r:i:uhv \
-	--long rootfs: \
-	--long image: \
-	--long initrd: \
-	--long kver: \
-	--long install: \
-	--long force-fedora \
-	--long dry-run \
-	--long verbose \
-	--long help \
-	--name ${prog} -- "$@")
-
-test $? != 0 && __usage__ 1
+		--long rootfs: \
+		--long image: \
+		--long initrd: \
+		--long kver: \
+		--long install: \
+		--long force-fedora \
+		--long dry-run \
+		--long verbose \
+		--long help \
+		--name ${prog} -- "$@")
 
 eval set -- "$TEMP_ARGS"
 

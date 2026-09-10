@@ -183,8 +183,6 @@ TEMP=$(getopt \
 	--long help \
 	-n ${program_name} -- "$@")
 
-test $? != 0 && usage 1
-
 eval set -- "$TEMP"
 
 while true; do

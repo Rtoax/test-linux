@@ -39,8 +39,6 @@ TEMP=$(getopt \
 	--long help \
 	-n code_count -- "$@")
 
-test $? != 0 && __usage__ 1
-
 eval set -- "$TEMP"
 
 while true; do

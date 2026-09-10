@@ -389,8 +389,6 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long force \
 	--name ${prog} -- "$@")
 
-test $? != 0 && __usage__ 1
-
 eval set -- "$TEMP_ARGS"
 
 while true; do

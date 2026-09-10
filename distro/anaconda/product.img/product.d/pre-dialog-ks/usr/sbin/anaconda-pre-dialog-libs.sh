@@ -75,20 +75,18 @@ check_ipv4_address()
 # -u,--baseurl		repo baseurl
 kickstart_repo()
 {
-	TEMP=$(getopt \
-		--options n:u:k: \
-		--long name: \
-		--long baseurl: \
-		--long kickstart: \
-		-n kickstart_repo -- "$@")
+	local name baseurl kickstart TEMP
 
-	local name baseurl kickstart
-
-	test $? != 0 && (
+	if ! TEMP=$(getopt \
+			--options n:u:k: \
+			--long name: \
+			--long baseurl: \
+			--long kickstart: \
+			-n kickstart_repo -- "$@"); then
 		result="Wrong exec getopt"
 		display_result "Packages fatal"
 		result=
-	)
+	fi
 
 	eval set -- "$TEMP"
 
@@ -134,19 +132,19 @@ END
 # --bootproto-static     STATIC
 kickstart_network()
 {
-	TEMP=$(getopt \
-		--options k: \
-		--long kickstart: \
-		--long hostname: \
-		--long bootproto-dhcp \
-		--long bootproto-static \
-		-n kickstart_repo -- "$@")
+	local TEMP
 
-	test $? != 0 && (
+	if ! TEMP=$(getopt \
+			--options k: \
+			--long kickstart: \
+			--long hostname: \
+			--long bootproto-dhcp \
+			--long bootproto-static \
+			-n kickstart_repo -- "$@"); then
 		result="Wrong exec getopt"
 		display_result "Network fatal"
 		result=
-	)
+	fi
 
 	eval set -- "$TEMP"
 
@@ -217,18 +215,16 @@ END
 # -k,--kickstart	brand new kickstart to create
 kickstart_packages()
 {
-	TEMP=$(getopt \
-		--options k: \
-		--long kickstart: \
-		-n kickstart_packages -- "$@")
+	local kickstart TEMP
 
-	local kickstart
-
-	test $? != 0 && (
+	if ! TEMP=$(getopt \
+			--options k: \
+			--long kickstart: \
+			-n kickstart_packages -- "$@"); then
 		result="Wrong exec getopt"
 		display_result "Packages fatal"
 		result=
-	)
+	fi
 
 	eval set -- "$TEMP"
 
@@ -271,21 +267,19 @@ END
 # -p,--password	user password
 kickstart_user()
 {
-	TEMP=$(getopt \
-		--options k:g:n:p: \
-		--long kickstart: \
-		--long group: \
-		--long name: \
-		--long password: \
-		-n kickstart_user -- "$@")
+	local kickstart group name password gecos TEMP
 
-	local kickstart group name password gecos
-
-	test $? != 0 && (
+	if ! TEMP=$(getopt \
+			--options k:g:n:p: \
+			--long kickstart: \
+			--long group: \
+			--long name: \
+			--long password: \
+			-n kickstart_user -- "$@"); then
 		result="Wrong exec getopt"
 		display_result "Create user fatal"
 		result=
-	)
+	fi
 
 	eval set -- "$TEMP"
 
@@ -364,19 +358,17 @@ END
 # -d,--target-disk	specify target disk
 kickstart_partition()
 {
-	TEMP=$(getopt \
-		--options k:d: \
-		--long kickstart: \
-		--long target-disk: \
-		-n kickstart_partition -- "$@")
+	local kickstart target_disk TEMP
 
-	local kickstart target_disk
-
-	test $? != 0 && (
+	if ! TEMP=$(getopt \
+			--options k:d: \
+			--long kickstart: \
+			--long target-disk: \
+			-n kickstart_partition -- "$@"); then
 		result="Wrong exec getopt"
 		display_result "Partition fatal"
 		result=
-	)
+	fi
 
 	eval set -- "$TEMP"
 

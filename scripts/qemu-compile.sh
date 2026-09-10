@@ -720,6 +720,7 @@ set_build_run_item()
 
 __main__()
 {
+	local TEMP
 	TEMP=$(getopt \
 		--options hvdr:j:c:b:m:t: \
 		--long help \
@@ -743,8 +744,6 @@ __main__()
 		--long target: \
 		--long target-list \
 		-n qemu-compile -- "$@")
-
-	test $? != 0 && __usage__ 1
 
 	eval set -- "$TEMP"
 

@@ -34,16 +34,14 @@ EXAMPLES
 }
 
 TEMP_ARGS=$(getopt --options g:2p:s:M:i:h \
-	--long gpu: \
-	--long 2dim \
-	--long prog: \
-	--long start: \
-	--long max: \
-	--long interval: \
-	--long help \
-	--name ${PROG} -- "$@")
-
-test $? != 0 && __usage__ 1
+		--long gpu: \
+		--long 2dim \
+		--long prog: \
+		--long start: \
+		--long max: \
+		--long interval: \
+		--long help \
+		--name ${PROG} -- "$@")
 
 eval set -- "$TEMP_ARGS"
 while true; do

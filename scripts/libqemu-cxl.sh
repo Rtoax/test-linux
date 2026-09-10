@@ -576,14 +576,12 @@ add_cxl_switch() {
 	local dsarg # downstream arguments
 	local TEMP
 
-	TEMP=$(getopt \
-		--options B: \
-		--long bus: \
-		--long nport: \
-		--long port-prefix: \
-		-n $0 -- "$@")
-	local status=$?
-	if [[ ${status} -ne 0 ]]; then
+	if ! TEMP=$(getopt \
+			--options B: \
+			--long bus: \
+			--long nport: \
+			--long port-prefix: \
+			-n $0 -- "$@"); then
 		error "$0 parse arguments failed, ${@}"
 	fi
 
@@ -661,18 +659,15 @@ add_cxl_type3_dev() {
 	local enable_dc
 	local TEMP
 
-	TEMP=$(getopt \
-		--options t: \
-		--long pmem: \
-		--long vmem: \
-		--long bus: \
-		--long lsa: \
-		--long size: \
-		--long dynamic-capacity --long dc \
-		-n $0 -- "$@")
-	local status=$?
-
-	if [[ ${status} -ne 0 ]]; then
+	if ! TEMP=$(getopt \
+			--options t: \
+			--long pmem: \
+			--long vmem: \
+			--long bus: \
+			--long lsa: \
+			--long size: \
+			--long dynamic-capacity --long dc \
+			-n $0 -- "$@"); then
 		error "$0 parse arguments failed, ${@}"
 	fi
 

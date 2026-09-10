@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 dir=""
 declare -a indent_arg
@@ -32,8 +33,6 @@ TEMP=$(getopt \
 	--long verbose \
 	--long help \
 	-n code_formatter -- "$@")
-
-test $? != 0 && __usage__ 1
 
 eval set -- "$TEMP"
 
