@@ -16,10 +16,10 @@ fi
 # git/hooks pre-commit
 # VC=1
 # FC=1
-# NMOD=100
-# NADD=2
-# NDEL=100
-# NREN=100
+# NM=100
+# NA=2
+# ND=100
+# NR=100
 
 # git/hooks prepare-commit-msg
 # AV=1
