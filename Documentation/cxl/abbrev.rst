@@ -6,7 +6,7 @@ CXL Abbrev
 - AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
 - ALMPs: ARB/MUX Link Management Packets (ARB/MUX 链接管理包)
 - AOC: Active Optical Cable (有源光缆) @AEC
-- APN: Alternative Protocol Negotiation (替代协议谈判)
+- APN: Alternative Protocol Negotiation (备用协议谈判)
 - ARB/MUX: Arbitration and Data Multiplexing/Demultiplexing (仲裁和数据复用/解复用)
 - BOs: Background Operations (后台操作) @CCI
 - CAPI/OpenCAPI: Open Coherent Accelerator Processor Interface (开放相干加速器处理器接) @IBM
