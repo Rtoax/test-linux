@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 			snprintf(config, sizeof(config),
 				 "/sys/bus/pci/devices/%s/config", slot);
 		}
-	} else {
+	} else if (strlen(config) == 0) {
 		strncpy(config, HOST_BRIDGE_CONFIG, sizeof(config));
 	}
 
