@@ -41,6 +41,7 @@ and this project adheres to
 - sysstat: add iostat, pidstat directory;
 - add ima-evm, `lm_sensors`, mbw, sysbench, asciidoc, asciidoctor, acpica-tools, libguestfs/virt-v2v subdir;
 #### Template
+- runprog.mk: colorful gray stdout for all targets;
 - git.mk: add `git_{gt,ge,eq,lt,le}(major, minor, patchlevel)=[y|n]` functions;
 - add nbdkit directory and move libnbd.mk into nbdkit;
 - targets/bpftrace.mk: add `BT_ENVS` and `BT_ENVS_x`;

@@ -12,7 +12,9 @@ include runprog.mk
 define add_make_target
 ${OUTPUT}%.${1}.log: %.${1}
 	@$$(call log_tgt,${MAKE},$$(@))
+	@$$(call __prog_stdout_color)
 	$$(Q)$$(RUNPROG) --log $$(@) -- $$(MAKE) -f $$(<) $$(ARGS_$$(<))
+	@$$(call __prog_stdout_rst)
 endef
 
 # $1 - suffix of file: mk, mak
@@ -20,7 +22,9 @@ endef
 define add_make_target_n
 ${OUTPUT}%.${1}.log.${2}: %.${1}
 	@$$(call log_tgt,${MAKE},$$(@))
+	@$$(call __prog_stdout_color)
 	$$(Q)$$(RUNPROG) --log $$(@) -- $$(MAKE) -f $$(<) $$(ARGS_$$(<).${2})
+	@$$(call __prog_stdout_rst)
 endef
 
 $(eval $(call add_make_target,mk))
