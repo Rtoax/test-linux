@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.42"
+readonly VERSION="v1.1.43"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -597,7 +597,7 @@ ${BOLD}OPTIONS${RST}
 }
 
 list_vm() {
-	local i name max_name_len=0
+	local i name max_name_len=4 # 4="Name"
 	local vmnames=()
 	local vmid=0
 	local list_all list_port list_qemucmd list_uuid
