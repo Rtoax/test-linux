@@ -6,8 +6,7 @@ int main(void)
 {
 	int i, nr;
 
-#define NR_ERRNO(no) \
-	printf("%30s\t%4d\t-0x%x\t%s\n", #no, no, -no, strerror(no));
+#define NR_ERRNO(no) printf("%30s\t%4d\t0x%x\t%s\n", #no, no, no, strerror(no));
 #include "errors.h"
 #undef NR_ERRNO
 

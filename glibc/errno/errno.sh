@@ -1,4 +1,5 @@
 #!/bin/bash
+set -
 
 errnos_base=(
 	$(cat /usr/include/asm-generic/errno-base.h | tr '\t' ' ' | grep 'define E' | awk '{print $2}')
@@ -24,4 +25,3 @@ cat >>${file}<<-EOF
 # error "Undefined NR_ERRNO"
 #endif
 EOF
-
