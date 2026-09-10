@@ -9,6 +9,7 @@ PCIe Abbrev
 - DLLP: Date Link Layer Packet (数据链路层)
 - DVSEC: Designated Vendor-Specific Extended Capability (指定供应商特定扩展功能)
 - ECAM: Enhanced Configuration Access Mechanism (增强配置访问机制) @CAM
+- LTSSM: Link Training and Status State Machine (链接训练和状态机)
 - PCI: Peripheral Component Interconnect (外围组件互联) @PCIe
 - PCIe: PCI-Express () @PCI
 - PCIe ACS: Access Control Services (访问控制服务)

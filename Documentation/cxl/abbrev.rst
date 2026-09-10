@@ -48,7 +48,6 @@ CXL Abbrev
 - LD: Logical Device (逻辑设备)
 - LRSM: Local Retry State Machine (本地重试状态机) @RRSM
 - LSA: Label Storage Area (标签存储区)
-- LTSSM: Link Training and Status State Machine (链接训练和状态机)
 - M2S: Master to Subordinate (主到从) @S2M @CXL.mem
 - MC: Memory Controller (内存控制器)
 - MEFN: Memory Error Firmware Notification (内存错误固件通知)
