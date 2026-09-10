@@ -1,6 +1,6 @@
 include pciutils.mk
 
-subdir-${HAVE_PCIUTILS_PCI_H} += configration-space
+subdir-${HAVE_PCIUTILS_PCI_H} += config-space
 subdir-y += modules
 subdir-y += pciutils
 
