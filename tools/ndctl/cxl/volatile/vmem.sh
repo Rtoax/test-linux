@@ -36,12 +36,12 @@ sudo daxctl list -r region0
 # Add memory to main RAM
 # commit 21535dd38b6e ("cxl: dax0.0: use as system-ram")
 free -g
-# cxl system-ram as a new non-cpu NUMA node
 numactl -H
 sudo daxctl online-memory dax0.0
 
 # Use CXL System RAM...
 free -g
+# commit ce4433286f4f ("cxl: vmem: system ram as a new non-cpu NUMA node")
 numactl -H
 
 sudo daxctl offline-memory dax0.0
