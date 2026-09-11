@@ -8,6 +8,16 @@
 #include <unistd.h>
 #include "stat_helpers.h"
 
+#ifndef STATX_ATTR_MOUNT_ROOT
+#define STATX_ATTR_MOUNT_ROOT		0x00002000 /* Root of a mount */
+#endif
+#ifndef STATX_ATTR_VERITY
+#define STATX_ATTR_VERITY		0x00100000 /* [I] Verity protected file */
+#endif
+#ifndef STATX_ATTR_WRITE_ATOMIC
+#define STATX_ATTR_WRITE_ATOMIC		0x00400000 /* File supports atomic write operations */
+#endif
+
 void print_stat(const char *file, struct stat *stat)
 {
 	unsigned int maj, min;
