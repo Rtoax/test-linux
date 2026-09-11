@@ -5,7 +5,12 @@ set -e
 
 emulator=$(get_qemu_kvm_emulator)
 
-${emulator} -M virt -cpu help
+MACHINES=( $(${emulator} -machine ? | grep -v Supported | awk '{print $1}') )
+
+for m in ${MACHINES[@]}
+do
+	${emulator} -M ${m} -cpu help
+done
 
 allflags=( $(${emulator} -enable-kvm -cpu help | \
 	awk '/flags/ {y=1; getline}; y {print}' | \
