@@ -36,7 +36,15 @@ stat_linux() {
 		if ($2 ~ /Linux /) {
 			print $2
 		}
-	}' | sort | uniq -c
+	}
+	/^Linux: / {
+		sub(/Linux: /, "", $1)
+		# Avoid "Linux: commit xxxx" lines
+		if ($1 ~ "^[0-9]+\\.[0-9]+\\.[0-9]+") {
+			print "Linux "$1
+		}
+	}
+	' | sort | uniq -c
 }
 
 stat_arch() {
