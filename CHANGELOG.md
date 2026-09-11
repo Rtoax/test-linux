@@ -47,6 +47,7 @@ and this project adheres to
 - sysstat: add iostat, pidstat directory;
 - add ima-evm, `lm_sensors`, mbw, sysbench, asciidoc, asciidoctor, acpica-tools, libguestfs/virt-v2v subdir;
 #### Template
+- gdb.mk: add `gdb_{gt,ge,eq,lt,le}(major, minor)`;
 - add procps-ng.mk;
 - pciutils.mk: Rename `HAVE_PCIUTILS_PCI_H` to `HAVE_PCIUTILS_HDR`;
 - runprog.mk: colorful gray stdout for all targets;
