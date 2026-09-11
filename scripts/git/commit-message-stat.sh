@@ -25,7 +25,7 @@ stat_os() {
 stat_linux() {
 	git log ${COMMITS_ARG} --format=%B | \
 	awk -F', ' '
-	/Vers: / {
+	/^Vers: / {
 		if ($1 ~ /Linux /) {
 			sub(/^Vers: /, "", $1)
 			# OS Distro maybe contains 'Linux'

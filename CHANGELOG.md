@@ -16,6 +16,7 @@ and this project adheres to
 - debugfs: add directories `tracing/events/{pci,pci_controller}`;
 #### Changed
 - git commit message: split `OS:` from `Vers:`;
+- git commit message: split `Linux:` from `Vers:`;
 - move cve into security directory;
 - devtmpfs: move some device/ to devtmpfs directory;
 - move licenses directory into Documentation;

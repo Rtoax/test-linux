@@ -40,6 +40,7 @@ fi
 sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Kmods:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Linux:/d' ${COMMIT_MSG_FILE}
 sed -i '/^OS:/d' ${COMMIT_MSG_FILE}
 
 CHANGED_FILES+=( ${UNCOMMITTED_FILES[@]} )
@@ -64,6 +65,7 @@ done
 readonly CHANGED_FILES_RO=( ${CHANGED_FILES[@]} )
 
 OS=""
+Linux=""
 Versions=""
 Environments=""
 KernelModules=""
@@ -241,7 +243,6 @@ match_content() {
 	return 0
 }
 
-linux_ver() { add_ver "Linux $(uname -r)"; }
 redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
 uefi_ver() { add_ver "UEFI Spec $(${VERDIR}/uefi.sh)"; }
 
@@ -264,7 +265,6 @@ if [[ "$(match_type asm S s)$(has_changed_file asm arch bpf cxl cpu insn qemu nu
 	cpu_env
 fi
 
-linux_ver
 arch_env
 virt_env
 
@@ -328,9 +328,14 @@ if [[ ${Versions} ]]; then
 	}
 fi
 
+Linux=$(uname -r)
+sed -i "$((${signed_off_by_line}+1))i Linux: ${Linux}" ${COMMIT_MSG_FILE} || {
+	fatal "Failed handle Linux: ${Linux}"
+}
+
 Distro="$(${VERDIR}/distro.sh)"
 sed -i "$((${signed_off_by_line}+1))i OS: ${Distro}" ${COMMIT_MSG_FILE} || {
-	fatal "Failed handle Vers: ${OS}"
+	fatal "Failed handle OS: ${Distro}"
 }
 
 # If Documentation was modified, auto add Commit Message Title
