@@ -33,6 +33,9 @@ void base(void)
 void precision_error(void)
 {
 #ifdef SUPPORT___float128
+	__float128 err_add = -1;
+	__float128 err_mul = -1;
+
 	__float128 fp128 = PI100Q;
 	__float80 fp80 = (__float80)PI100;
 
@@ -42,8 +45,10 @@ void precision_error(void)
 	__float128 res_add_fp128 = fp128 + fp128;
 	__float80 res_add_fp80 = fp80 + fp80;
 
-	__float128 err_add = fabsq(res_add_fp128 - (__float128)res_add_fp80);
-	__float128 err_mul = fabsq(res_mul_fp128 - (__float128)res_mul_fp80);
+#if __GLIBC_PREREQ(2, 29)
+	err_add = fabsq(res_add_fp128 - (__float128)res_add_fp80);
+	err_mul = fabsq(res_mul_fp128 - (__float128)res_mul_fp80);
+#endif
 
 	printf("FP128 Reference Add: ");
 	fp128_printf(res_add_fp128, "%.35Qf");
