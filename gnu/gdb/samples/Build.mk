@@ -1,5 +1,7 @@
 include gdb.mk
 
+subdir-y += cpp
+
 target-y += set-value
 target-y += set-value-func
 target-y += set-value-volatile
@@ -8,8 +10,6 @@ target-y += hello
 target-y += fork
 target-y += linklist
 target-y += daxpy
-
-target-cpp-y := global-var
 
 prep-y := hello.strip
 
@@ -22,7 +22,6 @@ prog-y += dump-memory.sh
 prog-y += finish.sh
 prog-y += fork.sh
 prog-y += frame.sh
-prog-y += global-var.sh
 prog-y += info-address.sh
 prog-y += info.sh
 prog-y += info-symbol.sh
@@ -47,8 +46,5 @@ PROG_ENVS_layout.sh := --tty
 
 CFLAGS += -O0 -ggdb
 LDFLAGS += -pthread
-
-CXXFLAGS += -O0 -ggdb
-LDXXFLAGS += -pthread
 
 CFLAGS_hello := -Wno-error=unused-function
