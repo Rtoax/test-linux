@@ -9,7 +9,7 @@ readonly OS_VERSION=${VERSION_ID}
 readonly OSV="${OS}:${OS_VERSION}"
 
 readonly DISTS_RHEL_LIKE=( fedora centos rhel almalinux openEuler cclinux
-			opencloudos kylin tencentos )
+			opencloudos kylin tencentos rocky )
 readonly DISTS_DEBIAN_LIKE=( debian ubuntu )
 readonly DISTS_SUSE_LIKE=( suse opensuse opensuse-leap )
 readonly DISTS_ALPINE_LIKE=( alpine )
