@@ -40,6 +40,7 @@ fi
 sed -i '/^Envs:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Kmods:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
+sed -i '/^OS:/d' ${COMMIT_MSG_FILE}
 
 CHANGED_FILES+=( ${UNCOMMITTED_FILES[@]} )
 
@@ -62,9 +63,12 @@ for f in ${CHANGED_FILES[@]}; do
 done
 readonly CHANGED_FILES_RO=( ${CHANGED_FILES[@]} )
 
+OS=""
 Versions=""
 Environments=""
 KernelModules=""
+
+Distro="$(${VERDIR}/distro.sh)"
 
 fatal() {
 	echo >&2 "FATAL: "${@}", try FCM=1/FORCE=1 or VCM=1"
@@ -240,7 +244,7 @@ match_content() {
 }
 
 linux_ver() { add_ver "Linux $(uname -r)"; }
-os_ver() { add_ver "$(${VERDIR}/distro.sh)"; }
+os_ver() { add_ver "${Distro}"; }
 redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
 uefi_ver() { add_ver "UEFI Spec $(${VERDIR}/uefi.sh)"; }
 
@@ -327,6 +331,10 @@ if [[ ${Versions} ]]; then
 		fatal "Failed handle Vers: ${Versions}"
 	}
 fi
+
+sed -i "$((${signed_off_by_line}+1))i OS: ${Distro}" ${COMMIT_MSG_FILE} || {
+	fatal "Failed handle Vers: ${OS}"
+}
 
 # If Documentation was modified, auto add Commit Message Title
 pushd ${GIT_TOPDIR} >/dev/null
