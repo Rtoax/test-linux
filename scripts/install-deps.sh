@@ -34,6 +34,7 @@ declare -a pkgs_cxl pkgs_ai pkgs_gpu pkgs_cuda pkgs_rocm
 declare -a pkgs_skip
 
 declare -a enable_srvs
+declare -a enable_m32
 
 declare verbose dry_run force
 
@@ -324,6 +325,7 @@ ARGUMENT
 	--cxl              install CXL relate software
 
 	--srvs             enable systemd services
+	--m32              enable M32 (i686, etc.)
 
 	--3rd              get third party software packages above
 
@@ -382,6 +384,7 @@ TEMP_ARGS=$(getopt --options uvhfk: \
 	--long cxl \
 	--long 3rd \
 	--long srvs \
+	--long m32 \
 	--long skip-pkg: \
 	--long dry-run \
 	--long verbose \
@@ -400,6 +403,10 @@ while true; do
 	--all)
 		shift
 		enable_all
+		;;
+	--m32)
+		shift
+		enable_m32=YES
 		;;
 	--noup | --noupgrade)
 		shift
@@ -883,9 +890,12 @@ dnf_add_packages()
 		pkgs_boot+=( shim-ia32 )
 		pkgs_boot+=( shim-unsigned-ia32 )
 
-		pkgs_base+=( glibc.i686 )
-		pkgs_base+=( glibc-devel.i686 )
-		pkgs_base+=( glibc-static.i686 )
+		if [[ ${enable_m32} ]]; then
+			pkgs_base+=( glibc.i686 )
+			pkgs_base+=( glibc-devel.i686 )
+			pkgs_base+=( glibc-static.i686 )
+		fi
+
 		pkgs_bench+=( memtest86+ )
 	fi
 	pkgs_base+=( acpica-tools )
@@ -992,7 +1002,10 @@ dnf_add_packages()
 	pkgs_compiler+=( gprof2dot )
 	pkgs_compiler+=( libasan )
 	pkgs_compiler+=( libasan-static )
-	pkgs_compiler+=( libatomic libatomic.i686 )
+	pkgs_compiler+=( libatomic )
+	if [[ ${enable_m32} ]]; then
+		pkgs_compiler+=( libatomic.i686 )
+	fi
 	pkgs_compiler+=( liblsan )
 	pkgs_compiler+=( liblsan-static )
 	pkgs_compiler+=( libtsan )
