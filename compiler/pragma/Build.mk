@@ -1,12 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0
+include clang.mk
+
 target-y += GCC_error
 target-y += GCC_poison
-target-y += GCC_diagnostic clang_diagnostic
+target-y += GCC_diagnostic
+target-${HAVE_CLANG} += clang_diagnostic
 target-y += GCC_dependency
 target-y += GCC_system_header
 target-y += GCC_target
 target-y += GCC_novector
-target-y += GCC_unroll clang_loop_unroll
+target-y += GCC_unroll
+target-${HAVE_CLANG} += clang_loop_unroll
 target-y += GCC_ivdep
 target-y += call-func
 target-y += pack
@@ -14,7 +18,7 @@ target-y += push_macro
 target-y += message
 target-y += _Pragma
 
-target-bpf-y += clang_loop_unroll.bpf.o
+target-bpf-${HAVE_CLANG} += clang_loop_unroll.bpf.o
 
 prog-y += ${target-y}
 
