@@ -22,6 +22,7 @@ and this project adheres to
 - move licenses directory into Documentation;
 #### Deprecated
 #### Documentation
+- distro: add rocky.rst;
 - cxl: add hdm.rst;
 #### Fixed
 #### Linux Kernel
