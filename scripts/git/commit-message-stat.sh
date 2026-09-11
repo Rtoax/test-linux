@@ -30,7 +30,19 @@ stat_os_awk() {
 
 stat_linux() {
 	git log ${COMMITS_ARG} --format=%B | \
-		awk -F', ' '/Vers:/ {print $2}' | sort | uniq -c
+	awk -F', ' '
+	/Vers: / {
+		if ($1 ~ /Linux /) {
+			sub(/^Vers: /, "", $1)
+			# OS Distro maybe contains 'Linux'
+			if ($1 ~ /^Linux /) {
+				print $1
+			}
+		}
+		if ($2 ~ /Linux /) {
+			print $2
+		}
+	}' | sort | uniq -c
 }
 
 stat_arch() {
