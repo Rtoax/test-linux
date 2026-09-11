@@ -68,8 +68,6 @@ Versions=""
 Environments=""
 KernelModules=""
 
-Distro="$(${VERDIR}/distro.sh)"
-
 fatal() {
 	echo >&2 "FATAL: "${@}", try FCM=1/FORCE=1 or VCM=1"
 	[[ -z ${FCM} ]] && exit 1
@@ -244,7 +242,6 @@ match_content() {
 }
 
 linux_ver() { add_ver "Linux $(uname -r)"; }
-os_ver() { add_ver "${Distro}"; }
 redis_ver() { add_ver "$(${VERDIR}/redis.sh --name) $(${VERDIR}/redis.sh)"; }
 uefi_ver() { add_ver "UEFI Spec $(${VERDIR}/uefi.sh)"; }
 
@@ -267,7 +264,6 @@ if [[ "$(match_type asm S s)$(has_changed_file asm arch bpf cxl cpu insn qemu nu
 	cpu_env
 fi
 
-os_ver
 linux_ver
 arch_env
 virt_env
@@ -332,6 +328,7 @@ if [[ ${Versions} ]]; then
 	}
 fi
 
+Distro="$(${VERDIR}/distro.sh)"
 sed -i "$((${signed_off_by_line}+1))i OS: ${Distro}" ${COMMIT_MSG_FILE} || {
 	fatal "Failed handle Vers: ${OS}"
 }
