@@ -31,6 +31,8 @@ readonly LAST_SUBMITTED_FILES=( $(git log -1 --oneline --name-only --pretty=form
 # Changed file list (new, deleted, added, modified)
 declare -a CHANGED_FILES SHEBANGS
 declare is_commit_amend
+readonly Linux=$(uname -r)
+readonly Distro="$(${VERDIR}/distro.sh)"
 
 if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
 	. ${GIT_TOPDIR}/.gitconfig.sh
@@ -65,13 +67,12 @@ done
 readonly CHANGED_FILES_RO=( ${CHANGED_FILES[@]} )
 
 OS=""
-Linux=""
 Versions=""
 Environments=""
 KernelModules=""
 
 fatal() {
-	echo >&2 "FATAL: "${@}", try FCM=1/FORCE=1 or VCM=1"
+	echo >&2 -e "\033[1;31mFATAL: "${@}", try FCM=1/FORCE=1 or VCM=1\033[m"
 	[[ -z ${FCM} ]] && exit 1
 }
 
@@ -250,6 +251,15 @@ arch_env() { add_env "Arch $(uname -m)"; }
 cpu_env() { add_env "CPU: $(${TOPDIR}/cpu/cpuname.sh)"; }
 virt_env() { add_env "$(${TOPDIR}/virt/virttype.sh)"; }
 
+# Check distribution of commit message
+readonly _distro="$(echo ${Distro} | awk '{print $1}' | tr '[:upper:]' '[:lower:]')"
+readonly cms="${TOPDIR}/scripts/git/commit-message-stat.sh"
+if ! grep --quiet "names\[\"$_distro\"\]" ${cms}
+then
+	fatal "Please add '${_distro}' to ${cms}"
+	exit 1
+fi
+
 if [[ -z ${signed_off_by_line} ]] && [[ ${COMMIT_SOURCE} != merge ]]; then
 	fatal "must signed with -s/--signoff"
 	exit 0
@@ -328,12 +338,10 @@ if [[ ${Versions} ]]; then
 	}
 fi
 
-Linux=$(uname -r)
 sed -i "$((${signed_off_by_line}+1))i Linux: ${Linux}" ${COMMIT_MSG_FILE} || {
 	fatal "Failed handle Linux: ${Linux}"
 }
 
-Distro="$(${VERDIR}/distro.sh)"
 sed -i "$((${signed_off_by_line}+1))i OS: ${Distro}" ${COMMIT_MSG_FILE} || {
 	fatal "Failed handle OS: ${Distro}"
 }

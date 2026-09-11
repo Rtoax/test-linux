@@ -38,6 +38,7 @@ and this project adheres to
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;
 - add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`, libyes.sh, `libyes_examples.sh`;
 #### Tools
+- coreutils: add tr subdir;
 - add pciutils symlink subdir;
 - plotcake: support CMakeLists.txt;
 - add nbdkit/nbdkit directory;
