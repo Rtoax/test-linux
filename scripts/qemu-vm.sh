@@ -120,7 +120,7 @@ ${BOLD}SUBCOMMAND OPTIONS${RST}
 ${BOLD}VM OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
 
-    --cpu [ARGS]            config SMP/SOCKET/CPU, please see ${BOLD}--cpu help${RST}
+    --cpu [ARGS]            config SMP/SOCKET/CPU, please see ${BOLD}--cpu [help|?]${RST}
     -m, --memory [SIZE]     Sets guest startup RAM size, default: ${q_mem_sz},
                             format see ${UL}SIZE${RST} section.
 
@@ -296,7 +296,7 @@ cpu_arg_help() {
 	echo -e "
 ${BOLD}CPU ARGUMENTS SYNTAX${RST}
 
-${BOLD}--cpu help${RST}: show this information
+${BOLD}--cpu [help|?]${RST}: show this information
 
 ${BOLD}--cpu [nr=]<NUM>${RST}: set cpu number
 ${BOLD}--cpu sockets=<NUM>${RST}: set smp socket number
@@ -315,7 +315,7 @@ handle_cpu_arg() {
 	for arg in ${args[@]}
 	do
 		case ${arg%%=*} in
-		help | ?)
+		help|"?")
 			cpu_arg_help
 			;;
 		esac

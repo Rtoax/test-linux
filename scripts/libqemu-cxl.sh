@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.6"
+readonly LIBQEMU_CXL_VERSION="v0.0.7"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -197,7 +197,7 @@ handle_cxl_arg() {
 	for arg in ${args[@]}
 	do
 		case ${arg%%=*} in
-		help|?)
+		help|"?")
 			cxl_arg_help
 			;;
 		debug)
@@ -365,7 +365,7 @@ handle_cxl_arg() {
 	# set global
 	if [[ ${device} ]]; then
 		case ${device} in
-		list|?)
+		list|"?")
 			echo ${CXL_BUILTIN_DEVICES[@]}
 			exit 0
 			;;
