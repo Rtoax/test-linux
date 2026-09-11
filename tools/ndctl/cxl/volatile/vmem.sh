@@ -44,7 +44,8 @@ sudo daxctl online-memory dax0.0
 # Use CXL System RAM...
 free -g
 # commit ce4433286f4f ("cxl: vmem: system ram as a new non-cpu NUMA node")
-# or test multiple regions enable one by one, online memory one by one.
+# or test multiple regions enable one by one, online memory one by one, see:
+# commit 6c3a8f516f37 ("cxl: vmem: online dax memory to NUMA one by one")
 numactl -H
 
 sudo daxctl offline-memory dax0.0
