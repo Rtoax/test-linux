@@ -1,3 +1,5 @@
+include clang.mk
+
 shell-y := test-env.sh
 shell-y += test-env.sh.1
 shell-y += test-env.sh.9
@@ -39,7 +41,7 @@ PROG_ARGS_test-args.sh := RRRRRRRRRRRRR TTTTTTTTTTT
 
 target-y += main
 target-y += gcc
-target-y += clang clang.1
+target-${HAVE_CLANG} += clang clang.1
 
 target-liba-y += libfoobar.a
 target-libso-y += libfoobar.so
