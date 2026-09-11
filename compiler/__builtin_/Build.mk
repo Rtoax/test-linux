@@ -44,6 +44,7 @@ target-todo += preserve_enum_value
 prog-y += $(filter-out trap, ${target-y})
 
 CFLAGS += -I..
+CFLAGS___has_builtin := -Wno-error=cpp
 # TODO: Fix this warning skip
 CFLAGS_apply_args := -Wno-incompatible-pointer-types
 CFLAGS_popcount := -Wno-int-conversion
