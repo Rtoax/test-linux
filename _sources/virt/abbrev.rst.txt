@@ -1,0 +1,35 @@
+Abbrev
+======
+
+- AMD-Vi: AMD-Vi () @VT-d
+- ASID: Address Space ID (地址空间标识符)
+- CD: Context Descriptor (上下文描述符)
+- CTP: Context-table pointer (上下文表指针)
+- EPT: Extended Page Table (扩展页表) @NPT
+- GPA: Guest Physical Address (虚拟机物理地址)
+- GVA: Guest Virtual Address (虚拟机虚拟地址)
+- HPA: Host Physical Address (主机物理地址)
+- IOMMU: Input/Output Memory Management Unit (IO内存管理单元,AMD) @MMU @SMMU
+- IOVA: IO Virtual Address space (IO虚拟地址空间)
+- IPA: Intermediate Phyical Address (中间物理地址)
+- KVM: Kernel Virtual Machine (内核虚拟机)
+- MR-IOV: Multi Root I/O Virtualization (多根IO虚拟化) @SR-IOV
+- NPT: Nested Page Table (嵌套页表) @EPT
+- PF: Pysical Function (物理功能)
+- PML: Page Modification Logging ()
+- S2TTB: Stage 2 Translate Table Base (第二阶段翻译表库)
+- SMMU: System MMU (系统内存管理单元) @MMU @IOMMU
+- SR-IOV: Single Root I/O Virtualization (单根IO虚拟化) @MR-IOV
+- SVM: Secure Virtual Machine (安全虚拟机)
+- SWIOMMU: Software IOMMU (软件IO内存管理单元) @IOMMU
+- vDPA: vhost Data Path Acceleration (vhost 数据面加速) @vhost
+- VFIO: Virtual Function I/O (虚拟功能 I/O)
+- VF: Virtual Function (虚拟功能)
+- VMCS: Virtual Machine Control Structure (虚拟机控制结构)
+- VMM: Virtual Machine Monitor (虚拟机监控器)
+- VM: Virtual Machine (虚拟机)
+- VMX: Virtual Machine Extensions (虚拟机扩展)
+- VPID: Virtual Processor Id (虚拟处理器ID) @VMCS
+- VT-C: Virtualization Technology for Connectify (基于网络的虚拟化技术)
+- VT-d: Virtualization Technology for Directed I/O (直接I/O虚拟化技术,Intel) @AMD-Vi
+- VT-x: Virtualization Technology for x86 (基于处理器的虚拟化技术)
