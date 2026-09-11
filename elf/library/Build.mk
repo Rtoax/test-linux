@@ -39,6 +39,8 @@ latency-got-llc-deps := libcall0.so
 latency-a-deps := libcall0.a
 latency-a-llc-deps := libcall0.a
 
+LDFLAGS += -pthread
+
 ifdef VERBOSE
   CFLAGS += -Q
   LDFLAGS += -Q
