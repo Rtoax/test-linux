@@ -22,10 +22,10 @@ $(call find_cmd_and_def,clang++,clangxx)
 CC ?= ${CLANG}
 CXX ?= ${CLANGXX}
 
-CLANG_MACHINE := $(shell ${CLANG} -dumpmachine)
-
 ifeq ($(CLANG),)
   $(warning Not found clang, please install clang first)
+else
+  CLANG_MACHINE := $(shell ${CLANG} -dumpmachine)
 endif
 
 ifdef DEBUG
