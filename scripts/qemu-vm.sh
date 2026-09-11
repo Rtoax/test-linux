@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.46"
+readonly VERSION="v1.1.47"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -1053,10 +1053,6 @@ config_memory() {
 	m+=( slots=8 )
 	m+=( maxmem=32768M )
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
-
-	# NUMA
-	qargs+=( -object memory-backend-memfd,id=mem,size=${q_mem_sz},share=on
-			-numa node,memdev=mem )
 }
 
 # $1: require memory size
@@ -1081,6 +1077,11 @@ config_cpu() {
 
 	# TODO: support more cpu
 	# qargs+=( -cpu kvm64,+kvm_pv_unhalt,+kvm-pv-ipi,+kvm-pv-tlb-flush )
+}
+
+config_numa() {
+	qargs+=( -object memory-backend-memfd,id=mem,size=${q_mem_sz},share=on
+			-numa node,memdev=mem )
 
 	# TODO: support numa
 	# -smp cpus=8,sockets=2,cores=4,threads=1
@@ -1646,6 +1647,7 @@ config_monitor
 config_bmc ${ARCH}
 config_memory
 config_cpu
+config_numa
 config_uefi
 config_pci
 config_net
