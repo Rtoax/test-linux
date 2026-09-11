@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.49"
+readonly VERSION="v1.1.50"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -23,6 +23,7 @@ declare q_vm_name=$(mktemp -u vm-XXXXXX)
 
 declare q_cpus=4
 declare q_sockets=
+declare q_threads=
 declare q_cpu_model=host
 
 declare q_mem_sz=2G
@@ -300,6 +301,7 @@ ${BOLD}--cpu [help|?]${RST}: show this information
 
 ${BOLD}--cpu [nr=]<NUM>${RST}: set cpu number
 ${BOLD}--cpu sockets=<NUM>${RST}: set smp socket number
+${BOLD}--cpu threads=<NUM>${RST}: set number of hardware threads (hyperthreads) per physical core
 ${BOLD}--cpu model=<MODEL>${RST}: set cpu model (default: ${UL}${q_cpu_model}${RST}), see ${GRAY}${QEMU} -cpu help${RST}
 "
 	exit 0
@@ -308,7 +310,7 @@ ${BOLD}--cpu model=<MODEL>${RST}: set cpu model (default: ${UL}${q_cpu_model}${R
 handle_cpu_arg() {
 	local arg args
 	local nr_cpus model
-	local sockets
+	local sockets threads
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -345,6 +347,9 @@ handle_cpu_arg() {
 			sockets)
 				sockets=${arg:8}
 				;;
+			threads)
+				threads=${arg:8}
+				;;
 			*)
 				error "cpu: unknown arg '${arg}'"
 				;;
@@ -359,6 +364,9 @@ handle_cpu_arg() {
 	fi
 	if [[ ! -z ${sockets} ]]; then
 		q_sockets=${sockets}
+	fi
+	if [[ ! -z ${threads} ]]; then
+		q_threads=${threads}
 	fi
 	if [[ ! -z ${model} ]]; then
 		q_cpu_model=${model}
@@ -1084,6 +1092,7 @@ config_cpu() {
 	fi
 
 	[[ ${q_sockets} ]] && smp_args+=( sockets=${q_sockets} )
+	[[ ${q_threads} ]] && smp_args+=( threads=${q_threads} )
 	smp_args+=( cpus=${q_cpus} )
 	smp_args+=( maxcpus=$((q_cpus * 2)) )
 
