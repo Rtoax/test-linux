@@ -38,6 +38,7 @@ Distributions
    openeuler
    opensuse
    rhel
+   rocky
    tencentos
    ubuntu
    uos
