@@ -14,7 +14,9 @@
  */
 #include <stdio.h>
 
+#if __GNUC_PREREQ(8, 6)
 __attribute__((access(write_only, 1), access(read_only, 2)))
+#endif
 void foo1(char *s1, const char *s2)
 {
 	s1[0] = 'a';
@@ -23,7 +25,9 @@ void foo1(char *s1, const char *s2)
 #endif
 }
 
+#if __GNUC_PREREQ(8, 6)
 __attribute__((access(write_only, 1), access(read_only, 2)))
+#endif
 void foo2(char *s1, char *s2)
 {
 	s1[0] = 'a';
