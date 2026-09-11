@@ -566,7 +566,7 @@ enable_auto
 
 # Install extra software package repo
 case ${OS} in
-centos|rhel|almalinux)
+centos|rhel|almalinux|rocky)
 	os_install epel-release
 	;;
 fedora)
@@ -1390,6 +1390,8 @@ zypper_add_packages()
 
 if [[ $(is_os centos) ]]; then
 	dnf_args+=( --enablerepo=crb,powertools )
+elif [[ $(is_os rocky) ]]; then
+	dnf_args+=( --enablerepo=crb )
 elif [[ $(is_os cclinux) ]]; then
 	dnf_args+=( --enablerepo=* )
 fi
