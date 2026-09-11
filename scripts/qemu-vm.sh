@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.48"
+readonly VERSION="v1.1.49"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -298,10 +298,9 @@ ${BOLD}CPU ARGUMENTS SYNTAX${RST}
 
 ${BOLD}--cpu help${RST}: show this information
 
-${BOLD}--cpu [num]${RST}: set cpu number
-${BOLD}--cpu nr=[num]${RST}: set cpu number
-${BOLD}--cpu sockets=[num]${RST}: set smp socket number
-${BOLD}--cpu model=[MODEL]${RST}: set cpu model (default: ${UL}${q_cpu_model}${RST}), see ${GRAY}${QEMU} -cpu help${RST}
+${BOLD}--cpu [nr=]<NUM>${RST}: set cpu number
+${BOLD}--cpu sockets=<NUM>${RST}: set smp socket number
+${BOLD}--cpu model=<MODEL>${RST}: set cpu model (default: ${UL}${q_cpu_model}${RST}), see ${GRAY}${QEMU} -cpu help${RST}
 "
 	exit 0
 }
@@ -316,7 +315,7 @@ handle_cpu_arg() {
 	for arg in ${args[@]}
 	do
 		case ${arg%%=*} in
-		help)
+		help | ?)
 			cpu_arg_help
 			;;
 		esac
