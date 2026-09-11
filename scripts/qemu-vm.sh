@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.45"
+readonly VERSION="v1.1.46"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -22,7 +22,7 @@ declare pcie_root_port_num=2
 declare q_vm_name=$(mktemp -u vm-XXXXXX)
 declare q_cpus=4
 declare q_cpu_model=host
-declare q_memory=2G
+declare q_mem_sz=2G
 
 declare f_kernel
 declare f_initrd
@@ -118,7 +118,7 @@ ${BOLD}VM OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
 
     --cpu [ARGS]            config CPU, please see ${BOLD}--cpu help${RST}
-    -m, --memory [SIZE]     Sets guest startup RAM size, default: ${q_memory},
+    -m, --memory [SIZE]     Sets guest startup RAM size, default: ${q_mem_sz},
                             format see ${UL}SIZE${RST} section.
 
     -k, --kernel [KERNEL]   specify ${UL}vmlinux${RST}, ${UL}vmlinuz${RST}, ${UL}bzImage${RST}
@@ -1049,21 +1049,21 @@ get_port_monitor_telnet() {
 }
 
 config_memory() {
-	local m=( ${q_memory} )
+	local m=( ${q_mem_sz} )
 	m+=( slots=8 )
 	m+=( maxmem=32768M )
 	qargs+=( -m $(IFS=,; echo "${m[*]}") )
 
 	# NUMA
-	qargs+=( -object memory-backend-memfd,id=mem,size=${q_memory},share=on
+	qargs+=( -object memory-backend-memfd,id=mem,size=${q_mem_sz},share=on
 			-numa node,memdev=mem )
 }
 
 # $1: require memory size
 min_memory_required() {
 	local reqsz=$1
-	if [[ $(size2bytes ${q_memory}) -lt $(size2bytes ${reqsz}) ]]; then
-		error "Need memory size ${reqsz} at least, but it's ${q_memory}"
+	if [[ $(size2bytes ${q_mem_sz}) -lt $(size2bytes ${reqsz}) ]]; then
+		error "Need memory size ${reqsz} at least, but it's ${q_mem_sz}"
 	fi
 }
 
@@ -1484,11 +1484,11 @@ while true; do
 		;;
 	-m | --memory)
 		shift
-		q_memory=$(sizeceilfmt $1)
-		if [[ -z ${q_memory} ]]; then
-			error "Bad memory size parameter $1(${q_memory})"
+		q_mem_sz=$(sizeceilfmt $1)
+		if [[ -z ${q_mem_sz} ]]; then
+			error "Bad memory size parameter $1(${q_mem_sz})"
 		fi
-		if [[ $(sizechkalign ${q_memory} 256MiB) != y ]]; then
+		if [[ $(sizechkalign ${q_mem_sz} 256MiB) != y ]]; then
 			error "Memory size must align 256MiB"
 		fi
 		shift
