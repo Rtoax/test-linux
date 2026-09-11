@@ -23,5 +23,6 @@ PCIe Abbrev
 - RC: Root Complex (根复合体) @PCIe
 - RCEC: Root Complex Event Collector (根复合体事件收集器)
 - RCiEP: PCIe Root Complex Integrated Endpoint (PCIe 根复合体集成端点)
+- RCRB: Root Complex Register Block (根复合体寄存器块)
 - RP: Root Port (根端口) @PCIe @vPPB
 - TLP: Transaction Layer Packet (事务层包)
