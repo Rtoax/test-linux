@@ -11,8 +11,12 @@
 #include <stdbool.h>
 #include <string.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <syscall.h>
+#include <sys/syscall.h>
 
 #define NR_THREADS	5
+#define gettid() (pid_t) syscall(__NR_gettid)
 
 static sig_atomic_t loop = true;
 
