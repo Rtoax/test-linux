@@ -30,6 +30,7 @@ stat_os() {
 		names["opencloudos"] = 1
 		names["openeuler"] = 1
 		names["opensuse"] = 1
+		names["rocky"] = 1
 		names["tencentos"] = 1
 		names["ubuntu"] = 1
 	}
