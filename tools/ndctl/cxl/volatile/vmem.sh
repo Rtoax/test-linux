@@ -26,6 +26,7 @@ sudo cxl create-region --decoder decoder0.0 --size 4096M --type ram --memdevs me
 # Or only use way
 sudo cxl create-region --decoder decoder0.0 --size 1024M --type ram --memdevs mem0
 
+# enable region will create a new NUMA node with 0B memory
 sudo cxl enable-region region0
 sudo cxl enable-region all
 sudo cxl list --regions | jq '.[].type'
@@ -36,10 +37,16 @@ sudo daxctl list -r region0
 # Add memory to main RAM
 # commit 21535dd38b6e ("cxl: dax0.0: use as system-ram")
 free -g
+numactl -H
+# "online-memory" will add memory to NUMA node which created by 'enable-region'.
 sudo daxctl online-memory dax0.0
 
 # Use CXL System RAM...
 free -g
+# commit ce4433286f4f ("cxl: vmem: system ram as a new non-cpu NUMA node")
+# or test multiple regions enable one by one, online memory one by one, see:
+# commit 6c3a8f516f37 ("cxl: vmem: online dax memory to NUMA one by one")
+numactl -H
 
 sudo daxctl offline-memory dax0.0
 free -g
