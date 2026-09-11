@@ -61,6 +61,7 @@ run --memory 4GiB
 run --cpu 10
 run --cpu nr=10
 run --cpu model=base
+run --cpu sockets=2
 # Test rootfs
 run --rootfs vm.qcow2
 run --rootfs vm.qcow2,ro

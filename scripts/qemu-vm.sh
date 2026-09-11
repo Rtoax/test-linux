@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.47"
+readonly VERSION="v1.1.48"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -20,8 +20,11 @@ readonly BUS_PCIE0=pcie.0
 declare pcie_root_port_num=2
 
 declare q_vm_name=$(mktemp -u vm-XXXXXX)
+
 declare q_cpus=4
+declare q_sockets=
 declare q_cpu_model=host
+
 declare q_mem_sz=2G
 
 declare f_kernel
@@ -117,7 +120,7 @@ ${BOLD}SUBCOMMAND OPTIONS${RST}
 ${BOLD}VM OPTIONS${RST}
     -n, --name [NAME]       specify vm name, default: vm- prefix
 
-    --cpu [ARGS]            config CPU, please see ${BOLD}--cpu help${RST}
+    --cpu [ARGS]            config SMP/SOCKET/CPU, please see ${BOLD}--cpu help${RST}
     -m, --memory [SIZE]     Sets guest startup RAM size, default: ${q_mem_sz},
                             format see ${UL}SIZE${RST} section.
 
@@ -297,6 +300,7 @@ ${BOLD}--cpu help${RST}: show this information
 
 ${BOLD}--cpu [num]${RST}: set cpu number
 ${BOLD}--cpu nr=[num]${RST}: set cpu number
+${BOLD}--cpu sockets=[num]${RST}: set smp socket number
 ${BOLD}--cpu model=[MODEL]${RST}: set cpu model (default: ${UL}${q_cpu_model}${RST}), see ${GRAY}${QEMU} -cpu help${RST}
 "
 	exit 0
@@ -305,6 +309,7 @@ ${BOLD}--cpu model=[MODEL]${RST}: set cpu model (default: ${UL}${q_cpu_model}${R
 handle_cpu_arg() {
 	local arg args
 	local nr_cpus model
+	local sockets
 
 	# Pre handle
 	args=( $(echo $1 | tr ',' ' ') )
@@ -338,6 +343,9 @@ handle_cpu_arg() {
 			model)
 				model=${arg:6}
 				;;
+			sockets)
+				sockets=${arg:8}
+				;;
 			*)
 				error "cpu: unknown arg '${arg}'"
 				;;
@@ -349,6 +357,9 @@ handle_cpu_arg() {
 
 	if [[ ! -z ${nr_cpus} ]]; then
 		q_cpus=${nr_cpus}
+	fi
+	if [[ ! -z ${sockets} ]]; then
+		q_sockets=${sockets}
 	fi
 	if [[ ! -z ${model} ]]; then
 		q_cpu_model=${model}
@@ -1065,6 +1076,7 @@ min_memory_required() {
 
 config_cpu() {
 	local cpu_args=( ${q_cpu_model} )
+	local smp_args
 
 	# Skip warning on Hygon:
 	# qemu-system-x86_64: host doesn't support requested feature: vPMU
@@ -1072,8 +1084,12 @@ config_cpu() {
 		cpu_args+=( pmu=off )
 	fi
 
+	[[ ${q_sockets} ]] && smp_args+=( sockets=${q_sockets} )
+	smp_args+=( cpus=${q_cpus} )
+	smp_args+=( maxcpus=$((q_cpus * 2)) )
+
 	qargs+=( -cpu $(IFS=,; echo "${cpu_args[*]}") )
-	qargs+=( -smp cpus=${q_cpus},maxcpus=$((q_cpus * 2)) )
+	qargs+=( -smp $(IFS=,; echo "${smp_args[*]}") )
 
 	# TODO: support more cpu
 	# qargs+=( -cpu kvm64,+kvm_pv_unhalt,+kvm-pv-ipi,+kvm-pv-tlb-flush )
