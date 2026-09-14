@@ -53,6 +53,7 @@ CXL Abbrev
 - MEFN: Memory Error Firmware Notification (内存错误固件通知)
 - MHD: Muiltple Headed Device (多头设备)
 - MLD: Muiltple Logical Device (多逻辑设备) @SLD
+- MU: Memory xceleration Unit (内存加速单元)
 - NDR: Response without data - generically called No Data Response (无数据响应) @S2M
 - NIB: Number of Bitmap Entries (Bitmap 条目)
 - NXM: Non-eXistent Memory (不存在的内存)
