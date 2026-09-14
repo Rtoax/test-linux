@@ -12,7 +12,11 @@ In-memory processing, also called compute-in-memory (CIM) or processing-in-memor
 PIM could be implemented by:
 
 - Processing-using-memory (PuM)
+    - Adding limited processing capability (e.g., floating-point multiplication units, 4K row operations such as copy or zero, bitwise operations on two rows) to **conventional memory modules** (e.g., DIMM modules)
+    - Adding processing capability to **memory controllers** so that the data that is accessed does not need to be forwarded to the CPU or affect the CPU' cache, but is dealt with immediately.
+        - :doc:`../cxl/index`?
 - Processing-near-memory (PnM)
+    - 3D arrangements of silicon with memory layers and processing layers.
 
 
 Intelligent RAM (IRAM)
