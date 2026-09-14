@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.52"
+readonly VERSION="v1.1.53"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -402,7 +402,7 @@ uefi_arg_help() {
 	echo -e "
 ${BOLD}UEFI ARGUMENTS SYNTAX${RST}
 
-${BOLD}--uefi help${RST}: show this information
+${BOLD}--uefi <help|?>${RST}: show this information
 
 ${BOLD}--uefi code=<FILE>${RST}: specify code, such as: ${UEFI_CODES[@]}
 ${BOLD}--uefi var=<FILE>${RST}: specify var, such as: ${UEFI_VARS[@]}, only specify if 'code' specified. This is usually NVRAM.
@@ -419,7 +419,7 @@ handle_uefi_arg() {
 	for arg in ${args[@]}
 	do
 		case ${arg%%=*} in
-		help)
+		help | "?")
 			uefi_arg_help
 			;;
 		esac
@@ -522,7 +522,7 @@ disk_arg_help() {
 ${BOLD}DISK ARGUMENTS SYNTAX: -d, --disk <ARGS>${RST}
 
 ${BOLD}ARGS${RST}
-  ${BOLD}help${RST}: show this information
+  ${BOLD}help, ?${RST}: show this information
 
   ${BOLD}[FILE],[ro|rw]${RST}: specify disk file, see ${BOLD}[FILE]${RST}
   ${BOLD}file=<FILE>,[ro|rw]${RST}: specify disk file, see ${BOLD}[FILE]${RST}
@@ -541,7 +541,7 @@ handle_disk_arg() {
 	for arg in ${args[@]}
 	do
 		case ${arg%%=*} in
-		help)
+		help | "?")
 			disk_arg_help
 			;;
 		esac

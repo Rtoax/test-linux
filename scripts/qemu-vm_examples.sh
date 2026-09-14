@@ -45,12 +45,15 @@ qemu -V --version
 qemu --cxl help
 qemu --cxl ?
 qemu --disk help
+qemu --disk ?
 qemu --uefi help
+qemu --uefi ?
 qemu list
 qemu list -h --help
 qemu list -a --all
 qemu list -p --port
 qemu list --qemu-command
+qemu list --qemu-cmd
 qemu list --uuid
 qemu destroy -h --help
 qemu undefine -h --help
@@ -59,6 +62,8 @@ qemu undefine -h --help
 run
 run --debug
 run --memory 4GiB
+run --cpu help
+run --cpu ?
 run --cpu 10
 run --cpu nr=10
 run --cpu model=base
