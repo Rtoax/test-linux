@@ -22,6 +22,8 @@ and this project adheres to
 - move licenses directory into Documentation;
 #### Deprecated
 #### Documentation
+- cxl: add xcena.rst;
+- mm: add c-ram.rst;
 - distro: add rocky.rst;
 - cxl: add hdm.rst;
 #### Fixed
@@ -86,7 +88,6 @@ and this project adheres to
 - ndctl: cxl: add subdir persistent, volatile;
 #### Deprecated
 #### Documentation
-- mm: add c-ram.rst;
 - devel: add template.rst;
 - cxl: add vcs.rst, add product subdir;
 - qemu: add bmc.rst;

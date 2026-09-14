@@ -10,4 +10,5 @@ CXL Product
    h3platform
    intel
    samsung
+   xcena
    xconn
