@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.50"
+readonly VERSION="v1.1.51"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -835,6 +835,20 @@ destroy_vm() {
 	done
 }
 
+__usage_undefine_vm__() {
+	echo -e "
+${BOLD}NAME${RST}
+    ${PROG} undefine - Undefine virtual machine
+
+${BOLD}SYNOPSIS${RST}
+    ${PROG} ${BOLD}undefine${RST} <name...>
+
+${BOLD}OPTIONS${RST}
+    -h, --help     show this information
+"
+	exit ${1-0}
+}
+
 # $1: virtual machine name
 undefine_one_vm() {
 	local name=${1}
@@ -856,6 +870,27 @@ undefine_one_vm() {
 
 # $@: vm names
 undefine_vm() {
+	local UNDEFINE_VM_ARGS
+
+	UNDEFINE_VM_ARGS=$(getopt --options h \
+			--long help \
+			--name undefine-vm -- "$@")
+
+	eval set -- "$UNDEFINE_VM_ARGS"
+
+	while true; do
+		case $1 in
+		-h | --help)
+			shift
+			__usage_undefine_vm__
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
+
 	local name
 	for name in ${@}
 	do
