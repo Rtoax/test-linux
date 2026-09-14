@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.51"
+readonly VERSION="v1.1.52"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -91,6 +91,7 @@ readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 . ${QEMU_VM_ROOT}/libqemu-cxl.sh
 . ${QEMU_VM_ROOT}/libqemu-ipmi.sh
 . ${QEMU_VM_ROOT}/libstring.sh
+. ${QEMU_VM_ROOT}/libyes.sh
 
 qemu_eval()
 {
@@ -595,6 +596,12 @@ config_prepare_vm_tmpdir() {
 
 ################################################################################
 # VM Management
+get_all_vmnames() {
+	if [[ -d ${TMPDIR} ]]; then
+		ls ${TMPDIR}
+	fi
+}
+
 __usage_list_vm__() {
 	echo -e "
 ${BOLD}NAME${RST}
@@ -617,14 +624,10 @@ ${BOLD}OPTIONS${RST}
 
 list_vm() {
 	local i name max_name_len=4 # 4="Name"
-	local vmnames=()
+	local vmnames=( $(get_all_vmnames) )
 	local vmid=0
 	local list_all list_port list_qemucmd list_uuid
 	local LIST_VM_ARGS
-
-	if [[ -d ${TMPDIR} ]]; then
-		vmnames=( $(ls ${TMPDIR}) )
-	fi
 
 	LIST_VM_ARGS=$(getopt --options aphv \
 			--long all \
@@ -871,8 +874,10 @@ undefine_one_vm() {
 # $@: vm names
 undefine_vm() {
 	local UNDEFINE_VM_ARGS
+	local all
 
-	UNDEFINE_VM_ARGS=$(getopt --options h \
+	UNDEFINE_VM_ARGS=$(getopt --options ah \
+			--long all \
 			--long help \
 			--name undefine-vm -- "$@")
 
@@ -880,6 +885,10 @@ undefine_vm() {
 
 	while true; do
 		case $1 in
+		-a | --all)
+			shift
+			all=ON
+			;;
 		-h | --help)
 			shift
 			__usage_undefine_vm__
@@ -892,7 +901,24 @@ undefine_vm() {
 	done
 
 	local name
-	for name in ${@}
+	local vmnames=( "${@}" )
+	local answer
+
+	if [[ -n ${all} ]]; then
+		vmnames=( $(get_all_vmnames) )
+		if [[ -n "${vmnames[@]}" ]]; then
+			list_vm --all
+			echo
+			answer=$(yes_or_no "Are you sure to undefine all VMs? [Y/N]")
+			if [[ ${answer} != YES ]]; then
+				return 0
+			fi
+		else
+			warning "Not found any VM, see '${PROG} list'"
+		fi
+	fi
+
+	for name in ${vmnames[@]}
 	do
 		undefine_one_vm ${name}
 	done

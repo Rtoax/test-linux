@@ -53,6 +53,7 @@ qemu list -p --port
 qemu list --qemu-command
 qemu list --uuid
 qemu destroy -h --help
+qemu undefine -h --help
 
 # Test Basic
 run
