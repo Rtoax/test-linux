@@ -1,36 +1,41 @@
 #!/bin/bash
+# utility for controlling IPMI-enabled devices
 #
+set -e
 
 ip=10.32.161.216
 user=root
 password=root
 
+_ipmitool() {
+	sudo ipmitool -I lanplus -H $ip -U $user -P $password "${@}"
+}
+
 # reboot BMC
-sudo ipmitool -I lanplus -H $ip -U $user -P $password mc reset cold
+_ipmitool mc reset cold
 
 # check BMC IP address
-sudo ipmitool -I lanplus -H $ip -U $user -P $password lan print
+_ipmitool lan print
 
 # Boot from bios
-sudo ipmitool -I lanplus -H $ip -U $user -P $password chassis bootdev bios
+_ipmitool chassis bootdev bios
 # Reboot machine
-sudo ipmitool -I lanplus -H $ip -U $user -P $password power reset
+_ipmitool power reset
 
 # Rediect bmc console
-sudo ipmitool -I lanplus -H $ip -U $user -P $password sol activate
-sudo ipmitool -I lanplus -H $ip -U $user -P $password sol deactivate
+_ipmitool sol activate
+_ipmitool sol deactivate
 
 # Check FRU (Field Replace Unit 现场可更换单元)
-sudo ipmitool -I lanplus -H $ip -U $user -P $password fru
+_ipmitool fru
 
 # Check SDR, Sensor
-sudo ipmitool -I lanplus -H $ip -U $user -P $password sensor list
+_ipmitool sensor list
 
 ipmitool_boot() {
-	local remote="-I lanplus -H $ip -U $user -P $password"
-	ipmitool ${remote} chassis bootparam set bootflag force_pxe
-	ipmitool ${remote} chassis bootdev pxe
-	ipmitool ${remote} raw 0x00 0x08 0x05 0x80 0x04 0x00 0x00 0x00
+	_ipmitool chassis bootparam set bootflag force_pxe
+	_ipmitool chassis bootdev pxe
+	_ipmitool raw 0x00 0x08 0x05 0x80 0x04 0x00 0x00 0x00
 
 	# 0x00：网络功能码（NetFn），表示 chassis（机箱）相关的命令.
 	# 0x08：命令码（CMD），表示设置系统启动选项（Set System Boot Options）.
@@ -44,7 +49,7 @@ ipmitool_boot() {
 	# 0x00 0x00 0x00：后续的三个字节通常用于设置其他启动相关的参数，但在这
 	#                 个命令中，它们被设置为 0x00，表示不进行其他额外的设置
 	#                 或配置.
-	ipmitool ${remote} raw 0x00 0x08 0x05 0xa0 0x04 0x00 0x00 0x00
+	_ipmitool raw 0x00 0x08 0x05 0xa0 0x04 0x00 0x00 0x00
 
 	# raw 0x00 0x08 0x05 0xc0 0x04 0x00 0x00 (To boot from PXE first)
 	# raw 0x00 0x08 0x05 0xc0 0x14 0x00 0x00 (To boot from CD/DVD first)
@@ -53,4 +58,4 @@ ipmitool_boot() {
 }
 
 # Print System Event Log (SEL)
-sudo ipmitool sel list
+_ipmitool sel list
