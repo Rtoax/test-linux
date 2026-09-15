@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.53"
+readonly VERSION="v1.1.54"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -1057,7 +1057,7 @@ config_basic() {
 	qargs+=( -uuid ${uuid} )
 	# or use '-accel kvm'
 	qargs+=( -enable-kvm )
-	qargs+=( -boot menu=on )
+	qargs+=( -boot menu=on,strict=on )
 
 	# -qmp <protocol>:<path>[,server][,nowait]
 	# -qmp unix:./qmp.sock,server,nowait
