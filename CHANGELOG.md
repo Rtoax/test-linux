@@ -11,6 +11,22 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Documentation
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Scripts
+#### Tools
+#### Template
+
+
+## [v2.4.13] Rock Roll 2026-09-15
+
+#### Breaking Changes
+#### Added
 - runprog.sh: add -f,--force argument;
 - devtmpfs: add cxl directory;
 - debugfs: add directories `tracing/events/{pci,pci_controller}`;
