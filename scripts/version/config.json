@@ -1,5 +1,5 @@
 {
-	"version": "0.0.24",
+	"version": "0.0.25",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -124,7 +124,8 @@
 		"dpkg": {
 			"name": "DPKG",
 			"extension": [ "deb" ],
-			"keys": [ "apt", "dpkg" ]
+			"keys": [ "apt", "dpkg" ],
+			"tags": [ "software-management" ]
 		},
 		"dracut": {
 			"name": "Dracut",
@@ -731,7 +732,8 @@
 		"rpm": {
 			"name": "RPM",
 			"extension": [ "spec" ],
-			"keys": [ "rpm", "dnf" ]
+			"keys": [ "rpm", "dnf" ],
+			"tags": [ "software-management" ]
 		},
 		"rpm-ostree": {
 			"name": "RPM-OSTree",
@@ -739,12 +741,14 @@
 			"version": {
 				"length": [ 2 ]
 			},
-			"keys": [ "ostree" ]
+			"keys": [ "ostree" ],
+			"tags": [ "software-management" ]
 		},
 		"rpmbuild": {
 			"name": "RPM-Build",
 			"extension": [ "spec" ],
-			"keys": [ "rpm", "dnf" ]
+			"keys": [ "rpm", "dnf" ],
+			"tags": [ "software-management" ]
 		},
 		"rust": {
 			"name": "Rust",
