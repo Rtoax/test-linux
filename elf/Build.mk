@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
-subdir-y := got
+subdir-y += core
+subdir-y += got
 subdir-y += library
 subdir-y += plt
 subdir-y += pie

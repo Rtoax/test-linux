@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 #### Added
 #### Changed
+- more coredump directory into elf directory;
 #### Deprecated
 #### Documentation
 #### Fixed
