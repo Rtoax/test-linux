@@ -1,8 +1,9 @@
 #!/bin/bash
 # Test CXL devices with Qemu.
 #
-# Usage: [DAEMON=1] [CUSTOM=<type>] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+# Usage: [GRAPHIC=1] [DAEMON=1] [CUSTOM=<type>] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
+#   GRAPHIC=1: running graphic mode.
 #   DAEMON=1: running vm in the background
 #   CUSTOM=<type>: custom cxl device
 #   NOCXL=1: no cxl device
@@ -103,7 +104,7 @@ qargs+=( --rootfs ${ROOTFS},rw )
 # When test it on Hygon CPU, console is not easy to use.
 if [[ "$(lscpu | grep -wo HygonGenuine)" ]] || [[ ${DAEMON} ]]; then
 	qargs+=( --daemon )
-else
+elif [[ -z "${GRAPHIC}" ]]; then
 	qargs+=( --stdio )
 fi
 
