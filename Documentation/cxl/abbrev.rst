@@ -16,6 +16,9 @@ CXL Abbrev
 - CEL: Command Effects Log (命令效果日志)
 - CFMW/CFMWS: ACPI CEDT CXL Fixed Memory Window Structure (ACPI CEDT CXL 固定内存窗口结构)
 - CHBS: CXL Host Bridge Structure (CXL 主机桥结构)
+- CMM: CXL Memory Module (CXL 内存模块, Samsung) @Samsung
+- CMM-H: CMM Hierarchy (分层内存) @CMM
+- CMM-HC: CMM Hybrid with Compute (混合计算) @CMM
 - CMRK: CXL Memory Resource Kit (CXL 内存资源kit)
 - CS: CXL Switch (CXL 交换机)
 - CXIMS: CXL XOR Interleave Math Structure (CXL XOR 交错数学结构)
