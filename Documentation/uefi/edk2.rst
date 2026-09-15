@@ -16,8 +16,9 @@ EDK II Shell
 HelloWorld
 ----------
 
-- [GitHub RToax](https://github.com/Rtoax/edk2) branch: helloworld
-	- [Web](https://github.com/Rtoax/edk2/tree/helloworld)
+- GitHub RToax: https://github.com/Rtoax/edk2 branch: helloworld
+	- Web: https://github.com/Rtoax/edk2/tree/helloworld
+
 
 Links
 -----
