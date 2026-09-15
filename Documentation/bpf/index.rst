@@ -46,8 +46,8 @@ eBPF Software
    pyroscope
 
 
-eBPF Program
-------------
+eBPF Program Type
+-----------------
 
 .. toctree::
    :maxdepth: 1

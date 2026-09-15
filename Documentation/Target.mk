@@ -12,3 +12,9 @@ htmldocs:
 serve: htmldocs
 	$(call log_success, --------------------------------------------------)
 	${Q}${SHELL} ${TOPDIR}/scripts/docs/sphinx-serve.sh
+
+.PHONY: pdfdocs
+pdfdocs:
+	$(call log_success, Start pdfdocs building)
+	${Q}${SHELL} ${TOPDIR}/scripts/docs/sphinx-build.sh pdfdocs
+	$(call log_success, Done to build pdfdocs)

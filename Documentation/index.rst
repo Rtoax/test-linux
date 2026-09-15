@@ -129,15 +129,6 @@ Tools
    unwind <unwind/index>
 
 
-eBPF
-====
-
-.. toctree::
-   :maxdepth: 3
-
-   eBPF <bpf/index>
-
-
 Frontier and Future Technology
 ==============================
 

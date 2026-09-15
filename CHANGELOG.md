@@ -23,6 +23,7 @@ and this project adheres to
 - move licenses directory into Documentation;
 #### Deprecated
 #### Documentation
+- support build `PDF`;
 - cxl: add xcena.rst, montage-tech.rst, marvell.rst, ras.rst;
 - mm: add c-ram.rst;
 - distro: add rocky.rst;

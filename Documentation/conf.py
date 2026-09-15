@@ -16,7 +16,7 @@ project = 'The Test Linux Documentation'
 copyright = 'Copyright (C) 2022-2026 Rong Tao'
 copyright = copyright.split(maxsplit=1)[1]
 author = 'Rong Tao'
-version = release = '0.1.121'
+version = release = '0.1.122'
 
 html_favicon = "images/tux.svg"
 html_logo = "images/tux.svg"
@@ -44,9 +44,28 @@ html_css_files = [
     "custom.css",
 ]
 
+# Support unicode and chinese
+latex_engine = 'xelatex'
+latex_elements = {
+    'preamble': r'''
+        \usepackage{ctex}
+    ''',
+    # Setting the maximum nesting depth of lists to 10 is usually sufficient.
+    # If it is still wrong, it can be adjusted further.
+    'maxlistdepth': '10',
+}
+
+latex_documents = [
+    # set generate PDF name
+    ('index', f'test-linux-v{version}.tex', project, author, 'manual', True)
+]
+
 extensions = [
     'sphinxcontrib.mermaid',
+    'sphinxcontrib.rsvgconverter',
     'sphinx.ext.graphviz',
+    # Install ImageMagick
+    'sphinx.ext.imgconverter',
 ]
 
 # Display

@@ -1083,6 +1083,7 @@ dnf_add_packages()
 	pkgs_devel+=( userspace-rcu-devel )
 	pkgs_devel+=( zlib-devel )
 
+	pkgs_docs+=( ImageMagick ) # sphinx.ext.imgconverter
 	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx_rtd_theme )
 	pkgs_docs+=( rubygem-asciidoctor )
@@ -1309,6 +1310,7 @@ apt_add_packages()
 	fi
 
 	pkgs_docs+=( asciidoctor )
+	pkgs_docs+=( imagemagick ) # sphinx.ext.imgconverter
 	pkgs_docs+=( python3-sphinx )
 	pkgs_docs+=( python3-sphinx-rtd-theme )
 	pkgs_docs+=( python3-sphinxcontrib-mermaid )
