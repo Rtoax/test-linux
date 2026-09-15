@@ -21,6 +21,7 @@ and this project adheres to
 #### Scripts
 #### Tools
 #### Template
+- systemd: add coredump.mk;
 
 
 ## [v2.4.13] Rock Roll 2026-09-15
