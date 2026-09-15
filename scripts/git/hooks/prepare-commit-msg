@@ -44,6 +44,7 @@ sed -i '/^Kmods:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Vers:/d' ${COMMIT_MSG_FILE}
 sed -i '/^Linux:/d' ${COMMIT_MSG_FILE}
 sed -i '/^OS:/d' ${COMMIT_MSG_FILE}
+sed -i '/^Doc:/d' ${COMMIT_MSG_FILE}
 
 CHANGED_FILES+=( ${UNCOMMITTED_FILES[@]} )
 

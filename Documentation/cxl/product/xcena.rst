@@ -65,3 +65,4 @@ Links
 -----
 
 - https://xcena.com/computational_memory
+- https://www.servethehome.com/xcena-mx1-cxl-computational-memory-device-at-hot-chips-2026/
