@@ -23,6 +23,7 @@ and this project adheres to
 #### Scripts
 #### Tools
 #### Template
+- remove nbd.mk and rename nbdkit directory to nbd;
 - add apt.mk, dpkg.mk;
 - systemd: add coredump.mk;
 
