@@ -1,0 +1,7 @@
+BFQ (Budget Fair Queueing)
+==========================
+
+Links
+-----
+
+* https://www.kernel.org/doc/html/latest/block/bfq-iosched.html

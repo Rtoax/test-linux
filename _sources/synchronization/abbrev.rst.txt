@@ -1,0 +1,8 @@
+Abbrev
+======
+
+- GP: Grace period (宽限期) @RCU
+- PV: Proberen Verhogen (源自荷兰语单词，意为“尝试”或“测试”+“增加”或“升高”)
+- QP: Quiescent period (静默期) @RCU
+- QS: Quiescent Status (静止状态) @RCU
+- RCU: Read Copy Update (读拷贝更新)
