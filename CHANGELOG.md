@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- ubuntu: add snap directory;
 #### Changed
 - more coredump directory into elf directory;
 #### Deprecated
