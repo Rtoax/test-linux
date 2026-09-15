@@ -21,10 +21,10 @@ FAQ
 .. code-block:: bash
 
     # 启动容器
-    $ sudo podman run --rm -ti --name master15 image.cestc.cn/release/cclinux2209:22.09.2-master-15-1 bash
+    $ sudo podman run --rm -ti --name fedora registry.fedoraproject.org/fedora:latest bash
 
     # 查看容器的overlayfs（也可以使用crictl）
-    $ sudo podman inspect master15 --format "{{ .GraphDriver.Data.UpperDir }}"
+    $ sudo podman inspect fedora --format "{{ .GraphDriver.Data.UpperDir }}"
     # 显示内容类似：
     # /var/lib/containers/storage/overlay/8077007dd7c71798ad4b051b3984bdb42770ab4ce5ebb6358cb30e9822e34739/diff
 
