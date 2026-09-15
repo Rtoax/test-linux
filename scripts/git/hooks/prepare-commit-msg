@@ -12,7 +12,7 @@
 
 readonly COMMIT_MSG_FILE=$1
 readonly COMMIT_SOURCE=$2 # commit, merge
-readonly COMMIT_SHA1=$3
+readonly COMMIT_SHA1=$3 # HEAD, sha1
 
 # Other git repository will call this script directly, thus, we need a git
 # topdir.
