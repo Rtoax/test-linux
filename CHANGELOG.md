@@ -22,7 +22,7 @@ and this project adheres to
 - move licenses directory into Documentation;
 #### Deprecated
 #### Documentation
-- cxl: add xcena.rst;
+- cxl: add xcena.rst, montage-tech.rst;
 - mm: add c-ram.rst;
 - distro: add rocky.rst;
 - cxl: add hdm.rst;

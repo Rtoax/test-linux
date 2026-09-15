@@ -9,6 +9,7 @@ CXL Product
    gigabyte
    h3platform
    intel
+   montage-tech
    samsung
    xcena
    xconn
