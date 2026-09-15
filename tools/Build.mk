@@ -11,6 +11,7 @@ include zstd.mk
 subdir-y += acpica-tools
 subdir-${HAVE_ASCIIDOC} += asciidoc
 subdir-${HAVE_ASCIIDOCTOR} += asciidoctor
+subdir-y += bash
 subdir-y += bc
 subdir-y += binfmt
 subdir-y += capability

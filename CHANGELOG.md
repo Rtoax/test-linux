@@ -15,6 +15,7 @@ and this project adheres to
 - devtmpfs: add cxl directory;
 - debugfs: add directories `tracing/events/{pci,pci_controller}`;
 #### Changed
+- move shell into tools and rename to base;
 - git commit message: split `OS:` from `Vers:`;
 - git commit message: split `Linux:` from `Vers:`;
 - move cve into security directory;
@@ -42,6 +43,7 @@ and this project adheres to
 - split all cxl contents from qemu-vm.sh to libqemu-cxl.sh;
 - add libcxl.sh, `libcxl_examples.sh`, libqemu-cxl.sh, `libqemu-cxl_examples.sh`, libyes.sh, `libyes_examples.sh`;
 #### Tools
+- add bash subdir;
 - git: add log subdir;
 - coreutils: add tr subdir;
 - add pciutils symlink subdir;
