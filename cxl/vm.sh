@@ -104,7 +104,9 @@ qargs+=( --rootfs ${ROOTFS},rw )
 # When test it on Hygon CPU, console is not easy to use.
 if [[ "$(lscpu | grep -wo HygonGenuine)" ]] || [[ ${DAEMON} ]]; then
 	qargs+=( --daemon )
-elif [[ -z "${GRAPHIC}" ]]; then
+fi
+# Only use stdio when run non-daemon without graphic
+if [[ -z "${GRAPHIC}" ]] && [[ -z ${DAEMON} ]]; then
 	qargs+=( --stdio )
 fi
 
