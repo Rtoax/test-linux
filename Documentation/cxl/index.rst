@@ -34,6 +34,7 @@ CXL Hardware
    acpi
    hdm
    pcie
+   ras
    switch
 
 
