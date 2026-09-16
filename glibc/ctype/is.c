@@ -4,7 +4,7 @@
 void test(char ch)
 {
 #define T(func) \
-	printf("%16s(%c) = %s\n", #func, ch, func(ch) ? "true" : "false")
+	printf("%16s('%c') = %s\n", #func, ch, func(ch) ? "true" : "false")
 	T(isalpha);
 	T(islower);
 	T(isupper);

@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.56"
+readonly VERSION="v1.1.57"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -324,12 +324,18 @@ handle_cpu_arg() {
 		esac
 	done
 
+	# $1: arg
+	# $2: hint message (optional)
+	_must_be_digit() {
+		if ! [[ ${1} =~ ^[0-9]+$ ]]; then
+			error "cpu: syntax error '${1}'${2:+ from '${2}'}, need digit, see --cpu help"
+		fi
+	}
+
 	if [[ ${#args[@]} -eq 1 ]] &&
 	   [[ $(echo ${1} | tr '=,' ' ' | wc -w) -eq 1 ]]; then
 		# Avoid extra non-digest char, like '--cpu 16,'
-		if ! [[ ${1} =~ ^[0-9]+$ ]]; then
-			error "cpu: unknown '${1}', see --cpu help"
-		fi
+		_must_be_digit ${1}
 	fi
 
 	unset args
@@ -341,15 +347,18 @@ handle_cpu_arg() {
 			case ${arg%%=*} in
 			nr)
 				nr_cpus=${arg:3}
+				_must_be_digit ${nr_cpus} ${arg}
 				;;
 			model)
 				model=${arg:6}
 				;;
 			sockets)
 				sockets=${arg:8}
+				_must_be_digit ${sockets} ${arg}
 				;;
 			threads)
 				threads=${arg:8}
+				_must_be_digit ${threads} ${arg}
 				;;
 			*)
 				error "cpu: unknown arg '${arg}'"
