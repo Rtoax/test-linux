@@ -53,4 +53,5 @@ fuzzy_match() {
 
 __fuzzy_match_diff_cnt "abc" "abc"
 __fuzzy_match_diff_cnt "abc" "abc.c"
-__fuzzy_match_diff_cnt "HygonGenuine_Hygon_C86-4G_OPN:7490.txt" "HygonGenuine-_Hygon_C86-4G_OPN-7490.txt"
+__fuzzy_match_diff_cnt "HygonGenuine_Hygon_C86-4G_OPN:7490.txt" "HygonGenuine-_Hygon_C86-4G-OPN_7490.txt"
+__fuzzy_match_diff_cnt "123456" "12"
