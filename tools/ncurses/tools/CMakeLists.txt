@@ -39,3 +39,5 @@ target_link_libraries(plotcake PRIVATE ${MATH} ${NCURSESW} ${NCURSES})
 target_link_libraries(plotcake PRIVATE ${JSON_C_LIBRARIES})
 
 install(TARGETS plotcake RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+
+add_subdirectory(tools)
