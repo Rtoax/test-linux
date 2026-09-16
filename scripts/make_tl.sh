@@ -22,6 +22,7 @@ readonly MAKE_LOG=${TEST_LINUX_ROOT}/make.log
 
 # Use origin make command if not in test-linux or relative repository.
 if ! [[ " $(realpath .)" =~ " ${TEST_LINUX_ROOT}" ]] &&
+   ! [[ "$(realpath .)" =~ "bench-linux" ]] &&
    ! [[ "$(realpath .)" =~ "ostools" ]] &&
    ! [[ "$(realpath .)" =~ "test-linux" ]]; then
 	${sys_make} $@
