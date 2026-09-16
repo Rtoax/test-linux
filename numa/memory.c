@@ -6,6 +6,7 @@
  * Examples:
  * - commit a49afb708c0c ("numa: memory.c: Kunpeng 920")
  * - commit dd97054cbcf6 ("numa: memory.c: Phytium 5000C")
+ * - ThinkForce (DSU 2.5 CMN 1.8) Cortex-A77, TF7180(with NPU) 14 CPU @ 2.5GHz
  */
 #include <stdio.h>
 #include <malloc.h>
