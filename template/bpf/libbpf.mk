@@ -19,8 +19,22 @@ _BPF_LIBBPF_MK = 1
 
 include dir.mk
 include define.mk
+include file.mk
+
+$(call check_file_and_def,/usr/include/bpf/libbpf.h,HAVE_LIBBPF_H)
 
 libbpfversh = ${TOPDIR}/scripts/version/libbpf.sh
+
+libbpf_mk_cachefile := ${TOPDIR}/template/bpf/.libbpf.mk.cache
+libbpf_mk_origfile := ${TOPDIR}/template/bpf/libbpf.mk
+
+ifeq ($(call is_newer,${libbpf_mk_cachefile},${libbpf_mk_origfile}),y)
+  include ${libbpf_mk_cachefile}
+else
+
+include bits/mk-cache.mk
+
+$(call make_gen_cachefile,${libbpf_mk_cachefile})
 
 LIBBPF_VERSION := $(shell ${libbpfversh})
 
@@ -28,8 +42,6 @@ ifeq (${LIBBPF_VERSION},)
   export HAVE_LIBBPF := n
   export HAVE_LIBBPF_H := n
 else
-
-$(call check_file_and_def,/usr/include/bpf/libbpf.h,HAVE_LIBBPF_H)
 
 export LIBBPF_MAJOR_VERSION := $(shell ${libbpfversh} --major)
 export LIBBPF_MINOR_VERSION := $(shell ${libbpfversh} --minor)
@@ -49,6 +61,16 @@ export HAVE_LIBBPF := y
 export libbpf-cflags
 
 endif # end of Found libbpf
+
+$(call make_append_var_to_file,HAVE_LIBBPF,${libbpf_mk_cachefile})
+$(call make_append_var_to_file,HAVE_LIBBPF_H,${libbpf_mk_cachefile})
+$(call make_append_var_to_file,LIBBPF_VERSION,${libbpf_mk_cachefile})
+$(call make_append_var_to_file,LIBBPF_MAJOR_VERSION,${libbpf_mk_cachefile})
+$(call make_append_var_to_file,LIBBPF_MINOR_VERSION,${libbpf_mk_cachefile})
+$(call make_append_var_to_file,LIBBPF_PATCHLEVEL_VERSION,${libbpf_mk_cachefile})
+$(call make_append_var_to_file,libbpf-cflags,${libbpf_mk_cachefile})
+
+endif # end of cache
 
 ifdef DEBUG
   $(info HAVE_LIBBPF = ${HAVE_LIBBPF})
