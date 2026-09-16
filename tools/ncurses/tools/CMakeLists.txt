@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(Plotcake C)
 
+set(CMAKE_INSTALL_PREFIX /usr)
+
 set(SRC
   axis.c
   file.c
@@ -35,3 +37,5 @@ endif()
 add_executable(plotcake ${SRC})
 target_link_libraries(plotcake PRIVATE ${MATH} ${NCURSESW} ${NCURSES})
 target_link_libraries(plotcake PRIVATE ${JSON_C_LIBRARIES})
+
+install(TARGETS plotcake RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

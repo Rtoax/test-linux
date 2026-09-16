@@ -3,7 +3,8 @@
 ${OUTPUT}examples.sh.prog.log: plotcake
 ${OUTPUT}examples.exp.prog.log: plotcake
 
-build/plotcake:
+build/plotcake: CMakeLists.txt
 	${Q}mkdir -p build
 	${Q}cmake -B build .
 	${Q}make -C build
+	${Q}sudo make -C build install
