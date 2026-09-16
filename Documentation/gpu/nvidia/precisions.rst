@@ -7,14 +7,18 @@ NVIDIA GPU precisions
    :widths: 15 15 15
    :header-rows: 1
 
-   * - Type
-     - Blackwell
-     - Hopper
-   * - Supported Tensor Core precisions
+   * - Architecture
+     - Supported Tensor Core precisions
+     - Supported CUDA® Core precisions
+   * - Blackwell
      - FP64, TF32, BF16, FP16, FP8, INT8, FP6, FP4
-     - FP64, TF32, BF16, FP16, FP8, INT8
-   * - Supported CUDA® Core precisions
      - FP64, FP32, FP16, BF16
+   * - Hopper
+     - FP64, TF32, BF16, FP16, FP8, INT8
      - FP64, FP32, FP16, BF16, INT8
 
-see `NVIDIA Tensor Cores <https://www.nvidia.com/en-us/data-center/tensor-cores/>`_.
+
+Links
+-----
+
+- `NVIDIA Tensor Cores <https://www.nvidia.com/en-us/data-center/tensor-cores/>`_
