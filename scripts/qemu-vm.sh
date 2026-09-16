@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.55"
+readonly VERSION="v1.1.56"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -21,7 +21,7 @@ declare pcie_root_port_num=2
 
 declare q_vm_name=$(mktemp -u vm-XXXXXX)
 
-declare q_cpus=4
+declare q_nr_cpus=4
 declare q_sockets=
 declare q_threads=
 declare q_cpu_model=host
@@ -361,7 +361,7 @@ handle_cpu_arg() {
 	fi
 
 	if [[ ! -z ${nr_cpus} ]]; then
-		q_cpus=${nr_cpus}
+		q_nr_cpus=${nr_cpus}
 	fi
 	if [[ ! -z ${sockets} ]]; then
 		q_sockets=${sockets}
@@ -1155,8 +1155,8 @@ config_cpu() {
 
 	[[ ${q_sockets} ]] && smp_args+=( sockets=${q_sockets} )
 	[[ ${q_threads} ]] && smp_args+=( threads=${q_threads} )
-	smp_args+=( cpus=${q_cpus} )
-	smp_args+=( maxcpus=$((q_cpus * 2)) )
+	smp_args+=( cpus=${q_nr_cpus} )
+	smp_args+=( maxcpus=$((q_nr_cpus * 2)) )
 
 	qargs+=( -cpu $(IFS=,; echo "${cpu_args[*]}") )
 	qargs+=( -smp $(IFS=,; echo "${smp_args[*]}") )
@@ -1169,7 +1169,7 @@ config_numa() {
 	qargs+=( -object memory-backend-memfd,id=mem,size=${q_mem_sz},share=on
 			-numa node,memdev=mem )
 
-	# TODO: support numa
+	# TODO: support custom numa
 	# -smp cpus=8,sockets=2,cores=4,threads=1
 	# -numa node,nodeid=0,cpus=0-3,mem=4G
 	# -numa node,nodeid=1,cpus=4-7,mem=4G
