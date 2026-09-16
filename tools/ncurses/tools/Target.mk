@@ -1,3 +1,5 @@
+# This file be used in test-linux, unuseful in github.com/rtoax/plotcake
+#
 # Examples need to depends on plotcake, make sure re-run if plotcake
 # re-compiled.
 ${OUTPUT}examples.sh.prog.log: plotcake

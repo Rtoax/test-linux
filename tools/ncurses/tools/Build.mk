@@ -1,3 +1,4 @@
+# This file be used in test-linux, unuseful in github.com/rtoax/plotcake
 include file.mk
 include json-c.mk
 include ncurses.mk
