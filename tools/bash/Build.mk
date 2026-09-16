@@ -20,7 +20,6 @@ shell-y += function.sh
 shell-y += mapfile.sh
 shell-y += nested-func.sh
 shell-y += num.sh
-shell-y += open-fd.sh
 shell-y += parallel.sh
 shell-y += pipe.sh
 shell-y += replace.sh
