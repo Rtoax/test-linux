@@ -74,7 +74,7 @@ Misc
 .. toctree::
    :maxdepth: 1
 
-   c-ram
+   pim
 
 
 Links
