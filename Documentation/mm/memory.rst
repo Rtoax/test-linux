@@ -30,14 +30,14 @@ Memory Models
 	- WAW: Write After Write
 	- WAR: Write After Read
 
-- `✔`: 表示不受影响
-- `✗`: 表示受影响
+- `Y`: 表示不受影响
+- `N`: 表示受影响
 
 .. code-block:: text
 
   | Type  |  x86   |  arm  |
   | ----- | ------ | ----- |
-  |  RAW  |   ✗    |   ✗   |
-  |  WAW  |   ✔    |   ✗   |
-  |  WAR  |   ✔    |   ✗   |
-  |  RAR  |   ✔    |   ✗   |
+  |  RAW  |   N    |   N   |
+  |  WAW  |   Y    |   N   |
+  |  WAR  |   Y    |   N   |
+  |  RAR  |   Y    |   N   |

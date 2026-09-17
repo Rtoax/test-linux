@@ -28,6 +28,7 @@ and this project adheres to
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- add unicode/mark.mk;
 - add smartmontools.mk;
 - remove nbd.mk and rename nbdkit directory to nbd;
 - add apt.mk, dpkg.mk;
