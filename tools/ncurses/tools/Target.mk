@@ -5,7 +5,7 @@
 ${OUTPUT}examples.sh.prog.log: plotcake
 ${OUTPUT}examples.exp.prog.log: plotcake
 
-build/plotcake: CMakeLists.txt
+build/plotcake: CMakeLists.txt plotcake
 	${Q}mkdir -p build
 	${Q}cmake -B build .
 	${Q}make -C build

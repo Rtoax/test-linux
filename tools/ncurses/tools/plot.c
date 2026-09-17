@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "file.h"
 #include "plot.h"
 #include "keyboard.h"
@@ -319,26 +320,29 @@ print_llabel:
 	}
 }
 
-static void __draw_title(const struct plot *p)
+static void __draw_title(const struct plot *p, bool debug)
 {
 	char buf[sizeof(p->title) + 128];
-	char *title = buf;
 
 	if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
-		snprintf(buf, sizeof(buf),
-			 "%s (signed logarithmic transformation)", p->title);
+		snprintf(buf, sizeof(buf), "%s (signed logarithmic)", p->title);
 	else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
-		snprintf(buf, sizeof(buf),
-			 "%s (base-10 signed logarithmic transformation)",
+		snprintf(buf, sizeof(buf), "%s (base-10 signed logarithmic)",
 			 p->title);
 	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 		snprintf(buf, sizeof(buf), "%s (base-e exponential)", p->title);
 	else if (p->curve_type == CURVE_TYPE_DELTA)
 		snprintf(buf, sizeof(buf), "%s (delta)", p->title);
 	else
-		title = (char *)p->title;
+		snprintf(buf, sizeof(buf), "%s", p->title);
 
-	mvaddstr(0, (p->width - strlen(title)) / 2, title);
+	mvaddstr(0, (p->width - strlen(buf)) / 2, buf);
+
+	if (debug) {
+		char buf2[64];
+		snprintf(buf2, sizeof(buf2), "<pid:%d>", getpid());
+		mvaddstr(1, (p->width - strlen(buf2)) / 2, buf2);
+	}
 }
 
 static void __draw_axes(const struct plot *p)
@@ -443,7 +447,7 @@ void __plot_debug_llabel(const struct lgroup *lg, int height)
  */
 static void __paint_plot(struct plot *p, bool debug)
 {
-	__draw_title(p);
+	__draw_title(p, debug);
 	__draw_axes(p);
 
 	for_each_lgroup(p, lg)
