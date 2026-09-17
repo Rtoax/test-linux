@@ -14,7 +14,8 @@ and this project adheres to
 - sysfs: add dmi subdir;
 - ubuntu: add snap directory;
 #### Changed
-- more coredump directory into elf directory;
+- move all database into tools;
+- move coredump directory into elf directory;
 #### Deprecated
 #### Documentation
 #### Fixed
