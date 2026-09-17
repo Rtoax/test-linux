@@ -1,5 +1,5 @@
 {
-	"version": "0.0.25",
+	"version": "0.0.26",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -14,7 +14,8 @@
 			}
 		},
 		"tags": [ "boot", "bpf", "development", "document",
-			"networking", "software-management", "hardware"
+			"networking", "software-management", "hardware",
+			"storage"
 		]
 	},
 	"software": {
@@ -769,6 +770,15 @@
 			"command": [ "$SHELL" ],
 			"extension": [ "bash", "sh", "zsh" ],
 			"keys": [ "shell", "bash", "sh" ]
+		},
+		"smartmontools": {
+			"name": "SmartMonTools",
+			"command": [ "smartctl" ],
+			"version": {
+				"length": [ 2 ]
+			},
+			"keys": [ "smartmontools", "smartctl" ],
+			"tags": [ "storage" ]
 		},
 		"sphinx": {
 			"name": "Sphinx",

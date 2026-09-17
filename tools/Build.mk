@@ -5,6 +5,7 @@ include libsmbios.mk
 include mbw.mk
 include ndctl.mk
 include podman.mk
+include smartmontools.mk
 include tmux.mk
 include zstd.mk
 
@@ -77,6 +78,7 @@ subdir-y += readline
 subdir-y += redis
 subdir-y += sed
 subdir-y += skopeo
+subdir-${HAVE_SMARTMONTOOLS} += smartmontools
 subdir-y += sqlite
 subdir-y += static_key
 subdir-y += sudo

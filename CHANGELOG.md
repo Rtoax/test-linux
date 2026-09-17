@@ -24,8 +24,10 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- add smartmontools.mk;
 - remove nbd.mk and rename nbdkit directory to nbd;
 - add apt.mk, dpkg.mk;
 - systemd: add coredump.mk;
