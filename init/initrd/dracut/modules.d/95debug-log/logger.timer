@@ -1,0 +1,11 @@
+# Logger Timer
+[Unit]
+Description=Log Useful Information of System Timer
+
+# Log each second
+[Timer]
+OnCalendar=*:*:0/1
+Unit=logger.service
+
+[Install]
+WantedBy=multi-user.target
