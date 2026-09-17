@@ -15,10 +15,12 @@ depends() {
 
 IPTABLES_MODULES="ip6_tables ip6table_nat ip_tables iptable_filter iptable_nat nf_conntrack nf_defrag_ipv4 nf_defrag_ipv6 nf_nat xt_MASQUERADE xt_comment xt_conntrack"
 
+FS_MODULES="fat ext4 fuse isofs exfat dlm fscache xfs"
+
 # called by dracut
 installkernel() {
 	# for raid and crypt support, the kernel module is needed unconditionally, even in hostonly mode
-	hostonly='' instmods br_netfilter $IPTABLES_MODULES dm_crypt =crypto
+	hostonly='' instmods br_netfilter $IPTABLES_MODULES $FS_MODULES dm_crypt =crypto
 }
 
 get_pkg_deps() {
