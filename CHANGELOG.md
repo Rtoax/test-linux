@@ -26,6 +26,7 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- redis: add stress subdir;
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
