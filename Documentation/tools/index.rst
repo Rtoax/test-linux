@@ -42,6 +42,7 @@ User Space
    redis
    restful
    samba
+   smartmontools
    sunfish
    sysbench
    systemtap

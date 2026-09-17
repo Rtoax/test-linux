@@ -18,6 +18,7 @@ and this project adheres to
 - move coredump directory into elf directory;
 #### Deprecated
 #### Documentation
+- add smartmontools.rst;
 #### Fixed
 #### Linux Kernel
 #### Removed
