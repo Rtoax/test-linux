@@ -1,6 +1,5 @@
 #!/usr/bin/env bpftrace
 
-
 kprobe:mm_trace_rss_stat
 {
 	printf("comm = %s\n", comm);
