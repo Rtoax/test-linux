@@ -23,6 +23,7 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- dracut: add modules.d directory;
 #### Template
 - remove nbd.mk and rename nbdkit directory to nbd;
 - add apt.mk, dpkg.mk;
