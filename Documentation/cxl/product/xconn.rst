@@ -1,8 +1,11 @@
-Xconn CXL 2.0 交换机
-====================
+Xconn CXL
+=========
+
+Xconn CXL 2.0 Switch
+--------------------
 
 XC50256
--------
+~~~~~~~
 
 XConn的CXL 2.0交换芯片（XC50256）是全球首款兼容CXL 2.0和PCIe 5.0的解决方案，具备以下优势：
 
@@ -18,7 +21,7 @@ DCMFM (Data Center Fabric Manager) 数据中心Fabric管理器是CXL交换机和
 
 
 CXL 2.0 交换机 热插拔特性
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - CXL 2.0 的新特性支持 **热添加（hot-add）** 和 **受控热移除（managed hot-remove）** ，允许在不关闭系统的情况下动态添加或移除内存设备。
 - **受控移除** 的关键点需要软件配合，通过清空缓存和下线相关页面确保安全移除。
@@ -30,6 +33,8 @@ CXL 2.0 交换机 热插拔特性
 Links
 -----
 
+- https://www.xconn-tech.com redirect to:
+        - https://www.marvell.com/products/data-center-switches.html
 - `Xconn：CXL 2.0 交换机实现内存共享 <https://cloud.tencent.com/developer/article/2495652>`_
 - `XConn XC50256 CXL 2.0 Switch Chip Shown <https://www.servethehome.com/xconn-xc50256-cxl-2-0-switch-chip-shown/>`_
 - `XConn XC50256 CXL 2.0 Switch Chip Linked and Running at FMS 2023 <https://www.servethehome.com/xconn-xc50256-cxl-2-0-switch-chip-linked-and-running-at-fms-2023/>`_
