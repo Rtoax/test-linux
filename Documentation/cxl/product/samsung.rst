@@ -4,6 +4,9 @@ Samsung CXL
 Samsung CXL Memory Module (CMM)
 -------------------------------
 
+Samsung CMM-D (CXL®1 Memory Module-DRAM) is an advanced memory device that leverages CXL®'s memory-semantic protocol built on the PCIe physical layer. It seamlessly connects multiple processors and devices, increasing memory capacity. It can be easily integrated to existing data centers without requiring system modifications or server expansion. This makes it a TCO-optimized and efficient solution for data-intensive workloads.
+
+
 .. list-table::
    :header-rows: 1
 
@@ -24,14 +27,26 @@ Samsung CXL Type3 CMM-D
    :header-rows: 1
 
    * - Product
-     - CXL
-     - PCIe
-   * - MD310
+     - MD310
+     - MD220
+   * - CXL
      - CXL 3.2
-     - PCIe 6.0
-   * - MD220
      - CXL 2.0
+   * - PCIe
+     - PCIe 6.0
      - PCIe 5.0
+   * - Capacity
+     - 256GB
+     - 256GB, 128GB
+   * - Speed
+     - Up to 7.2 Gbps
+     - Up to 6.4 Gbps
+   * - DDR
+     - DDR5
+     - DDR5
+   * - Form Factor
+     - EDSFF E3.S 2T
+     - EDSFF E3.S 2T
 
 
 Links
