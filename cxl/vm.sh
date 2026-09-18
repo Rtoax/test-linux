@@ -199,22 +199,18 @@ custom_cxl_3() {
 	cxlargs+=( --cxl pmem=pmem.1,bus=sw${lv}.2,lsa=pmem.1.lsa )
 }
 
-# FIXME: Could not create region in guest os.
+# Big vmem:
 custom_cxl_4_big_vmem() {
 	cxlargs+=( --cxl pxb=pxb.1 )
-	cxlargs+=( --cxl pxb=pxb.2 )
-	cxlargs+=( --cxl pxb=pxb.3 )
-	cxlargs+=( --cxl pxb=pxb.4 )
 
 	cxlargs+=( --cxl rp=rp.1,bus=pxb.1,port=1 )
-	cxlargs+=( --cxl rp=rp.2,bus=pxb.2,port=1 )
-	cxlargs+=( --cxl rp=rp.3,bus=pxb.3,port=1 )
-	cxlargs+=( --cxl rp=rp.4,bus=pxb.4,port=1 )
 
-	cxlargs+=( --cxl vmem=vmem.1,bus=rp.1,lsa=vmem.1.lsa,size=32GB )
-	cxlargs+=( --cxl vmem=vmem.2,bus=rp.2,lsa=vmem.2.lsa,size=32GB )
-	cxlargs+=( --cxl vmem=vmem.3,bus=rp.3,lsa=vmem.3.lsa,size=32GB )
-	cxlargs+=( --cxl vmem=vmem.4,bus=rp.4,lsa=vmem.4.lsa,size=32GB )
+	cxlargs+=( --cxl switch,bus=rp.1,nport=4,portprefix=sw1 )
+
+	cxlargs+=( --cxl vmem=vmem.1,bus=sw1.1,lsa=vmem.1.lsa,size=32GB )
+	cxlargs+=( --cxl vmem=vmem.2,bus=sw1.2,lsa=vmem.2.lsa,size=32GB )
+	cxlargs+=( --cxl vmem=vmem.3,bus=sw1.3,lsa=vmem.3.lsa,size=32GB )
+	cxlargs+=( --cxl vmem=vmem.4,bus=sw1.4,lsa=vmem.4.lsa,size=32GB )
 }
 
 case ${CUSTOM} in
