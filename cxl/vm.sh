@@ -236,7 +236,7 @@ case ${CUSTOM} in
 	;;
 help | "?")
 	echo "CUSTOM=[1|2|<3|multi-level-switch>|<4|big-vmem>]"
-	exit 1
+	exit 0
 	;;
 *)
 	cxlargs+=( --cxl device=${CUSTOM} )

@@ -16,7 +16,10 @@ vm
 DEP=1 vm
 GRAPHIC=1 vm
 DAEMON=1 vm
-CUSTOM=1 vm
+for custom in 1 2 3 multi-level-switch 4 big-vmem help "?"
+do
+	CUSTOM=${custom} vm
+done
 GDB=1 vm
 VIRTIOFS=1 vm
 QEMU=/usr/bin/ls vm
