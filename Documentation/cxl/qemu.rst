@@ -82,6 +82,12 @@ Must enable linux config `CONFIG_CXL_REGION_INVALIDATION_TEST=y` if Qemu (defaul
 - test-linux commit c3f026dc37c9 ("cxl: vm: kconfig: Fix error: cxl region0: Failed to synchronize CPU cache state")
 
 
+Interleave Granularity
+----------------------
+
+Interleave Granularity in qemu-kvm CXL emulate.
+
+
 Links
 -----
 

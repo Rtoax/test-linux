@@ -55,6 +55,8 @@ struct cfmws {
 	 * - 5h – 8192 Bytes (8 KB)
 	 * - 6h – 16384 Bytes (16 KB)
 	 * - All other – Reserved
+	 *
+	 * Interleave Granularity in qemu-kvm CXL emulate.
 	 */
 	uint32_t hbig;
 	uint16_t window_restrictions;

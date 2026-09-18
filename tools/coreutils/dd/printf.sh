@@ -3,6 +3,8 @@ set -e
 
 letters=( aa bb cc dd )
 
+# This could use to test CXL Interleave Granularity in qemu-kvm CXL emulate.
+# 256 is Interleave Granularity size.
 for ((i = 0; i < ${#letters[@]}; i++))
 do
 	x=${letters[i]}
