@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.7"
+readonly LIBQEMU_CXL_VERSION="v0.0.8"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -811,13 +811,13 @@ add_cxl_type3_dev() {
 	cxl_pvmem_id2name[${type3_id}]="${name}"
 	cxl_pvmem_ids+=( ${type3_id} )
 
-	# This cxl type2 device bus is root port
+	# This cxl type3 device bus is root port
 	if [[ " ${cxl_rp_ids[@]} " =~ " ${bus} " ]]; then
 		if [[ "${cxl_rp2pvmem[$bus]}" ]]; then
 			error "cxl rootport ${bus} already have device ${cxl_rp2pvmem[$bus]}"
 		fi
 		cxl_rp2pvmem[${bus}]=${type3_id}
-	# This cxl type2 device bus is cxl switch downstream
+	# This cxl type3 device bus is cxl switch downstream
 	elif [[ ${cxl_switch_down2up[$bus]} ]]; then
 		if [[ "${cxl_switch_down2pvmem[$bus]}" ]]; then
 			error "cxl switch downstream already have device ${cxl_switch_down2pvmem[$bus]}"
