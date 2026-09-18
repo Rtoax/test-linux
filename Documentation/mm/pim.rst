@@ -87,8 +87,20 @@ Intelligent RAM (IRAM)
 Links
 -----
 
-- `A Survey on the Expanding Scope and Interdisciplinary Opportunities for Processing-in-Memory Techniques 内存处理技术的扩展范围和跨学科机会综述 <https://ieeexplore.ieee.org/abstract/document/11369959#1>`_
+Wikipedia
+~~~~~~~~~
+
 - https://en.wikipedia.org/wiki/Berkeley_IRAM_project
 - https://en.wikipedia.org/wiki/Computational_RAM
 - https://en.wikipedia.org/wiki/Computing_with_memory
 - https://en.wikipedia.org/wiki/In-memory_processing
+
+Paper
+~~~~~
+
+- `A Survey on the Expanding Scope and Interdisciplinary Opportunities for Processing-in-Memory Techniques 内存处理技术的扩展范围和跨学科机会综述 <https://ieeexplore.ieee.org/abstract/document/11369959#1>`_
+
+Product
+~~~~~~~
+
+- UPMEM: Accelerating Compute By Cramming It Into DRAM Memory https://www.nextplatform.com/compute/2019/10/03/accelerating-compute-by-cramming-it-into-dram-memory/1659423
