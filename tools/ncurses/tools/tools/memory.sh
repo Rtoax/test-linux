@@ -58,8 +58,10 @@ total_rss() {
 	echo $((kB / 1024))
 }
 
+total_mem="$(free -m | grep ^Mem | awk '{print $2}')"
+
 while true; do
-	mem_arr=( $(free -m | grep ^Mem | awk '{print $2, $3, $4, $5, $6, $7}') )
+	mem_arr=( $(free -m | grep ^Mem | awk '{print $3, $4, $5, $6, $7}') )
 
 	if [[ ${with_rss} ]]; then
 		mem_arr+=( $(total_rss) )
@@ -67,7 +69,8 @@ while true; do
 
 	echo "${mem_arr[@]}"
 	sleep ${interval_sec}
-done | ${PLOTCAKE} --title 'Memory Usage' --xlabel 'Time' --ylabel 'Size(MB)' \
-		-l total -l used -l free -l shared -l buff/cache -l avail \
+done | ${PLOTCAKE} --title "Memory Usage [total ${total_mem}MB]" \
+		--xlabel 'Time' --ylabel 'Size(MB)' \
+		-l used -l free -l shared -l buff/cache -l avail \
 		${with_rss:+ -l rss} \
 		-o memory ${@}
