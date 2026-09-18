@@ -200,6 +200,7 @@ custom_cxl_3() {
 }
 
 # Big vmem:
+# commit 56754d0a7a62 ("cxl: vm.sh: vmem: 4-ways 32GB (total 128GB)")
 custom_cxl_4_big_vmem() {
 	cxlargs+=( --cxl pxb=pxb.1 )
 

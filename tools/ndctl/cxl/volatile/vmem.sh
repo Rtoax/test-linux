@@ -3,15 +3,15 @@ set -e
 # commit d5a21a914482 ("cxl.sh: multi memdevs to on region")
 
 # Create region0, commit b3c049d89aa9 ("cxl: cxl.sh: create-region")
-#
-# Create:
+# ------------------------------------------------------------------------------
+# Will create:
 # - /sys/bus/cxl/devices/region0/dax_region
 # - /sys/devices/platform/ACPI0017:00/root0/decoder0.0/region0/dax_region0/dax0.0
 # - /sys/bus/dax/devices/dax0.0
 # - /sys/bus/dax/drivers/kmem/dax0.0
 # - /dev/dax0.0 [Character Device], commit 1227030c1d3f ("cxl.sh: region: character device /dev/dax0.0")
-#
-# Write:
+# ------------------------------------------------------------------------------
+# Will write:
 # - "region0"  to /sys/bus/cxl/devices/root0/decoder0.0/create_ram_region
 # - 256        to /sys/bus/cxl/devices/root0/decoder0.0/region0/interleave_granularity
 # - 1          to /sys/bus/cxl/devices/root0/decoder0.0/region0/interleave_ways
@@ -36,6 +36,7 @@ sudo daxctl list -r region0
 
 # Add memory to main RAM
 # commit 21535dd38b6e ("cxl: dax0.0: use as system-ram")
+# commit 56754d0a7a62 ("cxl: vm.sh: vmem: 4-ways 32GB (total 128GB)")
 free -g
 numactl -H
 # "online-memory" will add memory to NUMA node which created by 'enable-region'.
