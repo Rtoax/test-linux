@@ -1,8 +1,8 @@
 Samsung CXL
 ===========
 
-Samsung Memory Module
----------------------
+Samsung CXL Memory Module (CMM)
+-------------------------------
 
 .. list-table::
    :header-rows: 1
@@ -17,16 +17,21 @@ Samsung Memory Module
      - 集成加速器的设计，支持多种数据路径（.cache、.mem和.io），适用于高性能计算应用。
 
 
-Samsung CXL Type3
------------------
+Samsung CXL Type3 CMM-D
+-----------------------
 
 .. list-table::
    :header-rows: 1
 
    * - Product
-     - Note
-   * - CXL Memory Module (CMM-D, CMM-H)
-     - MD220
+     - CXL
+     - PCIe
+   * - MD310
+     - CXL 3.2
+     - PCIe 6.0
+   * - MD220
+     - CXL 2.0
+     - PCIe 5.0
 
 
 Links
