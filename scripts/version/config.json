@@ -1,5 +1,5 @@
 {
-	"version": "0.0.26",
+	"version": "0.0.27",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -13,7 +13,7 @@
 				"patch": "patchlevel"
 			}
 		},
-		"tags": [ "boot", "bpf", "development", "document",
+		"tags": [ "base", "boot", "bpf", "development", "document",
 			"networking", "software-management", "hardware",
 			"storage"
 		]
@@ -845,7 +845,7 @@
 				"length": [ 2 ]
 			},
 			"extension": [ "vim" ],
-			"keys": [ "vim" ]
+			"keys": [ "vim", "xxd" ]
 		},
 		"virt-v2v": {
 			"name": "Virt-v2v",
@@ -866,6 +866,16 @@
 				}
 			},
 			"keys": [ "fsck.xfs" ]
+		},
+		"xxd": {
+			"name": "xxd",
+			"version": {
+				"format": {
+					"seperator": "-"
+				}
+			},
+			"keys": [ "xxd" ],
+			"tags": [ "base" ]
 		},
 		"zlib": {
 			"name": "ZLib",

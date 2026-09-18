@@ -7,6 +7,7 @@ include ndctl.mk
 include podman.mk
 include smartmontools.mk
 include tmux.mk
+include vim.mk
 include zstd.mk
 
 subdir-y += acpica-tools
@@ -61,6 +62,7 @@ subdir-${HAVE_MBW} += mbw
 subdir-y += memcached
 subdir-y += nasm
 subdir-y += nbd
+subdir-${HAVE_NDCTL} += ndctl
 subdir-y += net-tools
 subdir-y += NetworkManager
 subdir-y += ncurses
@@ -87,8 +89,7 @@ subdir-y += sysstat
 subdir-y += tcpdump
 subdir-${HAVE_TMUX} += tmux
 subdir-y += util-linux
-subdir-y += vim
+subdir-${HAVE_VIM} += vim
 subdir-y += xterm
 subdir-y += zlib
-subdir-${HAVE_NDCTL} += ndctl
 subdir-${HAVE_ZSTD} += zstd

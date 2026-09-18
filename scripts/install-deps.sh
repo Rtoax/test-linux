@@ -598,6 +598,7 @@ fi
 pkgs_base+=( bpftrace )
 pkgs_base+=( cargo )                # The Rust package manager
 pkgs_base+=( codespell )
+pkgs_base+=( coreutils )
 pkgs_base+=( cowsay )
 pkgs_base+=( cpuid )
 if [[ $(is_os fedora:43) ]]; then
@@ -666,6 +667,7 @@ pkgs_base+=( uuid )
 pkgs_base+=( valgrind )
 pkgs_base+=( vim )
 pkgs_base+=( xterm )                # resize
+pkgs_base+=( xxd )
 pkgs_base+=( yq )
 
 pkgs_boot+=( efibootmgr )           # UEFI
@@ -1365,7 +1367,7 @@ apt_add_packages()
 apk_add_packages()
 {
 	pkgs_base+=( build-base )
-	pkgs_base+=( apk add coreutils git util-linux findutils grep less bash
+	pkgs_base+=( apk add git util-linux findutils grep less bash
 			pciutils vim usbutils make gcc jq ncurses musl-dev )
 	pkgs_base+=( clang22-extra-tools python3 )
 }

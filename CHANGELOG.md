@@ -26,10 +26,12 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- vim: add xxd subdir;
 - redis: add stress subdir;
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- add vim.mk;
 - add unicode/mark.mk;
 - add smartmontools.mk;
 - remove nbd.mk and rename nbdkit directory to nbd;
