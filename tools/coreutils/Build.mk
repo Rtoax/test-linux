@@ -1,3 +1,4 @@
+subdir-y += dd
 subdir-y += split
 subdir-y += stat
 subdir-y += tr

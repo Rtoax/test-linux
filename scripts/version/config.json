@@ -1,5 +1,5 @@
 {
-	"version": "0.0.26",
+	"version": "0.0.27",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -115,7 +115,7 @@
 			"version": {
 				"length": [ 2 ]
 			},
-			"keys": [ "coreutils", "date" ]
+			"keys": [ "coreutils", "date", "dd" ]
 		},
 		"cmake": {
 			"name": "CMake",
