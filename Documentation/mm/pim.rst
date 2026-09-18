@@ -104,3 +104,6 @@ Product
 ~~~~~~~
 
 - UPMEM: Accelerating Compute By Cramming It Into DRAM Memory https://www.nextplatform.com/compute/2019/10/03/accelerating-compute-by-cramming-it-into-dram-memory/1659423
+- https://xcena.com/computational_memory
+    - XCENA MX1 CXL Computational Memory Device at Hot Chips 2026 with Samsung https://www.servethehome.com/xcena-mx1-cxl-computational-memory-device-at-hot-chips-2026/
+        - CSDN: https://blog.csdn.net/Rong_Toa/article/details/165346869
