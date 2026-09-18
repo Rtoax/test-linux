@@ -5,7 +5,7 @@ set -e
 readonly MYDIR=$(dirname $(realpath $0))
 . ${MYDIR}/lib-plotcake.sh
 
-declare with_rss
+declare with_rss interval_sec=1
 
 __usage__() {
 	echo -e "
@@ -17,14 +17,16 @@ ${BOLD}SYNOPSIS${RST}
 
 ${BOLD}OPTIONS${RST}
     --rss          enable RSS
+    -i, --interval interval of refresh, 1, 2, 0.5, 0.01
     -h, --help     show this information
 "
 	exit ${1-0}
 }
 
-OPTS=$(getopt --options h \
+OPTS=$(getopt --options hi: \
 		--long help \
 		--long rss \
+		--long interval: \
 		--name plotcake-memory -- "$@")
 
 eval set -- "$OPTS"
@@ -38,6 +40,11 @@ while true; do
 	--rss)
 		shift
 		with_rss=ON
+		;;
+	-i | --interval)
+		shift
+		interval_sec=${1}
+		shift
 		;;
 	--)
 		shift
@@ -59,7 +66,7 @@ while true; do
 	fi
 
 	echo "${mem_arr[@]}"
-	sleep 1
+	sleep ${interval_sec}
 done | ${PLOTCAKE} --title 'Memory Usage' --xlabel 'Time' --ylabel 'Size(MB)' \
 		-l total -l used -l free -l shared -l buff/cache -l avail \
 		${with_rss:+ -l rss} \
