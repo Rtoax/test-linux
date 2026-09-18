@@ -1,0 +1,16 @@
+Abbrev
+======
+
+- AI: Asset Identification ()
+- ARF: Asset Reporting Format ()
+- CCE: Common Configuration Enumeration (通用配置枚举)
+- CCSS: Common Configuration Scoring System ()
+- CPE: Common Platform Enumeration (通用平台枚举)
+- NVD: National Vulnerability Database (国际漏洞数据库)
+- OCIL: Open Checklist Interactive Language ()
+- OSCAP: Open Scap (开放 Scap) @SCAP
+- OVAL: Open Vulnerability and Assessment Language (开放脆弱性评估描述语言)
+- SCAP: Security Content Automation Protocol (安全内容自动化协议) @OSCAP
+- SWID: Software Identification (软件标识符)
+- TMSAD: Trust Model for Security Automation Data ()
+- XCCDF: Extensible Configuration Checklist Description Format (扩展配置检测列表描述格式)
