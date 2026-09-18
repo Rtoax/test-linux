@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.8"
+readonly LIBQEMU_CXL_VERSION="v0.0.9"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -94,6 +94,7 @@ declare -a cxl_fmw_ids=( 0 ) # (0 1 2 3)
 # IG: interleave granularity, see add_cxl_fmw_ig() for the detail.
 # CXL 3.0 Specification, 8.2.4.19.7 CXL HDM Decoder n Control Register (Offset 20h*n+20h)
 # - Interleave Granularity size
+# - commit 5715ca5b705e ("cxl: test Interleave Granularity with Qemu")
 declare -a CXL_SUPPORT_IG=( 256 512 1k 2k 4k 8k 16k )
 declare -A cxl_fmw_ig # arr[fmw_id]=ig-size
 
@@ -468,6 +469,9 @@ __add_cxl_fmw_from_pxb() {
 }
 
 # Specify cxl fmw interleave granularity
+#
+# see commit 5715ca5b705e ("cxl: test Interleave Granularity with Qemu")
+#
 # $1: fmw index: 0 1 2 3, see also __add_cxl_fmw_from_pxb()
 # $2: interleave granularity, size: 256, 512, 1k, 2k, 4k, 8k, 16k, default 256,
 #     see CFMWS's field Host Bridge Interleave Granularity (HBIG).

@@ -56,7 +56,8 @@ struct cfmws {
 	 * - 6h – 16384 Bytes (16 KB)
 	 * - All other – Reserved
 	 *
-	 * Interleave Granularity in qemu-kvm CXL emulate.
+	 * Interleave Granularity in qemu-kvm CXL emulate, see
+	 * commit 5715ca5b705e ("cxl: test Interleave Granularity with Qemu").
 	 */
 	uint32_t hbig;
 	uint16_t window_restrictions;

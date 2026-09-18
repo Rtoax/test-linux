@@ -87,6 +87,8 @@ Interleave Granularity
 
 Interleave Granularity in qemu-kvm CXL emulate.
 
+- commit 5715ca5b705e ("cxl: test Interleave Granularity with Qemu").
+
 
 Links
 -----

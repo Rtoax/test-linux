@@ -47,6 +47,8 @@ test_pmem_raw_and_fsdax() {
 	sudo mkdir -p ${mnt}
 	sudo mount /dev/pmem0 ${mnt}
 	pushd ${mnt}
+	# see also:
+	# - commit 5715ca5b705e ("cxl: test Interleave Granularity with Qemu")
 	sudo dd if=/dev/zero of=a.bin oflag=direct bs=1M count=200 status=progress
 	popd
 	sudo umount ${mnt}

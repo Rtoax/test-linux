@@ -11,7 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
-- test CXL Interleave Granularity with Qemu;
+- test CXL Interleave Granularity with Qemu, see commit 5715ca5b705e ("cxl: test Interleave Granularity with Qemu");
 - sysfs: add dmi subdir;
 - ubuntu: add snap directory;
 #### Changed
