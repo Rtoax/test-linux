@@ -1,5 +1,6 @@
 subdir-y += dd
 subdir-y += od
+subdir-y += printf
 subdir-y += split
 subdir-y += stat
 subdir-y += tr
