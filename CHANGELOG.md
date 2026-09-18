@@ -27,6 +27,7 @@ and this project adheres to
 #### Scripts
 #### Tools
 - vim: add xxd subdir;
+- coreutils: add dd subdir;
 - redis: add stress subdir;
 - smartmontools: first commit;
 - dracut: add modules.d directory;
