@@ -42,7 +42,10 @@ ifneq (${GIT_TOPDIR},)
   endif
 endif
 
-# FIXME: remove this check after a little while.
+# In the old test-linux version, we put make_tl.sh into /etc/profile.d/, to
+# avoid residual files from a previously deployed older version of the
+# test-linux environment, we check here whether these residual files are still
+# needed.
 ifeq ($(shell test -L /etc/profile.d/make_tl.sh && echo yes),yes)
   $(error You MUST remove /etc/profile.d/make_tl.sh first!!)
 endif
