@@ -17,7 +17,7 @@ ${BOLD}SYNOPSIS${RST}
 
 ${BOLD}OPTIONS${RST}
     --rss          enable RSS
-    -i, --interval interval of refresh, 1, 2, 0.5, 0.01
+    -i, --interval interval seconds of refresh, 1, 2, 0.5, 0.01
     -h, --help     show this information
 "
 	exit ${1-0}
