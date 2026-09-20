@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.57"
+readonly VERSION="v1.1.58"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -682,6 +682,10 @@ list_vm() {
 			;;
 		esac
 	done
+
+	if [[ $# -ne 0 ]]; then
+		error "Unknown argument '${@}'"
+	fi
 
 	for name in ${vmnames[@]}
 	do
