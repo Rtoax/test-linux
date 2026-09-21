@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.58"
+readonly VERSION="v1.1.59"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -57,6 +57,7 @@ declare TMPDIR=/tmp/${PROG}
 
 # Store VM specific files on host filesystem
 declare vm_tmpdir
+declare enable_cleanup_tmpdir=ON
 declare f_vm_info
 declare f_vm_pidfile
 declare f_vm_cmd_sh
@@ -581,6 +582,12 @@ handle_disk_arg() {
 	f_disks+=( ${file} )
 }
 
+get_all_vmnames() {
+	if [[ -d ${TMPDIR} ]]; then
+		ls ${TMPDIR}
+	fi
+}
+
 # $1: vm-name
 config_prepare_vm_tmpdir() {
 	local name=${1}
@@ -605,12 +612,6 @@ config_prepare_vm_tmpdir() {
 
 ################################################################################
 # VM Management
-get_all_vmnames() {
-	if [[ -d ${TMPDIR} ]]; then
-		ls ${TMPDIR}
-	fi
-}
-
 __usage_list_vm__() {
 	echo -e "
 ${BOLD}NAME${RST}
@@ -993,7 +994,7 @@ cleanup() {
 
 	if [[ ${err} -ne 0 ]]; then
 		qemu_eval sudo rm -rf ${cleanup_files[@]}
-		if [[ -d ${vm_tmpdir} ]]; then
+		if [[ -d ${vm_tmpdir} ]] && [[ -z ${enable_cleanup_tmpdir} ]]; then
 			qemu_eval sudo rm -rf ${vm_tmpdir}
 		fi
 		error "${PROG} running failed"
@@ -1067,6 +1068,11 @@ config_basic() {
 	fprintf ${f_vm_info} -a "VM_PIDFILE=${f_vm_pidfile}\n"
 	fprintf ${f_vm_info} -a "VM_SOCK_QMP=${sock_qmp}\n"
 
+
+	if [[ " $(get_all_vmnames) " =~ " ${q_vm_name} " ]]; then
+		enable_cleanup_tmpdir=""
+		error "VM '${q_vm_name}' already exist, see '${PROG} list -a'"
+	fi
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid ${uuid} )
 	# or use '-accel kvm'
