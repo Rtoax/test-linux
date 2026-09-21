@@ -28,6 +28,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- move `make_tl.sh` into template;
 #### Tools
 - git: add subtree dir;
 - vim: add xxd subdir;
@@ -36,6 +37,7 @@ and this project adheres to
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- move scripts/`make_tl.sh` into template;
 - add VERSION;
 - move Makefile.{build,kmod} into template;
 - git.mk: add `HAVE_GIT_SUBTREE`;

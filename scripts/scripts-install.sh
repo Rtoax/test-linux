@@ -2,6 +2,7 @@
 set -e
 
 readonly SCRIPTS_DIR=$(dirname $(realpath $0))
+readonly TEMPLATE_DIR=$(dirname $(realpath $0))/../template
 
 realuser=$USER
 # running with sudo, we should get real user
@@ -49,7 +50,7 @@ scripts_install()
 	ln -s ${SCRIPTS_DIR}/loadavg.sh /usr/bin/loadavg
 	ln -s ${SCRIPTS_DIR}/patchset.sh /usr/bin/patchset
 	ln -s ${SCRIPTS_DIR}/findelf.sh /usr/bin/findelf
-	ln -s ${SCRIPTS_DIR}/make_tl.sh /usr/bin/make_tl
+	ln -s ${TEMPLATE_DIR}/make_tl.sh /usr/bin/make_tl
 	ln -s ${SCRIPTS_DIR}/termplot.sh /usr/bin/termplot
 	ln -s ${SCRIPTS_DIR}/kconfig_compare.sh /usr/bin/kconfig_compare
 	ln -s ${SCRIPTS_DIR}/kcompile.sh /usr/bin/kcompile

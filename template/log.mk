@@ -31,7 +31,7 @@ LOG_FILE_INFO := $(TOPDIR)/info.log
 LOG_FILE_FAILED := $(TOPDIR)/failed.log
 # see scripts/runprog.sh
 LOG_FILE_RUNPROG := $(TOPDIR)/runprog.cmd.log
-# see scripts/make_tl.sh
+# see template/make_tl.sh
 LOG_MAKE_TL := ${TOPDIR}/make.log
 
 # Timestamp

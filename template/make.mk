@@ -2,7 +2,7 @@
 # Copyright (C) 2026 Rong Tao. All rights reserved.
 #
 # Export:
-# - MAKE=[make_tl.sh]
+# - MAKE=[/path/to/make_tl.sh]
 #
 # Functions:
 # - make_{gt,ge,eq,lt,le}()=[y|n]
@@ -15,7 +15,7 @@ include ansi.mk
 include dir.mk
 include version.mk
 
-MAKE := ${TOPDIR}/scripts/make_tl.sh
+MAKE := ${TOPDIR}/template/make_tl.sh
 
 makeversh = ${TOPDIR}/scripts/version/make.sh
 
