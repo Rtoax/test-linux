@@ -10,6 +10,7 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+- template: release v1.0.0;
 #### Added
 - test CXL Interleave Granularity with Qemu, see commit 5715ca5b705e ("cxl: test Interleave Granularity with Qemu");
 - sysfs: add dmi subdir;
@@ -35,6 +36,8 @@ and this project adheres to
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- add VERSION;
+- move Makefile.{build,kmod} into template;
 - git.mk: add `HAVE_GIT_SUBTREE`;
 - add vim.mk;
 - add unicode/mark.mk;

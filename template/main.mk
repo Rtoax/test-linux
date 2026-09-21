@@ -14,6 +14,7 @@ NASM ?= nasm
 OBJCOPY ?= objcopy
 subdir-y ?=
 
+include VERSION
 include cflags.mk
 include mkflags.mk
 include shell.mk
@@ -104,6 +105,7 @@ build-targets += $(subdir-y-build)
 $(if ${DRY_RUN}, $(eval build-targets := $(subdir-y-build)))
 
 ifdef DEBUG
+  $(info TEMPLATE_VERSION = ${TEMPLATE_VERSION})
   $(info build-targets = ${build-targets})
   $(info SRC_SFX_LIST = ${SRC_SFX_LIST})
 endif

@@ -107,8 +107,8 @@ help:
 	@echo >&2 -e "***  DRY_RUN=1     don't actually make"
 	@echo >&2 -e "***"
 
-# default compile kmod and user-source, see also scripts/Makefile.build and
-# scripts/Makefile.kmod
+# default compile kmod and user-source, see also template/Makefile.build and
+# template/Makefile.kmod
 KMOD ?= y
 USRC ?= y
 
