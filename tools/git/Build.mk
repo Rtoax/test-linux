@@ -1,6 +1,7 @@
 include git.mk
 
 subdir-y += log
+subdir-${HAVE_GIT_SUBTREE} += subtree
 
 prog-y += check-ignore.sh
 prog-y += diff.sh

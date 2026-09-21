@@ -5,6 +5,13 @@
 # - GIT=[/usr/bin/git]
 # - HAVE_GIT=[y|n]
 #
+# - GIT_VERSION=
+# - GIT_MAJOR=
+# - GIT_MINOR=
+# - GIT_PATCHLEVEL=
+#
+# - HAVE_GIT_SUBTREE=
+#
 # Functions:
 # - git_{gt,ge,eq,lt,le}(major, minor, patchlevel)=[y|n]
 #
@@ -35,10 +42,13 @@ GIT_MAJOR := $(shell ${gitversh} -- --major)
 GIT_MINOR := $(shell ${gitversh} -- --minor)
 GIT_PATCHLEVEL := $(shell ${gitversh} -- --patchlevel)
 
+HAVE_GIT_SUBTREE := $(shell ${GIT} subtree --help 1>/dev/null 2>&1 && echo y || echo n)
+
 $(call make_append_var_to_file,GIT_VERSION,${git_mk_cachefile})
 $(call make_append_var_to_file,GIT_MAJOR,${git_mk_cachefile})
 $(call make_append_var_to_file,GIT_MINOR,${git_mk_cachefile})
 $(call make_append_var_to_file,GIT_PATCHLEVEL,${git_mk_cachefile})
+$(call make_append_var_to_file,HAVE_GIT_SUBTREE,${git_mk_cachefile})
 
 endif # end of cache
 

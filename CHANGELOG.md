@@ -28,12 +28,14 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- git: add subtree dir;
 - vim: add xxd subdir;
 - coreutils: add dd, od, printf subdir;
 - redis: add stress subdir;
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- git.mk: add `HAVE_GIT_SUBTREE`;
 - add vim.mk;
 - add unicode/mark.mk;
 - add smartmontools.mk;
