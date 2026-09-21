@@ -11,6 +11,7 @@ _CROSS_COMPILE_MK = 1
 CC ?= gcc
 AS ?= as
 LD ?= ld
+OBJCOPY ?= objcopy
 STRIP ?= strip
 
 CFLAGS ?=
@@ -46,6 +47,8 @@ ifdef CROSS_COMPILE
   CC := ${CROSS_COMPILE}gcc
   CXX := ${CROSS_COMPILE}g++
   AS := ${CROSS_COMPILE}as
+  OBJCOPY := ${CROSS_COMPILE}objcopy
+  STRIP := ${CROSS_COMPILE}strip
 
   # Use bfd linker first
   ifneq ($(shell $(CROSS_COMPILE)ld.bfd -v 2> /dev/null),)
@@ -53,8 +56,6 @@ ifdef CROSS_COMPILE
   else
     LD := $(CROSS_COMPILE)ld
   endif
-
-  STRIP := ${CROSS_COMPILE}strip
 
   # This root could be created by Docker Image Tar Archive, debootstrap, etc.
   # see: aarch64-linux-gnu-gcc -print-sysroot
