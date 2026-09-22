@@ -8,6 +8,8 @@ git log 6d1db619e0f2..v2.4.7-Lamada --oneline | tee 6d1db619e0f2..v2.4.7-Lamada.
 git log ${LAST_TAG}..HEAD --oneline | tee ${LAST_TAG}..HEAD.log
 git log -1 --oneline
 git log -2 --oneline
+# = git show --name-only --pretty=format:
+git log -1 --oneline --name-only --pretty=format:
 
 # Do some checks
 if [[ "$(diff -up v2.4.6-Kappa..v2.4.7-Lamada.log 6d1db619e0f2..v2.4.7-Lamada.log)" ]]; then
