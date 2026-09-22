@@ -46,10 +46,13 @@ do
 	fi
 done
 
+pushd ${GIT_TOPDIR} >/dev/null
 try_add=( $(git status --short | grep ^A | awk '{print $2}' || true) )
 try_del=( $(git status --short | grep ^D | awk '{print $2}' || true) )
 try_modify=( $(git status --short | grep ^M | awk '{print $2}' || true) )
 try_rename=( $(git status --short | grep ^R | awk '{print $2}' || true) )
+try_all=( ${try_add[@]} ${try_del[@]} ${try_modify[@]} ${try_rename} )
+popd >/dev/null
 
 # Redirect output to stderr.
 exec 1>&2
@@ -83,10 +86,7 @@ docs_check() {
 	fi
 
 	# Detect documentation changed
-	if [[ " ${try_modify[@]} " =~ "Documentation" ]] ||
-	   [[ " ${try_add[@]} " =~ "Documentation" ]] ||
-	   [[ " ${try_rename[@]} " =~ "Documentation" ]] ||
-	   [[ " ${try_del[@]} " =~ "Documentation" ]]; then
+	if [[ " ${try_all[@]} " =~ "Documentation" ]]; then
 		# Not found version field is changed.
 		if [[ ! " ${try_modify[@]} " =~ " Documentation/conf.py " ]] ||
 		   [[ "$(git diff --staged ${GIT_TOPDIR}/Documentation/conf.py | \
@@ -105,8 +105,20 @@ docs_check() {
 		fi
 	done
 
-	if [[ "${try_add[@]}${try_modify[@]}${try_del[@]}${try_rename[@]}" =~ "abbrev" ]]; then
+	if [[ "${try_all[@]}" =~ "abbrev" ]]; then
 		${GIT_TOPDIR}/Documentation/abbrev.sh --check
+	fi
+}
+
+template_check() {
+	if [[ ! -d ${GIT_TOPDIR}/template ]]; then
+		return 0
+	fi
+
+	if [[ " ${try_all[@]} " =~ " template/" ]]; then
+		if ! [[ " ${try_modify[@]} " =~ " template/VERSION " ]]; then
+			fatal "Forgot modify template/VERSION"
+		fi
 	fi
 }
 
@@ -167,5 +179,6 @@ done
 [[ ${#try_rename[@]} -ge ${NR} ]] && hint_changelog "<Rename files: ${try_rename[@]}, try NR=100>"
 
 docs_check
+template_check
 
 exit 0

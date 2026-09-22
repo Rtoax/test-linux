@@ -5,6 +5,9 @@
 #
 # linux, linux-16color
 #
+# Definitions:
+# - TERM=[xterm-256color|...]
+#
 ifndef _TERMINAL_MK
 _TERMINAL_MK = 1
 
@@ -13,5 +16,7 @@ TERM := $(shell echo $${TERM})
 ifdef DEBUG
   $(info TERM = ${TERM})
 endif
+
+export TERM
 
 endif # end of _TERMINAL_MK
