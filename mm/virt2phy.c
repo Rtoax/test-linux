@@ -20,6 +20,9 @@
 #include <sys/mman.h>
 #include <numa.h>
 #include <numaif.h>
+#ifdef HAVE_CUDA
+#include <cuda_runtime.h>
+#endif
 
 #if defined(HAVE_MMAP_HELPERS)
 #include "mmap_helpers.h"
@@ -126,24 +129,35 @@ static const struct argp argp = {
 };
 #endif
 
+#ifdef HAVE_CUDA
+__device__ void cuda_device_foo(void)
+{
+}
+
+__global__ void cuda_global_foo(void)
+{
+	cuda_device_foo();
+}
+#endif
+
 void mem_range_rw(void *mem, size_t sz, bool r, bool w)
 {
 	size_t i;
 	for (i = 0; i < sz; i += getpagesize()) {
 		/* Read */
 		if (r) {
-			volatile char c = *(volatile char *)(mem + i);
+			volatile char c = *(volatile char *)((char *)mem + i);
 			(void)c;
 		}
 		/* Write */
 		if (w)
-			*(char *)(mem + i) = 'a';
+			*(char *)((char *)mem + i) = 'a';
 	}
 }
 
 void *map_file_or_anon(const char *file, int ro, int cow, struct mem *m)
 {
-#define MAP_FILE_ANON	((void *)-2)	/* arg file */
+#define MAP_FILE_ANON ((char *)-2) /* arg file */
 	void *mem = NULL;
 	int err, fd = -1, prot, flags;
 	struct stat st;
@@ -387,6 +401,10 @@ void test_mapping_phy_addr(void)
 
 #ifdef CONFIG_MEMFD_CREATE
 	DISPLAY_VA_PA((unsigned long)memfd_ro.mem, "memfd_ro");
+#endif
+#ifdef HAVE_CUDA
+	DISPLAY_VA_PA((unsigned long)cuda_device_foo, "CUDA device");
+	DISPLAY_VA_PA((unsigned long)cuda_global_foo, "CUDA global");
 #endif
 
 #undef PR

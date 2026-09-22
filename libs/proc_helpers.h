@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include <sys/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* /proc/PID */
 bool proc_exist(pid_t pid);
 
@@ -56,3 +60,7 @@ int proc_for_each_mount(void (*callback)(const struct proc_mountpoint *mnt,
 
 pid_t get_pid_from_proc_self(void);
 pid_t get_tid_from_proc_thread_self(void);
+
+#ifdef __cplusplus
+}
+#endif

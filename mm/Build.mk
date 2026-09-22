@@ -2,6 +2,8 @@
 # Copyright (C) 2023-2026 Rong Tao. All rights reserved.
 include kconfig.mk
 include helpers.mk
+include nvidia/cuda.mk
+include nvidia/device.mk
 
 subdir-y += aslr
 subdir-y += cma
@@ -46,4 +48,15 @@ endif
 ifeq ($(CONFIG_MEMFD_CREATE),y)
   $(info CONFIG_MEMFD_CREATE=y)
   CFLAGS_virt2phy += -DCONFIG_MEMFD_CREATE=1
+endif
+
+# Compile CUDA virt2phy
+ifeq (${HAVE_CUDA}${HAVE_NVIDIA_GPU},yy)
+  target-nvcc-y := virt2phy-nv
+  virt2phy-nv-deps := numa.so
+  virt2phy-nv-objs := ${PROC_HELPERS} ${MMAP_HELPERS} virt2phy.cu.o
+  CFLAGS_NVCC_virt2phy := ${CFLAGS_virt2phy}
+  LDFLAGS_NVCC_virt2phy-nv := ${LDFLAGS_virt2phy}
+  LDFLAGS_NVCC_virt2phy-nv += -Xlinker -rpath -Xlinker ${TOPDIR}/libs
+  LDFLAGS_NVCC_virt2phy-nv += -Xlinker -rpath -Xlinker ${TOPDIR}/numa
 endif

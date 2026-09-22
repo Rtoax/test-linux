@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <numaif.h>
 #include <numa.h>
-
 #include "libnuma.h"
 #include "numa_mem.h"
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
-
 #define GB (1024 * 1024 * 1024)
 
 int print_numa_mem(void)
