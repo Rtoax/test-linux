@@ -50,7 +50,16 @@ ifeq ($(shell test -L /etc/profile.d/make_tl.sh && echo yes),yes)
   $(error You MUST remove /etc/profile.d/make_tl.sh first!!)
 endif
 
-ifeq ($(wildcard /usr/bin/make_tl),)
+# Some time, make_tl.sh script location will be changed, see
+# commit 9e3e04ad7767 ("make_tl.sh: move into template dir")
+make_tl := /usr/bin/make_tl
+ifeq ($(shell if test -L ${make_tl} && ! readlink -e ${make_tl} >/dev/null; then echo yes; fi),yes)
+  ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
+    $(error Symlink ${make_tl} was changed, please uninstall and install)
+  endif
+endif
+
+ifeq ($(wildcard ${make_tl}),)
   ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
     $(error You MUST run 'make install' first, then start a new bash session!!)
   endif

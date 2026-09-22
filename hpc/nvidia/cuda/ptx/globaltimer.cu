@@ -16,7 +16,8 @@ __device__ __forceinline__ unsigned long long __globaltimer(void)
 
 __global__ void foo(void)
 {
-	printf("Hello from GPU, globaltimer=%d\n", __globaltimer());
+	unsigned long long gt = __globaltimer();
+	printf("Hello from GPU, globaltimer=%d=0x%lx\n", gt, gt);
 }
 
 int main(void)
