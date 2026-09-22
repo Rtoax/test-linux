@@ -9,6 +9,7 @@
 #include <linux/moduleparam.h>
 #include <linux/init.h>
 #include <linux/kernel.h>
+#include <linux/version.h>
 
 #define SIZE 8
 
@@ -30,7 +31,11 @@ static int irqtype_op_write_handler(const char *val,
 	char valcp[16];
 	char *s;
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0)
+	strscpy(valcp, val, 16);
+#else
 	strncpy(valcp, val, 16);
+#endif
 	valcp[15] = '\0';
 
 	s = strstrip(valcp);
