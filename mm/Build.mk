@@ -2,6 +2,8 @@
 # Copyright (C) 2023-2026 Rong Tao. All rights reserved.
 include kconfig.mk
 include helpers.mk
+include cestc/lingspeed.mk
+include cestc/luca.mk
 include nvidia/cuda.mk
 include nvidia/device.mk
 
@@ -59,4 +61,13 @@ ifeq (${HAVE_CUDA}${HAVE_NVIDIA_GPU},yy)
   LDFLAGS_NVCC_virt2phy-nv := ${LDFLAGS_virt2phy}
   LDFLAGS_NVCC_virt2phy-nv += -Xlinker -rpath -Xlinker ${TOPDIR}/libs
   LDFLAGS_NVCC_virt2phy-nv += -Xlinker -rpath -Xlinker ${TOPDIR}/numa
+endif
+ifeq (${HAVE_LUCA}${HAVE_LINGSPEED_GPU},yy)
+  target-lscc-y := virt2phy-luca
+  virt2phy-luca-deps := numa.so
+  virt2phy-luca-objs := ${PROC_HELPERS} ${MMAP_HELPERS} virt2phy.luca.o
+  CFLAGS_LSCC_virt2phy := ${CFLAGS_virt2phy}
+  LDFLAGS_LSCC_virt2phy-luca := ${LDFLAGS_virt2phy}
+  LDFLAGS_LSCC_virt2phy-luca += -Xlinker -rpath -Xlinker ${TOPDIR}/libs
+  LDFLAGS_LSCC_virt2phy-luca += -Xlinker -rpath -Xlinker ${TOPDIR}/numa
 endif

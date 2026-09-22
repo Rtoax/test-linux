@@ -1012,6 +1012,7 @@ dnf_add_packages()
 	fi
 	pkgs_compiler+=( liblsan )
 	pkgs_compiler+=( liblsan-static )
+	pkgs_compiler+=( libstdc++-devel )
 	pkgs_compiler+=( libtsan )
 	pkgs_compiler+=( libtsan-static )
 	pkgs_compiler+=( libubsan )
