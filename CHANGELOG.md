@@ -31,6 +31,7 @@ and this project adheres to
 #### Scripts
 - move `make_tl.sh` into template;
 #### Tools
+- git: add describe dir;
 - git: add show dir;
 - git: add subtree dir;
 - vim: add xxd subdir;

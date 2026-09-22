@@ -1,5 +1,6 @@
 include git.mk
 
+subdir-y += describe
 subdir-y += log
 subdir-y += show
 subdir-${HAVE_GIT_SUBTREE} += subtree
