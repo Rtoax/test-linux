@@ -384,7 +384,7 @@
 				"length": [ 2 ]
 			},
 			"extension": [ "rst" ],
-			"keys": [ "latexmk", "sphinx", "Documentation" ],
+			"keys": [ "latexmk", "Documentation" ],
 			"tags": [ "document" ]
 		},
 		"libblockdev": {

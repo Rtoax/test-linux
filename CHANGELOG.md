@@ -39,6 +39,7 @@ and this project adheres to
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- add latexmk.mk;
 - subdir-header.mk: add `SKIP_SUBDIR=`;
 - move scripts/`make_tl.sh` into template;
 - add VERSION;

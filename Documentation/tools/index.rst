@@ -53,6 +53,15 @@ User Space
    vscode
 
 
+Document
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   latexmk
+
+
 Kernel Space
 ------------
 

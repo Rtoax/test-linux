@@ -1,6 +1,7 @@
 include asciidoc.mk
 include asciidoctor.mk
 include git.mk
+include latexmk.mk
 include libsmbios.mk
 include mbw.mk
 include ndctl.mk
@@ -47,6 +48,7 @@ subdir-y += jq
 subdir-y += json-c
 subdir-y += kasan
 subdir-y += kbd
+subdir-${HAVE_LATEXMK} += latexmk
 subdir-y += libblockdev
 subdir-y += libisoburn
 subdir-y += nbdkit
