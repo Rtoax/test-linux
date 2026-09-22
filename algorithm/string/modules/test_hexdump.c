@@ -8,6 +8,7 @@
 #include <linux/module.h>
 #include <linux/random.h>
 #include <linux/string.h>
+#include <linux/version.h>
 
 static const unsigned char data_b[] = {
 	'\xbe', '\x32', '\xdb', '\x7b', '\x0a', '\x18', '\x93', '\xb2',	/* 00 - 07 */
@@ -113,7 +114,11 @@ static void __init test_hexdump_prepare_test(size_t len, int rowsize,
 			*p++ = ' ';
 		} while (p < test + rs * 2 + rs / gs + 1);
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0)
+		strscpy(p, data_a, l);
+#else
 		strncpy(p, data_a, l);
+#endif
 		p += l;
 	}
 

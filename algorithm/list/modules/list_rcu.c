@@ -5,8 +5,8 @@
 #include <linux/rculist.h>
 #include <linux/slab.h>
 #include <linux/spinlock.h>
+#include <linux/version.h>
 #include "os.h"
-
 
 static spinlock_t list_lock;
 static LIST_HEAD(os_release_list);
@@ -15,8 +15,13 @@ static struct os_release *alloc_os(const char *release, const char *vender)
 {
 	struct os_release *item;
 	item = kmalloc(sizeof(struct os_release), GFP_KERNEL);
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0)
+	strscpy(item->release, release, sizeof(item->release));
+	strscpy(item->vender, vender, sizeof(item->vender));
+#else
 	strncpy(item->release, release, sizeof(item->release));
 	strncpy(item->vender, vender, sizeof(item->vender));
+#endif
 	return item;
 }
 

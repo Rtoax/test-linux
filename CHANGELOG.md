@@ -25,6 +25,7 @@ and this project adheres to
 - add smartmontools.rst;
 #### Fixed
 #### Linux Kernel
+- remove `strncpy()` since v7.2, https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?id=be568570cf71c5db5d6039ac077d90e3767c2fe1
 #### Removed
 #### Security
 #### Scripts

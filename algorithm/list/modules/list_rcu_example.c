@@ -24,6 +24,7 @@
 #include <linux/rculist.h>
 #include <linux/spinlock.h>
 #include <linux/preempt.h>
+#include <linux/version.h>
 
 /**
  * struct book - a book
@@ -71,8 +72,13 @@ static void add_book(int id, const char *name, const char *author)
 		return;
 
 	b->id = id;
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0)
+	strscpy(b->name, name, sizeof(b->name));
+	strscpy(b->author, author, sizeof(b->author));
+#else
 	strncpy(b->name, name, sizeof(b->name));
 	strncpy(b->author, author, sizeof(b->author));
+#endif
 	b->borrow = 0;
 
 	/**

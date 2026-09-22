@@ -3,6 +3,7 @@
 #include <linux/init.h>
 #include <linux/list.h>
 #include <linux/slab.h>
+#include <linux/version.h>
 #include "os.h"
 
 static LIST_HEAD(os_release_list);
@@ -14,8 +15,13 @@ static void fill_list(void)
 
 	for (i = 0; i < sizeof(RELEASE) / sizeof(RELEASE[0]); i++) {
 		item = kmalloc(sizeof(struct os_release), GFP_KERNEL);
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 2, 0)
+		strscpy(item->release, RELEASE[i], sizeof(item->release));
+		strscpy(item->vender, VENDERS[i], sizeof(item->vender));
+#else
 		strncpy(item->release, RELEASE[i], sizeof(item->release));
 		strncpy(item->vender, VENDERS[i], sizeof(item->vender));
+#endif
 		list_add_tail(&item->list, &os_release_list);
 	}
 }

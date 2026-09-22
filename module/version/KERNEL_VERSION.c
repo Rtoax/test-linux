@@ -9,7 +9,6 @@
 #endif
 #include <linux/vermagic.h>
 
-
 static int kernel_init(void)
 {
 	printk(KERN_INFO "my init.\n");
