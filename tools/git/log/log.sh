@@ -10,6 +10,8 @@ git log -1 --oneline
 git log -2 --oneline
 # = git show --name-only --pretty=format:
 git log -1 --oneline --name-only --pretty=format:
+# = git show --name-status --pretty=format: -M HEAD
+git log -1 --name-status --pretty=format:
 
 # Do some checks
 if [[ "$(diff -up v2.4.6-Kappa..v2.4.7-Lamada.log 6d1db619e0f2..v2.4.7-Lamada.log)" ]]; then

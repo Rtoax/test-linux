@@ -9,6 +9,8 @@ set -e
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly MY_DIRECTORY=$(realpath $(dirname $(realpath $0))/../../../)
+# Match the max prefix of '--amend'
+readonly IS_AMEND=$(ps -ocommand= -p $PPID | grep -e '--am')
 
 if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
 	. ${GIT_TOPDIR}/.gitconfig.sh
@@ -46,11 +48,19 @@ do
 	fi
 done
 
+git_file_status() {
+	if [[ -n ${IS_AMEND} ]]; then
+		git show --name-status --pretty=format: -M HEAD
+	else
+		git status --short
+	fi
+}
+
 pushd ${GIT_TOPDIR} >/dev/null
-try_add=( $(git status --short | grep ^A | awk '{print $2}' || true) )
-try_del=( $(git status --short | grep ^D | awk '{print $2}' || true) )
-try_modify=( $(git status --short | grep ^M | awk '{print $2}' || true) )
-try_rename=( $(git status --short | grep ^R | awk '{print $2}' || true) )
+try_add=( $(git_file_status | grep ^A | awk '{print $2}' || true) )
+try_del=( $(git_file_status | grep ^D | awk '{print $2}' || true) )
+try_modify=( $(git_file_status | grep ^M | awk '{print $2}' || true) )
+try_rename=( $(git_file_status | grep ^R | awk '{print $2}' || true) )
 try_all=( ${try_add[@]} ${try_del[@]} ${try_modify[@]} ${try_rename} )
 popd >/dev/null
 
