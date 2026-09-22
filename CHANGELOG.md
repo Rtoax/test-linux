@@ -38,6 +38,7 @@ and this project adheres to
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- subdir-header.mk: add `SKIP_SUBDIR=`;
 - move scripts/`make_tl.sh` into template;
 - add VERSION;
 - move Makefile.{build,kmod} into template;

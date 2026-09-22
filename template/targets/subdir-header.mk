@@ -2,6 +2,7 @@
 #
 # Input defintions:
 # - NOSUBDIR: use for skip all sub-directory
+# - SKIP_SUBDIR: use for skip some sub-directory
 #
 ifndef _TARGET_SUBDIR_HEADER_MK
 _TARGET_SUBDIR_HEADER_MK = 1
@@ -13,6 +14,10 @@ CURRENT_DIR := ${ABS_CURRENT_DIR}
 
 ifdef NOSUBDIR
   subdir-y :=
+endif
+
+ifdef SKIP_SUBDIR
+  subdir-y := $(filter-out ${SKIP_SUBDIR}, ${subdir-y})
 endif
 
 subdir-y-build := $(addprefix $(CURRENT_DIR)/,$(subdir-y:=.build))

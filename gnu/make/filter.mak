@@ -6,6 +6,8 @@ OUTPUT += .output2/
 OUTPUT += .output3/a
 OUTPUT += .output3/b
 
+LIST1 := aaa bbb aaa ccc bbb
+
 $(info OUTPUT = ${OUTPUT})
 
 ifneq ($(filter %/,$(OUTPUT)),)
@@ -23,6 +25,8 @@ $(info objs = ${objs})
 $(info $(addprefix .output/,$(filter-out .output/%,$(objs))) $(filter .output/%,$(objs)))
 $(info $(foreach f,$(objs),$(if $(findstring .output/,$(f)),$(f),.output/$(f))))
 $(info $(foreach f,$(objs),$(if $(filter .output/% /%,$(f)),$(f),.output/$(f))))
+
+$(info filter-out $${LIST1} = $(filter-out bbb ccc,${LIST1}))
 
 .PHONY: build
 build:
