@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: release v1.0.0;
 #### Added
+- llvm: add api subdir;
 - test CXL Interleave Granularity with Qemu, see commit 5715ca5b705e ("cxl: test Interleave Granularity with Qemu");
 - sysfs: add dmi subdir;
 - ubuntu: add snap directory;
