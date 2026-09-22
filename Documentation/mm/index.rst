@@ -68,6 +68,16 @@ Contents
    watermark
 
 
+Usespace
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   jemalloc
+   tcmalloc
+
+
 Misc
 ----
 

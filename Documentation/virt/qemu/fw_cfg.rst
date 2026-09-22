@@ -11,4 +11,4 @@ Device 机制来完成这项工作。
 
 In GuestOS `/sys/firmware/qemu_fw_cfg` has `fw_cfg` informations.
 
-比如，`ignition.platform=qemu`就是用的这个参数.
+比如， `ignition.platform=qemu` 就是用的这个参数.

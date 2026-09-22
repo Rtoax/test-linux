@@ -2,7 +2,10 @@
 IO Sched
 ========
 
-:doc:`abbrev`
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
 
 
 .. toctree::

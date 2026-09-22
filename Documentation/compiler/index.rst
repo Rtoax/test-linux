@@ -62,6 +62,7 @@ Misc
    :maxdepth: 1
 
    dwarf
+   fdo
    gcov
    jit
    libasan

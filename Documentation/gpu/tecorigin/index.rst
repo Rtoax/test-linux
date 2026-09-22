@@ -2,13 +2,6 @@
 tecorigin - 太初元基
 ====================
 
-.. toctree::
-   :maxdepth: 1
-
-   abbrev
-
-
-
 Links
 -----
 

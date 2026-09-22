@@ -8,6 +8,7 @@ see linux `include/uapi/linux/major.h`.
    :maxdepth: 1
 
    abbrev
+   abbrev-dma
 
 
 .. toctree::

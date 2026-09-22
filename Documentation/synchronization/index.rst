@@ -2,7 +2,10 @@
 Synchronization
 ===============
 
-:doc:`abbrev`
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
 
 
 Linux Kernel & Userspace

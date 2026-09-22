@@ -2,7 +2,10 @@
 Scheduler
 =========
 
-:doc:`abbrev`
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
 
 
 Key Words
@@ -20,6 +23,7 @@ Contents
    cfs
    deadline
    eevdf
+   kthread
    load
    migration
    pelt
