@@ -23,6 +23,10 @@
 #define OOM_ADJUST_MIN (-16)
 #define OOM_ADJUST_MAX 15
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int disable_oom_by_adj(pid_t pid);
 int get_oom_adj(pid_t pid);
 int set_oom_adj(pid_t pid, int val);
@@ -39,3 +43,7 @@ unsigned long totalram(void);
 unsigned long freeram(void);
 unsigned long totalswap(void);
 unsigned long freeswap(void);
+
+#ifdef __cplusplus
+}
+#endif

@@ -3,6 +3,10 @@
 #pragma once
 #include <pthread.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct thread {
 	pthread_t pthread;
 	pthread_attr_t attr;
@@ -30,3 +34,7 @@ struct thread *thread_create_other(void *(*func)(void *), void *arg);
 int destroy_thread(struct thread *thread);
 
 int thread_affinity_bind_cpu(int cpu);
+
+#ifdef __cplusplus
+}
+#endif

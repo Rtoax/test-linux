@@ -6,6 +6,10 @@
 
 #define INVALID_ADDR (-1)
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct ksyms;
 
 struct ksyms *load_kallsyms(void);
@@ -18,3 +22,7 @@ long ksym_addr(const struct ksyms *ksyms, const char *name);
 
 const char *ksym_name(const struct ksyms *ksyms, unsigned long address,
 		      unsigned long *off);
+
+#ifdef __cplusplus
+}
+#endif

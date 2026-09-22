@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: release v1.0.0;
 #### Added
+- libs: all header symbols with extern "C";
 - virt2phy.c: test CUDA kernel function address;
 - llvm: add api subdir;
 - test CXL Interleave Granularity with Qemu, see commit 5715ca5b705e ("cxl: test Interleave Granularity with Qemu");

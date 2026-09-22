@@ -2,4 +2,12 @@
 #pragma once
 #include <sys/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 ssize_t readline(int fd, void *vptr, size_t maxlen);
+
+#ifdef __cplusplus
+}
+#endif

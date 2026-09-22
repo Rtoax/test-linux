@@ -3,7 +3,15 @@
 #pragma once
 #include <stdarg.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int read_trace_pipe(void);
 int read_trace_pipe_start(void);
 int read_trace_pipe_wait(void);
 int read_trace_pipe_stop(void);
+
+#ifdef __cplusplus
+}
+#endif

@@ -2,4 +2,12 @@
 #pragma once
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int socket_raw(const char *ifname, bool nonblk);
+
+#ifdef __cplusplus
+}
+#endif

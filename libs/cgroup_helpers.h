@@ -7,6 +7,10 @@
 
 #define CGROUP_DEFAULT_MNTPOINT	"/sys/fs/cgroup/"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * Get cgroup mountpoints.
  *
@@ -72,3 +76,7 @@ typedef void (*cgroup_proc_entry_fn)(const struct cgroup_proc_entry *cgrp, void 
  */
 int cgroup_proc_for_each_cgroup_entry(pid_t pid, cgroup_proc_entry_fn callback,
 				      void *arg);
+
+#ifdef __cplusplus
+}
+#endif

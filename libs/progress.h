@@ -3,6 +3,10 @@
 #define __PROGRESS_H
 #include <stdio.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
 	char chr;	/*tip char*/
 	char *title;	/*tip string*/
@@ -22,5 +26,9 @@ extern void progress_show(progress_t *, float);
 extern void progress_reset(progress_t *, char *);
 
 extern void progress_destroy(progress_t *);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

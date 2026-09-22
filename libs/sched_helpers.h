@@ -11,6 +11,10 @@
 # endif
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void print_cpuset(cpu_set_t * cpuset);
 int str2cpuset(const char *cpulist, cpu_set_t *cpuset);
 int taskset(int pid, char *cpu_list);
@@ -30,4 +34,8 @@ int sys_sched_setattr(pid_t pid, const struct sched_attr *attr,
 #if !defined(__aarch64__)
 int sys_fork(void);
 int sys_vfork(void);
+#endif
+
+#ifdef __cplusplus
+}
 #endif
