@@ -39,8 +39,11 @@ PROG_ENVS_test-env.sh.2 := ${PROG_ENVS_test-env.sh}
 PROG_ARGS := PROG_ARGS
 PROG_ARGS_test-args.sh := RRRRRRRRRRRRR TTTTTTTTTTT
 
+llvm-target-y := hello
+
 target-y += main
 target-y += gcc
+target-y += ${llvm-target-y}
 target-${HAVE_CLANG} += clang clang.1
 
 target-liba-y += libfoobar.a
@@ -79,3 +82,17 @@ foo.cpp.a.o-deps := foo.hpp
 bar.cpp.a.o-deps := bar.hpp
 foo.cpp.so.o-deps := foo.hpp
 bar.cpp.so.o-deps := bar.hpp
+
+# LLVM
+target-llvm-ll-y := hello_ll
+
+hello_ll-objs := hello.llvm.ll
+
+llvmobj-ast := $(addsuffix .llvm.ast, $(llvm-target-y))
+llvmobj-ll := $(addsuffix .llvm.ll, $(llvm-target-y))
+llvmobj-ll.s := $(addsuffix .llvm.ll.s, $(llvm-target-y))
+llvmobj-bc := $(addsuffix .llvm.bc, $(llvm-target-y))
+llvmobj-bc.dis := $(addsuffix .llvm.bc.dis, $(llvm-target-y))
+llvmobj-s := $(addsuffix .llvm.s, $(llvm-target-y))
+
+post-y += ${llvmobj-ast} ${llvmobj-ll} ${llvmobj-ll.s} ${llvmobj-bc} ${llvmobj-bc.dis} ${llvmobj-s}

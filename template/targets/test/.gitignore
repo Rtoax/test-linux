@@ -1,3 +1,7 @@
+/*.ast
+/*.bc
+/*.ll
+/*.s
 /clang
 /clang.1
 /gcc
@@ -7,3 +11,5 @@
 /foo.hpp
 /bar.h
 /bar.hpp
+/hello
+/hello_ll

@@ -17,6 +17,7 @@ and this project adheres to
 - sysfs: add dmi subdir;
 - ubuntu: add snap directory;
 #### Changed
+- move llvm/c into template/targets/test/;
 - move cloud-native into tools;
 - move all database into tools;
 - move coredump directory into elf directory;
@@ -41,6 +42,7 @@ and this project adheres to
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- targets/test: add llvm tests;
 - add latexmk.mk;
 - subdir-header.mk: add `SKIP_SUBDIR=`;
 - move scripts/`make_tl.sh` into template;
