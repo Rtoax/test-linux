@@ -949,6 +949,7 @@ dnf_add_packages()
 	pkgs_base+=( lldb-devel )
 	pkgs_base+=( llvm-devel )
 	pkgs_base+=( lsb_release )
+	pkgs_base+=( lm_sensors )
 	pkgs_base+=( ltrace )               # ltrace
 	pkgs_base+=( mmc )                  # mmc
 	pkgs_base+=( mpich mpich-devel )    # mpi
@@ -1189,6 +1190,7 @@ apt_add_packages()
 	if ! [[ $(is_os ubuntu) ]]; then
 		pkgs_base+=( linux-perf )
 	fi
+	pkgs_base+=( lm-sensors )
 	pkgs_base+=( lsb-release )
 	pkgs_base+=( ncal )
 	pkgs_base+=( notcurses-bin ) # Ubuntu, not debian

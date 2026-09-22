@@ -3,6 +3,7 @@ include asciidoctor.mk
 include git.mk
 include latexmk.mk
 include libsmbios.mk
+include lm_sensors.mk
 include mbw.mk
 include ndctl.mk
 include podman.mk
@@ -57,7 +58,7 @@ subdir-y += libguestfs
 subdir-y += libosinfo
 subdir-y += libtracefs
 subdir-y += livepatch
-subdir-y += lm_sensors
+subdir-${HAVE_LM_SENSORS} += lm_sensors
 subdir-y += lsof
 subdir-y += makeself
 subdir-${HAVE_MBW} += mbw
