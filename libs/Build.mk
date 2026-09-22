@@ -145,3 +145,7 @@ endif
 
 LDFLAGS_SO_${libproc-helpers} := -Wl,--version-script=proc_helpers.map
 LDFLAGS_SO_${libpcie-helpers} := -Wl,--version-script=pcie_helpers.map
+
+prog-y += ${target-y}
+
+PROG_ARGS_goprint := 4 4 XXX
