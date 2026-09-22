@@ -18,5 +18,6 @@ CFLAGS_PIC := -fPIC
 
 CFLAGS_main := -pg
 CFLAGS_fentry := -pg -mfentry
-CFLAGS_mcount-nop := ${CFLAGS_PIC}
-CFLAGS_constructor-obj := ${CFLAGS_PIC}
+CFLAGS_SO_mcount-nop := ${CFLAGS_PIC}
+CFLAGS_SO_mcount-nop += -Wno-error=frame-address
+CFLAGS_SO_constructor-obj := ${CFLAGS_PIC}

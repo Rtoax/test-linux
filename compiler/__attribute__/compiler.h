@@ -112,3 +112,7 @@
 
 /* Override -fpatchable-function-entry=N,M */
 #define __patchable(N, M) __attribute__((patchable_function_entry(N, M)))
+
+#define __visible_default __attribute__((visibility("default")))
+/* forbid mcount() call mcount() it self */
+#define __no_instr_func __attribute__((no_instrument_function))

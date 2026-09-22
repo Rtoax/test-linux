@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-#define __visible_default	__attribute__((visibility("default")))
+#define __visible_default __attribute__((visibility("default")))
 /* forbid mcount call mcount() it self */
-#define __no_instr		__attribute__((no_instrument_function))
-#define __pg_	__visible_default __no_instr
+#define __no_instr __attribute__((no_instrument_function))
+#define __pg_ __visible_default __no_instr
 
 #define TRACE_DEBUG() do {	\
 		void *__return_addr = __builtin_return_address(0);	\
