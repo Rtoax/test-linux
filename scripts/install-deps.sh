@@ -705,6 +705,10 @@ add_cross_compiler()
 		pkgs_compiler+=( binutils-arm-linux-gnu )
 		pkgs_compiler+=( gcc-arm-linux-gnu )
 	fi
+	if [[ ! $(is_arch riscv64) ]]; then
+		pkgs_compiler+=( binutils-riscv64-linux-gnu )
+		pkgs_compiler+=( gcc-riscv64-linux-gnu )
+	fi
 	if [[ ! $(is_arch x86_64) ]]; then
 		pkgs_compiler+=( binutils-x86_64-linux-gnu )
 		pkgs_compiler+=( gcc-x86_64-linux-gnu )
@@ -1130,6 +1134,7 @@ dnf_add_packages()
 		pkgs_virt+=( kata-containers )
 		pkgs_virt+=( qemu-system-loongarch64 edk2-loongarch64 )
 		pkgs_virt+=( qemu-system-riscv edk2-riscv64 )
+		pkgs_virt+=( qemu-system-riscv-core )
 		pkgs_virt+=( OpenIPMI-lanserv ) # ipmi_sim
 	fi
 
