@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
 	{
 		#pragma omp for schedule(runtime)
 		for (i = 0; i < 5; i++) {
-			printf("no size: i = %2d, id = %2d\n",i,omp_get_thread_num());
+			printf("no size: i = %2d, id = %2d\n", i,
+			       omp_get_thread_num());
 		}
 		#pragma omp single
 		printf("\n");

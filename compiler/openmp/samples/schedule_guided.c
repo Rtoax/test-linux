@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <omp.h>
 
-
 int main(int argc, char *argv[])
 {
 	int i;
@@ -11,13 +10,15 @@ int main(int argc, char *argv[])
 	{
 		#pragma omp for schedule(guided)
 		for (i = 0; i < 5; i++) {
-			printf("no size: i = %2d, id = %2d\n",i,omp_get_thread_num());
+			printf("no size: i = %2d, id = %2d\n", i,
+			       omp_get_thread_num());
 		}
 		#pragma omp single
 		printf("\n");
 		#pragma omp for schedule(guided,2)
 		for (i = 0; i < 5; i++) {
-			printf("   size: i = %2d, id = %2d\n",i,omp_get_thread_num());
+			printf("   size: i = %2d, id = %2d\n", i,
+			       omp_get_thread_num());
 		}
 	}
 	return 0;
