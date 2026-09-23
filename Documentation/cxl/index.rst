@@ -20,6 +20,7 @@ CXL Software
 .. toctree::
    :maxdepth: 1
 
+   cxlmemuring
    fabric-manager
    qemu
    software

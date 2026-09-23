@@ -52,7 +52,7 @@ Compiler
 .. toctree::
    :maxdepth: 1
 
-   llvm
+   llvm/index
 
 
 Misc
