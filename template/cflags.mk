@@ -8,6 +8,7 @@
 # - CXXFLAGS=
 # - CXXFLAGS_A=
 # - CXXFLAGS_SO=
+# - CFLAGS_LSCC=
 # - LDFLAGS=
 # - LDFLAGS_SO=
 # - LDXXFLAGS=
@@ -34,14 +35,15 @@ CFLAGS += -Wstrict-prototypes
 
 ifdef DEBUG
   $(info Compile with DEBUG=1)
-  cflags_debug := -DDEBUG=${DEBUG} -O0 -g -ggdb
-  CFLAGS += ${cflags_debug}
-  CFLAGS_A += ${cflags_debug}
-  CFLAGS_SO += ${cflags_debug}
-  CFLAGS_BPF += ${cflags_debug}
-  CXXFLAGS += ${cflags_debug}
-  CXXFLAGS_A += ${cflags_debug}
-  CXXFLAGS_SO += ${cflags_debug}
+  cflags_debug := -DDEBUG=${DEBUG} -O0 -g
+  CFLAGS += ${cflags_debug} -ggdb
+  CFLAGS_A += ${cflags_debug} -ggdb
+  CFLAGS_SO += ${cflags_debug} -ggdb
+  CFLAGS_BPF += ${cflags_debug} -ggdb
+  CXXFLAGS += ${cflags_debug} -ggdb
+  CXXFLAGS_A += ${cflags_debug} -ggdb
+  CXXFLAGS_SO += ${cflags_debug} -ggdb
+  CFLAGS_LSCC += ${cflags_debug} -Xcompiler -ggdb
 endif
 
 ifdef ERROR
@@ -52,6 +54,7 @@ ifdef ERROR
   CFLAGS_SO += ${cflags_error}
   CFLAGS_BPF += ${cflags_error}
   CXXFLAGS += ${cflags_error}
+  CFLAGS_LSCC += ${cflags_error}
 endif
 
 ifdef M32

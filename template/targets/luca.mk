@@ -99,13 +99,6 @@ else ifdef LSCORE1002
   CFLAGS_LSCC += --offload-arch lscore1002
 endif
 
-ifdef ERROR
-  CFLAGS_LSCC += -DERROR=1
-endif
-ifdef DEBUG
-  CFLAGS_LSCC += -DDEBUG=${DEBUG}
-endif
-
 CFLAGS_LSCC_SO += ${CFLAGS_LSCC}
 CFLAGS_LSCC_SO += ${cflags-lscc-so}
 LDFLAGS_LSCC_SO += ${LDFLAGS_LSCC}
