@@ -18,9 +18,6 @@
 /omp_set_num_threads
 /ordered
 /parallel_for
-/pragma_omp_atomic
-/pragma_omp_barrier
-/pragma_omp_critical
 /pragma_omp_parallel_copyin
 /pragma_omp_parallel_for_reduction
 /private

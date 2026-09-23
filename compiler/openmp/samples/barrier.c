@@ -11,9 +11,11 @@ int main(int argc, char *argv[])
 
 	#pragma omp parallel
 	{
-		printf("before: id = %d/%d\n",omp_get_thread_num(),omp_get_num_threads());
+		printf("before: id = %d/%d\n", omp_get_thread_num(),
+		       omp_get_num_threads());
 		#pragma omp barrier
-		printf(" after: id = %d/%d\n",omp_get_thread_num(),omp_get_num_threads());
+		printf(" after: id = %d/%d\n", omp_get_thread_num(),
+		       omp_get_num_threads());
 	}
 	return 0;
 }
