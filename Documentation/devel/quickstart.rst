@@ -4,6 +4,8 @@
 Test Linux Quick Start
 ======================
 
+The Test Linux project is the Linux test project, try everything on Linux.
+
 The purpose of this document is to compile the code of this directory and
 subdirectories directly in each level of directory.
 
