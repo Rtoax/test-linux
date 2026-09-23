@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0
 include git.mk
 
+subdir-y += hooks
+
 LAST_TAG := $(shell ${GIT} describe --tags --abbrev=0)
 
 prog-y += archive.sh
