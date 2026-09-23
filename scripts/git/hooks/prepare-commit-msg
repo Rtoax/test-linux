@@ -16,7 +16,6 @@ readonly COMMIT_SHA1=$3 # HEAD, sha1
 
 # Other git repository will call this script directly, thus, we need a git
 # topdir.
-readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly MY_DIRECTORY=$(dirname $(realpath $0))
 readonly TOPDIR=$(realpath ${MY_DIRECTORY}/../../../)
 readonly VERDIR=${TOPDIR}/scripts/version
@@ -32,6 +31,8 @@ declare -a CHANGED_FILES SHEBANGS
 declare is_commit_amend
 readonly Linux=$(uname -r)
 readonly Distro="$(${VERDIR}/distro.sh)"
+
+. ${MY_DIRECTORY}/library.sh
 
 if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
 	. ${GIT_TOPDIR}/.gitconfig.sh
@@ -73,6 +74,8 @@ if [ "$COMMIT_SOURCE" = "commit" ] && [ "$COMMIT_SHA1" = "HEAD" ]; then
 	CHANGED_FILES+=( $(git_last_submitted_files) )
 	is_commit_amend=YES
 fi
+
+statistic_file_changes ${is_commit_amend}
 
 for f in ${CHANGED_FILES[@]}; do
 	ext=${f##*.}
@@ -329,6 +332,20 @@ auto_versions() {
 	done
 }
 auto_versions
+
+add_template_version() {
+	local version="${GIT_TOPDIR}/template/VERSION"
+
+	if [[ ! -d ${GIT_TOPDIR}/template ]] || [[ ! -e ${version} ]]; then
+		return 0
+	fi
+
+	if [[ " ${try_all[@]} " =~ " template/" ]]; then
+		. ${version}
+		add_ver "Template ${TEMPLATE_VERSION}"
+	fi
+}
+add_template_version
 
 # Add lines
 if [[ ${Environments} ]]; then

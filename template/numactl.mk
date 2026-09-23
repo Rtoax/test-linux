@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # Output definitions:
-# - NUMACTL=[/usr/bin/numactl]
-# - HAVE_NUMACTL=[y|n]
-# - HAVE_LIBNUMA=[y|n]
+# - NUMACTL=[/usr/bin/numactl]  numactl command path
+# - HAVE_NUMACTL=[y|n]          have numactl command or not
+# - HAVE_LIBNUMA=[y|n]          have numactl development headers or not
 # - NUMACTL_MAJOR=
 # - NUMACTL_MINOR=
 # - NUMACTL_PATCH=
