@@ -134,9 +134,11 @@ __device__ void cuda_device_foo(void)
 {
 }
 
-__global__ void cuda_global_foo(void)
+__global__ void cuda_global_bar(unsigned long *foo, unsigned long *bar)
 {
 	cuda_device_foo();
+	*foo = (unsigned long)&cuda_device_foo;
+	*bar = (unsigned long)&cuda_global_bar;
 }
 #endif
 
@@ -403,8 +405,17 @@ void test_mapping_phy_addr(void)
 	DISPLAY_VA_PA((unsigned long)memfd_ro.mem, "memfd_ro");
 #endif
 #if defined(HAVE_CUDA) || defined(HAVE_LUCA)
-	DISPLAY_VA_PA((unsigned long)cuda_device_foo, "CUDA device");
-	DISPLAY_VA_PA((unsigned long)cuda_global_foo, "CUDA global");
+	unsigned long *d_foo, *d_bar, h_foo, h_bar;
+	cudaMalloc(&d_foo, sizeof(*d_foo));
+	cudaMalloc(&d_bar, sizeof(*d_bar));
+	cuda_global_bar<<<1, 1>>>(d_foo, d_bar);
+	cudaDeviceSynchronize();
+	cudaMemcpy(&h_foo, d_foo, sizeof(h_foo), cudaMemcpyDeviceToHost);
+	cudaMemcpy(&h_bar, d_bar, sizeof(h_bar), cudaMemcpyDeviceToHost);
+	cudaFree(d_foo);
+	cudaFree(d_bar);
+	DISPLAY_VA_PA(h_foo, "CUDA device");
+	DISPLAY_VA_PA(h_bar, "CUDA global");
 #endif
 
 #undef PR
