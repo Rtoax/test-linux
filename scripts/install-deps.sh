@@ -716,7 +716,12 @@ pkgs_build+=( meson )
 
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
-pkgs_container+=( containerd )
+# Kylin V10 use docker-engine
+if [[ $(is_os kylin:V10) ]]; then
+	pkgs_container+=( docker-engine )
+else
+	pkgs_container+=( containerd )
+fi
 pkgs_container+=( crun )
 pkgs_container+=( debootstrap ) # make rootfs
 pkgs_container+=( lxc )
