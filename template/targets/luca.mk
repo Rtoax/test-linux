@@ -51,12 +51,15 @@ ifdef HAVE_LCDNN
 endif
 ifdef HAVE_LCFILE
   CFLAGS_LSCC += -DHAVE_LCFILE=1
+  LDFLAGS_LSCC += -llcfile
 endif
 ifdef HAVE_LCPTI
   CFLAGS_LSCC += -DHAVE_LCPTI=1
+  LDFLAGS_LSCC += -llcpti
 endif
 ifdef HAVE_LSVPU
   CFLAGS_LSCC += -DHAVE_LSVPU=1
+  LDFLAGS_LSCC += -llsvpu
 endif
 
 ifneq ($(LUCA_MAJOR}),)
@@ -79,15 +82,6 @@ LDFLAGS_LSCC += -llcfft
 LDFLAGS_LSCC += -llcrand
 LDFLAGS_LSCC += -llcsparse
 LDFLAGS_LSCC += -llcsolver
-ifdef HAVE_LCFILE
-  LDFLAGS_LSCC += -llcfile
-endif
-ifdef HAVE_LCPTI
-  LDFLAGS_LSCC += -llcpti
-endif
-ifdef HAVE_LSVPU
-  LDFLAGS_LSCC += -llsvpu
-endif
 
 ifdef NODEFAULTRPATH
   # Remove default so search directory, see ldflags: -Wl,-rpath,/path/to/so/
