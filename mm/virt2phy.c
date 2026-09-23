@@ -347,7 +347,9 @@ int addr_numa(unsigned long pa, unsigned long va)
 	if (paddr_numa == DMESG_NUMA_MEM_INVALID)
 		paddr_numa = vaddr_numa;
 	else if (paddr_numa != vaddr_numa) {
-		fprintf(stderr, "paddr numa(%d) != vaddr numa(%d)\n", paddr_numa, vaddr_numa);
+		fprintf(stderr,
+			"paddr 0x%lx numa(%d) != vaddr 0x%lx numa(%d)\n",
+			pa, paddr_numa, va, vaddr_numa);
 		abort();
 	}
 	/* Return any of paddr_numa or vaddr_numa */

@@ -15,7 +15,8 @@ int print_numa_mem(void)
 	if (ARRAY_SIZE(numa_mem_info) == 0)
 		return DMESG_NUMA_MEM_INVALID;
 
-	printf("%-8s %-16s %-16s %-8s\n", "NUMA", "START_ADDR", "END_ADDR", "SIZE(GiB)");
+	printf("\033[7m%-8s %-16s %-16s %-8s\033[m\n", "NUMA", "START_ADDR",
+	       "END_ADDR", "SIZE(GiB)");
 	for (i = 0; i < ARRAY_SIZE(numa_mem_info); i++) {
 		info = &numa_mem_info[i];
 		printf("%-8d %016lx %016lx %4.4f\n",
