@@ -1,4 +1,7 @@
 #!/bin/bash
 set -e
 
-sudo podman manifest inspect fedora | jq '.manifests[].platform.architecture'
+image=fedora
+[[ $# -gt 0 ]] && image=$1
+
+sudo podman manifest inspect ${image} | jq '.manifests[].platform.architecture'
