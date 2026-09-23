@@ -20,7 +20,7 @@
 #include <sys/mman.h>
 #include <numa.h>
 #include <numaif.h>
-#ifdef HAVE_CUDA
+#if defined(HAVE_CUDA) || defined(HAVE_LUCA)
 #include <cuda_runtime.h>
 #endif
 
@@ -129,7 +129,7 @@ static const struct argp argp = {
 };
 #endif
 
-#ifdef HAVE_CUDA
+#if defined(HAVE_CUDA) || defined(HAVE_LUCA)
 __device__ void cuda_device_foo(void)
 {
 }
@@ -402,7 +402,7 @@ void test_mapping_phy_addr(void)
 #ifdef CONFIG_MEMFD_CREATE
 	DISPLAY_VA_PA((unsigned long)memfd_ro.mem, "memfd_ro");
 #endif
-#ifdef HAVE_CUDA
+#if defined(HAVE_CUDA) || defined(HAVE_LUCA)
 	DISPLAY_VA_PA((unsigned long)cuda_device_foo, "CUDA device");
 	DISPLAY_VA_PA((unsigned long)cuda_global_foo, "CUDA global");
 #endif
