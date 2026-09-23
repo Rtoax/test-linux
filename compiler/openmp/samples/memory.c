@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef _OPENMP
 #include <omp.h>
-#endif
 
 /* shared */
 int gval = 8;
