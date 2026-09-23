@@ -44,6 +44,7 @@ Abbrev
 - SDK: Software Development Kit (软件开发工具包)
 - SMT: Satisfiability Modulo Theories (基于模理论的可满足性)
 - SOAT: State Of The Art (技术水平)
+- SoC: System on a Chip (片上系统)
 - STL: Standard Template Library (标准模板库，C++模板库)
 - Tex: Tex () @LaTeX
 - TOC: The Technical Oversight Committee (技术监督委员会)
