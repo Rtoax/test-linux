@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
+subdir-y += target
+
 target-y += _OPENMP
 target-y += atomic
 target-y += barrier

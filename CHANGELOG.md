@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: release v1.0.0;
 #### Added
+- openmp: add target subdir to test offload;
 - llvm: add offload subdir;
 - libs: all header symbols with extern "C";
 - virt2phy.c: test CUDA kernel function address;
@@ -45,6 +46,7 @@ and this project adheres to
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- add openmp.mk;
 - targets/test: add llvm tests;
 - add latexmk.mk;
 - subdir-header.mk: add `SKIP_SUBDIR=`;

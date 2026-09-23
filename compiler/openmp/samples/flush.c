@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 		#pragma omp flush(sum)
 		if (!sum)
 			sum = 1;
-		printf("sum = %d\n",sum);
+		printf("sum = %d\n", sum);
 	}
 	return 0;
 }

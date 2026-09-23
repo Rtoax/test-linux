@@ -13,10 +13,12 @@ int main(int argc, char *argv[])
 	{
 		#pragma omp for
 		for (j = 0; j < 5; j++)
-			printf("---: j = %d, id = %d\n",j,omp_get_thread_num());
+			printf("---: j = %d, id = %d\n", j,
+			       omp_get_thread_num());
 		#pragma omp for ordered
 		for (j = 0; j < 5; j++) {
-			printf("+++: j = %d, id = %d\n",j,omp_get_thread_num());
+			printf("+++: j = %d, id = %d\n", j,
+			       omp_get_thread_num());
 		}
 	}
 	return 0;
