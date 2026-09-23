@@ -7,16 +7,15 @@
 # - FORCE/FC: Force Commit
 set -e
 
-readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 readonly TEST_LINUX_ROOT=$(realpath $(dirname $(realpath $0))/../../../)
 # Match the max prefix of '--amend'
 readonly IS_AMEND=$(ps -ocommand= -p $PPID | grep -e '--am')
 
+. ${TEST_LINUX_ROOT}/scripts/git/hooks/library.sh
+
 if [[ -f ${GIT_TOPDIR}/.gitconfig.sh ]]; then
 	. ${GIT_TOPDIR}/.gitconfig.sh
 fi
-
-. ${TEST_LINUX_ROOT}/scripts/git/hooks/library.sh
 
 [[ -z ${FC} ]] && FC=${FORCE}
 
@@ -50,13 +49,7 @@ do
 	fi
 done
 
-pushd ${GIT_TOPDIR} >/dev/null
-try_add=( $(git_file_status ${IS_AMEND} | grep ^A | awk '{print $2}' || true) )
-try_del=( $(git_file_status ${IS_AMEND} | grep ^D | awk '{print $2}' || true) )
-try_modify=( $(git_file_status ${IS_AMEND} | grep ^M | awk '{print $2}' || true) )
-try_rename=( $(git_file_status ${IS_AMEND} | grep ^R | awk '{print $2}' || true) )
-try_all=( ${try_add[@]} ${try_del[@]} ${try_modify[@]} ${try_rename} )
-popd >/dev/null
+statistic_file_changes
 
 # Redirect output to stderr.
 exec 1>&2
