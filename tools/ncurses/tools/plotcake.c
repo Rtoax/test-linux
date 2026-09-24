@@ -599,9 +599,9 @@ int main(int argc, char *argv[])
 					break;
 				} else if (signo == SIGWINCH) {
 					endwin();
-					initscr();
-					erase();
-					refresh();
+					plot.win = initscr();
+					werase(plot.win);
+					wrefresh(plot.win);
 					plot_update_size(&plot, false);
 					redraw = true;
 				}
