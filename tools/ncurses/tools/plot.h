@@ -181,7 +181,6 @@ void plot_update_size(struct plot *p, bool init);
 
 int plot_create_lines(struct plot *p);
 void plot_update_data(struct plot *p);
-void plot_llabel(const struct plot *p);
 void plot_redraw(struct plot *p, bool debug);
 
 void init_flavor(void);

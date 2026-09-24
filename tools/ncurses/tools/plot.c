@@ -17,6 +17,8 @@ chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
 static void __paint_help_win(struct plot *p, bool init);
+static void __del_help_win(struct plot *p);
+static void __paint_llabels(const struct plot *p);
 
 int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
@@ -531,7 +533,7 @@ static void __plot_redraw(struct plot *p, bool debug)
 	}
 
 	if (p->expired_usec.llabel && p->expired_usec.llabel > usecs()) {
-		plot_llabel(p);
+		__paint_llabels(p);
 	} else {
 		p->expired_usec.llabel = 0;
 	}
@@ -615,7 +617,7 @@ static void __del_help_win(struct plot *p)
 	p->panel_help = NULL;
 }
 
-void plot_llabel(const struct plot *p)
+static void __paint_llabels(const struct plot *p)
 {
 	int i, nline = 0;
 
@@ -662,7 +664,7 @@ static int key_l_handler(int key, void *arg)
 {
 	struct plot *p = arg;
 	p->expired_usec.llabel = usecs() + EXPIRED_USECS_LLABEL;
-	plot_llabel(p);
+	__paint_llabels(p);
 	return 0;
 }
 
