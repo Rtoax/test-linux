@@ -5,4 +5,5 @@
 /keyname
 /initscr
 /mouse
+/newwin
 /setlocale

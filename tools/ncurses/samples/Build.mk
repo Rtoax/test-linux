@@ -7,9 +7,12 @@ target-y += getmaxyx
 target-y += keyname
 target-y += initscr
 target-y += mouse
+target-y += newwin
 target-y += setlocale
 
 CFLAGS_mouse := -DTEST_MOUSE=1
 
 LDFLAGS += -pthread
 LDFLAGS += ${ncurses-ldflags}
+
+prog-y += newwin

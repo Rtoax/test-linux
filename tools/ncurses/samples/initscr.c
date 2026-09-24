@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <pthread.h>
 #include <string.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 pthread_mutex_t ncurses_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -35,10 +36,15 @@ void *thread_win(void *arg)
 
 int main(void)
 {
+	WINDOW *std;
 	pthread_t warn_thread;
 
 	pthread_mutex_lock(&ncurses_mutex);
-	initscr();
+	std = initscr();
+	if (!std) {
+		fprintf(stderr, "initscr failed\n");
+		exit(EXIT_FAILURE);
+	}
 	cbreak();
 	noecho();
 	curs_set(0);
