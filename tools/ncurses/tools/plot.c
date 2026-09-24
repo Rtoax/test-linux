@@ -527,10 +527,7 @@ static void __plot_redraw(struct plot *p, bool debug)
 		__paint_help_win(p, false);
 	} else {
 		p->expired_usec.help = 0;
-		delwin(p->win_help);
-		del_panel(p->panel_help);
-		p->win_help = NULL;
-		p->panel_help = NULL;
+		__del_help_win(p);
 	}
 
 	if (p->expired_usec.llabel && p->expired_usec.llabel > usecs()) {
@@ -608,6 +605,14 @@ static void __paint_help_win(struct plot *p, bool init)
 		top_panel(p->panel_help);
 	}
 	update_panels();
+}
+
+static void __del_help_win(struct plot *p)
+{
+	delwin(p->win_help);
+	del_panel(p->panel_help);
+	p->win_help = NULL;
+	p->panel_help = NULL;
 }
 
 void plot_llabel(const struct plot *p)
