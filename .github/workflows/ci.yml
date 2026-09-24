@@ -22,7 +22,7 @@ jobs:
     name: Run test
     runs-on: ubuntu-latest
     env:
-      MAKE: scripts/make_tl.sh
+      MAKE: template/make_tl.sh
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
