@@ -12,8 +12,8 @@ int main(void)
 
 	mvprintw(0, 0, "LINES=%d COLS=%d", LINES, COLS);
 
-	WINDOW *a = newwin(5, 20, 1, 1);
-	WINDOW *b = newwin(5, 20, 7, 1);
+	WINDOW *a = newwin(5, 20, 3, 1);
+	WINDOW *b = newwin(5, 20, 9, 1);
 
 	box(a, 0, 0);
 	mvwprintw(a, 1, 1, "Window A");
@@ -21,9 +21,11 @@ int main(void)
 	box(b, 0, 0);
 	mvwprintw(b, 1, 1, "Window B");
 
+	wnoutrefresh(std);
 	wnoutrefresh(a);
 	wnoutrefresh(b);
 	doupdate();
+
 	napms(1000);
 
 	delwin(a);
