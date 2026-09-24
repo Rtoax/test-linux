@@ -94,6 +94,7 @@ struct plot {
 		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p), \
 		x_axis_type_str(p->x_type), p->x_type
 
+	WINDOW *win; /* equal to stdscr */
 	/**
 	 * Help window and panel
 	 */

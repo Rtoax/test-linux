@@ -95,7 +95,7 @@ void plot_update_size(struct plot *p, bool init)
 				       p->bnd_prev_max.right;
 	}
 
-	getmaxyx(stdscr, p->height, p->width);
+	getmaxyx(p->win, p->height, p->width);
 
 	p->plotheight = p->height - p->bnd.bottom - p->bnd.top;
 	p->plotwidth = p->width - p->bnd.left - p->bnd.right;
@@ -239,7 +239,7 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		int w = p->plotwidth + p->bnd.left - (nvs - ivs);
 
 		attron(color);
-		ln->ops->horizon(p, stdscr, h, w, 1);
+		ln->ops->horizon(p, p->win, h, w, 1);
 		attroff(color);
 
 		/**
@@ -250,14 +250,14 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		if (prev_h != -1) {
 			attron(color);
 			if (prev_h > h) {
-				ln->ops->lrcorner(p, stdscr, prev_h, w);
-				ln->ops->ulcorner(p, stdscr, h, w);
-				ln->ops->vertical(p, stdscr, h + 1, w,
+				ln->ops->lrcorner(p, p->win, prev_h, w);
+				ln->ops->ulcorner(p, p->win, h, w);
+				ln->ops->vertical(p, p->win, h + 1, w,
 						  prev_h - h - 1);
 			} else if (h > prev_h) {
-				ln->ops->urcorner(p, stdscr, prev_h, w);
-				ln->ops->llcorner(p, stdscr, h, w);
-				ln->ops->vertical(p, stdscr, prev_h + 1, w,
+				ln->ops->urcorner(p, p->win, prev_h, w);
+				ln->ops->llcorner(p, p->win, h, w);
+				ln->ops->vertical(p, p->win, prev_h + 1, w,
 						  h - prev_h - 1);
 			}
 			attroff(color);
@@ -355,12 +355,12 @@ static void __draw_axes(const struct plot *p)
 {
 	const struct ltype_ops *ops = ltype_type2ops(p->axis_curve_type);
 
-	ops->horizon(p, stdscr, p->plotheight + p->bnd.top, p->bnd.left,
+	ops->horizon(p, p->win, p->plotheight + p->bnd.top, p->bnd.left,
 		     p->plotwidth);
-	ops->vertical(p, stdscr, p->bnd.top, p->bnd.left, p->plotheight);
-	ops->llcorner(p, stdscr, p->plotheight + p->bnd.top, p->bnd.left);
-	ops->uarrow(p, stdscr, p->bnd.top, p->bnd.left);
-	ops->rarrow(p, stdscr, p->plotheight + p->bnd.top,
+	ops->vertical(p, p->win, p->bnd.top, p->bnd.left, p->plotheight);
+	ops->llcorner(p, p->win, p->plotheight + p->bnd.top, p->bnd.left);
+	ops->uarrow(p, p->win, p->bnd.top, p->bnd.left);
+	ops->rarrow(p, p->win, p->plotheight + p->bnd.top,
 		    p->plotwidth + p->bnd.left);
 
 	/* x/y axis labels */
@@ -556,7 +556,7 @@ void plot_redraw(struct plot *p, bool debug)
 		__plot_redraw(p, debug);
 	}
 
-	wnoutrefresh(stdscr);
+	wnoutrefresh(p->win);
 	if (p->win_help) {
 		wnoutrefresh(p->win_help);
 	}
@@ -641,7 +641,7 @@ static void __paint_llabels(const struct plot *p)
 			const int n = 6;
 
 			attron(colors[ln->color] | A_BOLD);
-			ln->ops->horizon(p, stdscr, hi, w, n);
+			ln->ops->horizon(p, p->win, hi, w, n);
 			mvprintw(hi, w + n + 1, " %s", ln->name);
 			attroff(colors[ln->color] | A_BOLD);
 			i++;

@@ -427,7 +427,7 @@ int main(int argc, char *argv[])
 
 	/* curses start from here */
 
-	initscr();
+	plot.win = initscr();
 	cbreak();
 	noecho();
 	nonl();
@@ -435,8 +435,8 @@ int main(int argc, char *argv[])
 	curs_set(0);
 
 	/* make wgetch() return KEY_xxx, and non-blocking */
-	keypad(stdscr, TRUE);
-	nodelay(stdscr, TRUE);
+	keypad(plot.win, TRUE);
+	nodelay(plot.win, TRUE);
 
 	init_flavor();
 
@@ -519,7 +519,7 @@ int main(int argc, char *argv[])
 			 */
 			} else {
 				/* need keypad() and nodelay() */
-				plot.kb->current_key = wgetch(stdscr);
+				plot.kb->current_key = wgetch(plot.win);
 				count = 1;
 			}
 
