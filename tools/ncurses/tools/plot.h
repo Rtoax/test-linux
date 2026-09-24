@@ -3,6 +3,7 @@
 #pragma once
 #include <curses.h>
 #include <ncurses.h>
+#include <panel.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include "config.h"
@@ -92,6 +93,12 @@ struct plot {
 		p->width, p->heightmax, p->widthmax, p->plotheight,        \
 		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p), \
 		x_axis_type_str(p->x_type), p->x_type
+
+	/**
+	 * Help window and panel
+	 */
+	WINDOW *win_help;
+	PANEL *panel_help;
 };
 
 #define for_each_lgroup(plt, iter)                                       \
@@ -174,7 +181,6 @@ void plot_update_size(struct plot *p, bool init);
 
 int plot_create_lines(struct plot *p);
 void plot_update_data(struct plot *p);
-void plot_help(const struct plot *p);
 void plot_llabel(const struct plot *p);
 void plot_redraw(struct plot *p, bool debug);
 

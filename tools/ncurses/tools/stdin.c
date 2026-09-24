@@ -10,8 +10,6 @@
 #include "plot.h"
 #include "stdin.h"
 
-#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
-
 static char *skip(char *buf)
 {
 	while (*buf != '\0' && isspace(*buf))
