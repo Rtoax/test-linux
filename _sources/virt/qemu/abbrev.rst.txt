@@ -1,0 +1,20 @@
+Abbrev
+======
+
+- AAVMF: ARM Architecture Virtual Machine Firmware (Arm虚拟机固件) @OVMF
+- BT: Binary Translation (二进制转译) @SBT @DBT
+- DBT: Dynamic Binary Translation (动态二进制转译) @BT @SBT @JIT
+- HMP: Human Monitor Protocol (人类监控协议)
+- KCS: Keyboard Controller Style (键盘控制风格) @BMC
+- MTTCG: Multi-Thread Tiny Code Generator () @TCG
+- OVMF: Open Virtual Machine Firmware (开放虚拟机固件) @AAVMF
+- QCOW: QEMU Copy On Write (Qemu 写时复制) @QCOW2 @QCOW3
+- QCOW2: QEMU Copy On Write 2 (Qemu 写时复制 2) @QCOW3 @QCOW
+- QCOW3: QEMU Copy On Write 3 (Qemu 写时复制 3) @QCOW2 @QCOW
+- QEMU: Quick Emulator (快速模拟)
+- QMP: Qemu Machine Protocol (Qemu 机器协议) @QEMU
+- QMP: Qemu Monitor Protocol (Qemu 监控协议) @QEMU
+- QOM: Qemu Object Module (Qemu 对象模型) @QEMU
+- SBT: Static Binary Translation (静态二进制转译) @BT @DBT
+- TB: Translation Block (转译块)
+- TCG: Tiny Code Generator () @DBT @SBT @MTTCG
