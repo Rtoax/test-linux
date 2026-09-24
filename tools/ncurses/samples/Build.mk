@@ -1,5 +1,6 @@
 include ncurses.mk
 
+target-y += alert
 target-y += attributes
 target-y += color
 target-y += getch
@@ -14,5 +15,7 @@ CFLAGS_mouse := -DTEST_MOUSE=1
 
 LDFLAGS += -pthread
 LDFLAGS += ${ncurses-ldflags}
+LDFLAGS_alert += -lpanel
 
+prog-y += alert
 prog-y += newwin

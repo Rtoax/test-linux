@@ -37,6 +37,7 @@ and this project adheres to
 #### Scripts
 - move `make_tl.sh` into template;
 #### Tools
+- ncurses: add alert.c samples;
 - git: add describe dir;
 - git: add show dir;
 - git: add subtree dir;
