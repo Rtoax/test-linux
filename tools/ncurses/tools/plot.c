@@ -642,7 +642,7 @@ void plot_llabel(const struct plot *p)
 /**
  * Press key 'h', display the help info
  */
-static int key_h(int key, void *arg)
+static int key_h_handler(int key, void *arg)
 {
 	struct plot *p = arg;
 	p->expired_usec.help = usecs() + EXPIRED_USECS_HELP;
@@ -653,7 +653,7 @@ static int key_h(int key, void *arg)
 /**
  * Press key 'l', display the label for each line.
  */
-static int key_l(int key, void *arg)
+static int key_l_handler(int key, void *arg)
 {
 	struct plot *p = arg;
 	p->expired_usec.llabel = usecs() + EXPIRED_USECS_LLABEL;
@@ -664,7 +664,7 @@ static int key_l(int key, void *arg)
 /**
  * Press key 'r', reset plot
  */
-static int key_r(int key, void *arg)
+static int key_r_handler(int key, void *arg)
 {
 	struct plot *p = arg;
 
@@ -679,26 +679,26 @@ static int key_r(int key, void *arg)
 /**
  * Press key 't', change curve type
  */
-static int key_t(int key, void *arg)
+static int key_t_handler(int key, void *arg)
 {
 	struct plot *p = arg;
 	p->curve_type = (p->curve_type + 1) % CURVE_TYPE_MAX;
 	return 0;
 }
 
-static int key_up(int key, void *arg)
+static int key_up_handler(int key, void *arg)
 {
 	plot_scaling_up(arg);
 	return 0;
 }
 
-static int key_down(int key, void *arg)
+static int key_down_handler(int key, void *arg)
 {
 	plot_scaling_down(arg);
 	return 0;
 }
 
-static int key_left(int key, void *arg)
+static int key_left_handler(int key, void *arg)
 {
 	struct plot *p = arg;
 	/* 10 seconds */
@@ -707,7 +707,7 @@ static int key_left(int key, void *arg)
 	return 0;
 }
 
-static int key_right(int key, void *arg)
+static int key_right_handler(int key, void *arg)
 {
 	struct plot *p = arg;
 	/* 10 seconds */
@@ -734,14 +734,14 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 		return -EINVAL;
 	p->x_type = x_type;
 
-	err = err ?: register_key_handler(kb, 'r', p, key_r);
-	err = err ?: register_key_handler(kb, 't', p, key_t);
-	err = err ?: register_key_handler(kb, 'h', p, key_h);
-	err = err ?: register_key_handler(kb, 'l', p, key_l);
-	err = err ?: register_key_handler(kb, KEY_UP, p, key_up);
-	err = err ?: register_key_handler(kb, KEY_DOWN, p, key_down);
-	err = err ?: register_key_handler(kb, KEY_RIGHT, p, key_right);
-	err = err ?: register_key_handler(kb, KEY_LEFT, p, key_left);
+	err = err ?: register_key_handler(kb, 'r', p, key_r_handler);
+	err = err ?: register_key_handler(kb, 't', p, key_t_handler);
+	err = err ?: register_key_handler(kb, 'h', p, key_h_handler);
+	err = err ?: register_key_handler(kb, 'l', p, key_l_handler);
+	err = err ?: register_key_handler(kb, KEY_UP, p, key_up_handler);
+	err = err ?: register_key_handler(kb, KEY_DOWN, p, key_down_handler);
+	err = err ?: register_key_handler(kb, KEY_RIGHT, p, key_right_handler);
+	err = err ?: register_key_handler(kb, KEY_LEFT, p, key_left_handler);
 
 	if (file && !err)
 		err = err ?: load_plot(p, file, debug);
