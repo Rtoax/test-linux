@@ -11,9 +11,12 @@
 #include "file.h"
 #include "plot.h"
 #include "keyboard.h"
+#include "utils.h"
 
 chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
+
+static void __paint_help_win(struct plot *p, bool init);
 
 int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
@@ -443,7 +446,7 @@ void __plot_debug_llabel(const struct lgroup *lg, int height)
 }
 
 /**
- * need erase() before, refresh() after
+ * need call werase() before, and call doupdate() after
  */
 static void __paint_plot(struct plot *p, bool debug)
 {
@@ -509,6 +512,9 @@ static void __plot_redraw(struct plot *p, bool debug)
 	p->redrawcount++;
 
 	erase();
+	if (p->win_help) {
+		werase(p->win_help);
+	}
 
 	/**
 	 * Handle the keyboard first, because 'reset' need before paint.
@@ -518,9 +524,13 @@ static void __plot_redraw(struct plot *p, bool debug)
 	__paint_plot(p, debug);
 
 	if (p->expired_usec.help && p->expired_usec.help > usecs()) {
-		plot_help(p);
+		__paint_help_win(p, false);
 	} else {
 		p->expired_usec.help = 0;
+		delwin(p->win_help);
+		del_panel(p->panel_help);
+		p->win_help = NULL;
+		p->panel_help = NULL;
 	}
 
 	if (p->expired_usec.llabel && p->expired_usec.llabel > usecs()) {
@@ -533,13 +543,6 @@ static void __plot_redraw(struct plot *p, bool debug)
 		p->plotshift = 0;
 		p->expired_usec.shift = 0;
 	}
-
-	refresh();
-
-	plot_update_size(p, false);
-
-	/* do some reset */
-	p->kb->current_key = 0;
 }
 
 void plot_redraw(struct plot *p, bool debug)
@@ -550,6 +553,16 @@ void plot_redraw(struct plot *p, bool debug)
 		plot_update_size(p, false);
 		__plot_redraw(p, debug);
 	}
+
+	wnoutrefresh(stdscr);
+	if (p->win_help) {
+		wnoutrefresh(p->win_help);
+	}
+	doupdate();
+
+	/* do some reset */
+	plot_update_size(p, false);
+	p->kb->current_key = 0;
 }
 
 static const char *key_helps[] = {
@@ -558,16 +571,43 @@ static const char *key_helps[] = {
 	KEY_HELP_LEFT, KEY_HELP_RIGHT, KEY_HELP_ENTER,
 };
 
-void plot_help(const struct plot *p)
+static int max_key_help_len(void)
 {
-	int h = p->plotheight + p->bnd.top - 1;
-	int w = p->bnd.left + 1;
-	int n = sizeof(key_helps) / sizeof(key_helps[0]);
+	static int max = 0;
+	if (max != 0)
+		return max;
 
-	attron(colors[C_BLUE] | A_BOLD);
+	for (int i = 0; i < ARRAY_SIZE(key_helps); i++) {
+		int len = strlen(key_helps[i]);
+		if (len > max)
+			max = len;
+	}
+	return max;
+}
+
+static void __paint_help_win(struct plot *p, bool init)
+{
+	int h = p->plotheight / 2 + p->bnd.top - ARRAY_SIZE(key_helps) / 2;
+	int w = p->plotwidth / 2 + p->bnd.left - max_key_help_len() / 2;
+	int n = sizeof(key_helps) / sizeof(key_helps[0]);
+	WINDOW *win = p->win_help;
+
+	if (init && !win) {
+		win = newwin(n + 2, max_key_help_len() + 2, h, w);
+	}
+
+	wattron(win, colors[C_BLUE] | A_BOLD);
+	box(win, 0, 0);
+	mvwprintw(win, 0, 2, "[ HELP ]");
 	for (int i = n - 1; i >= 0; i--)
-		mvprintw(h - i, w, "%s", key_helps[n - i - 1]);
-	attroff(colors[C_BLUE] | A_BOLD);
+		mvwprintw(win, i + 1, 1, "%s", key_helps[n - i - 1]);
+	wattroff(win, colors[C_BLUE] | A_BOLD);
+
+	if (init) {
+		p->panel_help = new_panel(win);
+		top_panel(p->panel_help);
+	}
+	update_panels();
 }
 
 void plot_llabel(const struct plot *p)
@@ -606,7 +646,7 @@ static int key_h(int key, void *arg)
 {
 	struct plot *p = arg;
 	p->expired_usec.help = usecs() + EXPIRED_USECS_HELP;
-	plot_help(p);
+	__paint_help_win(p, true);
 	return 0;
 }
 

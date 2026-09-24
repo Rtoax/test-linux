@@ -3,6 +3,8 @@
 #pragma once
 #include <sys/time.h>
 
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+
 unsigned long usecs(void);
 const char *timeval_str(struct timeval *tv, char buf[32]);
 struct timeval max_timeval(struct timeval *tv1, struct timeval *tv2);

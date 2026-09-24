@@ -17,8 +17,8 @@ $(call find_cmd_and_def,tput,ncurses)
 $(call check_file_and_def,/usr/include/ncurses.h,HAVE_NCURSES_H)
 
 # Warning: ncursesw must be in front of ncurses
-ncurses-cflags += $(shell pkg-config ncursesw ncurses --cflags)
-ncurses-ldflags += $(shell pkg-config ncursesw ncurses --libs)
+ncurses-cflags += $(shell pkg-config ncursesw ncurses panel --cflags)
+ncurses-ldflags += $(shell pkg-config ncursesw ncurses panel --libs)
 
 ifdef DEBUG
   $(info ncurses-cflags = ${ncurses-cflags})
