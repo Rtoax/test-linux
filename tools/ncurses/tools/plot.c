@@ -596,6 +596,7 @@ static void __paint_help_win(struct plot *p, bool init)
 
 	if (init && !win) {
 		win = newwin(n + 2, max_key_help_len() + 2, h, w);
+		p->win_help = win;
 	}
 
 	wattron(win, colors[C_BLUE] | A_BOLD);
@@ -614,10 +615,14 @@ static void __paint_help_win(struct plot *p, bool init)
 
 static void __del_help_win(struct plot *p)
 {
-	delwin(p->win_help);
-	del_panel(p->panel_help);
-	p->win_help = NULL;
-	p->panel_help = NULL;
+	if (p->win_help) {
+		delwin(p->win_help);
+		p->win_help = NULL;
+	}
+	if (p->panel_help) {
+		del_panel(p->panel_help);
+		p->panel_help = NULL;
+	}
 }
 
 static void __paint_llabels(const struct plot *p)
