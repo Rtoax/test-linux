@@ -615,13 +615,13 @@ static void __paint_help_win(struct plot *p, bool init)
 
 static void __del_help_win(struct plot *p)
 {
-	if (p->win_help) {
-		delwin(p->win_help);
-		p->win_help = NULL;
-	}
 	if (p->panel_help) {
 		del_panel(p->panel_help);
 		p->panel_help = NULL;
+	}
+	if (p->win_help) {
+		delwin(p->win_help);
+		p->win_help = NULL;
 	}
 }
 
