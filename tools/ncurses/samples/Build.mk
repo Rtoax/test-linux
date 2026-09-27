@@ -10,6 +10,7 @@ target-y += initscr
 target-y += mouse
 target-y += newwin
 target-y += setlocale
+target-y += version
 
 CFLAGS_mouse := -DTEST_MOUSE=1
 
@@ -19,3 +20,5 @@ LDFLAGS_alert += -lpanel
 
 prog-y += alert
 prog-y += newwin
+prog-y += version
+prog-y += reset.sh # Keep reset in the end
