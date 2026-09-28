@@ -23,6 +23,14 @@ enum curve_type {
 	CURVE_TYPE_MAX,
 };
 
+struct dialog {
+	/**
+	 * Windows and panels
+	 */
+	WINDOW *win;
+	PANEL *panel;
+};
+
 struct plot {
 	char title[128];
 	char label_x[64];
@@ -95,13 +103,7 @@ struct plot {
 		x_axis_type_str(p->x_type), p->x_type
 
 	WINDOW *win; /* equal to stdscr */
-	/**
-	 * Windows and panels
-	 */
-	struct {
-		WINDOW *win;
-		PANEL *panel;
-	} help, llabels;
+	struct dialog help, llabels;
 };
 
 #define for_each_lgroup(plt, iter)                                       \
