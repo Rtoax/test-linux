@@ -449,7 +449,10 @@ int main(int argc, char *argv[])
 		bool redraw = false;
 
 		int ret = select_fd(&readfds, &fds);
-		if (ret > 0 && FD_ISSET(keyfd, &fds)) {
+		if (ret <= 0)
+			continue;
+
+		if (FD_ISSET(keyfd, &fds)) {
 			int count = 0;
 			/**
 			 * keyfd = open("/dev/tty")
@@ -550,17 +553,17 @@ int main(int argc, char *argv[])
 					break;
 				}
 			}
-		} else if (ret > 0 && FD_ISSET(freshtimerfd, &fds)) {
+		} else if (FD_ISSET(freshtimerfd, &fds)) {
 			uint64_t exp;
 			read(freshtimerfd, &exp, sizeof(exp));
 			redraw = true;
 			update_data_and_check_interval(&plot);
-		} else if (ret > 0 && FD_ISSET(tmoutfd, &fds)) {
+		} else if (FD_ISSET(tmoutfd, &fds)) {
 			uint64_t exp;
 			read(tmoutfd, &exp, sizeof(exp));
 			broadcast_sig(SIGINT);
 			goto end;
-		} else if (ret > 0 && FD_ISSET(sig_rd_fd, &fds)) {
+		} else if (FD_ISSET(sig_rd_fd, &fds)) {
 			unsigned char signo;
 			const ssize_t cnt = read(sig_rd_fd, &signo, 1);
 			if (cnt > 0) {
@@ -576,8 +579,7 @@ int main(int argc, char *argv[])
 					redraw = true;
 				}
 			}
-		} else if (ret > 0 && stdinfd != -1 &&
-			   FD_ISSET(stdinfd, &fds)) {
+		} else if (stdinfd != -1 && FD_ISSET(stdinfd, &fds)) {
 			memset(stdin_buffer, 0, sizeof(stdin_buffer));
 			ssize_t cnt = read(stdinfd, stdin_buffer,
 					   sizeof(stdin_buffer));
