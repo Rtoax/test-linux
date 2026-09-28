@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <sys/timerfd.h>
 #include "utils.h"
 
 unsigned long usecs(void)
@@ -113,4 +114,23 @@ long alloc_buf_read_file(const char *filename, char **buf)
 	fclose(fp);
 
 	return size;
+}
+
+int new_timerfd(unsigned long nsecs)
+{
+	int timerfd;
+	unsigned long secs;
+
+	/* default 1s */
+	if (nsecs == 0)
+		nsecs = 1000000000UL;
+
+	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
+
+	secs = nsecs / 1000000000UL;
+	nsecs -= secs * 1000000000UL;
+
+	struct itimerspec to = { { secs, nsecs }, { secs, nsecs } };
+	timerfd_settime(timerfd, 0, &to, NULL);
+	return timerfd;
 }

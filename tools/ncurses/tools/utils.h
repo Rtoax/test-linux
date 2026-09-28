@@ -13,3 +13,5 @@ struct timeval diff_timeval(struct timeval *tv1, struct timeval *tv2);
 unsigned long str2nsecs(const char *str);
 
 long alloc_buf_read_file(const char *filename, char **buf);
+
+int new_timerfd(unsigned long nsecs);

@@ -27,7 +27,6 @@
 #include <string.h>
 #include <signal.h>
 #include <sys/time.h>
-#include <sys/timerfd.h>
 #include <time.h>
 #include <ncurses.h>
 #include <unistd.h>
@@ -39,6 +38,7 @@
 #include "ram.h"
 #include "stdin.h"
 #include "axis.h"
+#include "utils.h"
 
 enum {
 	ARG_LOGARITHMIC = 200,
@@ -280,25 +280,6 @@ static const struct argp argp = {
 	.parser = parse_arg,
 	.doc = argp_prog_doc,
 };
-
-static int new_timerfd(unsigned long nsecs)
-{
-	int timerfd;
-	unsigned long secs;
-
-	/* default 1s */
-	if (nsecs == 0)
-		nsecs = 1000000000UL;
-
-	timerfd = timerfd_create(CLOCK_REALTIME, TFD_CLOEXEC);
-
-	secs = nsecs / 1000000000UL;
-	nsecs -= secs * 1000000000UL;
-
-	struct itimerspec to = { { secs, nsecs }, { secs, nsecs } };
-	timerfd_settime(timerfd, 0, &to, NULL);
-	return timerfd;
-}
 
 static int update_data_and_check_interval(struct plot *p)
 {
