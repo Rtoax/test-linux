@@ -6,6 +6,7 @@ Util Linux
    :maxdepth: 1
 
    fsck
+   wipefs
 
 
 Links
