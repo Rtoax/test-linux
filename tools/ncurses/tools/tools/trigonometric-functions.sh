@@ -5,7 +5,10 @@ set -e
 readonly MYDIR=$(dirname $(realpath $0))
 . ${MYDIR}/lib-plotcake.sh
 
-for ((i = 0; i <= 360; i += 4))
+cols=$(tput cols)
+i_interval=$(( 360 / cols + 1 ))
+
+for ((i = 0; i <= 360; i += i_interval))
 do
 	echo ${i} | awk '
 		{
