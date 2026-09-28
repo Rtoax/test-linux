@@ -52,16 +52,18 @@ $(shell printf '#include <$(2)>\nint main(void) { return 0; }' | \
 	$(1) -x c -Werror - -o /dev/null 2>/dev/null && echo y)
 endef
 
-ifneq ($(call compiler_support_option,${CC},),y)
-  $(error compiler_support_option failed)
-endif
+ifdef TEST
+  ifneq ($(call compiler_support_option,${CC},),y)
+    $(error compiler_support_option failed)
+  endif
 
-ifneq ($(call compiler_support_type,${CC},int),y)
-  $(error "${CC} not support int type!!")
-endif
+  ifneq ($(call compiler_support_type,${CC},int),y)
+    $(error "${CC} not support int type!!")
+  endif
 
-ifneq ($(call compiler_support_header,${CC},stdio.h),y)
-  $(error compiler_support_header failed)
-endif
+  ifneq ($(call compiler_support_header,${CC},stdio.h),y)
+    $(error compiler_support_header failed)
+  endif
+endif # end of TEST
 
-endif
+endif # end of _COMPILER_CHECK_MK

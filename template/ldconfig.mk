@@ -35,8 +35,11 @@ endif
 ifeq ($(LDCONFIG),)
   $(error "Not found ldconfig in anywhere, install first")
 endif
-ifneq ($(call have_library,libc.so)$(call have_library,libabcdefg),yn)
-  $(error have_library test failed)
+
+ifdef TEST
+  ifneq ($(call have_library,libc.so)$(call have_library,libabcdefg),yn)
+    $(error have_library test failed)
+  endif
 endif
 
 endif

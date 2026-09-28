@@ -50,17 +50,19 @@ ifdef DEBUG
   $(info GCC_MACHINE = ${GCC_MACHINE})
 endif
 
-# Do some checks
-ifneq (${GCC_VERSION},${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
-  $(error Failed to parse GCC version, ${GCC_VERSION} != ${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
-endif
+ifdef TEST
+  # Do some checks
+  ifneq (${GCC_VERSION},${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
+    $(error Failed to parse GCC version, ${GCC_VERSION} != ${GCC_MAJOR}.${GCC_MINOR}.${GCC_PATCHLEVEL})
+  endif
 
-# newest gcc major is 16
-ifneq ($(call gcc_gt,17,0,0), n)
-  $(error call gcc_gt failed, $(call gcc_gt,17,0,0))
-endif
+  # newest gcc major is 16
+  ifneq ($(call gcc_gt,17,0,0), n)
+    $(error call gcc_gt failed, $(call gcc_gt,17,0,0))
+  endif
+endif # end of TEST
 
 export GCC GXX
 export GCC_VERSION GCC_MAJOR GCC_MINOR GCC_PATCHLEVEL
 
-endif
+endif # end of _GCC_MK

@@ -108,10 +108,12 @@ define add_library_depends
 $(call add_target_depends,${1},,${2})
 endef
 
-xyz-objs := x y z
-$(call target_objects_append_output_prefix,xyz)
-ifneq ($(xyz-objs), ${OUTPUT}x ${OUTPUT}y ${OUTPUT}z)
-  $(error target_objects_append_output_prefix xyz-objs=${xyz-objs} failed.)
-endif
+ifdef TEST
+  xyz-objs := x y z
+  $(call target_objects_append_output_prefix,xyz)
+  ifneq ($(xyz-objs), ${OUTPUT}x ${OUTPUT}y ${OUTPUT}z)
+    $(error target_objects_append_output_prefix xyz-objs=${xyz-objs} failed.)
+  endif
+endif # end of TEST
 
 endif # end of _BITS_TARGETS_MK

@@ -59,35 +59,37 @@ ifdef DEBUG
   $(info KFLAGS = ${KFLAGS})
 endif
 
-# no body use linux v1.1.1 i think
-ifneq ($(call kver_gt,1,1,1),y)
-  $(error "call kver_gt failed")
-endif
-ifneq ($(call kver_mod_gt,1,1,1),m)
-  $(error "call kver_mod_gt failed")
-endif
-ifneq ($(call kuapi_gt,1,1,1),y)
-  $(error "call kuapi_gt failed")
-endif
-# Newest kernel is v7.2.0
-# see https://github.com/torvalds/linux commit 8d3ae59288f1 ("Linux 7.2")
-ifneq ($(call kver_lt,7,3,0),y)
-  $(error "call kver_lt failed, kver >= 7.3.0")
-endif
-ifneq ($(call kver_mod_lt,7,3,0),m)
-  $(error "call kver_mod_lt failed, kver >= 7.3.0")
-endif
-ifneq ($(call kuapi_lt,7,3,0),y)
-  $(error "call kuapi_lt failed, kuapi version >= 7.3.0")
-endif
-ifneq (${KVERSION_CODE},${kver_VERSION_CODE})
-  $(error define_version failed for kver)
-endif
-ifneq (${KVERSION_CODE},${kver_mod_VERSION_CODE})
-  $(error define_version failed for kver_mod)
-endif
-ifneq (${KUAPIVERSION_CODE},${kuapi_VERSION_CODE})
-  $(error define_version failed for kuapi)
-endif
+ifdef TEST
+  # no body use linux v1.1.1 i think
+  ifneq ($(call kver_gt,1,1,1),y)
+    $(error "call kver_gt failed")
+  endif
+  ifneq ($(call kver_mod_gt,1,1,1),m)
+    $(error "call kver_mod_gt failed")
+  endif
+  ifneq ($(call kuapi_gt,1,1,1),y)
+    $(error "call kuapi_gt failed")
+  endif
+  # Newest kernel is v7.2.0
+  # see https://github.com/torvalds/linux commit 8d3ae59288f1 ("Linux 7.2")
+  ifneq ($(call kver_lt,7,3,0),y)
+    $(error "call kver_lt failed, kver >= 7.3.0")
+  endif
+  ifneq ($(call kver_mod_lt,7,3,0),m)
+    $(error "call kver_mod_lt failed, kver >= 7.3.0")
+  endif
+  ifneq ($(call kuapi_lt,7,3,0),y)
+    $(error "call kuapi_lt failed, kuapi version >= 7.3.0")
+  endif
+  ifneq (${KVERSION_CODE},${kver_VERSION_CODE})
+    $(error define_version failed for kver)
+  endif
+  ifneq (${KVERSION_CODE},${kver_mod_VERSION_CODE})
+    $(error define_version failed for kver_mod)
+  endif
+  ifneq (${KUAPIVERSION_CODE},${kuapi_VERSION_CODE})
+    $(error define_version failed for kuapi)
+  endif
+endif # end of TEST
 
-endif
+endif # end of _KERNEL_MK

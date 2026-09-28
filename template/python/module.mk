@@ -15,8 +15,10 @@ define python_has_module
 $(shell if ${PYTHON} -c "import ${1}" 2>/dev/null; then echo 'y'; else echo 'n'; fi)
 endef
 
-ifneq ($(call python_has_module,os),y)
-  $(error Your python ${PYTHON} not has os module)
+ifdef TEST
+  ifneq ($(call python_has_module,os),y)
+    $(error Your python ${PYTHON} not has os module)
+  endif
 endif
 
 endif

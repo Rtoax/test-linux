@@ -60,9 +60,11 @@ ifdef DEBUG
   $(info CMAKE_PATCHLEVEL = ${CMAKE_PATCHLEVEL})
 endif
 
-# newest cmake major is 4
-ifneq ($(call cmake_gt,5,0,0), n)
-  $(error call cmake_gt failed, cmake major is bigger than 5)
+ifdef TEST
+  # newest cmake major is 4
+  ifneq ($(call cmake_gt,5,0,0), n)
+    $(error call cmake_gt failed, cmake major is bigger than 5)
+  endif
 endif
 
 endif

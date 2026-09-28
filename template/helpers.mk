@@ -160,13 +160,15 @@ endif
 export helpers-cflags
 export helpers-ldflags
 
-$(call target_link_helper,XXX_helper,TLC_HELPERS)
-$(call target_link_helper,XXX_helper1,TLC_HELPERS,xxxflags)
-ifneq (${CFLAGS_XXX_helper},-DHAVE_TLC_HELPERS=1)
-  $(error call target_link_helper failed)
-endif
-ifneq (${xxxflags_XXX_helper1},-DHAVE_TLC_HELPERS=1)
-  $(error call target_link_helper failed)
-endif
+ifdef TEST
+  $(call target_link_helper,XXX_helper,TLC_HELPERS)
+  $(call target_link_helper,XXX_helper1,TLC_HELPERS,xxxflags)
+  ifneq (${CFLAGS_XXX_helper},-DHAVE_TLC_HELPERS=1)
+    $(error call target_link_helper failed)
+  endif
+  ifneq (${xxxflags_XXX_helper1},-DHAVE_TLC_HELPERS=1)
+    $(error call target_link_helper failed)
+  endif
+endif # end of TEST
 
 endif

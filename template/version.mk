@@ -130,29 +130,33 @@ $$(call ${2}_cmp,$${${1}_VERSION_CODE},-le,${3},$${1},$${2},$${3})
 endef
 
 # Make sure function works fine.
-ifneq ($$(call ${1}_eq,${4},${5},${6}),${3})
-  $$(error ${1}_eq failed, get '$$(call ${1}_eq,${4},${5},${6})' but need 'y')
-endif
-ifneq ($$(call ${1}_le,${4},${5},${6}),${3})
-  $$(error ${1}_le failed, get '$(call ${1}_le,${4},${5},${6})' but need 'y')
-endif
-ifneq ($$(call ${1}_ge,${4},${5},${6}),${3})
-  $$(error ${1}_ge failed, get '$$(call ${1}_ge,${4},${5},${6})' but need 'y')
-endif
-ifneq ($$(call ${1}_ge,0,0,0),${3})
-  $$(error "Call ${1}_gt failed, get '$$(call ${1}_gt,0,0,0)' but need 'y'")
-endif
-$$(if $${DEBUG}, $$(info ${1}_VERSION_CODE = ${${1}_VERSION_CODE}))
+ifdef TEST
+  ifneq ($$(call ${1}_eq,${4},${5},${6}),${3})
+    $$(error ${1}_eq failed, get '$$(call ${1}_eq,${4},${5},${6})' but need 'y')
+  endif
+  ifneq ($$(call ${1}_le,${4},${5},${6}),${3})
+    $$(error ${1}_le failed, get '$(call ${1}_le,${4},${5},${6})' but need 'y')
+  endif
+  ifneq ($$(call ${1}_ge,${4},${5},${6}),${3})
+    $$(error ${1}_ge failed, get '$$(call ${1}_ge,${4},${5},${6})' but need 'y')
+  endif
+  ifneq ($$(call ${1}_ge,0,0,0),${3})
+    $$(error "Call ${1}_gt failed, get '$$(call ${1}_gt,0,0,0)' but need 'y'")
+  endif
+  $$(if $${DEBUG}, $$(info ${1}_VERSION_CODE = ${${1}_VERSION_CODE}))
+endif # end of TEST
 endef # end of define_version()
 
-$(eval $(call define_version,rtoax1,version2_code1616,y,1,2))
-$(eval $(call define_version,rtoax2,version2_code100010,x,1,2))
-ifneq ($(call rtoax2_eq,1,2),x)
-  $(error rtoax2_eq failed)
-endif
-$(eval $(call define_version,rtoax3,version3_code1688,m,1,2,3))
-ifneq ($(call rtoax3_eq,1,2,3),m)
-  $(error rtoax3_eq failed)
+ifdef TEST
+  $(eval $(call define_version,rtoax1,version2_code1616,y,1,2))
+  $(eval $(call define_version,rtoax2,version2_code100010,x,1,2))
+  ifneq ($(call rtoax2_eq,1,2),x)
+    $(error rtoax2_eq failed)
+  endif
+  $(eval $(call define_version,rtoax3,version3_code1688,m,1,2,3))
+  ifneq ($(call rtoax3_eq,1,2,3),m)
+    $(error rtoax3_eq failed)
+  endif
 endif
 
 endif

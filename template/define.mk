@@ -36,22 +36,24 @@ $(if ${DEBUG}, $(info HAVE_${__Cmd_${1}} = ${HAVE_${__Cmd_${1}}}))
 endef
 
 # Do some checks
-$(call check_file_and_def,/usr/include/stdio.h,HAVE_STDIO_H)
-$(call check_file_and_def,/usr/include/nonsence.h,HAVE_NONSENSE_H)
-ifndef HAVE_STDIO_H
-  $(error "Not define HAVE_STDIO_H")
-endif
-ifdef HAVE_NONSENSE_H
-  $(error "Never found HAVE_NONSENSE_H")
-endif
+ifdef TEST
+  $(call check_file_and_def,/usr/include/stdio.h,HAVE_STDIO_H)
+  $(call check_file_and_def,/usr/include/nonsence.h,HAVE_NONSENSE_H)
+  ifndef HAVE_STDIO_H
+    $(error "Not define HAVE_STDIO_H")
+  endif
+  ifdef HAVE_NONSENSE_H
+    $(error "Never found HAVE_NONSENSE_H")
+  endif
 
-$(call find_cmd_and_def,ls)
-ifneq (${HAVE_LS},y)
-  $(error find_cmd_and_def ls failed)
-endif
-$(call find_cmd_and_def,abc++,abcxx)
-ifneq (${HAVE_ABCXX},n)
-  $(error find_cmd_and_def abcxx failed, )
-endif
+  $(call find_cmd_and_def,ls)
+  ifneq (${HAVE_LS},y)
+    $(error find_cmd_and_def ls failed)
+  endif
+  $(call find_cmd_and_def,abc++,abcxx)
+  ifneq (${HAVE_ABCXX},n)
+    $(error find_cmd_and_def abcxx failed, )
+  endif
+endif # end of TEST
 
-endif
+endif # end of _DEFINE_MK

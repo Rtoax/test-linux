@@ -52,6 +52,7 @@ and this project adheres to
 - smartmontools: first commit;
 - dracut: add modules.d directory;
 #### Template
+- only test if `TEST` defined to speed up Build.mk make command;
 - add openmp.mk;
 - targets/test: add llvm tests;
 - add latexmk.mk;

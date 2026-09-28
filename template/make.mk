@@ -50,8 +50,10 @@ ifdef DEBUG
   $(info MAKE_MINOR = ${MAKE_MINOR})
 endif
 
-ifneq ($(call make_ge,4,5), n)
-  $(error make_ge failed, $(call make_ge,4,5))
+ifdef TEST
+  ifneq ($(call make_ge,4,5), n)
+    $(error make_ge failed, $(call make_ge,4,5))
+  endif
 endif
 
 endif

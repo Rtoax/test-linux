@@ -42,20 +42,22 @@ $(shell if ${SUDO_NOPASSWD} test -e ${1}; then echo y; else echo n; fi)
 endef
 
 # do some tests
-ifneq ($(call is_newer,/etc/os-release,/etc/os-release),n)
-  $(error is_newer: expect n, but y)
-endif
-ifneq ($(call is_newer,__non_exist__/nonsense,/etc/os-release),n)
-  $(error is_newer: expect n, but y)
-endif
-ifneq ($(call is_newer,/proc/self/stat,/etc/os-release),y)
-  $(error is_newer: /proc/self/stat should newer than /etc/os-release)
-endif
-ifneq ($(call fexist,/etc/os-release),y)
-  $(error fexist test failed, /etc/os-release)
-endif
-ifneq ($(call fexist,/etc/__non_exist__),n)
-  $(error fexist test nonexist failed)
-endif
+ifdef TEST
+  ifneq ($(call is_newer,/etc/os-release,/etc/os-release),n)
+    $(error is_newer: expect n, but y)
+  endif
+  ifneq ($(call is_newer,__non_exist__/nonsense,/etc/os-release),n)
+    $(error is_newer: expect n, but y)
+  endif
+  ifneq ($(call is_newer,/proc/self/stat,/etc/os-release),y)
+    $(error is_newer: /proc/self/stat should newer than /etc/os-release)
+  endif
+  ifneq ($(call fexist,/etc/os-release),y)
+    $(error fexist test failed, /etc/os-release)
+  endif
+  ifneq ($(call fexist,/etc/__non_exist__),n)
+    $(error fexist test nonexist failed)
+  endif
+endif # end of TEST
 
-endif
+endif # end of _FILE_MK

@@ -22,30 +22,32 @@ define strip_output_prefix
 $(foreach f,${1},$(patsubst ${OUTPUT}%,%,${f}))
 endef
 
-ifneq ($(call append_output_prefix,a c b),${OUTPUT}a ${OUTPUT}c ${OUTPUT}b)
-  $(error append_output_prefix a b c failed)
-endif
-ifneq ($(call append_output_prefix,${OUTPUT}a c ${OUTPUT}b),${OUTPUT}a ${OUTPUT}c ${OUTPUT}b)
-  $(error append_output_prefix ${OUTPUT}a c ${OUTPUT}b failed)
-endif
-ifneq ($(call append_output_prefix,${OUTPUT}),${OUTPUT})
-  $(error append_output_prefix pass ${OUTPUT} failed)
-endif
-ifneq ($(call append_output_prefix,/a /b /c),/a /b /c)
-  $(error append_output_prefix /a /b /c failed)
-endif
-ifneq ($(call append_output_prefix,/a b /c),/a ${OUTPUT}b /c)
-  $(error append_output_prefix /a ${OUTPUT}b /c failed)
-endif
+ifdef TEST
+  ifneq ($(call append_output_prefix,a c b),${OUTPUT}a ${OUTPUT}c ${OUTPUT}b)
+    $(error append_output_prefix a b c failed)
+  endif
+  ifneq ($(call append_output_prefix,${OUTPUT}a c ${OUTPUT}b),${OUTPUT}a ${OUTPUT}c ${OUTPUT}b)
+    $(error append_output_prefix ${OUTPUT}a c ${OUTPUT}b failed)
+  endif
+  ifneq ($(call append_output_prefix,${OUTPUT}),${OUTPUT})
+    $(error append_output_prefix pass ${OUTPUT} failed)
+  endif
+  ifneq ($(call append_output_prefix,/a /b /c),/a /b /c)
+    $(error append_output_prefix /a /b /c failed)
+  endif
+  ifneq ($(call append_output_prefix,/a b /c),/a ${OUTPUT}b /c)
+    $(error append_output_prefix /a ${OUTPUT}b /c failed)
+  endif
+  
+  ifneq ($(call strip_output_prefix,${OUTPUT}a ${OUTPUT}b c),a b c)
+    $(error strip_output_prefix ${OUTPUT}a ${OUTPUT}b c failed)
+  endif
+  ifneq ($(call strip_output_prefix,${OUTPUT}a ${OUTPUT}b ${OUTPUT}c),a b c)
+    $(error strip_output_prefix ${OUTPUT}a ${OUTPUT}b ${OUTPUT}c failed)
+  endif
+  ifneq ($(call strip_output_prefix,a b c),a b c)
+    $(error strip_output_prefix a b c failed)
+  endif
+endif # end of TEST
 
-ifneq ($(call strip_output_prefix,${OUTPUT}a ${OUTPUT}b c),a b c)
-  $(error strip_output_prefix ${OUTPUT}a ${OUTPUT}b c failed)
-endif
-ifneq ($(call strip_output_prefix,${OUTPUT}a ${OUTPUT}b ${OUTPUT}c),a b c)
-  $(error strip_output_prefix ${OUTPUT}a ${OUTPUT}b ${OUTPUT}c failed)
-endif
-ifneq ($(call strip_output_prefix,a b c),a b c)
-  $(error strip_output_prefix a b c failed)
-endif
-
-endif
+endif # end of _OUTPUT_MK

@@ -38,8 +38,10 @@ ifdef DEBUG
   $(info list_dir = $(call list_dir, ..))
 endif
 
-ifneq ($(call strip_topdir_prefix,${TOPDIR}/rong/tao),/rong/tao)
-  $(error strip_topdir_prefix test failed)
+ifdef TEST
+  ifneq ($(call strip_topdir_prefix,${TOPDIR}/rong/tao),/rong/tao)
+    $(error strip_topdir_prefix test failed)
+  endif
 endif
 
 export TOPDIR

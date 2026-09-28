@@ -16,9 +16,11 @@ $(shell printf '#include <cuda_runtime.h>\nint main(void) { return 0; }' | \
     && echo y)
 endef
 
-ifneq (${NVCC},)
-  ifneq ($(call nvcc_check),y)
-    $(error nvcc_check failed)
+ifdef TEST
+  ifneq (${NVCC},)
+    ifneq ($(call nvcc_check),y)
+      $(error nvcc_check failed)
+    endif
   endif
 endif
 

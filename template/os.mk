@@ -97,8 +97,10 @@ ifdef DEBUG
   $(info is_os debian = $(call is_os,x debian y))
 endif
 
-ifneq ($(call is_os,x ${OS_ID} y),y)
-  $(error is_os call failed for ${OS_ID})
+ifdef TEST
+  ifneq ($(call is_os,x ${OS_ID} y),y)
+    $(error is_os call failed for ${OS_ID})
+  endif
 endif
 
 export OS_ID

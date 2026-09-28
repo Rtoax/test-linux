@@ -61,13 +61,15 @@ ifdef DEBUG
   $(info GIT_PATCHLEVEL = ${GIT_PATCHLEVEL})
 endif
 
-# Note: update newest version here.
-__git_newest_check = $(call git_le,2,55,0)
-ifneq ($(__git_newest_check), y)
-  $(error call git_le failed, ${__git_newest_check})
-endif
-ifneq ($(call git_gt,0,0,0), y)
-  $(error call git_gt failed)
-endif
+ifdef TEST
+  # Note: update newest version here.
+  __git_newest_check = $(call git_le,2,55,0)
+  ifneq ($(__git_newest_check), y)
+    $(error call git_le failed, ${__git_newest_check})
+  endif
+  ifneq ($(call git_gt,0,0,0), y)
+    $(error call git_gt failed)
+  endif
+endif # end of TEST
 
 endif

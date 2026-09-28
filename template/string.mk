@@ -59,48 +59,50 @@ define c_ident
 $(shell echo "${1}" | sed 's/[^a-zA-Z0-9_]/_/g; s/^\([0-9]\)/_\1/')
 endef
 
-ifneq ($(call toupper_shell,abcDEFgh),ABCDEFGH)
-  $(error "ERROR: toupper failed, $(call toupper_shell,abcDEFgh)")
-endif
-ifneq ($(call tolower_shell,abcDEFgh),abcdefgh)
-  $(error "ERROR: toupper failed, $(call tolower_shell,abcDEFgh)")
-endif
-ifneq ($(call underscore_non_alnum,mkfs.1-2),mkfs_1_2)
-  $(error "ERROR: underscore_non_alnum failed")
-endif
-ifneq ($(call uniq_repeat,xxxxxxxxxxxxxx),x)
-  $(error "ERROR: uniq_repeat(xxxxxxxxxxxxxx) failed")
-endif
-ifneq ($(call uniq_repeat,yyyyyyyyyyyyyyy),y)
-  $(error "ERROR: uniq_repeat(yyyyyyyyyyyyyyy) failed")
-endif
-ifneq ($(call uniq_repeat,xxxyyy),xy)
-  $(error "ERROR: uniq_repeat(xxxyyy) failed")
-endif
-ifneq ($(call uniq_repeat,xxxyyyxxx),xyx)
-  $(error "ERROR: uniq_repeat(xxxyyyxxx) failed")
-endif
-ifneq ($(call uniq_repeat,xyzzzzzzz),xyz)
-  $(error "ERROR: uniq_repeat(xyzzzzzzz) failed")
-endif
-ifneq ($(call uniq_repeat,'''zzzzzzz),'z)
-  $(error "ERROR: uniq_repeat('''zzzzzzz) failed")
-endif
-ifneq ($(call uniq_repeat,"""zzzzzzz),"z)
-  $(error "ERROR: uniq_repeat("""zzzzzzz) failed")
-endif
-ifneq ($(call strip_tail,hello-hip,-hip),hello)
-  $(error "ERROR: strip_tail(hello-hip, -hip) failed")
-endif
-ifneq ($(call strip_tail,hello-hip-x,-hip),hello-hip-x)
-  $(error "ERROR: strip_tail(hello-hip-x, -hip) failed")
-endif
-ifneq ($(call c_ident,opensuse-leap),opensuse_leap)
-  $(error "ERROR: c_ident opensuse-leap failed")
-endif
-__test_str := a+-*/,~!@\#$%^&*()b
-ifneq ($(call c_ident,${__test_str}),a______________b)
-  $(error "ERROR: c_ident ${__test_str} failed, need $(call c_ident,${__test_str})")
-endif
+ifdef TEST
+  ifneq ($(call toupper_shell,abcDEFgh),ABCDEFGH)
+    $(error "ERROR: toupper failed, $(call toupper_shell,abcDEFgh)")
+  endif
+  ifneq ($(call tolower_shell,abcDEFgh),abcdefgh)
+    $(error "ERROR: toupper failed, $(call tolower_shell,abcDEFgh)")
+  endif
+  ifneq ($(call underscore_non_alnum,mkfs.1-2),mkfs_1_2)
+    $(error "ERROR: underscore_non_alnum failed")
+  endif
+  ifneq ($(call uniq_repeat,xxxxxxxxxxxxxx),x)
+    $(error "ERROR: uniq_repeat(xxxxxxxxxxxxxx) failed")
+  endif
+  ifneq ($(call uniq_repeat,yyyyyyyyyyyyyyy),y)
+    $(error "ERROR: uniq_repeat(yyyyyyyyyyyyyyy) failed")
+  endif
+  ifneq ($(call uniq_repeat,xxxyyy),xy)
+    $(error "ERROR: uniq_repeat(xxxyyy) failed")
+  endif
+  ifneq ($(call uniq_repeat,xxxyyyxxx),xyx)
+    $(error "ERROR: uniq_repeat(xxxyyyxxx) failed")
+  endif
+  ifneq ($(call uniq_repeat,xyzzzzzzz),xyz)
+    $(error "ERROR: uniq_repeat(xyzzzzzzz) failed")
+  endif
+  ifneq ($(call uniq_repeat,'''zzzzzzz),'z)
+    $(error "ERROR: uniq_repeat('''zzzzzzz) failed")
+  endif
+  ifneq ($(call uniq_repeat,"""zzzzzzz),"z)
+    $(error "ERROR: uniq_repeat("""zzzzzzz) failed")
+  endif
+  ifneq ($(call strip_tail,hello-hip,-hip),hello)
+    $(error "ERROR: strip_tail(hello-hip, -hip) failed")
+  endif
+  ifneq ($(call strip_tail,hello-hip-x,-hip),hello-hip-x)
+    $(error "ERROR: strip_tail(hello-hip-x, -hip) failed")
+  endif
+  ifneq ($(call c_ident,opensuse-leap),opensuse_leap)
+    $(error "ERROR: c_ident opensuse-leap failed")
+  endif
+  __test_str := a+-*/,~!@\#$%^&*()b
+  ifneq ($(call c_ident,${__test_str}),a______________b)
+    $(error "ERROR: c_ident ${__test_str} failed, need $(call c_ident,${__test_str})")
+  endif
+endif # end of TEST
 
 endif # end of _STRING_MK

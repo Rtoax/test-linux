@@ -90,13 +90,15 @@ endif
 export HAVE_BTF
 export BTF_ROOT
 
-ifeq (${HAVE_BTF}, y)
-  ifneq ($(shell $(call vmlinux_has_struct,task_struct)),y)
-    $(error Not found task_struct in vmlinux.h)
-  endif
-  ifneq ($(shell $(call vmlinux_has_sym,task_struct)),y)
-    $(error Not found task_struct in vmlinux.h)
-  endif
-endif
+ifdef TEST
+  ifeq (${HAVE_BTF}, y)
+    ifneq ($(shell $(call vmlinux_has_struct,task_struct)),y)
+      $(error Not found task_struct in vmlinux.h)
+    endif
+    ifneq ($(shell $(call vmlinux_has_sym,task_struct)),y)
+      $(error Not found task_struct in vmlinux.h)
+    endif
+  endif # end of HAVE_BTF
+endif # end of TEST
 
 endif # end of _BPF_BTF_MK

@@ -34,8 +34,10 @@ ifdef DEBUG
   $(info KALLSYMS = ${KALLSYMS})
 endif
 
-ifneq ($(call ksyms_have_func,schedule),y)
-  $(error Not found function schedule from ${KALLSYMS})
+ifdef TEST
+  ifneq ($(call ksyms_have_func,schedule),y)
+    $(error Not found function schedule from ${KALLSYMS})
+  endif
 endif
 
 endif # end of _KSYMS_MK

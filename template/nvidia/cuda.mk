@@ -169,11 +169,13 @@ ifneq (${SYS_CUDA_VERSION},0)
   endif
 endif
 
-ifneq ($(call cuda_eq,${CUDA_MAJOR},${CUDA_MINOR}),y)
-  $(error "Bad cuda_eq parse cuda_VERSION_CODE=${cuda_VERSION_CODE}")
-endif
-ifeq ($(call cuda_ge,14,0),y)
-  $(error "Bad cuda_ge, does CUDA V14 released??????")
+ifdef TEST
+  ifneq ($(call cuda_eq,${CUDA_MAJOR},${CUDA_MINOR}),y)
+    $(error "Bad cuda_eq parse cuda_VERSION_CODE=${cuda_VERSION_CODE}")
+  endif
+  ifeq ($(call cuda_ge,14,0),y)
+    $(error "Bad cuda_ge, does CUDA V14 released??????")
+  endif
 endif
 
 export CUDA_ROOT

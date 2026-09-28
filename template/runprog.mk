@@ -42,8 +42,10 @@ else
   endef
 endif
 
-ifneq ($(shell ${RUNPROG} --nolog --nocmdlog -- ls -d ${TOPDIR}),${TOPDIR})
-  $(error "ERROR: ${RUNPROG} -- ls -d ${TOPDIR} failed.")
+ifdef TEST
+  ifneq ($(shell ${RUNPROG} --nolog --nocmdlog -- ls -d ${TOPDIR}),${TOPDIR})
+    $(error "ERROR: ${RUNPROG} -- ls -d ${TOPDIR} failed.")
+  endif
 endif
 
 endif
