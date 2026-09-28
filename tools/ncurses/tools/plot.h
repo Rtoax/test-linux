@@ -101,7 +101,7 @@ struct plot {
 	struct {
 		WINDOW *win;
 		PANEL *panel;
-	} help;
+	} help, llabels;
 };
 
 #define for_each_lgroup(plt, iter)                                       \

@@ -18,7 +18,8 @@ static const char *verstring = GIT_REPO " " MY_VERSION;
 
 static void __paint_help_win(struct plot *p, bool init);
 static void __del_help_win(struct plot *p);
-static void __paint_llabels(const struct plot *p);
+static void __paint_llabels_win(struct plot *p, bool init);
+static void __del_llabels_win(struct plot *p);
 
 int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
@@ -520,6 +521,9 @@ static void __plot_redraw(struct plot *p, bool debug)
 	if (p->help.win) {
 		werase(p->help.win);
 	}
+	if (p->llabels.win) {
+		werase(p->llabels.win);
+	}
 
 	/**
 	 * Handle the keyboard first, because 'reset' need before paint.
@@ -536,9 +540,10 @@ static void __plot_redraw(struct plot *p, bool debug)
 	}
 
 	if (p->expired_usec.llabel && p->expired_usec.llabel > usecs()) {
-		__paint_llabels(p);
+		__paint_llabels_win(p, false);
 	} else {
 		p->expired_usec.llabel = 0;
+		__del_llabels_win(p);
 	}
 
 	if (p->expired_usec.shift && p->expired_usec.shift < usecs()) {
@@ -559,6 +564,9 @@ void plot_redraw(struct plot *p, bool debug)
 	wnoutrefresh(p->win);
 	if (p->help.win) {
 		wnoutrefresh(p->help.win);
+	}
+	if (p->llabels.win) {
+		wnoutrefresh(p->llabels.win);
 	}
 	doupdate();
 
@@ -621,32 +629,62 @@ static void __del_help_win(struct plot *p)
 	}
 }
 
-static void __paint_llabels(const struct plot *p)
+static void __paint_llabels_win(struct plot *p, bool init)
 {
 	int i, nline = 0;
+	int max_name_len = 0;
+	WINDOW *win = p->llabels.win;
+	const int n = 6;
 
 	for_each_lgroup(p, lg)
 	{
 		nline += lg->count;
+		for_each_line(lg, ln)
+		{
+			int len = strlen(ln->name);
+			if (len > max_name_len)
+				max_name_len = len;
+		}
 	}
 
-	int h = p->plotheight + p->bnd.top - 1;
-	int w = p->bnd.left + 1;
+	int h = p->plotheight / 2 + p->bnd.top - (nline / 2) - 1;
+	int w = p->plotwidth / 2 + p->bnd.left - (max_name_len + n) / 2;
+
+	if (init && !win) {
+		win = newwin(nline + 2, max_name_len + n + 3, h, w);
+		p->llabels.win = win;
+		p->llabels.panel = new_panel(win);
+		top_panel(p->llabels.panel);
+	}
+
+	wattron(win, A_BOLD);
+	box(win, 0, 0);
+	mvwprintw(win, 0, 2, "[ LINES ]");
+	wattroff(win, A_BOLD);
 
 	i = 0;
 	for_each_lgroup(p, lg)
 	{
 		for_each_line(lg, ln)
 		{
-			int hi = h - nline + i + 1;
-			const int n = 6;
-
-			attron(colors[ln->color] | A_BOLD);
-			ln->ops->horizon(p, p->win, hi, w, n);
-			mvprintw(hi, w + n + 1, " %s", ln->name);
-			attroff(colors[ln->color] | A_BOLD);
+			wattron(win, colors[ln->color] | A_BOLD);
+			ln->ops->horizon(p, win, i + 1, 1, n);
+			mvwprintw(win, i + 1, n + 1, " %s", ln->name);
+			wattroff(win, colors[ln->color] | A_BOLD);
 			i++;
 		}
+	}
+}
+
+static void __del_llabels_win(struct plot *p)
+{
+	if (p->llabels.panel) {
+		del_panel(p->llabels.panel);
+		p->llabels.panel = NULL;
+	}
+	if (p->llabels.win) {
+		delwin(p->llabels.win);
+		p->llabels.win = NULL;
 	}
 }
 
@@ -668,7 +706,7 @@ static int key_l_handler(int key, void *arg)
 {
 	struct plot *p = arg;
 	p->expired_usec.llabel = usecs() + EXPIRED_USECS_LLABEL;
-	__paint_llabels(p);
+	__paint_llabels_win(p, true);
 	return 0;
 }
 
