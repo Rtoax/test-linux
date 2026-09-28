@@ -1,5 +1,6 @@
 #!/bin/bash
 
+declare LIBERRNO_VERSION="v0.0.1"
 declare -A ERRNAMES
 
 EPERM=1

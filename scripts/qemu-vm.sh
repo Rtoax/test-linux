@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.60"
+readonly VERSION="v1.1.61"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -93,6 +93,23 @@ readonly FORMAT_SIZE="${UL}SIZE${RST}: B, K, KB, KiB, M, MB, MiB, G, GB, GiB"
 . ${QEMU_VM_ROOT}/libqemu-ipmi.sh
 . ${QEMU_VM_ROOT}/libstring.sh
 . ${QEMU_VM_ROOT}/libyes.sh
+
+echo_libraries_versions()
+{
+	echo -e "${BOLD}${PROG}${RST} ${VERSION}"
+	echo -e "  ${BOLD}libqemu${RST} ${LIBQEMU_VERSION}"
+	echo -e "  ${BOLD}libqemu-cxl${RST} ${LIBQEMU_CXL_VERSION}"
+	echo -e "  ${BOLD}libqemu-ipmi${RST} ${LIBQEMU_IPMI_VERSION}"
+	echo -e "  ${BOLD}libcpu${RST} ${LIBCPU_VERSION}"
+	echo -e "  ${BOLD}libfile${RST} ${LIBFILE_VERSION}"
+	echo -e "  ${BOLD}liblog${RST} ${LIBLOG_VERSION}"
+	echo -e "  ${BOLD}libnbd${RST} ${LIBNBD_VERSION}"
+	echo -e "  ${BOLD}libnet${RST} ${LIBNET_VERSION}"
+	echo -e "  ${BOLD}librun${RST} ${LIBRUN_VERSION}"
+	echo -e "  ${BOLD}libstring${RST} ${LIBSTRING_VERSION}"
+	echo -e "  ${BOLD}libuuid${RST} ${LIBUUID_VERSION}"
+	echo -e "  ${BOLD}libyes${RST} ${LIBYES_VERSION}"
+}
 
 qemu_eval()
 {
@@ -1703,10 +1720,7 @@ while true; do
 		;;
 	-V | --version)
 		shift
-		echo -e "${BOLD}${PROG}${RST} ${VERSION}"
-		echo -e "  ${BOLD}libqemu${RST} ${LIBQEMU_VERSION}"
-		echo -e "  ${BOLD}libqemu-cxl${RST} ${LIBQEMU_CXL_VERSION}"
-		echo -e "  ${BOLD}libqemu-ipmi${RST} ${LIBQEMU_IPMI_VERSION}"
+		echo_libraries_versions
 		exit 0
 		;;
 	-D | --debug)

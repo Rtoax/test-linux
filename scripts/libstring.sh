@@ -6,6 +6,7 @@ if [[ -z ${KiB} ]]; then
 fi
 
 if [[ -z ${LIBSTRING_ROOT} ]]; then
+	readonly LIBSTRING_VERSION="v0.0.1"
 	readonly LIBSTRING_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 fi
 

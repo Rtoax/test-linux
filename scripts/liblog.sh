@@ -3,6 +3,8 @@
 # Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 
 if [[ -z ${RED} ]]; then
+	readonly LIBLOG_VERSION="v0.0.1"
+
 	readonly RED="\033[31m"
 	readonly GREEN="\033[32m"
 	readonly YELLOW="\033[33m"

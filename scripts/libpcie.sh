@@ -6,7 +6,8 @@
 # - https://pcisig.com/membership/member-companies
 # - The PCI ID Repository: https://pci-ids.ucw.cz/
 #   - Vendors: https://admin.pci-ids.ucw.cz/read/PC/
-set -e
+
+readonly LIBPCIE_VERSION="v0.0.1"
 
 readonly VENDOR_INTEL=8086
 readonly VENDOR_NVIDIA=10DE

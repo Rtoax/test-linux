@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [[ -z ${LIBFILE_ROOT} ]]; then
+	readonly LIBFILE_VERSION="v0.0.1"
 	readonly LIBFILE_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 fi
 

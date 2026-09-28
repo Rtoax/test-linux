@@ -1,7 +1,7 @@
 #!/bin/bash
 # YES helpers
 #
-
+readonly LIBYES_VERSION="v0.0.1"
 readonly LIBYES_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBYES_ROOT}/liblog.sh

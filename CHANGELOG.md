@@ -37,6 +37,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- library: Set any items without a version number to v0.0.1;
 - move `make_tl.sh` into template;
 #### Tools
 - ncurses: add alert.c samples;

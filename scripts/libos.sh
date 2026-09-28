@@ -4,6 +4,7 @@
 
 . /etc/os-release
 
+readonly LIBOS_VERSION="v0.0.1"
 readonly OS=${ID}
 readonly OS_VERSION=${VERSION_ID}
 readonly OSV="${OS}:${OS_VERSION}"

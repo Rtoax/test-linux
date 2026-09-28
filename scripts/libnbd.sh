@@ -1,6 +1,7 @@
 #!/bin/bash
 # SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 # Copyright (C) 2026 Rong Tao. All rights reserved.
+readonly LIBNBD_VERSION="v0.0.1"
 readonly LIBNBD_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 readonly KMOD_NBD_ROOT="/sys/module/nbd"
 
