@@ -84,7 +84,7 @@ $(foreach tgt, ${1}, \
     $(foreach tobj, ${${tgt}-objs}, \
       $(if $(shell test -f ${tobj}${3} && echo yes), \
         $(if ${DEBUG}, $(info Found ${tgt}'s obj dep ${tobj}${3})) \
-        $(eval include ${tobj}${3}) \
+        $(eval include ${tobj}${3}), \
         $(if ${DEBUG}, $(info Not found ${tgt}'s obj dep ${tobj}${3})) \
       ) \
     ) \
