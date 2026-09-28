@@ -96,10 +96,12 @@ struct plot {
 
 	WINDOW *win; /* equal to stdscr */
 	/**
-	 * Help window and panel
+	 * Windows and panels
 	 */
-	WINDOW *win_help;
-	PANEL *panel_help;
+	struct {
+		WINDOW *win;
+		PANEL *panel;
+	} help;
 };
 
 #define for_each_lgroup(plt, iter)                                       \

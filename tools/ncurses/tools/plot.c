@@ -517,8 +517,8 @@ static void __plot_redraw(struct plot *p, bool debug)
 	p->redrawcount++;
 
 	erase();
-	if (p->win_help) {
-		werase(p->win_help);
+	if (p->help.win) {
+		werase(p->help.win);
 	}
 
 	/**
@@ -557,8 +557,8 @@ void plot_redraw(struct plot *p, bool debug)
 	}
 
 	wnoutrefresh(p->win);
-	if (p->win_help) {
-		wnoutrefresh(p->win_help);
+	if (p->help.win) {
+		wnoutrefresh(p->help.win);
 	}
 	doupdate();
 
@@ -592,13 +592,13 @@ static void __paint_help_win(struct plot *p, bool init)
 	int h = p->plotheight / 2 + p->bnd.top - ARRAY_SIZE(key_helps) / 2;
 	int w = p->plotwidth / 2 + p->bnd.left - max_key_help_len() / 2;
 	int n = sizeof(key_helps) / sizeof(key_helps[0]);
-	WINDOW *win = p->win_help;
+	WINDOW *win = p->help.win;
 
 	if (init && !win) {
 		win = newwin(n + 2, max_key_help_len() + 2, h, w);
-		p->win_help = win;
-		p->panel_help = new_panel(win);
-		top_panel(p->panel_help);
+		p->help.win = win;
+		p->help.panel = new_panel(win);
+		top_panel(p->help.panel);
 	}
 
 	wattron(win, colors[C_BLUE] | A_BOLD);
@@ -611,13 +611,13 @@ static void __paint_help_win(struct plot *p, bool init)
 
 static void __del_help_win(struct plot *p)
 {
-	if (p->panel_help) {
-		del_panel(p->panel_help);
-		p->panel_help = NULL;
+	if (p->help.panel) {
+		del_panel(p->help.panel);
+		p->help.panel = NULL;
 	}
-	if (p->win_help) {
-		delwin(p->win_help);
-		p->win_help = NULL;
+	if (p->help.win) {
+		delwin(p->help.win);
+		p->help.win = NULL;
 	}
 }
 
