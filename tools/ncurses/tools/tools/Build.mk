@@ -9,6 +9,7 @@ prog-y += net.sh
 prog-y += open.sh
 prog-y += process.sh
 prog-y += syscall.sh
+prog-y += trigonometric-functions.sh
 prog-y += txrx.sh
 prog-y += vfs.sh
 

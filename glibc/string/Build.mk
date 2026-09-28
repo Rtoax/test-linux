@@ -42,7 +42,6 @@ target-y += strncpy
 target-y += strpbrk
 target-y += strsep
 target-y += strtok
-target-y += strtol
 target-y += strsignal
 target-y += strerror strerror_r
 target-y += strstr
