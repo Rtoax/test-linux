@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.59"
+readonly VERSION="v1.1.60"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -1033,6 +1033,11 @@ config_vm_tmpdir() {
 	TCP_PORT_HOSTFWD_SSH22=$(vm_get_free_tcp_port)
 	TCP_PORT_MONITOR_TELNET=$(vm_get_free_tcp_port)
 
+	if [[ " $(get_all_vmnames) " =~ " ${q_vm_name} " ]]; then
+		enable_cleanup_tmpdir=""
+		error "VM '${q_vm_name}' already exist in '$(get_all_vmnames)', see '${PROG} list -a'"
+	fi
+
 	if [[ ! -d ${TMPDIR} ]]; then
 		qemu_eval mkdir -p ${TMPDIR}
 	fi
@@ -1068,11 +1073,6 @@ config_basic() {
 	fprintf ${f_vm_info} -a "VM_PIDFILE=${f_vm_pidfile}\n"
 	fprintf ${f_vm_info} -a "VM_SOCK_QMP=${sock_qmp}\n"
 
-
-	if [[ " $(get_all_vmnames) " =~ " ${q_vm_name} " ]]; then
-		enable_cleanup_tmpdir=""
-		error "VM '${q_vm_name}' already exist, see '${PROG} list -a'"
-	fi
 	qargs+=( -name ${q_vm_name} )
 	qargs+=( -uuid ${uuid} )
 	# or use '-accel kvm'
