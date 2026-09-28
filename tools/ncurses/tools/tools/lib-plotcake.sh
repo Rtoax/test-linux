@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PLOTCAKE=$(which plotcake 2>/dev/null || true)
+[[ -z ${PLOTCAKE} ]] && PLOTCAKE=$(which plotcake 2>/dev/null || true)
 if [[ -z ${PLOTCAKE} ]]; then
 	PLOTCAKE=../plotcake
 fi

@@ -430,6 +430,15 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 		min = min > _min ? _min : min;
 	}
 
+	/* draw zero y line if needed */
+	if (max > 0 && min < 0) {
+		double h = get_plot_value_heigh(p, min, max, 0);
+		attron(A_DIM);
+		for (int i = 0; i < p->plotwidth - 1; i++)
+			mvwprintw(p->win, h, p->bnd.left + 1 + i, "-");
+		attroff(A_DIM);
+	}
+
 	for_each_line(lg, l)
 	{
 		if (l->count <= 0)
