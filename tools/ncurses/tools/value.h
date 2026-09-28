@@ -21,11 +21,12 @@ struct value {
 /**
  * if value don't have next value, NaN returned, use isnan() check.
  */
-static inline double delta_v(struct value *v)
+static inline double delta_v(const struct value *v)
 {
 	if (v->next)
 		return v->next->v - v->v;
 	else
+		/* see __paint_line() check */
 		return nan("NAN");
 }
 

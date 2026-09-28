@@ -140,7 +140,7 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 	attroff(colors[C_RED] | A_BOLD);
 }
 
-static int get_value_plot_heigh(const struct plot *p, double min, double max,
+static int get_plot_value_heigh(const struct plot *p, double min, double max,
 				double v)
 {
 	double span = .0f, diff = .0f;
@@ -154,6 +154,22 @@ static int get_value_plot_heigh(const struct plot *p, double min, double max,
 	}
 	return p->plotheight + p->bnd.top - 1 -
 	       diff * (p->plotheight - 2) / span;
+}
+
+static double get_plot_value(const struct plot *p, const struct value *v)
+{
+	double val = v->v;
+
+	if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
+		val = v->log_v;
+	else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
+		val = v->log10_v;
+	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
+		val = v->exp_v;
+	else if (p->curve_type == CURVE_TYPE_DELTA)
+		val = delta_v(v);
+
+	return val;
 }
 
 /**
@@ -205,26 +221,19 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 			continue;
 		}
 
-		double plot_v = v->v;
+		double plot_v = get_plot_value(p, v);
 
-		if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
-			plot_v = v->log_v;
-		else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
-			plot_v = v->log10_v;
-		else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
-			plot_v = v->exp_v;
-		else if (p->curve_type == CURVE_TYPE_DELTA) {
-			plot_v = delta_v(v);
-			/* touch the end of line */
-			if (isnan(plot_v)) {
-				iv = ln_shift_count;
-				goto print_llabel;
-			}
+		/**
+		 * 1. the last value of line may be NaN, see delta_v()
+		 */
+		if (isnan(plot_v)) {
+			iv = ln_shift_count;
+			goto print_llabel;
 		}
 
 		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
 
-		int h = get_value_plot_heigh(p, min, max, plot_v);
+		int h = get_plot_value_heigh(p, min, max, plot_v);
 		int w = p->plotwidth + p->bnd.left - (nvs - ivs);
 
 		attron(color);
