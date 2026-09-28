@@ -304,10 +304,9 @@ static int update_data_and_check_interval(struct plot *p)
 int main(int argc, char *argv[])
 {
 	int err = 0;
-	int maxfd = 0;
+	struct select_fds readfds;
 	int freshtimerfd, keyfd, stdinfd, tmoutfd;
 	int sigpipe[2];
-	fd_set readfds;
 	char stdin_buffer[4096] = { 0 };
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
@@ -340,7 +339,7 @@ int main(int argc, char *argv[])
 
 	tmoutfd = freshtimerfd = keyfd = stdinfd = -1;
 
-	FD_ZERO(&readfds);
+	select_fds_zero(&readfds);
 
 	/**
 	 * If stdin is redirected, open the terminal for key press.
@@ -373,14 +372,10 @@ int main(int argc, char *argv[])
 	} else
 		keyfd = STDIN_FILENO;
 
-	FD_SET(keyfd, &readfds);
-	if (maxfd < keyfd)
-		maxfd = keyfd;
+	select_fds_add(&readfds, keyfd);
 
 	if (stdinfd != -1) {
-		FD_SET(stdinfd, &readfds);
-		if (maxfd < stdinfd)
-			maxfd = stdinfd;
+		select_fds_add(&readfds, stdinfd);
 	} else {
 		/**
 		 * Note: When we read data from stdin, we no longer need this
@@ -390,21 +385,15 @@ int main(int argc, char *argv[])
 		 * continue for stdin if plot/line information matched.
 		 */
 		freshtimerfd = new_timerfd(interval_nsecs);
-		FD_SET(freshtimerfd, &readfds);
-		if (maxfd < freshtimerfd)
-			maxfd = freshtimerfd;
+		select_fds_add(&readfds, freshtimerfd);
 	}
 
 	if (tmout_nsecs != 0) {
 		tmoutfd = new_timerfd(tmout_nsecs);
-		FD_SET(tmoutfd, &readfds);
-		if (maxfd < tmoutfd)
-			maxfd = tmoutfd;
+		select_fds_add(&readfds, tmoutfd);
 	}
 
-	FD_SET(sig_rd_fd, &readfds);
-	if (maxfd < sig_rd_fd)
-		maxfd = sig_rd_fd;
+	select_fds_add(&readfds, sig_rd_fd);
 
 	/* curses start from here */
 
@@ -456,10 +445,10 @@ int main(int argc, char *argv[])
 
 	/* main loop */
 	while (!done) {
-		fd_set fds = readfds;
+		fd_set fds = readfds.fds;
 		bool redraw = false;
 
-		int ret = select(maxfd + 1, &fds, NULL, NULL, NULL);
+		int ret = select_fd(&readfds, &fds);
 		if (ret > 0 && FD_ISSET(keyfd, &fds)) {
 			int count = 0;
 			/**

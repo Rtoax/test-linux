@@ -3,6 +3,11 @@
 #pragma once
 #include <sys/time.h>
 
+struct select_fds {
+	int maxfd;
+	fd_set fds;
+};
+
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 unsigned long usecs(void);
@@ -15,3 +20,7 @@ unsigned long str2nsecs(const char *str);
 long alloc_buf_read_file(const char *filename, char **buf);
 
 int new_timerfd(unsigned long nsecs);
+
+void select_fds_zero(struct select_fds *fds);
+void select_fds_add(struct select_fds *fds, int fd);
+int select_fd(struct select_fds *fds, fd_set *active);

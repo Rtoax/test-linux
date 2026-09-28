@@ -134,3 +134,21 @@ int new_timerfd(unsigned long nsecs)
 	timerfd_settime(timerfd, 0, &to, NULL);
 	return timerfd;
 }
+
+void select_fds_zero(struct select_fds *fds)
+{
+	fds->maxfd = 0;
+	FD_ZERO(&fds->fds);
+}
+
+void select_fds_add(struct select_fds *fds, int fd)
+{
+	FD_SET(fd, &fds->fds);
+	if (fds->maxfd < fd)
+		fds->maxfd = fd;
+}
+
+int select_fd(struct select_fds *fds, fd_set *active)
+{
+	return select(fds->maxfd + 1, active, NULL, NULL, NULL);
+}
