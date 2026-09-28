@@ -5,6 +5,7 @@ subdir-y += devtmpfs
 subdir-y += ext4
 subdir-y += fat
 subdir-y += myfs
+subdir-y += ntfs
 subdir-y += overlayfs
 subdir-y += procfs
 subdir-y += sysfs
