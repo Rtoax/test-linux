@@ -143,8 +143,8 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 /**
  * @start: start point of line.
  * @len: number of value to plot.
- * @max and @min is original value, if use logarithmic, convert in this
- * function.
+ * @max and @min is algorithm value, in the case of a logarithmic plot, 'max'
+ * is already a logarithmic value.
  */
 static void __paint_line(struct plot *p, const struct lgroup *lg,
 			 const struct line *ln, int start, int len, int shift,
@@ -153,25 +153,6 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 	int iv;
 	int prev_h = -1;
 	chtype color = colors[ln->color];
-
-	switch (p->curve_type) {
-	case CURVE_TYPE_LOGARITHMIC:
-		max = signed_log_trans(max);
-		min = signed_log_trans(min);
-		break;
-	case CURVE_TYPE_LOGARITHMIC10:
-		max = signed_log10_trans(max);
-		min = signed_log10_trans(min);
-		break;
-	case CURVE_TYPE_EXPONENTIAL:
-		max = exp(max);
-		min = exp(min);
-		break;
-	case CURVE_TYPE_DELTA:
-	case CURVE_TYPE_NONE:
-	default:
-		break;
-	}
 
 	const long ln_shift_count = ln->count - shift;
 	const int nvs = (ln_shift_count + p->plotscaling - 1) / p->plotscaling;
@@ -410,6 +391,26 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 			_max = line_range_max(l, start, p->plotscaling, len);
 			_min = line_range_min(l, start, p->plotscaling, len);
 		}
+
+		switch (p->curve_type) {
+		case CURVE_TYPE_LOGARITHMIC:
+			_max = signed_log_trans(_max);
+			_min = signed_log_trans(_min);
+			break;
+		case CURVE_TYPE_LOGARITHMIC10:
+			_max = signed_log10_trans(_max);
+			_min = signed_log10_trans(_min);
+			break;
+		case CURVE_TYPE_EXPONENTIAL:
+			_max = exp(_max);
+			_min = exp(_min);
+			break;
+		case CURVE_TYPE_DELTA:
+		case CURVE_TYPE_NONE:
+		default:
+			break;
+		}
+
 		max = max < _max ? _max : max;
 		min = min > _min ? _min : min;
 	}
