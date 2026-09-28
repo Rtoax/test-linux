@@ -12,6 +12,7 @@ and this project adheres to
 #### Breaking Changes
 - template: release v1.0.0;
 #### Added
+- glibc: add gnu and features subdir;
 - glibc/search: test insque() and remque();
 - fs: add ntfs dir;
 - openmp: add target subdir to test offload;

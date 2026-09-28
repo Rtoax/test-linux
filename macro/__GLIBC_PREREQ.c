@@ -1,1 +1,1 @@
-../glibc/__GLIBC_PREREQ.c
+../glibc/features/__GLIBC_PREREQ.c

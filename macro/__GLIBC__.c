@@ -1,1 +1,1 @@
-../glibc/__GLIBC__.c
+../glibc/features/__GLIBC__.c

@@ -1,1 +1,0 @@
-gnu_get_libc_version.c

@@ -1,6 +1,4 @@
-/gnu_get_libc_version
 /environ
-/lib-names
 /ftm
 /__progname
 /_GNU_SOURCE

@@ -1,1 +1,1 @@
-../glibc/__GLIBC_MINOR__.c
+../glibc/features/__GLIBC_MINOR__.c
