@@ -140,6 +140,22 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 	attroff(colors[C_RED] | A_BOLD);
 }
 
+static int get_value_plot_heigh(const struct plot *p, double min, double max,
+				double v)
+{
+	double span = .0f, diff = .0f;
+
+	if (max == min || max == 0.0 || max < min) {
+		diff = 0;
+		span = 1;
+	} else {
+		diff = v - min;
+		span = max - min;
+	}
+	return p->plotheight + p->bnd.top - 1 -
+	       diff * (p->plotheight - 2) / span;
+}
+
 /**
  * @start: start point of line.
  * @len: number of value to plot.
@@ -189,7 +205,6 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 			continue;
 		}
 
-		double span = .0f, diff = .0f;
 		double plot_v = v->v;
 
 		if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
@@ -207,18 +222,9 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 			}
 		}
 
-		if (max == min || max == 0.0 || max < min) {
-			diff = 0;
-			span = 1;
-		} else {
-			diff = plot_v - min;
-			span = max - min;
-		}
-
 		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
 
-		int h = p->plotheight + p->bnd.top - 1 -
-			diff * (p->plotheight - 2) / span;
+		int h = get_value_plot_heigh(p, min, max, plot_v);
 		int w = p->plotwidth + p->bnd.left - (nvs - ivs);
 
 		attron(color);
