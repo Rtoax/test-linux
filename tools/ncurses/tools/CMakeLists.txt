@@ -7,6 +7,7 @@ set(CMAKE_INSTALL_PREFIX /usr)
 
 set(SRC
   axis.c
+  dialog.c
   file.c
   keyboard.c
   lgroup.c

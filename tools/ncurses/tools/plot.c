@@ -12,14 +12,13 @@
 #include "plot.h"
 #include "keyboard.h"
 #include "utils.h"
+#include "dialog.h"
 
 chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
 static void __paint_help_win(struct plot *p, bool init);
-static void __del_help_win(struct plot *p);
 static void __paint_llabels_win(struct plot *p, bool init);
-static void __del_llabels_win(struct plot *p);
 
 int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
@@ -544,12 +543,8 @@ static void __plot_redraw(struct plot *p, bool debug)
 	p->redrawcount++;
 
 	erase();
-	if (p->help.win) {
-		werase(p->help.win);
-	}
-	if (p->llabels.win) {
-		werase(p->llabels.win);
-	}
+	erase_dialog(&p->help);
+	erase_dialog(&p->llabels);
 
 	/**
 	 * Handle the keyboard first, because 'reset' need before paint.
@@ -562,14 +557,14 @@ static void __plot_redraw(struct plot *p, bool debug)
 		__paint_help_win(p, false);
 	} else {
 		p->expired_usec.help = 0;
-		__del_help_win(p);
+		del_dialog(&p->help);
 	}
 
 	if (p->expired_usec.llabel && p->expired_usec.llabel > usecs()) {
 		__paint_llabels_win(p, false);
 	} else {
 		p->expired_usec.llabel = 0;
-		__del_llabels_win(p);
+		del_dialog(&p->llabels);
 	}
 
 	if (p->expired_usec.shift && p->expired_usec.shift < usecs()) {
@@ -588,12 +583,8 @@ void plot_redraw(struct plot *p, bool debug)
 	}
 
 	wnoutrefresh(p->win);
-	if (p->help.win) {
-		wnoutrefresh(p->help.win);
-	}
-	if (p->llabels.win) {
-		wnoutrefresh(p->llabels.win);
-	}
+	refresh_dialog(&p->help);
+	refresh_dialog(&p->llabels);
 	doupdate();
 
 	/* do some reset */
@@ -630,9 +621,7 @@ static void __paint_help_win(struct plot *p, bool init)
 
 	if (init && !win) {
 		win = newwin(n + 2, max_key_help_len() + 2, h, w);
-		p->help.win = win;
-		p->help.panel = new_panel(win);
-		top_panel(p->help.panel);
+		new_dialog(&p->help, win);
 	}
 
 	wattron(win, colors[C_BLUE] | A_BOLD);
@@ -641,18 +630,6 @@ static void __paint_help_win(struct plot *p, bool init)
 	for (int i = n - 1; i >= 0; i--)
 		mvwprintw(win, i + 1, 1, "%s", key_helps[n - i - 1]);
 	wattroff(win, colors[C_BLUE] | A_BOLD);
-}
-
-static void __del_help_win(struct plot *p)
-{
-	if (p->help.panel) {
-		del_panel(p->help.panel);
-		p->help.panel = NULL;
-	}
-	if (p->help.win) {
-		delwin(p->help.win);
-		p->help.win = NULL;
-	}
 }
 
 static void __paint_llabels_win(struct plot *p, bool init)
@@ -678,9 +655,7 @@ static void __paint_llabels_win(struct plot *p, bool init)
 
 	if (init && !win) {
 		win = newwin(nline + 2, max_name_len + n + 3, h, w);
-		p->llabels.win = win;
-		p->llabels.panel = new_panel(win);
-		top_panel(p->llabels.panel);
+		new_dialog(&p->llabels, win);
 	}
 
 	wattron(win, A_BOLD);
@@ -699,18 +674,6 @@ static void __paint_llabels_win(struct plot *p, bool init)
 			wattroff(win, colors[ln->color] | A_BOLD);
 			i++;
 		}
-	}
-}
-
-static void __del_llabels_win(struct plot *p)
-{
-	if (p->llabels.panel) {
-		del_panel(p->llabels.panel);
-		p->llabels.panel = NULL;
-	}
-	if (p->llabels.win) {
-		delwin(p->llabels.win);
-		p->llabels.win = NULL;
 	}
 }
 

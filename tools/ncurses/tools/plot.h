@@ -10,6 +10,7 @@
 #include "keyboard.h"
 #include "line.h"
 #include "utils.h"
+#include "dialog.h"
 
 /**
  * Scaling plotting values, different from @plotscaling.
@@ -21,14 +22,6 @@ enum curve_type {
 	CURVE_TYPE_EXPONENTIAL,
 	CURVE_TYPE_DELTA,
 	CURVE_TYPE_MAX,
-};
-
-struct dialog {
-	/**
-	 * Windows and panels
-	 */
-	WINDOW *win;
-	PANEL *panel;
 };
 
 struct plot {
