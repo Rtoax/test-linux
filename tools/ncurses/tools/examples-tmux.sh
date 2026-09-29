@@ -79,11 +79,36 @@ send_keys 'v'
 
 check_content "plot\(redraw=[0-9]+"
 check_content "key\(left=[0-9]+"
+check_content "enter=0"
+check_content "left=0"
+check_content "right=0"
+check_content "up=0"
+check_content "down=0"
 check_content "$(hostname)"
 check_content "1: ${line0}"
 check_content "2: ${line1}"
 check_content "3: ${line2}"
 check_content "<pid:[0-9]+>"
+
+send_keys Enter
+send_keys Enter
+check_content "enter=2"
+send_keys Up
+send_keys Up
+send_keys Up
+check_content "left=0,right=0,up=3,down=0"
+send_keys Down
+send_keys Down
+send_keys Down
+check_content "left=0,right=0,up=3,down=3"
+send_keys Left
+send_keys Left
+send_keys Left
+check_content "left=3,right=0,up=3,down=3"
+send_keys Right
+send_keys Right
+send_keys Right
+check_content "left=3,right=3,up=3,down=3"
 
 # Turn off the verbose mode
 send_keys 'v'
@@ -110,4 +135,16 @@ check_content "\------ ${line0}"
 check_content "\------ ${line1}"
 check_content "\------ ${line2}"
 
+send_keys 't'
+check_content "${title} \(signed logarithmic\)"
+send_keys 't'
+check_content "${title} \(base-10 signed logarithmic\)"
+send_keys 't'
+check_content "${title} \(base-e exponential\)"
+send_keys 't'
+check_content "${title} \(delta\)"
+
+send_keys 'v'
+check_content "h=1"
+check_content "l=1"
 tmux capture-pane -t ${session} -p
