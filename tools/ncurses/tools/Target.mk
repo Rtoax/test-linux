@@ -4,6 +4,7 @@
 # re-compiled.
 ${OUTPUT}examples.sh.prog.log: plotcake
 ${OUTPUT}examples.exp.prog.log: plotcake
+${OUTPUT}examples-tmux.sh.prog.log: plotcake
 
 build/plotcake: CMakeLists.txt plotcake
 	${Q}mkdir -p build

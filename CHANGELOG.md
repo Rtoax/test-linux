@@ -20,7 +20,9 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- plotcake: test with tmux;
 #### Template
+- add expect.mk;
 
 
 ## [v2.4.14] Squirrel 2026-09-29
