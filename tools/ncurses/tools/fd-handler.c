@@ -14,6 +14,9 @@
 struct fd_handler {
 	int fd;
 	void *arg;
+	/**
+	 * handler return will pass to handle_fd()
+	 */
 	int (*handler)(int fd, void *arg);
 };
 
@@ -69,6 +72,9 @@ int unregister_fd(int fd)
 	return 0;
 }
 
+/**
+ * @return: return -ENOENT if not found fd.
+ */
 int handle_fd(int fd)
 {
 	struct fd_handler h = {

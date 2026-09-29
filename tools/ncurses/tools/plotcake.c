@@ -648,31 +648,16 @@ int main(int argc, char *argv[])
 		int nfds = epoll_wait(epollfd, epollevents, 16, -1);
 		for (int i = 0; i < nfds; i++) {
 			int cur_fd = epollevents[i].data.fd;
-
-			if (cur_fd == keyfd) {
-				handle_fd(cur_fd);
-				if (redraw_arg.should_end)
-					goto end;
-			} else if (cur_fd == freshtimerfd) {
-				handle_fd(cur_fd);
-			} else if (cur_fd == tmout_exit_fd) {
-				handle_fd(cur_fd);
-				if (redraw_arg.should_end)
-					goto end;
-			} else if (cur_fd == sig_rd_fd) {
-				handle_fd(cur_fd);
-				if (redraw_arg.should_end)
-					goto end;
-			} else if (cur_fd == stdinfd) {
-				handle_fd(cur_fd);
-			} else
+			if (handle_fd(cur_fd) == -ENOENT)
 				continue;
+			if (redraw_arg.should_end)
+				goto end;
 
 			if (redraw) {
 				plot_redraw(&plot, verbose);
 			}
 		}
-	} /* end of while (1) */
+	}
 
 end:
 	if (stdinfd != -1)
