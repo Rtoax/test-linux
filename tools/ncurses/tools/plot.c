@@ -20,7 +20,7 @@ chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
 static int __paint_help_win(struct plot *p, bool init);
-static void __paint_llabels_win(struct plot *p, bool init);
+static int __paint_llabels_win(struct plot *p, bool init);
 
 int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
@@ -554,15 +554,8 @@ static void __plot_redraw(struct plot *p, bool debug)
 	exec_key_handler(p->kb, p->kb->current_key);
 
 	__paint_plot(p, debug);
-
 	__paint_help_win(p, false);
-
-	if (p->expired_usec.llabel && p->expired_usec.llabel > usecs()) {
-		__paint_llabels_win(p, false);
-	} else {
-		p->expired_usec.llabel = 0;
-		del_dialog(&p->llabels);
-	}
+	__paint_llabels_win(p, false);
 
 	if (p->expired_usec.shift && p->expired_usec.shift < usecs()) {
 		p->plotshift = 0;
@@ -644,12 +637,19 @@ static int __paint_help_win(struct plot *p, bool init)
 	return ret;
 }
 
-static void __paint_llabels_win(struct plot *p, bool init)
+static int __paint_llabels_win(struct plot *p, bool init)
 {
-	int i, nline = 0;
+	int ret = 0, i, nline = 0;
 	int max_name_len = 0;
 	WINDOW *win = p->llabels.win;
 	const int n = 6;
+
+	/**
+	 * If no initialization flag is specified and the window is null, the
+	 * drawing process is skipped.
+	 */
+	if (!init && !win)
+		return 0;
 
 	for_each_lgroup(p, lg)
 	{
@@ -668,6 +668,7 @@ static void __paint_llabels_win(struct plot *p, bool init)
 	if (init && !win) {
 		win = newwin(nline + 2, max_name_len + n + 3, h, w);
 		new_dialog(&p->llabels, win);
+		ret = 1;
 	}
 
 	wattron(win, A_BOLD);
@@ -687,9 +688,10 @@ static void __paint_llabels_win(struct plot *p, bool init)
 			i++;
 		}
 	}
+	return ret;
 }
 
-static int help_end(int timerfd, void *arg)
+static int dialog_timeout_handler(int timerfd, void *arg)
 {
 	struct dialog *d = arg;
 	epoll_del_fd(timerfd);
@@ -708,7 +710,7 @@ static int key_h_handler(int key, void *arg)
 	if (__paint_help_win(p, true) == 1) {
 		int fd = new_timerfd(EXPIRED_USECS_HELP * 1000);
 		epoll_add_fd(fd);
-		register_fd(fd, help_end, &p->help);
+		register_fd(fd, dialog_timeout_handler, &p->help);
 	}
 	return 0;
 }
@@ -719,8 +721,11 @@ static int key_h_handler(int key, void *arg)
 static int key_l_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->expired_usec.llabel = usecs() + EXPIRED_USECS_LLABEL;
-	__paint_llabels_win(p, true);
+	if (__paint_llabels_win(p, true) == 1) {
+		int fd = new_timerfd(EXPIRED_USECS_LLABEL * 1000);
+		epoll_add_fd(fd);
+		register_fd(fd, dialog_timeout_handler, &p->llabels);
+	}
 	return 0;
 }
 
@@ -732,7 +737,6 @@ static int key_r_handler(int key, void *arg)
 	struct plot *p = arg;
 
 	plot_scaling_init(p);
-	p->expired_usec.llabel = 0;
 	p->expired_usec.shift = 0;
 	p->plotshift = 0;
 	return 0;
