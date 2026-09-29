@@ -319,6 +319,21 @@ static int tmout_handler(int fd, void *arg)
 	return 0;
 }
 
+struct redraw_arg {
+	bool *redraw;
+	struct plot *plot;
+};
+
+static int fresher_handler(int fd, void *arg)
+{
+	struct redraw_arg *a = arg;
+	uint64_t exp;
+	read(fd, &exp, sizeof(exp));
+	*a->redraw = true;
+	update_data_and_check_interval(a->plot);
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 	int err = 0;
@@ -326,6 +341,8 @@ int main(int argc, char *argv[])
 	int freshtimerfd, keyfd, stdinfd, tmout_exit_fd;
 	int sigpipe[2];
 	char stdin_buffer[4096] = { 0 };
+	bool redraw = false;
+	struct redraw_arg redraw_arg;
 
 	err = argp_parse(&argp, argc, argv, 0, NULL, NULL);
 	if (err) {
@@ -358,6 +375,9 @@ int main(int argc, char *argv[])
 	sig_wr_fd = sigpipe[1];
 
 	tmout_exit_fd = freshtimerfd = keyfd = stdinfd = -1;
+
+	redraw_arg.redraw = &redraw;
+	redraw_arg.plot = &plot;
 
 	/**
 	 * If stdin is redirected, open the terminal for key press.
@@ -404,6 +424,7 @@ int main(int argc, char *argv[])
 		 */
 		freshtimerfd = new_timerfd(interval_nsecs);
 		epoll_add(epollfd, freshtimerfd);
+		register_fd(freshtimerfd, fresher_handler, &redraw_arg);
 	}
 
 	if (tmout_nsecs != 0) {
@@ -465,8 +486,6 @@ int main(int argc, char *argv[])
 	/* main loop */
 	struct epoll_event epollevents[16];
 	while (!done) {
-		bool redraw = false;
-
 		int nfds = epoll_wait(epollfd, epollevents, 16, -1);
 		for (int i = 0; i < nfds; i++) {
 			int cur_fd = epollevents[i].data.fd;
@@ -575,10 +594,7 @@ int main(int argc, char *argv[])
 					}
 				}
 			} else if (cur_fd == freshtimerfd) {
-				uint64_t exp;
-				read(freshtimerfd, &exp, sizeof(exp));
-				redraw = true;
-				update_data_and_check_interval(&plot);
+				handle_fd(cur_fd);
 			} else if (cur_fd == tmout_exit_fd) {
 				handle_fd(cur_fd);
 				goto end;
