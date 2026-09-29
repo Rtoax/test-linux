@@ -495,7 +495,7 @@ static void __paint_plot(struct plot *p, bool debug)
 	struct tm *tm = localtime(&sec);
 	char ts[64] = { 0 };
 	asctime_r(tm, ts);
-	ts[strlen(ts) - 1] = '\n';
+	ts[strlen(ts) - 1] = '\0';
 	mvaddstr(p->height - 2, p->width - strlen(ts) - 1, ts);
 
 	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
