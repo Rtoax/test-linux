@@ -147,7 +147,6 @@ static const struct argp_option opts[] = {
 };
 
 static int sig_rd_fd, sig_wr_fd;
-static int done = false;
 static int ram = false;
 static int verbose = false;
 static unsigned long tmout_nsecs = 0;
@@ -461,7 +460,6 @@ static int sig_rd_handler(int fd, void *arg)
 	const ssize_t cnt = read(fd, &signo, 1);
 	if (cnt > 0) {
 		if (signo == SIGINT) {
-			done = true;
 			a->should_end = true;
 		} else if (signo == SIGWINCH) {
 			endwin();
@@ -646,7 +644,7 @@ int main(int argc, char *argv[])
 
 	/* main loop */
 	struct epoll_event epollevents[16];
-	while (!done) {
+	while (1) {
 		int nfds = epoll_wait(epollfd, epollevents, 16, -1);
 		for (int i = 0; i < nfds; i++) {
 			int cur_fd = epollevents[i].data.fd;
