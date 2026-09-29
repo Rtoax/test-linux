@@ -1,8 +1,11 @@
 #!/bin/expect -f
+# Copyright (C) 2026 Rong Tao. All rights reserved.
+#
 # test plotcake keyboard event handle
 set timeout 4
 set init_rows [stty rows]
 set init_cols [stty columns]
+set hostname [info hostname]
 
 # If the window is too small, the expected output information will be covered
 # by other information. Therefore, we need to set a window size that is large
@@ -55,6 +58,7 @@ test_init "plot(redraw="
 test_init "key(left="
 test_init "enter="
 test_init "github.com/rtoax/plotcake"
+# test_init "$hostname"
 
 # Verify keys
 test_key "l" " $line0"

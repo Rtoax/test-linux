@@ -483,6 +483,11 @@ void __plot_debug_llabel(const struct lgroup *lg, int height)
  */
 static void __paint_plot(struct plot *p, bool debug)
 {
+	char hostname[64];
+	char ts[128] = { 0 };
+	time_t sec;
+	struct tm *tm;
+
 	__draw_title(p, debug);
 	__draw_axes(p);
 
@@ -491,12 +496,16 @@ static void __paint_plot(struct plot *p, bool debug)
 		paint_lgroup(p, lg, debug);
 	}
 
-	time_t sec = time(NULL);
-	struct tm *tm = localtime(&sec);
-	char ts[64] = { 0 };
+	sec = time(NULL);
+	tm = localtime(&sec);
 	asctime_r(tm, ts);
 	ts[strlen(ts) - 1] = '\0';
-	mvaddstr(p->height - 2, p->width - strlen(ts) - 1, ts);
+
+	gethostname(hostname, sizeof(hostname));
+
+	mvaddstr(p->height - 2, p->width - strlen(ts) - strlen(hostname) - 2,
+		 ts);
+	mvaddstr(p->height - 2, p->width - strlen(hostname) - 1, hostname);
 
 	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
 

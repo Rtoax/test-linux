@@ -1,6 +1,8 @@
 #!/bin/bash
 # Test plotcake.
 #
+# Copyright (C) 2026 Rong Tao. All rights reserved.
+#
 # Depends: jq
 #
 # Usage: I=<0.1> TMOUT=<1s> ./examples.sh
