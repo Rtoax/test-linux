@@ -632,7 +632,7 @@ static int __paint_help_win(struct plot *p, bool init)
 	}
 
 	wattron(win, colors[C_BLUE] | A_BOLD);
-	box(win, 0, 0);
+	set_win_border(win, p->win_border_type);
 	mvwprintw(win, 0, 2, "[ HELP ]");
 	for (int i = n - 1; i >= 0; i--)
 		mvwprintw(win, i + 1, 1, "%s", key_helps[n - i - 1]);
@@ -676,7 +676,7 @@ static int __paint_llabels_win(struct plot *p, bool init)
 	}
 
 	wattron(win, A_BOLD);
-	box(win, 0, 0);
+	set_win_border(win, p->win_border_type);
 	mvwprintw(win, 0, 2, "[ LINES ]");
 	wattroff(win, A_BOLD);
 
@@ -807,7 +807,8 @@ static int key_right_handler(int key, void *arg)
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
-	      enum x_axis_type x_type, enum ltype_enum axis)
+	      enum x_axis_type x_type, enum ltype_enum axis,
+	      enum win_border_type win_border)
 {
 	int err = 0;
 
@@ -819,6 +820,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	plot_scaling_init(p);
 
 	p->axis_curve_type = axis;
+	p->win_border_type = win_border;
 	p->kb = kb;
 	if (x_type < X_TIMEVAL || x_type > X_INDEX)
 		return -EINVAL;

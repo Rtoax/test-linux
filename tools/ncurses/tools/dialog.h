@@ -15,7 +15,14 @@ struct dialog {
 	PANEL *panel;
 };
 
+enum win_border_type {
+	WIN_BORDER_TYPE_DEFAULT = 0,
+	WIN_BORDER_TYPE_UTF8,
+};
+
 void new_dialog(struct dialog *d, WINDOW *win);
 void del_dialog(struct dialog *d);
 void erase_dialog(struct dialog *d);
 void refresh_dialog(struct dialog *d);
+
+void set_win_border(WINDOW *win, enum win_border_type type);

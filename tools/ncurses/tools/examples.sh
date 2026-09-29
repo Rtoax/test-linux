@@ -137,6 +137,7 @@ for axis in ${LINE_TYPES[@]}
 do
 	run --axis-curve-type=${axis}
 done
+run --win-border utf8
 run -o loadavg
 run -o loadavg2 -f loadavg.txt
 if [[ ${SUPPORT_JSON} ]]; then

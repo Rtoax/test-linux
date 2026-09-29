@@ -89,6 +89,7 @@ struct plot {
 
 	WINDOW *win; /* equal to stdscr */
 	struct dialog help, llabels;
+	enum win_border_type win_border_type;
 };
 
 #define for_each_lgroup(plt, iter)                                       \
@@ -158,7 +159,8 @@ static inline void set_plot_ylabel(struct plot *p, const char *label)
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
-	      enum x_axis_type x_type, enum ltype_enum axis);
+	      enum x_axis_type x_type, enum ltype_enum axis,
+	      enum win_border_type win_border);
 int plot_destroy(struct plot *p);
 unsigned long plot_mem_size(const struct plot *p);
 

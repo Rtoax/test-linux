@@ -54,6 +54,7 @@ done | ./plotcake --title "${title}" \
 	--xlabel "${xlabel}" \
 	--ylabel "${ylabel}" \
 	--axis-curve-type utf8 \
+	--win-border utf8 \
 	-l "${line0}" -L utf8 \
 	-l "${line1}" -L utf8 \
 	-l "${line2}" -L utf8
@@ -89,6 +90,7 @@ send_keys 'v'
 
 send_keys 'h'
 check_content "\[ HELP \]"
+check_content "\+-\[ HELP \]-----------------------------------\+"
 check_content "Enter: refresh plot"
 check_content "Up: uniform scaling up"
 check_content "Down: uniform scaling down"
@@ -103,6 +105,7 @@ check_content "'v': turn on/off the verbose mode"
 
 send_keys 'l'
 check_content "\[ LINES \]"
+check_content "\+-\[ LINES \]---\+"
 check_content "\------ ${line0}"
 check_content "\------ ${line1}"
 check_content "\------ ${line2}"

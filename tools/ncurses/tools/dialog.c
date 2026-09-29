@@ -39,3 +39,16 @@ void refresh_dialog(struct dialog *d)
 		wnoutrefresh(d->win);
 	}
 }
+
+void set_win_border(WINDOW *win, enum win_border_type type)
+{
+	switch (type) {
+	case WIN_BORDER_TYPE_UTF8:
+		wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+		break;
+	case WIN_BORDER_TYPE_DEFAULT:
+	default:
+		box(win, 0, 0);
+		break;
+	}
+}
