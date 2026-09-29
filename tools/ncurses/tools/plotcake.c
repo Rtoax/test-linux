@@ -40,6 +40,7 @@
 #include "stdin.h"
 #include "axis.h"
 #include "utils.h"
+#include "fd-handler.h"
 
 enum {
 	ARG_LOGARITHMIC = 200,
@@ -310,11 +311,19 @@ int epoll_add(int epfd, int fd)
 	return epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &event);
 }
 
+static int tmout_handler(int fd, void *arg)
+{
+	uint64_t exp;
+	read(fd, &exp, sizeof(exp));
+	broadcast_sig(SIGINT);
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 	int err = 0;
 	int epollfd;
-	int freshtimerfd, keyfd, stdinfd, tmoutfd;
+	int freshtimerfd, keyfd, stdinfd, tmout_exit_fd;
 	int sigpipe[2];
 	char stdin_buffer[4096] = { 0 };
 
@@ -348,7 +357,7 @@ int main(int argc, char *argv[])
 	sig_rd_fd = sigpipe[0];
 	sig_wr_fd = sigpipe[1];
 
-	tmoutfd = freshtimerfd = keyfd = stdinfd = -1;
+	tmout_exit_fd = freshtimerfd = keyfd = stdinfd = -1;
 
 	/**
 	 * If stdin is redirected, open the terminal for key press.
@@ -398,8 +407,9 @@ int main(int argc, char *argv[])
 	}
 
 	if (tmout_nsecs != 0) {
-		tmoutfd = new_timerfd(tmout_nsecs);
-		epoll_add(epollfd, tmoutfd);
+		tmout_exit_fd = new_timerfd(tmout_nsecs);
+		epoll_add(epollfd, tmout_exit_fd);
+		register_fd(tmout_exit_fd, tmout_handler, NULL);
 	}
 
 	epoll_add(epollfd, sig_rd_fd);
@@ -569,10 +579,8 @@ int main(int argc, char *argv[])
 				read(freshtimerfd, &exp, sizeof(exp));
 				redraw = true;
 				update_data_and_check_interval(&plot);
-			} else if (cur_fd == tmoutfd) {
-				uint64_t exp;
-				read(tmoutfd, &exp, sizeof(exp));
-				broadcast_sig(SIGINT);
+			} else if (cur_fd == tmout_exit_fd) {
+				handle_fd(cur_fd);
 				goto end;
 			} else if (cur_fd == sig_rd_fd) {
 				unsigned char signo;
@@ -590,7 +598,7 @@ int main(int argc, char *argv[])
 						redraw = true;
 					}
 				}
-			} else if (stdinfd != -1 && cur_fd == stdinfd) {
+			} else if (cur_fd == stdinfd) {
 				memset(stdin_buffer, 0, sizeof(stdin_buffer));
 				ssize_t cnt = read(stdinfd, stdin_buffer,
 						   sizeof(stdin_buffer));
@@ -612,8 +620,8 @@ end:
 		close(stdinfd);
 	if (freshtimerfd != -1)
 		close(freshtimerfd);
-	if (tmoutfd != -1)
-		close(tmoutfd);
+	if (tmout_exit_fd != -1)
+		close(tmout_exit_fd);
 	if (keyfd != STDIN_FILENO && keyfd != -1)
 		close(keyfd);
 	close(sig_rd_fd);
