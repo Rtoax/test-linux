@@ -620,5 +620,6 @@ end:
 	save_plot(&plot, output_file_prefix, verbose);
 	if (output_file_prefix)
 		free(output_file_prefix);
+	plot_destroy(&plot);
 	return 0;
 }

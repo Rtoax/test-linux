@@ -787,6 +787,11 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	return err;
 }
 
+int plot_destroy(struct plot *p)
+{
+	return 0;
+}
+
 /* Get memory bytes that plot already spent */
 unsigned long plot_mem_size(const struct plot *p)
 {

@@ -167,6 +167,7 @@ static inline void set_plot_ylabel(struct plot *p, const char *label)
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	      enum x_axis_type x_type, enum ltype_enum axis);
+int plot_destroy(struct plot *p);
 unsigned long plot_mem_size(const struct plot *p);
 
 #define plot_warning(p, fmt...) __plot_warning(p, fmt)
