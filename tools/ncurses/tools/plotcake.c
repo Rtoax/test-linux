@@ -161,8 +161,10 @@ static enum curve_type curve_type = CURVE_TYPE_NONE;
 static enum x_axis_type x_type = X_TIMEVAL;
 static enum ltype_enum axis_curve_type = LINE_TYPE_THIN_UNICODE;
 
-struct plot plot = { 0 };
-struct keyboard keyboard = { 0 };
+static struct plot plot = { 0 };
+static struct keyboard keyboard = { 0 };
+
+static char stdin_buffer[512] = { 0 };
 
 void sig_handler(int signo)
 {
@@ -474,13 +476,28 @@ static int sig_rd_handler(int fd, void *arg)
 	return 0;
 }
 
+static int stdinfd_handler(int fd, void *arg)
+{
+	struct redraw_arg *a = arg;
+	bool redraw = false;
+	struct plot *plot = a->plot;
+
+	memset(stdin_buffer, 0, sizeof(stdin_buffer));
+	ssize_t cnt = read(fd, stdin_buffer, sizeof(stdin_buffer));
+	if (cnt > 0) {
+		redraw = true;
+	}
+	update_data_and_check_interval(plot);
+	*a->redraw = redraw;
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 	int err = 0;
 	int epollfd;
 	int freshtimerfd, keyfd, stdinfd, tmout_exit_fd;
 	int sigpipe[2];
-	char stdin_buffer[4096] = { 0 };
 	bool redraw = false;
 	struct redraw_arg redraw_arg;
 
@@ -556,6 +573,7 @@ int main(int argc, char *argv[])
 
 	if (stdinfd != -1) {
 		epoll_add(epollfd, stdinfd);
+		register_fd(stdinfd, stdinfd_handler, &redraw_arg);
 	} else {
 		/**
 		 * Note: When we read data from stdin, we no longer need this
@@ -648,13 +666,7 @@ int main(int argc, char *argv[])
 				if (redraw_arg.should_end)
 					goto end;
 			} else if (cur_fd == stdinfd) {
-				memset(stdin_buffer, 0, sizeof(stdin_buffer));
-				ssize_t cnt = read(stdinfd, stdin_buffer,
-						   sizeof(stdin_buffer));
-				if (cnt > 0) {
-					redraw = true;
-				}
-				update_data_and_check_interval(&plot);
+				handle_fd(cur_fd);
 			} else
 				continue;
 
