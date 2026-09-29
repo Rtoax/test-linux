@@ -16,5 +16,12 @@ if [[ -z ${url} ]]; then
 	exit 1
 fi
 
-ffmpeg -i ${url} -c copy -bsf:a aac_adtstoasc $(date '+%Y%m%d_%H%M%S')${star:+-star${star}}.mp4
+output_file="$(date '+%Y%m%d_%H%M%S')${star:+-star${star}}.mp4"
 
+url_basename="$(basename ${url})"
+url_basename_2="$(echo ${url_basename} | grep -E '^[-_|a-zA-Z0-9]+\.[-_|a-zA-Z0-9]+')"
+if [[ "${url_basename}" == "${url_basename_2}" ]]; then
+	output_file=${url_basename}${star:+-star${star}}.mp4
+fi
+
+ffmpeg -i ${url} -c copy -bsf:a aac_adtstoasc ${output_file}
