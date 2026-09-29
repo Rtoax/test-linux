@@ -675,11 +675,6 @@ static int __paint_llabels_win(struct plot *p, bool init)
 		ret = 1;
 	}
 
-	wattron(win, A_BOLD);
-	set_win_border(win, p->win_border_type);
-	mvwprintw(win, 0, 2, "[ LINES ]");
-	wattroff(win, A_BOLD);
-
 	i = 0;
 	for_each_lgroup(p, lg)
 	{
@@ -692,6 +687,18 @@ static int __paint_llabels_win(struct plot *p, bool init)
 			i++;
 		}
 	}
+
+	/**
+	 * When the line type is set to 'unicode-area-chart', the legend window
+	 * defaults to displaying lines that extend beyond its boundaries, as an
+	 * area is being rendered. Consequently, the simplest current solution
+	 * is to draw the box border last, thereby masking the excess lines.
+	 */
+	wattron(win, A_BOLD);
+	set_win_border(win, p->win_border_type);
+	mvwprintw(win, 0, 2, "[ LINES ]");
+	wattroff(win, A_BOLD);
+
 	return ret;
 }
 
