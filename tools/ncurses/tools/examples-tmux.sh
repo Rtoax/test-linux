@@ -78,15 +78,15 @@ send_keys 'v'
 send_keys 'h'
 check_content "\[ HELP \]"
 check_content "Enter: refresh plot"
-check_content "Up: Uniform Scaling Up"
-check_content "Down: Uniform Scaling Down"
-check_content "Left: Curve shifts to the right"
-check_content "Right: Curve shifts to the left"
+check_content "Up: uniform scaling up"
+check_content "Down: uniform scaling down"
+check_content "Left: curve shifts to the right"
+check_content "Right: curve shifts to the left"
 check_content "'h': show the help info"
 check_content "'l': show the label for each line"
-check_content "'q': quit"
-check_content "'r': reset plot"
-check_content "'t': change numerical scaling for paint"
+check_content "'q': quit the plotcake"
+check_content "'r': reset the ploting"
+check_content "'t': change numerical scaling type for paint"
 check_content "'v': turn on/off the verbose mode"
 
 send_keys 'l'

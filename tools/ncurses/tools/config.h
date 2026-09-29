@@ -2,20 +2,20 @@
 /* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #pragma once
 
-#define MY_VERSION "v1.7.19"
+#define MY_VERSION "v1.7.20"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
 #define KEY_HELP_l "'l': show the label for each line"
-#define KEY_HELP_q "'q': quit"
-#define KEY_HELP_r "'r': reset plot"
-#define KEY_HELP_t "'t': change numerical scaling for paint"
+#define KEY_HELP_q "'q': quit the plotcake"
+#define KEY_HELP_r "'r': reset the ploting"
+#define KEY_HELP_t "'t': change numerical scaling type for paint"
 #define KEY_HELP_v "'v': turn on/off the verbose mode"
 #define KEY_HELP_ENTER "Enter: refresh plot"
-#define KEY_HELP_UP "Up: Uniform Scaling Up"
-#define KEY_HELP_DOWN "Down: Uniform Scaling Down"
-#define KEY_HELP_LEFT "Left: Curve shifts to the right"
-#define KEY_HELP_RIGHT "Right: Curve shifts to the left"
+#define KEY_HELP_UP "Up: uniform scaling up"
+#define KEY_HELP_DOWN "Down: uniform scaling down"
+#define KEY_HELP_LEFT "Left: curve shifts to the right"
+#define KEY_HELP_RIGHT "Right: curve shifts to the left"
 
 #define EXPIRED_USECS_SHIFT 60000000UL /* 60s, key left, right */
 #define EXPIRED_USECS_HELP 1000000UL /* 1s, key h */
