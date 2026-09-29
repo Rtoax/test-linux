@@ -17,7 +17,7 @@
 chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
-static void __paint_help_win(struct plot *p, bool init);
+static int __paint_help_win(struct plot *p, bool init);
 static void __paint_llabels_win(struct plot *p, bool init);
 
 int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
@@ -612,8 +612,12 @@ static int max_key_help_len(void)
 	return max;
 }
 
-static void __paint_help_win(struct plot *p, bool init)
+/**
+ * @return: return 0 or 1 if success (1: create window)
+ */
+static int __paint_help_win(struct plot *p, bool init)
 {
+	int ret = 0;
 	int h = p->plotheight / 2 + p->bnd.top - ARRAY_SIZE(key_helps) / 2;
 	int w = p->plotwidth / 2 + p->bnd.left - max_key_help_len() / 2;
 	int n = sizeof(key_helps) / sizeof(key_helps[0]);
@@ -622,6 +626,7 @@ static void __paint_help_win(struct plot *p, bool init)
 	if (init && !win) {
 		win = newwin(n + 2, max_key_help_len() + 2, h, w);
 		new_dialog(&p->help, win);
+		ret = 1;
 	}
 
 	wattron(win, colors[C_BLUE] | A_BOLD);
@@ -630,6 +635,8 @@ static void __paint_help_win(struct plot *p, bool init)
 	for (int i = n - 1; i >= 0; i--)
 		mvwprintw(win, i + 1, 1, "%s", key_helps[n - i - 1]);
 	wattroff(win, colors[C_BLUE] | A_BOLD);
+
+	return ret;
 }
 
 static void __paint_llabels_win(struct plot *p, bool init)

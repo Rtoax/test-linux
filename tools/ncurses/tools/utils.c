@@ -116,6 +116,9 @@ long alloc_buf_read_file(const char *filename, char **buf)
 	return size;
 }
 
+/**
+ * @nsecs: timeout nanoseconds
+ */
 int new_timerfd(unsigned long nsecs)
 {
 	int timerfd;
