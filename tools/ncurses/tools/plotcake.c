@@ -146,6 +146,7 @@ static const struct argp_option opts[] = {
 	{},
 };
 
+static int epollfd = -1;
 static int sig_rd_fd, sig_wr_fd;
 static int ram = false;
 static int verbose = false;
@@ -304,12 +305,12 @@ static int update_data_and_check_interval(struct plot *p)
 	return 1;
 }
 
-int epoll_add(int epfd, int fd)
+int epoll_add_fd(int fd)
 {
 	struct epoll_event event;
 	event.data.fd = fd;
 	event.events = EPOLLIN;
-	return epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &event);
+	return epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &event);
 }
 
 struct redraw_arg {
@@ -493,7 +494,6 @@ static int stdinfd_handler(int fd, void *arg)
 int main(int argc, char *argv[])
 {
 	int err = 0;
-	int epollfd;
 	int freshtimerfd, keyfd, stdinfd, tmout_exit_fd;
 	int sigpipe[2];
 	bool redraw = false;
@@ -566,11 +566,11 @@ int main(int argc, char *argv[])
 	} else
 		keyfd = STDIN_FILENO;
 
-	epoll_add(epollfd, keyfd);
+	epoll_add_fd(keyfd);
 	register_fd(keyfd, key_handler, &redraw_arg);
 
 	if (stdinfd != -1) {
-		epoll_add(epollfd, stdinfd);
+		epoll_add_fd(stdinfd);
 		register_fd(stdinfd, stdinfd_handler, &redraw_arg);
 	} else {
 		/**
@@ -581,17 +581,17 @@ int main(int argc, char *argv[])
 		 * continue for stdin if plot/line information matched.
 		 */
 		freshtimerfd = new_timerfd(interval_nsecs);
-		epoll_add(epollfd, freshtimerfd);
+		epoll_add_fd(freshtimerfd);
 		register_fd(freshtimerfd, fresher_handler, &redraw_arg);
 	}
 
 	if (tmout_nsecs != 0) {
 		tmout_exit_fd = new_timerfd(tmout_nsecs);
-		epoll_add(epollfd, tmout_exit_fd);
+		epoll_add_fd(tmout_exit_fd);
 		register_fd(tmout_exit_fd, tmout_handler, &redraw_arg);
 	}
 
-	epoll_add(epollfd, sig_rd_fd);
+	epoll_add_fd(sig_rd_fd);
 	register_fd(sig_rd_fd, sig_rd_handler, &redraw_arg);
 
 	/* curses start from here */
