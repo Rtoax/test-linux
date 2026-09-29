@@ -47,13 +47,15 @@ check_content() {
 
 cat >${plotcake}<<EOF
 #!/bin/bash
-./plotcake --title "${title}" \
+while true; do
+	echo 1 2 3
+	sleep 0.1
+done | ./plotcake --title "${title}" \
 	--xlabel "${xlabel}" \
 	--ylabel "${ylabel}" \
 	-l "${line0}" \
 	-l "${line1}" \
-	-l "${line2}" \
-	--interval 100ms
+	-l "${line2}"
 EOF
 chmod +x ${plotcake}
 
@@ -101,3 +103,5 @@ check_content "\[ LINES \]"
 check_content " ${line0}"
 check_content " ${line1}"
 check_content " ${line2}"
+
+tmux capture-pane -t ${session} -p
