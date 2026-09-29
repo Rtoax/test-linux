@@ -1,6 +1,19 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (C) 2026 Rong Tao. All rights reserved.
 /**
+ * Supports handler functions for rapid lookup and retrieval of file
+ * descriptors.
+ *
+ * +----+--------+
+ * |fd1 |handler1|
+ * +----+--------+
+ * |fd2 |handler2|
+ * +----+--------+
+ * |... |  ...   |
+ * +----+--------+
+ * |fdN |handlerN|
+ * +----+--------+
+ *
  * see also test-linux/glibc/search/fd-handler.c
  */
 #include <errno.h>

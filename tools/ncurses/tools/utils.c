@@ -118,6 +118,7 @@ long alloc_buf_read_file(const char *filename, char **buf)
 
 /**
  * @nsecs: timeout nanoseconds
+ * @return: timerfd, close with close(2).
  */
 int new_timerfd(unsigned long nsecs)
 {

@@ -689,5 +689,6 @@ end:
 	if (output_file_prefix)
 		free(output_file_prefix);
 	plot_destroy(&plot);
+	release_fd_handlers();
 	return 0;
 }
