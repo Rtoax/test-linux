@@ -90,3 +90,7 @@ check_content "'t': change numerical scaling for paint"
 check_content "'v': turn on/off the verbose mode"
 
 send_keys 'l'
+check_content "\[ LINES \]"
+check_content " ${line0}"
+check_content " ${line1}"
+check_content " ${line2}"
