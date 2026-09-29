@@ -11,7 +11,7 @@ struct fd_handler {
 	int (*handler)(int fd, void *arg);
 };
 
-static void *root = NULL;
+static void *fd_handler_root = NULL;
 
 int my_handler(int fd, void *arg)
 {
@@ -27,6 +27,13 @@ static int fd_compare(const void *pa, const void *pb)
 	if (f1->fd > f2->fd)
 		return 1;
 	return 0;
+}
+
+static void free_fd_handler(void *p)
+{
+	struct fd_handler *fd = p;
+	printf("free %d\n", fd->fd);
+	free(p);
 }
 
 static void walk_action(const void *nodep, VISIT which, int depth)
@@ -56,7 +63,7 @@ struct fd_handler *register_fd(int fd, int (*handler)(int, void *), void *arg)
 	new->arg = arg;
 	new->handler = handler;
 
-	struct fd_handler **p = tsearch(new, &root, fd_compare);
+	struct fd_handler **p = tsearch(new, &fd_handler_root, fd_compare);
 	if (p == NULL)
 		return NULL;
 	if (*p != new) {
@@ -66,12 +73,33 @@ struct fd_handler *register_fd(int fd, int (*handler)(int, void *), void *arg)
 	return new;
 }
 
+int unregister_fd(int fd)
+{
+	struct fd_handler h = {
+		.fd = fd,
+	};
+
+	struct fd_handler **p = tfind(&h, &fd_handler_root, fd_compare);
+	if (p == NULL)
+		return -ENOENT;
+
+	struct fd_handler *node = *p;
+	/**
+	 * tdelete() returns a pointer to the parent of the node deleted, or
+	 * NULL if the item was not found. If the deleted node was the root
+	 * node, tdelete() returns a dangling pointer that must not be accessed.
+	 */
+	tdelete(&h, &fd_handler_root, fd_compare);
+	free(node);
+	return 0;
+}
+
 int handle_fd(int fd)
 {
 	struct fd_handler h = {
 		.fd = fd,
 	};
-	struct fd_handler **p = tfind(&h, &root, fd_compare);
+	struct fd_handler **p = tfind(&h, &fd_handler_root, fd_compare);
 	if (p == NULL)
 		return -ENOENT;
 	return (*p)->handler(fd, (*p)->arg);
@@ -89,7 +117,12 @@ int main(void)
 		handle_fd(12 - 1 - i);
 	}
 
-	twalk(root, walk_action);
-	tdestroy(root, free);
+	twalk(fd_handler_root, walk_action);
+	unregister_fd(3);
+	unregister_fd(8);
+	unregister_fd(9);
+	twalk(fd_handler_root, walk_action);
+
+	tdestroy(fd_handler_root, free_fd_handler);
 	exit(EXIT_SUCCESS);
 }

@@ -48,6 +48,27 @@ struct fd_handler *register_fd(int fd, int (*handler)(int, void *), void *arg)
 	return new;
 }
 
+int unregister_fd(int fd)
+{
+	struct fd_handler h = {
+		.fd = fd,
+	};
+
+	struct fd_handler **p = tfind(&h, &fd_handler_root, fd_compare);
+	if (p == NULL)
+		return -ENOENT;
+
+	struct fd_handler *node = *p;
+	/**
+	 * tdelete() returns a pointer to the parent of the node deleted, or
+	 * NULL if the item was not found. If the deleted node was the root
+	 * node, tdelete() returns a dangling pointer that must not be accessed.
+	 */
+	tdelete(&h, &fd_handler_root, fd_compare);
+	free(node);
+	return 0;
+}
+
 int handle_fd(int fd)
 {
 	struct fd_handler h = {
