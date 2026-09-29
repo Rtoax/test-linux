@@ -53,9 +53,10 @@ while true; do
 done | ./plotcake --title "${title}" \
 	--xlabel "${xlabel}" \
 	--ylabel "${ylabel}" \
-	-l "${line0}" \
-	-l "${line1}" \
-	-l "${line2}"
+	--axis-curve-type utf8 \
+	-l "${line0}" -L utf8 \
+	-l "${line1}" -L utf8 \
+	-l "${line2}" -L utf8
 EOF
 chmod +x ${plotcake}
 
@@ -69,6 +70,8 @@ check_content "${ylabel}"
 check_content "${line0}"
 check_content "${line1}"
 check_content "${line2}"
+check_content "\^"
+check_content "\--------->"
 
 # Turn on the verbose mode
 send_keys 'v'
@@ -100,8 +103,8 @@ check_content "'v': turn on/off the verbose mode"
 
 send_keys 'l'
 check_content "\[ LINES \]"
-check_content " ${line0}"
-check_content " ${line1}"
-check_content " ${line2}"
+check_content "\------ ${line0}"
+check_content "\------ ${line1}"
+check_content "\------ ${line2}"
 
 tmux capture-pane -t ${session} -p
