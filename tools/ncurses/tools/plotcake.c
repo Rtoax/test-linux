@@ -449,6 +449,31 @@ static int key_handler(int fd, void *arg)
 	return 0;
 }
 
+static int sig_rd_handler(int fd, void *arg)
+{
+	unsigned char signo;
+	struct redraw_arg *a = arg;
+	bool redraw = false;
+	struct plot *plot = a->plot;
+
+	const ssize_t cnt = read(fd, &signo, 1);
+	if (cnt > 0) {
+		if (signo == SIGINT) {
+			done = true;
+			a->should_end = true;
+		} else if (signo == SIGWINCH) {
+			endwin();
+			plot->win = initscr();
+			werase(plot->win);
+			wrefresh(plot->win);
+			plot_update_size(plot, false);
+			redraw = true;
+		}
+	}
+	*a->redraw = redraw;
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 	int err = 0;
@@ -551,6 +576,7 @@ int main(int argc, char *argv[])
 	}
 
 	epoll_add(epollfd, sig_rd_fd);
+	register_fd(sig_rd_fd, sig_rd_handler, &redraw_arg);
 
 	/* curses start from here */
 
@@ -618,21 +644,9 @@ int main(int argc, char *argv[])
 				if (redraw_arg.should_end)
 					goto end;
 			} else if (cur_fd == sig_rd_fd) {
-				unsigned char signo;
-				const ssize_t cnt = read(sig_rd_fd, &signo, 1);
-				if (cnt > 0) {
-					if (signo == SIGINT) {
-						done = true;
-						break;
-					} else if (signo == SIGWINCH) {
-						endwin();
-						plot.win = initscr();
-						werase(plot.win);
-						wrefresh(plot.win);
-						plot_update_size(&plot, false);
-						redraw = true;
-					}
-				}
+				handle_fd(cur_fd);
+				if (redraw_arg.should_end)
+					goto end;
 			} else if (cur_fd == stdinfd) {
 				memset(stdin_buffer, 0, sizeof(stdin_buffer));
 				ssize_t cnt = read(stdinfd, stdin_buffer,
