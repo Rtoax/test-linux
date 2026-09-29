@@ -23,10 +23,13 @@ cleanup()
 {
 	local err=$?
 	tmux kill-session -t ${session}
-	rm ${plotcake}
 	if [[ ${err} -ne 0 ]]; then
 		echo >&2 "ERROR: test failed."
+		echo >&2 "--------------------------------------"
+		cat >&2 ${plotcake}
 		exit ${err}
+	else
+		rm ${plotcake}
 	fi
 }
 trap cleanup EXIT
@@ -47,16 +50,18 @@ check_content() {
 
 cat >${plotcake}<<EOF
 #!/bin/bash
-while true; do
-	echo 1 2 3
-	sleep 0.1
-done | ./plotcake --title "${title}" \
-	--xlabel "${xlabel}" \
-	--ylabel "${ylabel}" \
-	--axis-curve-type utf8 \
-	--win-border utf8 \
-	-l "${line0}" -L utf8 \
-	-l "${line1}" -L utf8 \
+set -e
+for ((i = 1; i <= 10000; i++))
+do
+	seq --separator=' ' \$i 20 \$((i + 2 * 20))
+	sleep 0.05
+done | ./plotcake --title "${title}" \\
+	--xlabel "${xlabel}" \\
+	--ylabel "${ylabel}" \\
+	--axis-curve-type utf8 \\
+	--win-border utf8 \\
+	-l "${line0}" -L utf8 \\
+	-l "${line1}" -L utf8 \\
 	-l "${line2}" -L utf8
 EOF
 chmod +x ${plotcake}
@@ -143,8 +148,11 @@ send_keys 't'
 check_content "${title} \(base-e exponential\)"
 send_keys 't'
 check_content "${title} \(delta\)"
+send_keys 't'
+send_keys 't'
 
 send_keys 'v'
 check_content "h=1"
 check_content "l=1"
+check_content "t=6"
 tmux capture-pane -t ${session} -p
