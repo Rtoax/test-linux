@@ -38,4 +38,4 @@ do
 
 	echo "${msg}"
 	sleep 0.01
-done | ${PLOTCAKE} --title 'Bar chart' ${area_args[@]} -o bar-chart ${@}
+done | ${PLOTCAKE} --title 'Bar chart' ${area_args[@]} -o bar-chart ${@} --x-index
