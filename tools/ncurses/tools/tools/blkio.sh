@@ -9,10 +9,13 @@ iostat_x() {
 	iostat | grep -e ^sd -e ^nvme -e ^vd | head -1
 }
 
-if which iostat 2>&1 >/dev/null; then
-	while true; do
-		iostat_x | awk '{print $3, $4}'
-		sleep 1
-	done | ${PLOTCAKE} ${args[@]} -T "$(iostat_x | awk '{print $1}') Read-Write" \
-			-l 'kB_read/s' -l 'kB_wrtn/s' --ylabel 'Rate' -o blkio ${@}
+if ! which iostat 2>&1 >/dev/null; then
+	echo >&2 "ERROR: not found iostat command"
+	exit 1
 fi
+
+while true; do
+	iostat_x | awk '{print $3, $4}'
+	sleep 1
+done | ${PLOTCAKE} ${args[@]} -T "$(iostat_x | awk '{print $1}') Read-Write" \
+		-l 'kB_read/s' -l 'kB_wrtn/s' --ylabel 'Rate' -o blkio "${@}"

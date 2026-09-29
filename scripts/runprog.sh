@@ -226,6 +226,6 @@ else
 fi
 
 # If you run with sudo, then we need to reset the owner of the log file.
-if [[ ${SUDO_USER} ]] && [[ ${RECORD_FILE} ]]; then
+if [[ -n "${SUDO_USER}" ]] && [[ ${RECORD_FILE} ]]; then
 	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${RECORD_FILE}
 fi

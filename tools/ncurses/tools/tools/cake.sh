@@ -18,5 +18,6 @@ for ((i = 0; i < ${#l1[@]}; i++))
 do
 	echo ${l1[i]} ${l2[i]} ${height}
 	sleep 0.01
-done | ${PLOTCAKE} --title 'Happy Birthday' -L unicode-boldbold -L unicode-boldbold \
-		-C w -C w -o cake ${@}
+done | ${PLOTCAKE} --title 'Happy Birthday' \
+	-L unicode-boldbold -L unicode-boldbold \
+	-C w -C w -o cake "${@}"
