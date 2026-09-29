@@ -76,6 +76,17 @@ check_content "<pid:[0-9]+>"
 send_keys 'v'
 
 send_keys 'h'
-#check_content "Enter: refresh plot"
+check_content "\[ HELP \]"
+check_content "Enter: refresh plot"
+check_content "Up: Uniform Scaling Up"
+check_content "Down: Uniform Scaling Down"
+check_content "Left: Curve shifts to the right"
+check_content "Right: Curve shifts to the left"
+check_content "'h': show the help info"
+check_content "'l': show the label for each line"
+check_content "'q': quit"
+check_content "'r': reset plot"
+check_content "'t': change numerical scaling for paint"
+check_content "'v': turn on/off the verbose mode"
 
 send_keys 'l'
