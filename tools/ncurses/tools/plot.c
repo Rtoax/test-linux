@@ -13,6 +13,8 @@
 #include "keyboard.h"
 #include "utils.h"
 #include "dialog.h"
+#include "plotcake.h"
+#include "fd-handler.h"
 
 chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
@@ -553,12 +555,7 @@ static void __plot_redraw(struct plot *p, bool debug)
 
 	__paint_plot(p, debug);
 
-	if (p->expired_usec.help && p->expired_usec.help > usecs()) {
-		__paint_help_win(p, false);
-	} else {
-		p->expired_usec.help = 0;
-		del_dialog(&p->help);
-	}
+	__paint_help_win(p, false);
 
 	if (p->expired_usec.llabel && p->expired_usec.llabel > usecs()) {
 		__paint_llabels_win(p, false);
@@ -617,11 +614,19 @@ static int max_key_help_len(void)
  */
 static int __paint_help_win(struct plot *p, bool init)
 {
-	int ret = 0;
-	int h = p->plotheight / 2 + p->bnd.top - ARRAY_SIZE(key_helps) / 2;
-	int w = p->plotwidth / 2 + p->bnd.left - max_key_help_len() / 2;
-	int n = sizeof(key_helps) / sizeof(key_helps[0]);
+	int h, w, n, ret = 0;
 	WINDOW *win = p->help.win;
+
+	/**
+	 * If no initialization flag is specified and the window is null, the
+	 * drawing process is skipped.
+	 */
+	if (!init && !win)
+		return 0;
+
+	h = p->plotheight / 2 + p->bnd.top - ARRAY_SIZE(key_helps) / 2;
+	w = p->plotwidth / 2 + p->bnd.left - max_key_help_len() / 2;
+	n = sizeof(key_helps) / sizeof(key_helps[0]);
 
 	if (init && !win) {
 		win = newwin(n + 2, max_key_help_len() + 2, h, w);
@@ -684,14 +689,27 @@ static void __paint_llabels_win(struct plot *p, bool init)
 	}
 }
 
+static int help_end(int timerfd, void *arg)
+{
+	struct dialog *d = arg;
+	epoll_del_fd(timerfd);
+	unregister_fd(timerfd);
+	close(timerfd);
+	del_dialog(d);
+	return 0;
+}
+
 /**
  * Press key 'h', display the help info
  */
 static int key_h_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->expired_usec.help = usecs() + EXPIRED_USECS_HELP;
-	__paint_help_win(p, true);
+	if (__paint_help_win(p, true) == 1) {
+		int fd = new_timerfd(EXPIRED_USECS_HELP * 1000);
+		epoll_add_fd(fd);
+		register_fd(fd, help_end, &p->help);
+	}
 	return 0;
 }
 
@@ -714,7 +732,6 @@ static int key_r_handler(int key, void *arg)
 	struct plot *p = arg;
 
 	plot_scaling_init(p);
-	p->expired_usec.help = 0;
 	p->expired_usec.llabel = 0;
 	p->expired_usec.shift = 0;
 	p->plotshift = 0;

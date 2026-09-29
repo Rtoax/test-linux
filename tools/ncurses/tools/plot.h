@@ -73,7 +73,7 @@ struct plot {
 	 * a timeout.
 	 */
 	struct {
-		unsigned long help, llabel, shift;
+		unsigned long llabel, shift;
 	} expired_usec;
 
 	/**
