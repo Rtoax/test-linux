@@ -7,29 +7,75 @@
 #
 set -e
 
+title="This is Title"
+xlabel="Axis X"
+ylabel="Axis Y"
+line0="Line 0"
+line1="Line 1"
+line2="Line 2"
+
 session=$(mktemp -u plotcake-XXXXXX)
-width=100
+width=120
 heigh=40
 
 cleanup()
 {
+	local err=$?
 	tmux kill-session -t ${session}
+	if [[ ${err} -ne 0 ]]; then
+		echo >&2 "ERROR: test failed."
+		exit ${err}
+	fi
 }
 trap cleanup EXIT
 
-tmux new-session -d -s ${session} -x ${width} -y ${heigh} ./plotcake
+send_keys() {
+	tmux send-keys -t ${session} "${@}"
+}
+
+check_content() {
+	local pattern="${@}"
+	local pane="$(tmux capture-pane -t ${session} -p)"
+	local match="$(echo -e "${pane}" | grep -oE "${pattern}")"
+	if [[ -z "${match}" ]]; then
+		echo -e >&2 "\033[1;31mERROR: pattern '${pattern}' was not matched in \033[m'${pane}'"
+		exit 1
+	fi
+}
+
+tmux new-session -d -s ${session} -x ${width} -y ${heigh} \
+	./plotcake --title "${title}" \
+		--xlabel "${xlabel}" \
+		--ylabel "${ylabel}" \
+		-l "${line0}" \
+		-l "${line1}" \
+		-l "${line2}" \
+		--interval 100ms
+
 tmux list-sessions
 sleep 0.5
 
-tmux capture-pane -t ${session} -p
+check_content "${title}"
+check_content "${ylabel}"
+check_content "${line0}"
+check_content "${line1}"
+check_content "${line2}"
 
-tmux send-keys -t ${session} 'v'
-tmux capture-pane -t ${session} -p
-tmux send-keys -t ${session} 'v'
-tmux capture-pane -t ${session} -p
+# Turn on the verbose mode
+send_keys 'v'
 
-tmux send-keys -t ${session} 'h'
-tmux capture-pane -t ${session} -p
+check_content "plot\(redraw=[0-9]+"
+check_content "key\(left=[0-9]+"
+check_content "$(hostname)"
+check_content "1: ${line0}"
+check_content "2: ${line1}"
+check_content "3: ${line2}"
+check_content "<pid:[0-9]+>"
 
-tmux send-keys -t ${session} 'l'
-tmux capture-pane -t ${session} -p
+# Turn off the verbose mode
+send_keys 'v'
+
+send_keys 'h'
+#check_content "Enter: refresh plot"
+
+send_keys 'l'
