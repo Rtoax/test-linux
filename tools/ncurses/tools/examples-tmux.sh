@@ -23,7 +23,7 @@ cleanup()
 {
 	local err=$?
 	tmux kill-session -t ${session}
-	# rm ${plotcake}
+	rm ${plotcake}
 	if [[ ${err} -ne 0 ]]; then
 		echo >&2 "ERROR: test failed."
 		exit ${err}
