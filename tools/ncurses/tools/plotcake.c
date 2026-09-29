@@ -41,6 +41,7 @@
 #include "axis.h"
 #include "utils.h"
 #include "fd-handler.h"
+#include "plotcake.h"
 
 enum {
 	ARG_LOGARITHMIC = 200,
@@ -313,6 +314,11 @@ int epoll_add_fd(int fd)
 	return epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &event);
 }
 
+int epoll_del_fd(int fd)
+{
+	return epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL);
+}
+
 struct redraw_arg {
 	bool *redraw;
 	bool should_end;
@@ -434,11 +440,9 @@ static int key_handler(int fd, void *arg)
 			redraw = true;
 			break;
 		/**
-		 * Sometimes, the arrow keys can
-		 * accidentally trigger Esc, which
-		 * causes the program to exit, so
-		 * plotcake should ignore the Esc key
-		 * like the 'top' command.
+		 * Sometimes, the arrow keys can accidentally trigger Esc,
+		 * which causes the program to exit, so plotcake should ignore
+		 * the Esc key like the 'top' command.
 		 */
 		case 27: /* Esc, 0x1B, 033, ^[ */
 		case 13: /* enter */
