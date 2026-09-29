@@ -10,6 +10,22 @@ and this project adheres to
 ## Unreleased
 
 #### Breaking Changes
+#### Added
+#### Changed
+#### Deprecated
+#### Documentation
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Scripts
+#### Tools
+#### Template
+
+
+## [v2.4.14] Squirrel 2026-09-29
+
+#### Breaking Changes
 - template: release v1.0.0;
 #### Added
 - glibc: add gnu and features subdir;
