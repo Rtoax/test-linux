@@ -14,6 +14,7 @@ line0="Line 0"
 line1="Line 1"
 line2="Line 2"
 
+plotcake=$(mktemp ./tmp-plotcake-XXXXXX.sh)
 session=$(mktemp -u plotcake-XXXXXX)
 width=120
 heigh=40
@@ -22,6 +23,7 @@ cleanup()
 {
 	local err=$?
 	tmux kill-session -t ${session}
+	# rm ${plotcake}
 	if [[ ${err} -ne 0 ]]; then
 		echo >&2 "ERROR: test failed."
 		exit ${err}
@@ -43,14 +45,19 @@ check_content() {
 	fi
 }
 
-tmux new-session -d -s ${session} -x ${width} -y ${heigh} \
-	./plotcake --title "${title}" \
-		--xlabel "${xlabel}" \
-		--ylabel "${ylabel}" \
-		-l "${line0}" \
-		-l "${line1}" \
-		-l "${line2}" \
-		--interval 100ms
+cat >${plotcake}<<EOF
+#!/bin/bash
+./plotcake --title "${title}" \
+	--xlabel "${xlabel}" \
+	--ylabel "${ylabel}" \
+	-l "${line0}" \
+	-l "${line1}" \
+	-l "${line2}" \
+	--interval 100ms
+EOF
+chmod +x ${plotcake}
+
+tmux new-session -d -s ${session} -x ${width} -y ${heigh} ${plotcake}
 
 tmux list-sessions
 sleep 0.5
