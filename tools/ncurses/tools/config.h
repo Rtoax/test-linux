@@ -2,7 +2,7 @@
 /* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #pragma once
 
-#define MY_VERSION "v1.7.13"
+#define MY_VERSION "v1.7.14"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -17,9 +17,9 @@
 #define KEY_HELP_LEFT "Left: Curve shifts to the right"
 #define KEY_HELP_RIGHT "Right: Curve shifts to the left"
 
-#define EXPIRED_USECS_SHIFT 60000000UL /* key left, right */
-#define EXPIRED_USECS_HELP 1000000UL /* key h */
-#define EXPIRED_USECS_LLABEL 1000000UL /* key l */
+#define EXPIRED_USECS_SHIFT 60000000UL /* 60s, key left, right */
+#define EXPIRED_USECS_HELP 1000000UL /* 1s, key h */
+#define EXPIRED_USECS_LLABEL 1000000UL /* 1s, key l */
 
 #define ANSI_RED "\033[1;31m"
 #define ANSI_GREEN "\033[1;32m"

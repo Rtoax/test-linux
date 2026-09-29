@@ -69,14 +69,6 @@ struct plot {
 	struct keyboard *kb;
 
 	/**
-	 * Some information needs to be displayed for a longer time, so we set
-	 * a timeout.
-	 */
-	struct {
-		unsigned long shift;
-	} expired_usec;
-
-	/**
 	 * When something happens internally, such as a change in the drawing
 	 * boundary, we need to redraw, rather than letting external conditions
 	 * trigger a redraw.

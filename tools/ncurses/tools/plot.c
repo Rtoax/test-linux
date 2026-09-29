@@ -556,11 +556,6 @@ static void __plot_redraw(struct plot *p, bool debug)
 	__paint_plot(p, debug);
 	__paint_help_win(p, false);
 	__paint_llabels_win(p, false);
-
-	if (p->expired_usec.shift && p->expired_usec.shift < usecs()) {
-		p->plotshift = 0;
-		p->expired_usec.shift = 0;
-	}
 }
 
 void plot_redraw(struct plot *p, bool debug)
@@ -737,7 +732,6 @@ static int key_r_handler(int key, void *arg)
 	struct plot *p = arg;
 
 	plot_scaling_init(p);
-	p->expired_usec.shift = 0;
 	p->plotshift = 0;
 	return 0;
 }
@@ -764,21 +758,42 @@ static int key_down_handler(int key, void *arg)
 	return 0;
 }
 
+static int plot_shift_timerfd = -1;
+
+static int plot_shift_timeout(int timerfd, void *arg)
+{
+	struct plot *p = arg;
+	p->plotshift = 0;
+	plot_shift_timerfd = -1;
+	epoll_del_fd(timerfd);
+	unregister_fd(timerfd);
+	close(timerfd);
+	return 0;
+}
+
+static int create_shift_timerfd(struct plot *p)
+{
+	if (plot_shift_timerfd == -1) {
+		plot_shift_timerfd = new_timerfd(EXPIRED_USECS_SHIFT * 1000);
+		epoll_add_fd(plot_shift_timerfd);
+		register_fd(plot_shift_timerfd, plot_shift_timeout, p);
+	}
+	return 0;
+}
+
 static int key_left_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	/* 10 seconds */
-	p->expired_usec.shift = usecs() + EXPIRED_USECS_SHIFT;
 	plot_shift_left(p);
+	create_shift_timerfd(p);
 	return 0;
 }
 
 static int key_right_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	/* 10 seconds */
-	p->expired_usec.shift = usecs() + EXPIRED_USECS_SHIFT;
 	plot_shift_right(p);
+	create_shift_timerfd(p);
 	return 0;
 }
 
