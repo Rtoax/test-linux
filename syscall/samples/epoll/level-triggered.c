@@ -15,6 +15,7 @@ int main(void)
 	event.events |= EPOLLONESHOT;
 #endif
 	epoll_ctl(epfd, EPOLL_CTL_ADD, STDIN_FILENO, &event);
+
 	while (1) {
 		nfds = epoll_wait(epfd, events, 5, -1);
 		int i;

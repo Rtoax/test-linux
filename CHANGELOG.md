@@ -42,6 +42,7 @@ and this project adheres to
 - library: Set any items without a version number to v0.0.1;
 - move `make_tl.sh` into template;
 #### Tools
+- plotcake: use epoll instead of select;
 - ncurses: add alert.c samples;
 - git: add describe dir;
 - git: add show dir;

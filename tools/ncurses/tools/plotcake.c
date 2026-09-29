@@ -30,6 +30,7 @@
 #include <time.h>
 #include <ncurses.h>
 #include <unistd.h>
+#include <sys/epoll.h>
 #include "file.h"
 #include "loadavg.h"
 #include "keyboard.h"
@@ -301,10 +302,18 @@ static int update_data_and_check_interval(struct plot *p)
 	return 1;
 }
 
+int epoll_add(int epfd, int fd)
+{
+	struct epoll_event event;
+	event.data.fd = fd;
+	event.events = EPOLLIN;
+	return epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &event);
+}
+
 int main(int argc, char *argv[])
 {
 	int err = 0;
-	struct select_fds readfds;
+	int epollfd;
 	int freshtimerfd, keyfd, stdinfd, tmoutfd;
 	int sigpipe[2];
 	char stdin_buffer[4096] = { 0 };
@@ -315,6 +324,8 @@ int main(int argc, char *argv[])
 			strerror(-err));
 		return err;
 	}
+
+	epollfd = epoll_create(1);
 
 	keyboard_init(&keyboard);
 	err = plot_init(&plot, &keyboard, file, verbose, x_type,
@@ -338,8 +349,6 @@ int main(int argc, char *argv[])
 	sig_wr_fd = sigpipe[1];
 
 	tmoutfd = freshtimerfd = keyfd = stdinfd = -1;
-
-	select_fds_zero(&readfds);
 
 	/**
 	 * If stdin is redirected, open the terminal for key press.
@@ -372,10 +381,10 @@ int main(int argc, char *argv[])
 	} else
 		keyfd = STDIN_FILENO;
 
-	select_fds_add(&readfds, keyfd);
+	epoll_add(epollfd, keyfd);
 
 	if (stdinfd != -1) {
-		select_fds_add(&readfds, stdinfd);
+		epoll_add(epollfd, stdinfd);
 	} else {
 		/**
 		 * Note: When we read data from stdin, we no longer need this
@@ -385,15 +394,15 @@ int main(int argc, char *argv[])
 		 * continue for stdin if plot/line information matched.
 		 */
 		freshtimerfd = new_timerfd(interval_nsecs);
-		select_fds_add(&readfds, freshtimerfd);
+		epoll_add(epollfd, freshtimerfd);
 	}
 
 	if (tmout_nsecs != 0) {
 		tmoutfd = new_timerfd(tmout_nsecs);
-		select_fds_add(&readfds, tmoutfd);
+		epoll_add(epollfd, tmoutfd);
 	}
 
-	select_fds_add(&readfds, sig_rd_fd);
+	epoll_add(epollfd, sig_rd_fd);
 
 	/* curses start from here */
 
@@ -444,156 +453,159 @@ int main(int argc, char *argv[])
 	plot_redraw(&plot, verbose);
 
 	/* main loop */
+	struct epoll_event epollevents[16];
 	while (!done) {
-		fd_set active = readfds.fds;
 		bool redraw = false;
 
-		int ret = select_fd(&readfds, &active);
-		if (ret <= 0)
-			continue;
+		int nfds = epoll_wait(epollfd, epollevents, 16, -1);
+		for (int i = 0; i < nfds; i++) {
+			int cur_fd = epollevents[i].data.fd;
 
-		if (FD_ISSET(keyfd, &active)) {
-			int count = 0;
-			/**
-			 * keyfd = open("/dev/tty")
-			 */
-			if (keyfd != STDIN_FILENO) {
-				int key = 0;
-				count = read(keyfd, &key, sizeof(key));
-				if (count > 0) {
-					/* convert to ncurses KEY */
-					switch (key) {
-					case 0x444f1b:
-					case 0x445b1b:
-						key = KEY_LEFT;
+			if (cur_fd == keyfd) {
+				int count = 0;
+				/**
+				 * keyfd = open("/dev/tty")
+				 */
+				if (keyfd != STDIN_FILENO) {
+					int key = 0;
+					count = read(keyfd, &key, sizeof(key));
+					if (count > 0) {
+						/* convert to ncurses KEY */
+						switch (key) {
+						case 0x444f1b:
+						case 0x445b1b:
+							key = KEY_LEFT;
+							break;
+						case 0x434f1b:
+						case 0x435b1b:
+							key = KEY_RIGHT;
+							break;
+						case 0x424f1b:
+						case 0x425b1b:
+							key = KEY_DOWN;
+							break;
+						case 0x414f1b:
+						case 0x415b1b:
+							key = KEY_UP;
+							break;
+						default:
+							/* Handle more here */
+							break;
+						}
+						plot.kb->current_key = key;
+					} else {
+						plot.kb->current_key = ERR;
+					}
+				} else {
+					/**
+					 * keyfd = STDIN_FILENO
+					 */
+					/* need keypad() and nodelay() */
+					plot.kb->current_key = wgetch(plot.win);
+					count = 1;
+				}
+
+				if (plot.kb->current_key != ERR) {
+					plot.kb->cnt.total += count;
+					switch (plot.kb->current_key) {
+					case KEY_LEFT:
+						plot.kb->cnt.left++;
+						redraw = true;
 						break;
-					case 0x434f1b:
-					case 0x435b1b:
-						key = KEY_RIGHT;
+					case KEY_RIGHT:
+						plot.kb->cnt.right++;
+						redraw = true;
 						break;
-					case 0x424f1b:
-					case 0x425b1b:
-						key = KEY_DOWN;
+					case KEY_UP:
+						plot.kb->cnt.up++;
+						redraw = true;
 						break;
-					case 0x414f1b:
-					case 0x415b1b:
-						key = KEY_UP;
+					case KEY_DOWN:
+						plot.kb->cnt.down++;
+						redraw = true;
 						break;
-					default:
-						/* Handle more here */
+					case 'q': /* quit */
+						broadcast_sig(SIGINT);
+						goto end;
+						break;
+					case 'v': /* verbose mode switch */
+						plot.kb->cnt.v++;
+						redraw = true;
+						verbose = !verbose;
+						break;
+					case 'r': /* reset plot */
+						plot.kb->cnt.r++;
+						redraw = true;
+						break;
+					/* select numerical scaling type */
+					case 't':
+						plot.kb->cnt.t++;
+						redraw = true;
+						break;
+					case 'h': /* help */
+						plot.kb->cnt.h++;
+						redraw = true;
+						break;
+					case 'l': /* list line labels */
+						plot.kb->cnt.l++;
+						redraw = true;
+						break;
+					/**
+					 * Sometimes, the arrow keys can
+					 * accidentally trigger Esc, which
+					 * causes the program to exit, so
+					 * plotcake should ignore the Esc key
+					 * like the 'top' command.
+					 */
+					case 27: /* Esc, 0x1B, 033, ^[ */
+					case 13: /* enter */
+						plot.kb->cnt.enter++;
+						redraw = true;
 						break;
 					}
-					plot.kb->current_key = key;
-				} else {
-					plot.kb->current_key = ERR;
 				}
-			/**
-			 * keyfd = STDIN_FILENO
-			 */
-			} else {
-				/* need keypad() and nodelay() */
-				plot.kb->current_key = wgetch(plot.win);
-				count = 1;
-			}
-
-			if (plot.kb->current_key != ERR) {
-				plot.kb->cnt.total += count;
-				switch (plot.kb->current_key) {
-				case KEY_LEFT:
-					plot.kb->cnt.left++;
-					redraw = true;
-					break;
-				case KEY_RIGHT:
-					plot.kb->cnt.right++;
-					redraw = true;
-					break;
-				case KEY_UP:
-					plot.kb->cnt.up++;
-					redraw = true;
-					break;
-				case KEY_DOWN:
-					plot.kb->cnt.down++;
-					redraw = true;
-					break;
-				case 'q': /* quit */
-					broadcast_sig(SIGINT);
-					goto end;
-					break;
-				case 'v': /* verbose mode switch */
-					plot.kb->cnt.v++;
-					redraw = true;
-					verbose = !verbose;
-					break;
-				case 'r': /* reset plot */
-					plot.kb->cnt.r++;
-					redraw = true;
-					break;
-				case 't': /* select numerical scaling type */
-					plot.kb->cnt.t++;
-					redraw = true;
-					break;
-				case 'h': /* help */
-					plot.kb->cnt.h++;
-					redraw = true;
-					break;
-				case 'l': /* list line labels */
-					plot.kb->cnt.l++;
-					redraw = true;
-					break;
-				/**
-				 * Sometimes, the arrow keys can accidentally
-				 * trigger Esc, which causes the program to
-				 * exit, so plotcake should ignore the Esc key
-				 * like the 'top' command.
-				 */
-				case 27: /* Esc, 0x1B, 033, ^[ */
-				case 13: /* enter */
-					plot.kb->cnt.enter++;
-					redraw = true;
-					break;
-				}
-			}
-		} else if (FD_ISSET(freshtimerfd, &active)) {
-			uint64_t exp;
-			read(freshtimerfd, &exp, sizeof(exp));
-			redraw = true;
-			update_data_and_check_interval(&plot);
-		} else if (FD_ISSET(tmoutfd, &active)) {
-			uint64_t exp;
-			read(tmoutfd, &exp, sizeof(exp));
-			broadcast_sig(SIGINT);
-			goto end;
-		} else if (FD_ISSET(sig_rd_fd, &active)) {
-			unsigned char signo;
-			const ssize_t cnt = read(sig_rd_fd, &signo, 1);
-			if (cnt > 0) {
-				if (signo == SIGINT) {
-					done = true;
-					break;
-				} else if (signo == SIGWINCH) {
-					endwin();
-					plot.win = initscr();
-					werase(plot.win);
-					wrefresh(plot.win);
-					plot_update_size(&plot, false);
-					redraw = true;
-				}
-			}
-		} else if (stdinfd != -1 && FD_ISSET(stdinfd, &active)) {
-			memset(stdin_buffer, 0, sizeof(stdin_buffer));
-			ssize_t cnt = read(stdinfd, stdin_buffer,
-					   sizeof(stdin_buffer));
-			if (cnt > 0) {
+			} else if (cur_fd == freshtimerfd) {
+				uint64_t exp;
+				read(freshtimerfd, &exp, sizeof(exp));
 				redraw = true;
-			}
-			update_data_and_check_interval(&plot);
-		} else
-			continue;
+				update_data_and_check_interval(&plot);
+			} else if (cur_fd == tmoutfd) {
+				uint64_t exp;
+				read(tmoutfd, &exp, sizeof(exp));
+				broadcast_sig(SIGINT);
+				goto end;
+			} else if (cur_fd == sig_rd_fd) {
+				unsigned char signo;
+				const ssize_t cnt = read(sig_rd_fd, &signo, 1);
+				if (cnt > 0) {
+					if (signo == SIGINT) {
+						done = true;
+						break;
+					} else if (signo == SIGWINCH) {
+						endwin();
+						plot.win = initscr();
+						werase(plot.win);
+						wrefresh(plot.win);
+						plot_update_size(&plot, false);
+						redraw = true;
+					}
+				}
+			} else if (stdinfd != -1 && cur_fd == stdinfd) {
+				memset(stdin_buffer, 0, sizeof(stdin_buffer));
+				ssize_t cnt = read(stdinfd, stdin_buffer,
+						   sizeof(stdin_buffer));
+				if (cnt > 0) {
+					redraw = true;
+				}
+				update_data_and_check_interval(&plot);
+			} else
+				continue;
 
-		if (redraw) {
-			plot_redraw(&plot, verbose);
+			if (redraw) {
+				plot_redraw(&plot, verbose);
+			}
 		}
-	}
+	} /* end of while (1) */
 
 end:
 	if (stdinfd != -1)
