@@ -698,7 +698,7 @@ static int __paint_llabels_win(struct plot *p, bool init)
 static int dialog_timeout_handler(int timerfd, void *arg)
 {
 	struct dialog *d = arg;
-	epoll_del_fd(timerfd);
+	plotcake_poll_del_fd(timerfd);
 	unregister_fd(timerfd);
 	close(timerfd);
 	del_dialog(d);
@@ -713,7 +713,7 @@ static int key_h_handler(int key, void *arg)
 	struct plot *p = arg;
 	if (__paint_help_win(p, true) == 1) {
 		int fd = new_timerfd(EXPIRED_USECS_HELP * 1000);
-		epoll_add_fd(fd);
+		plotcake_poll_add_fd(fd);
 		register_fd(fd, dialog_timeout_handler, &p->help);
 	}
 	return 0;
@@ -727,7 +727,7 @@ static int key_l_handler(int key, void *arg)
 	struct plot *p = arg;
 	if (__paint_llabels_win(p, true) == 1) {
 		int fd = new_timerfd(EXPIRED_USECS_LLABEL * 1000);
-		epoll_add_fd(fd);
+		plotcake_poll_add_fd(fd);
 		register_fd(fd, dialog_timeout_handler, &p->llabels);
 	}
 	return 0;
@@ -774,7 +774,7 @@ static int plot_shift_timeout(int timerfd, void *arg)
 	struct plot *p = arg;
 	p->plotshift = 0;
 	plot_shift_timerfd = -1;
-	epoll_del_fd(timerfd);
+	plotcake_poll_del_fd(timerfd);
 	unregister_fd(timerfd);
 	close(timerfd);
 	return 0;
@@ -784,7 +784,7 @@ static int create_shift_timerfd(struct plot *p)
 {
 	if (plot_shift_timerfd == -1) {
 		plot_shift_timerfd = new_timerfd(EXPIRED_USECS_SHIFT * 1000);
-		epoll_add_fd(plot_shift_timerfd);
+		plotcake_poll_add_fd(plot_shift_timerfd);
 		register_fd(plot_shift_timerfd, plot_shift_timeout, p);
 	}
 	return 0;

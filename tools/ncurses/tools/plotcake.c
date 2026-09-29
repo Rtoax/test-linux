@@ -306,7 +306,7 @@ static int update_data_and_check_interval(struct plot *p)
 	return 1;
 }
 
-int epoll_add_fd(int fd)
+int plotcake_poll_add_fd(int fd)
 {
 	struct epoll_event event;
 	event.data.fd = fd;
@@ -314,7 +314,7 @@ int epoll_add_fd(int fd)
 	return epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &event);
 }
 
-int epoll_del_fd(int fd)
+int plotcake_poll_del_fd(int fd)
 {
 	return epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL);
 }
@@ -568,11 +568,11 @@ int main(int argc, char *argv[])
 	} else
 		keyfd = STDIN_FILENO;
 
-	epoll_add_fd(keyfd);
+	plotcake_poll_add_fd(keyfd);
 	register_fd(keyfd, key_handler, &loop_arg);
 
 	if (stdinfd != -1) {
-		epoll_add_fd(stdinfd);
+		plotcake_poll_add_fd(stdinfd);
 		register_fd(stdinfd, stdinfd_handler, &loop_arg);
 	} else {
 		/**
@@ -583,17 +583,17 @@ int main(int argc, char *argv[])
 		 * continue for stdin if plot/line information matched.
 		 */
 		freshtimerfd = new_timerfd(interval_nsecs);
-		epoll_add_fd(freshtimerfd);
+		plotcake_poll_add_fd(freshtimerfd);
 		register_fd(freshtimerfd, fresher_handler, &loop_arg);
 	}
 
 	if (tmout_nsecs != 0) {
 		tmout_exit_fd = new_timerfd(tmout_nsecs);
-		epoll_add_fd(tmout_exit_fd);
+		plotcake_poll_add_fd(tmout_exit_fd);
 		register_fd(tmout_exit_fd, tmout_handler, &loop_arg);
 	}
 
-	epoll_add_fd(sig_rd_fd);
+	plotcake_poll_add_fd(sig_rd_fd);
 	register_fd(sig_rd_fd, sig_rd_handler, &loop_arg);
 
 	/* curses start from here */
