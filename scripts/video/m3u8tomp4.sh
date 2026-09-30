@@ -2,7 +2,12 @@
 # Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 # https://windowsloop.com/download-m3u8-video-with-ffmpeg/
 #
-# Click-Right -> Inspect -> Network -> Search-m3u8
+# Google Chrome Procedures:
+# 1. Click-Right
+# 2. Inspect
+# 3. Network -> [Search-m3u8]
+# 4. Click-Right -> [Copy URL]
+# 5. ./m3u8tomp4.sh URL [Star]
 #
 set -e
 

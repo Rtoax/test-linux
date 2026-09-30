@@ -72,4 +72,3 @@ ffmpeg \
 	-vcodec copy -acodec copy \
 	-ss ${since} -to ${until} \
 	${output_video}
-
