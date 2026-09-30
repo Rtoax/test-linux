@@ -584,11 +584,11 @@ int main(int argc, char *argv[])
 		keyfd = STDIN_FILENO;
 
 	plotcake_poll_add_fd(keyfd);
-	register_fd(NULL, keyfd, key_handler, &loop_arg);
+	register_id(NULL, keyfd, key_handler, &loop_arg);
 
 	if (stdinfd != -1) {
 		plotcake_poll_add_fd(stdinfd);
-		register_fd(NULL, stdinfd, stdinfd_handler, &loop_arg);
+		register_id(NULL, stdinfd, stdinfd_handler, &loop_arg);
 	} else {
 		/**
 		 * Note: When we read data from stdin, we no longer need this
@@ -599,17 +599,17 @@ int main(int argc, char *argv[])
 		 */
 		freshtimerfd = new_timerfd(interval_nsecs);
 		plotcake_poll_add_fd(freshtimerfd);
-		register_fd(NULL, freshtimerfd, fresher_handler, &loop_arg);
+		register_id(NULL, freshtimerfd, fresher_handler, &loop_arg);
 	}
 
 	if (tmout_nsecs != 0) {
 		tmout_exit_fd = new_timerfd(tmout_nsecs);
 		plotcake_poll_add_fd(tmout_exit_fd);
-		register_fd(NULL, tmout_exit_fd, tmout_handler, &loop_arg);
+		register_id(NULL, tmout_exit_fd, tmout_handler, &loop_arg);
 	}
 
 	plotcake_poll_add_fd(sig_rd_fd);
-	register_fd(NULL, sig_rd_fd, sig_rd_handler, &loop_arg);
+	register_id(NULL, sig_rd_fd, sig_rd_handler, &loop_arg);
 
 	/* curses start from here */
 
@@ -666,7 +666,7 @@ int main(int argc, char *argv[])
 		int nfds = epoll_wait(epollfd, epollevents, 16, -1);
 		for (int i = 0; i < nfds; i++) {
 			int cur_fd = epollevents[i].data.fd;
-			if (handle_fd(NULL, cur_fd) == -ENOENT)
+			if (handle_id(NULL, cur_fd) == -ENOENT)
 				continue;
 			if (loop_arg.should_end)
 				goto end;
@@ -703,6 +703,6 @@ end:
 	if (output_file_prefix)
 		free(output_file_prefix);
 	plot_destroy(&plot);
-	release_fd_handle(NULL);
+	release_id_handle(NULL);
 	return 0;
 }

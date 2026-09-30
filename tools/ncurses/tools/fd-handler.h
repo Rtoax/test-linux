@@ -2,13 +2,13 @@
 // Copyright (C) 2026 Rong Tao. All rights reserved.
 #pragma once
 
-typedef void *fd_handle_t;
-struct fd_handler;
+typedef void *id_handle_t;
+struct id_handler;
 
-fd_handle_t fd_default_root(void);
+id_handle_t id_default_root(void);
 
-struct fd_handler *register_fd(fd_handle_t *handle, int fd,
+struct id_handler *register_id(id_handle_t *handle, int id,
 			       int (*handler)(int, void *), void *arg);
-int unregister_fd(fd_handle_t *handle, int fd);
-int handle_fd(fd_handle_t *handle, int fd);
-void release_fd_handle(fd_handle_t *handle);
+int unregister_id(id_handle_t *handle, int id);
+int handle_id(id_handle_t *handle, int id);
+void release_id_handle(id_handle_t *handle);
