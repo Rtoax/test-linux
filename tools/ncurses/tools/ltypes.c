@@ -172,7 +172,19 @@ static void unicode_area_chart_horizon(const struct plot *p, WINDOW *win, int y,
 				       int x, int n)
 {
 	cchar_t wch_vline = WCH_U2588;
-	int ny = p->bnd.top + p->plotheight - y;
+	int _nx, ny;
+
+	/**
+	 * If it is not the main window, the length should correspond to the
+	 * size of 'win' rather than the size of the plot.
+	 */
+	if (p->win != win) {
+		getmaxyx(win, ny, _nx);
+		ny -= y + 1;
+		(void)_nx;
+	} else
+		ny = p->bnd.top + p->plotheight - y;
+
 	for (int ix = 0; ix < n; ix++)
 		mvwvline_set(win, y, x + ix, &wch_vline, ny);
 }
