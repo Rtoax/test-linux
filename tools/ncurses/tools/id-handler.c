@@ -22,12 +22,12 @@
 #include "id-handler.h"
 
 struct id_handler {
-	int id;
+	long id;
 	void *arg;
 	/**
 	 * handler return will pass to handle_id()
 	 */
-	int (*handler)(int id, void *arg);
+	int (*handler)(long id, void *arg);
 };
 
 /**
@@ -55,8 +55,8 @@ static int id_compare(const void *pa, const void *pb)
 	return 0;
 }
 
-struct id_handler *register_id(id_handle_t *handle, int id,
-			       int (*handler)(int, void *), void *arg)
+struct id_handler *register_id(id_handle_t *handle, long id,
+			       int (*handler)(long, void *), void *arg)
 {
 	struct id_handler *new;
 
@@ -77,7 +77,7 @@ struct id_handler *register_id(id_handle_t *handle, int id,
 	return new;
 }
 
-int unregister_id(id_handle_t *handle, int id)
+int unregister_id(id_handle_t *handle, long id)
 {
 	struct id_handler h = {
 		.id = id,
@@ -103,7 +103,7 @@ int unregister_id(id_handle_t *handle, int id)
 /**
  * @return: return -ENOENT if not found id.
  */
-int handle_id(id_handle_t *handle, int id)
+int handle_id(id_handle_t *handle, long id)
 {
 	struct id_handler h = {
 		.id = id,
@@ -121,7 +121,7 @@ static void free_id_handler(void *p)
 {
 #ifdef DEBUG
 	struct id_handler *id = p;
-	printf("free %d\n", id->id);
+	printf("free %ld\n", id->id);
 #endif
 	free(p);
 }
@@ -143,20 +143,20 @@ static void walk_action(const void *nodep, VISIT which, int depth)
 	case preorder:
 		break;
 	case postorder:
-		printf("%6d\n", handler->id);
+		printf("%6ld\n", handler->id);
 		break;
 	case endorder:
 		break;
 	case leaf:
-		printf("%6d\n", handler->id);
+		printf("%6ld\n", handler->id);
 		break;
 	}
 }
 
-static int my_handler(int id, void *arg)
+static int my_handler(long id, void *arg)
 {
 	char *name = arg;
-	printf("handle %s has %d\n", name, id);
+	printf("handle %s has %ld\n", name, id);
 	return 0;
 }
 

@@ -340,7 +340,7 @@ struct loop_arg {
 	struct plot *plot;
 };
 
-static int tmout_handler(int fd, void *arg)
+static int tmout_handler(long fd, void *arg)
 {
 	struct loop_arg *a = arg;
 	uint64_t exp;
@@ -350,7 +350,7 @@ static int tmout_handler(int fd, void *arg)
 	return 0;
 }
 
-static int fresher_handler(int fd, void *arg)
+static int fresher_handler(long fd, void *arg)
 {
 	struct loop_arg *a = arg;
 	uint64_t exp;
@@ -360,7 +360,7 @@ static int fresher_handler(int fd, void *arg)
 	return 0;
 }
 
-static int key_handler(int fd, void *arg)
+static int key_handler(long fd, void *arg)
 {
 	int count = 0;
 	struct loop_arg *a = arg;
@@ -469,7 +469,7 @@ static int key_handler(int fd, void *arg)
 	return 0;
 }
 
-static int sig_rd_handler(int fd, void *arg)
+static int sig_rd_handler(long fd, void *arg)
 {
 	unsigned char signo;
 	struct loop_arg *a = arg;
@@ -493,7 +493,7 @@ static int sig_rd_handler(int fd, void *arg)
 	return 0;
 }
 
-static int stdinfd_handler(int fd, void *arg)
+static int stdinfd_handler(long fd, void *arg)
 {
 	struct loop_arg *a = arg;
 	struct plot *plot = a->plot;

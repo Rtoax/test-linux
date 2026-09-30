@@ -706,7 +706,7 @@ static int __paint_llabels_win(struct plot *p, bool init)
 	return ret;
 }
 
-static int win_dialog_timer_timeout_handler(int fd, void *arg)
+static int win_dialog_timer_timeout_handler(long fd, void *arg)
 {
 	struct dialog *d = arg;
 	plotcake_poll_del_fd(fd);
@@ -782,7 +782,7 @@ static int key_down_handler(int key, void *arg)
 
 static int plot_shift_timerfd = -1;
 
-static int plot_shift_timer_timeout_handler(int fd, void *arg)
+static int plot_shift_timer_timeout_handler(long fd, void *arg)
 {
 	struct plot *p = arg;
 	p->plotshift = 0;
