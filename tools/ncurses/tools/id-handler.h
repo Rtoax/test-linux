@@ -37,5 +37,6 @@ int handle_id(id_handle_t handle, long id);
 
 int for_each_id(id_handle_t handle,
 		void (*fn)(const struct id_handler *, void *arg), void *fn_arg);
+int id_handle_count(id_handle_t handle);
 
 void release_id_handle(id_handle_t handle);

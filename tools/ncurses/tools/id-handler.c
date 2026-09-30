@@ -63,6 +63,7 @@ id_handle_t create_id_handler(int (*id_cmp)(const void *, const void *))
 		h->id_cmp = id_compare_ascend;
 		break;
 	case (unsigned long)ID_CMP_DESCENDING_ORDER:
+	case 0:
 		h->id_cmp = id_compare_descend;
 		break;
 	default:
@@ -154,7 +155,9 @@ static void __one_handler(const void *nodep, VISIT which, void *closure)
 	if (which != postorder && which != leaf)
 		return;
 
-	arg->fn(handler, arg->fn_arg);
+	if (arg->fn) {
+		arg->fn(handler, arg->fn_arg);
+	}
 	arg->count++;
 }
 
@@ -173,6 +176,11 @@ int for_each_id(id_handle_t handle,
 	return arg.count;
 }
 
+int id_handle_count(id_handle_t handle)
+{
+	return for_each_id(handle, NULL, NULL);
+}
+
 static void free_id_handler(void *p)
 {
 #ifdef DEBUG
@@ -186,6 +194,10 @@ void release_id_handle(id_handle_t handle)
 {
 	TRY_SET_DEFAULT_AS_ROOT(handle);
 	tdestroy(handle->root, free_id_handler);
+	/**
+	 * Could not free(3) handle in here, because handle maybe is
+	 * default_root, or is not allocate with malloc(3).
+	 */
 }
 
 #ifdef TEST_MAIN
@@ -222,23 +234,23 @@ int main(void)
 
 	printf("------------------\n");
 	n = for_each_id(NULL, for_each, NULL);
-	printf("                  %d\n", n);
+	printf("                  %d-%d\n", n, id_handle_count(NULL));
 
 	printf("------------------\n");
 	unregister_id(NULL, 3);
 	unregister_id(NULL, 8);
 	unregister_id(NULL, 9);
 	n = for_each_id(NULL, for_each, NULL);
-	printf("                  %d\n", n);
+	printf("                  %d-%d\n", n, id_handle_count(NULL));
 
 	printf("------------------\n");
 	n = for_each_id(handle1, for_each, NULL);
-	printf("                  %d\n", n);
+	printf("                  %d-%d\n", n, id_handle_count(handle1));
 
 	printf("------------------\n");
 	unregister_id(handle1, 8);
 	n = for_each_id(handle1, for_each, NULL);
-	printf("                  %d\n", n);
+	printf("                  %d-%d\n", n, id_handle_count(handle1));
 
 	release_id_handle(NULL);
 	release_id_handle(handle1);
