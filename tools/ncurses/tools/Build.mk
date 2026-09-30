@@ -12,7 +12,7 @@ prog-${HAVE_EXPECT} += examples.exp
 prog-${HAVE_TMUX} += examples-tmux.sh
 
 $(foreach obj, plotcake keyboard file loadavg lgroup line plot ram stdin \
-	  ltypes utils axis dialog fd-handler, \
+	  ltypes utils axis dialog id-handler, \
   $(eval plotcake-objs += ${obj}.o))
 
 CFLAGS += ${json-c-cflags}
@@ -22,4 +22,4 @@ LDFLAGS += ${json-c-ldflags}
 LDFLAGS += ${ncurses-ldflags}
 
 post-y += build/plotcake
-post-y += fd-handler
+post-y += id-handler

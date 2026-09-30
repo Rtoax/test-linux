@@ -19,7 +19,7 @@
 #include <search.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include "fd-handler.h"
+#include "id-handler.h"
 
 struct id_handler {
 	int id;

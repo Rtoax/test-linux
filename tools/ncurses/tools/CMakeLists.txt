@@ -8,8 +8,8 @@ set(CMAKE_INSTALL_PREFIX /usr)
 set(SRC
   axis.c
   dialog.c
-  fd-handler.c
   file.c
+  id-handler.c
   keyboard.c
   lgroup.c
   line.c

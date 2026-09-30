@@ -40,7 +40,7 @@
 #include "stdin.h"
 #include "axis.h"
 #include "utils.h"
-#include "fd-handler.h"
+#include "id-handler.h"
 #include "plotcake.h"
 
 enum {

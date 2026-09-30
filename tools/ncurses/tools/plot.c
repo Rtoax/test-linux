@@ -14,7 +14,7 @@
 #include "utils.h"
 #include "dialog.h"
 #include "plotcake.h"
-#include "fd-handler.h"
+#include "id-handler.h"
 
 chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
