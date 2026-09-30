@@ -97,25 +97,34 @@ struct id_handler *register_id(id_handle_t handle, long id,
 	return new;
 }
 
-int unregister_id(id_handle_t handle, long id)
+struct id_handler *find_id_handler(id_handle_t handle, long id)
 {
-	struct id_handler h = {
+	struct id_handler elem = {
 		.id = id,
 	};
 
 	TRY_SET_DEFAULT_AS_ROOT(handle);
 
-	struct id_handler **p = tfind(&h, &handle->root, handle->id_cmp);
+	struct id_handler **p = tfind(&elem, &handle->root, handle->id_cmp);
 	if (p == NULL)
+		return NULL;
+	return *p;
+}
+
+int unregister_id(id_handle_t handle, long id)
+{
+	struct id_handler *node = find_id_handler(handle, id);
+	if (!node)
 		return -ENOENT;
 
-	struct id_handler *node = *p;
+	TRY_SET_DEFAULT_AS_ROOT(handle);
+
 	/**
 	 * tdelete() returns a pointer to the parent of the node deleted, or
 	 * NULL if the item was not found. If the deleted node was the root
 	 * node, tdelete() returns a dangling pointer that must not be accessed.
 	 */
-	tdelete(&h, &handle->root, handle->id_cmp);
+	tdelete(node, &handle->root, handle->id_cmp);
 	free(node);
 	return 0;
 }
@@ -125,16 +134,10 @@ int unregister_id(id_handle_t handle, long id)
  */
 int handle_id(id_handle_t handle, long id)
 {
-	struct id_handler h = {
-		.id = id,
-	};
-
-	TRY_SET_DEFAULT_AS_ROOT(handle);
-
-	struct id_handler **p = tfind(&h, &handle->root, handle->id_cmp);
-	if (p == NULL)
+	struct id_handler *node = find_id_handler(handle, id);
+	if (!node)
 		return -ENOENT;
-	return (*p)->handler(id, (*p)->arg);
+	return node->handler(id, node->arg);
 }
 
 struct foreach_closure_arg_st {

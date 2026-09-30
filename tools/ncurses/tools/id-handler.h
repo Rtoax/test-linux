@@ -26,6 +26,7 @@ struct id_handler *register_id(id_handle_t handle, long id,
 			       int (*handler)(long, void *), void *arg);
 int unregister_id(id_handle_t handle, long id);
 
+struct id_handler *find_id_handler(id_handle_t handle, long id);
 int handle_id(id_handle_t handle, long id);
 
 int for_each_id(id_handle_t handle,
