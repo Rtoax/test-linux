@@ -1,5 +1,6 @@
 include asciidoc.mk
 include asciidoctor.mk
+include ffmpeg.mk
 include git.mk
 include latexmk.mk
 include libsmbios.mk
@@ -33,7 +34,7 @@ subdir-y += elfutils
 subdir-y += ethtool
 subdir-y += evtest
 subdir-y += expect
-subdir-y += ffmpeg
+subdir-${HAVE_FFMPEG} += ffmpeg
 subdir-y += fmtlib
 subdir-y += fontconfig
 subdir-y += fstabd

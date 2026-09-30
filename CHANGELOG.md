@@ -22,6 +22,7 @@ and this project adheres to
 #### Tools
 - plotcake: test with tmux;
 #### Template
+- add ffmpeg.mk;
 - add expect.mk;
 
 
