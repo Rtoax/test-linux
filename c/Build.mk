@@ -55,6 +55,7 @@ target-y += ternary
 target-y += return
 target-y += overflow
 target-y += typeof
+target-y += switch
 
 # preprocessing
 prep-y := ${OUTPUT}return.o.bin
