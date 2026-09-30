@@ -11,6 +11,7 @@
 #include "line.h"
 #include "utils.h"
 #include "dialog.h"
+#include "id-handler.h"
 
 /**
  * Scaling plotting values, different from @plotscaling.
@@ -82,15 +83,28 @@ struct plot {
 
 #define PLOT_INF0_FMT                                                      \
 	"plot(redraw=%ld, %.3f MiB, win[%d,%d], max[%d,%d], plot[%d,%d], " \
-	"scale %d, shft %ld/%ld, %s:%d)"
+	"scale %d, shft %ld/%ld, %s:%d, dialog:%d:%d)"
 #define PLOT_INF0_ARG(p)                                                   \
 	p->redrawcount, plot_mem_size(p) * 1. / 1024 / 1024, p->height,    \
 		p->width, p->heightmax, p->widthmax, p->plotheight,        \
 		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p), \
-		x_axis_type_str(p->x_type), p->x_type
+		x_axis_type_str(p->x_type), p->x_type,                     \
+		id_handle_count(p->dialog_to_start_time),                  \
+		id_handle_count(p->start_time_to_dialog)
 
 	WINDOW *win; /* equal to stdscr */
+
 	struct dialog help, llabels;
+
+	/**
+	 * We can use the dialog object to retrieve the timestamp of its last
+	 * display and locate specific dialogs based on that time. By sorting
+	 * based on time, we can control the rendering order (z-axis-order) of
+	 * the dialogs.
+	 */
+	id_handle_t dialog_to_start_time;
+	id_handle_t start_time_to_dialog;
+
 	enum win_border_type win_border_type;
 };
 

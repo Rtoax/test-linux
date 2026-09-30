@@ -6,6 +6,7 @@
 #include <float.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include "file.h"
@@ -14,7 +15,6 @@
 #include "utils.h"
 #include "dialog.h"
 #include "plotcake.h"
-#include "id-handler.h"
 
 chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
@@ -581,8 +581,24 @@ void plot_redraw(struct plot *p, bool debug)
 	}
 
 	wnoutrefresh(p->win);
+
+#if 0
 	refresh_dialog(&p->help);
 	refresh_dialog(&p->llabels);
+#else
+	/**
+	 * FIXME: The sequence is still jumbled, I don't know why; just give me
+	 * more time.
+	 */
+	void fn(const struct id_handler *id, void *arg)
+	{
+		struct dialog *_d = id->arg;
+		refresh_dialog(_d);
+	}
+
+	for_each_id(p->start_time_to_dialog, fn, NULL);
+#endif
+
 	doupdate();
 
 	/* do some reset */
@@ -706,14 +722,54 @@ static int __paint_llabels_win(struct plot *p, bool init)
 	return ret;
 }
 
-static int win_dialog_timer_timeout_handler(long fd, void *arg)
+static void dialog_add_to_tree(struct plot *p, struct dialog *d)
 {
-	struct dialog *d = arg;
+	unsigned long ns = nsecs();
+	register_id(p->dialog_to_start_time, (long)d, NULL, (void *)ns);
+	register_id(p->start_time_to_dialog, (long)ns, NULL, d);
+}
+
+static void dialog_del_from_tree(struct plot *p, struct dialog *d)
+{
+	struct id_handler *id_h;
+	unsigned long ns;
+
+	id_h = find_id_handler(p->dialog_to_start_time, (long)d);
+	if (!id_h)
+		return;
+
+	ns = (unsigned long)id_h->arg;
+
+	unregister_id(p->dialog_to_start_time, (long)d);
+	unregister_id(p->start_time_to_dialog, (long)ns);
+}
+
+static int win_dialog_timer_timeout_handler(long fd, struct plot *p,
+					    struct dialog *d)
+{
 	plotcake_poll_del_fd(fd);
 	unregister_id(NULL, fd);
 	close(fd); /* new_timerfd() */
+
+	/**
+	 * Remove dialog from search-tree before delete dialog.
+	 */
+	dialog_del_from_tree(p, d);
+
 	del_dialog(d);
 	return 0;
+}
+
+static int win_dialog_help_timer_timeout_handler(long fd, void *arg)
+{
+	struct plot *p = arg;
+	return win_dialog_timer_timeout_handler(fd, p, &p->help);
+}
+
+static int win_dialog_llabels_timer_timeout_handler(long fd, void *arg)
+{
+	struct plot *p = arg;
+	return win_dialog_timer_timeout_handler(fd, p, &p->llabels);
 }
 
 /**
@@ -725,9 +781,10 @@ static int key_h_handler(int key, void *arg)
 	if (__paint_help_win(p, true) == 1) {
 		int fd = new_timerfd(EXPIRED_USECS_HELP * 1000);
 		plotcake_poll_add_fd(fd);
-		register_id(NULL, fd, win_dialog_timer_timeout_handler,
-			    &p->help);
+		register_id(NULL, fd, win_dialog_help_timer_timeout_handler, p);
 	}
+	dialog_del_from_tree(p, &p->help);
+	dialog_add_to_tree(p, &p->help);
 	return 0;
 }
 
@@ -740,9 +797,11 @@ static int key_l_handler(int key, void *arg)
 	if (__paint_llabels_win(p, true) == 1) {
 		int fd = new_timerfd(EXPIRED_USECS_LLABEL * 1000);
 		plotcake_poll_add_fd(fd);
-		register_id(NULL, fd, win_dialog_timer_timeout_handler,
-			    &p->llabels);
+		register_id(NULL, fd, win_dialog_llabels_timer_timeout_handler,
+			    p);
 	}
+	dialog_del_from_tree(p, &p->llabels);
+	dialog_add_to_tree(p, &p->llabels);
 	return 0;
 }
 
@@ -847,6 +906,9 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	err = err ?: register_key_handler(kb, KEY_RIGHT, p, key_right_handler);
 	err = err ?: register_key_handler(kb, KEY_LEFT, p, key_left_handler);
 
+	p->dialog_to_start_time = create_id_handler(NULL);
+	p->start_time_to_dialog = create_id_handler(ID_CMP_DESCENDING_ORDER);
+
 	if (file && !err)
 		err = err ?: load_plot(p, file, debug);
 
@@ -855,6 +917,10 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 
 int plot_destroy(struct plot *p)
 {
+	release_id_handle(p->dialog_to_start_time);
+	release_id_handle(p->start_time_to_dialog);
+	free(p->dialog_to_start_time);
+	free(p->start_time_to_dialog);
 	return 0;
 }
 

@@ -6,6 +6,8 @@
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 unsigned long usecs(void);
+unsigned long nsecs(void);
+
 const char *timeval_str(struct timeval *tv, char buf[32]);
 struct timeval max_timeval(struct timeval *tv1, struct timeval *tv2);
 struct timeval diff_timeval(struct timeval *tv1, struct timeval *tv2);

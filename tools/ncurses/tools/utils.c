@@ -16,6 +16,13 @@ unsigned long usecs(void)
 	return tv.tv_sec * 1000000UL + tv.tv_usec;
 }
 
+unsigned long nsecs(void)
+{
+	struct timespec ts;
+	clock_gettime(CLOCK_REALTIME, &ts);
+	return ts.tv_sec * 1000000000UL + ts.tv_nsec;
+}
+
 const char *timeval_str(struct timeval *tv, char buf[32])
 {
 	strftime(buf, 32, "%T", localtime(&tv->tv_sec));
