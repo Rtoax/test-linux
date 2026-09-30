@@ -157,29 +157,43 @@ static void walk_action(const void *nodep, VISIT which, int depth)
 
 static int my_handler(int fd, void *arg)
 {
-	printf("handle %d\n", fd);
+	char *name = arg;
+	printf("handle %s has %d\n", name, fd);
 	return 0;
 }
 
 int main(void)
 {
+	fd_handle_t handle1;
+
 	srand(time(NULL));
 
 	for (unsigned int i = 0; i < 12; i++) {
-		register_fd(NULL, i, my_handler, NULL);
+		register_fd(NULL, i, my_handler, "[default]");
+		register_fd(&handle1, i, my_handler, "[handle1]");
 	}
 
 	for (unsigned int i = 0; i < 12; i++) {
 		handle_fd(NULL, 12 - 1 - i);
+		handle_fd(&handle1, 12 - 1 - i);
 	}
 
+	printf("------------------\n");
 	twalk(fd_default_root(), walk_action);
 	unregister_fd(NULL, 3);
 	unregister_fd(NULL, 8);
 	unregister_fd(NULL, 9);
+	printf("------------------\n");
 	twalk(fd_default_root(), walk_action);
 
+	printf("------------------\n");
+	twalk(handle1, walk_action);
+	unregister_fd(&handle1, 8);
+	printf("------------------\n");
+	twalk(handle1, walk_action);
+
 	release_fd_handle(NULL);
+	release_fd_handle(&handle1);
 	exit(EXIT_SUCCESS);
 }
 #endif
