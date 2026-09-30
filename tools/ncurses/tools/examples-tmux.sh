@@ -48,6 +48,32 @@ check_content() {
 	fi
 }
 
+check_help_dialog() {
+	check_content "\[ HELP \]"
+	check_content "\+-\[ HELP \]-----------------------------------\+"
+	check_content "\+--------------------------------------------\+"
+	check_content "Enter: refresh plot"
+	check_content "Up: uniform scaling up"
+	check_content "Down: uniform scaling down"
+	check_content "Left: curve shifts to the right"
+	check_content "Right: curve shifts to the left"
+	check_content "'h': show the help info"
+	check_content "'l': show the label for each line"
+	check_content "'q': quit the plotcake"
+	check_content "'r': reset the ploting"
+	check_content "'t': change numerical scaling type for paint"
+	check_content "'v': turn on/off the verbose mode"
+}
+
+check_llabels_dialog() {
+	check_content "\[ LINES \]"
+	check_content "\+-\[ LINES \]---\+"
+	check_content "\+-------------\+"
+	check_content "\|------ ${line0}\|"
+	check_content "\|------ ${line1}\|"
+	check_content "\|------ ${line2}\|"
+}
+
 cat >${plotcake}<<EOF
 #!/bin/bash
 set -e
@@ -119,28 +145,10 @@ check_content "left=3,right=3,up=3,down=3"
 send_keys 'v'
 
 send_keys 'h'
-check_content "\[ HELP \]"
-check_content "\+-\[ HELP \]-----------------------------------\+"
-check_content "\+--------------------------------------------\+"
-check_content "Enter: refresh plot"
-check_content "Up: uniform scaling up"
-check_content "Down: uniform scaling down"
-check_content "Left: curve shifts to the right"
-check_content "Right: curve shifts to the left"
-check_content "'h': show the help info"
-check_content "'l': show the label for each line"
-check_content "'q': quit the plotcake"
-check_content "'r': reset the ploting"
-check_content "'t': change numerical scaling type for paint"
-check_content "'v': turn on/off the verbose mode"
+check_help_dialog
 
 send_keys 'l'
-check_content "\[ LINES \]"
-check_content "\+-\[ LINES \]---\+"
-check_content "\+-------------\+"
-check_content "\|------ ${line0}\|"
-check_content "\|------ ${line1}\|"
-check_content "\|------ ${line2}\|"
+check_llabels_dialog
 
 send_keys 't'
 check_content "${title} \(signed logarithmic\)"
