@@ -780,13 +780,11 @@ static int key_down_handler(int key, void *arg)
 	return 0;
 }
 
-static int plot_shift_timerfd = -1;
-
 static int plot_shift_timer_timeout_handler(long fd, void *arg)
 {
 	struct plot *p = arg;
 	p->plotshift = 0;
-	plot_shift_timerfd = -1;
+	p->plotshift_timerfd = -1;
 	plotcake_poll_del_fd(fd);
 	unregister_id(NULL, fd);
 	close(fd); /* new_timerfd() */
@@ -795,10 +793,10 @@ static int plot_shift_timer_timeout_handler(long fd, void *arg)
 
 static int create_shift_timerfd(struct plot *p)
 {
-	if (plot_shift_timerfd == -1) {
-		plot_shift_timerfd = new_timerfd(EXPIRED_USECS_SHIFT * 1000);
-		plotcake_poll_add_fd(plot_shift_timerfd);
-		register_id(NULL, plot_shift_timerfd,
+	if (p->plotshift_timerfd == -1) {
+		p->plotshift_timerfd = new_timerfd(EXPIRED_USECS_SHIFT * 1000);
+		plotcake_poll_add_fd(p->plotshift_timerfd);
+		register_id(NULL, p->plotshift_timerfd,
 			    plot_shift_timer_timeout_handler, p);
 	}
 	return 0;

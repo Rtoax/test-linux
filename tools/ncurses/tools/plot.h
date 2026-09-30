@@ -56,6 +56,8 @@ struct plot {
 	 * number of points will be scaled by @plotscaling.
 	 */
 	unsigned long plotshift;
+	int plotshift_timerfd;
+
 	struct {
 		int top, bottom, left, right;
 	} bnd, bnd_prev_max;
