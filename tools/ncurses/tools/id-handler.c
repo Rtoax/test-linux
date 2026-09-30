@@ -14,21 +14,15 @@
  * |idN |handlerN|
  * +----+--------+
  */
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #include <errno.h>
 #include <malloc.h>
 #include <search.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include "id-handler.h"
-
-struct id_handler {
-	long id;
-	void *arg;
-	/**
-	 * handler return will pass to handle_id()
-	 */
-	int (*handler)(long id, void *arg);
-};
 
 /**
  * If the handler in the interface is NULL, this default is used.
@@ -74,6 +68,9 @@ struct id_handler *register_id(id_handle_t *handle, long id,
 		free(new);
 		return *p;
 	}
+#ifdef DEBUG
+	fprintf(stderr, "register_id() = %p\n", new);
+#endif
 	return new;
 }
 
@@ -117,6 +114,39 @@ int handle_id(id_handle_t *handle, long id)
 	return (*p)->handler(id, (*p)->arg);
 }
 
+struct foreach_closure_arg_st {
+	void (*fn)(const struct id_handler *, void *arg);
+	void *fn_arg;
+	int count;
+};
+
+static void __one_handler(const void *nodep, VISIT which, void *closure)
+{
+	const struct id_handler *handler = *(struct id_handler **)nodep;
+	struct foreach_closure_arg_st *arg = closure;
+
+	if (which != postorder && which != leaf)
+		return;
+
+	arg->fn(handler, arg->fn_arg);
+	arg->count++;
+}
+
+int for_each_id(id_handle_t *handle,
+		void (*fn)(const struct id_handler *, void *arg), void *fn_arg)
+{
+	struct foreach_closure_arg_st arg = {
+		.fn = fn,
+		.fn_arg = fn_arg,
+		.count = 0,
+	};
+
+	TRY_SET_DEFAULT_AS_ROOT(handle);
+
+	twalk_r(*handle, __one_handler, &arg);
+	return arg.count;
+}
+
 static void free_id_handler(void *p)
 {
 #ifdef DEBUG
@@ -135,22 +165,9 @@ void release_id_handle(id_handle_t *handle)
 #ifdef TEST_MAIN
 #include <time.h>
 
-static void walk_action(const void *nodep, VISIT which, int depth)
+static void for_each(const struct id_handler *h, void *arg)
 {
-	const struct id_handler *handler = *(void **)nodep;
-
-	switch (which) {
-	case preorder:
-		break;
-	case postorder:
-		printf("%6ld\n", handler->id);
-		break;
-	case endorder:
-		break;
-	case leaf:
-		printf("%6ld\n", handler->id);
-		break;
-	}
+	printf("%p -> %ld\n", h, h->id);
 }
 
 static int my_handler(long id, void *arg)
@@ -162,6 +179,7 @@ static int my_handler(long id, void *arg)
 
 int main(void)
 {
+	int n;
 	id_handle_t handle1;
 
 	srand(time(NULL));
@@ -177,18 +195,24 @@ int main(void)
 	}
 
 	printf("------------------\n");
-	twalk(id_default_root(), walk_action);
+	n = for_each_id(NULL, for_each, NULL);
+	printf("                  %d\n", n);
+
+	printf("------------------\n");
 	unregister_id(NULL, 3);
 	unregister_id(NULL, 8);
 	unregister_id(NULL, 9);
-	printf("------------------\n");
-	twalk(id_default_root(), walk_action);
+	n = for_each_id(NULL, for_each, NULL);
+	printf("                  %d\n", n);
 
 	printf("------------------\n");
-	twalk(handle1, walk_action);
-	unregister_id(&handle1, 8);
+	n = for_each_id(&handle1, for_each, NULL);
+	printf("                  %d\n", n);
+
 	printf("------------------\n");
-	twalk(handle1, walk_action);
+	unregister_id(&handle1, 8);
+	n = for_each_id(&handle1, for_each, NULL);
+	printf("                  %d\n", n);
 
 	release_id_handle(NULL);
 	release_id_handle(&handle1);
