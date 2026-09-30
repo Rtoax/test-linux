@@ -11,11 +11,17 @@ typedef struct id_handle_st {
 
 struct id_handler {
 	long id;
-	void *arg;
 	/**
 	 * handler return will pass to handle_id()
 	 */
 	int (*handler)(long id, void *arg);
+	/**
+	 * In addition to serving as a parameter for `handler()`, `arg` can be
+	 * used for other purposes; for instance, an address can be stored in
+	 * `arg` during registration, and later retrieved via the `id_handler`
+	 * structure (found by looking up the ID) to make use of that `arg`.
+	 */
+	void *arg;
 };
 
 id_handle_t id_default_root(void);
