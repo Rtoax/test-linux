@@ -21,4 +21,5 @@ LDFLAGS += -lm
 LDFLAGS += ${json-c-ldflags}
 LDFLAGS += ${ncurses-ldflags}
 
-post-y := build/plotcake
+post-y += build/plotcake
+post-y += fd-handler

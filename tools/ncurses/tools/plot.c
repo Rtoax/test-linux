@@ -710,7 +710,7 @@ static int win_dialog_timer_timeout_handler(int fd, void *arg)
 {
 	struct dialog *d = arg;
 	plotcake_poll_del_fd(fd);
-	unregister_fd(fd);
+	unregister_fd(NULL, fd);
 	close(fd); /* new_timerfd() */
 	del_dialog(d);
 	return 0;
@@ -725,7 +725,8 @@ static int key_h_handler(int key, void *arg)
 	if (__paint_help_win(p, true) == 1) {
 		int fd = new_timerfd(EXPIRED_USECS_HELP * 1000);
 		plotcake_poll_add_fd(fd);
-		register_fd(fd, win_dialog_timer_timeout_handler, &p->help);
+		register_fd(NULL, fd, win_dialog_timer_timeout_handler,
+			    &p->help);
 	}
 	return 0;
 }
@@ -739,7 +740,8 @@ static int key_l_handler(int key, void *arg)
 	if (__paint_llabels_win(p, true) == 1) {
 		int fd = new_timerfd(EXPIRED_USECS_LLABEL * 1000);
 		plotcake_poll_add_fd(fd);
-		register_fd(fd, win_dialog_timer_timeout_handler, &p->llabels);
+		register_fd(NULL, fd, win_dialog_timer_timeout_handler,
+			    &p->llabels);
 	}
 	return 0;
 }
@@ -786,7 +788,7 @@ static int plot_shift_timer_timeout_handler(int fd, void *arg)
 	p->plotshift = 0;
 	plot_shift_timerfd = -1;
 	plotcake_poll_del_fd(fd);
-	unregister_fd(fd);
+	unregister_fd(NULL, fd);
 	close(fd); /* new_timerfd() */
 	return 0;
 }
@@ -796,7 +798,7 @@ static int create_shift_timerfd(struct plot *p)
 	if (plot_shift_timerfd == -1) {
 		plot_shift_timerfd = new_timerfd(EXPIRED_USECS_SHIFT * 1000);
 		plotcake_poll_add_fd(plot_shift_timerfd);
-		register_fd(plot_shift_timerfd,
+		register_fd(NULL, plot_shift_timerfd,
 			    plot_shift_timer_timeout_handler, p);
 	}
 	return 0;

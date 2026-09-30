@@ -6,8 +6,14 @@ ${OUTPUT}examples.sh.prog.log: plotcake
 ${OUTPUT}examples.exp.prog.log: plotcake
 ${OUTPUT}examples-tmux.sh.prog.log: plotcake
 
+include make.mk
+
 build/plotcake: CMakeLists.txt plotcake
 	${Q}mkdir -p build
 	${Q}cmake -B build .
 	${Q}make -C build
 	${Q}sudo make -C build install
+
+.PHONY: fd-handler
+fd-handler: fd-handler.c fd-handler.h
+	${MAKE} -C ${TOPDIR}/glibc/search
