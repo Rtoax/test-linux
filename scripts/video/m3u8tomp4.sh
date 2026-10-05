@@ -12,11 +12,17 @@
 set -ex
 
 url="$1"
-star=$2
+star="$2"
+output_file="$3"
 
 usage() {
 	echo >&2 "Usage: m3u8tomp4 <URL> [STAR]"
 }
+
+if [[ "${star##*.}" == "m3u8" ]] || [[ "${star##*.}" == "mp4" ]]; then
+	output_file=${star}
+	star=
+fi
 
 if [[ -z ${url} ]]; then
 	usage
@@ -24,16 +30,19 @@ if [[ -z ${url} ]]; then
 	exit 1
 fi
 
-output_file="$(date '+%Y%m%d_%H%M%S')${star:+-star${star}}.mp4"
+if [[ -z "${output_file}" ]]; then
+	output_file="$(date '+%Y%m%d_%H%M%S')${star:+-star${star}}.mp4"
+fi
 
 url_last_m3u8_basename="$(basename ${url} || true)"
 url_last_m3u8_basename_match="$(echo ${url_last_m3u8_basename} | grep -E '^[-_|a-zA-Z0-9]+\.[-_|a-zA-Z0-9]+' || true)"
-if [[ "${url_last_m3u8_basename}" == "${url_last_m3u8_basename_match}" ]]; then
+if [[ "${url_last_m3u8_basename}" == "${url_last_m3u8_basename_match}" ]] &&
+   [[ -z "${output_file}" ]]; then
 	output_file=${url_last_m3u8_basename}${star:+-star${star}}.mp4
 fi
 
 url_inner_m3u8_basename="$(echo ${url} | grep -Eo '[a-zA-Z0-9]+\.m3u8')"
-if [[ "${url_inner_m3u8_basename}" ]]; then
+if [[ "${url_inner_m3u8_basename}" ]] && [[ -z "${output_file}" ]]; then
 	output_file="${url_inner_m3u8_basename}.mp4"
 fi
 
