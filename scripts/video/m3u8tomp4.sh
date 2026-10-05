@@ -9,9 +9,9 @@
 # 4. Click-Right -> [Copy URL]
 # 5. ./m3u8tomp4.sh URL [Star]
 #
-set -e
+set -ex
 
-url=$1
+url="$1"
 star=$2
 
 usage() {
@@ -26,10 +26,10 @@ fi
 
 output_file="$(date '+%Y%m%d_%H%M%S')${star:+-star${star}}.mp4"
 
-url_basename="$(basename ${url})"
-url_basename_2="$(echo ${url_basename} | grep -E '^[-_|a-zA-Z0-9]+\.[-_|a-zA-Z0-9]+')"
+url_basename="$(basename ${url} || true)"
+url_basename_2="$(echo ${url_basename} | grep -E '^[-_|a-zA-Z0-9]+\.[-_|a-zA-Z0-9]+' || true)"
 if [[ "${url_basename}" == "${url_basename_2}" ]]; then
 	output_file=${url_basename}${star:+-star${star}}.mp4
 fi
 
-ffmpeg -i ${url} -c copy -bsf:a aac_adtstoasc ${output_file}
+ffmpeg -i "${url}" -c copy -bsf:a aac_adtstoasc ${output_file}
