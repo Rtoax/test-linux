@@ -9,6 +9,10 @@
 # 4. Click-Right -> [Copy URL]
 # 5. ./m3u8tomp4.sh URL [Star]
 #
+# Usage:
+#
+# $ ./m3u8tomp4.sh <URL> [<star>|<output_file>] [output_file]
+#
 set -ex
 
 url="$1"
