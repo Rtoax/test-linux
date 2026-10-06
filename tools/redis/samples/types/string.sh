@@ -64,6 +64,7 @@ test_timeout() {
 
 	cli DEL ${key}
 
+	# NX: not-exist
 	cli SETNX ${key} rongtao
 	cli GET ${key}
 	cli DEL ${key}
@@ -71,6 +72,7 @@ test_timeout() {
 
 	# Atomically implemented: set + expiration time only if it does not
 	# exist
+	# NX: not-exist
 	cli SET ${key} rongtao NX EX 1
 	run sleep .6
 	cli TTL ${key}
