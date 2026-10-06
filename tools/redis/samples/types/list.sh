@@ -1,11 +1,12 @@
 #!/bin/bash
 set -e
 
-cli() {
-	redis-cli "$@"
-}
-
 key="tasks"
+
+cli() {
+	echo -e "\033[1;32m${@}\033[m"
+	eval "redis-cli ${@}"
+}
 
 cli RPUSH ${key} "task1" "task2" "task3"
 cli LRANGE ${key} 0 -1
