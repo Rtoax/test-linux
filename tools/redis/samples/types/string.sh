@@ -1,9 +1,13 @@
 #!/bin/bash
 set -e
 
-cli() {
+run() {
 	echo -e "\033[1;32m${@}\033[m"
-	eval "redis-cli "${@}""
+	eval "${@}"
+}
+
+cli() {
+	run redis-cli "${@}"
 }
 
 test_str() {
@@ -45,5 +49,17 @@ test_int() {
 	cli DEL ${key}
 }
 
+test_timeout() {
+	local key='score'
+
+	cli SETEX ${key} 1 1
+	cli GET ${key}
+	run sleep .5
+	cli GET ${key}
+	run sleep .6
+	cli GET ${key}
+}
+
 test_str
 test_int
+test_timeout
