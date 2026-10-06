@@ -8,6 +8,12 @@ Ubuntu Core is a lightweight version of Ubuntu, predominantly designed for IoT
 embedded devices, but also found in large container deployments.
 
 
+Snap
+----
+
+- /var/lib/snapd/desktop/applications/
+
+
 Links
 -----
 
