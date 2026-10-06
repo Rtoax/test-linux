@@ -50,11 +50,31 @@ test_int() {
 }
 
 test_timeout() {
-	local key='score'
+	local key='anon'
 
+	# SETEX key seconds value
 	cli SETEX ${key} 1 1
 	cli GET ${key}
 	run sleep .5
+	cli TTL ${key} # seconds
+	cli PTTL ${key} # microseconds
+	cli GET ${key}
+	run sleep .6
+	cli GET ${key}
+
+	cli DEL ${key}
+
+	cli SETNX ${key} rongtao
+	cli GET ${key}
+	cli DEL ${key}
+	cli GET ${key}
+
+	# Atomically implemented: set + expiration time only if it does not
+	# exist
+	cli SET ${key} rongtao NX EX 1
+	run sleep .6
+	cli TTL ${key}
+	cli PTTL ${key}
 	cli GET ${key}
 	run sleep .6
 	cli GET ${key}
