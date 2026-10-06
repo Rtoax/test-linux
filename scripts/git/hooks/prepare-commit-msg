@@ -410,7 +410,7 @@ if [[ "${Docs[@]}" ]] && [[ -z ${is_commit_amend} ]]; then
 	rename_names=( $(printf '%s\n' "${rename_names[@]}" | sort -u) )
 
 	# Construct the message
-	message="Doc: ${doc_label}: "
+	message="Doc: ${doc_label:+${doc_label}: }"
 
 	message+="${mod_names:+update ${mod_names[*]}}"
 	if [[ ${mod_names} ]] && [[ ${rename_names}${add_names}${del_names} ]]; then
