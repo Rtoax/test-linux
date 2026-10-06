@@ -1,6 +1,7 @@
 Linux Kernel Reference
 ======================
 
+* 7.2.9 (fedora43)
 * 7.2.7 (fedora43,fedora44)
 * 7.2.5 (fedora44)
 * 7.2.4 (fedora44)
