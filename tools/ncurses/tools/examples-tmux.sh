@@ -160,14 +160,18 @@ send_keys Enter
 
 send_keys 't'
 check_content "${title} \(signed logarithmic\)"
+check_content "s\*log\(1\+"
 send_keys 't'
 check_content "${title} \(base-10 signed logarithmic\)"
+check_content "s\*log10\(1\+"
 send_keys 't'
 check_content "${title} \(base-e exponential\)"
+check_content "exp\("
 send_keys 't'
 check_content "${title} \(delta\)"
+check_content "delta\("
 send_keys 't'
-send_keys 't'
+send_keys 't' # Back to origin plot type
 
 send_keys 'v'
 check_content "h=2"
