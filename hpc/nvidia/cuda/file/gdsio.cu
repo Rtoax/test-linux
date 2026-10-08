@@ -26,7 +26,7 @@
 #include <cuda_runtime.h>
 #include "cuda_helpers.h"
 
-#define VERSION "v1.0.3"
+#define VERSION "v1.0.4"
 
 #define __stringify_1(x...)	#x
 #define __stringify(x...)	__stringify_1(x)
@@ -178,6 +178,9 @@ static const struct argp_option opts[] = {
 void verify_io_devmem(void *devptr, size_t size, uint8_t expect);
 void verify_io_cpumem(void *ptr, size_t size, uint8_t expect);
 
+/**
+ * ref: libs/str.c
+ */
 static unsigned long str2size(const char *str)
 {
 	unsigned long size = 0;

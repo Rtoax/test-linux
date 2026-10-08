@@ -70,6 +70,11 @@ const char *vstrcat_r(char buf[], int nstr, ...)
 	return (char *)buf;
 }
 
+/**
+ * Refs:
+ * - hpc/nvidia/cuda/file/gdsio.cu
+ * - tools/ncurses/tools/utils.c
+ */
 unsigned long str2size(const char *str)
 {
 	unsigned long size = 0;

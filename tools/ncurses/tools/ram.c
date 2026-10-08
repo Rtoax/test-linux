@@ -5,6 +5,7 @@
 #include <sys/sysinfo.h>
 #include "ram.h"
 #include "plot.h"
+#include "utils.h"
 
 static int ram_create_lines(struct lgroup *lg, void *arg)
 {
@@ -57,8 +58,7 @@ static void ram_update_data(struct lgroup *lg, void *arg)
 	for_each_line(lg, line)
 	{
 		/* Bytes to GiB */
-		line_add_value(line, mem[i] * 1.0 / 1024 / 1024 / 1024, -1,
-			       NULL);
+		line_add_value(line, mem[i] * 1.0 / GiB, -1, NULL);
 		i++;
 	}
 }

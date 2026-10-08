@@ -1,7 +1,9 @@
 #!/bin/bash
 
-if [[ -z ${PLOTCAKE} ]] && [[ -f ../plotcake ]]; then
-	PLOTCAKE=../plotcake
+readonly PLOTCAKE_ROOT=$(realpath $(dirname $(readlink -f ${BASH_SOURCE[0]}))/..)
+
+if [[ -z ${PLOTCAKE} ]] && [[ -f ${PLOTCAKE_ROOT}/plotcake ]]; then
+	PLOTCAKE=${PLOTCAKE_ROOT}/plotcake
 fi
 
 [[ -z ${PLOTCAKE} ]] && PLOTCAKE=$(which plotcake 2>/dev/null || true)

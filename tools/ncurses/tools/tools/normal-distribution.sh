@@ -1,6 +1,6 @@
 #!/bin/bash
 # display the Trigonometric Functions
-set -e
+set -ex
 
 readonly MYDIR=$(dirname $(realpath $0))
 . ${MYDIR}/lib-plotcake.sh
@@ -22,4 +22,5 @@ pdf = np.exp(-(x-mu)**2/(2*sigma**2)) / (sigma*np.sqrt(2*np.pi))
 for xi, pi in zip(x, pdf):
 	print(f"{xi:.6f}\t{pi:.6f}")
 ' $((${cols} - 9)) | awk '{print $2}' | \
-	${PLOTCAKE} --title "Normal Distribution" -o normal-distribution --x-index "${@}"
+	${PLOTCAKE} --title "Normal Distribution" -o normal-distribution \
+	--stdin-buffer-size 4096 --x-index "${@}"

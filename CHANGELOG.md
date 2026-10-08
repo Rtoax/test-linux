@@ -20,6 +20,7 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
 - add ffmpeg.mk;

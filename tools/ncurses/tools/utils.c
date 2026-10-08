@@ -91,6 +91,33 @@ unsigned long str2nsecs(const char *str)
 }
 
 /**
+ * ref: libs/str.c
+ */
+unsigned long str2size(const char *str)
+{
+	unsigned long size = 0;
+
+	if (!str) {
+		errno = -EINVAL;
+		return 0;
+	}
+
+	if (str[0] == '0' && str[1] == 'x')
+		size = strtoull(str, NULL, 16);
+	else
+		size = strtoull(str, NULL, 10);
+
+	if (strstr(str, "G") || strstr(str, "GB") || strstr(str, "GiB"))
+		size *= GiB;
+	else if (strstr(str, "M") || strstr(str, "MB") || strstr(str, "MiB"))
+		size *= MiB;
+	else if (strstr(str, "K") || strstr(str, "KB") || strstr(str, "KiB"))
+		size *= KiB;
+
+	return size;
+}
+
+/**
  * see test-linux libs/file.c
  */
 /**

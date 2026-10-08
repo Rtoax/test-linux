@@ -167,6 +167,7 @@ stdin --logarithmic
 stdin --logarithmic10
 stdin --exponential
 stdin --delta
+stdin --stdin-buffer-size 1024
 
 while true; do
 	for i in 2 4 1 4 6 1 9 1 2 3 4 5; do

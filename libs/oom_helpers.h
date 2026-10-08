@@ -37,8 +37,6 @@ int disable_oom_by_score_adj(pid_t pid);
 int set_oom_score_adj(pid_t pid, int val);
 int get_oom_score_adj(pid_t pid);
 
-unsigned long str2size(const char *str);
-
 unsigned long totalram(void);
 unsigned long freeram(void);
 unsigned long totalswap(void);

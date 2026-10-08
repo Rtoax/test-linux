@@ -53,6 +53,7 @@ enum {
 	ARG_X_AXIS_INDEX,
 	ARG_AXIS_CURVE_TYPE,
 	ARG_WIN_BORDER_TYPE,
+	ARG_STDIN_BUFFER_BYTES,
 };
 
 const char argp_prog_doc[] = ANSI_BOLD
@@ -145,6 +146,8 @@ static const struct argp_option opts[] = {
 	{ "win-border", ARG_WIN_BORDER_TYPE, "[utf8]", 0,
 	  "Sets the border type for the pop-up window; currently, only 'utf8'"
 	  " and 'auto' are supported." },
+	{ "stdin-buffer-size", ARG_STDIN_BUFFER_BYTES, "BYTES", 0,
+	  "Specify stdin buffer size to allocate" },
 	{ "verbose", 'v', NULL, 1,
 	  "Display detail (shortcut: " KEY_HELP_v ")" },
 	{ "version", 'V', NULL, 1, "Display version" },
@@ -170,7 +173,8 @@ static enum win_border_type win_border_type = WIN_BORDER_TYPE_DEFAULT;
 static struct plot plot = { 0 };
 static struct keyboard keyboard = { 0 };
 
-static char stdin_buffer[512] = { 0 };
+static char *stdin_buffer = NULL;
+static unsigned long stdin_buffer_size = 512;
 
 void sig_handler(int signo)
 {
@@ -261,6 +265,14 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case ARG_X_AXIS_INDEX:
 		x_type = X_INDEX;
+		break;
+	case ARG_STDIN_BUFFER_BYTES:
+		stdin_buffer_size = str2size(arg);
+		if (stdin_buffer_size == 0 || stdin_buffer_size < 16) {
+			fprintf(stderr,
+				"ERROR: bad stdin buffer size, better >= 16\n");
+			err = -EINVAL;
+		}
 		break;
 	case 'I':
 		interval_nsecs = str2nsecs(arg);
@@ -501,8 +513,8 @@ static int stdinfd_handler(long fd, void *arg)
 
 	a->redraw = false;
 
-	memset(stdin_buffer, 0, sizeof(stdin_buffer));
-	ssize_t cnt = read(fd, stdin_buffer, sizeof(stdin_buffer));
+	memset(stdin_buffer, 0, stdin_buffer_size);
+	ssize_t cnt = read(fd, stdin_buffer, stdin_buffer_size);
 	if (cnt > 0) {
 		a->redraw = true;
 	}
@@ -568,6 +580,7 @@ int main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 		}
 		stdinfd = STDIN_FILENO;
+		stdin_buffer = malloc(stdin_buffer_size);
 
 		/**
 		 * The data in stdin may be completely different from the data
@@ -679,8 +692,10 @@ int main(int argc, char *argv[])
 	}
 
 end:
-	if (stdinfd != -1)
+	if (stdinfd != -1) {
 		close(stdinfd);
+		free(stdin_buffer);
+	}
 	if (freshtimerfd != -1)
 		close(freshtimerfd);
 	if (tmout_exit_fd != -1)

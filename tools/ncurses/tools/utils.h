@@ -4,6 +4,10 @@
 #include <sys/time.h>
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+#define KiB 1024
+#define MiB (1024 * KiB)
+#define GiB (1024 * MiB)
+#define TiB (1024 * GiB)
 
 unsigned long usecs(void);
 unsigned long nsecs(void);
@@ -13,6 +17,7 @@ struct timeval max_timeval(struct timeval *tv1, struct timeval *tv2);
 struct timeval diff_timeval(struct timeval *tv1, struct timeval *tv2);
 
 unsigned long str2nsecs(const char *str);
+unsigned long str2size(const char *str);
 
 long alloc_buf_read_file(const char *filename, char **buf);
 
