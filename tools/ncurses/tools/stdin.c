@@ -107,14 +107,24 @@ static void __stdin_update_data(struct lgroup *lg, struct stdin_arg *a)
 	while (s && *s != '\0') {
 		/**
 		 * The buf could be splited by '\n', such as:
-		 * "0.49 0.64 0.68\n0.49 0.64 0.68\n"
+		 * "0.49 0.64 0.68\n0.49 0.64 0.68\n0.49 0.64"
 		 */
 		char *ln_end = strchr(s, '\n');
 		if (ln_end) {
 			*ln_end = '\0';
 			__stdin_add_data(lg, a, s);
+			/**
+			 * "0.49 0.64 0.68\n0.49 0.64 0.68\n0.49 0.64"
+			 *                  ^
+			 *                  s = ln_end + 1
+			 */
 			s = ln_end + 1;
 		} else {
+			/**
+			 * "0.49 0.64 0.68\n0.49 0.64 0.68\n0.49 0.64"
+			 *                                  ^
+			 *                                  s
+			 */
 			__stdin_add_data(lg, a, s);
 			s = NULL;
 		}
