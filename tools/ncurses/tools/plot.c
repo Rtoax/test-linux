@@ -181,7 +181,7 @@ static double get_plot_value(const struct plot *p, const struct value *v)
  */
 static void __paint_line(struct plot *p, const struct lgroup *lg,
 			 const struct line *ln, int start, int len, int shift,
-			 double max, double min, bool debug)
+			 double max, double min)
 {
 	int iv;
 	int prev_h = -1;
@@ -315,7 +315,7 @@ print_llabel:
 			if (p->bnd_prev_max.right < nc)
 				p->bnd_prev_max.right = nc;
 
-			if (debug) {
+			if (p->debug) {
 				mvprintw(h + 1, w + 1, "%ld", ln->count);
 				mvprintw(h + 2, w + 1, "%.1f", ln->min->v);
 				mvprintw(h + 3, w + 1, "%.1f", ln->max->v);
@@ -325,7 +325,7 @@ print_llabel:
 	}
 }
 
-static void __draw_title(const struct plot *p, bool debug)
+static void __draw_title(const struct plot *p)
 {
 	char buf[sizeof(p->title) + 128];
 
@@ -343,7 +343,7 @@ static void __draw_title(const struct plot *p, bool debug)
 
 	mvaddstr(0, (p->width - strlen(buf)) / 2, buf);
 
-	if (debug) {
+	if (p->debug) {
 		char buf2[64];
 		snprintf(buf2, sizeof(buf2), "<pid:%d>", getpid());
 		mvaddstr(1, (p->width - strlen(buf2)) / 2, buf2);
@@ -368,7 +368,7 @@ static void __draw_axes(const struct plot *p)
 		 p->label_x);
 }
 
-static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
+static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 {
 	double max = -DBL_MAX, min = DBL_MAX;
 	int start = -1;
@@ -444,10 +444,10 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg, bool debug)
 	{
 		if (l->count <= 0)
 			continue;
-		__paint_line(p, lg, l, start, len, shift, max, min, debug);
+		__paint_line(p, lg, l, start, len, shift, max, min);
 	}
 
-	if (debug && lg->ops && lg->ops->plot_debug)
+	if (p->debug && lg->ops && lg->ops->plot_debug)
 		lg->ops->plot_debug(lg, lg->ops->arg);
 }
 
@@ -481,19 +481,19 @@ void __plot_debug_llabel(const struct lgroup *lg, int height)
 /**
  * need call werase() before, and call doupdate() after
  */
-static void __paint_plot(struct plot *p, bool debug)
+static void __paint_plot(struct plot *p)
 {
 	char hostname[64];
 	char ts[128] = { 0 };
 	time_t sec;
 	struct tm *tm;
 
-	__draw_title(p, debug);
+	__draw_title(p);
 	__draw_axes(p);
 
 	for_each_lgroup(p, lg)
 	{
-		paint_lgroup(p, lg, debug);
+		paint_lgroup(p, lg);
 	}
 
 	sec = time(NULL);
@@ -509,7 +509,7 @@ static void __paint_plot(struct plot *p, bool debug)
 
 	mvaddstr(p->height - 1, p->width - strlen(verstring) - 1, verstring);
 
-	if (debug) {
+	if (p->debug) {
 		mvprintw(p->height - 2, 0, PLOT_INF0_FMT, PLOT_INF0_ARG(p));
 		mvprintw(p->height - 1, 0, KEYBOARD_INF0_FMT,
 			 KEYBOARD_INF0_ARG(p->kb));
@@ -548,7 +548,7 @@ void plot_update_data(struct plot *p)
 	}
 }
 
-static void __plot_redraw(struct plot *p, bool debug)
+static void __plot_redraw(struct plot *p)
 {
 	p->need_redraw = false;
 	p->redrawcount++;
@@ -563,7 +563,7 @@ static void __plot_redraw(struct plot *p, bool debug)
 	if (p->kb->current_key != 0)
 		exec_key_handler(p->kb, p->kb->current_key);
 
-	__paint_plot(p, debug);
+	__paint_plot(p);
 
 	/**
 	 * Paint the pop dialog window after curves.
@@ -572,13 +572,13 @@ static void __plot_redraw(struct plot *p, bool debug)
 	__paint_llabels_win(p, false);
 }
 
-void plot_redraw(struct plot *p, bool debug)
+void plot_redraw(struct plot *p)
 {
-	__plot_redraw(p, debug);
+	__plot_redraw(p);
 
 	if (p->need_redraw) {
 		plot_update_size(p, false);
-		__plot_redraw(p, debug);
+		__plot_redraw(p);
 	}
 
 	wnoutrefresh(p->win);
@@ -908,6 +908,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 
 	plot_scaling_init(p);
 
+	p->debug = debug;
 	p->axis_curve_type = axis;
 	p->win_border_type = win_border;
 	p->kb = kb;
@@ -931,7 +932,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	p->start_time_to_dialog = create_id_handler(ID_CMP_ASCENDING_ORDER);
 
 	if (file && !err)
-		err = err ?: load_plot(p, file, debug);
+		err = err ?: load_plot(p, file);
 
 	return err;
 }

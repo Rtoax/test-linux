@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "line.h"
 
-int save_plot(const struct plot *p, const char *filename, bool debug);
-int load_plot(struct plot *p, const char *file, bool debug);
+int save_plot(const struct plot *p, const char *filename);
+int load_plot(struct plot *p, const char *file);
 
 extern struct lgroup lg_file;

@@ -434,8 +434,9 @@ static int key_handler(long fd, void *arg)
 			break;
 		case 'v': /* verbose mode switch */
 			plot->kb->cnt.v++;
-			a->redraw = true;
 			verbose = !verbose;
+			plot->debug = verbose;
+			a->redraw = true;
 			break;
 		case 'r': /* reset plot */
 			plot->kb->cnt.r++;
@@ -657,7 +658,7 @@ int main(int argc, char *argv[])
 		plot_update_data(&plot);
 	}
 	plot_update_size(&plot, true);
-	plot_redraw(&plot, verbose);
+	plot_redraw(&plot);
 
 	/* main loop */
 	struct epoll_event epollevents[16];
@@ -672,7 +673,7 @@ int main(int argc, char *argv[])
 				goto end;
 
 			if (loop_arg.redraw) {
-				plot_redraw(&plot, verbose);
+				plot_redraw(&plot);
 			}
 		}
 	}
@@ -699,7 +700,7 @@ end:
 		fprintf(stderr, KEYBOARD_INF0_FMT "\n",
 			KEYBOARD_INF0_ARG(_p->kb));
 	}
-	save_plot(&plot, output_file_prefix, verbose);
+	save_plot(&plot, output_file_prefix);
 	if (output_file_prefix)
 		free(output_file_prefix);
 	plot_destroy(&plot);

@@ -29,6 +29,9 @@ struct plot {
 	char title[128];
 	char label_x[64];
 	char label_y[64];
+
+	bool debug;
+
 	/**
 	 * max indicates the maximum value your terminal has reached during the
 	 * entire program run (you can use the mouse to drag and adjust the
@@ -200,7 +203,7 @@ void plot_update_size(struct plot *p, bool init);
 
 int plot_create_lines(struct plot *p);
 void plot_update_data(struct plot *p);
-void plot_redraw(struct plot *p, bool debug);
+void plot_redraw(struct plot *p);
 
 void init_flavor(void);
 chtype getflavor(enum lcolor_enum color);
