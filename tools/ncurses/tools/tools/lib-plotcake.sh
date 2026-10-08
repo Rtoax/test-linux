@@ -16,7 +16,7 @@ plotcake_reset()
 	local err=$?
 	resize 2>&1 >/dev/null || true
 	# reset 2>&1 >/dev/null || true
-	echo "Bye!"
+	echo >&2 "Bye!"
 	exit ${err}
 }
 trap plotcake_reset EXIT
