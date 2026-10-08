@@ -4,6 +4,7 @@ subdir-y += mkdocs
 subdir-y += numpy
 subdir-y += os
 subdir-y += sys
+subdir-y += time
 subdir-y += zlib
 
 prog-y := calendar.sh

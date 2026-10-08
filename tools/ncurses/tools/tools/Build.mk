@@ -6,6 +6,7 @@ prog-y += lingspeed-mem.sh
 prog-y += loadavg.sh
 prog-y += memory.sh
 prog-y += net.sh
+prog-y += normal-distribution.sh
 prog-y += open.sh
 prog-y += process.sh
 prog-y += syscall.sh
