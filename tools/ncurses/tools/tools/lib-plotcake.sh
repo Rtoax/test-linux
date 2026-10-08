@@ -13,6 +13,17 @@ if [[ ! -e ${PLOTCAKE} ]]; then
 	exit 1
 fi
 
+readonly LINE_TYPES=( $(${PLOTCAKE} --ltypes 2>/dev/null || true) )
+readonly LINE_TYPES_ARGS=( $(for t in ${LINE_TYPES[@]}; do echo "-L ${t}"; done) )
+readonly LINE_TYPES_CONST=( unicode-bold unicode-bold-dashed unicode-boldbold
+			    unicode unicode-dashed unicode-area-chart utf8
+			    unicode-heart )
+
+readonly LINE_COLORS=( $(${PLOTCAKE} --lcolors 2>/dev/null || true) )
+readonly LINE_COLORS_ARGS=( $(for t in ${LINE_COLORS[@]}; do echo "-C ${t}"; done) )
+readonly LINE_COLORS_CONST=( green red cyan white magenta blue yellow )
+readonly SUPPORT_JSON="$(${PLOTCAKE} --help | grep -wo json)"
+
 plotcake_reset()
 {
 	local err=$?
