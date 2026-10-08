@@ -95,6 +95,7 @@ struct plot {
 	WINDOW *win; /* equal to stdscr */
 
 	struct dialog help, llabels;
+	int help_timerfd, llabels_timerfd;
 
 	/**
 	 * We can use the dialog object to retrieve the timestamp of its last

@@ -88,12 +88,16 @@ struct id_handler *register_id(id_handle_t handle, long id,
 	struct id_handler **p = tsearch(new, &handle->root, handle->id_cmp);
 	if (p == NULL)
 		return NULL;
+
 	if (*p != new) {
 		free(new);
+#ifdef DEBUG
+		fprintf(stderr, "already exist id %p\n", *p);
+#endif
 		return *p;
 	}
 #ifdef DEBUG
-	fprintf(stderr, "register_id() = %p\n", new);
+	fprintf(stderr, "register new id %p\n", new);
 #endif
 	return new;
 }

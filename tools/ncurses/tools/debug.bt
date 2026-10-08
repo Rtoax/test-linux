@@ -1,0 +1,21 @@
+#!/bin/env bpftrace
+
+uretprobe:./plotcake:new_timerfd
+{
+	printf("%-16ld %-8d %-16s %s\n", nsecs, retval, "new_timerfd()",
+	       ustack);
+}
+
+uprobe:./plotcake:exec_key_handler
+{
+	printf("%-16ld %-4c|%-4d %-16s %s\n", nsecs, arg1, arg1,
+	       "exec_key_handler()", ustack);
+}
+
+tracepoint:syscalls:sys_enter_close
+{
+	if (comm == "plotcake") {
+		printf("%-16ld %-8d %-16s %s\n", nsecs, args->fd, "close()",
+		       ustack);
+	}
+}
