@@ -150,6 +150,14 @@ check_help_dialog
 send_keys 'l'
 check_llabels_dialog
 
+send_keys 'h'
+check_help_dialog
+
+send_keys 'l'
+check_llabels_dialog
+
+send_keys Enter
+
 send_keys 't'
 check_content "${title} \(signed logarithmic\)"
 send_keys 't'
@@ -162,7 +170,7 @@ send_keys 't'
 send_keys 't'
 
 send_keys 'v'
-check_content "h=1"
-check_content "l=1"
+check_content "h=2"
+check_content "l=2"
 check_content "t=6"
 tmux capture-pane -t ${session} -p
