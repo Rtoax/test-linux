@@ -1,19 +1,20 @@
 #!/bin/bash
+# Usage: D="1 2 3" ./bar-chart.sh [arg...]
 set -e
 
 readonly MYDIR=$(dirname $(realpath $0))
 . ${MYDIR}/lib-plotcake.sh
 
-data=( ${@} )
+[[ "${D}" ]] && data=( ${D} )
 if [[ -z ${data} ]]; then
-	data=( 1 2 3 2 1 )
+	data=( 1 2 3 2 1 3 4 5 6 2 3 9 8 )
 fi
 num=${#data[@]}
 
 area_args=()
 for ((i = 0; i < num; i++))
 do
-	area_args+=( -L unicode-area-chart )
+	area_args+=( -L unicode-area-chart -l "Line ${i} (data ${data[$i]})" )
 done
 
 for ((i = 0; i < num * 10; i++))
@@ -38,5 +39,5 @@ do
 
 	echo "${msg}"
 	sleep 0.01
-done | ${PLOTCAKE} --title 'Bar chart' ${area_args[@]} -o bar-chart \
+done | ${PLOTCAKE} --title 'Bar chart' "${area_args[@]}" -o bar-chart \
 	--x-index "${@}"
