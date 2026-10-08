@@ -560,7 +560,8 @@ static void __plot_redraw(struct plot *p, bool debug)
 	/**
 	 * Handle the keyboard first, because 'reset' need before paint.
 	 */
-	exec_key_handler(p->kb, p->kb->current_key);
+	if (p->kb->current_key != 0)
+		exec_key_handler(p->kb, p->kb->current_key);
 
 	__paint_plot(p, debug);
 
@@ -582,22 +583,12 @@ void plot_redraw(struct plot *p, bool debug)
 
 	wnoutrefresh(p->win);
 
-#if 0
-	refresh_dialog(&p->help);
-	refresh_dialog(&p->llabels);
-#else
-	/**
-	 * FIXME: The sequence is still jumbled, I don't know why; just give me
-	 * more time.
-	 */
 	void fn(const struct id_handler *id, void *arg)
 	{
 		struct dialog *_d = id->arg;
 		refresh_dialog(_d);
 	}
-
 	for_each_id(p->start_time_to_dialog, fn, NULL);
-#endif
 
 	doupdate();
 
@@ -627,7 +618,8 @@ static int max_key_help_len(void)
 }
 
 /**
- * @return: return 0 or 1 if success (1: create window)
+ * @return: return 0, 1, 2 if success, 0: without drawing, 1: create window,
+ *          2: not create window.
  */
 static int __paint_help_win(struct plot *p, bool init)
 {
@@ -645,7 +637,9 @@ static int __paint_help_win(struct plot *p, bool init)
 	w = p->plotwidth / 2 + p->bnd.left - max_key_help_len() / 2;
 	n = sizeof(key_helps) / sizeof(key_helps[0]);
 
-	if (init && !win) {
+	if (init && win) {
+		ret = 2;
+	} else if (init && !win) {
 		win = newwin(n + 2, max_key_help_len() + 2, h, w);
 		new_dialog(&p->help, win);
 		ret = 1;
@@ -661,6 +655,10 @@ static int __paint_help_win(struct plot *p, bool init)
 	return ret;
 }
 
+/**
+ * @return: return 0, 1, 2 if success, 0: without drawing, 1: create window,
+ *          2: not create window.
+ */
 static int __paint_llabels_win(struct plot *p, bool init)
 {
 	int ret = 0, i, nline = 0;
@@ -689,7 +687,9 @@ static int __paint_llabels_win(struct plot *p, bool init)
 	int h = p->plotheight / 2 + p->bnd.top - (nline / 2) - 1;
 	int w = p->plotwidth / 2 + p->bnd.left - (max_name_len + n) / 2;
 
-	if (init && !win) {
+	if (init && win) {
+		ret = 2;
+	} else if (init && !win) {
 		win = newwin(nline + 2, max_name_len + n + 3, h, w);
 		new_dialog(&p->llabels, win);
 		ret = 1;
@@ -722,14 +722,14 @@ static int __paint_llabels_win(struct plot *p, bool init)
 	return ret;
 }
 
-static void dialog_add_to_tree(struct plot *p, struct dialog *d)
+static void dialog_add_to_window(struct plot *p, struct dialog *d)
 {
 	unsigned long ns = nsecs();
 	register_id(p->dialog_to_start_time, (long)d, NULL, (void *)ns);
 	register_id(p->start_time_to_dialog, (long)ns, NULL, d);
 }
 
-static void dialog_del_from_tree(struct plot *p, struct dialog *d)
+static void dialog_del_from_window(struct plot *p, struct dialog *d)
 {
 	struct id_handler *id_h;
 	unsigned long ns;
@@ -744,17 +744,18 @@ static void dialog_del_from_tree(struct plot *p, struct dialog *d)
 	unregister_id(p->start_time_to_dialog, (long)ns);
 }
 
-static int win_dialog_timer_timeout_handler(long fd, struct plot *p,
-					    struct dialog *d)
+static int win_dialog_timer_timeout_handler(long fd, int *reset_fd,
+					    struct plot *p, struct dialog *d)
 {
 	plotcake_poll_del_fd(fd);
 	unregister_id(NULL, fd);
 	close(fd); /* new_timerfd() */
+	*reset_fd = -1;
 
 	/**
 	 * Remove dialog from search-tree before delete dialog.
 	 */
-	dialog_del_from_tree(p, d);
+	dialog_del_from_window(p, d);
 
 	del_dialog(d);
 	return 0;
@@ -763,13 +764,15 @@ static int win_dialog_timer_timeout_handler(long fd, struct plot *p,
 static int win_dialog_help_timer_timeout_handler(long fd, void *arg)
 {
 	struct plot *p = arg;
-	return win_dialog_timer_timeout_handler(fd, p, &p->help);
+	return win_dialog_timer_timeout_handler(fd, &p->help_timerfd, p,
+						&p->help);
 }
 
 static int win_dialog_llabels_timer_timeout_handler(long fd, void *arg)
 {
 	struct plot *p = arg;
-	return win_dialog_timer_timeout_handler(fd, p, &p->llabels);
+	return win_dialog_timer_timeout_handler(fd, &p->llabels_timerfd, p,
+						&p->llabels);
 }
 
 /**
@@ -778,13 +781,21 @@ static int win_dialog_llabels_timer_timeout_handler(long fd, void *arg)
 static int key_h_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	if (__paint_help_win(p, true) == 1) {
-		int fd = new_timerfd(EXPIRED_USECS_HELP * 1000);
-		plotcake_poll_add_fd(fd);
-		register_id(NULL, fd, win_dialog_help_timer_timeout_handler, p);
+	__paint_help_win(p, true);
+	if (p->help_timerfd != -1) {
+		plotcake_poll_del_fd(p->help_timerfd);
+		if (find_id_handler(NULL, p->help_timerfd)) {
+			unregister_id(NULL, p->help_timerfd);
+			close(p->help_timerfd);
+		}
+		p->help_timerfd = -1;
 	}
-	dialog_del_from_tree(p, &p->help);
-	dialog_add_to_tree(p, &p->help);
+	p->help_timerfd = new_timerfd(EXPIRED_USECS_HELP * 1000);
+	plotcake_poll_add_fd(p->help_timerfd);
+	register_id(NULL, p->help_timerfd,
+		    win_dialog_help_timer_timeout_handler, p);
+	dialog_del_from_window(p, &p->help);
+	dialog_add_to_window(p, &p->help);
 	return 0;
 }
 
@@ -794,14 +805,21 @@ static int key_h_handler(int key, void *arg)
 static int key_l_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	if (__paint_llabels_win(p, true) == 1) {
-		int fd = new_timerfd(EXPIRED_USECS_LLABEL * 1000);
-		plotcake_poll_add_fd(fd);
-		register_id(NULL, fd, win_dialog_llabels_timer_timeout_handler,
-			    p);
+	__paint_llabels_win(p, true);
+	if (p->llabels_timerfd != -1) {
+		plotcake_poll_del_fd(p->llabels_timerfd);
+		if (find_id_handler(NULL, p->llabels_timerfd)) {
+			unregister_id(NULL, p->llabels_timerfd);
+			close(p->llabels_timerfd);
+		}
+		p->llabels_timerfd = -1;
 	}
-	dialog_del_from_tree(p, &p->llabels);
-	dialog_add_to_tree(p, &p->llabels);
+	p->llabels_timerfd = new_timerfd(EXPIRED_USECS_LLABEL * 1000);
+	plotcake_poll_add_fd(p->llabels_timerfd);
+	register_id(NULL, p->llabels_timerfd,
+		    win_dialog_llabels_timer_timeout_handler, p);
+	dialog_del_from_window(p, &p->llabels);
+	dialog_add_to_window(p, &p->llabels);
 	return 0;
 }
 
@@ -896,6 +914,9 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	if (x_type < X_TIMEVAL || x_type > X_INDEX)
 		return -EINVAL;
 	p->x_type = x_type;
+	p->plotshift_timerfd = -1;
+	p->help_timerfd = -1;
+	p->llabels_timerfd = -1;
 
 	err = err ?: register_key_handler(kb, 'r', p, key_r_handler);
 	err = err ?: register_key_handler(kb, 't', p, key_t_handler);
@@ -907,7 +928,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	err = err ?: register_key_handler(kb, KEY_LEFT, p, key_left_handler);
 
 	p->dialog_to_start_time = create_id_handler(NULL);
-	p->start_time_to_dialog = create_id_handler(ID_CMP_DESCENDING_ORDER);
+	p->start_time_to_dialog = create_id_handler(ID_CMP_ASCENDING_ORDER);
 
 	if (file && !err)
 		err = err ?: load_plot(p, file, debug);

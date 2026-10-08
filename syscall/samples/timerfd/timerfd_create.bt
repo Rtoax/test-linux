@@ -1,0 +1,14 @@
+#!/bin/env bpftrace
+// Copyright (C) 2026 Rong Tao. All rights reserved.
+
+tracepoint:syscalls:sys_exit_timerfd_create
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8d %-16s %-8ld\n", pid, tid, comm, args->ret);
+}
+
+tracepoint:syscalls:sys_enter_close
+{
+	time("%H:%M:%S ");
+	printf("%-8d %-8d %-16s %-8ld close\n", pid, tid, comm, args->fd);
+}
