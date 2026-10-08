@@ -81,17 +81,25 @@ struct plot {
 	enum ltype_enum axis_curve_type;
 	enum x_axis_type x_type;
 
+#ifdef DEBUG
+#define PLOT_DEBUG0_DIALOG_FMT ", dialog:%d:%d:%d:%d"
+#define PLOT_DEBUG0_DIALOG_ARG                                             \
+	, id_handle_count(p->dialog_to_start_time),                        \
+		id_handle_count(p->start_time_to_dialog), p->help_timerfd, \
+		p->llabels_timerfd
+#else
+#define PLOT_DEBUG0_DIALOG_FMT
+#define PLOT_DEBUG0_DIALOG_ARG
+#endif
+
 #define PLOT_INF0_FMT                                                      \
 	"plot(redraw=%ld, %.3f MiB, win[%d,%d], max[%d,%d], plot[%d,%d], " \
-	"scale %d, shft %ld/%ld, %s:%d, dialog:%d:%d:%d:%d)"
+	"scale %d, shft %ld/%ld, %s:%d" PLOT_DEBUG0_DIALOG_FMT ")"
 #define PLOT_INF0_ARG(p)                                                   \
 	p->redrawcount, plot_mem_size(p) * 1. / 1024 / 1024, p->height,    \
 		p->width, p->heightmax, p->widthmax, p->plotheight,        \
 		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p), \
-		x_axis_type_str(p->x_type), p->x_type,                     \
-		id_handle_count(p->dialog_to_start_time),                  \
-		id_handle_count(p->start_time_to_dialog), p->help_timerfd, \
-		p->llabels_timerfd
+		x_axis_type_str(p->x_type), p->x_type PLOT_DEBUG0_DIALOG_ARG
 
 	WINDOW *win; /* equal to stdscr */
 
