@@ -354,5 +354,4 @@ void rb_destroy(struct rb_root *root, void(*free_node_cb)(struct rb_node *))
         }
 }
 
-#endif	/* _LINUX_RBTREE_H */
-
+#endif /* _LINUX_RBTREE_H */
