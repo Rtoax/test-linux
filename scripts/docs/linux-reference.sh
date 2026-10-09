@@ -6,7 +6,7 @@ set -e
 
 readonly THISPATH=$(dirname $(realpath $0))
 
-readonly kver_short=$(${THISPATH}/../kversion.sh short)
+readonly kver_short=$(${THISPATH}/../version/kversion.sh short)
 readonly os_short=$(${THISPATH}/../version/distro.sh short)
 
 readonly README=$(realpath ${THISPATH}/../../Documentation/distro/linux-reference.rst)

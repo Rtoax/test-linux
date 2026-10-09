@@ -19,6 +19,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- move kversion.sh into version dir;
 #### Tools
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;

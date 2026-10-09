@@ -11,6 +11,7 @@ prog-y += linux.sh.1 linux.sh.2 linux.sh.3 linux.sh.4
 prog-y += linux.sh.5 linux.sh.6 linux.sh.7 linux.sh.8
 prog-y += uefi.sh uefi.sh.1 uefi.sh.2 uefi.sh.3
 prog-y += distro.sh distro.sh.1
+prog-y += kversion.sh kversion.sh.1
 
 # $1: script name without ext
 define test_mmp
@@ -49,6 +50,8 @@ PROG_ARGS_linux.sh.5 := --uapimajor
 PROG_ARGS_linux.sh.6 := --uapipatchlevel
 PROG_ARGS_linux.sh.7 := --uapisublevel
 PROG_ARGS_linux.sh.8 := --uapicode
+PROG_ARGS_kversion.sh := short
+PROG_ARGS_kversion.sh.1 := full
 
 $(call target_link_helper,config,TLC_HELPERS)
 
