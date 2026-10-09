@@ -1,5 +1,5 @@
 {
-	"version": "0.0.27",
+	"version": "0.0.28",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -865,7 +865,7 @@
 					"argument": [ "-V" ]
 				}
 			},
-			"keys": [ "fsck.xfs" ]
+			"keys": [ "fsck.xfs", "mkfs.xfs", "xfsprogs" ]
 		},
 		"xxd": {
 			"name": "xxd",

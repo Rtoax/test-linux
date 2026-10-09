@@ -21,9 +21,11 @@ and this project adheres to
 #### Scripts
 - move kversion.sh into version dir;
 #### Tools
+- add xfsprogs subdir;
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- fs: add xfsprogs.mk;
 - add ffmpeg.mk;
 - add expect.mk;
 

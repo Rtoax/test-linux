@@ -11,6 +11,7 @@ include podman.mk
 include smartmontools.mk
 include tmux.mk
 include vim.mk
+include xfsprogs.mk
 include zstd.mk
 
 subdir-y += acpica-tools
@@ -94,6 +95,7 @@ subdir-y += tcpdump
 subdir-${HAVE_TMUX} += tmux
 subdir-y += util-linux
 subdir-${HAVE_VIM} += vim
+subdir-${HAVE_XFSPROGS} += xfsprogs
 subdir-y += xterm
 subdir-y += zlib
 subdir-${HAVE_ZSTD} += zstd

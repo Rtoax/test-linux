@@ -45,6 +45,7 @@ subdir-y += sendfile
 subdir-y += sysinfo
 subdir-y += mount
 subdir-y += module
+subdir-y += quota
 subdir-y += random
 subdir-${IS_X86_64} += ldt
 subdir-y += xattr
