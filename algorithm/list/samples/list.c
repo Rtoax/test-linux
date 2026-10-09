@@ -1,7 +1,6 @@
 #include <stdbool.h>
 #include "list.h"
 
-
 typedef int (*cmp_func)(void *, struct list_head const *, struct list_head const *);
 
 /*

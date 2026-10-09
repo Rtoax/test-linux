@@ -1,3 +1,4 @@
+#pragma once
 
 #ifndef LIST_POISON1
 #define LIST_POISON1  ((void *) 0x00100100)

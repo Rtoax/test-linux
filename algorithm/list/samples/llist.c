@@ -3,7 +3,6 @@
 #include <sys/types.h>
 #include "llist.h"
 
-
 #ifndef cmpxchg
 #define cmpxchg(ptr, o, n)		    \
 ({									\
@@ -88,5 +87,3 @@ struct llist_node *llist_reverse_order(struct llist_node *head)
 
 	return new_head;
 }
-
-
