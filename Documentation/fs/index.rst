@@ -23,6 +23,7 @@ Linux Kernel
    debugfs
    devtmpfs
    erofs
+   exfat
    ext
    ext2
    ext3

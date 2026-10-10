@@ -14,6 +14,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- fs: add exfat.rst;
 - distro: add cclinux.rst;
 #### Fixed
 #### Linux Kernel
