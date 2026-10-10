@@ -12,6 +12,7 @@
 # - https://motrix.app/download
 # - https://code.visualstudio.com/docs/setup/linux
 # - https://www.drawio.com/, https://github.com/jgraph/drawio-desktop/releases/
+# - https://www.wps.com/office/linux/
 #
 set -e
 
