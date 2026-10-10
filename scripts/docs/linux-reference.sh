@@ -17,9 +17,21 @@ if [[ -f ${THISPATH}/../../.gitconfig.sh ]]; then
 	. ${THISPATH}/../../.gitconfig.sh
 fi
 
+force_exit() {
+	if [[ -z ${FLR} ]]; then
+		echo >&2 "ERROR: set FLR=1/FORCE=1 to skip"
+		exit 1
+	fi
+}
+
 if [[ ! -f ${DISTRO_RST} ]]; then
 	echo >&2 "ERROR: ${DISTRO_RST} is not exist, please create it"
-	exit 1
+	force_exit
+fi
+
+if ! grep --quiet $(uname -r) ${DISTRO_RST}; then
+	echo >&2 "ERROR: ${DISTRO_RST} is not contains '$(uname -r)', please add it"
+	force_exit
 fi
 
 # Show all
@@ -32,8 +44,5 @@ if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README_RST})" ]];
 	else
 		echo >&2 "ERROR: Missing '* ${kver_short} (${os_short})' in ${README_RST}"
 	fi
-	if [[ -z ${FLR} ]]; then
-		echo >&2 "ERROR: set FLR=1/FORCE=1 to skip"
-		exit 1
-	fi
+	force_exit
 fi
