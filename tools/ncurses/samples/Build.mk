@@ -11,6 +11,7 @@ target-y += mouse
 target-y += newwin
 target-y += setlocale
 target-y += version
+target-y += yes-or-no
 
 CFLAGS_mouse := -DTEST_MOUSE=1
 
