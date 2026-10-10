@@ -76,6 +76,8 @@ done:
 
 int main(void)
 {
+	int opt;
+
 	setlocale(LC_ALL, "");
 
 	initscr();
@@ -83,12 +85,10 @@ int main(void)
 	noecho();
 	curs_set(0);
 
-	if (confirm("Confirm", "Are you sure?")) {
-		// Yes
-	} else {
-		// No
-	}
+	opt = confirm("Confirm", "Are you sure?");
 
 	endwin();
+
+	printf("%s\n", opt ? "Yes" : "No");
 	return 0;
 }
