@@ -14,6 +14,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- distro: add cclinux.rst;
 #### Fixed
 #### Linux Kernel
 #### Removed

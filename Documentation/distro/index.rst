@@ -22,6 +22,7 @@ Distributions
    asterinas
    bottlerocket
    microsoft
+   cclinux
    centos
    debian
    fedora
