@@ -474,6 +474,7 @@ static int key_handler(long fd, void *arg)
 		 */
 		case 27: /* Esc, 0x1B, 033, ^[ */
 		case 13: /* enter */
+		case KEY_ENTER:
 			plot->kb->cnt.enter++;
 			a->redraw = true;
 			break;
