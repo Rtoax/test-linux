@@ -1,6 +1,12 @@
 Fedora
 ======
 
+Linux Kernel Versions
+---------------------
+
+- 7.2.9-200.fc44.x86_64
+
+
 Fedora Atomic
 -------------
 
