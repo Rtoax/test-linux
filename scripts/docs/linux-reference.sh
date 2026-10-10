@@ -8,22 +8,29 @@ readonly THISPATH=$(dirname $(realpath $0))
 
 readonly kver_short=$(${THISPATH}/../version/kversion.sh short)
 readonly os_short=$(${THISPATH}/../version/distro.sh short)
+readonly os_short_name=$(${THISPATH}/../version/distro.sh short-name)
 
-readonly README=$(realpath ${THISPATH}/../../Documentation/distro/linux-reference.rst)
+readonly README_RST=$(realpath ${THISPATH}/../../Documentation/distro/linux-reference.rst)
+readonly DISTRO_RST=$(realpath ${THISPATH}/../../Documentation/distro/${os_short_name}.rst)
 
 if [[ -f ${THISPATH}/../../.gitconfig.sh ]]; then
 	. ${THISPATH}/../../.gitconfig.sh
 fi
 
-# Show all
-[[ ${VLR}${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README}
+if [[ ! -f ${DISTRO_RST} ]]; then
+	echo >&2 "ERROR: ${DISTRO_RST} is not exist, please create it"
+	exit 1
+fi
 
-if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README})" ]]; then
-	oldline=$(grep -E "^\* ${kver_short} \([^)]+\)$" ${README} || :)
+# Show all
+[[ ${VLR}${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README_RST}
+
+if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README_RST})" ]]; then
+	oldline=$(grep -E "^\* ${kver_short} \([^)]+\)$" ${README_RST} || :)
 	if [[ ! -z ${oldline} ]]; then
-		echo >&2 "ERROR: Missing '${os_short}' in '${oldline}' in ${README}"
+		echo >&2 "ERROR: Missing '${os_short}' in '${oldline}' in ${README_RST}"
 	else
-		echo >&2 "ERROR: Missing '* ${kver_short} (${os_short})' in ${README}"
+		echo >&2 "ERROR: Missing '* ${kver_short} (${os_short})' in ${README_RST}"
 	fi
 	if [[ -z ${FLR} ]]; then
 		echo >&2 "ERROR: set FLR=1/FORCE=1 to skip"

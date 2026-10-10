@@ -1,5 +1,8 @@
 #!/bin/bash
-# Usage: distro.sh [short]
+# Usage: distro.sh [short|short-name]
+#
+# Referenced by:
+# - scripts/docs/linux-reference.sh
 set -e
 
 declare name_full name_short pretty_name ver_num
@@ -25,6 +28,9 @@ fi
 case $1 in
 short)
 	echo "${name_short}${ver_num}"
+	;;
+short-name)
+	echo "${name_short}"
 	;;
 *)
 	if [[ -z ${pretty_name} ]]; then
