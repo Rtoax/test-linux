@@ -3,7 +3,7 @@ include git.mk
 
 subdir-y += hooks
 
-LAST_TAG := $(shell ${GIT} describe --tags --abbrev=0)
+LAST_TAG := ${GIT_LAST_TAG}
 
 prog-y += archive.sh
 prog-y += bigfile.sh

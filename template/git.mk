@@ -4,6 +4,7 @@
 # Defintions:
 # - GIT=[/usr/bin/git]
 # - HAVE_GIT=[y|n]
+# - GIT_LAST_TAG=[v2.4.14-Squirrel]
 #
 # - GIT_VERSION=
 # - GIT_MAJOR=
@@ -23,6 +24,8 @@ include version.mk
 include file.mk
 
 $(call find_cmd_and_def,git)
+
+GIT_LAST_TAG := $(shell ${GIT} describe --tags --abbrev=0)
 
 git_mk_cachefile := ${TOPDIR}/template/.git.mk.cache
 git_mk_origfile := ${TOPDIR}/template/git.mk
@@ -59,6 +62,7 @@ ifdef DEBUG
   $(info GIT_MAJOR = ${GIT_MAJOR})
   $(info GIT_MINOR = ${GIT_MINOR})
   $(info GIT_PATCHLEVEL = ${GIT_PATCHLEVEL})
+  $(info GIT_LAST_TAG = ${GIT_LAST_TAG})
 endif
 
 ifdef TEST
