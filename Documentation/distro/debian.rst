@@ -1,6 +1,14 @@
 Debian
 ======
 
+Linux Kernel Versions
+---------------------
+
+Debian 13
+~~~~~~~~~
+
+- 6.12.111+deb13-amd64
+
 
 Links
 -----
