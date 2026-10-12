@@ -1250,6 +1250,7 @@ apt_add_packages()
 	pkgs_net+=( infiniband-diags )
 
 	pkgs_compiler+=( build-essential )
+	pkgs_compiler+=( g++ )
 	# https://gcc.gnu.org/wiki/BPFBackEnd
 	pkgs_compiler+=( gcc-bpf )
 	pkgs_compiler+=( gcc-doc )
