@@ -1,6 +1,14 @@
 CentOS (Stream)
 ===============
 
+Linux Kernel Versions
+---------------------
+
+CentOS Stream 10
+~~~~~~~~~~~~~~~~
+
+- 6.12.0-264.el10.x86_64
+
 
 Links
 -----
