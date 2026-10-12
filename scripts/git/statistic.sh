@@ -19,7 +19,9 @@ export git_authors
 
 debug()
 {
-	[[ -z ${verbose} ]] && return 0
+	if [[ -z ${verbose} ]]; then
+		return 0
+	fi
 	echo "$@" >&2
 }
 
@@ -268,7 +270,10 @@ print_commit_of_author()
 goodbye()
 {
 	local ret=$?
-	test $ret != 0 && echo "Running wrong" && exit $ret
+	if test $ret != 0; then
+		echo "Running failed"
+		exit $ret
+	fi
 }
 trap "goodbye" EXIT
 
