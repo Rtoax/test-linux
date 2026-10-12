@@ -1,6 +1,15 @@
 Ubuntu
 ======
 
+Linux Kernel Versions
+---------------------
+
+Ubuntu 22.04
+~~~~~~~~~~~~
+
+- 6.8.0-49-generic
+
+
 Ubuntu Core
 -----------
 
