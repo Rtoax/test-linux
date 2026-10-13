@@ -8,7 +8,6 @@ Abbrev
 - CPLD: Complex Programmable Logic Device (复杂可编程逻辑器件)
 - DMI: Desktop Management Interface (桌面管理接口)
 - GHES: Generic Hardware Error Source (通用硬件错误源)
-- HMAT: Heterogeneous Memory Attribute Table (异构内存属性表)
 - PXE: Preboot Execute Environment (预启动执行环境)
 - RSDP: Root System Description Pointer ()
 - SMBIOS: System Management BIOS (系统管理BIOS)

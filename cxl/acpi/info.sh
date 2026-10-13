@@ -10,14 +10,18 @@ run sudo dmesg | grep ACPI0017 || :
 
 run modinfo cxl_acpi
 
-run sudo acpidump > acpi.dat
-run sudo acpixtract -a acpi.dat
-# Generate cedt.dat
-if [[ -f cedt.dat ]]; then
-	# Generate cedt.dsl
-	run sudo iasl -d cedt.dat
-	run cat cedt.dsl
-fi
+# Generate cedt.dat, ...
+run sudo acpidump -b # dump binary format
+
+# See https://origin.kernel.org/doc/html/latest/driver-api/cxl/platform/acpi.html
+for tab in cedt srat hmat slit dsdt
+do
+	if [[ -f ${tab}.dat ]]; then
+		# Generate .dsl
+		run sudo iasl -d ${tab}.dat
+		run cat ${tab}.dsl
+	fi
+done
 
 LS=ls
 [[ $(which find) ]] && LS=find

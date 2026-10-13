@@ -25,3 +25,10 @@ ACPI0016: CXL Host Bridge Object, CXL root complex
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ACPI DSDT (Differentiated System Description Table).
+
+
+Links
+-----
+
+- https://origin.kernel.org/doc/html/latest/driver-api/cxl/platform/acpi.html
+- https://docs.kernel.org/driver-api/cxl/platform/cdat.html

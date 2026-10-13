@@ -1,6 +1,7 @@
 include cxl.mk
 
 subdir-${HAVE_CXL_DEVICE} += acpi
+subdir-${HAVE_CXL_DEVICE} += cdat
 subdir-${HAVE_CXL_DEVICE} += bus
 subdir-y += cxlmemuring
 subdir-y += fm

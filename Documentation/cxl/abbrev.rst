@@ -31,6 +31,8 @@ CXL Abbrev
 - DOE: Data Object Exchange (数据对象交换) @DVSEC
 - DPA: CXL Memory Device Physical Address (CXL 内存设备物理地址)
 - DRS: Response with data - generically called Data Response (有数据响应) @S2M
+- DSLBIS: Device Scoped Latency and Bandwidth Information Structure (设备范围内的延迟和带宽信息结构) @CDAT
+- DSMAS: Device Scoped Memory Affinity Structure (设备范围内存亲和性结构) @CDAT
 - DSP: Downstream Switch Port (下游交换端口) @USP
 - EDSFF: Enterprise and Data Center Standard Form Factor (企业和数据中心标准外形尺寸)
 - EP: Endpoint (端点) @MCTP
@@ -72,6 +74,9 @@ CXL Abbrev
 - RwD: Request with Data (有数据请求) @M2S
 - S2M: Subordinate to Master (从到主) @M2S @CXL.mem
 - SLD: Single Logical Device (单一逻辑设备) @MLD
+- SLIT: System Locality Information Table (系统位置信息表) @ACPI
+- SRAT: Static Resource Affinity Table (静态资源亲和性表) @ACPI
+- SSLBIS: Switch Scoped Latency and Bandwidth Information Structure (交换机范围延迟和带宽信息结构) @CDAT
 - TMO: TMO? (透明内存卸载) @Meta
 - TPP: Transparent Put (透明页放置) @Meta
 - UCIe: Universal Chiplet Interconnect express (通用芯片互连快速)

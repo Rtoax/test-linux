@@ -1,3 +1,6 @@
 include file.mk
 
-prog-$(call fexist,/sys/firmware/acpi/tables) += iasl.sh
+HAVE_ACPI_TABLES := $(call fexist,/sys/firmware/acpi/tables)
+
+prog-y += acpidump.sh
+prog-${HAVE_ACPI_TABLES} += iasl.sh

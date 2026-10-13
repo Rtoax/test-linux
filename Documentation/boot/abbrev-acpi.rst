@@ -6,3 +6,4 @@ Abbrev ACPI
 - AML: ACPI Machine Language (ACPI 机器语言)
 - ASL: ACPI Source Language (ACPI 源语言)
 - DSDT: Differentiated System Description Table (区分系统描述表) @CXL
+- HMAT: Heterogeneous Memory Attribute Table (异构内存属性表) @ACPI @CXL
