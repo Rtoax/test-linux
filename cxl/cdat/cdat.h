@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: GPL-3.0
+// Copyright (C) 2026 Rong Tao. All rights reserved.
+/**
+ * CXL CDAT (Coherent Device Attribute Table) Structure
+ *
+ * Refs:
+ * - https://git.zx2c4.com/qemu/plain/include/hw/cxl/cxl_cdat.h
+ * - https://docs.kernel.org/driver-api/cxl/platform/cdat.html
+ */
+#pragma once
+#include <stdint.h>
+
+/* CDAT Table Format - CDAT Table 1 */
+struct cdat_tab_hdr {
+	uint32_t length;
+	uint8_t revision;
+	uint8_t checksum;
+	uint8_t reserved[6];
+	uint32_t sequence;
+} __attribute__((packed));
+
+/* CDAT Structure Types - CDAT Table 2 */
+enum cdat_type {
+	CDAT_TYPE_DSMAS = 0,
+	CDAT_TYPE_DSLBIS = 1,
+	CDAT_TYPE_DSMSCIS = 2,
+	CDAT_TYPE_DSIS = 3,
+	CDAT_TYPE_DSEMTS = 4,
+	CDAT_TYPE_SSLBIS = 5,
+};
+
+struct cdat_sub_hdr {
+	uint8_t type;
+	uint8_t reserved;
+	uint16_t length;
+} __attribute__((packed));

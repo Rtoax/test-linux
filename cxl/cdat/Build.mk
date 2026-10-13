@@ -7,4 +7,6 @@
 #
 # Refs:
 # - https://docs.kernel.org/driver-api/cxl/platform/cdat.html
+target-y += cdat
+
 prog-y += endpoint.sh
