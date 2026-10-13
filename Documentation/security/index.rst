@@ -46,6 +46,5 @@ Hardware
 .. toctree::
    :maxdepth: 1
 
-   tee
+   tee/index
    tpm
-   intel/sgx
