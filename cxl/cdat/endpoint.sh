@@ -1,4 +1,5 @@
 #!/bin/bash
+# commit 1deed101cac2 ("cxl: add CDAT (Coherent Device Attribute Table)")
 set -e
 
 readonly endpoints=( $(ls /sys/bus/cxl/devices/ | grep -Eo 'endpoint[0-9]+') )
