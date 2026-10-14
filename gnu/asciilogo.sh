@@ -3,6 +3,8 @@ set -e
 
 if which neofetch >/dev/null 2>&1; then
 	neofetch --ascii_distro GNU
+elif which fastfetch >/dev/null 2>&1; then
+	fastfetch --logo gnu --structure " "
 else
 	echo '    _-`````-,           ,- `- .'
 	echo '  .`   .- - |          | - -.  `.'
