@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+echo "[git-hooks] commit-msg"
+
 readonly msgfile=$1
 echo "commit ${msgfile}"
 

@@ -7,6 +7,8 @@
 # - FORCE/FC: Force Commit
 set -e
 
+echo "[git-hooks] pre-commit"
+
 readonly TEST_LINUX_ROOT=$(realpath $(dirname $(realpath $0))/../../../)
 # Match the max prefix of '--amend'
 readonly IS_AMEND=$(ps -ocommand= -p $PPID | grep -e '--am')

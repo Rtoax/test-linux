@@ -6,6 +6,10 @@
 # - AV: Match all versions
 # - VCM: Verbose mode of Commit Message
 # - FORCE/FCM: Force mode of Commit Message
+set -e
+
+echo "[git-hooks] prepare-commit-msg"
+
 [[ ${VCM} ]] && set -x
 
 [[ -z ${FCM} ]] && FCM=${FORCE}
