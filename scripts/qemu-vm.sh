@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.61"
+readonly VERSION="v1.1.62"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -1311,6 +1311,10 @@ add_net_nic_tap() {
 # $ ssh -p${PORT} root@localhost
 # Make sure port was not used, check with:
 # $ sudo netstat -tulpn | grep ${PORT}
+#
+# If: could not configure /dev/net/tun (tap0): Device or resource busy
+# You should see:
+#   $ sudo lsof /dev/net/tun
 add_net_nic_user_tap() {
 	qargs+=( -net user,hostfwd=tcp::${TCP_PORT_HOSTFWD_SSH22}-:22 )
 	qargs+=( -net nic,model=virtio
