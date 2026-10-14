@@ -7,6 +7,7 @@ include latexmk.mk
 include libsmbios.mk
 include lm_sensors.mk
 include mbw.mk
+include neofetch.mk
 include ndctl.mk
 include podman.mk
 include smartmontools.mk
@@ -73,6 +74,7 @@ subdir-${HAVE_NDCTL} += ndctl
 subdir-y += net-tools
 subdir-y += NetworkManager
 subdir-y += ncurses
+subdir-${HAVE_NEOFETCH} += neofetch
 subdir-y += notcurses
 subdir-y += nginx
 subdir-y += ostree

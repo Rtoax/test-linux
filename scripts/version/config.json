@@ -1,5 +1,5 @@
 {
-	"version": "0.0.29",
+	"version": "0.0.30",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -592,6 +592,11 @@
 				}
 			},
 			"keys": [ "ncurses" ]
+		},
+		"neofetch": {
+			"name": "neofetch",
+			"keys": [ "neofetch" ],
+			"tags": [ "base" ]
 		},
 		"notcurses": {
 			"name": "Notcurses",

@@ -25,10 +25,12 @@ and this project adheres to
 #### Scripts
 - move kversion.sh into version dir;
 #### Tools
+- add fastfetch, neofetch subdir;
 - add xfsprogs subdir;
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- add neofetch.mk;
 - add fastfetch.mk;
 - fs: add xfsprogs.mk;
 - add ffmpeg.mk;
