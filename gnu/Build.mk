@@ -8,3 +8,5 @@ subdir-y += gnupg
 subdir-y += make
 
 target-y := __GNUC__
+
+prog-y += asciilogo.sh
