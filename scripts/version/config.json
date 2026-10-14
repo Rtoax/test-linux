@@ -1,5 +1,5 @@
 {
-	"version": "0.0.28",
+	"version": "0.0.29",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -204,6 +204,11 @@
 				}
 			},
 			"keys": [ "expect" ]
+		},
+		"fastfetch": {
+			"name": "fastfetch",
+			"keys": [ "fastfetch" ],
+			"tags": [ "base" ]
 		},
 		"ffmpeg": {
 			"name": "FFmeg",

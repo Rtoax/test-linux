@@ -1,5 +1,6 @@
 include asciidoc.mk
 include asciidoctor.mk
+include fastfetch.mk
 include ffmpeg.mk
 include git.mk
 include latexmk.mk
@@ -35,6 +36,7 @@ subdir-y += elfutils
 subdir-y += ethtool
 subdir-y += evtest
 subdir-y += expect
+subdir-${HAVE_FASTFETCH} += fastfetch
 subdir-${HAVE_FFMPEG} += ffmpeg
 subdir-y += fmtlib
 subdir-y += fontconfig

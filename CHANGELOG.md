@@ -29,6 +29,7 @@ and this project adheres to
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- add fastfetch.mk;
 - fs: add xfsprogs.mk;
 - add ffmpeg.mk;
 - add expect.mk;
