@@ -17,9 +17,10 @@
 #endif
 #include "oom_helpers.h"
 #include "proc_helpers.h"
+#include "str.h"
 #include "oom.h"
 
-#define OOM_VERSION "1.0.0"
+#define OOM_VERSION "1.0.1"
 volatile sig_atomic_t keep_going = 1;
 
 struct {
