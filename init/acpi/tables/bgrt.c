@@ -1,12 +1,19 @@
+// SPDX-License-Identifier: GPL-3.0
+// Copyright (C) 2026 Rong Tao. All rights reserved.
 /**
  * ACPI BGRT: Boot Graphics Resource Table
+ *
+ *
+ * Refs:
+ * - ACPI Specification, Release 6.5
+ *   5.2.23 Boot Graphics Resource Table (BGRT)
  */
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 
 typedef struct {
-	char Signature[4]; // "BGRT"
+	char Signature[4]; /* "BGRT" */
 	uint32_t Length;
 	uint8_t Revision;
 	uint8_t Checksum;
@@ -15,16 +22,16 @@ typedef struct {
 	uint32_t OEMRevision;
 	uint32_t CreatorID;
 	uint32_t CreatorRevision;
-} ACPI_TABLE_HEADER;
+} __attribute__((packed)) ACPI_TABLE_HEADER;
 
 typedef struct {
 	uint16_t Version;
-	uint8_t Status; // 0=disable, 1=enable
-	uint8_t ImageType; // 0=BMP
+	uint8_t Status; /* 0=disable, 1=enable */
+	uint8_t ImageType; /* 0=Bitmap */
 	uint64_t ImageAddress;
 	uint32_t ImageOffsetX;
 	uint32_t ImageOffsetY;
-} ACPI_BGRT;
+} __attribute__((packed)) ACPI_BGRT;
 
 int main(void)
 {
@@ -61,10 +68,10 @@ int main(void)
 	printf("BGRT Version : %u\n", bgrt.Version);
 	printf("Status	     : %u (%s)\n", bgrt.Status,
 	       bgrt.Status ? "valid" : "invalid");
-	printf("Image Type   : %u (0 = BMP)\n", bgrt.ImageType);
+	printf("Image Type   : %u (0 = Bitmap)\n", bgrt.ImageType);
 	printf("Image Physical Address : 0x%llx\n",
 	       (unsigned long long)bgrt.ImageAddress);
-	printf("Display Offset : X=%u, Y=%u\n", bgrt.ImageOffsetX,
+	printf("Image Offset : X=%u, Y=%u\n", bgrt.ImageOffsetX,
 	       bgrt.ImageOffsetY);
 
 	return 0;
