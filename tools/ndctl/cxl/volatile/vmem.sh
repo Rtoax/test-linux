@@ -48,6 +48,8 @@ free -g
 # or test multiple regions enable one by one, online memory one by one, see:
 # commit 6c3a8f516f37 ("cxl: vmem: online dax memory to NUMA one by one")
 numactl -H
+# bind memory to CXL numa node
+numactl --membind 1 ls
 
 sudo daxctl offline-memory dax0.0
 free -g
