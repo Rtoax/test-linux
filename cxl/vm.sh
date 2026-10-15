@@ -45,7 +45,7 @@ try_run() {
 
 if [[ ${DEP} ]]; then
 	case ${ID} in
-	fedora|rhel)
+	fedora|rhel|cclinux)
 		try_run sudo dnf install -y cxl-cli dracut edk2-ovmf
 		;;
 	debian|ubuntu)
@@ -232,7 +232,7 @@ case ${CUSTOM} in
 	cxlargs+=( --cxl device=${CUSTOM} )
 	;;
 help | "?")
-	echo "CUSTOM=[1|2|<3|multi-level-switch>|<4|big-vmem>]"
+	echo "CUSTOM=[<1|complex>|2|<3|multi-level-switch>|<4|big-vmem>]"
 	exit 0
 	;;
 *)
