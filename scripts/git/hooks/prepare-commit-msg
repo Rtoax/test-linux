@@ -101,7 +101,9 @@ KernelModules=""
 
 fatal() {
 	echo >&2 -e "\033[1;31mFATAL: "${@}", try FCM=1/FORCE=1 or VCM=1\033[m"
-	[[ -z ${FCM} ]] && exit 1
+	if [[ -z ${FCM} ]]; then
+		exit 1
+	fi
 }
 
 warning() {
