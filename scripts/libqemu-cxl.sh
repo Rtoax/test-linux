@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.9"
+readonly LIBQEMU_CXL_VERSION="v0.0.10"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -655,12 +655,14 @@ add_cxl_switch() {
 # --bus <name>: set bus
 # --lsa <name>: set lsa, skip if 'SKIP'
 # --dynamic-capacity,--dc: enable Dynamic Capacity
+# --serial-number, --sn: set serial number
 add_cxl_type3_dev() {
 	local arg tmparg
 	local pmem vmem name
 	local bus lsa
 	local size
 	local enable_dc
+	local SN=$RANDOM
 	local TEMP
 
 	if ! TEMP=$(getopt \
@@ -671,6 +673,7 @@ add_cxl_type3_dev() {
 			--long lsa: \
 			--long size: \
 			--long dynamic-capacity --long dc \
+			--long serial-number: --long sn: \
 			-n $0 -- "$@"); then
 		error "$0 parse arguments failed, ${@}"
 	fi
@@ -710,6 +713,11 @@ add_cxl_type3_dev() {
 			;;
 		--dynamic-capacity | --dc)
 			enable_dc=ON
+			shift
+			;;
+		--serial-number | --sn)
+			shift
+			SN=${1}
 			shift
 			;;
 		--)
@@ -833,7 +841,7 @@ add_cxl_type3_dev() {
 
 	arg+=( id=${type3_id} )
 	# Hope it will not conflict
-	arg+=( sn=$RANDOM )
+	arg+=( sn=${SN} )
 
 	cxl_qargs+=( -device $(IFS=,; echo "${arg[*]}") )
 }
