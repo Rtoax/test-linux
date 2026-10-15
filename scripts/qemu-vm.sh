@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.62"
+readonly VERSION="v1.1.63"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -795,6 +795,7 @@ ${BOLD}SYNOPSIS${RST}
     ${PROG} ${BOLD}destroy${RST} [--force] <name...>
 
 ${BOLD}OPTIONS${RST}
+    -A, --all      destroy all virtual machine
     -h, --help     show this information
     -f, --force    enable verbose mode
 "
@@ -802,6 +803,7 @@ ${BOLD}OPTIONS${RST}
 }
 
 declare destroy_vm_force
+declare destroy_vm_all
 
 # $1: virtual machine name
 destroy_one_vm() {
@@ -809,8 +811,15 @@ destroy_one_vm() {
 	config_prepare_vm_tmpdir ${name}
 
 	if [[ ! -f ${f_vm_pidfile} ]]; then
-		error "Not found vm '${name}' or '${name}' is shut-off," \
-		      "see ${BOLD}${PROG} list${RST}"
+		local msg="Not found vm '${name}' or '${name}' is shut-off, "
+		msg+="see ${BOLD}${PROG} list --all${RST}"
+
+		if [[ ${destroy_vm_force} ]]; then
+			warning "${msg}"
+			return 0
+		else
+			error "${msg}"
+		fi
 	fi
 
 	force_kill_vm() {
@@ -838,7 +847,8 @@ destroy_one_vm() {
 destroy_vm() {
 	local DESTROY_VM_ARGS
 
-	DESTROY_VM_ARGS=$(getopt --options hf \
+	DESTROY_VM_ARGS=$(getopt --options Ahf \
+			--long all \
 			--long help \
 			--long force \
 			--name destroy-vm -- "$@")
@@ -851,6 +861,10 @@ destroy_vm() {
 			shift
 			__usage_destroy_vm__
 			;;
+		-A | --all)
+			shift
+			destroy_vm_all=ON
+			;;
 		-f | --force)
 			shift
 			destroy_vm_force=ON
@@ -862,8 +876,22 @@ destroy_vm() {
 		esac
 	done
 
-	local name
-	for name in ${@}
+	local name names
+	if [[ ${destroy_vm_all} ]] && [[ ${@} ]]; then
+		error "${PROG} destroy --all should not pass extra arg '${@}'"
+	fi
+
+	if [[ ${destroy_vm_all} ]]; then
+		names=( $(get_all_vmnames) )
+		local answer=$(yes_or_no "Are you sure to destroy all VMs? [Y/N]")
+		if [[ ${answer} != YES ]]; then
+			return 0
+		fi
+	else
+		names=( ${@} )
+	fi
+
+	for name in ${names[@]}
 	do
 		destroy_one_vm ${name}
 	done
