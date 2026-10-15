@@ -52,6 +52,34 @@ typedef struct {
 	uint64_t reserved2;
 } __attribute__((packed)) MemoryAffinity;
 
+typedef struct {
+	uint8_t Type; /* must be 2 */
+	uint8_t Length;
+	uint8_t reserved[2];
+	uint8_t ProximityDomain[4];
+	uint8_t X2APIC_ID;
+	uint32_t Flags;
+	uint32_t ClockDomain;
+	uint8_t reserved1[4];
+} __attribute__((packed)) ProcessorLocalX2APICAffinity;
+
+typedef struct {
+	uint8_t Type; /* must be 3 */
+	uint8_t Length;
+	uint8_t ProximityDomain[4];
+	uint32_t ACPI_Processor_ID;
+	uint32_t Flags;
+	uint32_t ClockDomain;
+} __attribute__((packed)) GICCAffinity;
+
+typedef struct {
+	uint8_t Type; /* must be 4 */
+	uint8_t Length;
+	uint8_t ProximityDomain[4];
+	uint8_t reserved[2];
+	uint32_t ITS_ID;
+} __attribute__((packed)) ArchitectureSpecificAffinity;
+
 static int probe_type(FILE *fp)
 {
 	int8_t type;
@@ -72,20 +100,46 @@ static int probe_type(FILE *fp)
 
 void display_processor_local_APIC_affinity(ProcessorLocalAPICAffinity *a)
 {
-	printf("\033[1;3;7mProcessorLocalAPICAffinity\033[m\n");
+	printf("\033[1;3;7mProcessor Local APIC/SAPIC Affinity Structure\033[m\n");
 	printf("[lapic] %u %u.%u.%u.%u id %u flags %x EID %u clk %x\n",
 	       a->Length, a->ProximityDomain[0], a->ProximityDomain2[0],
-	       a->ProximityDomain2[0], a->ProximityDomain2[2], a->APIC_ID,
+	       a->ProximityDomain2[1], a->ProximityDomain2[2], a->APIC_ID,
 	       a->Flags, a->Local_SAPIC_EID, a->ClockDomain);
 }
 
 void display_memory_affinity(MemoryAffinity *a)
 {
-	printf("\033[1;3;7mMemoryAffinity\033[m\n");
+	printf("\033[1;3;7mMemory Affinity\033[m\n");
 	printf("[memory] %u %u.%u.%u.%u addr %x~%x len %x~%x, flags %x\n",
 	       a->Length, a->ProximityDomain[0], a->ProximityDomain[1],
 	       a->ProximityDomain[2], a->ProximityDomain[3], a->BaseAddressLow,
 	       a->BaseAddressHigh, a->LengthLow, a->LengthHigh, a->Flags);
+}
+
+void display_processor_local_X2APIC_affinity(ProcessorLocalX2APICAffinity *a)
+{
+	printf("\033[1;3;7mProcessor Local x2APIC Affinity Structure\033[m\n");
+	printf("[lx2apic] %u %u.%u.%u.%u id %u flags %x clk %x\n", a->Length,
+	       a->ProximityDomain[0], a->ProximityDomain[1],
+	       a->ProximityDomain[2], a->ProximityDomain[3], a->X2APIC_ID,
+	       a->Flags, a->ClockDomain);
+}
+
+void display_GICC_affinity(GICCAffinity *a)
+{
+	printf("\033[1;3;7mGICC Affinity\033[m\n");
+	printf("[GICC] %u %u.%u.%u.%u id %u flags %x clk %x\n", a->Length,
+	       a->ProximityDomain[0], a->ProximityDomain[1],
+	       a->ProximityDomain[2], a->ProximityDomain[3],
+	       a->ACPI_Processor_ID, a->Flags, a->ClockDomain);
+}
+
+void display_arch_specific_affinity(ArchitectureSpecificAffinity *a)
+{
+	printf("\033[1;3;7mArchitecture Specific Affinity\033[m\n");
+	printf("[arch] %u %u.%u.%u.%u ITS %d\n", a->Length,
+	       a->ProximityDomain[0], a->ProximityDomain[1],
+	       a->ProximityDomain[2], a->ProximityDomain[3], a->ITS_ID);
 }
 
 int main(void)
@@ -131,6 +185,24 @@ int main(void)
 			MemoryAffinity aff;
 			fread(&aff, 1, sizeof(aff), fp);
 			display_memory_affinity(&aff);
+			break;
+		}
+		case 2: {
+			ProcessorLocalX2APICAffinity aff;
+			fread(&aff, 1, sizeof(aff), fp);
+			display_processor_local_X2APIC_affinity(&aff);
+			break;
+		}
+		case 3: {
+			GICCAffinity aff;
+			fread(&aff, 1, sizeof(aff), fp);
+			display_GICC_affinity(&aff);
+			break;
+		}
+		case 4: {
+			ArchitectureSpecificAffinity aff;
+			fread(&aff, 1, sizeof(aff), fp);
+			display_arch_specific_affinity(&aff);
 			break;
 		}
 		default:
