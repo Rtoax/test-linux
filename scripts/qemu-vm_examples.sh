@@ -135,10 +135,10 @@ cxl_pxb4_rp4_sw4() {
 }
 cxl_pxb4_rp4_sw4_pmem4() {
 	cxl_pxb4_rp4_sw4 \
-		--cxl pmem=pmem.1,bus=sw1.1,lsa=pmem.1.lsa,size=2G \
-		--cxl pmem=pmem.2,bus=sw1.2,lsa=pmem.2.lsa,size=2G \
-		--cxl pmem=pmem.3,bus=sw1.3,lsa=pmem.3.lsa,size=2G \
-		--cxl pmem=pmem.4,bus=sw1.4,lsa=pmem.4.lsa,size=2G \
+		--cxl pmem=pmem.1,bus=sw1.1,lsa=pmem.1.lsa,size=2G,sn=1 \
+		--cxl pmem=pmem.2,bus=sw1.2,lsa=pmem.2.lsa,size=2G,serial-number=2 \
+		--cxl pmem=pmem.3,bus=sw1.3,lsa=pmem.3.lsa,size=2G,sn=3 \
+		--cxl pmem=pmem.4,bus=sw1.4,lsa=pmem.4.lsa,size=2G,serial-number=4 \
 		"${@}"
 }
 cxl_pxb4_rp4_pmem4() {

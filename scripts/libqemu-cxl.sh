@@ -57,7 +57,7 @@
 # - Refs:
 #   https://www.qemu.org/docs/master/system/devices/cxl.html
 
-readonly LIBQEMU_CXL_VERSION="v0.0.10"
+readonly LIBQEMU_CXL_VERSION="v0.0.11"
 readonly LIBQEMU_CXL_ROOT=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 . ${LIBQEMU_CXL_ROOT}/liblog.sh
@@ -133,11 +133,13 @@ declare -a cxl_pmem_names # arr=( name1 name2 ... )
 declare -A cxl_pmem_bus # arr[name]=BUS
 declare -A cxl_pmem_lsa # arr[name]=LSA
 declare -A cxl_pmem_size # arr[name]=SIZE
+declare -A cxl_pmem_sn # arr[name]=SN
 declare -a cxl_vmem_names # arr=( name1 name2 ... )
 declare -A cxl_vmem_bus # arr[name]=BUS
 declare -A cxl_vmem_lsa # arr[name]=LSA
 declare -A cxl_vmem_dc # arr[name]=[ON]
 declare -A cxl_vmem_size # arr[name]=SIZE
+declare -A cxl_vmem_sn # arr[name]=SN
 # use to find root port id or switch downstream id of cxl-type3
 declare -A cxl_pvmem_id2bus # arr[type3-id]=[rp-id|switch-downstream-id]
 declare -A cxl_pvmem_id2name # arr[type3-id]=NAME in cxl_pmem_names[]
@@ -145,6 +147,7 @@ declare -a cxl_pvmem_ids # ( id1 id2 ... )
 
 declare cxl_device
 readonly CXL_DEFAULT_MSIZE=1024M
+readonly CXL_DEFAULT_SN=RANDOM # just mark SN as a random number
 # display cxl device topology before vm startup
 declare cxl_show_topology
 
@@ -167,8 +170,8 @@ ${BOLD}--cxl pxb=<name>,[fmw|fixed-memory-window=<N>]${RST}: create CXL PXB, fmw
 ${BOLD}--cxl [fmw|fixed-memory-window]=<id>,[ig|interleave-granularity=<SIZE>]${RST}: set fmw feature
 ${BOLD}--cxl <root-port|rp>=<name>,bus=<name>,port=<num>${RST}: create CXL RootPort
 ${BOLD}--cxl switch,bus=<name>,nport=<num>,portprefix=<name>${RST}: create CXL Switch
-${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>]${RST}: create CXL Persistent Memory device
-${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>],[size=<SIZE>],[dc|dynamic-capacity]${RST}: create CXL Volatile Memory device
+${BOLD}--cxl pmem=<name>,bus=<name>,lsa=<name>,[size=<SIZE>],[sn|serial=number=<SN>]${RST}: create CXL Persistent Memory device
+${BOLD}--cxl vmem=<name>,bus=<name>,[lsa=<name>],[size=<SIZE>],[sn|serial=number=<SN>],[dc|dynamic-capacity]${RST}: create CXL Volatile Memory device
 
 ${BOLD}--cxl show=[topo]${RST}: display CXL information before vm startup, will not startup vm
 
@@ -182,6 +185,27 @@ ${BOLD}FORMAT${RST}
 	exit 0
 }
 
+# $1: pmem or vmem name
+# $2: serial number
+set_cxl_pmem_sn() {
+	local mem=$1
+	local sn=$2
+	if [[ ${sn} != ${CXL_DEFAULT_SN} ]] &&
+	   [[ " ${cxl_pmem_sn[@]} " =~ " ${sn} " ]]; then
+		error "cxl: duplicate SN '${sn}' for pmem '${mem}'"
+	fi
+	cxl_pmem_sn[$mem]=${sn}
+}
+set_cxl_vmem_sn() {
+	local mem=$1
+	local sn=$2
+	if [[ ${sn} != ${CXL_DEFAULT_SN} ]] &&
+	   [[ " ${cxl_vmem_sn[@]} " =~ " ${sn} " ]]; then
+		error "cxl: duplicate SN '${sn}' for vmem '${mem}'"
+	fi
+	cxl_vmem_sn[$mem]=${sn}
+}
+
 handle_cxl_arg() {
 	local arg args
 	local device
@@ -190,7 +214,7 @@ handle_cxl_arg() {
 	local bus port
 	local rp_id
 	local switch nport portprefix
-	local pmem vmem lsa size
+	local pmem vmem lsa size sn
 	local enable_dc
 
 	# Pre handle
@@ -294,6 +318,16 @@ handle_cxl_arg() {
 				size=${arg:5}
 				[[ -z ${size} ]] && \
 					error "cxl size= syntax error"
+				;;
+			sn)
+				sn=${arg:3}
+				[[ -z ${sn} ]] && \
+					error "cxl sn= syntax error"
+				;;
+			serial-number)
+				sn=${arg:14}
+				[[ -z ${sn} ]] && \
+					error "cxl serial-number= syntax error"
 				;;
 			show)
 				case ${arg:5} in
@@ -418,6 +452,8 @@ handle_cxl_arg() {
 		cxl_pmem_lsa[$pmem]=${lsa}
 		[[ -z ${size} ]] && size=${CXL_DEFAULT_MSIZE}
 		cxl_pmem_size[$pmem]=${size}
+		[[ -z ${sn} ]] && sn=${CXL_DEFAULT_SN}
+		set_cxl_pmem_sn $pmem ${sn}
 	fi
 
 	if [[ ${vmem} ]]; then
@@ -428,6 +464,8 @@ handle_cxl_arg() {
 		cxl_vmem_dc[$vmem]=${enable_dc}
 		[[ -z ${size} ]] && size=${CXL_DEFAULT_MSIZE}
 		cxl_vmem_size[$vmem]=${size}
+		[[ -z ${sn} ]] && sn=${CXL_DEFAULT_SN}
+		set_cxl_vmem_sn $vmem ${sn}
 	fi
 
 	# 2 spaces for empty cxl_device.
@@ -718,6 +756,9 @@ add_cxl_type3_dev() {
 		--serial-number | --sn)
 			shift
 			SN=${1}
+			if [[ ${SN} == ${CXL_DEFAULT_SN} ]]; then
+				SN=${RANDOM}
+			fi
 			shift
 			;;
 		--)
@@ -760,6 +801,10 @@ add_cxl_type3_dev() {
 			cxl_pmem_size[$pmem]=${size}
 		fi
 
+		if [[ -z ${cxl_pmem_sn[$pmem]} ]]; then
+			set_cxl_pmem_sn $pmem ${SN}
+		fi
+
 		arg+=( persistent-memdev=${pmem} )
 
 		local pmem_file=${vm_tmpdir}/${pmem}.raw
@@ -787,6 +832,10 @@ add_cxl_type3_dev() {
 			fi
 		else
 			cxl_vmem_size[$vmem]=${size}
+		fi
+
+		if [[ -z ${cxl_vmem_sn[$vmem]} ]]; then
+			set_cxl_vmem_sn $vmem ${SN}
 		fi
 
 		name=${vmem}
@@ -1048,7 +1097,19 @@ cxl_topolopy() {
 		[[ ${pmemsz} ]] && memsz=${pmemsz}
 		[[ ${vmemsz} ]] && memsz=${vmemsz}
 
-		cxl_display_topo "${mem_id}(${memname},size=${memsz})->"
+		local pmemsn=${cxl_pmem_sn[$memname]}
+		local vmemsn=${cxl_vmem_sn[$memname]}
+		local memsn=0
+		if [[ -z ${pmemsn} ]] && [[ -z ${vmemsn} ]]; then
+			error "not found SN of cxl type3 device"
+		fi
+		if [[ ${pmemsn} ]] && [[ ${vmemsn} ]]; then
+			error "cxl type3 device ${memname} mistake, pmem or vmem?"
+		fi
+		[[ ${pmemsn} ]] && memsn=${pmemsn}
+		[[ ${vmemsn} ]] && memsn=${vmemsn}
+
+		cxl_display_topo "${mem_id}(${memname},size=${memsz},sn=${memsn})->"
 
 		swdown=${bus}
 		swup=${cxl_switch_down2up[$swdown]}
@@ -1147,7 +1208,8 @@ config_cxl() {
 		add_cxl_type3_dev --pmem=${pmem} \
 			--bus=${cxl_pmem_bus[$pmem]} \
 			--lsa=${cxl_pmem_lsa[$pmem]} \
-			--size=${cxl_pmem_size[$pmem]}
+			--size=${cxl_pmem_size[$pmem]} \
+			--sn=${cxl_pmem_sn[$pmem]}
 	done
 
 	for ((i = 0; i < ${#cxl_vmem_names[@]}; i++))
@@ -1157,6 +1219,7 @@ config_cxl() {
 			--bus=${cxl_vmem_bus[$vmem]} \
 			--lsa=${cxl_vmem_lsa[$vmem]} \
 			--size=${cxl_vmem_size[$vmem]} \
+			--sn=${cxl_vmem_sn[$vmem]} \
 			${cxl_vmem_dc[$vmem]:+--dynamic-capacity}
 	done
 

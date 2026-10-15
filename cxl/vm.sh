@@ -110,7 +110,7 @@ if [[ -z "${GRAPHIC}" ]] && [[ -z ${DAEMON} ]]; then
 	qargs+=( --stdio )
 fi
 
-custom_cxl_1() {
+custom_cxl_1_complex() {
 	# $ qemu-kvm -device pxb-cxl,...
 	# see commit b4271dd6068b ("qemu: cxl-pxb: 'lspci -tv'")
 	cxlargs+=( --cxl pxb=pxb.1 ) # fmw default 0
@@ -208,15 +208,15 @@ custom_cxl_4_big_vmem() {
 
 	cxlargs+=( --cxl switch,bus=rp.1,nport=4,portprefix=sw1 )
 
-	cxlargs+=( --cxl vmem=vmem.1,bus=sw1.1,lsa=vmem.1.lsa,size=32GB )
-	cxlargs+=( --cxl vmem=vmem.2,bus=sw1.2,lsa=vmem.2.lsa,size=32GB )
-	cxlargs+=( --cxl vmem=vmem.3,bus=sw1.3,lsa=vmem.3.lsa,size=32GB )
-	cxlargs+=( --cxl vmem=vmem.4,bus=sw1.4,lsa=vmem.4.lsa,size=32GB )
+	cxlargs+=( --cxl vmem=vmem.1,bus=sw1.1,lsa=vmem.1.lsa,size=32GB,sn=1234 )
+	cxlargs+=( --cxl vmem=vmem.2,bus=sw1.2,lsa=vmem.2.lsa,size=32GB,sn=1235 )
+	cxlargs+=( --cxl vmem=vmem.3,bus=sw1.3,lsa=vmem.3.lsa,size=32GB,sn=1236 )
+	cxlargs+=( --cxl vmem=vmem.4,bus=sw1.4,lsa=vmem.4.lsa,size=32GB,sn=1237 )
 }
 
 case ${CUSTOM} in
-1)
-	custom_cxl_1
+1 | complex)
+	custom_cxl_1_complex
 	;;
 2)
 	custom_cxl_2
