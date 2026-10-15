@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.63"
+readonly VERSION="v1.1.64"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -924,7 +924,7 @@ undefine_one_vm() {
 
 	if [[ -f ${f_vm_pidfile} ]] &&
 	   [[ -e /proc/$(sudo cat ${f_vm_pidfile}) ]]; then
-		error "VM '${name}' still running, shutdown it first with 'destroy'"
+		error "VM '${name}' is still running, shutdown it first with 'destroy'"
 	fi
 
 	warning "Undefining virtual machine '${name}'"
