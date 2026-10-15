@@ -4,9 +4,11 @@ subdir-$(call fexist,/sys/firmware/acpi/tables/CEDT) += cedt
 
 target-y += bgrt
 target-y += dsdt
+target-y += srat
 
 RUNPROG_ARGS += --maybe-sudo
 
 prog-$(call fexist,/sys/firmware/acpi/tables/BGRT) += bgrt
 prog-$(call fexist,/sys/firmware/acpi/tables/DSDT) += dsdt
+prog-$(call fexist,/sys/firmware/acpi/tables/SRAT) += srat
 prog-$(call fexist,/sys/firmware/acpi/tables) += iasl.sh

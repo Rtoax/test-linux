@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- apic: test SRAT table with c;
 - cxl/cdat: add cdat.h;
 - cxl: add [CDAT](https://docs.kernel.org/driver-api/cxl/platform/cdat.html);
 #### Changed

@@ -54,10 +54,15 @@ static int probe_structure_type(FILE *fp)
 	uint8_t type;
 	fpos_t old_pos;
 
-	fgetpos(fp, &old_pos);
-	fread(&type, 1, 1, fp);
 	if (feof(fp))
 		return -1;
+
+	fgetpos(fp, &old_pos);
+	fread(&type, 1, 1, fp);
+	if (feof(fp)) {
+		fsetpos(fp, &old_pos);
+		return -1;
+	}
 	fsetpos(fp, &old_pos);
 	return type;
 }
