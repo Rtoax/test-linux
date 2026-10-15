@@ -4,6 +4,9 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <syscall.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
 #include "syscall_helpers.h"
 
 int create_file(const char *filename, char ch, size_t bytes)
@@ -29,4 +32,12 @@ off_t file_seek_end(const char *filename)
 
 	close(fd);
 	return off;
+}
+
+int sys_reboot(int magic, int magic2, int op, void *arg)
+{
+	int err = syscall(__NR_reboot, magic, magic2, op, arg);
+	if (err)
+		errno = -err;
+	return err;
 }

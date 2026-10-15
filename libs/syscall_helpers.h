@@ -10,6 +10,8 @@ extern "C" {
 int create_file(const char *filename, char ch, size_t bytes);
 off_t file_seek_end(const char *filename);
 
+int sys_reboot(int magic, int magic2, int op, void *arg);
+
 #ifdef __cplusplus
 }
 #endif

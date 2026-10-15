@@ -14,6 +14,7 @@ and this project adheres to
 - cxl/cdat: add cdat.h;
 - cxl: add [CDAT](https://docs.kernel.org/driver-api/cxl/platform/cdat.html);
 #### Changed
+- libs: merge `reboot_helpers.c` into `syscall_helpers.c`;
 #### Deprecated
 #### Documentation
 - fs: add exfat.rst;

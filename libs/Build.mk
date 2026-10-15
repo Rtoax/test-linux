@@ -41,7 +41,6 @@ target-liba-y += liboom_helpers.a
 target-liba-y += libqcow2_helpers.a
 target-liba-${HAVE_LIBBPF_H} += libbpf_helpers.a
 target-liba-${HAVE_LIBBPF_H} += libbtf_helpers.a
-target-liba-y += libreboot_helpers.a
 target-liba-y += libcgroup_helpers.a
 target-liba-${HAVE_NCURSES_H} += libncurses_helpers.a
 
@@ -58,7 +57,6 @@ target-libso-y += liboom_helpers.so
 target-libso-y += libqcow2_helpers.so
 target-libso-${HAVE_LIBBPF_H} += libbpf_helpers.so
 target-libso-${HAVE_LIBBPF_H} += libbtf_helpers.so
-target-libso-y += libreboot_helpers.so
 target-libso-y += libcgroup_helpers.so
 target-libso-${HAVE_NCURSES_H} += libncurses_helpers.so
 
@@ -120,8 +118,6 @@ libluca_helpers.so-objs := cuda_helpers.luca.so.o
 libluca_helpers.a-objs := cuda_helpers.luca.a.o
 libhpcc_helpers.so-objs := cuda_helpers.hpcc.so.o
 libhpcc_helpers.a-objs := cuda_helpers.hpcc.a.o
-libreboot_helpers.a-objs := reboot_helpers.a.o
-libreboot_helpers.so-objs := reboot_helpers.so.o
 libcgroup_helpers.a-objs := cgroup_helpers.a.o
 libcgroup_helpers.so-objs := cgroup_helpers.so.o
 libncurses_helpers.a-objs := ncurses_helpers.a.o
