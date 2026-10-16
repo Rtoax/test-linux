@@ -8,8 +8,8 @@ RDMA 三种不同的硬件实现
 -----------------------
 
 1. `InfiniBand(IB)`: 从一开始就支持RDMA的新一代网络协议。依赖支持该技术的网卡和交换机。
-2. RDMA过融合以太网(`RoCE`): 即`RDMA over Ethernet`, 允许通过以太网执行RDMA的网络协议。这允许在标准以太网基础架构(交换机)上使用RDMA，只不过网卡必须是支持RoCE的特殊的NIC。
-3. 互联网广域RDMA协议(`iWARP`): 即`RDMA over TCP`, 允许通过TCP执行RDMA的网络协议。这允许在标准以太网基础架构(交换机)上使用RDMA，只不过网卡要求是支持iWARP(如果使用CPU offload的话)的NIC。否则，所有iWARP栈都可以在软件中实现，但是失去了大部分的RDMA性能优势。
+2. RDMA过融合以太网(`RoCE`): 即 `RDMA over Ethernet`, 允许通过以太网执行RDMA的网络协议。这允许在标准以太网基础架构(交换机)上使用RDMA，只不过网卡必须是支持RoCE的特殊的NIC。
+3. 互联网广域RDMA协议(`iWARP`): 即 `RDMA over TCP`, 允许通过TCP执行RDMA的网络协议。这允许在标准以太网基础架构(交换机)上使用RDMA，只不过网卡要求是支持iWARP(如果使用CPU offload的话)的NIC。否则，所有iWARP栈都可以在软件中实现，但是失去了大部分的RDMA性能优势。
 
 
 Links
