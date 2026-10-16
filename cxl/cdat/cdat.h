@@ -6,6 +6,8 @@
  * Refs:
  * - https://git.zx2c4.com/qemu/plain/include/hw/cxl/cxl_cdat.h
  * - https://docs.kernel.org/driver-api/cxl/platform/cdat.html
+ * - UEFI Specification Release 2.10
+ *   11.12.6 Coherent Device Attribute Table (CDAT) Type
  */
 #pragma once
 #include <stdint.h>

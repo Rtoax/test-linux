@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-3.0
+// Copyright (C) 2026 Rong Tao. All rights reserved.
+/**
+ * CXL CDAT (Coherent Device Attribute Table) Structure
+ */
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
