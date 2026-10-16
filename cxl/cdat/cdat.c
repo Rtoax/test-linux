@@ -92,6 +92,36 @@ void print_cdat_dsemts(const CDATDsemts *d)
 	       d->DPA_length / 1024 / 1024 / 1024);
 }
 
+void print_cdat_sslbe(const CDATSslbe *s)
+{
+	printf("      Port X ID : %04x                         <- First port, 0100h represents an upstream port\n",
+	       s->port_x_id);
+	printf("      Port Y ID : %04x                         <- Second port, downstream port 0\n",
+	       s->port_y_id);
+	printf("        Latency : %04x                         <- Port latency\n",
+	       s->latency_bandwidth);
+}
+
+void print_cdat_sslbis(const CDATSslbis *d)
+{
+	/* Format: https://docs.kernel.org/driver-api/cxl/platform/cdat.html */
+	print_cdat_sub_hdr(&d->sslbis_header.header);
+	printf("      Data Type : %02x                           <- Latency\n",
+	       d->sslbis_header.data_type);
+	printf("       Reserved : %02x%02x%02x\n", d->sslbis_header.reserved[0],
+	       d->sslbis_header.reserved[1], d->sslbis_header.reserved[2]);
+	printf("Entry Base Unit : %016lx         <- Matches Entry Base Unit in HMAT SSLBIS\n",
+	       d->sslbis_header.entry_base_unit);
+
+	int nr_sslbe = (d->sslbis_header.header.length - sizeof(CDATSslbis)) /
+		       sizeof(CDATSslbe);
+	for (int i = 0; i < nr_sslbe; i++) {
+		printf("                                               <- SSLB Entry %d\n",
+		       i);
+		print_cdat_sslbe(&d->sslbe[i]);
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	FILE *fp;
@@ -140,9 +170,14 @@ int main(int argc, char *argv[])
 			print_cdat_dsemts(&s);
 			break;
 		}
+		case CDAT_TYPE_SSLBIS: {
+			CDATSslbis s;
+			fread(&s, sizeof(s), 1, fp);
+			print_cdat_sslbis(&s);
+			break;
+		}
 		case CDAT_TYPE_DSMSCIS:
 		case CDAT_TYPE_DSIS:
-		case CDAT_TYPE_SSLBIS:
 		default:
 			fprintf(stderr,
 				"\033[31mNot support parse %s yet\033[m\n",

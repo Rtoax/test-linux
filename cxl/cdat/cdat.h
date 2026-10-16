@@ -74,3 +74,27 @@ typedef struct CDATDsemts {
 	uint64_t DPA_length;
 } CDATDsemts;
 _Static_assert(sizeof(CDATDsemts) == 24, "ERROR");
+
+/* Switch Scoped Latency and Bandwidth Information Structure - CDAT Table 9 */
+typedef struct CDATSslbisHeader {
+	CDATSubHeader header;
+	uint8_t data_type;
+	uint8_t reserved[3];
+	uint64_t entry_base_unit;
+} CDATSslbisHeader;
+_Static_assert(sizeof(CDATSslbisHeader) == 16, "ERROR");
+
+#define CDAT_PORT_ID_USP 0x100
+/* Switch Scoped Latency and Bandwidth Entry - CDAT Table 10 */
+typedef struct CDATSslbe {
+	uint16_t port_x_id;
+	uint16_t port_y_id;
+	uint16_t latency_bandwidth;
+	uint16_t reserved;
+} CDATSslbe;
+_Static_assert(sizeof(CDATSslbe) == 8, "ERROR");
+
+typedef struct CDATSslbis {
+	CDATSslbisHeader sslbis_header;
+	CDATSslbe sslbe[];
+} CDATSslbis;
