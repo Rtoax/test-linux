@@ -12,6 +12,7 @@ echo 'World'
 exec 3>&1
 exec > >( sed 's/^/I Love /g' | sed 's/$/!!!/g')
 echo "Rong Tao"
+echo "Rong Tao 2" >&2
 exec 1>&3
 
 echo "Xue Yuehua"
