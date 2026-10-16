@@ -35,7 +35,16 @@ typedef struct cdat_sub_hdr {
 	uint16_t length;
 } __attribute__((packed)) CDATSubHeader;
 
-/* Device Scoped Memory Affinity Structure - CDAT Table 3 */
+/**
+ * Device Scoped Memory Affinity Structure - CDAT Table 3
+ *
+ * The DSMAS contains information such as DSMADHandle, the DPA Base, and DPA
+ * Length.
+ *
+ * This table is used by Linux in conjunction with the Device Scoped Latency
+ * and Bandwidth Information Structure (DSLBIS) to determine the performance
+ * attributes of the CXL device itself.
+ */
 typedef struct CDATDsmas {
 	CDATSubHeader header;
 	uint8_t DSMADhandle;
@@ -50,7 +59,13 @@ typedef struct CDATDsmas {
 } CDATDsmas;
 _Static_assert(sizeof(CDATDsmas) == 24, "ERROR");
 
-/* Device Scoped Latency and Bandwidth Information Structure - CDAT Table 5 */
+/**
+ * Device Scoped Latency and Bandwidth Information Structure - CDAT Table 5
+ *
+ * This table is used by Linux in conjunction with DSMAS to determine the
+ * performance attributes of a CXL device. The DSLBIS contains latency and
+ * bandwidth information based on DSMADHandle matching.
+ */
 typedef struct CDATDslbis {
 	CDATSubHeader header;
 	uint8_t handle;
@@ -94,6 +109,12 @@ typedef struct CDATSslbe {
 } CDATSslbe;
 _Static_assert(sizeof(CDATSslbe) == 8, "ERROR");
 
+/**
+ * The SSLBIS contains information about the latency and bandwidth of a switch.
+ *
+ * The table is used by Linux to compute the performance coordinates of a CXL
+ * path from the device to the root port where a switch is part of the path.
+ */
 typedef struct CDATSslbis {
 	CDATSslbisHeader sslbis_header;
 	CDATSslbe sslbe[];

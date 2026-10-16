@@ -151,6 +151,8 @@ int main(int argc, char *argv[])
 
 	while (!feof(fp)) {
 		int type = probe_type(fp);
+		if (type == -1)
+			break;
 		switch (type) {
 		case CDAT_TYPE_DSMAS: {
 			CDATDsmas dsmas;
@@ -180,8 +182,8 @@ int main(int argc, char *argv[])
 		case CDAT_TYPE_DSIS:
 		default:
 			fprintf(stderr,
-				"\033[31mNot support parse %s yet\033[m\n",
-				cdat_type_name(type));
+				"\033[31mNot support parse %s(%d) yet\033[m\n",
+				cdat_type_name(type), type);
 			goto done;
 			break;
 		}
