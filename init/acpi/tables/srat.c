@@ -12,6 +12,9 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdlib.h>
+
+#define SRAT_TAB "/sys/firmware/acpi/tables/SRAT"
 
 typedef struct {
 	char Signature[4]; /* "SRAT" */
@@ -147,16 +150,17 @@ int main(void)
 	int err = 0;
 	SRAT_HEADER hdr;
 
-	FILE *fp = fopen("/sys/firmware/acpi/tables/SRAT", "rb");
+	printf("Parsing %s\n", SRAT_TAB);
+	FILE *fp = fopen(SRAT_TAB, "rb");
 	if (!fp) {
-		perror("fopen SRAT");
-		return 1;
+		fprintf(stderr, "open %s failed, %m\n", SRAT_TAB);
+		exit(EXIT_FAILURE);
 	}
 
 	if (fread(&hdr, 1, sizeof(hdr), fp) != sizeof(hdr)) {
 		fprintf(stderr, "Failed to read ACPI header, %m\n");
 		fclose(fp);
-		return 1;
+		exit(EXIT_FAILURE);
 	}
 
 	if (memcmp(hdr.Signature, "SRAT", 4) != 0) {
