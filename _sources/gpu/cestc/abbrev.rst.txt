@@ -1,0 +1,5 @@
+Abbrev
+======
+
+- GVM: GPU Virtualization Manager (GPU虚拟化管理)
+- LUCA: LingSpeed Unified Compute Architecture (翎速统一计算架构)
