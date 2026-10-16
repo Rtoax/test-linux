@@ -29,8 +29,21 @@ enum cdat_type {
 	CDAT_TYPE_SSLBIS = 5,
 };
 
-struct cdat_sub_hdr {
+typedef struct cdat_sub_hdr {
 	uint8_t type;
 	uint8_t reserved;
 	uint16_t length;
-} __attribute__((packed));
+} __attribute__((packed)) CDATSubHeader;
+
+typedef struct CDATDsmas {
+	CDATSubHeader header;
+	uint8_t DSMADhandle;
+	uint8_t flags;
+#define CDAT_DSMAS_FLAG_NV (1 << 2)
+#define CDAT_DSMAS_FLAG_SHAREABLE (1 << 3)
+#define CDAT_DSMAS_FLAG_HW_COHERENT (1 << 4)
+#define CDAT_DSMAS_FLAG_DYNAMIC_CAP (1 << 5)
+	uint16_t reserved;
+	uint64_t DPA_base;
+	uint64_t DPA_length;
+} CDATDsmas;

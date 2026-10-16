@@ -10,3 +10,4 @@
 target-y += cdat
 
 prog-y += endpoint.sh
+prog-y += cdat.sh
