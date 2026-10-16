@@ -20,6 +20,7 @@ _CFLAGS_MK = 1
 include dir.mk
 
 cflags_common += -I${TOPDIR}
+cflags_common += -I${TOPDIR}/libs
 cflags_common += -I${OUTPUT}
 cflags_common += -D_GNU_SOURCE
 cflags_common += -Werror -Wall
