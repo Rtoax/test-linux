@@ -45,85 +45,94 @@ static int probe_type(FILE *fp)
 	return type;
 }
 
-void print_cdat_sub_hdr(const CDATSubHeader *h)
+void print_cdat_sub_hdr(const CDATSubHeader *h, int namewidth)
 {
-	printf("\033[1;3;7mStructure Type : %#02x [%s]\033[m\n", h->type,
-	       cdat_type_name(h->type));
-	printf("      Reserved : %#02x\n", h->reserved);
-	printf("        Length : %#04x              <- %dd, size of structure\n",
-	       h->length, h->length);
+	printf("\033[1;3;7m%*s : %#02x [%s]\033[m\n", namewidth,
+	       "Structure Type", h->type, cdat_type_name(h->type));
+	printf("%*s : %#02x\n", namewidth, "Reserved", h->reserved);
+	printf("%*s : %#04x              <- %dd, size of structure\n",
+	       namewidth, "Length", h->length, h->length);
 }
 
 void print_cdat_dsmas(const CDATDsmas *d)
 {
+	int width = sizeof("   DSMADHandle");
 	/* Format: https://docs.kernel.org/driver-api/cxl/platform/cdat.html */
-	print_cdat_sub_hdr(&d->header);
-	printf("   DSMADHandle : %#02x\n", d->DSMADhandle);
-	printf("         Flags : %#02x\n", d->flags);
-	printf("      Reserved : %#04x\n", d->reserved);
-	printf("      DPA Base : %#016lx  <- %ldGiB base\n", d->DPA_base,
-	       d->DPA_base / 1024 / 1024 / 1024);
-	printf("    DPA Length : %#016lx  <- %ldGiB size\n", d->DPA_length,
-	       d->DPA_length / 1024 / 1024 / 1024);
+	print_cdat_sub_hdr(&d->header, width);
+	printf("%*s : %#02x\n", width, "DSMADHandle", d->DSMADhandle);
+	printf("%*s : %#02x\n", width, "Flags", d->flags);
+	printf("%*s : %#04x\n", width, "Reserved", d->reserved);
+	printf("%*s : %#016lx  <- %ldGiB base\n", width, "DPA Base",
+	       d->DPA_base, d->DPA_base / 1024 / 1024 / 1024);
+	printf("%*s : %#016lx  <- %ldGiB size\n", width, "DPA Length",
+	       d->DPA_length, d->DPA_length / 1024 / 1024 / 1024);
 }
 
 void print_cdat_dslbis(const CDATDslbis *d)
 {
+	int width = sizeof("          Handle");
+
 	/* Format: https://docs.kernel.org/driver-api/cxl/platform/cdat.html */
-	print_cdat_sub_hdr(&d->header);
-	printf("          Handle : %04x                   <- DSMAS handle\n",
-	       d->handle);
-	printf("           Flags : %02x                     <- Matches flag field for HMAT SLLBIS\n",
-	       d->flags);
-	printf("       Data Type : %02x                     <- Latency\n",
-	       d->data_type);
-	printf("Entry Basee Unit : %016lx       <- Entry Base Unit field in HMAT SSLBIS\n",
-	       d->entry_base_unit);
-	printf("           Entry : %04x%04x%04x           <- First byte used here, CXL LTC\n",
-	       d->entry[0], d->entry[1], d->entry[2]);
-	printf("        Reserved : %04x\n", d->reserved2);
+	print_cdat_sub_hdr(&d->header, width);
+	printf("%*s : %04x                   <- DSMAS handle\n", width,
+	       "Handle", d->handle);
+	printf("%*s : %02x                     <- Matches flag field for HMAT SLLBIS\n",
+	       width, "Flags", d->flags);
+	printf("%*s : %02x                     <- Latency\n", width,
+	       "Data Type", d->data_type);
+	printf("%*s : %016lx       <- Entry Base Unit field in HMAT SSLBIS\n",
+	       width, "Entry Basee Unit", d->entry_base_unit);
+	printf("%*s : %04x%04x%04x           <- First byte used here, CXL LTC\n",
+	       width, "Entry", d->entry[0], d->entry[1], d->entry[2]);
+	printf("%*s : %04x\n", width, "Entry", d->reserved2);
 }
 
 void print_cdat_dsemts(const CDATDsemts *d)
 {
+	int width = sizeof("          Handle");
+
 	/* Format: https://docs.kernel.org/driver-api/cxl/platform/cdat.html */
-	print_cdat_sub_hdr(&d->header);
-	printf("          Handle : %04x              <- DSMAS handle\n",
+	print_cdat_sub_hdr(&d->header, width);
+	printf("%*s : %04x              <- DSMAS handle\n", width, "Handle",
 	       d->DSMAS_handle);
-	printf(" EFI Memory Type : %02x\n", d->EFI_memory_type_attr);
-	printf("      DPA Offset : %#016lx  <- %ldGiB offset\n", d->DPA_offset,
-	       d->DPA_offset / 1024 / 1024 / 1024);
-	printf("      DPA Length : %#016lx  <- %ldGiB size\n", d->DPA_length,
-	       d->DPA_length / 1024 / 1024 / 1024);
+	printf("%*s : %02x\n", width, "EFI Memory Type",
+	       d->EFI_memory_type_attr);
+	printf("%*s : %#016lx  <- %ldGiB offset\n", width, "DPA Offset",
+	       d->DPA_offset, d->DPA_offset / 1024 / 1024 / 1024);
+	printf("%*s : %#016lx  <- %ldGiB size\n", width, "DPA Length",
+	       d->DPA_length, d->DPA_length / 1024 / 1024 / 1024);
 }
 
-void print_cdat_sslbe(const CDATSslbe *s)
+void print_cdat_sslbe(const CDATSslbe *s, int namewidth)
 {
-	printf("      Port X ID : %04x                         <- First port, 0100h represents an upstream port\n",
-	       s->port_x_id);
-	printf("      Port Y ID : %04x                         <- Second port, downstream port 0\n",
-	       s->port_y_id);
-	printf("        Latency : %04x                         <- Port latency\n",
-	       s->latency_bandwidth);
+	printf("%*s : %04x                         <- First port, 0100h represents an upstream port\n",
+	       namewidth, "Port X ID", s->port_x_id);
+	printf("%*s : %04x                         <- Second port, downstream port 0\n",
+	       namewidth, "Port Y ID", s->port_y_id);
+	printf("%*s : %04x                         <- Port latency\n",
+	       namewidth, "Latency", s->latency_bandwidth);
 }
 
 void print_cdat_sslbis(const CDATSslbis *d)
 {
+	int width = sizeof("      Data Type");
+
 	/* Format: https://docs.kernel.org/driver-api/cxl/platform/cdat.html */
-	print_cdat_sub_hdr(&d->sslbis_header.header);
-	printf("      Data Type : %02x                           <- Latency\n",
-	       d->sslbis_header.data_type);
-	printf("       Reserved : %02x%02x%02x\n", d->sslbis_header.reserved[0],
-	       d->sslbis_header.reserved[1], d->sslbis_header.reserved[2]);
-	printf("Entry Base Unit : %016lx         <- Matches Entry Base Unit in HMAT SSLBIS\n",
-	       d->sslbis_header.entry_base_unit);
+	print_cdat_sub_hdr(&d->sslbis_header.header, width);
+
+	printf("%*s : %02x                           <- Latency\n", width,
+	       "Data Type", d->sslbis_header.data_type);
+	printf("%*s : %02x%02x%02x\n", width, "Reserved",
+	       d->sslbis_header.reserved[0], d->sslbis_header.reserved[1],
+	       d->sslbis_header.reserved[2]);
+	printf("%*s : %016lx         <- Matches Entry Base Unit in HMAT SSLBIS\n",
+	       width, "Entry Base Unit", d->sslbis_header.entry_base_unit);
 
 	int nr_sslbe = (d->sslbis_header.header.length - sizeof(CDATSslbis)) /
 		       sizeof(CDATSslbe);
 	for (int i = 0; i < nr_sslbe; i++) {
-		printf("                                               <- SSLB Entry %d\n",
-		       i);
-		print_cdat_sslbe(&d->sslbe[i]);
+		printf("%*s\n", width, "SSLB Entry");
+		print_cdat_sslbe(&d->sslbe[i], width);
 	}
 }
 
