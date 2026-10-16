@@ -40,6 +40,45 @@ static int probe_type(FILE *fp)
 	return type;
 }
 
+void print_cdat_sub_hdr(const CDATSubHeader *h)
+{
+	printf("\033[1;3;7mStructure Type : %#02x [%s]\033[m\n", h->type,
+	       cdat_type_name(h->type));
+	printf("      Reserved : %#02x\n", h->reserved);
+	printf("        Length : %#04x              <- %dd, size of structure\n",
+	       h->length, h->length);
+}
+
+void print_cdat_dsmas(const CDATDsmas *d)
+{
+	/* Format: https://docs.kernel.org/driver-api/cxl/platform/cdat.html */
+	print_cdat_sub_hdr(&d->header);
+	printf("   DSMADHandle : %#02x\n", d->DSMADhandle);
+	printf("         Flags : %#02x\n", d->flags);
+	printf("      Reserved : %#04x\n", d->reserved);
+	printf("      DPA Base : %#016lx  <- %ldGiB base\n", d->DPA_base,
+	       d->DPA_base / 1024 / 1024 / 1024);
+	printf("    DPA Length : %#016lx  <- %ldGiB size\n", d->DPA_length,
+	       d->DPA_length / 1024 / 1024 / 1024);
+}
+
+void print_cdat_dslbis(const CDATDslbis *d)
+{
+	/* Format: https://docs.kernel.org/driver-api/cxl/platform/cdat.html */
+	print_cdat_sub_hdr(&d->header);
+	printf("          Handle : %04x                   <- DSMAS handle\n",
+	       d->handle);
+	printf("           Flags : %02x                     <- Matches flag field for HMAT SLLBIS\n",
+	       d->flags);
+	printf("       Data Type : %02x                     <- Latency\n",
+	       d->data_type);
+	printf("Entry Basee Unit : %016lx       <- Entry Base Unit field in HMAT SSLBIS\n",
+	       d->entry_base_unit);
+	printf("           Entry : %04x%04x%04x           <- First byte used here, CXL LTC\n",
+	       d->entry[0], d->entry[1], d->entry[2]);
+	printf("        Reserved : %04x\n", d->reserved2);
+}
+
 int main(int argc, char *argv[])
 {
 	FILE *fp;
@@ -73,18 +112,22 @@ int main(int argc, char *argv[])
 		case CDAT_TYPE_DSMAS: {
 			CDATDsmas dsmas;
 			fread(&dsmas, sizeof(dsmas), 1, fp);
-			printf("%s: len %d\n",
-			       cdat_type_name(dsmas.header.type),
-			       dsmas.header.length);
+			print_cdat_dsmas(&dsmas);
 			break;
 		}
-		case CDAT_TYPE_DSLBIS:
+		case CDAT_TYPE_DSLBIS: {
+			CDATDslbis dslbis;
+			fread(&dslbis, sizeof(dslbis), 1, fp);
+			print_cdat_dslbis(&dslbis);
+			break;
+		}
 		case CDAT_TYPE_DSMSCIS:
 		case CDAT_TYPE_DSIS:
 		case CDAT_TYPE_DSEMTS:
 		case CDAT_TYPE_SSLBIS:
 		default:
-			fprintf(stderr, "Not support parse %s yet\n",
+			fprintf(stderr,
+				"\033[31mNot support parse %s yet\033[m\n",
 				cdat_type_name(type));
 			goto done;
 			break;

@@ -35,6 +35,7 @@ typedef struct cdat_sub_hdr {
 	uint16_t length;
 } __attribute__((packed)) CDATSubHeader;
 
+/* Device Scoped Memory Affinity Structure - CDAT Table 3 */
 typedef struct CDATDsmas {
 	CDATSubHeader header;
 	uint8_t DSMADhandle;
@@ -47,3 +48,18 @@ typedef struct CDATDsmas {
 	uint64_t DPA_base;
 	uint64_t DPA_length;
 } CDATDsmas;
+_Static_assert(sizeof(CDATDsmas) == 24, "ERROR");
+
+/* Device Scoped Latency and Bandwidth Information Structure - CDAT Table 5 */
+typedef struct CDATDslbis {
+	CDATSubHeader header;
+	uint8_t handle;
+	/* Definitions of these fields refer directly to HMAT fields */
+	uint8_t flags;
+	uint8_t data_type;
+	uint8_t reserved;
+	uint64_t entry_base_unit;
+	uint16_t entry[3];
+	uint16_t reserved2;
+} CDATDslbis;
+_Static_assert(sizeof(CDATDslbis) == 24, "ERROR");
