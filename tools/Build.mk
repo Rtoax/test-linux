@@ -85,6 +85,7 @@ subdir-y += postgresql
 subdir-y += printk
 subdir-y += procps-ng
 subdir-y += psmisc
+subdir-y += rdma-core
 subdir-y += readline
 subdir-y += redis
 subdir-y += sed

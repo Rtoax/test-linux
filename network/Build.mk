@@ -6,8 +6,9 @@ subdir-y += infiniband
 subdir-y += netfilter
 subdir-y += netlink
 subdir-y += nic
+subdir-y += rdma
 
-target-y := ethtool
+target-y += ethtool
 target-y += tcpdump
 target-y += ifconfig
 target-y += ping

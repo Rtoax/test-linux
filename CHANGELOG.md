@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- rdma: add iWARP and RoCE subdirs;
 - apic: test SRAT table with c;
 - cxl/cdat: add cdat.h;
 - cxl: add [CDAT](https://docs.kernel.org/driver-api/cxl/platform/cdat.html);
@@ -27,6 +28,7 @@ and this project adheres to
 #### Scripts
 - move kversion.sh into version dir;
 #### Tools
+- add rdma-core;
 - ndctl: add nvdimm subdir;
 - add fastfetch, neofetch subdir;
 - add xfsprogs subdir;

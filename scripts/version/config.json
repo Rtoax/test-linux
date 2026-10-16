@@ -1,5 +1,5 @@
 {
-	"version": "0.0.30",
+	"version": "0.0.31",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -728,6 +728,18 @@
 			],
 			"extension": [ "qcow2" ],
 			"keys": [ "qcow2", "qcow", "qcow3", "qemu" ]
+		},
+		"rdma-core": {
+			"name": "rdma-core",
+			"version": {
+				"length": [ 2 ]
+			},
+			"package": {
+				"rpm": [ "rdma-core" ],
+				"deb": [ "rdma-core" ]
+			},
+			"keys": [ "rdma" ],
+			"tags": [ "networking" ]
 		},
 		"redis": {
 			"name": "Redis",
