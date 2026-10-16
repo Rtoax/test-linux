@@ -79,6 +79,19 @@ void print_cdat_dslbis(const CDATDslbis *d)
 	printf("        Reserved : %04x\n", d->reserved2);
 }
 
+void print_cdat_dsemts(const CDATDsemts *d)
+{
+	/* Format: https://docs.kernel.org/driver-api/cxl/platform/cdat.html */
+	print_cdat_sub_hdr(&d->header);
+	printf("          Handle : %04x              <- DSMAS handle\n",
+	       d->DSMAS_handle);
+	printf(" EFI Memory Type : %02x\n", d->EFI_memory_type_attr);
+	printf("      DPA Offset : %#016lx  <- %ldGiB offset\n", d->DPA_offset,
+	       d->DPA_offset / 1024 / 1024 / 1024);
+	printf("      DPA Length : %#016lx  <- %ldGiB size\n", d->DPA_length,
+	       d->DPA_length / 1024 / 1024 / 1024);
+}
+
 int main(int argc, char *argv[])
 {
 	FILE *fp;
@@ -121,9 +134,14 @@ int main(int argc, char *argv[])
 			print_cdat_dslbis(&dslbis);
 			break;
 		}
+		case CDAT_TYPE_DSEMTS: {
+			CDATDsemts s;
+			fread(&s, sizeof(s), 1, fp);
+			print_cdat_dsemts(&s);
+			break;
+		}
 		case CDAT_TYPE_DSMSCIS:
 		case CDAT_TYPE_DSIS:
-		case CDAT_TYPE_DSEMTS:
 		case CDAT_TYPE_SSLBIS:
 		default:
 			fprintf(stderr,

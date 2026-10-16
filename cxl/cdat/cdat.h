@@ -63,3 +63,14 @@ typedef struct CDATDslbis {
 	uint16_t reserved2;
 } CDATDslbis;
 _Static_assert(sizeof(CDATDslbis) == 24, "ERROR");
+
+/* Device Scoped EFI Memory Type Structure - CDAT Table 8 */
+typedef struct CDATDsemts {
+	CDATSubHeader header;
+	uint8_t DSMAS_handle;
+	uint8_t EFI_memory_type_attr;
+	uint16_t reserved;
+	uint64_t DPA_offset;
+	uint64_t DPA_length;
+} CDATDsemts;
+_Static_assert(sizeof(CDATDsemts) == 24, "ERROR");
