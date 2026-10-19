@@ -16,6 +16,8 @@ include version.mk
 
 $(call find_cmd_and_def,gdb)
 
+ifeq (${HAVE_GDB},y)
+
 gdbversh = ${TOPDIR}/scripts/version/version.sh -n gdb
 
 GDB_VERSION := $(shell ${gdbversh} --version)
@@ -36,4 +38,6 @@ ifdef TEST
   endif
 endif
 
-endif
+endif # end of HAVE_GDB=y
+
+endif # end of _GDB_MK
