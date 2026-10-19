@@ -36,6 +36,7 @@ and this project adheres to
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- library.mk: `find_library_path()` adapt to alpine musl-libc;
 - rename ldconfig.mk to library.mk;
 - cflags.mk: add `libs` to cflags include path by default;
 - add neofetch.mk;

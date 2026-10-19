@@ -11,6 +11,8 @@ ifndef _LDCONFIG_MK
 _LDCONFIG_MK = 1
 _LIBRARY_MK = 1
 
+include os.mk
+
 LDCONFIG := $(shell which ldconfig 2>/dev/null || true)
 ifeq ($(LDCONFIG),)
   ifneq ($(wildcard /sbin/ldconfig),)
@@ -18,10 +20,16 @@ ifeq ($(LDCONFIG),)
   endif
 endif
 
+ifeq ($(call is_os, alpine), y)
+# alpine ldconfig (musl libc) could not get library list.
+lib_list_cmd = find /usr/lib
+else
+lib_list_cmd = ${LDCONFIG} -p
+endif
+
 # $1: library name, like libc.so
-# TODO: alpine ldconfig (musl libc) could not get library list.
 define find_library_path
-$(shell ${LDCONFIG} -p | grep -w "${1}" | awk '{printf $$NF"\n"}' | head -1)
+$(shell ${lib_list_cmd} | grep -w "${1}" | awk '{printf $$NF"\n"}' | head -1)
 endef
 
 # $1: library name, like libc.so
@@ -39,8 +47,15 @@ ifeq ($(LDCONFIG),)
 endif
 
 ifdef TEST
-  ifneq ($(call have_library,libc.so)$(call have_library,libabcdefg),yn)
-    $(error have_library test failed)
+  rslt = $(call find_library_path,libabcdefg.so)
+  ifneq ($(rslt),)
+    $(error find_library_path test failed, got ${rslt})
+  endif
+
+  rslt = $(call have_library,libc.so)
+  rslt2 = $(call have_library,libabcdefg.so)
+  ifneq (${rslt}${rslt2},yn)
+    $(error have_library test failed, need yn, but got ${rslt}${rslt2})
   endif
 endif
 
