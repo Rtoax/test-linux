@@ -10,7 +10,7 @@
 ifndef _ZSTD_MK
 _ZSTD_MK = 1
 
-include ldconfig.mk
+include library.mk
 include define.mk
 
 $(call find_cmd_and_def,zstd)

@@ -9,6 +9,7 @@
 #
 ifndef _LDCONFIG_MK
 _LDCONFIG_MK = 1
+_LIBRARY_MK = 1
 
 LDCONFIG := $(shell which ldconfig 2>/dev/null || true)
 ifeq ($(LDCONFIG),)
@@ -18,6 +19,7 @@ ifeq ($(LDCONFIG),)
 endif
 
 # $1: library name, like libc.so
+# TODO: alpine ldconfig (musl libc) could not get library list.
 define find_library_path
 $(shell ${LDCONFIG} -p | grep -w "${1}" | awk '{printf $$NF"\n"}' | head -1)
 endef

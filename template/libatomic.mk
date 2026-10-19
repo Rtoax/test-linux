@@ -7,7 +7,7 @@
 ifndef _LIBATOMIC_MK
 _LIBATOMIC_MK = 1
 
-include ldconfig.mk
+include library.mk
 
 LIBATOMIC := $(call find_library_path,libatomic.so)
 

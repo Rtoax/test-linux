@@ -15,7 +15,7 @@ ifndef _GLIBC_MK
 _GLIBC_MK = 1
 
 include dir.mk
-include ldconfig.mk
+include library.mk
 include version.mk
 
 ifeq ($(shell ldd --version 2>&1 | grep -owi -e gnu -e glibc),)

@@ -7,7 +7,7 @@ include kconfig.mk
 include string.mk
 include helpers.mk
 include bpf/bpf.mk
-include ldconfig.mk
+include library.mk
 include bpf/btf.mk
 include bpf/helper.mk
 include bpf/iter.mk

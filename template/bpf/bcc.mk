@@ -11,7 +11,7 @@
 ifndef _BPF_BCC_MK
 _BPF_BCC_MK = 1
 
-include ldconfig.mk
+include library.mk
 include define.mk
 
 LIBBCC_PATH := $(call find_library_path,libbcc.so)

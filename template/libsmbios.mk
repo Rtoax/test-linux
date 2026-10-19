@@ -8,7 +8,7 @@
 ifndef _LIBSMBIOS_MK
 _LIBSMBIOS_MK = 1
 
-include ldconfig.mk
+include library.mk
 include define.mk
 
 export HAVE_LIBSMBIOS := $(call have_library,libsmbios_c.so)
