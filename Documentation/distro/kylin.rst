@@ -7,6 +7,7 @@ Linux Kernel Versions
 Kylin V11
 ~~~~~~~~~
 
+- 6.6.0-32.26.v2505.ky11.x86_64
 - 6.6.0-32.24.v2505.ky11.x86_64
 
 Kylin V10

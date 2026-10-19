@@ -10,8 +10,8 @@ readonly kver_short=$(${THISPATH}/../version/kversion.sh short)
 readonly os_short=$(${THISPATH}/../version/distro.sh short)
 readonly os_short_name=$(${THISPATH}/../version/distro.sh short-name)
 
-readonly README_RST=$(realpath ${THISPATH}/../../Documentation/distro/linux-reference.rst)
-readonly DISTRO_RST=$(realpath ${THISPATH}/../../Documentation/distro/${os_short_name}.rst)
+readonly README_DOC=$(realpath ${THISPATH}/../../Documentation/distro/linux-reference.rst)
+readonly DISTRO_DOC=$(realpath ${THISPATH}/../../Documentation/distro/${os_short_name}.rst)
 
 if [[ -f ${THISPATH}/../../.gitconfig.sh ]]; then
 	. ${THISPATH}/../../.gitconfig.sh
@@ -24,25 +24,25 @@ force_exit() {
 	fi
 }
 
-if [[ ! -f ${DISTRO_RST} ]]; then
-	echo >&2 "ERROR: ${DISTRO_RST} is not exist, please create it"
+if [[ ! -f ${DISTRO_DOC} ]]; then
+	echo >&2 "ERROR: ${DISTRO_DOC} is not exist, please create it"
 	force_exit
 fi
 
-if ! grep --quiet $(uname -r) ${DISTRO_RST}; then
-	echo >&2 "ERROR: ${DISTRO_RST} is not contains '$(uname -r)', please add it"
+if ! grep --quiet "^- $(uname -r)$" ${DISTRO_DOC}; then
+	echo >&2 "ERROR: ${DISTRO_DOC} is not contains '$(uname -r)', please add it"
 	force_exit
 fi
 
 # Show all
-[[ ${VLR}${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README_RST}
+[[ ${VLR}${VERBOSE} ]] && grep -E '^\* [0-9]+\.[0-9]+\.[0-9]+ \([^)]+\)$' ${README_DOC}
 
-if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README_RST})" ]]; then
-	oldline=$(grep -E "^\* ${kver_short} \([^)]+\)$" ${README_RST} || :)
+if [[ -z "$(grep -E "^\* ${kver_short} \(.*${os_short}.*\)$" ${README_DOC})" ]]; then
+	oldline=$(grep -E "^\* ${kver_short} \([^)]+\)$" ${README_DOC} || :)
 	if [[ ! -z ${oldline} ]]; then
-		echo >&2 "ERROR: Missing '${os_short}' in '${oldline}' in ${README_RST}"
+		echo >&2 "ERROR: Missing '${os_short}' in '${oldline}' in ${README_DOC}"
 	else
-		echo >&2 "ERROR: Missing '* ${kver_short} (${os_short})' in ${README_RST}"
+		echo >&2 "ERROR: Missing '* ${kver_short} (${os_short})' in ${README_DOC}"
 	fi
 	force_exit
 fi
