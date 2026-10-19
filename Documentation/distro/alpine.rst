@@ -73,6 +73,7 @@ Linux Kernel Version
 Alpine Linux v3.24
 ~~~~~~~~~~~~~~~~~~
 
+- 6.18.57-0-lts
 - 6.18.44-0-lts
 
 
