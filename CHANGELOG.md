@@ -28,6 +28,7 @@ and this project adheres to
 #### Scripts
 - move kversion.sh into version dir;
 #### Tools
+- rdma-core: add ibverbs dir;
 - add rdma-core;
 - ndctl: add nvdimm subdir;
 - add fastfetch, neofetch subdir;
