@@ -4,6 +4,11 @@ Ubuntu
 Linux Kernel Versions
 ---------------------
 
+Ubuntu 24.04.4
+~~~~~~~~~~~~~~
+
+- 6.17.0-1014-nvidia
+
 Ubuntu 22.04
 ~~~~~~~~~~~~
 
