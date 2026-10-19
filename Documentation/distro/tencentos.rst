@@ -1,6 +1,15 @@
 TencentOS
 =========
 
+Linux Kernel Versions
+---------------------
+
+TencentOS Server 3.1
+~~~~~~~~~~~~~~~~~~~~
+
+- 5.4.119-19.0009.54_8
+
+
 Links
 -----
 
