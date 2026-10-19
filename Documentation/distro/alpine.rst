@@ -67,6 +67,15 @@ Install Desktop
    $ reboot
 
 
+Linux Kernel Version
+--------------------
+
+Alpine Linux v3.24
+~~~~~~~~~~~~~~~~~~
+
+- 6.18.44-0-lts
+
+
 Links
 -----
 

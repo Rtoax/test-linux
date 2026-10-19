@@ -17,7 +17,7 @@ Distributions
    :maxdepth: 1
 
    almalinux
-   alpinelinux
+   alpine
    archlinux
    asterinas
    bottlerocket
