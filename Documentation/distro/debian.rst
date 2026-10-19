@@ -7,6 +7,7 @@ Linux Kernel Versions
 Debian 13
 ~~~~~~~~~
 
+- 6.12.113+deb13-amd64
 - 6.12.111+deb13-amd64
 
 Debian 12
