@@ -68,8 +68,8 @@ ifdef DEBUG
 endif
 
 ifdef TEST
-  # The newest pahole is v1.31 right now.
-  ifneq ($(call pahole_lt,1,32),y)
+  # The newest pahole is v1.32 right now.
+  ifneq ($(call pahole_lt,1,33),y)
     $(error "Call pahole_lt failed, $(call pahole_lt,1,32)")
   endif
 endif
