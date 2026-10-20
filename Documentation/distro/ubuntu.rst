@@ -4,6 +4,11 @@ Ubuntu
 Linux Kernel Versions
 ---------------------
 
+Ubuntu 26.04.1
+~~~~~~~~~~~~~~
+
+- 7.0.0-38-generic
+
 Ubuntu 24.04.4
 ~~~~~~~~~~~~~~
 
