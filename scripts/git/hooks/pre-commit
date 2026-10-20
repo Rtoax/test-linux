@@ -141,7 +141,23 @@ template_check() {
 		done
 	fi
 
-	# TODO: handle rename, delete makefiles
+	if [[ " ${try_del[@]}" =~ " template/" ]]; then
+		for orig_mk in ${try_del[@]}
+		do
+			if [[ ${orig_mk##*.} != mk ]]; then
+				continue
+			fi
+
+			mk=$(echo ${orig_mk} | sed 's/^template\///g')
+
+			# Need remove make from tests.mk
+			if grep -q "^include ${mk}" ${tests_mk}; then
+				fatal "'${orig_mk}' is removing, need remove from '${tests_mk}' too"
+			fi
+		done
+	fi
+
+	# TODO: handle rename makefiles
 }
 
 # see also scripts/broken-symlinks.sh
