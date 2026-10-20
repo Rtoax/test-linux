@@ -37,6 +37,7 @@ and this project adheres to
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- add tests.mk;
 - add amd/sme.mk;
 - add amd/sev.mk;
 - library.mk: `find_library_path()` adapt to alpine musl-libc;

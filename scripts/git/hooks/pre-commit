@@ -114,10 +114,13 @@ template_check() {
 		return 0
 	fi
 
-	if [[ " ${try_all[@]} " =~ " template/" ]]; then
-		if ! [[ " ${try_modify[@]} " =~ " template/VERSION " ]]; then
-			fatal "Forgot modify template/VERSION"
-		fi
+	# template was not changed.
+	if ! [[ " ${try_all[@]} " =~ " template/" ]]; then
+		return 0
+	fi
+
+	if ! [[ " ${try_modify[@]} " =~ " template/VERSION " ]]; then
+		fatal "Forgot modify template/VERSION"
 	fi
 }
 
