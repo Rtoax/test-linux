@@ -14,9 +14,10 @@ include string.mk
 # $1: cpu feature, like avx512f
 define ___define_cpufeature
   ifeq ($(shell lscpu | grep -wo ${1} >/dev/null && echo y),y)
-    export CPU_HAVE_$(call toupper_shell,$(1)) := y
-    cpu-feature-cflags += -DCPU_HAVE_$(call toupper_shell,$(1))=1
-    $(info CPU have ${1})
+    __config_cpu_feature := CPU_HAVE_$$(call toupper_shell,$(1))
+    export $${__config_cpu_feature} := y
+    cpu-feature-cflags += -D$${__config_cpu_feature}=1
+    $(if ${DEBUG}, $$(info CPU have ${1}, $${__config_cpu_feature} = $${$${__config_cpu_feature}}))
   endif
 endef
 define define_cpufeature
