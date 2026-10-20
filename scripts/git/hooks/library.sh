@@ -3,7 +3,7 @@
 
 readonly GIT_TOPDIR=$(git rev-parse --show-toplevel 2>/dev/null || :)
 
-declare -a try_add try_del try_modify try_rename try_all
+declare -a try_add try_del try_modify try_rename try_rename2 try_all
 
 # $1: is amend commit
 git_file_status() {
@@ -23,6 +23,12 @@ statistic_file_changes() {
 	try_del=( $(git_file_status ${is_amend} | grep ^D | awk '{print $2}' || true) )
 	try_modify=( $(git_file_status ${is_amend} | grep ^M | awk '{print $2}' || true) )
 	try_rename=( $(git_file_status ${is_amend} | grep ^R | awk '{print $2}' || true) )
-	try_all=( ${try_add[@]} ${try_del[@]} ${try_modify[@]} ${try_rename} )
+	try_rename2=( $(git_file_status ${is_amend} | grep ^R | awk '{print $4}' || true) )
+	if [[ ${#try_rename[@]} -ne ${#try_rename2[@]} ]]; then
+		echo >&2 "ERROR: git list rename files wrong"
+		git_file_status >&2
+		exit 1
+	fi
+	try_all=( ${try_add[@]} ${try_del[@]} ${try_modify[@]} ${try_rename[@]} ${try_rename2[@]})
 	popd >/dev/null
 }
