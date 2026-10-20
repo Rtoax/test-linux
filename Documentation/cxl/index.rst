@@ -36,6 +36,7 @@ CXL Hardware
    hdm
    pcie
    ras
+   security
    switch
 
 
