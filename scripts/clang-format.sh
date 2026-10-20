@@ -39,7 +39,7 @@ if  [[ -z ${clang_format} ]]; then
 fi
 
 repository=$(basename ${GIT_TOPDIR})
-if [[ " ostools tools ulpatch " =~ " ${repository} " ]]; then
+if [[ " notes ostools tools ulpatch " =~ " ${repository} " ]]; then
 	branch=origin/master
 elif [[ " test-linux tst-linux " =~ " ${repository} " ]]; then
 	branch=origin/main
