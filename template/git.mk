@@ -67,7 +67,7 @@ endif
 
 ifdef TEST
   # Note: update newest version here.
-  __git_newest_check = $(call git_le,2,55,0)
+  __git_newest_check = $(call git_le,2,56,0)
   ifneq ($(__git_newest_check), y)
     $(error call git_le failed, ${__git_newest_check})
   endif
