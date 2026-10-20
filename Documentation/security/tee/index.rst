@@ -6,6 +6,8 @@ TEE (Trusted Execution Environment)
 .. toctree::
    :maxdepth: 1
 
+   amd/sev
+   arm/trustzone
    intel/sgx
 
 

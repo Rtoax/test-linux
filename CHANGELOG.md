@@ -19,6 +19,7 @@ and this project adheres to
 - libs: merge `reboot_helpers.c` into `syscall_helpers.c`;
 #### Deprecated
 #### Documentation
+- tee: add arm/trustzone, amd/sev;
 - fs: add exfat.rst;
 - distro: add cclinux.rst;
 #### Fixed
