@@ -29,6 +29,10 @@ statistic_file_changes() {
 		git_file_status >&2
 		exit 1
 	fi
+
+	try_del+=( ${try_rename[@]} )
+	try_add+=( ${try_rename2[@]} )
+
 	try_all=( ${try_add[@]} ${try_del[@]} ${try_modify[@]} ${try_rename[@]} ${try_rename2[@]})
 	popd >/dev/null
 }
