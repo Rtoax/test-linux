@@ -110,6 +110,8 @@ docs_check() {
 }
 
 template_check() {
+	local tests_mk=${GIT_TOPDIR}/template/tests.mk
+
 	if [[ ! -d ${GIT_TOPDIR}/template ]]; then
 		return 0
 	fi
@@ -122,6 +124,24 @@ template_check() {
 	if ! [[ " ${try_modify[@]} " =~ " template/VERSION " ]]; then
 		fatal "Forgot modify template/VERSION"
 	fi
+
+	if [[ " ${try_add[@]}" =~ " template/" ]]; then
+		for orig_mk in ${try_add[@]}
+		do
+			if [[ ${orig_mk##*.} != mk ]]; then
+				continue
+			fi
+
+			mk=$(echo ${orig_mk} | sed 's/^template\///g')
+
+			# test all makefiles in tests.mk
+			if ! grep -q "^include ${mk}" ${tests_mk}; then
+				fatal "${orig_mk} is not included in ${tests_mk}"
+			fi
+		done
+	fi
+
+	# TODO: handle rename, delete makefiles
 }
 
 # see also scripts/broken-symlinks.sh
