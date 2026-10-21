@@ -25,7 +25,7 @@ bpftrace-$(call bpftrace_gt,0,20,2) += pcomm.bt
 bpftrace-$(call bpftrace_ge,0,25,0) += signal_name.bt
 bpftrace-$(call bpftrace_gt,0,20,2) += strerror.bt
 bpftrace-y += syscall_name.bt
-bpftrace-y += typeof.bt
+bpftrace-$(call bpftrace_gt,0,25,0) += typeof.bt
 bpftrace-y += ustack.bt
 bpftrace-y += unroll.bt
 ifneq ($(wildcard ../../../compiler/dwarf/samples/hello.dw5),)

@@ -1,12 +1,12 @@
 #!/bin/env bpftrace
 
-struct s {};
-union u {};
-enum e { e1 };
-
 config = {
 	unstable_import=enable;
 }
+
+struct s {};
+union u {};
+enum e { e1 };
 
 BEGIN
 {
