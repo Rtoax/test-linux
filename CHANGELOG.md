@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- sched: add scheduler subdir;
 - add top CMakeLists.txt;
 - rdma: add iWARP and RoCE subdirs;
 - apic: test SRAT table with c;

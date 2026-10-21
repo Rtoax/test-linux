@@ -37,14 +37,14 @@ int main(int argc, char *argv[])
 	}
 
 	printf("Startup a %s task.\n",
-		sched_policy_string(sched_getscheduler(getpid())));
+	       sched_policy_string(sched_getscheduler(getpid())));
 
 	while (1) {
 		sleep(1);
 		if (getcpu(&cpu, &numa))
 			continue;
 		printf("Pid %d running on CPU %d NUMA %d, count %ld\n",
-			getpid(), cpu, numa, count++);
+		       getpid(), cpu, numa, count++);
 	}
 
 	return 0;

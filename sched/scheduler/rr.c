@@ -20,7 +20,7 @@ int main(void)
 #elif defined(TEST_RR)
 	policy = SCHED_RR;
 #else
-# error "Must define TEST_FIFO or TEST_RR"
+#error "Must define TEST_FIFO or TEST_RR"
 #endif
 	param.sched_priority = 1;
 	err = sched_setscheduler(0, policy, &param);
@@ -49,7 +49,8 @@ int main(void)
 	/**
 	 * infinite loop will be killed if not setrlimit, see sched(7).
 	 */
-	while (1);
+	while (1) {
+	}
 
 	return 0;
 }

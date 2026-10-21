@@ -26,7 +26,8 @@ int main(void)
 
 	printf("Startup a deadline task.\n");
 
-	while (1);
+	while (1) {
+	}
 
 	return 0;
 }
