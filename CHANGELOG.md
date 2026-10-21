@@ -39,6 +39,7 @@ and this project adheres to
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- systemd: add coredump.mk;
 - add tests.mk;
 - add amd/sme.mk;
 - add amd/sev.mk;
@@ -112,7 +113,6 @@ and this project adheres to
 - add smartmontools.mk;
 - remove nbd.mk and rename nbdkit directory to nbd;
 - add apt.mk, dpkg.mk;
-- systemd: add coredump.mk;
 
 
 ## [v2.4.13] Rock Roll 2026-09-15

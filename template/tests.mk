@@ -173,6 +173,7 @@ include string.mk
 include success.mk
 include sudo.mk
 include sysbench.mk
+include systemd/coredump.mk
 include systemd/udev.mk
 include tcmalloc.mk
 include terminal.mk
