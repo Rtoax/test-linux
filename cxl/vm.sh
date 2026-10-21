@@ -1,11 +1,11 @@
 #!/bin/bash
 # Test CXL devices with Qemu.
 #
-# Usage: [GRAPHIC=1] [DAEMON=1] [CUSTOM=<type>] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
+# Usage: [GRAPHIC=1] [DAEMON=1] [<CXLDEV|CUSTOM>=<type>] [NOCXL=1] [DEP=1] [GDB=1] [VIRTIOFS=1] [QEMU=/path/to/qemu-kvm] vm.sh
 #
 #   GRAPHIC=1: running graphic mode.
 #   DAEMON=1: running vm in the background
-#   CUSTOM=<type>: custom cxl device
+#   CXLDEV|CUSTOM=<type>: custom cxl device
 #   NOCXL=1: no cxl device
 #   DEP=1: install depends first.
 #   GDB=1: enable gdb.
@@ -24,6 +24,15 @@ readonly ROOTDIR=${HOME}/cxl
 readonly VMLINUX=${ROOTDIR}/vmlinuz
 readonly INITRD=${ROOTDIR}/initramfs.img
 readonly ROOTFS=${ROOTDIR}/vm.qcow2
+
+if [[ "${CXLDEV}" ]] && [[ "${CUSTOM}" ]] &&
+   [[ "${CXLDEV}" != "${CUSTOM}" ]]; then
+	echo >&2 "ERROR: CXLDEV(${CXLDEV}) != CUSTOM(${CUSTOM})"
+	exit 1
+fi
+if [[ -z ${CXLDEV} ]]; then
+	CXLDEV=${CUSTOM}
+fi
 
 _dry_run=
 for a in ${@}
@@ -214,7 +223,7 @@ custom_cxl_4_big_vmem() {
 	cxlargs+=( --cxl vmem=vmem.4,bus=sw1.4,lsa=vmem.4.lsa,size=32GB,sn=1237 )
 }
 
-case ${CUSTOM} in
+case ${CXLDEV} in
 1 | complex)
 	custom_cxl_1_complex
 	;;
@@ -228,15 +237,15 @@ case ${CUSTOM} in
 	custom_cxl_4_big_vmem
 	;;
 "")
-	CUSTOM=cxl-vmem-4way
-	cxlargs+=( --cxl device=${CUSTOM} )
+	CXLDEV=cxl-vmem-4way
+	cxlargs+=( --cxl device=${CXLDEV} )
 	;;
 help | "?")
-	echo "CUSTOM=[<1|complex>|2|<3|multi-level-switch>|<4|big-vmem>]"
+	echo "CXLDEV=[<1|complex>|2|<3|multi-level-switch>|<4|big-vmem>]"
 	exit 0
 	;;
 *)
-	cxlargs+=( --cxl device=${CUSTOM} )
+	cxlargs+=( --cxl device=${CXLDEV} )
 	;;
 esac
 
@@ -244,7 +253,7 @@ cxlargs+=( --cxl show=topo )
 
 [[ -z ${NOCXL} ]] && qargs+=( ${cxlargs[@]} )
 
-qargs+=( --name cxl-${CUSTOM:+custom-${CUSTOM}-}$(mktemp -u XXXX) )
+qargs+=( --name cxl-${CXLDEV:+custom-${CXLDEV}-}$(mktemp -u XXXX) )
 
 try_run sudo qemu-vm "${qargs[@]}" "${@}"
 

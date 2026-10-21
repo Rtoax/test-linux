@@ -19,6 +19,7 @@ DAEMON=1 vm
 for custom in 1 complex 2 3 multi-level-switch 4 big-vmem help "?"
 do
 	CUSTOM=${custom} vm
+	CXLDEV=${custom} vm
 done
 GDB=1 vm
 VIRTIOFS=1 vm
