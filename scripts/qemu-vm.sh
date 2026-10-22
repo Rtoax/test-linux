@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.65"
+readonly VERSION="v1.1.66"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -993,23 +993,62 @@ undefine_vm() {
 	done
 }
 
-# $1: virtual machine name
+__usage_start_vm__() {
+	echo -e "
+${BOLD}NAME${RST}
+    ${PROG} start - Start virtual machine
+
+${BOLD}SYNOPSIS${RST}
+    ${PROG} ${BOLD}start${RST} <name...>
+
+${BOLD}OPTIONS${RST}
+    -h, --help     show this information
+"
+	__usage_see_also__
+	exit ${1-0}
+}
+
 start_vm() {
-	local name=${1}
+	local name names
+	local START_VM_ARGS
 
-	config_prepare_vm_tmpdir ${name}
+	START_VM_ARGS=$(getopt --options h \
+				--long help \
+				--name start-vm -- "$@")
 
-	if [[ ! -e ${vm_tmpdir} ]]; then
-		error "Not found vm '${name}'"
-	fi
+	eval set -- "$START_VM_ARGS"
 
-	if [[ -f ${f_vm_pidfile} ]] &&
-	   [[ -e /proc/$(sudo cat ${f_vm_pidfile}) ]]; then
-		error "VM '${name}' still running, no need to start again"
-	fi
+	while true; do
+		case $1 in
+		-h | --help)
+			shift
+			__usage_start_vm__
+			;;
+		--)
+			shift
+			break
+			;;
+		esac
+	done
 
-	warning "Starting virtual machine '${name}'"
-	sudo ${SHELL} ${f_vm_qemu_cmd}
+	names=( ${@} )
+
+	for name in ${names[@]}
+	do
+		config_prepare_vm_tmpdir ${name}
+
+		if [[ ! -e ${vm_tmpdir} ]]; then
+			error "Not found vm '${name}'"
+		fi
+
+		if [[ -f ${f_vm_pidfile} ]] &&
+		   [[ -e /proc/$(sudo cat ${f_vm_pidfile}) ]]; then
+			error "VM '${name}' still running, no need to start again"
+		fi
+
+		warning "Starting virtual machine '${name}'"
+		sudo ${SHELL} ${f_vm_qemu_cmd}
+	done
 }
 
 image2uuid() {
