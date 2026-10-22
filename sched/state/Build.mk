@@ -1,6 +1,5 @@
 include helpers.mk
 
-target-y += current
 target-y += uninterruptible
 target-y += hung
 target-y += zombie

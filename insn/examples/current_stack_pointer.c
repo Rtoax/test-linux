@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-static inline unsigned long get_current(void)
+static inline unsigned long current_stack_pointer(void)
 {
 #if __alpha__
 	register unsigned long sp asm("$30");
@@ -28,6 +28,6 @@ static inline unsigned long get_current(void)
 
 int main(void)
 {
-	printf("0x%lx\n", get_current());
+	printf("0x%lx\n", current_stack_pointer());
 	return 0;
 }

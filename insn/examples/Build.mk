@@ -10,6 +10,7 @@ subdir-${IS_X86_64} += sse
 subdir-${IS_AARCH64} += neon
 subdir-${IS_AARCH64} += sve
 
+target-y += current_stack_pointer
 target-${IS_X86_64} += add-x86
 target-${IS_X86_64} += bts
 target-${IS_X86_64} += fsin
