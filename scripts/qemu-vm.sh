@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.64"
+readonly VERSION="v1.1.65"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -629,6 +629,12 @@ config_prepare_vm_tmpdir() {
 
 ################################################################################
 # VM Management
+__usage_see_also__() {
+	echo -e "${BOLD}SEE ALSO${RST}
+    list, destroy, undefine, start
+"
+}
+
 __usage_list_vm__() {
 	echo -e "
 ${BOLD}NAME${RST}
@@ -646,6 +652,7 @@ ${BOLD}OPTIONS${RST}
     -h, --help     show this information
     -v, --verbose  enable verbose mode
 "
+	__usage_see_also__
 	exit ${1-0}
 }
 
@@ -799,6 +806,7 @@ ${BOLD}OPTIONS${RST}
     -h, --help     show this information
     -f, --force    enable verbose mode
 "
+	__usage_see_also__
 	exit ${1-0}
 }
 
@@ -909,6 +917,7 @@ ${BOLD}OPTIONS${RST}
     -a, --all      undefine all virtual machines
     -h, --help     show this information
 "
+	__usage_see_also__
 	exit ${1-0}
 }
 
