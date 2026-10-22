@@ -1,10 +1,4 @@
-#ifdef HAVE_VMLINUX_H
-#define BPF_NO_PRESERVE_ACCESS_INDEX
-#include "vmlinux.h"
-int printf(const char *format, ...);
-#else
 #include <stdio.h>
-#endif
 
 static inline unsigned long get_current(void)
 {
@@ -34,14 +28,6 @@ static inline unsigned long get_current(void)
 
 int main(void)
 {
-#ifdef HAVE_VMLINUX_H
-	/**
-	 * FIXME: it's not kernel task_struct struct??!!
-	 */
-	struct task_struct *current = (void *)get_current();
-	printf("comm %s\n", current->comm);
-#else
 	printf("0x%lx\n", get_current());
-#endif
 	return 0;
 }
