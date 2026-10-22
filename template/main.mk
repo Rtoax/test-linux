@@ -143,7 +143,7 @@ include targets/cpp.mk
 $(if $(target-liba-y), $(eval include targets/liba.mk))
 $(if $(target-libso-y)$(target-libso-cpp-y), $(eval include targets/libso.mk))
 $(if $(target-llvm-ll-y), $(eval include targets/llvm.mk))
-$(if $(target-bpf-y)$(target-btf-y), $(eval include targets/bpf.mk))
+$(if $(target-bpf-y)$(target-btf-y)${VMLINUX_H}, $(eval include targets/bpf.mk))
 $(if $(target-rust-y), $(eval include targets/rust.mk))
 $(if $(target-nvcc-y)$(target-nvcc-libso-y)$(target-liba-y), $(eval include targets/cuda.mk))
 $(if $(target-hipcc-y)$(target-hipcc-libso-y)$(target-liba-y), $(eval include targets/hip.mk))
