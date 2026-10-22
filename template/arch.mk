@@ -43,6 +43,14 @@ else
   $(error Not support ${CPU_ARCH})
 endif
 
+ifdef TEST
+  include string.mk
+
+  ifneq (${IS_$(call toupper_shell,${CPU_ARCH})},y)
+    $(error "IS_$(call toupper_shell,${CPU_ARCH}) != y")
+  endif
+endif
+
 # see linux scripts/subarch.include
 LINUX_SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
 					-e s/sun4u/sparc64/ \
