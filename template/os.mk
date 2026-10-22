@@ -40,7 +40,7 @@ OS_CFLAGS :=
 get_distr_info = $(patsubst "%",%,$(shell grep $(1) /etc/os-release 2>/dev/null | \
 					awk -F'=' '{print $$2}'))
 
-OS_ID := $(call c_ident,$(call get_distr_info, '^ID='))
+OS_ID := $(call to_c_ident,$(call get_distr_info, '^ID='))
 ifeq ($(OS_ID),)
   $(error Not found ID in /etc/os-release)
 endif

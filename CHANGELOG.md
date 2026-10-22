@@ -41,6 +41,7 @@ and this project adheres to
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- string.mk: rename `c_ident()` to `to_c_ident()`;
 - systemd: add coredump.mk;
 - add tests.mk;
 - add amd/sme.mk;

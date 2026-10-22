@@ -9,7 +9,7 @@
 # - underscore_non_alnum()
 # - uniq_repeat()
 # - strip_tail()
-# - c_ident()
+# - to_c_ident()
 #
 ifndef _STRING_MK
 _STRING_MK = 1
@@ -55,7 +55,7 @@ endef
 # Swap a single string to C variable (replace special char to _)
 # $1: input string
 # @return: echo the C variable
-define c_ident
+define to_c_ident
 $(shell echo "${1}" | sed 's/[^a-zA-Z0-9_]/_/g; s/^\([0-9]\)/_\1/')
 endef
 
@@ -96,12 +96,12 @@ ifdef TEST
   ifneq ($(call strip_tail,hello-hip-x,-hip),hello-hip-x)
     $(error "ERROR: strip_tail(hello-hip-x, -hip) failed")
   endif
-  ifneq ($(call c_ident,opensuse-leap),opensuse_leap)
-    $(error "ERROR: c_ident opensuse-leap failed")
+  ifneq ($(call to_c_ident,opensuse-leap),opensuse_leap)
+    $(error "ERROR: to_c_ident opensuse-leap failed")
   endif
   __test_str := a+-*/,~!@\#$%^&*()b
-  ifneq ($(call c_ident,${__test_str}),a______________b)
-    $(error "ERROR: c_ident ${__test_str} failed, need $(call c_ident,${__test_str})")
+  ifneq ($(call to_c_ident,${__test_str}),a______________b)
+    $(error "ERROR: to_c_ident ${__test_str} failed, need $(call to_c_ident,${__test_str})")
   endif
 endif # end of TEST
 
