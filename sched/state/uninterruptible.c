@@ -34,10 +34,12 @@ void vfork_sleep(int secs)
 void usage(int argc, char *argv[])
 {
 	printf("usage: [option].\n");
-	printf(" %s vfork-sleep [sleep sec(60 by default)]: use vfork() sleep() generate D task.\n", argv[0]);
+	printf(" %s vfork-sleep [sleep sec(60 by default)]: use vfork() sleep() generate D task.\n",
+	       argv[0]);
 	printf("\n");
 	printf(" run the following cmd to make plenty of D tasks.\n");
-	printf(" $ for ((i=0;i<100;i++)); do %s vfork-sleep [secs] & done\n", argv[0]);
+	printf(" $ for ((i=0;i<100;i++)); do %s vfork-sleep [secs] & done\n",
+	       argv[0]);
 	exit(0);
 }
 

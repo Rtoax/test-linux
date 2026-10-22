@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 pid_max=$(cat /proc/sys/kernel/pid_max)
 
