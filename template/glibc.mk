@@ -7,7 +7,7 @@
 # - LIBC_SO_PATH=
 #
 # Functions:
-# - glibc_{gt,ge,eq,lt,le}()=[y|n]
+# - glibc_{gt,ge,eq,lt,le}(major, minor)=[y|n]
 # - glibc_probe_printf()
 # - glibc_sym_addr()
 #
