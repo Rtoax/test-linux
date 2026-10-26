@@ -24,18 +24,34 @@ else
 
 export USE_GNU_LIBC := y
 
+glibc_mk_cachefile := ${TOPDIR}/template/.glibc.mk.cache
+glibc_mk_origfile := ${TOPDIR}/template/glibc.mk
+ifeq ($(call is_newer,${glibc_mk_cachefile},${glibc_mk_origfile}),y)
+  include ${glibc_mk_cachefile}
+else
+
+include bits/mk-cache.mk
+
+$(call make_gen_cachefile,${glibc_mk_cachefile})
+
 glibcversh = ${TOPDIR}/scripts/version/glibc.sh
 
 GLIBC_VERSION := $(shell ${glibcversh})
 GLIBC_MAJOR := $(shell ${glibcversh} --major)
 GLIBC_MINOR := $(shell ${glibcversh} --minor)
 
+$(call make_append_var_to_file,GLIBC_VERSION,${glibc_mk_cachefile})
+$(call make_append_var_to_file,GLIBC_MAJOR,${glibc_mk_cachefile})
+$(call make_append_var_to_file,GLIBC_MINOR,${glibc_mk_cachefile})
+
+endif # end of cache
+
 $(eval $(call define_version,glibc,version2_code1616,y,${GLIBC_MAJOR},${GLIBC_MINOR}))
 
 # Get libc.so.6 abs-path
 LIBC_SO_PATH := $(call find_library_path,libc.so.6)
 
-# Probe printf(3) with non-output gcc command
+# Probe printf(3) with non-output glibc command
 LIBC_PRINTF_PROBE := '\#include <stdio.h>\n'
 LIBC_PRINTF_PROBE += 'int main(void) {\n'
 LIBC_PRINTF_PROBE += '	printf("hello\\n");\n'
