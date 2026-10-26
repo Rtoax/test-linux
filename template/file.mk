@@ -4,7 +4,7 @@
 # Export functions:
 # - reset_file($file)
 # - is_newer($file1, $file2)=[y|n]
-# - fexist()=[y|n]
+# - file_exists()=[y|n]
 #
 ifndef _FILE_MK
 _FILE_MK = 1
@@ -37,7 +37,7 @@ endef
 
 # Check file exist or not
 # $1: file to check
-define fexist
+define file_exists
 $(shell if ${SUDO_NOPASSWD} test -e ${1}; then echo y; else echo n; fi)
 endef
 
@@ -52,11 +52,11 @@ ifdef TEST
   ifneq ($(call is_newer,/proc/self/stat,/etc/os-release),y)
     $(error is_newer: /proc/self/stat should newer than /etc/os-release)
   endif
-  ifneq ($(call fexist,/etc/os-release),y)
-    $(error fexist test failed, /etc/os-release)
+  ifneq ($(call file_exists,/etc/os-release),y)
+    $(error file_exists test failed, /etc/os-release)
   endif
-  ifneq ($(call fexist,/etc/__non_exist__),n)
-    $(error fexist test nonexist failed)
+  ifneq ($(call file_exists,/etc/__non_exist__),n)
+    $(error file_exists test nonexist failed)
   endif
 endif # end of TEST
 

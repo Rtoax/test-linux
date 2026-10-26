@@ -1,3 +1,3 @@
 include file.mk
 
-subdir-$(call fexist,/sys/fs/pstore) += pstore
+subdir-$(call file_exists,/sys/fs/pstore) += pstore

@@ -1,4 +1,4 @@
 include file.mk
 
 subdir-y += libselinux
-subdir-$(call fexist, /sys/fs/selinux) += selinuxfs
+subdir-$(call file_exists, /sys/fs/selinux) += selinuxfs

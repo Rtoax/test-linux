@@ -1,6 +1,6 @@
 include file.mk
 
-subdir-$(call fexist, /sys/kernel/debug/cxl) += cxl
+subdir-$(call file_exists, /sys/kernel/debug/cxl) += cxl
 subdir-y += modules
 subdir-y += tracing
 
