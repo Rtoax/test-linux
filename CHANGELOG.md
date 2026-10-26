@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc/aliases: add setaliasent(), getaliasent(), endaliasent() tests;
 - glibc: add aliases subdir;
 - sched: add state subdir;
 - sched: add scheduler subdir;
