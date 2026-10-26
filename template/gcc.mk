@@ -31,6 +31,16 @@ $(call find_cmd_and_def,g++,gxx)
 CC ?= ${GCC}
 CXX ?= ${GXX}
 
+gcc_mk_cachefile := ${TOPDIR}/template/.gcc.mk.cache
+gcc_mk_origfile := ${TOPDIR}/template/gcc.mk
+ifeq ($(call is_newer,${gcc_mk_cachefile},${gcc_mk_origfile}),y)
+  include ${gcc_mk_cachefile}
+else
+
+include bits/mk-cache.mk
+
+$(call make_gen_cachefile,${gcc_mk_cachefile})
+
 gccversh = ${TOPDIR}/scripts/version/gcc.sh
 
 GCC_VERSION := $(shell ${gccversh})
@@ -38,6 +48,14 @@ GCC_MAJOR := $(shell ${gccversh} --major)
 GCC_MINOR := $(shell ${gccversh} --minor)
 GCC_PATCHLEVEL := $(shell ${gccversh} --patchlevel)
 GCC_MACHINE := $(shell ${GCC} -dumpmachine)
+
+$(call make_append_var_to_file,GCC_VERSION,${gcc_mk_cachefile})
+$(call make_append_var_to_file,GCC_MAJOR,${gcc_mk_cachefile})
+$(call make_append_var_to_file,GCC_MINOR,${gcc_mk_cachefile})
+$(call make_append_var_to_file,GCC_PATCHLEVEL,${gcc_mk_cachefile})
+$(call make_append_var_to_file,GCC_MACHINE,${gcc_mk_cachefile})
+
+endif # end of cache
 
 include compiler.mk
 
