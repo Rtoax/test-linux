@@ -10,6 +10,7 @@ subdir-y += arpa
 subdir-y += assert
 subdir-y += byteswap
 subdir-y += complex
+subdir-y += cpio
 subdir-y += crypt
 subdir-y += ctype
 subdir-y += dirent
