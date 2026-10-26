@@ -98,6 +98,7 @@ subdir-${HAVE_SYSBENCH} += sysbench
 subdir-y += sysstat
 subdir-y += tcpdump
 subdir-${HAVE_TMUX} += tmux
+subdir-y += userspace-rcu
 subdir-y += util-linux
 subdir-${HAVE_VIM} += vim
 subdir-${HAVE_XFSPROGS} += xfsprogs

@@ -1,5 +1,5 @@
 {
-	"version": "0.0.31",
+	"version": "0.0.32",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -854,6 +854,15 @@
 				"rpm": [ "trace-cmd" ]
 			},
 			"keys": [ "trace-cmd", "ftrace" ]
+		},
+		"userspace-rcu": {
+			"name": "UserspaceRCU",
+			"package": {
+				"deb": [ "liburcu-dev", "liburcu" ],
+				"rpm": [ "userspace-rcu-devel",
+					 "userspace-rcu" ]
+			},
+			"keys": [ "userspace-rcu" ]
 		},
 		"util-linux": {
 			"name": "Util-Linux",

@@ -1095,7 +1095,7 @@ dnf_add_packages()
 	pkgs_devel+=( systemd-devel )
 	pkgs_devel+=( systemtap-sdt-devel )
 	pkgs_devel+=( usbredir-devel )
-	pkgs_devel+=( userspace-rcu-devel )
+	pkgs_devel+=( userspace-rcu-devel ) # liburcu-dev for deb
 	pkgs_devel+=( zlib-devel )
 
 	pkgs_docs+=( ImageMagick ) # sphinx.ext.imgconverter
@@ -1306,7 +1306,7 @@ apt_add_packages()
 	pkgs_devel+=( libsnappy-dev )
 	pkgs_devel+=( libssh-dev )
 	pkgs_devel+=( libudev-dev )
-	pkgs_devel+=( liburcu-dev )
+	pkgs_devel+=( liburcu-dev ) # userspace-rcu-devel for rpm
 	pkgs_devel+=( libusbredirhost-dev )
 	pkgs_devel+=( libopenblas-dev )
 	pkgs_devel+=( libpmem-dev )

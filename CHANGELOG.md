@@ -39,6 +39,7 @@ and this project adheres to
 #### Scripts
 - move kversion.sh into version dir;
 #### Tools
+- add userspace-rcu subdir;
 - rdma-core: add ibverbs dir;
 - add rdma-core;
 - ndctl: add nvdimm subdir;
