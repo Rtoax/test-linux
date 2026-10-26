@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc: add aliases subdir;
 - sched: add state subdir;
 - sched: add scheduler subdir;
 - add top CMakeLists.txt;

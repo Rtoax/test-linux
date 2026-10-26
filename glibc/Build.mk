@@ -2,6 +2,7 @@
 include file.mk
 
 subdir-y += aio
+subdir-y += aliases
 subdir-y += alloca
 subdir-y += argp
 subdir-y += argz
