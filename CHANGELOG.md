@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc: add utmpx dir;
 - glibc/arpa: add subdirs {tftp,telnet,nameser,ftp};
 - glibc/aliases: add setaliasent(), getaliasent(), endaliasent() tests;
 - glibc: add aliases subdir;

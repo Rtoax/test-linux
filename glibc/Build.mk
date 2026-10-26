@@ -71,6 +71,7 @@ subdir-y += timex
 subdir-y += ucontext
 subdir-y += unistd
 subdir-y += utmp
+subdir-y += utmpx
 subdir-y += wctype
 subdir-y += wordexp
 
