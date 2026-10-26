@@ -17,7 +17,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile},${origfile})
+$(call mkcache_generate,${cachefile},${origfile})
 
 # see https://clang.llvm.org/docs/LanguageExtensions.html
 CC_SUPPORT_TYPE__Float16 := $(findstring y,$(call compiler_support_type,$(CC),_Float16))
@@ -38,17 +38,17 @@ CC_SUPPORT_TYPE___uint128_t := $(findstring y,$(call compiler_support_type,$(CC)
 CC_lquadmath := $(findstring y,$(call compiler_support_option_link,$(CC),-lquadmath))
 CC_H_quadmath_h := $(findstring y,$(call compiler_support_header,$(CC),quadmath.h))
 
-$(call make_append_var_to_file,CC_SUPPORT_TYPE__Float16,${cachefile})
-$(call make_append_var_to_file,CC_SUPPORT_TYPE__Float32,${cachefile})
-$(call make_append_var_to_file,CC_SUPPORT_TYPE__Float64,${cachefile})
-$(call make_append_var_to_file,CC_SUPPORT_TYPE___fp16,${cachefile})
-$(call make_append_var_to_file,CC_SUPPORT_TYPE___bf16,${cachefile})
-$(call make_append_var_to_file,CC_SUPPORT_TYPE___float128,${cachefile})
-$(call make_append_var_to_file,CC_SUPPORT_TYPE__Float128,${cachefile})
-$(call make_append_var_to_file,CC_SUPPORT_TYPE__float80,${cachefile})
-$(call make_append_var_to_file,CC_SUPPORT_TYPE___uint128_t,${cachefile})
-$(call make_append_var_to_file,CC_lquadmath,${cachefile})
-$(call make_append_var_to_file,CC_H_quadmath_h,${cachefile})
+$(call mkcache_append,CC_SUPPORT_TYPE__Float16,${cachefile})
+$(call mkcache_append,CC_SUPPORT_TYPE__Float32,${cachefile})
+$(call mkcache_append,CC_SUPPORT_TYPE__Float64,${cachefile})
+$(call mkcache_append,CC_SUPPORT_TYPE___fp16,${cachefile})
+$(call mkcache_append,CC_SUPPORT_TYPE___bf16,${cachefile})
+$(call mkcache_append,CC_SUPPORT_TYPE___float128,${cachefile})
+$(call mkcache_append,CC_SUPPORT_TYPE__Float128,${cachefile})
+$(call mkcache_append,CC_SUPPORT_TYPE__float80,${cachefile})
+$(call mkcache_append,CC_SUPPORT_TYPE___uint128_t,${cachefile})
+$(call mkcache_append,CC_lquadmath,${cachefile})
+$(call mkcache_append,CC_H_quadmath_h,${cachefile})
 
 endif # end of cache file exist
 

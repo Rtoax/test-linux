@@ -24,7 +24,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile})
+$(call mkcache_generate,${cachefile})
 
 # $1 - prog name in lowercase
 # $2 - prog name in uppercase
@@ -35,7 +35,7 @@ define ___bpf_def_prog
 endef
 define bpf_def_prog
   $(eval $(call ___bpf_def_prog,${1},$(call toupper_shell,${1})))
-  $(call make_append_var_to_file,SUPPORT_BPF_PROG_TYPE_$(call toupper_shell,${1}),${cachefile})
+  $(call mkcache_append,SUPPORT_BPF_PROG_TYPE_$(call toupper_shell,${1}),${cachefile})
 endef
 
 # linux v6.3-rc6-1646-gfd9c663b9ad6
@@ -44,7 +44,7 @@ ifeq ($(call kver_ge,6,3,0),y)
   $(call bpf_def_prog,netfilter)
 endif
 
-$(call make_append_var_to_file,bpf-prog-cflags,${cachefile})
+$(call mkcache_append,bpf-prog-cflags,${cachefile})
 
 endif # end of include cache file
 

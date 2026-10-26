@@ -24,7 +24,7 @@ else
 include define.mk
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile})
+$(call mkcache_generate,${cachefile})
 
 LIBXDP_H := /usr/include/xdp/libxdp.h
 XSK_H := /usr/include/xdp/xsk.h
@@ -44,10 +44,10 @@ ifneq (${HAVE_LIBXDP_XSK_H},)
   cflags-libxdp-y += -DHAVE_LIBXDP_XSK_H=1
 endif
 
-$(call make_append_var_to_file,HAVE_LIBXDP,${cachefile})
-$(call make_append_var_to_file,HAVE_LIBXDP_H,${cachefile})
-$(call make_append_var_to_file,HAVE_LIBXDP_XSK_H,${cachefile})
-$(call make_append_var_to_file,cflags-libxdp-y,${cachefile})
+$(call mkcache_append,HAVE_LIBXDP,${cachefile})
+$(call mkcache_append,HAVE_LIBXDP_H,${cachefile})
+$(call mkcache_append,HAVE_LIBXDP_XSK_H,${cachefile})
+$(call mkcache_append,cflags-libxdp-y,${cachefile})
 
 endif # End of cachefile
 

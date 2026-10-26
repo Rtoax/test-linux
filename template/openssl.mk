@@ -24,7 +24,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${openssl_mk_cachefile})
+$(call mkcache_generate,${openssl_mk_cachefile})
 
 ifneq (${OPENSSL},)
   sslversh = ${TOPDIR}/scripts/version/openssl.sh
@@ -45,10 +45,10 @@ ifneq (${OPENSSL},)
 
 endif # end of HAVE_OPENSSL
 
-$(call make_append_var_to_file,OPENSSL_VERSION,${openssl_mk_cachefile})
-$(call make_append_var_to_file,OPENSSL_MAJOR,${openssl_mk_cachefile})
-$(call make_append_var_to_file,OPENSSL_MINOR,${openssl_mk_cachefile})
-$(call make_append_var_to_file,OPENSSL_PATCH,${openssl_mk_cachefile})
+$(call mkcache_append,OPENSSL_VERSION,${openssl_mk_cachefile})
+$(call mkcache_append,OPENSSL_MAJOR,${openssl_mk_cachefile})
+$(call mkcache_append,OPENSSL_MINOR,${openssl_mk_cachefile})
+$(call mkcache_append,OPENSSL_PATCH,${openssl_mk_cachefile})
 
 endif # end of cache
 

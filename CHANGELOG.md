@@ -49,6 +49,7 @@ and this project adheres to
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- bits/mk-cache.mk: rename `make_gen_cachefile()` to `mkcache_generate()`, rename `make_append_var_to_file()` to `mkcache_append()`;
 - file.mk: rename `fexist()` to `file_exists()`;
 - string.mk: rename `c_ident()` to `to_c_ident()`;
 - systemd: add coredump.mk;

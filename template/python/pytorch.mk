@@ -20,11 +20,11 @@ else
 include python/module.mk
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile})
+$(call mkcache_generate,${cachefile})
 
 HAVE_PYTORCH := $(call python_has_module,torch)
 
-$(call make_append_var_to_file,HAVE_PYTORCH,${cachefile})
+$(call mkcache_append,HAVE_PYTORCH,${cachefile})
 
 endif # End of cache
 

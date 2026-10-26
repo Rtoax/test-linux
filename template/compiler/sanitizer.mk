@@ -17,15 +17,15 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile},${origfile})
+$(call mkcache_generate,${cachefile},${origfile})
 
 CC_lasan := $(findstring y,$(call compiler_support_option_link,$(CC),-lasan))
 CC_ltsan := $(findstring y,$(call compiler_support_option_link,$(CC),-ltsan))
 CC_lubsan := $(findstring y,$(call compiler_support_option_link,$(CC),-lubsan))
 
-$(call make_append_var_to_file,CC_lasan,${cachefile})
-$(call make_append_var_to_file,CC_ltsan,${cachefile})
-$(call make_append_var_to_file,CC_lubsan,${cachefile})
+$(call mkcache_append,CC_lasan,${cachefile})
+$(call mkcache_append,CC_ltsan,${cachefile})
+$(call mkcache_append,CC_lubsan,${cachefile})
 
 endif # end of cache file exist
 

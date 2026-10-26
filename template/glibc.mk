@@ -32,7 +32,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${glibc_mk_cachefile})
+$(call mkcache_generate,${glibc_mk_cachefile})
 
 glibcversh = ${TOPDIR}/scripts/version/glibc.sh
 
@@ -40,9 +40,9 @@ GLIBC_VERSION := $(shell ${glibcversh})
 GLIBC_MAJOR := $(shell ${glibcversh} --major)
 GLIBC_MINOR := $(shell ${glibcversh} --minor)
 
-$(call make_append_var_to_file,GLIBC_VERSION,${glibc_mk_cachefile})
-$(call make_append_var_to_file,GLIBC_MAJOR,${glibc_mk_cachefile})
-$(call make_append_var_to_file,GLIBC_MINOR,${glibc_mk_cachefile})
+$(call mkcache_append,GLIBC_VERSION,${glibc_mk_cachefile})
+$(call mkcache_append,GLIBC_MAJOR,${glibc_mk_cachefile})
+$(call mkcache_append,GLIBC_MINOR,${glibc_mk_cachefile})
 
 endif # end of cache
 

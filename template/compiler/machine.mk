@@ -21,7 +21,7 @@ ifeq ($(call is_newer,${cachefile},${origfile}),y)
 else
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile},${origfile})
+$(call mkcache_generate,${cachefile},${origfile})
 
 CC_SUPPORT_m32 := $(findstring y,$(call compiler_support_option_link,$(CC),-m32))
 CC_MACHINE := $(shell ${CC} -dumpmachine)
@@ -33,9 +33,9 @@ else
   CC_MACHINE_CFLAGS := -march=native
 endif
 
-$(call make_append_var_to_file,CC_SUPPORT_m32,${cachefile})
-$(call make_append_var_to_file,CC_MACHINE,${cachefile})
-$(call make_append_var_to_file,CC_MACHINE_CFLAGS,${cachefile})
+$(call mkcache_append,CC_SUPPORT_m32,${cachefile})
+$(call mkcache_append,CC_MACHINE,${cachefile})
+$(call mkcache_append,CC_MACHINE_CFLAGS,${cachefile})
 
 endif # end of cache file exist
 

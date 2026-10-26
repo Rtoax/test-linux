@@ -39,7 +39,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${gcc_mk_cachefile})
+$(call mkcache_generate,${gcc_mk_cachefile})
 
 gccversh = ${TOPDIR}/scripts/version/gcc.sh
 
@@ -49,11 +49,11 @@ GCC_MINOR := $(shell ${gccversh} --minor)
 GCC_PATCHLEVEL := $(shell ${gccversh} --patchlevel)
 GCC_MACHINE := $(shell ${GCC} -dumpmachine)
 
-$(call make_append_var_to_file,GCC_VERSION,${gcc_mk_cachefile})
-$(call make_append_var_to_file,GCC_MAJOR,${gcc_mk_cachefile})
-$(call make_append_var_to_file,GCC_MINOR,${gcc_mk_cachefile})
-$(call make_append_var_to_file,GCC_PATCHLEVEL,${gcc_mk_cachefile})
-$(call make_append_var_to_file,GCC_MACHINE,${gcc_mk_cachefile})
+$(call mkcache_append,GCC_VERSION,${gcc_mk_cachefile})
+$(call mkcache_append,GCC_MAJOR,${gcc_mk_cachefile})
+$(call mkcache_append,GCC_MINOR,${gcc_mk_cachefile})
+$(call mkcache_append,GCC_PATCHLEVEL,${gcc_mk_cachefile})
+$(call mkcache_append,GCC_MACHINE,${gcc_mk_cachefile})
 
 endif # end of cache
 

@@ -24,7 +24,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile})
+$(call mkcache_generate,${cachefile})
 
 # $1 - iter name in lowercase
 # $2 - iter name in uppercase
@@ -35,7 +35,7 @@ define ___bpf_def_iter
 endef
 define bpf_def_iter
   $(eval $(call ___bpf_def_iter,${1},$(call toupper_shell,${1})))
-  $(call make_append_var_to_file,SUPPORT_$(call toupper_shell,${1}),${cachefile})
+  $(call mkcache_append,SUPPORT_$(call toupper_shell,${1}),${cachefile})
 endef
 
 # linux v5.7-rc2-1178-g6086d29def80
@@ -66,7 +66,7 @@ ifeq ($(call kver_ge,6,13,0),y)
   $(call bpf_def_iter,iter_kmem_cache)
 endif
 
-$(call make_append_var_to_file,bpf-iter-cflags,${cachefile})
+$(call mkcache_append,bpf-iter-cflags,${cachefile})
 
 endif # end of include cache file
 

@@ -36,7 +36,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${git_mk_cachefile})
+$(call mkcache_generate,${git_mk_cachefile})
 
 gitversh = ${TOPDIR}/scripts/version/version.sh -n git
 
@@ -47,11 +47,11 @@ GIT_PATCHLEVEL := $(shell ${gitversh} -- --patchlevel)
 
 HAVE_GIT_SUBTREE := $(shell ${GIT} subtree --help 1>/dev/null 2>&1 && echo y || echo n)
 
-$(call make_append_var_to_file,GIT_VERSION,${git_mk_cachefile})
-$(call make_append_var_to_file,GIT_MAJOR,${git_mk_cachefile})
-$(call make_append_var_to_file,GIT_MINOR,${git_mk_cachefile})
-$(call make_append_var_to_file,GIT_PATCHLEVEL,${git_mk_cachefile})
-$(call make_append_var_to_file,HAVE_GIT_SUBTREE,${git_mk_cachefile})
+$(call mkcache_append,GIT_VERSION,${git_mk_cachefile})
+$(call mkcache_append,GIT_MAJOR,${git_mk_cachefile})
+$(call mkcache_append,GIT_MINOR,${git_mk_cachefile})
+$(call mkcache_append,GIT_PATCHLEVEL,${git_mk_cachefile})
+$(call mkcache_append,HAVE_GIT_SUBTREE,${git_mk_cachefile})
 
 endif # end of cache
 

@@ -34,7 +34,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${libbpf_mk_cachefile})
+$(call mkcache_generate,${libbpf_mk_cachefile})
 
 LIBBPF_VERSION := $(shell ${libbpfversh})
 
@@ -62,13 +62,13 @@ export libbpf-cflags
 
 endif # end of Found libbpf
 
-$(call make_append_var_to_file,HAVE_LIBBPF,${libbpf_mk_cachefile})
-$(call make_append_var_to_file,HAVE_LIBBPF_H,${libbpf_mk_cachefile})
-$(call make_append_var_to_file,LIBBPF_VERSION,${libbpf_mk_cachefile})
-$(call make_append_var_to_file,LIBBPF_MAJOR_VERSION,${libbpf_mk_cachefile})
-$(call make_append_var_to_file,LIBBPF_MINOR_VERSION,${libbpf_mk_cachefile})
-$(call make_append_var_to_file,LIBBPF_PATCHLEVEL_VERSION,${libbpf_mk_cachefile})
-$(call make_append_var_to_file,libbpf-cflags,${libbpf_mk_cachefile})
+$(call mkcache_append,HAVE_LIBBPF,${libbpf_mk_cachefile})
+$(call mkcache_append,HAVE_LIBBPF_H,${libbpf_mk_cachefile})
+$(call mkcache_append,LIBBPF_VERSION,${libbpf_mk_cachefile})
+$(call mkcache_append,LIBBPF_MAJOR_VERSION,${libbpf_mk_cachefile})
+$(call mkcache_append,LIBBPF_MINOR_VERSION,${libbpf_mk_cachefile})
+$(call mkcache_append,LIBBPF_PATCHLEVEL_VERSION,${libbpf_mk_cachefile})
+$(call mkcache_append,libbpf-cflags,${libbpf_mk_cachefile})
 
 endif # end of cache
 

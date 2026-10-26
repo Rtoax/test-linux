@@ -27,7 +27,7 @@ else
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cmake_mk_cachefile})
+$(call mkcache_generate,${cmake_mk_cachefile})
 
 # Get cmake version first
 ifneq (${CMAKE},)
@@ -44,10 +44,10 @@ else
   CMAKE_PATCHLEVEL := 0
 endif
 
-$(call make_append_var_to_file,CMAKE_VERSION,${cmake_mk_cachefile})
-$(call make_append_var_to_file,CMAKE_MAJOR,${cmake_mk_cachefile})
-$(call make_append_var_to_file,CMAKE_MINOR,${cmake_mk_cachefile})
-$(call make_append_var_to_file,CMAKE_PATCHLEVEL,${cmake_mk_cachefile})
+$(call mkcache_append,CMAKE_VERSION,${cmake_mk_cachefile})
+$(call mkcache_append,CMAKE_MAJOR,${cmake_mk_cachefile})
+$(call mkcache_append,CMAKE_MINOR,${cmake_mk_cachefile})
+$(call mkcache_append,CMAKE_PATCHLEVEL,${cmake_mk_cachefile})
 
 endif # end of cache
 

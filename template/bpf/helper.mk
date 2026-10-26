@@ -38,7 +38,7 @@ include bpf/btf.mk
 
 include bits/mk-cache.mk
 
-$(call make_gen_cachefile,${cachefile})
+$(call mkcache_generate,${cachefile})
 
 bpf-helper-cflags :=
 
@@ -51,7 +51,7 @@ define ___bpf_def_helper
 endef
 define bpf_def_helper
   $(eval $(call ___bpf_def_helper,${1},$(call toupper_shell,${1})))
-  $(call make_append_var_to_file,SUPPORT_$(call toupper_shell,${1}),${cachefile})
+  $(call mkcache_append,SUPPORT_$(call toupper_shell,${1}),${cachefile})
 endef
 
 # linux v3.18-rc4-943-gd0003ec01c66
@@ -354,7 +354,7 @@ endif
 # End of test developing kfuncs
 ################################################################################
 
-$(call make_append_var_to_file,bpf-helper-cflags,${cachefile})
+$(call mkcache_append,bpf-helper-cflags,${cachefile})
 
 endif # end of include cache file
 
