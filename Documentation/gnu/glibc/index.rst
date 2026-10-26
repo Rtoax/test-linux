@@ -19,6 +19,13 @@ crypt, login, exit and more.
    utmp
 
 
+.. toctree::
+   :maxdepth: 1
+
+   abbrev
+   abbrev-aio
+
+
 Links
 -----
 

@@ -24,6 +24,7 @@ subdir-y += fenv
 subdir-y += float
 subdir-y += fnmatch
 subdir-$(call fexist,/etc/fstab) += fstab
+subdir-y += fts
 subdir-y += ftw
 subdir-y += getopt
 subdir-y += glob

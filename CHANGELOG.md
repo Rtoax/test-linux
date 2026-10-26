@@ -13,6 +13,7 @@ and this project adheres to
 #### Added
 - glibc/aliases: add setaliasent(), getaliasent(), endaliasent() tests;
 - glibc: add aliases subdir;
+- glibc: add fts(traverse a file hierarchy) subdir;
 - sched: add state subdir;
 - sched: add scheduler subdir;
 - add top CMakeLists.txt;
@@ -24,6 +25,7 @@ and this project adheres to
 - libs: merge `reboot_helpers.c` into `syscall_helpers.c`;
 #### Deprecated
 #### Documentation
+- glibc: add abbrev.rst;
 - cxl: add security.rst;
 - tee: add arm/trustzone, amd/sev;
 - fs: add exfat.rst;
