@@ -75,13 +75,17 @@ int main(int argc, char *argv[])
 	}
 
 	if (strlen(slot) > 0) {
-		/* TODO: maybe not 0000: */
-		if (strncmp(slot, "0000:", 5)) {
+		if (strstr(slot, ":") - slot == 2) {
+			/* found "xx:" */
 			snprintf(config, sizeof(config),
 				 "/sys/bus/pci/devices/0000:%s/config", slot);
-		} else {
+		} else if (strstr(slot, ":") - slot == 4) {
+			/* found "xxxx:" */
 			snprintf(config, sizeof(config),
 				 "/sys/bus/pci/devices/%s/config", slot);
+		} else {
+			fprintf(stderr, "ERROR: bad slot format '%s'\n", slot);
+			exit(EXIT_FAILURE);
 		}
 	} else if (strlen(config) == 0) {
 		strncpy(config, HOST_BRIDGE_CONFIG, sizeof(config));
