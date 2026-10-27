@@ -27,6 +27,7 @@
 #include "memory.h"
 #include "oom_helpers.h"
 #include "proc_helpers.h"
+#include "str.h"
 
 #define ANSI_RED "\033[31m"
 #define ANSI_GREEN "\033[32m"
