@@ -33,6 +33,7 @@ incdir-y += glob
 incdir-y += gnu
 incdir-y += grp
 incdir-y += iconv
+incdir-y += langinfo
 incdir-y += ld
 incdir-y += libgen
 incdir-y += limits
