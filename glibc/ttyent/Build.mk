@@ -1,3 +1,4 @@
+target-y += _PATH_TTYS
 target-y += endttyent
 target-y += getttyent
 target-y += setttyent
