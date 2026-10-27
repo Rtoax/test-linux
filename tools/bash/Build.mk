@@ -10,6 +10,7 @@ subdir-y += shopt
 subdir-y += source
 subdir-y += string
 subdir-y += trap
+subdir-y += ulimit
 
 shell-y += args.sh
 shell-y += call.sh

@@ -71,6 +71,7 @@ incdir-y += time
 incdir-y += times
 incdir-y += timex
 incdir-y += ucontext
+incdir-y += ulimit
 incdir-y += unistd
 incdir-y += utmp
 incdir-y += utmpx

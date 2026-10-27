@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc: add ulimit dir to test ulimit.h;
 - glibc: add cpio dir;
 - glibc: add utmpx dir;
 - glibc/arpa: add subdirs {tftp,telnet,nameser,ftp};
