@@ -73,6 +73,7 @@ incdir-y += termios
 incdir-y += time
 incdir-y += times
 incdir-y += timex
+incdir-y += ttyent
 incdir-y += uchar
 incdir-y += ucontext
 incdir-y += ulimit
