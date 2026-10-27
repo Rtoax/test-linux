@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc: add uchar dir to test uchar.h;
 - glibc: add pty dir to test pty.h;
 - glibc: add paths dir to test paths.h;
 - glibc: add langinfo dir to test langinfo.h;
