@@ -50,6 +50,7 @@ incdir-y += obstack
 incdir-y += paths
 incdir-y += printf
 incdir-y += pthread
+incdir-y += pty
 incdir-y += pwd
 incdir-y += regex
 incdir-y += scripts
