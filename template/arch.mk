@@ -14,6 +14,8 @@
 # - IS_SW_64=[y]
 # - IS_S390X=[y]
 #
+# - is_arch_any_of(x86_64 [aarch64 ...])=[y|n]
+#
 ifndef _ARCH_MK
 _ARCH_MK = 1
 
@@ -43,11 +45,31 @@ else
   $(error Not support ${CPU_ARCH})
 endif
 
+# $1: cpu architecture name list, like: x86_64 aarch64
+define is_arch_any_of
+$(shell for arch in ${1}; do \
+          if test $${arch} == ${CPU_ARCH}; then \
+            echo y; exit 0; \
+          fi; \
+        done; \
+        echo n)
+endef
+
 ifdef TEST
   include string.mk
 
   ifneq (${IS_$(call toupper_shell,${CPU_ARCH})},y)
     $(error "IS_$(call toupper_shell,${CPU_ARCH}) != y")
+  endif
+
+  ifneq ($(call is_arch_any_of,nonsense),n)
+    $(error "is_arch_any_of(nonsense) failed")
+  endif
+  ifneq ($(call is_arch_any_of,${CPU_ARCH}),y)
+    $(error "is_arch_any_of(${CPU_ARCH}) failed")
+  endif
+  ifneq ($(call is_arch_any_of,___x ${CPU_ARCH} ___y),y)
+    $(error "is_arch_any_of(___x ${CPU_ARCH} ___y) failed")
   endif
 endif
 
