@@ -13,7 +13,7 @@ include podman.mk
 include smartmontools.mk
 include tmux.mk
 include vim.mk
-include xfsprogs.mk
+include fs/xfsprogs.mk
 include zstd.mk
 
 subdir-y += acpica-tools
