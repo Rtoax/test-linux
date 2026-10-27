@@ -47,6 +47,7 @@ incdir-y += netdb
 incdir-y += netinet
 incdir-y += nl_types
 incdir-y += obstack
+incdir-y += paths
 incdir-y += printf
 incdir-y += pthread
 incdir-y += pwd

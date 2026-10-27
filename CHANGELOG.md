@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc: add paths dir to test paths.h;
 - glibc: add langinfo dir to test langinfo.h;
 - glibc: add ulimit dir to test ulimit.h;
 - glibc: add cpio dir;
