@@ -6,11 +6,11 @@ include rpm.mk
 include lorax.mk
 include dpkg.mk
 
-subdir-$(call is_os,alpine) += alpine
+subdir-$(call is_os_any_of,alpine) += alpine
 subdir-${HAVE_ANACONDA} += anaconda
 subdir-${HAVE_APT} += apt
 subdir-${HAVE_DPKG} += dpkg
 subdir-${HAVE_FLATPAK} += flatpak
 subdir-${HAVE_LORAX} += lorax
 subdir-${HAVE_RPM} += rpm
-subdir-$(call is_os,ubuntu) += ubuntu
+subdir-$(call is_os_any_of,ubuntu) += ubuntu

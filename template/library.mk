@@ -20,7 +20,7 @@ ifeq ($(LDCONFIG),)
   endif
 endif
 
-ifeq ($(call is_os, alpine), y)
+ifeq ($(call is_os_any_of, alpine), y)
 # alpine ldconfig (musl libc) could not get library list.
 lib_list_cmd = find /usr/lib
 else

@@ -38,6 +38,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- libos.sh: rename `is_os()` to `is_os_any_of()`;
 - move kversion.sh into version dir;
 #### Tools
 - add userspace-rcu subdir;
@@ -49,6 +50,7 @@ and this project adheres to
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- os.mk: rename `is_os()` to `is_os_any_of()`;
 - bits/mk-cache.mk: rename `make_gen_cachefile()` to `mkcache_generate()`, rename `make_append_var_to_file()` to `mkcache_append()`;
 - file.mk: rename `fexist()` to `file_exists()`;
 - string.mk: rename `c_ident()` to `to_c_ident()`;

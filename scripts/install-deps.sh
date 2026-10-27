@@ -593,7 +593,7 @@ pkgs_base+=( bat )                  # highlight cat(1)
 pkgs_base+=( bc )
 pkgs_base+=( black  )
 pkgs_base+=( blktrace )
-if ! [[ $(is_os ubuntu) ]]; then
+if ! [[ $(is_os_any_of ubuntu) ]]; then
 	pkgs_base+=( bpftool )
 fi
 pkgs_base+=( bpftrace )
@@ -602,7 +602,7 @@ pkgs_base+=( codespell )
 pkgs_base+=( coreutils )
 pkgs_base+=( cowsay )
 pkgs_base+=( cpuid )
-if [[ $(is_os fedora:43) ]]; then
+if [[ $(is_os_any_of fedora:43) ]]; then
 	pkgs_skip+=( cpuid )
 fi
 pkgs_base+=( cscope )
@@ -630,14 +630,14 @@ pkgs_base+=( lsof )
 pkgs_base+=( make cmake )
 pkgs_base+=( mokutil )              # UEFI
 pkgs_base+=( nasm )
-if [[ $(is_os fedora:40 fedora:41 fedora:42 fedora:43 fedora:44 ubuntu:24.04 ubuntu:25.10) ]]; then
+if [[ $(is_os_any_of fedora:40 fedora:41 fedora:42 fedora:43 fedora:44 ubuntu:24.04 ubuntu:25.10) ]]; then
 	pkgs_base+=( fastfetch )
 	pkgs_base+=( procs )
 	pkgs_base+=( procinfo procinfo-ng )
-	if [[ $(is_os fedora:42 fedora:43) ]]; then
+	if [[ $(is_os_any_of fedora:42 fedora:43) ]]; then
 		pkgs_skip+=( neofetch )
 	fi
-	if [[ $(is_os fedora:43) ]]; then
+	if [[ $(is_os_any_of fedora:43) ]]; then
 		pkgs_skip+=( procinfo-ng )
 	fi
 fi
@@ -682,13 +682,13 @@ pkgs_compiler+=( flex )
 pkgs_compiler+=( gcc )
 pkgs_compiler+=( lld )                    # ELF linker from the LLVM project
 pkgs_compiler+=( llvm )                   # llvm-as llvm-dis llc
-if [[ $(is_os debian:12 debian:13 ubuntu:25.04 fedora:42) ]]; then
+if [[ $(is_os_any_of debian:12 debian:13 ubuntu:25.04 fedora:42) ]]; then
 	pkgs_compiler+=( hipcc )
 fi
-if [[ $(is_os debian:12 debian:13 ubuntu:25.04) ]]; then
+if [[ $(is_os_any_of debian:12 debian:13 ubuntu:25.04) ]]; then
 	pkgs_cuda+=( nvidia-cuda-toolkit )
 fi
-if [[ $(is_os fedora:43) ]]; then
+if [[ $(is_os_any_of fedora:43) ]]; then
 	pkgs_rocm+=( rocm )
 fi
 
@@ -701,8 +701,8 @@ add_cross_compiler()
 		pkgs_compiler+=( binutils-aarch64-linux-gnu )
 		pkgs_compiler+=( gcc-aarch64-linux-gnu )
 	fi
-	if [[ ! $(is_arch arm) ]] && [[ ! $(is_os debian:13) ]] &&
-	   [[ ! $(is_os ubuntu:25.04) ]]; then
+	if [[ ! $(is_arch arm) ]] && [[ ! $(is_os_any_of debian:13) ]] &&
+	   [[ ! $(is_os_any_of ubuntu:25.04) ]]; then
 		pkgs_compiler+=( binutils-arm-linux-gnu )
 		pkgs_compiler+=( gcc-arm-linux-gnu )
 	fi
@@ -722,7 +722,7 @@ pkgs_build+=( meson )
 pkgs_container+=( buildah )
 pkgs_container+=( conmon )
 # Kylin V10 use docker-engine
-if [[ $(is_os kylin:V10) ]]; then
+if [[ $(is_os_any_of kylin:V10) ]]; then
 	pkgs_container+=( docker-engine )
 else
 	pkgs_container+=( containerd )
@@ -791,7 +791,7 @@ pkgs_desktop+=( weston )
 pkgs_desktop+=( wireshark )
 pkgs_desktop+=( xrdp )
 enable_srvs+=( xrdp.service )
-if [[ $(is_os fedora) ]]; then
+if [[ $(is_os_any_of fedora) ]]; then
 	pkgs_desktop+=( dolphin ) # File Browser
 fi
 
@@ -836,7 +836,7 @@ elif [[ $(is_debian_like) ]] && [[ ${have_3rd_party} ]]; then
 	wget http://www.linuxidc.com/files/repo/google-chrome.list \
 		-P /etc/apt/sources.list.d/
 
-	if [[ $(is_os ubuntu:25.04) ]]; then
+	if [[ $(is_os_any_of ubuntu:25.04) ]]; then
 		wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | \
 			gpg --dearmor -o /usr/share/keyrings/linux_signing_key.pub
 		# Then, add deb [signed-by=/usr/share/keyrings/linux_signing_key.pub arch=amd64]
@@ -860,7 +860,7 @@ pkgs_fs+=( xfsprogs )
 # AI
 pkgs_ai+=( python3-matplotlib )
 pkgs_ai+=( python3-pillow )
-if ! [[ $(is_os ubuntu:24.04) ]]; then
+if ! [[ $(is_os_any_of ubuntu:24.04) ]]; then
 	pkgs_ai+=( python3-torch )
 	pkgs_ai+=( python3-torchvision )
 fi
@@ -1129,7 +1129,7 @@ dnf_add_packages()
 	pkgs_virt+=( qemu-user-static )
 	pkgs_virt+=( vagrant )
 	# Add more
-	if [[ $(is_os fedora) ]]; then
+	if [[ $(is_os_any_of fedora) ]]; then
 		pkgs_virt+=( box64 ) # Linux Userspace x86_64 Emulator with a twist
 		pkgs_virt+=( firecracker ) # Secure and fast microVMs for serverless computing
 		pkgs_virt+=( kata-containers )
@@ -1199,7 +1199,7 @@ apt_add_packages()
 	pkgs_base+=( liburing-dev )
 	pkgs_base+=( linux-headers-$(uname -r) )
 	pkgs_base+=( linux-libc-dev )
-	if ! [[ $(is_os ubuntu) ]]; then
+	if ! [[ $(is_os_any_of ubuntu) ]]; then
 		pkgs_base+=( linux-perf )
 	fi
 	pkgs_base+=( lm-sensors )
@@ -1215,7 +1215,7 @@ apt_add_packages()
 	pkgs_base+=( sg3-utils )            # sg_inq, etc.
 	pkgs_base+=( selinux-basics selinux-utils )
 	pkgs_base+=( systemtap-sdt-dev )    # sdt.h
-	if [[ $(is_os ubuntu) ]]; then
+	if [[ $(is_os_any_of ubuntu) ]]; then
 		pkgs_base+=( linux-tools-common )
 	fi
 	pkgs_base+=( gnu-which )
@@ -1225,7 +1225,7 @@ apt_add_packages()
 
 	pkgs_boot+=( initramfs-tools )
 	pkgs_boot+=( shim-signed )
-	if ! [[ $(is_os ubuntu) ]]; then
+	if ! [[ $(is_os_any_of ubuntu) ]]; then
 		pkgs_boot+=( shim-signed-common )
 		pkgs_boot+=( shim-unsigned )
 	fi
@@ -1240,7 +1240,7 @@ apt_add_packages()
 
 	pkgs_gpu+=( libdrm-dev )
 
-	if [[ $(is_os ubuntu) ]]; then
+	if [[ $(is_os_any_of ubuntu) ]]; then
 		pkgs_cuda+=( cuda-toolkit )
 		pkgs_cuda+=( cudnn9 )
 	fi
@@ -1267,7 +1267,7 @@ apt_add_packages()
 	pkgs_compiler+=( mold )                   # a modern linker
 	pkgs_compiler+=( openmpi-bin )
 	pkgs_compiler+=( rust-all )
-	if [[ $(is_os debian) ]]; then
+	if [[ $(is_os_any_of debian) ]]; then
 		pkgs_compiler+=( clang-19 clang-tools-19 )
 		pkgs_compiler+=( libclang-cpp19-dev )
 		pkgs_compiler+=( libclang-19-dev )
@@ -1321,7 +1321,7 @@ apt_add_packages()
 	pkgs_devel+=( systemtap-sdt-dev )
 	pkgs_devel+=( zlib1g-dev )
 	# For ROCm HIP
-	if [[ $(is_os debian:12 debian:13 ubuntu:25.04 fedora:42) ]]; then
+	if [[ $(is_os_any_of debian:12 debian:13 ubuntu:25.04 fedora:42) ]]; then
 		pkgs_devel+=( libhipblas-dev )
 		pkgs_devel+=( libhipfft-dev )
 		pkgs_devel+=( libhiprand-dev )
@@ -1422,19 +1422,19 @@ zypper_add_packages()
 
 # __main__
 
-if [[ $(is_os centos) ]]; then
+if [[ $(is_os_any_of centos) ]]; then
 	dnf_args+=( --enablerepo=crb,powertools )
-elif [[ $(is_os rocky) ]]; then
+elif [[ $(is_os_any_of rocky) ]]; then
 	dnf_args+=( --enablerepo=crb )
-elif [[ $(is_os cclinux) ]]; then
+elif [[ $(is_os_any_of cclinux) ]]; then
 	dnf_args+=( --enablerepo=* )
 fi
 
-if [[ $(is_os opencloudos) ]]; then
+if [[ $(is_os_any_of opencloudos) ]]; then
 	pkgs_skip+=( perf )
 fi
 
-if [[ $(is_os debian ubuntu) ]]; then
+if [[ $(is_os_any_of debian ubuntu) ]]; then
 	pkgs_skip+=( gcc-multilib libdevmapper-dev )
 fi
 
@@ -1486,13 +1486,13 @@ if [[ ! -z "${pkgs_inst[@]}" ]]; then
 fi
 
 if [[ ${have_desktop} ]] && [[ $(which flatpak) ]] &&
-   [[ $(is_os fedora) ]]; then
+   [[ $(is_os_any_of fedora) ]]; then
 	flatpak install -y wechat Wemeet Typora TeXstudio
 fi
 
 # Install python3 pip wheels
 if [[ ${have_pip} ]] && [[ -e /usr/bin/pip3 ]]; then
-	if [[ $(is_os debian ubuntu) ]]; then
+	if [[ $(is_os_any_of debian ubuntu) ]]; then
 		PIP_EXTRA_ARGS=( --break-system-packages )
 		PIP_EXTRA_ARGS+=( -i https://pypi.tuna.tsinghua.edu.cn/simple/ )
 	fi

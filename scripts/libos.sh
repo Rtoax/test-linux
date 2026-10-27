@@ -17,7 +17,7 @@ readonly DISTS_ALPINE_LIKE=( alpine )
 
 # $@: operating system names, like: fedora rhel
 # echo "YES" if matched
-is_os()
+is_os_any_of()
 {
 	local oss=( $@ )
 	if [[ " ${oss[@]} " =~ " ${OS} " ]] || \
@@ -29,12 +29,12 @@ is_os()
 
 is_rhel_like()
 {
-	is_os ${DISTS_RHEL_LIKE[@]}
+	is_os_any_of ${DISTS_RHEL_LIKE[@]}
 	return 0
 }
 
 is_debian_like()
 {
-	is_os ${DISTS_DEBIAN_LIKE[@]}
+	is_os_any_of ${DISTS_DEBIAN_LIKE[@]}
 	return 0
 }
