@@ -30,6 +30,8 @@ else
   else ifneq ($(wildcard /usr/include/${CPU_ARCH}-linux-gnu/pci/pci.h),)
     # Ubuntu
     $(call check_file_and_def,/usr/include/${CPU_ARCH}-linux-gnu/pci/pci.h,HAVE_PCIUTILS_HDR)
+  else
+    $(warning Not found pciutils devel header)
   endif
 endif # end of found PCIUTILS
 
