@@ -48,6 +48,7 @@ target-${HAVE_CLANG} += clang clang.1
 
 target-liba-y += libfoobar.a
 target-libso-y += libfoobar.so
+target-libso-y += libfoo.so.0.0.1
 
 main-objs := foo.o bar.o
 main-deps := foo.h bar.h
@@ -56,6 +57,7 @@ bar.o-deps := bar.h
 main.o-deps := foo.h bar.h
 libfoobar.a-objs += foo.a.o bar.a.o
 libfoobar.so-objs += foo.so.o bar.so.o
+libfoo.so.0.0.1-objs += foo.so.o
 foo.a.o-deps := foo.h
 bar.a.o-deps := bar.h
 foo.so.o-deps := foo.h
