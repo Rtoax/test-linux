@@ -15,7 +15,8 @@ _VERSION_MK = 1
 
 include shell.mk
 
-###### Version3 1688
+################################################################################
+# Version3 1688
 
 # Generate version code from major,minor,patchlevel.
 # linux kernel use this method, see /usr/include/linux/version.h.
@@ -41,11 +42,14 @@ $(shell if [[ ${1} ${2} $(call version3_code1688,${4},${5},${6}) ]]; then \
 	fi)
 endef
 
-ifneq ($(call version3_code1688_cmp,66051,-eq,y,1,2,3),y)
-  $(error version3_code1688_cmp failed)
+ifdef TEST
+  ifneq ($(call version3_code1688_cmp,66051,-eq,y,1,2,3),y)
+    $(error version3_code1688_cmp failed)
+  endif
 endif
 
-###### Version2 100010
+################################################################################
+# Version2 100010
 
 # Generate version code from major,minor
 # Example: CUDA
@@ -68,11 +72,14 @@ $(shell if [[ ${1} ${2} $(call version2_code100010,${4},${5}) ]]; then \
 	fi)
 endef
 
-ifneq ($(call version2_code100010_cmp,1020,-eq,y,1,2),y)
-  $(error version2_code100010_cmp failed)
+ifdef TEST
+  ifneq ($(call version2_code100010_cmp,1020,-eq,y,1,2),y)
+    $(error version2_code100010_cmp failed)
+  endif
 endif
 
-###### Version2 16
+################################################################################
+# Version2 16
 
 # Generate version code from major,minor
 # Example: CUDA
@@ -95,9 +102,13 @@ $(shell if [[ ${1} ${2} $(call version2_code1616,${4},${5}) ]]; then \
 	fi)
 endef
 
-ifneq ($(call version2_code1616_cmp,65538,-eq,y,1,2),y)
-  $(error version2_code1616_cmp failed)
+ifdef TEST
+  ifneq ($(call version2_code1616_cmp,65538,-eq,y,1,2),y)
+    $(error version2_code1616_cmp failed)
+  endif
 endif
+
+################################################################################
 
 # Define version compare functions
 #

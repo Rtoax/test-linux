@@ -23,6 +23,16 @@ else
 include dir.mk
 include version.mk
 
+bpftrace_mk_cachefile := ${TOPDIR}/template/bpf/.bpftrace.mk.cache
+bpftrace_mk_origfile := ${TOPDIR}/template/bpf/bpftrace.mk
+ifeq ($(call is_newer,${bpftrace_mk_cachefile},${bpftrace_mk_origfile}),y)
+  include ${bpftrace_mk_cachefile}
+else
+
+include bits/mk-cache.mk
+
+$(call mkcache_generate,${bpftrace_mk_cachefile})
+
 bpftraceversh = ${TOPDIR}/scripts/version/bpftrace.sh
 
 BPFTRACE_VERSION := $(shell ${bpftraceversh})
@@ -30,10 +40,18 @@ BPFTRACE_MAJOR := $(shell ${bpftraceversh} --major)
 BPFTRACE_MINOR := $(shell ${bpftraceversh} --minor)
 BPFTRACE_PATCHLEVEL := $(shell ${bpftraceversh} --patchlevel)
 
+$(call mkcache_append,BPFTRACE_VERSION,${bpftrace_mk_cachefile})
+$(call mkcache_append,BPFTRACE_MAJOR,${bpftrace_mk_cachefile})
+$(call mkcache_append,BPFTRACE_MINOR,${bpftrace_mk_cachefile})
+$(call mkcache_append,BPFTRACE_PATCHLEVEL,${bpftrace_mk_cachefile})
+
+endif # end of cache
+
 $(eval $(call define_version,bpftrace,version3_code1688,y,${BPFTRACE_MAJOR},${BPFTRACE_MINOR},${BPFTRACE_PATCHLEVEL}))
 
 ifdef DEBUG
   $(info BPFTRACE = ${BPFTRACE})
+  $(info BPFTRACE_VERSION = ${BPFTRACE_VERSION})
   $(info BPFTRACE_MAJOR = ${BPFTRACE_MAJOR})
   $(info BPFTRACE_MINOR = ${BPFTRACE_MINOR})
   $(info BPFTRACE_PATCHLEVEL = ${BPFTRACE_PATCHLEVEL})
