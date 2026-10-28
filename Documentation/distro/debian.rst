@@ -25,3 +25,4 @@ Links
     - `Debian 发行版本 <https://www.debian.org/releases/index.zh-cn.html>`_
 - `Debian Upgrade <https://wiki.debian.org/DebianUpgrade>`_
 - Debian 13 Trixie: https://www.debian.org/releases/trixie/release-notes/upgrading.en.html
+- Wikipedia: `Debian release version history <https://en.wikipedia.org/wiki/Debian_release_version_history>`_
