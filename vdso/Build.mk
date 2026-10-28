@@ -10,5 +10,11 @@ subdir-y += nvDSO
 subdir-y += vvar
 
 prep-y += ${VDSO_NAME}
+
 prog-y += dump.sh
+prog-y += dump.sh.1
+prog-y += dump.sh.2
 prog-y += layout.sh
+
+PROG_ARGS_dump.sh.1 := -n 1.elf
+PROG_ARGS_dump.sh.2 := -s -n 2.elf
