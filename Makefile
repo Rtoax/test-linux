@@ -167,7 +167,7 @@ config:
 check:
 	@echo "Check startup"
 	${Q}${SHELL} ${TOPDIR}/scripts/broken-symlinks.sh
-	${Q}${SHELL} ${TOPDIR}/scripts/docs/linux-reference.sh
+	${Q}${SHELL} ${TOPDIR}/scripts/git/hooks/pre-commit
 	@echo "Check done"
 
 .PHONY: cleangit

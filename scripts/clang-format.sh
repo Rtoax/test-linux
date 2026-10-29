@@ -8,6 +8,8 @@
 #
 set -e
 
+echo "[clang-format]"
+
 [[ -z ${FCF} ]] && FCF=${FORCE}
 [[ ! -z "${VCF}${VERBOSE}" ]] && set -x
 

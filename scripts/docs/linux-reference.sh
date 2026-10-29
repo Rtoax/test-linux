@@ -2,6 +2,8 @@
 # Usage: [FLR/FORCE=1] [VLR=1|VERBOSE=1] ./linux-reference.sh
 set -e
 
+echo "[linux-reference]"
+
 [[ -z ${FLR} ]] && FLR=${FORCE}
 
 readonly THISPATH=$(dirname $(realpath $0))
