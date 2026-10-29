@@ -132,6 +132,11 @@ template_check() {
 				continue
 			fi
 
+			if [[ "${orig_mk} " =~ "Build.mk " ]] ||
+			   [[ "${orig_mk} " =~ "Target.mk " ]]; then
+				continue
+			fi
+
 			mk=$(echo ${orig_mk} | sed 's/^template\///g')
 
 			# test all makefiles in tests.mk

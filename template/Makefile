@@ -34,6 +34,7 @@ include make.mk
 # include each mk for twice to test ifndef-endif pair
 $(foreach mk, ${MK_TST} ${MK_TST}, $(call include_stat,${mk}))
 
+subdir-y += tests
 subdir-y += targets/test
 
 prep-y += log

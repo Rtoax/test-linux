@@ -56,6 +56,7 @@ and this project adheres to
 - plotcake: add --stdin-buffer-size argument;
 - plotcake: test with tmux;
 #### Template
+- add tests subdir to test .mk;
 - bpftrace.mk: support mkcache;
 - arch.mk: add `is_arch_any_of()`;
 - os.mk: rename `is_os()` to `is_os_any_of()`;
