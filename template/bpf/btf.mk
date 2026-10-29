@@ -33,7 +33,7 @@ ifeq (${BPFTOOL},)
   HAVE_BTF := n
 endif
 
-ifeq (${HAVE_BTF}, y)
+ifeq (${HAVE_BTF}${HAVE_BPFTOOL}, yy)
   # Use the bpftool command to generate a series of btf header files.
   # $1 - btf file name under /sys/kernel/btf, like "vmlinux"
   # $2 - btf header file name or fullpath
@@ -46,7 +46,7 @@ else
   $(warning Your system not support BTF, generate empty ${2})
   touch ${2}
   endef
-endif # end of HAVE_BTF
+endif # end of HAVE_BTF and HAVE_BPFTOOL
 
 define auto_gen_vmlinux_h
   if [[ ! -e ${VMLINUX_H} ]]; then \
