@@ -11,11 +11,12 @@ ifndef _BPF_BPFTOOL_MK
 _BPF_BPFTOOL_MK = 1
 
 include dir.mk
+include define.mk
 
-BPFTOOL := $(shell which bpftool 2>/dev/null)
-ifeq ($(BPFTOOL),)
+$(call find_cmd_and_def,bpftool)
+
+ifeq ($(HAVE_BPFTOOL),n)
   $(warning "Not found bpftool, please install it first")
-  export HAVE_BPFTOOL := n
 else
 
 versh := ${TOPDIR}/scripts/version/bpftool.sh
@@ -33,7 +34,6 @@ ifdef DEBUG
   $(info BPFTOOL_PATCHLEVEL = ${BPFTOOL_PATCHLEVEL})
 endif
 
-export HAVE_BPFTOOL := y
 export BPFTOOL BPFTOOL_MAJOR BPFTOOL_MINOR
 
 endif # end of Found BPFTOOL
