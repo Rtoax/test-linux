@@ -1217,6 +1217,8 @@ apt_add_packages()
 	pkgs_base+=( systemtap-sdt-dev )    # sdt.h
 	if [[ $(is_os_any_of ubuntu) ]]; then
 		pkgs_base+=( linux-tools-common )
+		pkgs_base+=( linux-tools-$(uname -r) )
+		pkgs_base+=( linux-cloud-tools-$(uname -r) )
 	fi
 	pkgs_base+=( gnu-which )
 
