@@ -4,8 +4,8 @@ Ubuntu
 Linux Kernel Versions
 ---------------------
 
-Ubuntu 26.04.1
-~~~~~~~~~~~~~~
+Ubuntu 26.04 (Resolute Raccoon)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - 7.0.0-38-generic
 
