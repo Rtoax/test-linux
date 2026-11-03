@@ -4,6 +4,7 @@ CXL Abbrev
 
 - AAD: Additional Authentication Data (附加身份验证数据)
 - AEC: Active Electrical Cable (有源电气线缆) @AOC @DAC
+- AIC: Memory Add-in Cards (卡上内存)
 - ALMPs: ARB/MUX Link Management Packets (ARB/MUX 链接管理包)
 - AOC: Active Optical Cable (有源光缆) @AEC
 - APN: Alternative Protocol Negotiation (备用协议谈判)
