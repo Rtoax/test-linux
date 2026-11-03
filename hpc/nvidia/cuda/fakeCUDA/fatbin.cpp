@@ -75,9 +75,10 @@ void fakeHipFatbinParserWithUncompressedHdr(const struct ClangOffloadBundleUncom
 
 	const struct ClangOffloadBundleInfo *desc = &obheader->desc[0];
 
-	for (int i = 0; i < obheader->numOfCodeObjects; i++) {
-		DEBUG_DBG("entry %d: offset 0x%lx, size %ld, bundleEntryIdSize %ld\n",
-			  i, desc->offset, desc->size, desc->bundleEntryIdSize);
+	for (uint64_t i = 0; i < obheader->numOfCodeObjects; i++) {
+		DEBUG_DBG(
+			"entry %ld: offset 0x%lx, size %ld, bundleEntryIdSize %ld\n",
+			i, desc->offset, desc->size, desc->bundleEntryIdSize);
 
 		/* Getn next desc */
 		desc = (const struct ClangOffloadBundleInfo *)(&desc->bundleEntryId[0] + desc->bundleEntryIdSize);

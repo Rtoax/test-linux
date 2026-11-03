@@ -5,9 +5,8 @@
 #include <sys/types.h>
 #include "memshow.h"
 
-
+#define __unused __attribute__((unused))
 #define ARRAY_SIZE(arr)	(sizeof(arr) / sizeof(arr[0]))
-
 
 void debug_hexdump(const void *mem, size_t size);
 

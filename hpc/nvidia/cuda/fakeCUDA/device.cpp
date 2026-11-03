@@ -10,7 +10,6 @@
 #include "device-nvidia-h800.h"
 #include "device-mars-x203.h"
 
-
 struct device {
 	char name[64];
 	int id;
@@ -61,13 +60,14 @@ static struct device all_devices[] = {
 
 static struct device *current_device = NULL;
 
-#define CHECK_DEV(device)	\
-	if (device < 0 || device >= ARRAY_SIZE(all_devices)) {	\
-		fprintf(stderr, "ERROR: bad device id %d\n", device);	\
-		return devErrorInvalidValue;	\
-	}	\
-	set_default_current_device_lock();	\
-	struct device *_____dev = &all_devices[device];
+#define CHECK_DEV(device)                                             \
+	if (device < 0 || device >= (int)ARRAY_SIZE(all_devices)) {   \
+		fprintf(stderr, "ERROR: bad device id %d\n", device); \
+		return devErrorInvalidValue;                          \
+	}                                                             \
+	set_default_current_device_lock();                            \
+	struct device __unused *_____dev = &all_devices[device];
+
 #define DEVICE	_____dev
 
 

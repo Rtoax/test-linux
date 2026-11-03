@@ -5,7 +5,6 @@
 #include <time.h>
 #include "nccl.hpp"
 
-
 ncclResult_t ncclGetVersion(int *version)
 {
 	*version = 21605;
@@ -38,9 +37,8 @@ const char* ncclGetErrorString(ncclResult_t result)
  */
 ncclResult_t ncclGetUniqueId(ncclUniqueId* uniqueId)
 {
-	int i;
 	srandom((int)time(0));
-	for (i = 0; i < sizeof(*uniqueId); i++) {
+	for (unsigned int i = 0; i < sizeof(*uniqueId); i++) {
 		*(uint8_t *)&uniqueId->internal[i] = (int)(256.0 * random() / RAND_MAX + 1.0) % 256;
 	}
 	return ncclSuccess;

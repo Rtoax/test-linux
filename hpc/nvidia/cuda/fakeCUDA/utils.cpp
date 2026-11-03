@@ -71,7 +71,7 @@ static const struct {
 
 static const char *str_e_machine(Elf64_Half machine)
 {
-	for (int i = 0; i < ARRAY_SIZE(string_e_machines); i++)
+	for (unsigned int i = 0; i < ARRAY_SIZE(string_e_machines); i++)
 		if (string_e_machines[i].e_machine == machine)
 			return string_e_machines[i].name;
 	return "unknown";
