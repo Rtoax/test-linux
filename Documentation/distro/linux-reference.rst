@@ -4,6 +4,7 @@ Linux Kernel Reference
 Distrobutions Linux Kernel
 --------------------------
 
+* 7.2.15 (fedora44)
 * 7.2.14 (fedora44)
 * 7.2.13 (fedora44)
 * 7.2.12 (fedora44)
