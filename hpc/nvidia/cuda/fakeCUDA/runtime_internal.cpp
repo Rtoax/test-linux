@@ -230,6 +230,8 @@ cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 			       void **args, size_t sharedMem,
 			       cudaStream_t stream)
 {
-	DEBUG_DBG("kernel %p\n", kernel);
+	DEBUG_DBG("kernel %p grid<%d,%d,%d> block<%d,%d,%d>\n", kernel,
+		  gridDim.x, gridDim.y, gridDim.z, blockDim.x, blockDim.y,
+		  blockDim.z);
 	return cudaSuccess;
 }
