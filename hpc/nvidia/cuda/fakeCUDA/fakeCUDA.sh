@@ -19,7 +19,11 @@ get_all_elf() {
 
 printf "\033[2m"
 readonly FAKECUDA_ROOT=$(realpath $(dirname $(readlink $0)))
-make -C ${FAKECUDA_ROOT} --no-print-directory --silent 1>/dev/null
+
+if [[ ! -e ${FAKECUDA_ROOT}/libcuda.so ]]; then
+	echo >&2 -e "\033[32mERROR: Build fakecuda first\033[m"
+	exit 1
+fi
 
 printf "\033[m"
 set +x
