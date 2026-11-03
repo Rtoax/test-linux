@@ -14,6 +14,7 @@
 
 __device__ int dev_a = 0;
 __constant__ __device__ int dev_const_a = 0;
+char *g_p = NULL;
 
 /* call by kernel/device, run by device */
 __device__ void dev_foo(const char *name)
@@ -24,9 +25,10 @@ __device__ void dev_foo(const char *name)
 }
 
 /* call by host, run by device */
-__global__ void kern_func(void)
+__global__ void kern_func(void *p)
 {
 	dev_foo("func");
+	printf("%s: p = %p\n", __func__, p);
 
 	__syncthreads();
 }
@@ -47,9 +49,15 @@ int main(void)
 {
 	gpu_init(0);
 
-	CALL_KERNEL(kern_func);
+	cudaMalloc(&g_p, 64);
+
+	printf("g_p = %p\n", g_p);
+
+	CALL_KERNEL(kern_func, g_p);
 	CALL_KERNEL(kern_func1, 1);
 	host_func();
+
+	cudaFree(g_p);
 
 	/* flush printf */
 	cudaDeviceSynchronize();
