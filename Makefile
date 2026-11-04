@@ -12,9 +12,9 @@ export _TEST_LINUX_MK = 1
 # history stat information is good (see scripts/git/commit-message-stat.sh).
 VERSION = 2
 PATCHLEVEL = 4
-SUBLEVEL = 14
+SUBLEVEL = 15
 EXTRAVERSION =
-NAME = Squirrel
+NAME = Tokyo
 
 TEST_LINUX_VERSION := $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 TEST_LINUX_GIT_VERSION := $(shell git describe --abbrev=6 --dirty --tags 2>/dev/null || :)

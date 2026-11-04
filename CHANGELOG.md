@@ -11,6 +11,22 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Documentation
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Scripts
+#### Tools
+#### Template
+
+
+## [v2.4.15] Tokyo 2026-11-04
+
+#### Breaking Changes
+#### Added
 - glibc: add ttyent dir to test ttyent.h;
 - glibc: add uchar dir to test uchar.h;
 - glibc: add pty dir to test pty.h;
