@@ -17,6 +17,8 @@ Ubuntu 24.04.4
 Ubuntu 22.04
 ~~~~~~~~~~~~
 
+- 6.8.0-117-generic
+- 6.8.0-52-generic
 - 6.8.0-49-generic
 
 
