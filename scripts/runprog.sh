@@ -10,6 +10,7 @@ set -e
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly TEST_LINUX_ROOT=$(realpath ${WHERE_AM_I}/../)
 readonly prog_name=runprog
+readonly STARTUP_TIMESTAMP="$(date '+%Y/%m/%d %H:%M:%S')"
 declare RECORD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
 declare LOG_FILE=runprog.log
 declare -a ENVS
@@ -210,7 +211,7 @@ costlogmsg="cost ${cost_ms} ms"
 if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
 	if [[ ${RECORD_FILE} ]]; then
-		echo -e "Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}, \033[1;31merr=${REAL_RET}\033[m, ${costlogmsg}" >> ${RECORD_FILE}
+		echo -e "[${STARTUP_TIMESTAMP}] Run '\033[31m${WHOLE_CMD}\033[m' failed in ${PWD}, \033[1;31merr=${REAL_RET}\033[m, ${costlogmsg}" >> ${RECORD_FILE}
 	fi
 
 	logmsg="${@}: run failed, exit with ${REAL_RET} (expect ${EXPECT_RET})"
@@ -221,7 +222,7 @@ if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	fi
 else
 	if [[ ${RECORD_FILE} ]]; then
-		echo -e "Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}, ${costlogmsg}" >> ${RECORD_FILE}
+		echo -e "[${STARTUP_TIMESTAMP}] Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}, ${costlogmsg}" >> ${RECORD_FILE}
 	fi
 fi
 
