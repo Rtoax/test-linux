@@ -3,7 +3,8 @@ set -e
 
 . libelf.sh
 
-ELF=/usr/bin/ls
+readonly ELF=/usr/bin/ls
+readonly ELF_LIBC64=$(ldconfig -p | grep libc.so.6 | grep 64 | awk '{print $NF}')
 
 test_section_info() {
 	names=( $(elf_rela_secnames ${ELF}) )

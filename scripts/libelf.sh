@@ -2,9 +2,7 @@
 # Use binutils's readelf, objdump to parsing ELF file. binutils is different
 # from elfutils, elfutils's eu-readelf, eu-objdump have totally different
 # output format, it's not compatiable with each other.
-set -e
-
-readonly ELF_LIBC64=$(ldconfig -p | grep libc.so.6 | grep 64 | awk '{print $NF}')
+declare LIBELF_VERSION="v0.0.1"
 
 __elf_sym_key2val() {
 	local elf=$1
