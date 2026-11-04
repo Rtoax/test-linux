@@ -10,7 +10,7 @@ set -e
 
 readonly PROG=qemu-vm
 readonly ARCH=$(uname -m)
-readonly VERSION="v1.1.66"
+readonly VERSION="v1.1.67"
 readonly QEMU_VM_ROOT=$(dirname $(realpath $0))
 
 declare QEMU QEMU_VERSION QEMU_MAJOR QEMU_MINOR QEMU_PATCH
@@ -712,8 +712,38 @@ list_vm() {
 		error "Unknown argument '${@}'"
 	fi
 
+	__get_vm_state() {
+		local state
+		config_prepare_vm_tmpdir ${name}
+
+		if [[ -e ${f_vm_pidfile} ]]; then
+			local pid=$(sudo cat ${f_vm_pidfile})
+			if [[ -d /proc/${pid} ]]; then
+				state="running"
+			elif [[ ! -d /proc/${pid} ]]; then
+				state="die"
+			fi
+		elif [[ -e ${f_vm_qemu_cmd} ]]; then
+			state="shut-off"
+		elif [[ -z "$(ls ${vm_tmpdir})" ]]; then
+			# It's and empty directory, just remove it.
+			qemu_eval sudo rm -rf ${vm_tmpdir}
+			continue
+		else
+			state="non-exist"
+		fi
+		echo ${state}
+	}
+
 	for name in ${vmnames[@]}
 	do
+		local state="$(__get_vm_state)"
+
+		# Condition same as below 'vmnames' loop
+		if [[ ${state} != running ]] && [[ -z ${list_all} ]]; then
+			continue
+		fi
+
 		local len=${#name}
 		if [[ ${len} -gt ${max_name_len} ]]; then
 			max_name_len=${len}
@@ -747,27 +777,9 @@ list_vm() {
 
 	for name in ${vmnames[@]}
 	do
-		config_prepare_vm_tmpdir ${name}
+		local state="$(__get_vm_state)"
 
-		local state="unknown"
-
-		if [[ -e ${f_vm_pidfile} ]]; then
-			local pid=$(sudo cat ${f_vm_pidfile})
-			if [[ -d /proc/${pid} ]]; then
-				state="running"
-			elif [[ ! -d /proc/${pid} ]]; then
-				state="die"
-			fi
-		elif [[ -e ${f_vm_qemu_cmd} ]]; then
-			state="shut-off"
-		elif [[ -z "$(ls ${vm_tmpdir})" ]]; then
-			# It's and empty directory, just remove it.
-			qemu_eval sudo rm -rf ${vm_tmpdir}
-			continue
-		else
-			state="non-exist"
-		fi
-
+		# Condition same as above 'vmnames' loop
 		if [[ ${state} != running ]] && [[ -z ${list_all} ]]; then
 			continue
 		fi
