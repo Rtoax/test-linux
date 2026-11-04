@@ -27,7 +27,7 @@ declare NEED_TTY=
 __usage__()
 {
 	echo -e "
-runprog [OPTIONS]
+runprog [OPTIONS] -- EXEC [args...]
 
 OPTIONS:
 
