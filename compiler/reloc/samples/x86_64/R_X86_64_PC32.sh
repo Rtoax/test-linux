@@ -2,7 +2,7 @@
 set -e
 
 . ../../../../scripts/libelf.sh
-. ../../../../libs/file.sh
+. ../../../../scripts/libfile.sh
 
 OUTPUT=$1
 

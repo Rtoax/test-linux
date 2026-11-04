@@ -95,3 +95,24 @@ fprintf() {
 
 	python3 -c "open('${f}','${mode}').write('${@}')"
 }
+
+read_hex_from_file() {
+	local file=$1
+	local off=$2
+	local bytes=$3
+
+	local tmp=$(mktemp -u tmp-XXX.bin)
+	dd if=${file} skip=$(printf %ld ${off}) ibs=1 of=${tmp} count=${bytes} 2>/dev/null
+	# Remove prefix $1
+	local vals=( $(od -tx${bytes} ${tmp} | awk '{print $2}') )
+	echo 0x${vals[0]}
+	rm -f ${tmp}
+}
+
+read_str_from_file() {
+	local file=$1
+	local off=$2
+	local tmp=$(mktemp -u tmp-XXX.bin)
+	# TODO
+	rm -f ${tmp}
+}

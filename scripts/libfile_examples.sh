@@ -37,3 +37,12 @@ fprintf a.tmp -a "${message1}"
 if [[ "${message1}${message1}" != "$(cat a.tmp)" ]]; then
 	error "fprintf() test -a failed, '$(cat a.tmp)'"
 fi
+
+# Get '\x7f'ELF
+hex=$(read_hex_from_file /usr/bin/ls 0x0 4)
+if [[ ${hex} != 0x464c457f ]]; then
+	echo "ERROR: read_hex_from_file failed."
+	exit 1
+else
+	echo "ELF magic hex ${hex}"
+fi

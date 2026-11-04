@@ -2,7 +2,7 @@
 set -e
 
 . ../../../../scripts/libelf.sh
-. ../../../../libs/file.sh
+. ../../../../scripts/libfile.sh
 
 ELF_OBJ=R_AARCH64_ABS64.o
 ELF_EXE=R_AARCH64_ABS64
