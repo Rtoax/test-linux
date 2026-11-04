@@ -44,6 +44,7 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- move libelf.sh into scripts;
 - libos.sh: rename `is_os()` to `is_os_any_of()`;
 - move kversion.sh into version dir;
 #### Tools

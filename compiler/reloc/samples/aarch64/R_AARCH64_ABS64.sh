@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. ../../../../elf/libelf.sh
+. ../../../../scripts/libelf.sh
 . ../../../../libs/file.sh
 
 ELF_OBJ=R_AARCH64_ABS64.o

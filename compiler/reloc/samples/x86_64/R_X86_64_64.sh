@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. ../../../../elf/libelf.sh
+. ../../../../scripts/libelf.sh
 . ../../../../libs/file.sh
 
 OUTPUT=$1
