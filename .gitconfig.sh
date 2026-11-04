@@ -9,7 +9,9 @@
 # docs/linux-reference.sh
 # VLR=1
 # FLR=1
-if [[ " 6.14.11-300.fc42_cxl.x86_64 " =~ " $(uname -r) " ]]; then
+kvers=( 6.14.11-300.fc42_cxl.x86_64 )
+kvers+=( 7.2.14-200.fc44.x86_64 )
+if [[ " ${kvers[@]} " =~ " $(uname -r) " ]]; then
 	FLR=1
 fi
 
