@@ -1,0 +1,9 @@
+[user]
+	name = Rong Tao
+	email = rongtao@cestc.cn
+# receive: imap.cestc.cn 993
+[sendemail]
+	smtpserver = smtp.cestc.cn
+	smtpserverport = 465
+	smtpencryption = ssl
+	smtpuser = rongtao@cestc.cn
