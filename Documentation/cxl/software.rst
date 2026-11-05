@@ -106,6 +106,7 @@ Links
 - https://github.com/computexpresslink/ (non official)
 - https://github.com/Compute-Express-Link (seems legacy)
 - https://github.com/pmem/ndctl
+    - Xcena SDK: https://xcena-dev.github.io/sdk_release/troubleshooting.html
 - https://www.qemu.org/docs/master/system/devices/cxl.html
 - OpenBMC: https://github.com/openbmc/openbmc.git
 - EDK-II: https://github.com/tianocore/edk2.git

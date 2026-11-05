@@ -16,6 +16,7 @@ and this project adheres to
 #### Changed
 #### Deprecated
 #### Documentation
+- cxl/xcena: add [sdk](https://xcena-dev.github.io/sdk_release/) and [pxl](https://xcena-dev.github.io/pxl);
 #### Fixed
 #### Linux Kernel
 #### Removed

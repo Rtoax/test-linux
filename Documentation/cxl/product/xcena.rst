@@ -67,9 +67,20 @@ XCENA is presenting its MX1 CXL computational memory device at Hot Chips 2026 in
            └──────────┘      └─────────────┘         └─────────────────────────────┘
 
 
+PXL: Parallel Xceleration Library
+---------------------------------
+
+**Parallel Xceleration Library (PXL)** is a key component of XCENA SDK designed to facilitate optimized communication between host system and XCENA computational memory devices.
+
+By leveraging PXL, developers can unlock the full potential of in-memory computing technology through a robust and efficient API.
+
+
 Links
 -----
 
 - https://xcena.com/computational_memory
 - XCENA MX1 CXL Computational Memory Device at Hot Chips 2026 with Samsung https://www.servethehome.com/xcena-mx1-cxl-computational-memory-device-at-hot-chips-2026/
     - CSDN: https://blog.csdn.net/Rong_Toa/article/details/165346869
+- PXL: https://xcena-dev.github.io/pxl/
+- SDK: https://xcena-dev.github.io/sdk_release/
+    - PXCC: https://xcena-dev.github.io/sdk_release/tools/pxcc.html
