@@ -2,7 +2,7 @@
 # ref: https://www.linuxcapable.com/how-to-upgrade-fedora-release/
 set -e
 
-newest_fedora=44
+newest_fedora=45
 
 # update your system to ensure all packages are current
 sudo dnf upgrade --refresh -y
@@ -29,6 +29,7 @@ if [[ $(systemd-detect-virt) == none ]] ||
 
 	# Reboot, and a progress bar will indicate the final installation progress.
 	echo "WARNING: sudo dnf system-upgrade reboot -y"
+	echo "WARNING: sudo dnf5 offline reboot -y"
 	exit 0
 
 	# After rebooting, login again, and do the following:

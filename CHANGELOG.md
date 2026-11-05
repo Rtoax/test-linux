@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- update Fedora 45;
 - git: add configs/cestc from ostools;
 - git: add configs/foxmail from ostools;
 #### Changed
