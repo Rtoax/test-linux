@@ -1,0 +1,145 @@
+.. SPDX-License-Identifier: GPL-2.0
+
+============================
+Test Linux Development rules
+============================
+
+Linus Torvalds releases a new kernel and opens a **2-week merge window**,
+however, test-linux has no development cycle restrictions, submissions,
+development, and releases can be done at any time.
+
+
+Documentation
+-------------
+
+The documentation contains some Git commits in the format **commit <12B-hash>**,
+which represent commits in a specific git-repository. Unless otherwise
+specified, the default is the commit for **test-linux**.
+
+**Test Linux** provides rst documentation, and the markdown files located in
+each directory will be gradually migrated to Documentation.
+
+
+Commit Tags
+-----------
+
+- **Signed-off-by**: Using sign-off, developers certify the patch to be their
+  original work or have the right to pass it on as an open source patch. In
+  our example, the author signed off and then, as the usb maintainer, Greg KH
+  signed-off on the patch. Please refer to Sign your work - the Developer's
+  Certificate of Origin for detailed information on this tag, as it is a very
+  important part of the kernel development process.
+- **Acked-by**: This tag is often used by the maintainer of the affected code
+  when that maintainer neither contributed to, nor forwarded the patch. As an
+  example, I maintain the usbip driver and I use the Acked-by tag to ask the
+  USB maintainer to pick patches sent by other developers.
+- **Reviewed-by**: This tag indicates that the patch has been reviewed by the
+  person named in the tag.
+- **Reported-by**: This tag gives credit to people who find bugs and report
+  them.
+- **Tested-by**: This tag indicates that the patch has been tested by the
+  person named in the tag.
+- **Suggested-by**: This tag indicates that the patch has been tested by the
+  person named in the tag.
+- **Fixes**: This tag indicates that the patch fixes an issue in a previous
+  commit referenced by its Commit ID. This tag allows us to track where the
+  bug originated.
+- **Assisted-by:**: If AI is available to assist, this tag can be added.
+
+Private Tags
+~~~~~~~~~~~~
+
+- **Linux**: This tag indicates the linux upstream commit or link.
+- **Envs**: This tag indicates the env of your system.
+- **Vers**: This tag indicates the software/hardware version of your system.
+
+
+Sub-Directories
+---------------
+
+- Each **scripts** directory contain scriptions(bpftrace, bcc, shell).
+- Each **modules** directory contain Linux Modules(KO) source code.
+- Each **samples** directory contain source userspace code.
+- Each **commands** directory contain relative command lines.
+- Each **images** directory contains relative images.
+
+
+Files
+-----
+
+- Each **README.md** is current directory's description.
+- Each **FAQ.md** is current directory's FAQs.
+- Each **abbrev.md** and **abbrev.rst** is current directory's relative abbreviation.
+  - scripts: **./abbrev.sh** to check all abbreviations.
+- Each **history.md** and **history.rst** is store history of some technology.
+- Each **drawio** contains relate directory diagrams.
+- Never call **include** in ***.mk** file, only call **include** in Makefile.
+- Each **kconfig** contains kernel CONFIG, each CONFIG is placed in the kconfig
+  of the corresponding directory, and the public CONFIG is placed in the
+  kconfig of the top-level directory.
+  - scripts: **./kconfig.sh** to check all kernel config;
+- Each ***_helpers*** is helpers program/script of current directory, better
+  **LGPL-2.1 OR BSD-2-Clause** license.
+- Each **requirements.txt** is Python pip --requirement for each directory.
+- Ignore file (check **.gitignore**).
+- If you want to write a text **Note**, use **.md**(**markdown**).
+- There are so many **symlinks** in this repo, so you better clone this repo in
+  linux system, if windows, oops. You'd better use **make check**
+  (or **./scripts/broken-symlinks.sh**) check invalid links and modify them.
+- All heavyweight scripts should be placed in the **scripts** directory of the
+  root directory.
+
+
+Libraries of Test-Linux
+-----------------------
+
+Store all libraries of test-linux.
+
+Naming strategy **MODULE_NAME+_helpers**, for example, the **pthread** library
+is named **pthread_helpers**.
+
+
+Template of Test-Linux
+----------------------
+
+Store all template make files of test-linux.
+
+In the test-linux project, all Makefiles in the template directory have the
+`.mk` extension. The `.mk` extension better not be used in other directories.
+
+Template Syntax
+~~~~~~~~~~~~~~~
+
+If you want to check if a feature or software exists, you need to set `HAVE_`
+to either `n` or `y`, for example, in **cuda.mk** define `HAVE_CUDA=y` if cuda
+was installed in your system.
+
+`HAVE_` cannot be empty. For example, you cannot use `ifdef HAVE_CUDA` to
+determine whether CUDA is installed.
+
+
+Licenses
+--------
+
+If a license is specified in the source code header, then this code follows
+that license; otherwise, it follows the test-linux license.
+
+If the code does not specify, then it follows **GPLv3**.
+
+BPF programs always follow **GPLv2**.
+
+The copyright line format must be **Copyright (C) Year-Year Author**.
+
+
+Development Tools
+-----------------
+
+- `asciiflow <https://asciiflow.com/#/>`_
+- `MonoSketch <https://app.monosketch.io/>`_
+    - `MonoSketch github <https://github.com/tuanchauict/MonoSketch>`_
+- `drawio <https://github.com/jgraph/drawio-desktop>`_
+    - `releases <https://github.com/jgraph/drawio-desktop/releases>`_
+- `IDA <https://hex-rays.com/ida-free>`_
+    - `Download Center <https://my.hex-rays.com/dashboard/download-center/>`_
+- `Sphinx-build <https://www.sphinx-doc.org/en/master/man/sphinx-build.html>`_
+    - `Mermaid <https://docs.min2k.com/zh/mermaid/intro/>`_
