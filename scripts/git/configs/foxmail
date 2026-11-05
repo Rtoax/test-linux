@@ -1,0 +1,8 @@
+[user]
+	name = Rong Tao
+	email = rtoax@foxmail.com
+[sendemail]
+	smtpserver = smtp.qq.com
+	smtpserverport = 465
+	smtpencryption = ssl
+	smtpuser = rtoax@foxmail.com
