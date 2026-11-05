@@ -28,6 +28,34 @@ The World’s First CXL 3.2 Computational Memory.
     - Virtually unlimited memory access with low-latency
 
 
+PXL: Parallel Xceleration Library
+---------------------------------
+
+**Parallel Xceleration Library (PXL)** is a key component of XCENA SDK designed to facilitate optimized communication between host system and XCENA computational memory devices.
+
+By leveraging PXL, developers can unlock the full potential of in-memory computing technology through a robust and efficient API.
+
+
+XCENA Software Development Kit
+------------------------------
+
+The **XCENA Software Development Kit (SDK)** provides libraries and tools for running computation on XCENA devices. **Compute Express Link (CXL)** connects the host to the device’s memory. A device kernel is a function that runs on the device’s **memory execution units (MUs)**. The host application allocates device memory and launches kernels through the **Parallel Xceleration Library (PXL)**.
+
+`Example <https://xcena-dev.github.io/sdk_release/tools/pxcc.html#programming-model>`_:
+
+.. code-block:: c
+
+    int hostUtil(int x);                    // no annotation → host only; not callable from a kernel
+    __mu_device__ int devUtil(int x);       // device only
+    __mu_shared__ int shared(int x);        // host and device
+
+    __pxl_kernel__ void k(int* a, int n)
+    {
+        a[0] = devUtil(a[0]) + shared(a[0]); // OK
+        // a[0] = hostUtil(a[0]);            // ERROR: host-only symbol on the device
+    }
+
+
 XCENA MX1
 ---------
 
@@ -65,14 +93,6 @@ XCENA is presenting its MX1 CXL computational memory device at Hot Chips 2026 in
            │          │      │             │         ┌───────────▼────┴────────────┐
            │          │      │             │         │ SSD-backed Memory Expansion │
            └──────────┘      └─────────────┘         └─────────────────────────────┘
-
-
-PXL: Parallel Xceleration Library
----------------------------------
-
-**Parallel Xceleration Library (PXL)** is a key component of XCENA SDK designed to facilitate optimized communication between host system and XCENA computational memory devices.
-
-By leveraging PXL, developers can unlock the full potential of in-memory computing technology through a robust and efficient API.
 
 
 Links
