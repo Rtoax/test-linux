@@ -24,6 +24,26 @@ CXL Overview
     - 每一层都有一组 `寄存器` ，软件可访问这些寄存器来配置、控制和获取链路状态。
 
 
+CXL Latency
+-----------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Memory Type
+     - Latency
+   * - Register
+     - 0.2ns
+   * - Cache
+     - 1-40ns
+   * - Main Memory
+     - 80-140ns
+   * - CXL Memory
+     - 170-250ns
+   * - SSD
+     - 10-40us
+
+
 CXL 三种协议实现
 ----------------
 
