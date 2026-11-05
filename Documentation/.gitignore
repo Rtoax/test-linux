@@ -1,3 +1,4 @@
 !*.rst
 *.pdf
 /buildpdf
+/.buildtimestamp*
