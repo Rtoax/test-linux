@@ -104,6 +104,11 @@ if [[ -e /lib64/libcuda.so ]]; then
 	UPROBES+=( uprobe:/lib64/libcuda.so:cuLaunchKernel )
 	URETPROBES+=( uretprobe:/lib64/libcuda.so:cuLaunchKernel )
 fi
+# CUDA in Ubuntu 24.04.4 of NVIDIA DGX Spark
+if [[ -e /usr/lib/$(uname -m)-linux-gnu/libcuda.so ]]; then
+	UPROBES+=( uprobe:/usr/lib/$(uname -m)-linux-gnu/libcuda.so:cuLaunchKernel )
+	URETPROBES+=( uretprobe:/usr/lib/$(uname -m)-linux-gnu/libcuda.so:cuLaunchKernel )
+fi
 
 # FakeCUDA
 if [[ -e ../fakeCUDA/libhcruntime.so ]]; then

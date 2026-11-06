@@ -202,7 +202,7 @@ __cudaPushCallConfiguration(dim3 gridDim, dim3 blockDim, size_t sharedMem,
 
 cudaError_t __cudaGetKernel(cudaKernel_t *kernel, const void *v)
 {
-	DEBUG_DBG("kernel %p, v %p\n", kernel, v);
+	DEBUG_DBG("kernel %p, *kernel %p, v %p\n", kernel, *kernel, v);
 	return cudaSuccess;
 }
 
@@ -230,7 +230,7 @@ cudaError_t __cudaLaunchKernel(cudaKernel_t kernel, dim3 gridDim, dim3 blockDim,
 			       void **args, size_t sharedMem,
 			       cudaStream_t stream)
 {
-	DEBUG_DBG("kernel %p grid<%d,%d,%d> block<%d,%d,%d>\n", kernel,
+	DEBUG_DBG("kernel %p, grid<%d,%d,%d>, block<%d,%d,%d>\n", kernel,
 		  gridDim.x, gridDim.y, gridDim.z, blockDim.x, blockDim.y,
 		  blockDim.z);
 	return cudaSuccess;
