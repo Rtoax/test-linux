@@ -4,6 +4,7 @@
 set -e
 
 declare -a UPROBES URETPROBES
+declare -a RT_UPROBES RT_URETPROBES
 
 readonly TRACING_TYPE_LATENCY=latency
 readonly TRACING_TYPE_LAUNCH=launch
@@ -108,6 +109,8 @@ fi
 if [[ -e /usr/lib/$(uname -m)-linux-gnu/libcuda.so ]]; then
 	UPROBES+=( uprobe:/usr/lib/$(uname -m)-linux-gnu/libcuda.so:cuLaunchKernel )
 	URETPROBES+=( uretprobe:/usr/lib/$(uname -m)-linux-gnu/libcuda.so:cuLaunchKernel )
+	UPROBES+=( uprobe:/usr/lib/$(uname -m)-linux-gnu/libcudart.so:__cudaLaunchKernel )
+	URETPROBES+=( uretprobe:/usr/lib/$(uname -m)-linux-gnu/libcudart.so:__cudaLaunchKernel )
 fi
 
 # FakeCUDA
