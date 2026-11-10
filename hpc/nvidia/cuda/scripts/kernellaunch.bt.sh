@@ -139,15 +139,15 @@ ${TRACING_TYPE_LAUNCH})
 	#!/bin/env bpftrace
 	BEGIN {
 		printf("Tracing CUDA Kernel Launch, hit ctrl-c to end.\n");
-		printf("%-8s %-8s %-16s %s\n", "TIME", "PID", "COMM", "PROBE");
+		printf("%-8s %-8s %-16s %-16s %s\n", "TIME", "PID", "COMM", "CUFunc", "PROBE");
 	}
 	$(probe_list ${UPROBES[@]}) ${FILTER_COMM} {
 		time("%H:%M:%S ");
-		printf("%-8d %-16s %s\n", pid, comm, probe);
+		printf("%-8d %-16s %-16lx %s\n", pid, comm, arg0, probe);
 	}
 	$(probe_list ${URETPROBES[@]}) ${FILTER_COMM} {
 		time("%H:%M:%S ");
-		printf("%-8d %-16s %s %d\n", pid, comm, probe, retval);
+		printf("%-8d %-16s %-16s %s %d\n", pid, comm, "", probe, retval);
 	}
 	END {
 		printf("Bye.\n");
