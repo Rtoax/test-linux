@@ -91,6 +91,7 @@ help:
 	@echo >&2 -e "***    core.hooksPath = ${GIT_HOOKSPATH}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION v${TEST_LINUX_VERSION}-${NAME} (${TEST_LINUX_GIT_VERSION})"
 	@echo >&2 -e "***"
+	@echo >&2 -e "*** make help"
 	@echo >&2 -e "*** make build [KMOD=<y|n>] [USRC=<y|n>]"
 	@echo >&2 -e "*** make test"
 	@echo >&2 -e "*** make clean"
