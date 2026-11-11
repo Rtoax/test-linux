@@ -134,7 +134,9 @@ post-y := done
 prog-y := kconfig.sh
 
 ifeq ($(filter $(MAKECMDGOALS),install uninstall deps),)
-  include template/main.mk
+  ifneq ($(strip $(MAKECMDGOALS)),)
+    include template/main.mk
+  endif
 endif
 
 .PHONY: deps
