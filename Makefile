@@ -93,7 +93,6 @@ help:
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make help"
 	@echo >&2 -e "*** make build [KMOD=<y|n>] [USRC=<y|n>]"
-	@echo >&2 -e "*** make test"
 	@echo >&2 -e "*** make clean"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make check"
