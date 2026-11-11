@@ -7,6 +7,7 @@ Linux Kernel Versions
 Fedora 45
 ~~~~~~~~~
 
+- 7.3.3-300.fc45.x86_64
 - 7.2.15-300.fc45.x86_64
 
 Fedora 44
