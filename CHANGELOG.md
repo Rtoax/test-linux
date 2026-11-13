@@ -30,6 +30,7 @@ and this project adheres to
 - `static_key`: rename s-keys-master to s-keys;
 - sysbench: memory: add mode.sh;
 #### Template
+- procps-ng.mk: add `HAVE_PROCPS_NG_DEVEL`;
 
 
 ## [v2.4.15] Tokyo 2026-11-04
