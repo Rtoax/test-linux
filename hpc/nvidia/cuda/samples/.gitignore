@@ -107,6 +107,10 @@
 /stream-hip
 /stream-hpcc
 /stream-luca
+/struct
+/struct-hip
+/struct-hpcc
+/struct-luca
 /version
 /version-hip
 /version-hpcc

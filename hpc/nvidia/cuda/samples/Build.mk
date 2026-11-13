@@ -29,6 +29,7 @@ common-exe += p2p
 common-exe += parallel
 common-exe += properties
 common-exe += rtc
+common-exe += struct
 common-exe += version
 
 # NVIDIA CUDA
