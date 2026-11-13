@@ -11,6 +11,22 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+#### Changed
+#### Deprecated
+#### Documentation
+#### Fixed
+#### Linux Kernel
+#### Removed
+#### Security
+#### Scripts
+#### Tools
+#### Template
+
+
+## [v2.4.16] Utopia 2026-11-13
+
+#### Breaking Changes
+#### Added
 - cuda/samples: add cuobjdump.sh;
 - cuda/adapter: add `cuda_adapter_version.h`, release 1.0.0;
 - make: add strip.mak test;
