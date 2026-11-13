@@ -8,8 +8,8 @@ target-y += has_shared_object
 prog-y += ${target-y}
 
 dl_iterate_phdr-objs := ${PROC_HELPERS}
-dl_iterate_phdr-pie-objs := ${PROC_HELPERS}
-dl_iterate_phdr-pie-objs += dl_iterate_phdr.1.o
+dl_iterate_phdr-pie-objs := dl_iterate_phdr.1.o
+dl_iterate_phdr-pie-objs += ${PROC_HELPERS}
 
 CFLAGS_dl_iterate_phdr := -no-pie
 LDFLAGS_dl_iterate_phdr := -no-pie
