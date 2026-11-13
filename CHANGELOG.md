@@ -27,6 +27,7 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- `static_key`: rename s-keys-master to s-keys;
 - sysbench: memory: add mode.sh;
 #### Template
 

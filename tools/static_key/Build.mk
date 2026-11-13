@@ -1,2 +1,2 @@
 subdir-y += modules
-subdir-y += s-keys-master
+subdir-${IS_X86_64} += s-keys
