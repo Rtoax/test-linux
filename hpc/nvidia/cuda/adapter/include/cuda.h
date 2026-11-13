@@ -28,6 +28,7 @@
  * LUCA: typedef struct LCmod_st *LCmodule;
  */
 /**
+ * CUDA: typedef __device_builtin__ struct CUfunc_st *cudaFunction_t;
  * CUDA: typedef struct CUfunc_st *CUfunction;
  * LUCA: typedef struct LCfunc_st *LCfunction;
  */

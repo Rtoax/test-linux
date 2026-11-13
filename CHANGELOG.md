@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- cuda/adapter: add `cuda_adapter_version.h`, release 1.0.0;
 - make: add strip.mak test;
 - update Fedora 45;
 - git: add configs/cestc from ostools;
