@@ -28,6 +28,7 @@ GIT_TOPDIR := $(shell git rev-parse --show-toplevel 2>/dev/null || :)
 
 export VERSION PATCHLEVEL SUBLEVEL NAME TEST_LINUX_VERSION TEST_LINUX_GIT_VERSION
 
+include template/VERSION
 include template/verbose.mk
 include template/dir.mk
 include template/shell.mk
@@ -90,6 +91,7 @@ help:
 	@echo >&2 -e "*** GIT_TOPDIR ${GIT_TOPDIR}"
 	@echo >&2 -e "***    core.hooksPath = ${GIT_HOOKSPATH}"
 	@echo >&2 -e "*** TEST_LINUX_VERSION v${TEST_LINUX_VERSION}-${NAME} (${TEST_LINUX_GIT_VERSION})"
+	@echo >&2 -e "*** TEMPLATE_VERSION ${TEMPLATE_VERSION}"
 	@echo >&2 -e "***"
 	@echo >&2 -e "*** make help"
 	@echo >&2 -e "*** make build [KMOD=<y|n>] [USRC=<y|n>]"

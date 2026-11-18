@@ -27,7 +27,7 @@ ifeq (${CPU_ARCH},x86_64)
   cflags-arch += -DIS_X86_64=1
 else ifeq (${CPU_ARCH},aarch64)
   export IS_AARCH64 := y
-  cflags-arch += -D=1
+  cflags-arch += -DIS_AARCH64=1
 else ifeq (${CPU_ARCH},sw_64)
   ifeq ($(shell lscpu | grep -o WX-H8000 || true),WX-H8000)
     cflags-arch += -mcpu=sw8a
