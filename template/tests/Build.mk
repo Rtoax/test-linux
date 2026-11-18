@@ -5,3 +5,4 @@ target-y += os
 CFLAGS += ${OS_CFLAGS}
 
 prog-y += ${target-y}
+prog-y += prep.sh
