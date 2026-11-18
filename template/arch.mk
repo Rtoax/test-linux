@@ -2,8 +2,6 @@
 # Copyright (C) 2025-2026 Rong Tao. All rights reserved.
 #
 # Output definitions:
-# - cflags-arch=
-#
 # - CPU_ARCH=[x86_64|aarch64|sw_64|loongarch64|riscv64|...]
 # - LINUX_SUBARCH=[x86|arm64|...]
 # - IS_X86_64=[y]
@@ -16,16 +14,20 @@
 #
 # - is_arch_any_of(x86_64 [aarch64 ...])=[y|n]
 #
+# - cflags-arch=-DCPU_ARCH="${CPU_ARCH}" -DIS_$ARCH=1
+#
 ifndef _ARCH_MK
 _ARCH_MK = 1
 
 CPU_ARCH := $(shell uname -m)
-cflags-arch :=
+cflags-arch := -DCPU_ARCH=\"${CPU_ARCH}\"
 
 ifeq (${CPU_ARCH},x86_64)
   export IS_X86_64 := y
+  cflags-arch += -DIS_X86_64=1
 else ifeq (${CPU_ARCH},aarch64)
   export IS_AARCH64 := y
+  cflags-arch += -D=1
 else ifeq (${CPU_ARCH},sw_64)
   ifeq ($(shell lscpu | grep -o WX-H8000 || true),WX-H8000)
     cflags-arch += -mcpu=sw8a
@@ -33,14 +35,19 @@ else ifeq (${CPU_ARCH},sw_64)
     cflags-arch += -mcpu=sw6b
   endif
   export IS_SW_64 := y
+  cflags-arch += -DIS_SW_64=1
 else ifeq (${CPU_ARCH},loongarch64)
   export IS_LOONGARCH64 := y
+  cflags-arch += -DIS_LOONGARCH64=1
 else ifeq (${CPU_ARCH},riscv64)
   export IS_RISCV64 := y
+  cflags-arch += -DIS_RISCV64=1
 else ifeq (${CPU_ARCH},s390x)
   export IS_S390X := y
+  cflags-arch += -DIS_S390X=1
 else ifeq (${CPU_ARCH},ppc64le)
   export IS_PPC64LE := y
+  cflags-arch += -DIS_PPC64LE=1
 else
   $(error Not support ${CPU_ARCH})
 endif
