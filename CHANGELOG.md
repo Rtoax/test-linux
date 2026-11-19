@@ -20,6 +20,7 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- plotcake: add plotcake.spec;
 #### Template
 
 
