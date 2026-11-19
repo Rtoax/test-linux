@@ -572,6 +572,12 @@ static void __plot_redraw(struct plot *p)
 	__paint_llabels_win(p, false);
 }
 
+static void __redraw_id_fn(const struct id_handler *id, void *arg)
+{
+	struct dialog *_d = id->arg;
+	refresh_dialog(_d);
+}
+
 void plot_redraw(struct plot *p)
 {
 	__plot_redraw(p);
@@ -583,12 +589,7 @@ void plot_redraw(struct plot *p)
 
 	wnoutrefresh(p->win);
 
-	void fn(const struct id_handler *id, void *arg)
-	{
-		struct dialog *_d = id->arg;
-		refresh_dialog(_d);
-	}
-	for_each_id(p->start_time_to_dialog, fn, NULL);
+	for_each_id(p->start_time_to_dialog, __redraw_id_fn, NULL);
 
 	doupdate();
 
