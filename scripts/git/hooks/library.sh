@@ -36,3 +36,87 @@ statistic_file_changes() {
 	try_all=( ${try_add[@]} ${try_del[@]} ${try_modify[@]} ${try_rename[@]} ${try_rename2[@]})
 	popd >/dev/null
 }
+
+test_linux_docs_check() {
+	if [[ ! -d ${GIT_TOPDIR}/Documentation ]]; then
+		return 0
+	fi
+
+	# Detect documentation changed
+	if [[ " ${try_all[@]} " =~ "Documentation" ]]; then
+		# Not found version field is changed.
+		if [[ ! " ${try_modify[@]} " =~ " Documentation/conf.py " ]] ||
+		   [[ "$(git diff --staged ${GIT_TOPDIR}/Documentation/conf.py | \
+				grep -o ^+version)" != "+version" ]]; then
+			fatal "You need to change doc version in Documentation/conf.py"
+		fi
+	fi
+
+	local f
+	for f in README.md abbrev.md history.md
+	do
+		# no need try_rename[] here.
+		if [[ " ${try_modify[@]} " =~ "${f}" ]] ||
+		   [[ " ${try_add[@]} " =~ "${f}" ]]; then
+			fatal "Don't modify/add ${f}, please move it to Documentation!"
+		fi
+	done
+
+	if [[ "${try_all[@]}" =~ "abbrev" ]]; then
+		${GIT_TOPDIR}/Documentation/abbrev.sh --check
+	fi
+}
+
+test_linux_template_check() {
+	local tests_mk=${GIT_TOPDIR}/template/tests.mk
+
+	if [[ ! -d ${GIT_TOPDIR}/template ]]; then
+		return 0
+	fi
+
+	# template was not changed.
+	if ! [[ " ${try_all[@]} " =~ " template/" ]]; then
+		return 0
+	fi
+
+	if ! [[ " ${try_modify[@]} " =~ " template/VERSION " ]]; then
+		fatal "Forgot modify template/VERSION"
+	fi
+
+	if [[ " ${try_add[@]}" =~ " template/" ]]; then
+		for orig_mk in ${try_add[@]}
+		do
+			if [[ ${orig_mk##*.} != mk ]]; then
+				continue
+			fi
+
+			if [[ "${orig_mk} " =~ "Build.mk " ]] ||
+			   [[ "${orig_mk} " =~ "Target.mk " ]]; then
+				continue
+			fi
+
+			mk=$(echo ${orig_mk} | sed 's/^template\///g')
+
+			# test all makefiles in tests.mk
+			if ! grep -q "^include ${mk}" ${tests_mk}; then
+				fatal "${orig_mk} is not included in ${tests_mk}"
+			fi
+		done
+	fi
+
+	if [[ " ${try_del[@]}" =~ " template/" ]]; then
+		for orig_mk in ${try_del[@]}
+		do
+			if [[ ${orig_mk##*.} != mk ]]; then
+				continue
+			fi
+
+			mk=$(echo ${orig_mk} | sed 's/^template\///g')
+
+			# Need remove make from tests.mk
+			if grep -q "^include ${mk}" ${tests_mk}; then
+				fatal "'${orig_mk}' is removing, need remove from '${tests_mk}' too"
+			fi
+		done
+	fi
+}
