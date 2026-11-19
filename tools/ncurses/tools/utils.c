@@ -42,11 +42,11 @@ struct timeval diff_timeval(struct timeval *tv1, struct timeval *tv2)
 {
 	struct timeval diff;
 
-	long us_diff = labs(tv1->tv_sec * 1000000UL + tv1->tv_usec -
-			    tv2->tv_sec * 1000000UL + tv2->tv_usec);
+	long us_diff = labs(tv1->tv_sec * 1000000LL + tv1->tv_usec -
+			    tv2->tv_sec * 1000000LL + tv2->tv_usec);
 
-	diff.tv_usec = us_diff % 1000000UL;
-	diff.tv_sec = us_diff / 1000000UL;
+	diff.tv_usec = us_diff % 1000000LL;
+	diff.tv_sec = us_diff / 1000000LL;
 
 	return diff;
 }
