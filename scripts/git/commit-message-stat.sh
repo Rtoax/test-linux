@@ -51,6 +51,13 @@ stat_os() {
 stat_linux() {
 	git log ${COMMITS_ARG} --format=%B | \
 	awk -F', ' '
+	/^Linux: / {
+		sub(/Linux: /, "", $1)
+		# Avoid "Linux: commit xxxx" lines
+		if ($1 ~ "^[0-9]+\\.[0-9]+\\.[0-9]+") {
+			print "Linux "$1
+		}
+	}
 	/^Vers: / {
 		if ($1 ~ /Linux /) {
 			sub(/^Vers: /, "", $1)
@@ -61,13 +68,6 @@ stat_linux() {
 		}
 		if ($2 ~ /Linux /) {
 			print $2
-		}
-	}
-	/^Linux: / {
-		sub(/Linux: /, "", $1)
-		# Avoid "Linux: commit xxxx" lines
-		if ($1 ~ "^[0-9]+\\.[0-9]+\\.[0-9]+") {
-			print "Linux "$1
 		}
 	}
 	' | sort | uniq -c
