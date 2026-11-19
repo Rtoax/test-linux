@@ -49,16 +49,21 @@ stat_os() {
 }
 
 stat_linux() {
-	git log ${COMMITS_ARG} --format=%B | \
+	git log ${COMMITS_ARG} --format="%B\n====COMMIT===" | \
 	awk -F', ' '
+	/^===COMMIT===$/ {
+		flag = 0
+		next
+	}
 	/^Linux: / {
 		sub(/Linux: /, "", $1)
 		# Avoid "Linux: commit xxxx" lines
 		if ($1 ~ "^[0-9]+\\.[0-9]+\\.[0-9]+") {
 			print "Linux "$1
+			flag = 1
 		}
 	}
-	/^Vers: / {
+	/^Vers: / && !flag {
 		if ($1 ~ /Linux /) {
 			sub(/^Vers: /, "", $1)
 			# OS Distro maybe contains 'Linux'
