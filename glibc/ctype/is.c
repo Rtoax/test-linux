@@ -23,7 +23,7 @@ void test(char ch)
 
 int main(int argc, char *argv[])
 {
-	char data[] = { "1aA_=? \t\n\b" };
+	char data[] = { "1aA_=? \t\n\b\f\v\r" };
 
 	for (int i = 0; i < sizeof(data); i++)
 		test(data[i]);

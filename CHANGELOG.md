@@ -20,6 +20,7 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- plotcake: adapt to centos 8, glibc 2.28;
 - plotcake: add plotcake.spec;
 #### Template
 

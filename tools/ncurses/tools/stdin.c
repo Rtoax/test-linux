@@ -12,7 +12,14 @@
 
 static char *skip(char *buf)
 {
-	while (*buf != '\0' && isspace(*buf))
+	/**
+	 * Sometimes `isspace` from `glibc` does not return true for spaces or
+	 * tab characters (for example, centos 8 glibc 2.28); therefore, I have
+	 * added explicit checks for these. Perhaps we should remove `isspace`
+	 * entirely, but since we haven’t encountered any issues yet, I’ll leave
+	 * it in for now.
+	 */
+	while (*buf != '\0' && (isspace(*buf) || *buf == ' ' || *buf == '\t'))
 		buf++;
 	return buf;
 }

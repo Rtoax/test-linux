@@ -3,7 +3,9 @@
 
 int main(int argc, char *argv[])
 {
-#define S(ch) printf("%-4s is%s space\n", #ch, isspace(ch) ? "" : " not");
+#define S(ch)                                           \
+	printf("%6s is%s space, %6s is%s blank\n", #ch, \
+	       isspace(ch) ? "" : " not", #ch, isblank(ch) ? "" : " not")
 
 	S(' ');
 	S('\0');
@@ -11,6 +13,8 @@ int main(int argc, char *argv[])
 	S('\r');
 	S('\n');
 	S('\b');
+	S('\f');
+	S('\v');
 	S('a');
 
 	return 0;
