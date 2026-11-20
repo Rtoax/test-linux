@@ -23,6 +23,7 @@ and this project adheres to
 - plotcake: adapt to centos 8, glibc 2.28;
 - plotcake: add plotcake.spec;
 #### Template
+- binutils.mk: add version functions and support mkcache;
 
 
 ## [v2.4.16] Utopia 2026-11-13
