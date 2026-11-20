@@ -5,7 +5,6 @@
  * From linux-5.10.13
  * 2021.11.18 some compile errors
  */
-
 #include <kunit/test.h>
 #include <linux/bits.h>
 #include <linux/version.h>
@@ -23,8 +22,6 @@ static void genmask_test(struct kunit *test)
 	GENMASK(0, 10);
 	GENMASK(9, 10);
 #endif
-
-
 }
 
 static void genmask_ull_test(struct kunit *test)
@@ -63,7 +60,6 @@ static void genmask_input_check_test(struct kunit *test)
 #endif
 }
 
-
 static struct kunit_case bits_test_cases[] = {
 	KUNIT_CASE(genmask_test),
 	KUNIT_CASE(genmask_ull_test),
@@ -78,4 +74,3 @@ static struct kunit_suite bits_test_suite = {
 kunit_test_suite(bits_test_suite);
 
 MODULE_LICENSE("GPL");
-
