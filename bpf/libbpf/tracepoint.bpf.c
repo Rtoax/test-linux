@@ -204,6 +204,10 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	/**
 	 * test string_helpers.bpf.h
 	 */
+/**
+ * see commit 5c442543687b ("libbpf: tracepoint.bpf.c: skip bad map relo against
+ * '.rodata.str1.1' in section '.rodata.str1.1'").
+ */
 #if LIBBPF_MAJOR_VERSION > 0 || \
 	(LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 6)
 	{
