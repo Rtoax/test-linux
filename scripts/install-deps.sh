@@ -620,7 +620,7 @@ pkgs_base+=( git-email )
 pkgs_base+=( gperf )
 pkgs_base+=( hostname )
 pkgs_base+=( htop )
-pkgs_base+=( hwloc )                # lstopo
+pkgs_base+=( hwloc )
 pkgs_base+=( indent )
 pkgs_base+=( inotify-tools )        # inotifywatch, ...
 pkgs_base+=( ipmitool )
@@ -935,6 +935,7 @@ dnf_add_packages()
 	pkgs_base+=( gperftools-devel )
 	pkgs_base+=( grub2-tools-minimal grub2-tools-extra )
 	pkgs_base+=( gtest-devel gmock-devel )
+	pkgs_base+=( hwloc-gui )            # lstopo
 	pkgs_base+=( iproute )              # ss, ip, vdpa
 	pkgs_base+=( iproute-tc )           # tc
 	pkgs_base+=( iptables-devel )
