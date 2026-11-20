@@ -3,7 +3,7 @@
 #pragma once
 #include <curses.h>
 #include <ncurses.h>
-#include <panel.h>
+#include <ncurses/panel.h>
 #include "config.h"
 #include "utils.h"
 

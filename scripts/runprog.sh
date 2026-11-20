@@ -215,7 +215,7 @@ if [[ -n "${SUDO_USER}" ]] && [[ ${RECORD_FILE} ]]; then
 fi
 
 if [[ ${RECORD_FILE_USER} != ${USER} ]] && [[ ${RECORD_FILE} ]]; then
-	${SUDO_MAYBE} chown ${USER}:${USER} ${RECORD_FILE}
+	${SUDO_MAYBE} chown ${USER} ${RECORD_FILE}
 fi
 
 if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then

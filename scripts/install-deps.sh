@@ -1408,6 +1408,9 @@ zypper_add_packages()
 
 	pkgs_devel+=( bcc-devel )
 	pkgs_devel+=( libbpf libbpf-devel libbpf-devel-static )
+	pkgs_devel+=( libjson-c-devel )
+	pkgs_devel+=( ncurses-devel )
+	pkgs_devel+=( ncurses5-devel ) # panel.h
 	pkgs_devel+=( python311-build )
 	pkgs_devel+=( python311-installer )
 	pkgs_devel+=( systemtap-sdt-devel )
