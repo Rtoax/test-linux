@@ -204,6 +204,8 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 	/**
 	 * test string_helpers.bpf.h
 	 */
+#if LIBBPF_MAJOR_VERSION > 0 || \
+	(LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 6)
 	{
 #ifdef SUPPORT_BPF_PROBE_READ_KERNEL_STR
 		/* Note: actually, '##\0' will be wrote to comm[] */
@@ -224,6 +226,7 @@ int tracepoint__syscalls__sys_exit_execve(struct syscall_trace_exit *ctx)
 		 */
 		// __bpf_str_prepend(pevent->cwd, sizeof(pevent->cwd), "/", 2);
 	}
+#endif
 
 	bpf_printk("__bpf_asm_ret() %d", __bpf_asm_ret());
 	bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, pevent,
