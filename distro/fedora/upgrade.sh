@@ -1,8 +1,16 @@
 #!/bin/bash
 # ref: https://www.linuxcapable.com/how-to-upgrade-fedora-release/
+#
+# Usage: upgrade.sh [release number]
 set -e
 
 newest_fedora=45
+
+if [[ ${1} ]]; then
+	to_fedora=${1}
+else
+	to_fedora=${newest_fedora}
+fi
 
 # update your system to ensure all packages are current
 sudo dnf upgrade --refresh -y
@@ -15,7 +23,7 @@ if [[ $(systemd-detect-virt) == none ]] ||
 	# install the DNF-plugin-system-upgrade package
 	sudo dnf install dnf-plugin-system-upgrade -y
 	# run the system-upgrade command to download the Fedora release
-	sudo dnf system-upgrade download --releasever=${newest_fedora} --allowerasing -y
+	sudo dnf system-upgrade download --releasever=${to_fedora} --allowerasing -y
 
 	# If the –allowerasing option does not work, you may need to re-sync your
 	# Fedora 43 system using the following command:
@@ -44,5 +52,5 @@ if [[ $(systemd-detect-virt) == none ]] ||
 	# sudo hostnamectl set-hostname --static XXXX
 else
 	# Direct upgrade for container
-	sudo dnf up -y --releasever=${newest_fedora}
+	sudo dnf up -y --releasever=${to_fedora}
 fi
