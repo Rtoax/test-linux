@@ -97,14 +97,29 @@ int main(int argc, char **argv)
 	init_stackmap(skel->maps.stackmap, 1024);
 
 #if defined(KPROBE)
+/**
+ * libbpf 1.2
+ * commit cc7177624f04 ("libbpf: Add support to set kprobe/uprobe attach mode")
+ */
+#if LIBBPF_MAJOR_VERSION == 1 && LIBBPF_MINOR_VERSION > 2
+#define bpf_kprobe_opts_has_attach_mode 1
+#endif
 	DECLARE_LIBBPF_OPTS(bpf_kprobe_opts, kprobe_opts, .offset = offset,
-			    .retprobe = false, .attach_mode = 0, );
+			    .retprobe = false,
+#ifdef bpf_kprobe_opts_has_attach_mode
+			    .attach_mode = 0,
+#endif
+	);
 	skel->links.do_execveat_common = bpf_program__attach_kprobe_opts(
 		skel->progs.do_execveat_common, KSYM_DO_EXECVEAT_COMMON,
 		&kprobe_opts);
 
 	DECLARE_LIBBPF_OPTS(bpf_kprobe_opts, kretprobe_opts, .offset = 0,
-			    .retprobe = true, .attach_mode = 0, );
+			    .retprobe = true,
+#ifdef bpf_kprobe_opts_has_attach_mode
+			    .attach_mode = 0,
+#endif
+	);
 	skel->links.do_execveat_common_exit = bpf_program__attach_kprobe_opts(
 		skel->progs.do_execveat_common_exit, KSYM_DO_EXECVEAT_COMMON,
 		&kretprobe_opts);
