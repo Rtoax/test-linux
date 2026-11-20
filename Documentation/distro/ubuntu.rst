@@ -7,6 +7,7 @@ Linux Kernel Versions
 Ubuntu 26.04 (Resolute Raccoon)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+- 7.0.0-44-generic
 - 7.0.0-38-generic
 
 Ubuntu 24.04.4
