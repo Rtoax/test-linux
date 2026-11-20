@@ -5,7 +5,9 @@ systemctl --version
 
 cat /proc/filesystems | grep cgroup
 
-lscgroup
+if which lscgroup 2>/dev/null; then
+	lscgroup
+fi
 
 cat /proc/$$/cgroup
 
