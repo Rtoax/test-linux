@@ -12,11 +12,15 @@ readonly TEST_LINUX_ROOT=$(realpath ${WHERE_AM_I}/../)
 readonly prog_name=runprog
 readonly STARTUP_TIMESTAMP="$(date '+%Y/%m/%d %H:%M:%S')"
 declare RECORD_FILE=${TEST_LINUX_ROOT}/runprog.cmd.log
+declare RECORD_FILE_USER=$(stat -c '%U' ${RECORD_FILE})
 declare LOG_FILE=runprog.log
 declare -a ENVS
 declare verbose=
 declare FORCE=
 declare SUDO=
+if sudo --non-interactive true 2>/dev/null; then
+	declare SUDO_MAYBE="sudo -E"
+fi
 declare TMOUT=
 declare REAL_RET=0 EXPECT_RET=0
 declare NEED_TTY=
@@ -112,10 +116,7 @@ while true; do
 		;;
 	--maybe-sudo)
 		shift
-		if sudo --non-interactive true 2>/dev/null; then
-			# Pass all ENVS to child process
-			SUDO="sudo -E"
-		fi
+		SUDO=${SUDO_MAYBE}
 		;;
 	--expect-return)
 		shift
@@ -208,6 +209,15 @@ cost_nsecs=$(( end_nsecs - start_nsecs ))
 cost_ms=$(( cost_nsecs / 1000000 ))
 costlogmsg="cost ${cost_ms} ms"
 
+# If you run with sudo, then we need to reset the owner of the log file.
+if [[ -n "${SUDO_USER}" ]] && [[ ${RECORD_FILE} ]]; then
+	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${RECORD_FILE}
+fi
+
+if [[ ${RECORD_FILE_USER} != ${USER} ]] && [[ ${RECORD_FILE} ]]; then
+	${SUDO_MAYBE} chown ${USER}:${USER} ${RECORD_FILE}
+fi
+
 if [[ ${REAL_RET} -ne ${EXPECT_RET} ]]; then
 	[[ ${LOG_FILE} ]] && rm -f ${LOG_FILE}
 	if [[ ${RECORD_FILE} ]]; then
@@ -224,9 +234,4 @@ else
 	if [[ ${RECORD_FILE} ]]; then
 		echo -e "[${STARTUP_TIMESTAMP}] Run '\033[32m${WHOLE_CMD}\033[m' success in ${PWD}, ${costlogmsg}" >> ${RECORD_FILE}
 	fi
-fi
-
-# If you run with sudo, then we need to reset the owner of the log file.
-if [[ -n "${SUDO_USER}" ]] && [[ ${RECORD_FILE} ]]; then
-	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${RECORD_FILE}
 fi
