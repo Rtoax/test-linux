@@ -89,7 +89,11 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+#if LIBBPF_MAJOR_VERSION == 0 && LIBBPF_MINOR_VERSION > 6
 	dump = btf_dump__new(btf, dump_printf, NULL, NULL);
+#else
+	dump = btf_dump__new(btf, NULL, NULL, dump_printf);
+#endif
 	if (!dump) {
 		fprintf(stderr, "btf dump create failed.\n");
 		exit(EXIT_FAILURE);
