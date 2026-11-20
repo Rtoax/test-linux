@@ -1,12 +1,20 @@
 #!/bin/bash
 # Copyright (C) 2026 Rong Tao. All rights reserved.
 #
-# Usage: commit-message-stat.sh [downer-commit] [upper-commit]
+# Usage: commit-message-stat.sh [[downer-commit] [upper-commit] | [linux|os|arch]]
 set -e
 
 from_commit=$1
 to_commit=$2
 COMMITS_ARG=
+
+display_type=
+
+if [[ " linux os arch " =~ " ${1} " ]]; then
+	from_commit=
+	to_commit=
+	display_type=$1
+fi
 
 if [[ ${from_commit} ]] && [[ ${to_commit} ]]; then
 	COMMITS_ARG=${from_commit}..${to_commit}
@@ -17,6 +25,8 @@ fi
 
 # Statistic os
 stat_os() {
+	echo "------------- os ---------------"
+
 	git log ${COMMITS_ARG} --format=%B | \
 	awk -F', ' '
 	BEGIN {
@@ -49,6 +59,8 @@ stat_os() {
 }
 
 stat_linux() {
+	echo "------------- linux ---------------"
+
 	git log ${COMMITS_ARG} --format="%B\n====COMMIT===" | \
 	awk -F', ' '
 	/^===COMMIT===$/ {
@@ -79,13 +91,25 @@ stat_linux() {
 }
 
 stat_arch() {
+	echo "------------- arch ---------------"
 	git log ${COMMITS_ARG} --format=%B | \
 		grep "Envs:" | grep -oP 'Arch \K\S+' | sed 's/,$//' | sort | uniq -c
 }
 
-echo "------------- linux ---------------"
-stat_linux
-echo "------------- os ---------------"
-stat_os
-echo "------------- arch ---------------"
-stat_arch
+if [[ ${display_type} ]]; then
+	case ${display_type} in
+	linux)
+		stat_linux
+		;;
+	os)
+		stat_os
+		;;
+	arch)
+		stat_arch
+		;;
+	esac
+else
+	stat_linux
+	stat_os
+	stat_arch
+fi
