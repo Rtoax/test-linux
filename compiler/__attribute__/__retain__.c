@@ -16,7 +16,18 @@
  */
 #include <stdio.h>
 
-#if __has_attribute(__retain__)
+/**
+ * This feature is officially supported starting from GCC 11, Clang 13, and
+ * binutils 2.36. However, GCC 11 has a known bug (Bug 99587) where
+ * __has_attribute(__retain__) incorrectly returns true even though the
+ * attribute is not properly handled, especially on non-x86/riscv architectures.
+ * The kernel community has since patched their code to completely disable
+ * __retain on GCC 11 for this reason.
+ *
+ * Bug 99587: https://lkml.iu.edu/hypermail/linux/kernel/2506.2/07837.html
+ */
+#if defined(__has_attribute) && __has_attribute(__retain__) && \
+	!(defined(__GNUC__) && __GNUC__ == 11)
 #define __retain __attribute__((__retain__))
 #else
 #define __retain
