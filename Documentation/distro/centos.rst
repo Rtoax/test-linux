@@ -12,6 +12,7 @@ CentOS Stream 10
 CentOS Stream 9
 ~~~~~~~~~~~~~~~
 
+- 5.14.0-765.el9.x86_64
 - 5.14.0-729.el9.x86_64
 
 CentOS 8
