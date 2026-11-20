@@ -13,6 +13,10 @@
 #include "stdin.h"
 #ifdef HAVE_JSON_C
 #include <json-c/json.h>
+#if JSON_C_MAJOR_VERSION > 0 || \
+	(JSON_C_MAJOR_VERSION == 0 && JSON_C_MINOR_VERSION > 13)
+#define JSON_C_SUPPORT_UINT64 1
+#endif
 #endif
 
 #define FILE_TXT "plotcake.txt"
@@ -446,11 +450,21 @@ static int save_json(const struct plot *p, const char *filename)
 					json_object *tv =
 						json_object_new_array();
 					json_object_array_add(
-						tv, json_object_new_uint64(
-							    v->x_v.tv.tv_sec));
+						tv,
+#ifdef JSON_C_SUPPORT_UINT64
+						json_object_new_uint64
+#else
+						json_object_new_int64
+#endif
+						(v->x_v.tv.tv_sec));
 					json_object_array_add(
-						tv, json_object_new_uint64(
-							    v->x_v.tv.tv_usec));
+						tv,
+#ifdef JSON_C_SUPPORT_UINT64
+						json_object_new_uint64
+#else
+						json_object_new_int64
+#endif
+						(v->x_v.tv.tv_usec));
 
 					json_object_object_add(value, "tv", tv);
 					break;
@@ -458,8 +472,12 @@ static int save_json(const struct plot *p, const char *filename)
 				case X_INDEX:
 					json_object_object_add(
 						value, "idx",
-						json_object_new_uint64(
-							v->x_v.idx));
+#ifdef JSON_C_SUPPORT_UINT64
+						json_object_new_uint64
+#else
+						json_object_new_int64
+#endif
+						(v->x_v.idx));
 					break;
 				}
 

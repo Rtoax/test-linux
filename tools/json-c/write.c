@@ -18,7 +18,13 @@ int main(void)
 			       json_object_new_string("Rong Tao"));
 	json_object_object_add(header, "age", json_object_new_int(18));
 	json_object_object_add(header, "tall", json_object_new_double(1.695));
-	json_object_object_add(header, "cell", json_object_new_uint64(2UL));
+	json_object_object_add(header, "cell",
+#if JSON_C_MAJOR_VERSION == 0 && JSON_C_MINOR_VERSION <= 13
+			       json_object_new_int64(2UL)
+#else
+			       json_object_new_uint64(2UL)
+#endif
+	);
 
 	array = json_object_new_array();
 	json_object_array_add(array, json_object_new_int(1));

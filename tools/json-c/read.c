@@ -41,7 +41,11 @@ int main(void)
 
 	json_object *cell_obj;
 	if (json_object_object_get_ex(header, "cell", &cell_obj)) {
+#if JSON_C_MAJOR_VERSION == 0 && JSON_C_MINOR_VERSION <= 13
+		uint64_t c = json_object_get_int64(cell_obj);
+#else
 		uint64_t c = json_object_get_uint64(cell_obj);
+#endif
 		printf("cell: %ld\n", c);
 	} else {
 		printf("cell field not found\n");
