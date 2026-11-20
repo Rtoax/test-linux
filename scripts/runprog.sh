@@ -210,11 +210,13 @@ cost_ms=$(( cost_nsecs / 1000000 ))
 costlogmsg="cost ${cost_ms} ms"
 
 # If you run with sudo, then we need to reset the owner of the log file.
-if [[ -n "${SUDO_USER}" ]] && [[ ${RECORD_FILE} ]]; then
+if [[ -n "${SUDO_USER}" ]] && [[ ${RECORD_FILE} ]] &&
+   [[ -f ${RECORD_FILE} ]]; then
 	${SUDO} chown ${SUDO_USER}:${SUDO_USER} ${RECORD_FILE}
 fi
 
-if [[ ${RECORD_FILE_USER} != ${USER} ]] && [[ ${RECORD_FILE} ]]; then
+if [[ ${RECORD_FILE_USER} != ${USER} ]] && [[ ${RECORD_FILE} ]] &&
+   [[ -f ${RECORD_FILE} ]]; then
 	${SUDO_MAYBE} chown ${USER} ${RECORD_FILE}
 fi
 
