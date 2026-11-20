@@ -23,6 +23,7 @@ MK_TGT := $(filter ./targets/%,${MK_ALL})
 MK_TGT := $(filter-out ./targets/test/%,${MK_TGT})
 
 MK_TST := $(filter-out ./targets/%,${MK_ALL})
+MK_TST := $(filter-out ./tests/%,${MK_TST})
 MK_TST := $(filter-out ./main.mk,${MK_TST})
 
 $(info MK_ALL = ${MK_ALL})
