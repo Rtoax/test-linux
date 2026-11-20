@@ -24,6 +24,14 @@
 #include <stdlib.h>
 #include "id-handler.h"
 
+/**
+ * glibc glibc-2.29.9000-225-g7b807a35a8dc
+ * commit 7b807a35a8dc ("misc: Add twalk_r function")
+ */
+#if __GLIBC_PREREQ(2, 29)
+#define USE_TWALK_R 1
+#endif
+
 static int id_compare_ascend(const void *pa, const void *pb)
 {
 	const struct id_handler *f1 = pa, *f2 = pb;
@@ -151,7 +159,12 @@ struct foreach_closure_arg_st {
 	int count;
 };
 
+#ifdef USE_TWALK_R
 static void __one_handler(const void *nodep, VISIT which, void *closure)
+#else
+static struct foreach_closure_arg_st *closure = NULL;
+static void __one_handler(const void *nodep, const VISIT which, const int depth)
+#endif
 {
 	const struct id_handler *handler = *(struct id_handler **)nodep;
 	struct foreach_closure_arg_st *arg = closure;
@@ -176,7 +189,17 @@ int for_each_id(id_handle_t handle,
 
 	TRY_SET_DEFAULT_AS_ROOT(handle);
 
+#ifdef USE_TWALK_R
 	twalk_r(handle->root, __one_handler, &arg);
+#else
+	/**
+	 * Because plotcake is single-thread program, we could set-unset closure
+	 * by this method.
+	 */
+	closure = &arg;
+	twalk(handle->root, __one_handler);
+	closure = NULL;
+#endif
 	return arg.count;
 }
 
