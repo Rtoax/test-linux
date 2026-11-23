@@ -70,15 +70,15 @@ ifdef TEST
   ifneq ($(call kuapi_gt,1,1,1),y)
     $(error "call kuapi_gt failed")
   endif
-  # Newest kernel is v7.2.0
-  # see https://github.com/torvalds/linux commit 8d3ae59288f1 ("Linux 7.2")
-  ifneq ($(call kver_lt,7,3,0),y)
+  # Newest kernel is v7.3
+  # see https://github.com/torvalds/linux commit b6a9fa34ce41 ("Linux 7.4-rc4")
+  ifneq ($(call kver_lt,7,4,0),y)
     $(error "call kver_lt failed, kver >= 7.3.0")
   endif
-  ifneq ($(call kver_mod_lt,7,3,0),m)
+  ifneq ($(call kver_mod_lt,7,4,0),m)
     $(error "call kver_mod_lt failed, kver >= 7.3.0")
   endif
-  ifneq ($(call kuapi_lt,7,3,0),y)
+  ifneq ($(call kuapi_lt,7,4,0),y)
     $(error "call kuapi_lt failed, kuapi version >= 7.3.0")
   endif
   ifneq (${KVERSION_CODE},${kver_VERSION_CODE})

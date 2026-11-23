@@ -28,11 +28,11 @@ $(eval $(call define_version,gdb,verseed_v2c100010,y,${GDB_MAJOR},${GDB_MINOR}))
 
 ifdef TEST
   # Note: update newest version here.
-  __gdb_newest_check = $(call gdb_le,17,2)
+  __gdb_newest_check = $(call gdb_le,18,1)
   ifneq ($(__gdb_newest_check), y)
     $(error call gdb_le failed, ${__gdb_newest_check})
   endif
-  # Centos8 gdb is 8.2
+  # Centos8 gdb is 8.2 (as lowest version)
   ifneq ($(call gdb_gt,8,0), y)
     $(error call gdb_gt 8.0 failed)
   endif
