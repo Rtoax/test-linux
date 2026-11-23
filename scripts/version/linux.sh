@@ -10,6 +10,12 @@ readonly patchlevel=${major_patchlevel##*.}
 readonly sublevel=${version##*.}
 
 readonly uapi_version_h=/usr/include/linux/version.h
+if [[ ! -e ${uapi_version_h} ]]; then
+	echo >&2 "ERROR: not found ${uapi_version_h}"
+	echo >&2 "       please install linux-headers if on alpine"
+	exit 1
+fi
+
 readonly uapicode=$(awk '/LINUX_VERSION_CODE/{print $3}' ${uapi_version_h})
 readonly _uapimajor=$(awk '/LINUX_VERSION_MAJOR/{print $3}' ${uapi_version_h})
 readonly _uapipatchlevel=$(awk '/LINUX_VERSION_PATCHLEVEL/{print $3}' ${uapi_version_h})
