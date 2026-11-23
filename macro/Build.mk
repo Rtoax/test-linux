@@ -3,6 +3,7 @@ include kernel.mk
 include cross-compile.mk
 include compiler.mk
 include os.mk
+include musl-libc.mk
 
 target-y += arch
 target-y += arg
@@ -18,12 +19,12 @@ target-y += __linux__
 target-y += __WORDSIZE
 target-${CC_SUPPORT_m32} += __WORDSIZE-32
 target-y += __TIME__
-target-y += __VERSION__
+target-${USE_GNU_LIBC} += __VERSION__
 target-y += __FILE__
 target-y += machine
 target-y += __ASSEMBLER__
 target-y += ident
-target-y += __GNUC__ __GNUC_PREREQ
+target-${USE_GNU_LIBC} += __GNUC__ __GNUC_PREREQ
 target-y += __has_include
 target-y += __user
 target-y += __stringify
@@ -31,8 +32,8 @@ target-y += __STDC__
 target-y += _XOPEN_SOURCE
 target-y += _POSIX_SOURCE _POSIX_C_SOURCE
 target-y += LINUX_VERSION_CODE
-target-y += __GLIBC__ __GLIBC_MINOR__ __GLIBC_PREREQ
-target-y += __GLIBC_USE
+target-${USE_GNU_LIBC} += __GLIBC__ __GLIBC_MINOR__ __GLIBC_PREREQ
+target-${USE_GNU_LIBC} += __GLIBC_USE
 target-y += splice
 target-y += os
 
