@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-#include <argp.h>
 #include <arpa/inet.h>
+#include <errno.h>
 #include <linux/if_ether.h>
 #include <linux/if_packet.h>
 #include <linux/in.h>
