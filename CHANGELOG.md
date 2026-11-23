@@ -11,6 +11,7 @@ and this project adheres to
 
 #### Breaking Changes
 #### Added
+- glibc/pthread: add non-portable(`_np`) subdir;
 - glibc: add musl-libc subdir;
 #### Changed
 #### Deprecated

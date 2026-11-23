@@ -28,6 +28,9 @@ pthread_t start_thread(void *(*routine)(void *), int cpu, void *arg)
 	if (cpu >= 0) {
 		CPU_ZERO(&cpuset);
 		CPU_SET(cpu, &cpuset);
+		/**
+		 * Replace with pthread_setaffinity_np() for musl-libc.
+		 */
 		pthread_attr_setaffinity_np(&attr, sizeof(cpuset), &cpuset);
 		pattr = &attr;
 	}

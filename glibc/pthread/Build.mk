@@ -1,6 +1,7 @@
 include arch.mk
 
-subdir-y := cache-misses
+subdir-y += cache-misses
+subdir-y += non-portable
 subdir-y += out-of-order
 subdir-y += samples
 subdir-y += scripts
