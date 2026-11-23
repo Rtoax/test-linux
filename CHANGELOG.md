@@ -22,6 +22,7 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- plotcake: support stacked line chart with --enable-stacked-line-chart;
 - plotcake: add man plotcake.8;
 - plotcake: adapt to centos 8, glibc 2.28;
 - plotcake: add plotcake.spec;

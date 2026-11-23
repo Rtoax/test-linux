@@ -167,10 +167,24 @@ static double get_plot_value(const struct plot *p, const struct value *v)
 		val = v->log10_v;
 	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 		val = v->exp_v;
-	else if (p->curve_type == CURVE_TYPE_DELTA)
+	else if (p->curve_type == CURVE_TYPE_DELTA &&
+		 !p->enable_stacked_line_chart)
 		val = delta_v(v);
 
 	return val;
+}
+
+static int paint_y0_line(const struct plot *p, double min, double max)
+{
+	if (min > 0 || max < 0) {
+		return 0;
+	}
+	double h = get_plot_value_heigh(p, min, max, 0);
+	attron(A_DIM);
+	for (int i = 0; i < p->plotwidth - 1; i++)
+		mvwprintw(p->win, h, p->bnd.left + 1 + i, "-");
+	attroff(A_DIM);
+	return 0;
 }
 
 /**
@@ -181,7 +195,8 @@ static double get_plot_value(const struct plot *p, const struct value *v)
  */
 static void __paint_line(struct plot *p, const struct lgroup *lg,
 			 const struct line *ln, int start, int len, int shift,
-			 double max, double min)
+			 double max, double min, double *stacked_line,
+			 bool first_line)
 {
 	int iv;
 	int prev_h = -1;
@@ -222,16 +237,30 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 			continue;
 		}
 
-		double plot_v = get_plot_value(p, v);
+		double real_v = get_plot_value(p, v);
 
 		/**
 		 * 1. the last value of line may be NaN, see delta_v()
 		 */
-		if (isnan(plot_v)) {
+		if (isnan(real_v)) {
 			iv = ln_shift_count;
 			goto print_llabel;
 		}
 
+		if (stacked_line) {
+			if (first_line) {
+				stacked_line[iv] = real_v;
+			} else {
+				stacked_line[iv] += real_v;
+			}
+		}
+
+		double plot_v;
+		if (stacked_line) {
+			plot_v = stacked_line[iv];
+		} else {
+			plot_v = real_v;
+		}
 		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
 
 		int h = get_plot_value_heigh(p, min, max, plot_v);
@@ -283,22 +312,29 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		}
 
 		/* set y axis */
-		char sv[64];
+		char sv[128];
 		int nc;
+		int sz = sizeof(sv);
 
 		if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
-			nc = snprintf(sv, 64, "s*log(1+|%.3f|)=%.3f", v->v,
-				      plot_v);
+			nc = snprintf(sv, sz, "s*log(1+|%.3f|)=%.3f", v->v,
+				      real_v);
 		else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
-			nc = snprintf(sv, 64, "s*log10(1+|%.3f|)=%.3f", v->v,
-				      plot_v);
+			nc = snprintf(sv, sz, "s*log10(1+|%.3f|)=%.3f", v->v,
+				      real_v);
 		else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
-			nc = snprintf(sv, 64, "exp(%.3f)=%.3f", v->v, plot_v);
-		else if (p->curve_type == CURVE_TYPE_DELTA)
-			nc = snprintf(sv, 64, "delta(%.3f-%.3f)=%.3f",
-				      v->next->v, v->v, plot_v);
+			nc = snprintf(sv, sz, "exp(%.3f)=%.3f", v->v, real_v);
+		else if (p->curve_type == CURVE_TYPE_DELTA &&
+			 !p->enable_stacked_line_chart)
+			nc = snprintf(sv, sz, "delta(%.3f-%.3f)=%.3f",
+				      v->next->v, v->v, real_v);
 		else
-			nc = snprintf(sv, 64, "%.3f", plot_v);
+			nc = snprintf(sv, sz, "%.3f", real_v);
+
+		if (p->enable_stacked_line_chart) {
+			nc += snprintf(sv + strlen(sv), sz - strlen(sv),
+				       "[%.3f]", plot_v);
+		}
 
 		if (p->bnd_prev_max.left < nc)
 			p->bnd_prev_max.left = nc;
@@ -336,10 +372,15 @@ static void __draw_title(const struct plot *p)
 			 p->title);
 	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
 		snprintf(buf, sizeof(buf), "%s (base-e exponential)", p->title);
-	else if (p->curve_type == CURVE_TYPE_DELTA)
+	else if (p->curve_type == CURVE_TYPE_DELTA &&
+		 !p->enable_stacked_line_chart)
 		snprintf(buf, sizeof(buf), "%s (delta)", p->title);
 	else
 		snprintf(buf, sizeof(buf), "%s", p->title);
+
+	if (p->enable_stacked_line_chart) {
+		strncat(buf, "[stacked]", sizeof(buf) - strlen(buf) - 1);
+	}
 
 	mvaddstr(0, (p->width - strlen(buf)) / 2, buf);
 
@@ -370,10 +411,15 @@ static void __draw_axes(const struct plot *p)
 
 static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 {
-	double max = -DBL_MAX, min = DBL_MAX;
+	double max, min, max_stacked, min_stacked;
 	int start = -1;
 	int len = p->plotwidth * p->plotscaling;
 	unsigned long shift = plot_shift(p);
+	bool first_line = true;
+	unsigned long max_nr_values = 0;
+
+	max = max_stacked = -DBL_MAX;
+	min = min_stacked = DBL_MAX;
 
 	/**
 	 * Since we are not drawing all the data for the entire curve, we need
@@ -384,6 +430,9 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 	{
 		if (l->count <= 0)
 			continue;
+
+		if (max_nr_values < l->count)
+			max_nr_values = l->count;
 
 		/**
 		 * If the amount of data is insufficient to fill a screen, then
@@ -398,7 +447,8 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 		start = l->count - len - shift;
 
 		double _max, _min;
-		if (p->curve_type == CURVE_TYPE_DELTA) {
+		if (p->curve_type == CURVE_TYPE_DELTA &&
+		    !p->enable_stacked_line_chart) {
 			_max = line_range_delta_max(l, start, p->plotscaling,
 						    len);
 			_min = line_range_delta_min(l, start, p->plotscaling,
@@ -427,24 +477,54 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 			break;
 		}
 
+		if (p->enable_stacked_line_chart) {
+			if (first_line) {
+				max_stacked = _max;
+				min_stacked = _min;
+				first_line = false;
+			} else {
+				max_stacked += _max;
+				if (min_stacked > min_stacked + _min) {
+					min_stacked += _min;
+				}
+			}
+		}
+
 		max = max < _max ? _max : max;
 		min = min > _min ? _min : min;
 	}
 
 	/* draw zero y line if needed */
-	if (max > 0 && min < 0) {
-		double h = get_plot_value_heigh(p, min, max, 0);
-		attron(A_DIM);
-		for (int i = 0; i < p->plotwidth - 1; i++)
-			mvwprintw(p->win, h, p->bnd.left + 1 + i, "-");
-		attroff(A_DIM);
+	if (p->enable_stacked_line_chart) {
+		paint_y0_line(p, min_stacked, max_stacked);
+	} else {
+		paint_y0_line(p, min, max);
+	}
+
+	double *stacked_line = NULL;
+	if (p->enable_stacked_line_chart) {
+		size_t sz = max_nr_values * sizeof(double);
+		stacked_line = (double *)malloc(sz);
+		memset(stacked_line, 0x0, sz);
+	}
+
+	if (p->enable_stacked_line_chart) {
+		first_line = true;
 	}
 
 	for_each_line(lg, l)
 	{
 		if (l->count <= 0)
 			continue;
-		__paint_line(p, lg, l, start, len, shift, max, min);
+		__paint_line(p, lg, l, start, len, shift,
+			     p->enable_stacked_line_chart ? max_stacked : max,
+			     p->enable_stacked_line_chart ? min_stacked : min,
+			     stacked_line, first_line);
+		first_line = false;
+	}
+
+	if (p->enable_stacked_line_chart) {
+		free(stacked_line);
 	}
 
 	if (p->debug && lg->ops && lg->ops->plot_debug)

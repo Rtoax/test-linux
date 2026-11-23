@@ -126,7 +126,8 @@ static const struct argp_option opts[] = {
 	{ "exponential", ARG_EXPONENTIAL, NULL, 1,
 	  "Use base-e exponential (shortcut " KEY_HELP_t ")" },
 	{ "delta", ARG_DELTA, NULL, 1,
-	  "Use delta value (shortcut " KEY_HELP_t ")" },
+	  "Use delta value (shortcut " KEY_HELP_t "), if a stacked line chart "
+	  "is plotted, the 'delta' plot type will revert to the raw data." },
 	{ "tmout", 't', "TIME", 0,
 	  "Specify timeout time, the default unit is nanoseconds, but units "
 	  "such as 'min', 's', 'ms', 'us', and 'ns' can also be used." },
