@@ -24,6 +24,7 @@ and this project adheres to
 - plotcake: adapt to centos 8, glibc 2.28;
 - plotcake: add plotcake.spec;
 #### Template
+- musl-libc.mk: add `USE_GNU_LIBC=y|n`;
 - binutils.mk: add version functions and support mkcache;
 
 
