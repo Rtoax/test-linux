@@ -91,7 +91,7 @@ export HAVE_BTF
 export BTF_ROOT
 
 ifdef TEST
-  ifeq (${HAVE_BTF}, y)
+  ifeq (${HAVE_BTF}${HAVE_BPFTOOL}, yy)
     ifneq ($(shell $(call vmlinux_has_struct,task_struct)),y)
       $(error Not found task_struct in vmlinux.h)
     endif
