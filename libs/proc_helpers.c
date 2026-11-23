@@ -16,11 +16,8 @@
 #include <fcntl.h>
 #include <elf.h>
 #include <sys/mman.h>
-#include <linux/prctl.h>  /* Definition of PR_* constants */
 #include <sys/prctl.h>
-
 #include "proc_helpers.h"
-
 
 #ifdef DEBUG
 # define LOG_DEBUG(fmt...) do {	\
