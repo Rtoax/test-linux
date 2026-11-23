@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <sys/user.h>
 
 #if __WORDSIZE == 64
 #define Paddr "%ld"
