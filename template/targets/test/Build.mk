@@ -1,4 +1,5 @@
 include clang.mk
+include llvm.mk
 
 shell-y := test-env.sh
 shell-y += test-env.sh.1
@@ -92,9 +93,9 @@ hello_ll-objs := hello.llvm.ll
 
 llvmobj-ast := $(addsuffix .llvm.ast, $(llvm-target-y))
 llvmobj-ll := $(addsuffix .llvm.ll, $(llvm-target-y))
-llvmobj-ll.s := $(addsuffix .llvm.ll.s, $(llvm-target-y))
+llvmobj-ll.s-${HAVE_LLC} := $(addsuffix .llvm.ll.s, $(llvm-target-y))
 llvmobj-bc := $(addsuffix .llvm.bc, $(llvm-target-y))
 llvmobj-bc.dis := $(addsuffix .llvm.bc.dis, $(llvm-target-y))
 llvmobj-s := $(addsuffix .llvm.s, $(llvm-target-y))
 
-post-y += ${llvmobj-ast} ${llvmobj-ll} ${llvmobj-ll.s} ${llvmobj-bc} ${llvmobj-bc.dis} ${llvmobj-s}
+post-y += ${llvmobj-ast} ${llvmobj-ll} ${llvmobj-ll.s-y} ${llvmobj-bc} ${llvmobj-bc.dis} ${llvmobj-s}

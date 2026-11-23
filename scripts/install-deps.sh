@@ -1392,6 +1392,7 @@ apk_add_packages()
 			pciutils vim usbutils make gcc jq ncurses musl-dev )
 	pkgs_base+=( clang22-extra-tools python3 )
 	pkgs_base+=( linux-headers )
+	pkgs_compiler+=( llvm ) # llc, etc.
 }
 
 zypper_add_packages()
