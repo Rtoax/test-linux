@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 project(Plotcake C)
 
 set(CMAKE_INSTALL_PREFIX /usr)
+set(CONFIG_JSON_C ON CACHE BOOL "Build with json-c")
 
 set(SRC
   axis.c
@@ -23,7 +24,9 @@ set(SRC
 )
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(JSON_C REQUIRED json-c)
+if(CONFIG_JSON_C)
+  pkg_check_modules(JSON_C REQUIRED json-c)
+endif()
 
 find_library(MATH m)
 find_library(NCURSESW ncursesw)
@@ -31,10 +34,14 @@ find_library(NCURSES ncurses)
 find_library(PANEL panel)
 
 add_definitions("-D_GNU_SOURCE")
-if(NOT JSON_C_FOUND)
-  message(WARNING "json-c was not found.")
+if(CONFIG_JSON_C)
+  if(NOT JSON_C_FOUND)
+    message(FATAL_ERROR "json-c was not found.")
+  else()
+    add_definitions("-DHAVE_JSON_C=1")
+  endif()
 else()
-  add_definitions("-DHAVE_JSON_C=1")
+  message(WARNING "Turn off json-c")
 endif()
 
 add_executable(plotcake ${SRC})
