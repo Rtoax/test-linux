@@ -46,6 +46,7 @@ Distrobutions Linux Kernel
 * 6.19.8 (fedora42,fedora43)
 * 6.19.7 (fedora43)
 * 6.19.6 (fedora43)
+* 6.18.64 (alpine3.24.4)
 * 6.18.57 (alpine3.24.2,alpine3.24.4)
 * 6.18.44 (alpine3.24.1,alpine3.24.2)
 * 6.18.40 (alpine3.24.1)
