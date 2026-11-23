@@ -4,7 +4,6 @@
  * gcc::gcc/cppbuiltin.cc: define__GNUC__()
  * llvm::clang/lib/Frontend/InitPreprocessor.cpp: InitializePredefinedMacros()
  */
-
 #include <stdio.h>
 #ifdef __NVCC__
 #include <cuda.h>
@@ -17,7 +16,6 @@
 #if !__GNUC_PREREQ(__GNUC__, __GNUC_MINOR__)
 # error "__GNUC_PREREQ() failed"
 #endif
-
 
 int main(void)
 {
