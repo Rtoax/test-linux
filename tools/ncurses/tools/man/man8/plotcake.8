@@ -10,6 +10,9 @@ plotcake \- Plot curves in linux termimal.
 .B plotcake
 [\fI\,OPTION\/\fR]...
 
+.B <stdout serial of numbers> | plotcake
+[\fI\,OPTION\/\fR]...
+
 .SH DESCRIPTION
 .\" Add any additional description here
 .PP
@@ -38,7 +41,7 @@ Use delta value (shortcut 't': change numerical scaling type for paint)
 Use base-e exponential (shortcut 't': change numerical scaling type for paint)
 
 .SS
-\fB\-f\fR, \fB\-\-file\fR [TIME]
+\fB\-f\fR, \fB\-\-file\fR [FILE]
 Specify input file, the format must conform to the plotcake file format. You can run plotcake once to view the generated files (txt).
 
 .SS
@@ -46,7 +49,7 @@ Specify input file, the format must conform to the plotcake file format. You can
 Specify interval time, the default unit is nanoseconds, but units such as 'min', 's', 'ms', 'us', and 'ns' can also be used. If data comes from stdin, this interval will limit the ploting rate.
 
 .SS
-\fB\-l\fR, \fB\-\-llabel\fR [TIME]
+\fB\-l\fR, \fB\-\-llabel\fR [LABEL]
 Specify line label (may be listed multiple times)
 
 .SS
@@ -87,7 +90,7 @@ Specify timeout time, the default unit is nanoseconds, but units such as 'min', 
 
 .SS
 \fB\-T\fR, \fB\-\-title\fR [TITLE]
-Specify title.
+Specify title name.
 
 .SS
 \fB\-v\fR, \fB\-\-verbose\fR
@@ -128,6 +131,6 @@ Linux
 Unstable - in development.
 
 .SH AUTHOR
-Written by Rong Tao
+Written by Rong Tao <rtoax@foxmail.com>
 
 .SH SEE ALSO
