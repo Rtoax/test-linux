@@ -86,6 +86,7 @@ const char argp_prog_doc[] = ANSI_BOLD
 	"   " KEY_HELP_l "\n"
 	"   " KEY_HELP_q "\n"
 	"   " KEY_HELP_r "\n"
+	"   " KEY_HELP_s "\n"
 	"   " KEY_HELP_t "\n"
 	"   " KEY_HELP_v "\n"
 	"   " KEY_HELP_ENTER "\n"
@@ -148,7 +149,8 @@ static const struct argp_option opts[] = {
 	{ "enable-stacked-line-chart", ARG_ENABLE_STACKED_LINE_CHART, NULL, 1,
 	  "Create a stacked line chart; this type of chart layers multiple "
 	  "data series on top of one another, illustrating both the \"overall "
-	  "trend\" and the \"contribution of each individual series\"." },
+	  "trend\" and the \"contribution of each individual series\" "
+	  "(shortcut " KEY_HELP_s ")." },
 	{ "win-border", ARG_WIN_BORDER_TYPE, "[utf8]", 0,
 	  "Sets the border type for the pop-up window; currently, only 'utf8'"
 	  " and 'auto' are supported." },
@@ -462,6 +464,11 @@ static int key_handler(long fd, void *arg)
 			break;
 		case 'r': /* reset plot */
 			plot->kb->cnt.r++;
+			a->redraw = true;
+			break;
+		/* enable/disable stacked line chart */
+		case 's':
+			plot->kb->cnt.s++;
 			a->redraw = true;
 			break;
 		/* select numerical scaling type */

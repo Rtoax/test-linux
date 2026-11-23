@@ -4,13 +4,14 @@
 
 #include <ncursesw/curses.h>
 
-#define MY_VERSION "v1.8.13"
+#define MY_VERSION "v1.8.14"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
 #define KEY_HELP_l "'l': show the label for each line"
 #define KEY_HELP_q "'q': quit the plotcake"
 #define KEY_HELP_r "'r': reset the ploting"
+#define KEY_HELP_s "'s': enable/disable stacked line chart"
 #define KEY_HELP_t "'t': change numerical scaling type for paint"
 #define KEY_HELP_v "'v': turn on/off the verbose mode"
 #define KEY_HELP_ENTER "Enter: refresh plot"

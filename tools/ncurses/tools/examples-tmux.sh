@@ -164,6 +164,10 @@ check_llabels_dialog
 
 send_keys Enter
 
+send_keys 's'
+check_content "[stacked]"
+send_keys 's'
+
 send_keys 't'
 check_content "${title} \(signed logarithmic\)"
 check_content "s\*log\(1\+"

@@ -114,6 +114,7 @@ void plot_update_size(struct plot *p, bool init)
 	 */
 	switch (p->kb->current_key) {
 	case 'r':
+	case 's':
 	case 't':
 		p->bnd.top = p->bnd_prev_max.top;
 		p->bnd.bottom = p->bnd_prev_max.bottom;
@@ -679,9 +680,9 @@ void plot_redraw(struct plot *p)
 }
 
 static const char *key_helps[] = {
-	KEY_HELP_h,    KEY_HELP_l,     KEY_HELP_q,     KEY_HELP_r,
-	KEY_HELP_t,    KEY_HELP_v,     KEY_HELP_UP,    KEY_HELP_DOWN,
-	KEY_HELP_LEFT, KEY_HELP_RIGHT, KEY_HELP_ENTER,
+	KEY_HELP_h,    KEY_HELP_l,    KEY_HELP_q,     KEY_HELP_r,
+	KEY_HELP_s,    KEY_HELP_t,    KEY_HELP_v,     KEY_HELP_UP,
+	KEY_HELP_DOWN, KEY_HELP_LEFT, KEY_HELP_RIGHT, KEY_HELP_ENTER,
 };
 
 static int max_key_help_len(void)
@@ -917,6 +918,16 @@ static int key_r_handler(int key, void *arg)
 }
 
 /**
+ * Press key 's', enable/disable stacked line chart
+ */
+static int key_s_handler(int key, void *arg)
+{
+	struct plot *p = arg;
+	p->enable_stacked_line_chart = !p->enable_stacked_line_chart;
+	return 0;
+}
+
+/**
  * Press key 't', change curve type
  */
 static int key_t_handler(int key, void *arg)
@@ -1001,6 +1012,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	p->llabels_timerfd = -1;
 
 	err = err ?: register_key_handler(kb, 'r', p, key_r_handler);
+	err = err ?: register_key_handler(kb, 's', p, key_s_handler);
 	err = err ?: register_key_handler(kb, 't', p, key_t_handler);
 	err = err ?: register_key_handler(kb, 'h', p, key_h_handler);
 	err = err ?: register_key_handler(kb, 'l', p, key_l_handler);
