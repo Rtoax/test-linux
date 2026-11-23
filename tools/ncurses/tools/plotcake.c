@@ -104,14 +104,14 @@ static const struct argp_option opts[] = {
 	  "Specify line types, if an invalid value is entered, the supported "
 	  "line types will be listed or use --ltypes show all types supported "
 	  "(may be listed multiple times)" },
-	{ "ltypes", ARG_LINE_TYPES, NULL, 1, "show line types for --ltype" },
+	{ "ltypes", ARG_LINE_TYPES, NULL, 1, "Show line types for --ltype" },
 	{ "lcolor", 'C', "COLOR", 0,
 	  "Specify line colors, if an invalid value is entered, the supported "
 	  "line colors will be listed, can match color prefixes, such as 'r' "
 	  "matching 'red' (may be listed multiple times)" },
 	{ "lcolors", ARG_LINE_COLORS, NULL, 1,
-	  "show line colors for --lcolor" },
-	{ "ram", 'M', NULL, 1, "Display memory instead of loadavg" },
+	  "Show line colors for --lcolor" },
+	{ "ram", 'M', NULL, 1, "Display memory curves instead of loadavg" },
 	{ "interval", 'I', "TIME", 0,
 	  "Specify interval time, the default unit is nanoseconds, but units "
 	  "such as 'min', 's', 'ms', 'us', and 'ns' can also be used. If data "

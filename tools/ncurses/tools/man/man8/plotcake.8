@@ -1,0 +1,133 @@
+.\" Copyright (C) 2026 Rong Tao (rtoax@foxmail.com)
+.\"
+.\" SPDX-License-Identifier: GPL-2.0-or-later
+.\"
+.TH plotcake 8  "2026-11-23" "USER COMMANDS"
+.SH NAME
+plotcake \- Plot curves in linux termimal.
+
+.SH SYNOPSIS
+.B plotcake
+[\fI\,OPTION\/\fR]...
+
+.SH DESCRIPTION
+.\" Add any additional description here
+.PP
+plotcake is the tool of terminal curves plot.
+
+This program is a basic command of Plotcake.
+
+.SH REQUIREMENTS
+ncurses, json-c
+
+.SH ARGUMENTS
+.SS
+\fB\-\-axis-curve-type\fR [TYPE]
+Plotting line types for coordinate axes, the supported types will be listed or use --ltypes show all types supported.
+
+.SS
+\fB\-C\fR, \fB\-\-lcolor\fR [COLOR]
+Specify line colors, if an invalid value is entered, the supported line colors will be listed, can match color prefixes, such as 'r' matching 'red' (may be listed multiple times).
+
+.SS
+\fB\-\-delta\fR
+Use delta value (shortcut 't': change numerical scaling type for paint)
+
+.SS
+\fB\-\-exponential\fR
+Use base-e exponential (shortcut 't': change numerical scaling type for paint)
+
+.SS
+\fB\-f\fR, \fB\-\-file\fR [TIME]
+Specify input file, the format must conform to the plotcake file format. You can run plotcake once to view the generated files (txt).
+
+.SS
+\fB\-I\fR, \fB\-\-interval\fR [TIME]
+Specify interval time, the default unit is nanoseconds, but units such as 'min', 's', 'ms', 'us', and 'ns' can also be used. If data comes from stdin, this interval will limit the ploting rate.
+
+.SS
+\fB\-l\fR, \fB\-\-llabel\fR [TIME]
+Specify line label (may be listed multiple times)
+
+.SS
+\fB\-\-lcolors\fR
+Show line colors for --lcolor
+
+.SS
+\fB\-\-logarithmic\fR
+Use natural logarithmic (shortcut 't': change numerical scaling type for paint)
+
+.SS
+\fB\-\-logarithmic10\fR
+Use base-10 logarithmic, the curve shape is exactly the same as --logarithmic, only the values of the tick labels on the axes are different (shortcut 't': change numerical scaling type for paint).
+
+.SS
+\fB\-\-ltypes\fR
+Show line types for --ltype.
+
+.SS
+\fB\-L\fR, \fB\-\-ltype\fR [TYPE]
+Specify line types, if an invalid value is entered, the supported line types will be listed or use --ltypes show all types supported (may be listed multiple times).
+
+.SS
+\fB\-M\fR, \fB\-\-ram\fR
+Display memory curves instead of loadavg.
+
+.SS
+\fB\-o\fR, \fB\-\-ofile\fR [NAME]
+Specify the output file name, excluding the extension.
+
+.SS
+\fB\-\-stdin-buffer-size\fR [BYTES]
+Specify stdin buffer size to allocate.
+
+.SS
+\fB\-t\fR, \fB\-\-tmout\fR [TIME]
+Specify timeout time, the default unit is nanoseconds, but units such as 'min', 's', 'ms', 'us', and 'ns' can also be used.
+
+.SS
+\fB\-T\fR, \fB\-\-title\fR [TITLE]
+Specify title.
+
+.SS
+\fB\-v\fR, \fB\-\-verbose\fR
+Turn on verbose mode.
+
+.SS
+\fB\-\-win-border\fR [utf8]
+Sets the border type for the pop-up window; currently, only 'utf8' and 'auto' are supported.
+
+.SS
+\fB\-x\fR, \fB\-\-xlabel\fR [LABEL]
+Specify x axis label.
+
+.SS
+\fB\-\-x-index\fR
+Use index as x axis value instead of timeval.
+
+.SS
+\fB\-y\fR, \fB\-\-ylabel\fR [LABEL]
+Specify y axis label.
+
+.SS
+\fB\-?\fR, \fB\-\-help\fR
+Show help information.
+
+.SS
+\fB\-\-usage\fR
+Give a short usage message.
+
+.SS
+\fB\-V\fR, \fB\-\-version\fR
+Show version information.
+
+.SH OS
+Linux
+
+.SH STABILITY
+Unstable - in development.
+
+.SH AUTHOR
+Written by Rong Tao
+
+.SH SEE ALSO
