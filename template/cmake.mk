@@ -51,7 +51,7 @@ $(call mkcache_append,CMAKE_PATCHLEVEL,${cmake_mk_cachefile})
 
 endif # end of cache
 
-$(eval $(call define_version,cmake,version3_code1688,y,${CMAKE_MAJOR},${CMAKE_MINOR},${CMAKE_PATCHLEVEL}))
+$(eval $(call define_version,cmake,verseed_v3c1688,y,${CMAKE_MAJOR},${CMAKE_MINOR},${CMAKE_PATCHLEVEL}))
 
 ifdef DEBUG
   $(info CMAKE_VERSION = ${CMAKE_VERSION})

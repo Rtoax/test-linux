@@ -54,7 +54,7 @@ $(call mkcache_append,binutils-cflags,${binutils_mk_cachefile})
 
 endif # end of cache
 
-$(eval $(call define_version,binutils,version2_code100010,y,${BINUTILS_MAJOR},${BINUTILS_MINOR}))
+$(eval $(call define_version,binutils,verseed_v2c100010,y,${BINUTILS_MAJOR},${BINUTILS_MINOR}))
 
 ifdef DEBUG
   $(info Binutils version ${BINUTILS_MAJOR}.${BINUTILS_MINOR})

@@ -59,7 +59,7 @@ endif # end of cache
 
 include compiler.mk
 
-$(eval $(call define_version,gcc,version3_code1688,y,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL}))
+$(eval $(call define_version,gcc,verseed_v3c1688,y,${GCC_MAJOR},${GCC_MINOR},${GCC_PATCHLEVEL}))
 
 ifdef DEBUG
   $(info GCC = ${GCC})

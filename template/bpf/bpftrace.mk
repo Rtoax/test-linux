@@ -47,7 +47,7 @@ $(call mkcache_append,BPFTRACE_PATCHLEVEL,${bpftrace_mk_cachefile})
 
 endif # end of cache
 
-$(eval $(call define_version,bpftrace,version3_code1688,y,${BPFTRACE_MAJOR},${BPFTRACE_MINOR},${BPFTRACE_PATCHLEVEL}))
+$(eval $(call define_version,bpftrace,verseed_v3c1688,y,${BPFTRACE_MAJOR},${BPFTRACE_MINOR},${BPFTRACE_PATCHLEVEL}))
 
 ifdef DEBUG
   $(info BPFTRACE = ${BPFTRACE})

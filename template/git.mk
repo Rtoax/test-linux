@@ -55,7 +55,7 @@ $(call mkcache_append,HAVE_GIT_SUBTREE,${git_mk_cachefile})
 
 endif # end of cache
 
-$(eval $(call define_version,git,version3_code1688,y,${GIT_MAJOR},${GIT_MINOR},${GIT_PATCHLEVEL}))
+$(eval $(call define_version,git,verseed_v3c1688,y,${GIT_MAJOR},${GIT_MINOR},${GIT_PATCHLEVEL}))
 
 ifdef DEBUG
   $(info GIT_VERSION = ${GIT_VERSION})

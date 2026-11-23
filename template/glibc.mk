@@ -46,7 +46,7 @@ $(call mkcache_append,GLIBC_MINOR,${glibc_mk_cachefile})
 
 endif # end of cache
 
-$(eval $(call define_version,glibc,version2_code1616,y,${GLIBC_MAJOR},${GLIBC_MINOR}))
+$(eval $(call define_version,glibc,verseed_v2c1616,y,${GLIBC_MAJOR},${GLIBC_MINOR}))
 
 # Get libc.so.6 abs-path
 LIBC_SO_PATH := $(call find_library_path,libc.so.6)

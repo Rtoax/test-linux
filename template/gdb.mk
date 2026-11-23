@@ -24,7 +24,7 @@ GDB_VERSION := $(shell ${gdbversh} --version)
 GDB_MAJOR := $(shell ${gdbversh} -- --major)
 GDB_MINOR := $(shell ${gdbversh} -- --minor)
 
-$(eval $(call define_version,gdb,version2_code100010,y,${GDB_MAJOR},${GDB_MINOR}))
+$(eval $(call define_version,gdb,verseed_v2c100010,y,${GDB_MAJOR},${GDB_MINOR}))
 
 ifdef TEST
   # Note: update newest version here.
