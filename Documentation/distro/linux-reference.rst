@@ -67,7 +67,7 @@ Distrobutions Linux Kernel
 * 6.15.9 (fedora42)
 * 6.14.11 (fedora42)
 * 6.14.0 (ubuntu24.04)
-* 6.12.117 (debian13.7)
+* 6.12.117 (debian13.7,debian13.8)
 * 6.12.116 (debian13.7)
 * 6.12.113 (debian13.7)
 * 6.12.111 (debian13.7)
