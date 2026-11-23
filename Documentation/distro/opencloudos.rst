@@ -1,6 +1,15 @@
 OpenCloudOS
 ===========
 
+Linux Kernel Versions
+---------------------
+
+OpenCloudOS 8
+~~~~~~~~~~~~~
+
+- 5.4.241-30.17.34
+
+
 Links
 -----
 
