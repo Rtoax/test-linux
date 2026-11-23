@@ -20,27 +20,25 @@
 pthread_t start_thread(void *(*routine)(void *), int cpu, void *arg)
 {
 	pthread_t thread;
-	pthread_attr_t attr, *pattr = NULL;
+	pthread_attr_t attr;
 	cpu_set_t cpuset;
 
 	pthread_attr_init(&attr);
 
-	if (cpu >= 0) {
-		CPU_ZERO(&cpuset);
-		CPU_SET(cpu, &cpuset);
-		/**
-		 * Replace with pthread_setaffinity_np() for musl-libc.
-		 */
-		pthread_attr_setaffinity_np(&attr, sizeof(cpuset), &cpuset);
-		pattr = &attr;
-	}
+	/* TODO: set attr */
 
-	if (pthread_create(&thread, pattr, routine, arg) != 0) {
+	if (pthread_create(&thread, &attr, routine, arg) != 0) {
 		printf("Failed to start thread\n");
 		exit(1);
 	}
 
 	pthread_attr_destroy(&attr);
+
+	if (cpu >= 0) {
+		CPU_ZERO(&cpuset);
+		CPU_SET(cpu, &cpuset);
+		pthread_setaffinity_np(thread, sizeof(cpuset), &cpuset);
+	}
 
 	return thread;
 }
