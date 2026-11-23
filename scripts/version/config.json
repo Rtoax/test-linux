@@ -1,5 +1,5 @@
 {
-	"version": "0.0.32",
+	"version": "0.0.33",
 	"common": {
 		"version": {
 			"length": [ 3 ],
@@ -562,6 +562,11 @@
 				"/usr/bin/mpichversion"
 			],
 			"keys": [ "mpi", "mpich" ]
+		},
+		"musl-libc": {
+			"name": "Musl-Libc",
+			"command": [ "ldd" ],
+			"keys": [ "musl" ]
 		},
 		"nasm": {
 			"name": "Nasm",

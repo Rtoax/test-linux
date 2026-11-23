@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0
 include file.mk
+include musl-libc.mk
 
 # /usr/include/ dir
 incdir-y += aio
@@ -84,11 +85,12 @@ incdir-y += wctype
 incdir-y += wordexp
 
 subdir-y += ${incdir-y}
+subdir-${USE_MUSL_LIBC} += musl-libc
 
 target-y += environ
 target-y += ftm _GNU_SOURCE _XOPEN_SOURCE
 target-y += __progname
-target-y += __GLIBC_USE
+target-${USE_GNU_LIBC} += __GLIBC_USE
 
 prog-y += ${target-y}
 
