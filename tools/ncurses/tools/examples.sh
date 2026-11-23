@@ -147,6 +147,7 @@ if [[ ${SUPPORT_JSON} ]]; then
 	run -f x-index.json
 fi
 run -f x-index.txt
+run --enable-stacked-line-chart
 
 stdin -V --version
 stdin --usage

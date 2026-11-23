@@ -72,6 +72,24 @@ struct plot {
 
 	enum curve_type curve_type;
 
+	/**
+	 *     Origin Line Chart              Stacked Line Chart
+	 *
+	 *                                              +-- line2
+	 *                                              |
+	 *                                     +--------+
+	 *                                     |
+	 *               +-- line2             |
+	 *               |                     |
+	 *      +--------+                -----+
+	 *      |
+	 * -----+----------- line1        ------------------ line1
+	 *      |
+	 * -----+
+	 * -----------------> 0           ------------------> 0
+	 */
+	bool enable_stacked_line_chart;
+
 	struct keyboard *kb;
 
 	/**

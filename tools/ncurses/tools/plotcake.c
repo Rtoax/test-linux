@@ -54,6 +54,7 @@ enum {
 	ARG_AXIS_CURVE_TYPE,
 	ARG_WIN_BORDER_TYPE,
 	ARG_STDIN_BUFFER_BYTES,
+	ARG_ENABLE_STACKED_LINE_CHART,
 };
 
 const char argp_prog_doc[] = ANSI_BOLD
@@ -143,6 +144,10 @@ static const struct argp_option opts[] = {
 	{ "axis-curve-type", ARG_AXIS_CURVE_TYPE, "TYPE", 0,
 	  "Plotting line types for coordinate axes, the supported types will "
 	  "be listed or use --ltypes show all types supported " },
+	{ "enable-stacked-line-chart", ARG_ENABLE_STACKED_LINE_CHART, NULL, 1,
+	  "Create a stacked line chart; this type of chart layers multiple "
+	  "data series on top of one another, illustrating both the \"overall "
+	  "trend\" and the \"contribution of each individual series\"." },
 	{ "win-border", ARG_WIN_BORDER_TYPE, "[utf8]", 0,
 	  "Sets the border type for the pop-up window; currently, only 'utf8'"
 	  " and 'auto' are supported." },
@@ -166,6 +171,7 @@ static char *title = NULL;
 static char *xlabel = NULL;
 static char *ylabel = NULL;
 static enum curve_type curve_type = CURVE_TYPE_NONE;
+static bool enable_stacked_line_chart = false;
 static enum x_axis_type x_type = X_TIMEVAL;
 static enum ltype_enum axis_curve_type = LINE_TYPE_THIN_UNICODE;
 static enum win_border_type win_border_type = WIN_BORDER_TYPE_DEFAULT;
@@ -254,6 +260,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case ARG_DELTA:
 		curve_type = CURVE_TYPE_DELTA;
+		break;
+	case ARG_ENABLE_STACKED_LINE_CHART:
+		enable_stacked_line_chart = true;
 		break;
 	case ARG_LINE_TYPES:
 		ltype_print_names(stdout);
@@ -642,6 +651,7 @@ int main(int argc, char *argv[])
 	init_flavor();
 
 	plot.curve_type = curve_type;
+	plot.enable_stacked_line_chart = enable_stacked_line_chart;
 
 	if (stdinfd == -1) {
 		if (!file && ram) {
