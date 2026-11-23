@@ -30,6 +30,7 @@
 #define	_LINUX_RBTREE_H
 
 #include <unistd.h>
+#include <linux/stddef.h>
 
 #ifndef container_of
 #define container_of(ptr, type, member) ({          \
