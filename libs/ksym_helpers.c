@@ -16,11 +16,15 @@
 #define DEFAULT_KMOD "vmlinux"
 
 /**
- * glibc glibc-2.29.9000-225-g7b807a35a8dc
- * commit 7b807a35a8dc ("misc: Add twalk_r function")
+ * - glibc glibc-2.29.9000-225-g7b807a35a8dc
+ *   commit 7b807a35a8dc ("misc: Add twalk_r function")
+ *
+ * - musl-libc 1.2.6 do not have twalk_r().
  */
+#ifdef __GLIBC_PREREQ
 #if __GLIBC_PREREQ(2, 29)
 #define HAVE_TWALK_R 1
+#endif
 #endif
 
 enum ksym_type {
