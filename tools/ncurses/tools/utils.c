@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
 // Copyright (C) 2026 Rong Tao. All rights reserved.
 #include <errno.h>
+#include <signal.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -171,4 +172,13 @@ int new_timerfd(unsigned long nsecs)
 	struct itimerspec to = { { secs, nsecs }, { secs, nsecs } };
 	timerfd_settime(fd, 0, &to, NULL);
 	return fd;
+}
+
+/**
+ * Send a signal to every process in the process group of the calling process,
+ * to make sure the process preceding the pipeline exits.
+ */
+void broadcast_sigal(int signo)
+{
+	kill(0, signo);
 }

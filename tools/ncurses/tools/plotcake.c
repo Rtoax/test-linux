@@ -196,15 +196,6 @@ void sig_handler(int signo)
 	errno = saved_errno;
 }
 
-/**
- * send to every process in the process group of the calling process, to make
- * sure the process preceding the pipeline exits.
- */
-void broadcast_sig(int signo)
-{
-	kill(0, signo);
-}
-
 static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 {
 	int err = 0;
@@ -371,7 +362,7 @@ static int tmout_handler(long fd, void *arg)
 	struct loop_arg *a = arg;
 	uint64_t exp;
 	read(fd, &exp, sizeof(exp));
-	broadcast_sig(SIGINT);
+	broadcast_sigal(SIGINT);
 	a->should_end = true;
 	return 0;
 }
@@ -455,7 +446,7 @@ static int key_handler(long fd, void *arg)
 			a->redraw = true;
 			break;
 		case 'q': /* quit */
-			broadcast_sig(SIGINT);
+			broadcast_sigal(SIGINT);
 			a->should_end = true;
 			break;
 		case 'v': /* verbose mode switch */

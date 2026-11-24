@@ -22,3 +22,5 @@ unsigned long str2size(const char *str);
 long alloc_buf_read_file(const char *filename, char **buf);
 
 int new_timerfd(unsigned long nsecs);
+
+void broadcast_sigal(int signo);
