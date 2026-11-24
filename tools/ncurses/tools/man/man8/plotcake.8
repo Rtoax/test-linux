@@ -39,7 +39,7 @@ If a stacked line chart is plotted, the 'delta' plot type will revert to the raw
 
 .SS
 \fB\-\-enable-stacked-line-chart\fR
-Create a stacked line chart; this type of chart; layers multiple data series on top of one another, illustrating both the "overall trend" and the "contribution of each individual series" (shortcut 's': enable/disable stacked line chart).
+Create a stacked line chart; this type of chart layers multiple data series on top of one another, illustrating both the "overall trend" and the "contribution of each individual series" (shortcut 's': enable/disable stacked line chart).
 
 .SS
 \fB\-\-exponential\fR
@@ -59,7 +59,7 @@ Specify line label (may be listed multiple times)
 
 .SS
 \fB\-\-lcolors\fR
-Show line colors for --lcolor
+Show line colors for --lcolor.
 
 .SS
 \fB\-\-logarithmic\fR
@@ -129,6 +129,45 @@ Give a short usage message.
 \fB\-V\fR, \fB\-\-version\fR
 Show version information.
 
+.SH EXAMPLES
+.SS Draw loadavg
+\&
+.\" SRC BEGIN (loadavg.sh)
+.EX
+$ plotcake
+.EE
+.\" SRC END
+
+.SS Draw memory usage
+\&
+.\" SRC BEGIN (memory.sh)
+.EX
+$ plotcake -M
+.EE
+.\" SRC END
+
+.SS Read data from stdin
+\&
+.\" SRC BEGIN (stdin.sh)
+.EX
+# Draw opened file number
+$ while awk '{print $1}' /proc/sys/fs/file-nr; do
+     sleep 0.5
+  done | plotcake --title 'Opened File Number' -l 'opened'
+
+# Draw one line
+$ seq 1 1 10 | plotcake
+# Draw ten line
+$ seq -s ' ' 1 1 10 | plotcake
+
+# Work with tmux
+$ tmux new-session -d -s plotcake plotcake [options]
+$ tmux attach-session -t plotcake
+$ tmux detach-client -s plotcake # Anther terminal
+.EE
+.\" SRC END
+
+
 .SH OS
 Linux
 
@@ -139,3 +178,4 @@ Unstable - in development.
 Written by Rong Tao <rtoax@foxmail.com>
 
 .SH SEE ALSO
+ncurses(3X)
