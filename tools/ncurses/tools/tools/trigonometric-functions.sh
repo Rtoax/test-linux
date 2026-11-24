@@ -14,8 +14,9 @@ do
 		{
 			s = sin($1 * 3.1415 / 180.0)
 			c = cos($1 * 3.1415 / 180.0)
-			print s" "c
+			sc = s + c
+			print s" "c" "sc
 		}'
 	sleep 0.002
-done | ${PLOTCAKE} --title "Trigonometric Functions" -l "Sin" -l "Cos" \
+done | ${PLOTCAKE} --title "Trigonometric Functions" -l "Sin" -l "Cos" -l "Sin+Cos" \
 	-o trigonometric-functions --x-index "${@}"
