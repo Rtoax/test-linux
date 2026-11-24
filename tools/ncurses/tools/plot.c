@@ -332,7 +332,7 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		else
 			nc = snprintf(sv, sz, "%.3f", real_v);
 
-		if (p->enable_stacked_line_chart) {
+		if (p->enable_stacked_line_chart && plot_v != real_v) {
 			nc += snprintf(sv + strlen(sv), sz - strlen(sv),
 				       "[%.3f]", plot_v);
 		}
@@ -383,7 +383,9 @@ static void __draw_title(const struct plot *p)
 		strncat(buf, "[stacked]", sizeof(buf) - strlen(buf) - 1);
 	}
 
+	wattron(p->win, colors[C_BLUE] | A_BOLD);
 	mvaddstr(0, (p->width - strlen(buf)) / 2, buf);
+	wattroff(p->win, colors[C_BLUE] | A_BOLD);
 
 	if (p->debug) {
 		char buf2[64];
