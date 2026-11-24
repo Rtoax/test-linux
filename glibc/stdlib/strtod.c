@@ -4,11 +4,19 @@
 int main(int argc, char *argv[])
 {
 	char *buf;
+	char *bufs[] = {
+		"123.34asdf",
+		"0",
+		"-1;",
+	};
 
-	printf("%f\n", strtod("123.34asdf", &buf));
-	printf("\t%s\n", buf);
-	if (argc > 1) {
-		printf("strtod(%s) = %lf\n", argv[1], strtod(argv[1], &buf));
+	for (int i = 0; i < sizeof(bufs) / sizeof(bufs[0]); i++) {
+		printf("strtod(\"%s\") = %f", bufs[i], strtod(bufs[i], &buf));
+		printf("\t%s\n", buf);
+	}
+
+	for (int i = 1; i < argc; i++) {
+		printf("strtod(\"%s\") = %lf", argv[i], strtod(argv[i], &buf));
 		printf("\t%s\n", buf);
 	}
 
