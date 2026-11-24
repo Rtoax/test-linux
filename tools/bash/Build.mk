@@ -3,6 +3,7 @@ subdir-y += alias
 subdir-y += array
 subdir-y += bash-completion
 subdir-y += env-passing
+subdir-y += eval
 subdir-y += exec
 subdir-y += math
 subdir-y += mode

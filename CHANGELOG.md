@@ -22,6 +22,7 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- base: add eval subdir;
 - bash: add mode subdir to test `set -m`;
 - plotcake: default transparent background;
 - plotcake: shortcut 'x' for x axis type;
