@@ -186,6 +186,7 @@ send_keys 't' # Back to origin plot type
 send_keys 'v'
 check_content "h=2"
 check_content "l=2"
+check_content "s=2"
 check_content "t=6"
 
 tmux capture-pane -t ${session} -p
