@@ -16,7 +16,7 @@ line2="Line 2"
 
 plotcake=$(mktemp ./tmp-plotcake-XXXXXX.sh)
 session=$(mktemp -u plotcake-XXXXXX)
-width=120
+width=150
 heigh=40
 
 . tools/lib-plotcake.sh
