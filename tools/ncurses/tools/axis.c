@@ -10,12 +10,20 @@
 #include "axis.h"
 
 const static char *__x_axis_type_str[] = { "x-timeval", "x-index" };
+const static char *__x_axis_label_str[] = { "Time", "Idx" };
 
 const char *x_axis_type_str(enum x_axis_type type)
 {
 	if (type < X_TIMEVAL || type > X_INDEX)
 		return "unknown";
 	return __x_axis_type_str[type];
+}
+
+const char *x_axis_label_str(enum x_axis_type type)
+{
+	if (type < X_TIMEVAL || type > X_INDEX)
+		return "??";
+	return __x_axis_label_str[type];
 }
 
 /**

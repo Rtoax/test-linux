@@ -408,8 +408,13 @@ static void __draw_axes(const struct plot *p)
 
 	/* x/y axis labels */
 	mvaddstr(p->bnd.top - 1, p->bnd.left, p->label_y);
+	/**
+	 * If an x-axis label is set, display it directly; otherwise, adjust the
+	 * x-axis label based on the type.
+	 */
 	mvaddstr(p->plotheight + p->bnd.top + 1, p->plotwidth + p->bnd.left,
-		 p->label_x);
+		 p->label_x[0] != '\0' ? p->label_x :
+					 x_axis_label_str(p->x_type));
 }
 
 static void paint_lgroup(struct plot *p, const struct lgroup *lg)

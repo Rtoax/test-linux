@@ -24,6 +24,7 @@ struct x_axis_range {
 };
 
 const char *x_axis_type_str(enum x_axis_type type);
+const char *x_axis_label_str(enum x_axis_type type);
 int get_x_axis_type(const char *type);
 
 const char *x_axis_range_str(enum x_axis_type t, struct x_axis_range *r,
