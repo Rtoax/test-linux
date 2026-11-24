@@ -40,12 +40,16 @@ send_keys() {
 	tmux send-keys -t ${session} "${@}"
 }
 
+capture_pane() {
+	tmux capture-pane -t ${session} -p
+}
+
 check_content() {
 	local pattern="${@}"
-	local pane="$(tmux capture-pane -t ${session} -p)"
+	local pane="$(capture_pane)"
 	local match="$(echo -e "${pane}" | grep -oE "${pattern}")"
 	if [[ -z "${match}" ]]; then
-		echo -e >&2 "\033[1;31mERROR: pattern '${pattern}' was not matched in \033[m'${pane}'"
+		echo -e >&2 "\033[1;31mERROR: pattern '${pattern}' was not matched in:\033[m\n\n'${pane}'"
 		exit 1
 	fi
 }
@@ -184,7 +188,7 @@ send_keys 't'
 send_keys 't' # Back to origin plot type
 
 send_keys 'x'
-check_content "1         11"
+check_content "1[[:space:]]+11" # '+' for multi whitespace
 
 # Turn on the verbose mode
 send_keys 'v'
@@ -194,5 +198,5 @@ check_content "s=2"
 check_content "t=6"
 check_content "x=1"
 
-tmux capture-pane -t ${session} -p
+capture_pane
 echo "SUCCESS"
