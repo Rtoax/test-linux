@@ -8,15 +8,18 @@ readonly MYDIR=$(dirname $(realpath $0))
 cols=$(tput cols)
 i_interval=$(( 360 / cols + 1 ))
 
-for ((i = 0; i <= 360; i += i_interval))
+for ((i = 0; i <= 360000; i += i_interval))
 do
 	echo ${i} | awk '
 		{
 			s = sin($1 * 3.1415 / 180.0)
 			c = cos($1 * 3.1415 / 180.0)
 			sc = s + c
-			print s" "c" "sc
+			sc2 = s - c
+			sc3 = s * c
+			print s" "c" "sc" "sc2" "sc3
 		}'
-	sleep 0.002
-done | ${PLOTCAKE} --title "Trigonometric Functions" -l "Sin" -l "Cos" -l "Sin+Cos" \
+	sleep 0.02
+done | ${PLOTCAKE} --title "Trigonometric Functions" \
+	-l "Sin" -l "Cos" -l "Sin+Cos" -l "Sin-Cos" -l "Sin*Cos" \
 	-o trigonometric-functions --x-index "${@}"

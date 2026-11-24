@@ -73,7 +73,11 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 	/* found more values, we should append new line */
 	while (*buf != '\0') {
 		buf = skip(buf);
-		if (!isdigit(*buf))
+		/**
+		 * Must be a number, of course, be a negative number, or start
+		 * with '.'
+		 */
+		if (!isdigit(*buf) && *buf != '-' && *buf != '.')
 			break;
 
 		__add_line(lg, i);

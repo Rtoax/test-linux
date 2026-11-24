@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 	char *bufs[] = {
 		"123.34asdf",
 		"0",
+		".123",
 		"-1;",
 	};
 
