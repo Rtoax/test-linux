@@ -8,7 +8,7 @@ readonly MYDIR=$(dirname $(realpath $0))
 cols=$(tput cols)
 i_interval=$(( 360 / cols + 1 ))
 
-for ((i = 0; i <= 360000; i += i_interval))
+for ((i = 0; ; i += i_interval))
 do
 	echo ${i} | awk '
 		{
@@ -20,6 +20,11 @@ do
 			print s" "c" "sc" "sc2" "sc3
 		}'
 	sleep 0.02
+
+	# Test enough and exit
+	if [[ ${i} -eq 360000 ]]; then
+		kill -INT 0
+	fi
 done | ${PLOTCAKE} --title "Trigonometric Functions" \
 	-l "Sin" -l "Cos" -l "Sin+Cos" -l "Sin-Cos" -l "Sin*Cos" \
 	-o trigonometric-functions --x-index "${@}"
