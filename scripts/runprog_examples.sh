@@ -45,6 +45,11 @@ runprog --maybe-sudo -- du -sh /boot
 	do
 		runprog --expect-return ${ret} -- bash -c \"exit ${ret}\"
 	done
+
+	if which timeout; then
+		# 124: see timeout(1)
+		runprog --expect-return 124 -- timeout --signal=INT 0.1 sleep 1
+	fi
 }
 
 # test log
