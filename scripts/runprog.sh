@@ -5,7 +5,10 @@
 #
 # Usage: runprog.sh [options] -- execution [args...]
 #
-set -e
+# m: Monitor Mode, Its core function is to let the background process started
+#    with '&' have its own independent process group, rather than sharing the
+#    same process group with the current script.
+set -em
 
 readonly WHERE_AM_I=$(dirname $(realpath $0))
 readonly TEST_LINUX_ROOT=$(realpath ${WHERE_AM_I}/../)

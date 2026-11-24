@@ -5,6 +5,7 @@ subdir-y += bash-completion
 subdir-y += env-passing
 subdir-y += exec
 subdir-y += math
+subdir-y += mode
 subdir-y += network
 subdir-y += shopt
 subdir-y += source
