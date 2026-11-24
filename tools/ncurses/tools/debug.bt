@@ -12,6 +12,11 @@ uprobe:./plotcake:exec_key_handler
 	       "exec_key_handler()", ustack);
 }
 
+uretprobe:./plotcake:main
+{
+	printf("%s main return %d\n", comm, retval);
+}
+
 tracepoint:syscalls:sys_enter_close
 {
 	if (comm == "plotcake") {
