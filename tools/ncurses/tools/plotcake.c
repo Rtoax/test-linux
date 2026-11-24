@@ -510,17 +510,19 @@ static int sig_rd_handler(long fd, void *arg)
 	a->redraw = false;
 
 	const ssize_t cnt = read(fd, &signo, 1);
-	if (cnt > 0) {
-		if (signo == SIGINT) {
-			a->should_end = true;
-		} else if (signo == SIGWINCH) {
-			endwin();
-			plot->win = initscr();
-			werase(plot->win);
-			wrefresh(plot->win);
-			plot_update_size(plot, false);
-			a->redraw = true;
-		}
+	if (cnt <= 0) {
+		return -errno;
+	}
+
+	if (signo == SIGINT) {
+		a->should_end = true;
+	} else if (signo == SIGWINCH) {
+		endwin();
+		plot->win = initscr();
+		werase(plot->win);
+		wrefresh(plot->win);
+		plot_update_size(plot, false);
+		a->redraw = true;
 	}
 	return 0;
 }
