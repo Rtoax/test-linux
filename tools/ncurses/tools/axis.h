@@ -12,14 +12,14 @@ enum x_axis_type {
 };
 
 /* x axis value type */
-union x_axis_value {
+struct x_axis_value {
 	struct timeval tv; /* X_TIMEVAL */
 	unsigned long idx; /* X_INDEX */
 	/* add more x axis value type */
 };
 
 struct x_axis_range {
-	union x_axis_value start, end;
+	struct x_axis_value start, end;
 };
 
 const char *x_axis_type_str(enum x_axis_type type);

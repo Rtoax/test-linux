@@ -78,33 +78,14 @@ static int save_txt(const struct plot *p, const char *filename)
 				ln->id, ln->name, ln->count,
 				color_names[ln->color], ln->ops->name);
 
-			switch (p->x_type) {
-			case X_TIMEVAL:
-				fprintf(fp,
-					"#     lgidx lnidx value timeval{ sec usec }\n");
-				break;
-			case X_INDEX:
-				fprintf(fp, "#     lgidx lnidx value index\n");
-				break;
-			default:
-				break;
-			}
+			fprintf(fp,
+				"#     lgidx lnidx value index timeval{ sec usec }\n");
 
 			for_each_value(ln, v)
 			{
-				switch (p->x_type) {
-				case X_TIMEVAL:
-					fprintf(fp, "value %d %d %lf %ld %ld\n",
-						lg->id, ln->id, v->v,
-						v->x_v.tv.tv_sec,
-						v->x_v.tv.tv_usec);
-					break;
-				case X_INDEX:
-					fprintf(fp, "value %d %d %lf %ld\n",
-						lg->id, ln->id, v->v,
-						v->x_v.idx);
-					break;
-				}
+				fprintf(fp, "value %d %d %lf %ld %ld %ld\n",
+					lg->id, ln->id, v->v, v->x_v.idx,
+					v->x_v.tv.tv_sec, v->x_v.tv.tv_usec);
 			}
 		}
 	}
@@ -272,7 +253,7 @@ static int load_txt(struct plot *p, const char *file)
 			struct line *line = NULL;
 			int idx;
 			double v;
-			union x_axis_value xv;
+			struct x_axis_value xv;
 
 			/* lgroup index */
 			start = strchr(start, ' ') + 1;
@@ -320,32 +301,28 @@ static int load_txt(struct plot *p, const char *file)
 			}
 
 			/* x axis value */
-			switch (p->x_type) {
+			/* index */
+			start = end + 1;
+			end = strchr(start + 1, ' ');
+			Check(end, ' ');
+			*end = '\0';
+
+			xv.idx = strtoul(start, NULL, 10);
+
 			/* timeval usec */
-			case X_TIMEVAL:
-				start = end + 1;
-				end = strchr(start + 1, ' ');
-				Check(end, ' ');
-				*end = '\0';
+			start = end + 1;
+			end = strchr(start + 1, ' ');
+			Check(end, ' ');
+			*end = '\0';
 
-				xv.tv.tv_sec = strtoul(start, NULL, 10);
+			xv.tv.tv_sec = strtoul(start, NULL, 10);
 
-				start = end + 1;
-				end = strchr(start + 1, '\n');
-				Check(end, ' ');
-				*end = '\0';
+			start = end + 1;
+			end = strchr(start + 1, '\n');
+			Check(end, ' ');
+			*end = '\0';
 
-				xv.tv.tv_usec = strtoul(start, NULL, 10);
-				break;
-			case X_INDEX:
-				start = end + 1;
-				end = strchr(start + 1, '\n');
-				Check(end, ' ');
-				*end = '\0';
-
-				xv.idx = strtoul(start, NULL, 10);
-				break;
-			}
+			xv.tv.tv_usec = strtoul(start, NULL, 10);
 
 			line_add_value(line, v, -1, &xv);
 		} else {
@@ -445,41 +422,33 @@ static int save_json(const struct plot *p, const char *filename)
 					value, "v",
 					json_object_new_double(v->v));
 
-				switch (p->x_type) {
-				case X_TIMEVAL: {
-					json_object *tv =
-						json_object_new_array();
-					json_object_array_add(
-						tv,
+				/* timeval stamp */
+				json_object *tv = json_object_new_array();
+				json_object_array_add(tv,
 #ifdef JSON_C_SUPPORT_UINT64
-						json_object_new_uint64
+						      json_object_new_uint64
 #else
-						json_object_new_int64
+						      json_object_new_int64
 #endif
-						(v->x_v.tv.tv_sec));
-					json_object_array_add(
-						tv,
+						      (v->x_v.tv.tv_sec));
+				json_object_array_add(tv,
 #ifdef JSON_C_SUPPORT_UINT64
-						json_object_new_uint64
+						      json_object_new_uint64
 #else
-						json_object_new_int64
+						      json_object_new_int64
 #endif
-						(v->x_v.tv.tv_usec));
+						      (v->x_v.tv.tv_usec));
 
-					json_object_object_add(value, "tv", tv);
-					break;
-				}
-				case X_INDEX:
-					json_object_object_add(
-						value, "idx",
+				json_object_object_add(value, "tv", tv);
+
+				/* index */
+				json_object_object_add(value, "idx",
 #ifdef JSON_C_SUPPORT_UINT64
-						json_object_new_uint64
+						       json_object_new_uint64
 #else
-						json_object_new_int64
+						       json_object_new_int64
 #endif
-						(v->x_v.idx));
-					break;
-				}
+						       (v->x_v.idx));
 
 				vidx++;
 			}
@@ -669,7 +638,7 @@ static int load_json(struct plot *p, const char *file)
 
 			json_object_object_foreach(values, vid_s, value)
 			{
-				union x_axis_value xv;
+				struct x_axis_value xv;
 				struct line *line;
 
 				if (p->debug)
@@ -679,50 +648,45 @@ static int load_json(struct plot *p, const char *file)
 				J_GET_VALUE(value, "v", v);
 				J_GET_DOUBLE(v);
 
-				switch (p->x_type) {
-				case X_TIMEVAL: {
-					json_object *tv;
-					J_GET_VALUE(value, "tv", tv);
+				/* timeval x */
+				json_object *tv;
+				J_GET_VALUE(value, "tv", tv);
 
-					if (json_object_get_type(tv) !=
-					    json_type_array) {
-						fprintf(stderr,
-							"ERROR: tv is not arrary\n");
-						goto done;
-					}
-					int len = json_object_array_length(tv);
-					if (len != 2) {
-						fprintf(stderr,
-							"ERROR: tv must has two value\n");
-						goto done;
-					}
-
-					J_U64(sec);
-					J_U64(usec);
-
-					sec = json_object_array_get_idx(tv, 0);
-					usec = json_object_array_get_idx(tv, 1);
-
-					if (!sec || !usec) {
-						fprintf(stderr,
-							"ERROR: get tv failed\n");
-						goto done;
-					}
-
-					J_GET_U64(sec);
-					J_GET_U64(usec);
-					xv.tv.tv_sec = sec_u64;
-					xv.tv.tv_usec = usec_u64;
-					break;
+				if (json_object_get_type(tv) !=
+				    json_type_array) {
+					fprintf(stderr,
+						"ERROR: tv is not arrary\n");
+					goto done;
 				}
-				case X_INDEX: {
-					J_U64(idx);
-					J_GET_VALUE(value, "idx", idx);
-					J_GET_U64(idx);
-					xv.idx = idx_u64;
-					break;
+				int len = json_object_array_length(tv);
+				if (len != 2) {
+					fprintf(stderr,
+						"ERROR: tv must has two value\n");
+					goto done;
 				}
+
+				J_U64(sec);
+				J_U64(usec);
+
+				sec = json_object_array_get_idx(tv, 0);
+				usec = json_object_array_get_idx(tv, 1);
+
+				if (!sec || !usec) {
+					fprintf(stderr,
+						"ERROR: get tv failed\n");
+					goto done;
 				}
+
+				J_GET_U64(sec);
+				J_GET_U64(usec);
+				xv.tv.tv_sec = sec_u64;
+				xv.tv.tv_usec = usec_u64;
+
+				/* index x */
+				J_U64(idx);
+				J_GET_VALUE(value, "idx", idx);
+				J_GET_U64(idx);
+				xv.idx = idx_u64;
 
 				line = lgroup_get_line_from_id(lg, lid_i);
 				if (!line) {
