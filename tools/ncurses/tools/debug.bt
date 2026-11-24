@@ -13,14 +13,18 @@ uprobe:./plotcake:exec_key_handler
 }
 
 uprobe:./plotcake:sig_handler,
-uprobe:./plotcake:sig_rd_handler
+uprobe:./plotcake:sig_rd_handler,
+uprobe:./plotcake:handle_id
 {
 	printf("%s %s %d\n", probe, comm, arg0);
 }
 
-uretprobe:./plotcake:main
+uretprobe:./plotcake:main,
+uretprobe:./plotcake:sig_handler,
+uretprobe:./plotcake:sig_rd_handler,
+uretprobe:./plotcake:handle_id
 {
-	printf("%s main return %d\n", comm, retval);
+	printf("%s %s %d\n", probe, comm, retval);
 }
 
 tracepoint:syscalls:sys_enter_close

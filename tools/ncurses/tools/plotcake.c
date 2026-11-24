@@ -702,10 +702,13 @@ int main(int argc, char *argv[])
 		int nfds = epoll_wait(epollfd, epollevents, 16, -1);
 		for (int i = 0; i < nfds; i++) {
 			int cur_fd = epollevents[i].data.fd;
-			if (handle_id(NULL, cur_fd) == -ENOENT)
+			if (handle_id(NULL, cur_fd) == -ENOENT) {
 				continue;
-			if (loop_arg.should_end)
+			}
+
+			if (loop_arg.should_end) {
 				goto end;
+			}
 
 			if (loop_arg.redraw) {
 				plot_redraw(&plot);
