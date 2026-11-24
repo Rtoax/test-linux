@@ -12,6 +12,12 @@ uprobe:./plotcake:exec_key_handler
 	       "exec_key_handler()", ustack);
 }
 
+uprobe:./plotcake:sig_handler,
+uprobe:./plotcake:sig_rd_handler
+{
+	printf("%s %s %d\n", probe, comm, arg0);
+}
+
 uretprobe:./plotcake:main
 {
 	printf("%s main return %d\n", comm, retval);

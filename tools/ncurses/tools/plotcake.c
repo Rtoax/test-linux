@@ -359,11 +359,14 @@ struct loop_arg {
 
 static int tmout_handler(long fd, void *arg)
 {
-	struct loop_arg *a = arg;
 	uint64_t exp;
 	read(fd, &exp, sizeof(exp));
 	broadcast_sigal(SIGINT);
-	a->should_end = true;
+	/**
+	 * Note that we should not set should_end=true, because SIGINT will
+	 * trigger sig_handler(), sig_handler() write SIGINT to pipe, then,
+	 * sig_rd_handler() will handle SIGINT and set should_end=true.
+	 */
 	return 0;
 }
 
@@ -635,7 +638,7 @@ int main(int argc, char *argv[])
 	if (tmout_nsecs != 0) {
 		tmout_exit_fd = new_timerfd(tmout_nsecs);
 		plotcake_poll_add_fd(tmout_exit_fd);
-		register_id(NULL, tmout_exit_fd, tmout_handler, &loop_arg);
+		register_id(NULL, tmout_exit_fd, tmout_handler, NULL);
 	}
 
 	plotcake_poll_add_fd(sig_rd_fd);

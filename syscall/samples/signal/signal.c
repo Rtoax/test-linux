@@ -12,10 +12,11 @@ void sig_handler(int signum)
 
 	switch (signum) {
 	case SIGINT:
+		printf("[%d] Get SIGINT.\n", getpid());
 		keep_going = 0;
 		break;
 	case SIGALRM:
-		printf("Get SIGALRM.\n");
+		printf("[%d] Get SIGALRM.\n", getpid());
 		break;
 	}
 }
@@ -23,6 +24,8 @@ void sig_handler(int signum)
 int main(void)
 {
 	sighandler_t sighandler;
+
+	printf("[%d]\n", getpid());
 
 	signal(SIGINT, sig_handler);
 	sighandler = signal(SIGALRM, sig_handler);
