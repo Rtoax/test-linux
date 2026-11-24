@@ -9,6 +9,7 @@
 enum x_axis_type {
 	X_TIMEVAL,
 	X_INDEX,
+	X_AXIS_TYPE_MAX,
 };
 
 /* x axis value type */

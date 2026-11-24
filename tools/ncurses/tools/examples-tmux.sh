@@ -183,11 +183,16 @@ check_content "delta\("
 send_keys 't'
 send_keys 't' # Back to origin plot type
 
+send_keys 'x'
+check_content "1         11"
+
+# Turn on the verbose mode
 send_keys 'v'
 check_content "h=2"
 check_content "l=2"
 check_content "s=2"
 check_content "t=6"
+check_content "x=1"
 
 tmux capture-pane -t ${session} -p
 echo "SUCCESS"

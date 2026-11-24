@@ -682,9 +682,10 @@ void plot_redraw(struct plot *p)
 }
 
 static const char *key_helps[] = {
-	KEY_HELP_h,    KEY_HELP_l,    KEY_HELP_q,     KEY_HELP_r,
-	KEY_HELP_s,    KEY_HELP_t,    KEY_HELP_v,     KEY_HELP_UP,
-	KEY_HELP_DOWN, KEY_HELP_LEFT, KEY_HELP_RIGHT, KEY_HELP_ENTER,
+	KEY_HELP_h,	KEY_HELP_l,    KEY_HELP_q,    KEY_HELP_r,
+	KEY_HELP_s,	KEY_HELP_t,    KEY_HELP_v,    KEY_HELP_x,
+	KEY_HELP_UP,	KEY_HELP_DOWN, KEY_HELP_LEFT, KEY_HELP_RIGHT,
+	KEY_HELP_ENTER,
 };
 
 static int max_key_help_len(void)
@@ -939,6 +940,16 @@ static int key_t_handler(int key, void *arg)
 	return 0;
 }
 
+/**
+ * Press key 'x', change x axis type
+ */
+static int key_x_handler(int key, void *arg)
+{
+	struct plot *p = arg;
+	p->x_type = (p->x_type + 1) % X_AXIS_TYPE_MAX;
+	return 0;
+}
+
 static int key_up_handler(int key, void *arg)
 {
 	plot_scaling_up(arg);
@@ -1018,6 +1029,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	err = err ?: register_key_handler(kb, 't', p, key_t_handler);
 	err = err ?: register_key_handler(kb, 'h', p, key_h_handler);
 	err = err ?: register_key_handler(kb, 'l', p, key_l_handler);
+	err = err ?: register_key_handler(kb, 'x', p, key_x_handler);
 	err = err ?: register_key_handler(kb, KEY_UP, p, key_up_handler);
 	err = err ?: register_key_handler(kb, KEY_DOWN, p, key_down_handler);
 	err = err ?: register_key_handler(kb, KEY_RIGHT, p, key_right_handler);

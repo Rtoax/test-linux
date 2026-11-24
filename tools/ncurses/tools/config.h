@@ -4,7 +4,7 @@
 
 #include <ncursesw/curses.h>
 
-#define MY_VERSION "v1.8.17"
+#define MY_VERSION "v1.8.18"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -14,6 +14,7 @@
 #define KEY_HELP_s "'s': enable/disable stacked line chart"
 #define KEY_HELP_t "'t': change numerical scaling type for paint"
 #define KEY_HELP_v "'v': turn on/off the verbose mode"
+#define KEY_HELP_x "'x': switch x axis type"
 #define KEY_HELP_ENTER "Enter: refresh plot"
 #define KEY_HELP_UP "Up: uniform scaling up"
 #define KEY_HELP_DOWN "Down: uniform scaling down"

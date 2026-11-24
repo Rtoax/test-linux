@@ -89,6 +89,7 @@ const char argp_prog_doc[] = ANSI_BOLD
 	"   " KEY_HELP_s "\n"
 	"   " KEY_HELP_t "\n"
 	"   " KEY_HELP_v "\n"
+	"   " KEY_HELP_x "\n"
 	"   " KEY_HELP_ENTER "\n"
 	"   " KEY_HELP_UP "\n"
 	"   " KEY_HELP_DOWN "\n"
@@ -142,7 +143,8 @@ static const struct argp_option opts[] = {
 #endif
 	  ")." },
 	{ "x-index", ARG_X_AXIS_INDEX, NULL, 1,
-	  "Use index as x axis value instead of timeval" },
+	  "Use index as x axis value instead of timeval (shortcut: " KEY_HELP_x
+	  ")." },
 	{ "axis-curve-type", ARG_AXIS_CURVE_TYPE, "TYPE", 0,
 	  "Plotting line types for coordinate axes, the supported types will "
 	  "be listed or use --ltypes show all types supported " },
@@ -482,6 +484,11 @@ static int key_handler(long fd, void *arg)
 			break;
 		case 'l': /* list line labels */
 			plot->kb->cnt.l++;
+			a->redraw = true;
+			break;
+		/* x axis type */
+		case 'x':
+			plot->kb->cnt.x++;
 			a->redraw = true;
 			break;
 		/**
