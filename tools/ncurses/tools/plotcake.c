@@ -663,7 +663,7 @@ int main(int argc, char *argv[])
 	keypad(plot.win, TRUE);
 	nodelay(plot.win, TRUE);
 
-	init_flavor();
+	init_flavor(true);
 
 	plot.curve_type = curve_type;
 	plot.enable_stacked_line_chart = enable_stacked_line_chart;

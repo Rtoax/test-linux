@@ -22,6 +22,7 @@ and this project adheres to
 #### Security
 #### Scripts
 #### Tools
+- plotcake: default transparent background;
 - plotcake: shortcut 'x' for x axis type;
 - plotcake: shortcut 's' for stacked line;
 - plotcake: support stacked line chart with --enable-stacked-line-chart;
