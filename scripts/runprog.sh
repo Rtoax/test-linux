@@ -136,6 +136,13 @@ while true; do
 	esac
 done
 
+if [[ ${LOG_FILE} ]]; then
+	ERR_LOG_FILE=${LOG_FILE}.stderr
+	if [[ ${LOG_FILE##*.} == log ]]; then
+		ERR_LOG_FILE=${LOG_FILE%.*}.stderr.log
+	fi
+fi
+
 SPAWN=( "${@}" )
 EXEC=${SPAWN[0]}
 
@@ -174,13 +181,8 @@ WHOLE_CMD+="${TMOUT:+timeout ${TMOUT} }"
 WHOLE_CMD+="${SHEBANG:+${SHEBANG} }"
 WHOLE_CMD+="${SPAWN[@]}"
 
+# Store stderr and stdout logs separately
 exec_with_log() {
-	ERR_LOG_FILE=${LOG_FILE}.stderr
-	if [[ ${LOG_FILE##*.} == log ]]; then
-		ERR_LOG_FILE=${LOG_FILE%.*}.stderr.log
-	fi
-
-	# Store stderr and stdout logs separately
 	exec 101> >(tee --append ${LOG_FILE})
 	exec 102> >(tee --append ${ERR_LOG_FILE})
 	eval "${WHOLE_CMD}" >&101 2>&102 || {
@@ -203,7 +205,7 @@ if [[ ${LOG_FILE} ]]; then
 	if [[ -n ${NEED_TTY} ]]; then
 		exec_without_log
 		# Create the fake log file.
-		touch ${LOG_FILE}
+		touch ${LOG_FILE} ${ERR_LOG_FILE}
 	else
 		exec_with_log
 	fi
