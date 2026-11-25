@@ -362,7 +362,7 @@ static int tmout_handler(long fd, void *arg)
 {
 	uint64_t exp;
 	read(fd, &exp, sizeof(exp));
-	broadcast_sigal(SIGINT);
+	broadcast_signal(SIGINT);
 	/**
 	 * Note that we should not set should_end=true, because SIGINT will
 	 * trigger sig_handler(), sig_handler() write SIGINT to pipe, then,
@@ -450,7 +450,7 @@ static int key_handler(long fd, void *arg)
 			a->redraw = true;
 			break;
 		case 'q': /* quit */
-			broadcast_sigal(SIGINT);
+			broadcast_signal(SIGINT);
 			a->should_end = true;
 			break;
 		case 'v': /* verbose mode switch */

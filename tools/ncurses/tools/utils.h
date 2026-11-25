@@ -23,4 +23,4 @@ long alloc_buf_read_file(const char *filename, char **buf);
 
 int new_timerfd(unsigned long nsecs);
 
-void broadcast_sigal(int signo);
+void broadcast_signal(int signo);

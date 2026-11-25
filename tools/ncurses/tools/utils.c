@@ -178,7 +178,7 @@ int new_timerfd(unsigned long nsecs)
  * Send a signal to every process in the process group of the calling process,
  * to make sure the process preceding the pipeline exits.
  */
-void broadcast_sigal(int signo)
+void broadcast_signal(int signo)
 {
 	kill(0, signo);
 }
