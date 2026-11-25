@@ -15,8 +15,8 @@
 #include "utils.h"
 #include "dialog.h"
 #include "plotcake.h"
+#include "color.h"
 
-static chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
 static int __paint_help_win(struct plot *p, bool init);
@@ -50,36 +50,6 @@ struct lgroup *plot_lgroup(const struct plot *p, int idx)
 			return lg;
 	}
 	return NULL;
-}
-
-void init_flavor(bool transparent_bg)
-{
-	if (has_colors()) {
-		int bg = COLOR_BLACK;
-		start_color();
-
-		if (transparent_bg) {
-			use_default_colors();
-			bg = -1;
-		}
-#define SET_COLOR(num, fg)                        \
-	init_pair(num + 1, (short)fg, (short)bg); \
-	colors[num] |= (chtype)COLOR_PAIR(num + 1)
-
-		SET_COLOR(C_GREEN, COLOR_GREEN);
-		SET_COLOR(C_RED, COLOR_RED);
-		SET_COLOR(C_CYAN, COLOR_CYAN);
-		SET_COLOR(C_WHITE, COLOR_WHITE);
-		SET_COLOR(C_MAGENTA, COLOR_MAGENTA);
-		SET_COLOR(C_BLUE, COLOR_BLUE);
-		SET_COLOR(C_YELLOW, COLOR_YELLOW);
-#undef SET_COLOR
-	}
-}
-
-chtype getflavor(enum lcolor_enum color)
-{
-	return colors[color];
 }
 
 int plot_height(const struct plot *p)
@@ -153,9 +123,9 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 	va_start(va, fmt);
 	vsnprintf(buff, 256, fmt, va);
 	va_end(va);
-	attron(colors[C_RED] | A_BOLD);
+	attron(getflavor(C_RED) | A_BOLD);
 	mvaddstr(plot_height(p) / 2, (plot_width(p) - strlen(buff)) / 2, buff);
-	attroff(colors[C_RED] | A_BOLD);
+	attroff(getflavor(C_RED) | A_BOLD);
 }
 
 int get_plot_value_heigh(const struct plot *p, double min, double max, double v)
@@ -240,9 +210,9 @@ static void __draw_title(const struct plot *p)
 		strncat(buf, "[stacked]", sizeof(buf) - strlen(buf) - 1);
 	}
 
-	wattron(p->win, colors[C_BLUE] | A_BOLD);
+	wattron(p->win, getflavor(C_BLUE) | A_BOLD);
 	mvaddstr(0, (col - strlen(buf)) / 2, buf);
-	wattroff(p->win, colors[C_BLUE] | A_BOLD);
+	wattroff(p->win, getflavor(C_BLUE) | A_BOLD);
 
 	if (p->debug) {
 		char buf2[64];
@@ -639,12 +609,12 @@ static int __paint_help_win(struct plot *p, bool init)
 		ret = 1;
 	}
 
-	wattron(win, colors[C_BLUE] | A_BOLD);
+	wattron(win, getflavor(C_BLUE) | A_BOLD);
 	set_win_border(win, p->win_border_type);
 	mvwprintw(win, 0, 2, "[ HELP ]");
 	for (int i = n - 1; i >= 0; i--)
 		mvwprintw(win, i + 1, 1, "%s", key_helps[n - i - 1]);
-	wattroff(win, colors[C_BLUE] | A_BOLD);
+	wattroff(win, getflavor(C_BLUE) | A_BOLD);
 
 	return ret;
 }
@@ -699,10 +669,10 @@ static int __paint_llabels_win(struct plot *p, bool init)
 	{
 		for_each_line(lg, ln)
 		{
-			wattron(win, colors[ln->color] | A_BOLD);
+			wattron(win, getflavor(ln->color) | A_BOLD);
 			ln->ops->horizon(p, win, i + 1, 1, n);
 			mvwprintw(win, i + 1, n + 1, " %s", ln->name);
-			wattroff(win, colors[ln->color] | A_BOLD);
+			wattroff(win, getflavor(ln->color) | A_BOLD);
 			i++;
 		}
 	}

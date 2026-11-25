@@ -9,6 +9,7 @@ set(CONFIG_JSON_C ON CACHE BOOL "Build with json-c")
 
 set(SRC
   axis.c
+  color.c
   dialog.c
   file.c
   id-handler.c
