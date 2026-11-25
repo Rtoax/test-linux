@@ -102,6 +102,7 @@ void plot_update_size(struct plot *p, bool init)
 	case 'r':
 	case 's':
 	case 't':
+	case 'x': /* 'x' need update in vertical plotting mode */
 		p->bnd.top = p->bnd_prev_max.top;
 		p->bnd.bottom = p->bnd_prev_max.bottom;
 		p->bnd.left = p->bnd_prev_max.left;
