@@ -10,7 +10,7 @@
 #include "plot.h"
 #include "stdin.h"
 
-static char *skip(char *buf)
+static char *skip_whitespace(char *buf)
 {
 	/**
 	 * Sometimes `isspace` from `glibc` does not return true for spaces or
@@ -65,14 +65,14 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 		return;
 
 	for (i = 0; i < a->nline && *buf != '\0'; i++) {
-		buf = skip(buf);
+		buf = skip_whitespace(buf);
 		values[i] = strtod(buf, &buf);
-		buf = skip(buf);
+		buf = skip_whitespace(buf);
 	}
 
 	/* found more values, we should append new line */
 	while (*buf != '\0') {
-		buf = skip(buf);
+		buf = skip_whitespace(buf);
 		/**
 		 * Must be a number, of course, be a negative number, or start
 		 * with '.'
