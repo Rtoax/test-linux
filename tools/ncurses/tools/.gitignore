@@ -4,3 +4,4 @@
 *.txt
 !CMakeLists.txt
 /plotcake
+/id-handler-exec

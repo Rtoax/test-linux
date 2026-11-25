@@ -15,6 +15,6 @@ build/plotcake: CMakeLists.txt plotcake
 	${Q}make -C build
 	${Q}sudo make -C build install
 
-.PHONY: id-handler
-id-handler: id-handler.c id-handler.h
+.PHONY: id-handler-glibc
+id-handler-glibc: id-handler.c id-handler.h
 	${MAKE} -C ${TOPDIR}/glibc/search
