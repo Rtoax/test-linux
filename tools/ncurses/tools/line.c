@@ -420,3 +420,245 @@ struct line *new_line(struct lgroup *lg, const char *name, int color)
 {
 	return new_line_ops(lg, name, color, ltype_type2ops(dequeue_ltype()));
 }
+
+/**
+ * @start: start point of line.
+ * @len: number of value to plot.
+ * @max and @min is algorithm value, in the case of a logarithmic plot, 'max'
+ * is already a logarithmic value.
+ */
+void __paint_line(struct plot *p, const struct lgroup *lg,
+		  const struct line *ln, int start, int len, int shift,
+		  double max, double min, double *stacked_line, bool first_line)
+{
+	int iv;
+	int prev_h = -1;
+	bool is_last_v = false;
+	chtype color = getflavor(ln->color);
+
+	const long ln_shift_count = ln->count - shift;
+	const int nvs = (ln_shift_count + p->plotscaling - 1) / p->plotscaling;
+
+	iv = -1;
+	for_each_value(ln, v)
+	{
+		iv++;
+		/**
+		 * The number of data points may be greater than the horizontal
+		 * size of the plotting area, so it is necessary to first skip
+		 * the data points that exceed the plotting area.
+		 *
+		 * line: |------------------------| line count
+		 *
+		 *                      <--shift--> plotshift * plotscaling
+		 *
+		 *       |--------------|           @ln_shift_count
+		 *
+		 * plot:        |=======|           plotwidth * plotscaling
+		 *
+		 *              ^ start
+		 *                      ^ start + len
+		 *
+		 *     ^^^^^ skip
+		 *
+		 * see also paint_lgroup().
+		 */
+		if (iv <= start || iv >= start + len) {
+			continue;
+		}
+
+		if (iv % p->plotscaling != 0) {
+			continue;
+		}
+
+		/**
+		 * If plot CURVE_TYPE_DELTA, the last value will be skipped,
+		 * then we need '>=' instead of '>'.
+		 */
+		if (iv >= start + len - p->plotscaling - 1) {
+			is_last_v = true;
+		}
+
+		double real_v = get_plot_value(p, v);
+
+		/**
+		 * 1. the last value of line may be NaN, see delta_v()
+		 */
+		if (isnan(real_v)) {
+			iv = ln_shift_count;
+			goto print_llabel;
+		}
+
+		if (stacked_line) {
+			if (first_line) {
+				stacked_line[iv] = real_v;
+			} else {
+				stacked_line[iv] += real_v;
+			}
+		}
+
+		double plot_v;
+		if (stacked_line) {
+			plot_v = stacked_line[iv];
+		} else {
+			plot_v = real_v;
+		}
+		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
+
+		int h = get_plot_value_heigh(p, min, max, plot_v);
+		int w = p->plotwidth + p->bnd.left - (nvs - ivs);
+
+		attron(color);
+		if (p->vertical_plotting) {
+			ln->ops->vertical(p, p->win, w, h, 1);
+		} else {
+			ln->ops->horizon(p, p->win, h, w, 1);
+		}
+		attroff(color);
+
+		/**
+		 * Print the corner, like: ---+
+		 *                            |
+		 *                            +----
+		 */
+		if (prev_h != -1) {
+			attron(color);
+			if (prev_h > h) {
+				if (p->vertical_plotting) {
+					ln->ops->lrcorner(p, p->win, w, prev_h);
+					ln->ops->ulcorner(p, p->win, w, h);
+					ln->ops->horizon(p, p->win, w, h + 1,
+							 prev_h - h - 1);
+				} else {
+					ln->ops->lrcorner(p, p->win, prev_h, w);
+					ln->ops->ulcorner(p, p->win, h, w);
+					ln->ops->vertical(p, p->win, h + 1, w,
+							  prev_h - h - 1);
+				}
+			} else if (h > prev_h) {
+				if (p->vertical_plotting) {
+					ln->ops->llcorner(p, p->win, w, prev_h);
+					ln->ops->urcorner(p, p->win, w, h);
+					ln->ops->horizon(p, p->win, w,
+							 prev_h + 1,
+							 h - prev_h - 1);
+				} else {
+					ln->ops->urcorner(p, p->win, prev_h, w);
+					ln->ops->llcorner(p, p->win, h, w);
+					ln->ops->vertical(p, p->win, prev_h + 1,
+							  w, h - prev_h - 1);
+				}
+			}
+			attroff(color);
+		}
+
+		prev_h = h;
+
+		/* set x axis */
+		if ((ivs - 1) % (p->vertical_plotting ? 1 : 10) == 0) {
+			int y, x, n = 0;
+			char buf[32];
+
+			if (p->vertical_plotting) {
+				y = w;
+				x = 0;
+			} else {
+				y = plot_height(p) - p->bnd.bottom + 1;
+				x = w;
+			}
+			switch (p->x_type) {
+			case X_TIMEVAL:
+				timeval_str(&v->x_v.tv, buf);
+				n = strlen(buf);
+				break;
+			case X_INDEX:
+				n = snprintf(buf, sizeof(buf), "%ld",
+					     v->x_v.idx);
+				break;
+			default:
+				break;
+			}
+			mvprintw(y, x, "%s", buf);
+
+			/* vertical plotting need update bottom boundary size */
+			if (p->vertical_plotting &&
+			    p->bnd_prev_max.bottom < n) {
+				p->bnd_prev_max.bottom = n;
+			}
+		}
+
+		/* set y axis */
+		char sv[128];
+		int nc;
+		int sz = sizeof(sv);
+
+		if (p->curve_type == CURVE_TYPE_LOGARITHMIC) {
+			nc = snprintf(sv, sz, "s*log(1+|%.3f|)=%.3f", v->v,
+				      real_v);
+		} else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10) {
+			nc = snprintf(sv, sz, "s*log10(1+|%.3f|)=%.3f", v->v,
+				      real_v);
+		} else if (p->curve_type == CURVE_TYPE_EXPONENTIAL) {
+			nc = snprintf(sv, sz, "exp(%.3f)=%.3f", v->v, real_v);
+		} else if (p->curve_type == CURVE_TYPE_DELTA &&
+			   !p->enable_stacked_line_chart) {
+			nc = snprintf(sv, sz, "delta(%.3f-%.3f)=%.3f",
+				      v->next->v, v->v, real_v);
+		} else {
+			nc = snprintf(sv, sz, "%.3f", real_v);
+		}
+
+		if (p->enable_stacked_line_chart && plot_v != real_v) {
+			nc += snprintf(sv + strlen(sv), sz - strlen(sv),
+				       "[%.3f]", plot_v);
+		}
+
+		/* horizontal plotting need update bottom boundary size */
+		if (!p->vertical_plotting && p->bnd_prev_max.left < nc) {
+			p->bnd_prev_max.left = nc;
+		}
+
+		attron(color);
+		if (p->vertical_plotting) {
+			if (is_last_v) {
+				/**
+				 * TODO: Printing should be better here, right
+				 * now, we just print last value, however.
+				 */
+				mvprintw(p->bnd.left - 1, h, "%s", sv);
+			}
+		} else {
+			mvprintw(h, 0, "%s", sv);
+		}
+		attroff(color);
+
+print_llabel:
+		attron(color);
+		if (iv + 1 + p->plotscaling > ln_shift_count) {
+			if (p->vertical_plotting) {
+				int y = p->plotwidth + p->bnd.left;
+				mvprintw(y, h, "%s", ln->name);
+				if (p->debug) {
+					mvprintw(y + 1, h, "%ld", ln->count);
+					mvprintw(y + 2, h, "%.1f", ln->min->v);
+					mvprintw(y + 3, h, "%.1f", ln->max->v);
+				}
+			} else {
+				mvprintw(h, w + 1, "%s", ln->name);
+				nc = strlen(ln->name);
+				if (p->bnd_prev_max.right < nc)
+					p->bnd_prev_max.right = nc;
+
+				if (p->debug) {
+					mvprintw(h + 1, w + 1, "%ld",
+						 ln->count);
+					mvprintw(h + 2, w + 1, "%.1f",
+						 ln->min->v);
+					mvprintw(h + 3, w + 1, "%.1f",
+						 ln->max->v);
+				}
+			}
+		}
+		attroff(color);
+	}
+}

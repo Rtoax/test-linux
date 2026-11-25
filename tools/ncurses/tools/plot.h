@@ -244,3 +244,7 @@ void __plot_debug_llabel(const struct lgroup *lg, int y, int x);
 
 int plot_height(const struct plot *p);
 int plot_width(const struct plot *p);
+
+int get_plot_value_heigh(const struct plot *p, double min, double max,
+			 double v);
+double get_plot_value(const struct plot *p, const struct value *v);
