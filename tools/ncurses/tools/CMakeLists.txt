@@ -20,6 +20,7 @@ set(SRC
   plot.c
   plotcake.c
   ram.c
+  scatter.c
   stdin.c
   utils.c
 )

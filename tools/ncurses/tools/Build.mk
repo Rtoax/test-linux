@@ -10,7 +10,7 @@ subdir-y += tools
 target-y += plotcake
 
 $(foreach obj, plotcake keyboard file loadavg lgroup line plot ram stdin \
-	  ltypes utils axis dialog id-handler, \
+	  ltypes utils axis dialog id-handler scatter, \
   $(eval plotcake-objs += ${obj}.o))
 
 CFLAGS += ${json-c-cflags}
