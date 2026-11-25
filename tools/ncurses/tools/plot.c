@@ -16,7 +16,7 @@
 #include "dialog.h"
 #include "plotcake.h"
 
-chtype colors[C_MAX] = { 0 };
+static chtype colors[C_MAX] = { 0 };
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
 static int __paint_help_win(struct plot *p, bool init);
