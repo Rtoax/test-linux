@@ -118,23 +118,30 @@ struct plot {
 		p->llabels_timerfd
 #define PLOT_DEBUG0_X_FMT ", %s:%d"
 #define PLOT_DEBUG0_X_ARG(p) , x_axis_type_str(p->x_type), p->x_type
+#define PLOT_DEBUG0_BND_FMT ", [(%d,%d,%d,%d)(%d,%d,%d,%d)]"
+#define PLOT_DEBUG0_BND_ARG(p)                                  \
+	, p->bnd.top, p->bnd.bottom, p->bnd.left, p->bnd.right, \
+		p->bnd_prev_max.top, p->bnd_prev_max.bottom,    \
+		p->bnd_prev_max.left, p->bnd_prev_max.right
 #else
 #define PLOT_DEBUG0_DIALOG_FMT
 #define PLOT_DEBUG0_DIALOG_ARG(p)
 #define PLOT_DEBUG0_X_FMT
 #define PLOT_DEBUG0_X_ARG(p)
+#define PLOT_DEBUG0_BND_FMT
+#define PLOT_DEBUG0_BND_ARG(p)
 #endif
 
-#define PLOT_INF0_FMT                                                                 \
-	"plot(redraw=%ld, %.3f MiB, win[%d,%d], plot[%d,%d], "                        \
-	"scale %d, shft %ld/%ld, stacked %d" PLOT_DEBUG0_X_FMT PLOT_DEBUG0_DIALOG_FMT \
-	")"
+#define PLOT_INF0_FMT                                          \
+	"plot(redraw=%ld, %.3f MiB, win[%d,%d], plot[%d,%d], " \
+	"scale %d, shft %ld/%ld, stacked %d" PLOT_DEBUG0_X_FMT \
+		PLOT_DEBUG0_DIALOG_FMT PLOT_DEBUG0_BND_FMT ")"
 #define PLOT_INF0_ARG(p)                                                    \
 	p->redrawcount, plot_mem_size(p) * 1. / MiB, plot_height(p),        \
 		plot_width(p), p->plotheight, p->plotwidth, p->plotscaling, \
 		p->plotshift, plot_shift(p),                                \
 		p->enable_stacked_line_chart PLOT_DEBUG0_X_ARG(p)           \
-			PLOT_DEBUG0_DIALOG_ARG(p)
+			PLOT_DEBUG0_DIALOG_ARG(p) PLOT_DEBUG0_BND_ARG(p)
 
 	WINDOW *win; /* equal to stdscr */
 
