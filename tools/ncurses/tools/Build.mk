@@ -5,6 +5,8 @@ include json-c.mk
 include ncurses.mk
 include tmux.mk
 
+subdir-y += tools
+
 target-y += plotcake
 
 prog-y += examples.sh
