@@ -17,7 +17,8 @@ do
 			sc = s + c
 			sc2 = s - c
 			sc3 = s * c
-			print s" "c" "sc" "sc2" "sc3
+			sc4 = s * c + c
+			print s" "c" "sc" "sc2" "sc3" "sc4
 		}'
 	sleep 0.02
 
@@ -26,5 +27,10 @@ do
 		kill -INT 0
 	fi
 done | ${PLOTCAKE} --title "Trigonometric Functions" \
-	-l "Sin" -l "Cos" -l "Sin+Cos" -l "Sin-Cos" -l "Sin*Cos" \
+	-l "Sin" \
+	-l "Cos" \
+	-l "Sin+Cos" \
+	-l "Sin-Cos" \
+	-l "Sin*Cos" \
+	-l "Sin*Cos+Cos" \
 	-o trigonometric-functions --x-index "${@}"
