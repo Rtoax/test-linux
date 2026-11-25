@@ -165,6 +165,7 @@ static const struct argp_option opts[] = {
 };
 
 static int epollfd = -1;
+static int stdinfd = -1;
 static int sig_rd_fd, sig_wr_fd;
 static int ram = false;
 static int verbose = false;
@@ -501,6 +502,14 @@ static int key_handler(long fd, void *arg)
 	return 0;
 }
 
+static void close_stdinfd(void)
+{
+	if (stdinfd != -1) {
+		close(stdinfd);
+		stdinfd = -1;
+	}
+}
+
 static int sig_rd_handler(long fd, void *arg)
 {
 	unsigned char signo;
@@ -515,6 +524,8 @@ static int sig_rd_handler(long fd, void *arg)
 	}
 
 	if (signo == SIGINT) {
+		/* close stdinfd (the pipe read peer) as early as possible. */
+		close_stdinfd();
 		a->should_end = true;
 	} else if (signo == SIGWINCH) {
 		endwin();
@@ -546,7 +557,7 @@ static int stdinfd_handler(long fd, void *arg)
 int main(int argc, char *argv[])
 {
 	int err = 0;
-	int freshtimerfd, keyfd, stdinfd, tmout_exit_fd;
+	int freshtimerfd, keyfd, tmout_exit_fd;
 	int sigpipe[2];
 	struct loop_arg loop_arg;
 
@@ -717,9 +728,10 @@ int main(int argc, char *argv[])
 	}
 
 end:
-	if (stdinfd != -1) {
-		close(stdinfd);
+	close_stdinfd();
+	if (stdin_buffer) {
 		free(stdin_buffer);
+		stdin_buffer = NULL;
 	}
 	if (freshtimerfd != -1)
 		close(freshtimerfd);
