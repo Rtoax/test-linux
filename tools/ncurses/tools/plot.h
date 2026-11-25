@@ -42,7 +42,7 @@ struct plot {
 	 */
 	int heightmax, widthmax;
 	/* Current terminal size */
-	int height, width;
+	int horizontal, vertical;
 	/**
 	 * The size of the drawing area, excluding boundaries, axes, line
 	 * labels.
@@ -127,11 +127,11 @@ struct plot {
 	"plot(redraw=%ld, %.3f MiB, win[%d,%d], max[%d,%d], plot[%d,%d], "            \
 	"scale %d, shft %ld/%ld, stacked %d" PLOT_DEBUG0_X_FMT PLOT_DEBUG0_DIALOG_FMT \
 	")"
-#define PLOT_INF0_ARG(p)                                                  \
-	p->redrawcount, plot_mem_size(p) * 1. / MiB, p->height, p->width, \
-		p->heightmax, p->widthmax, p->plotheight, p->plotwidth,   \
-		p->plotscaling, p->plotshift, plot_shift(p),              \
-		p->enable_stacked_line_chart PLOT_DEBUG0_X_ARG(p)         \
+#define PLOT_INF0_ARG(p)                                                   \
+	p->redrawcount, plot_mem_size(p) * 1. / MiB, p->vertical,          \
+		p->horizontal, p->heightmax, p->widthmax, p->plotheight,   \
+		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p), \
+		p->enable_stacked_line_chart PLOT_DEBUG0_X_ARG(p)          \
 			PLOT_DEBUG0_DIALOG_ARG(p)
 
 	WINDOW *win; /* equal to stdscr */
