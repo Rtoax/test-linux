@@ -232,6 +232,7 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 {
 	int iv;
 	int prev_h = -1;
+	bool is_last_v = false;
 	chtype color = colors[ln->color];
 
 	const long ln_shift_count = ln->count - shift;
@@ -267,6 +268,10 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 
 		if (iv % p->plotscaling != 0) {
 			continue;
+		}
+
+		if (iv > start + len - p->plotscaling - 1) {
+			is_last_v = true;
 		}
 
 		double real_v = get_plot_value(p, v);
@@ -409,8 +414,11 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		}
 
 		attron(color);
-		if (p->vertical_plotting) {
-			/* TODO: pretty printing (sparse maybe) */
+		if (p->vertical_plotting && is_last_v) {
+			/**
+			 * TODO: Printing should be better here, right now, we
+			 * just print last value, however.
+			 */
 			mvprintw(p->bnd.left - 1, h, "%s", sv);
 		} else {
 			mvprintw(h, 0, "%s", sv);
@@ -571,7 +579,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 {
 	double max, min, max_stacked, min_stacked;
 	int start = -1;
-	int len = p->plotwidth * p->plotscaling;
+	int draw_len = p->plotwidth * p->plotscaling;
 	unsigned long shift = plot_shift(p);
 	bool first_line = true;
 	unsigned long max_nr_values = 0;
@@ -602,18 +610,20 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 			p->plotshift = shift = 0;
 		}
 
-		start = l->count - len - shift;
+		start = l->count - draw_len - shift;
 
 		double _max, _min;
 		if (p->curve_type == CURVE_TYPE_DELTA &&
 		    !p->enable_stacked_line_chart) {
 			_max = line_range_delta_max(l, start, p->plotscaling,
-						    len);
+						    draw_len);
 			_min = line_range_delta_min(l, start, p->plotscaling,
-						    len);
+						    draw_len);
 		} else {
-			_max = line_range_max(l, start, p->plotscaling, len);
-			_min = line_range_min(l, start, p->plotscaling, len);
+			_max = line_range_max(l, start, p->plotscaling,
+					      draw_len);
+			_min = line_range_min(l, start, p->plotscaling,
+					      draw_len);
 		}
 
 		switch (p->curve_type) {
@@ -674,7 +684,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 	{
 		if (l->count <= 0)
 			continue;
-		__paint_line(p, lg, l, start, len, shift,
+		__paint_line(p, lg, l, start, draw_len, shift,
 			     p->enable_stacked_line_chart ? max_stacked : max,
 			     p->enable_stacked_line_chart ? min_stacked : min,
 			     stacked_line, first_line);
