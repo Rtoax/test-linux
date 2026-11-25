@@ -21,6 +21,39 @@ heigh=40
 
 . tools/lib-plotcake.sh
 
+__usage__() {
+	echo -e "
+${BOLD}NAME${RST}
+    plotcake-examples-tmux - Test plotcake with tmux
+
+${BOLD}SYNOPSIS${RST}
+    plotcake-examples-tmux [opts]
+
+${BOLD}OPTIONS${RST}
+    -h, --help     show this information
+"
+	exit ${1-0}
+}
+
+OPTS=$(getopt --options h \
+		--long help \
+		--name plotcake-examples-tmux -- "$@")
+
+eval set -- "$OPTS"
+
+while true; do
+	case $1 in
+	-h | --help)
+		shift
+		__usage__
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
 cleanup()
 {
 	local err=$?
