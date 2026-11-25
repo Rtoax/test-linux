@@ -108,8 +108,10 @@ check_help_dialog() {
 	check_content "'l': show the label for each line"
 	check_content "'q': quit the plotcake"
 	check_content "'r': reset the ploting"
+	check_content "'s': enable/disable stacked line chart"
 	check_content "'t': change numerical scaling type for paint"
 	check_content "'v': turn on/off the verbose mode"
+	check_content "'x': switch x axis type"
 }
 
 check_llabels_dialog() {
