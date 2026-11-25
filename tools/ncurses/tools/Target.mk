@@ -5,6 +5,7 @@
 ${OUTPUT}examples.sh.prog.log: plotcake
 ${OUTPUT}examples.exp.prog.log: plotcake
 ${OUTPUT}examples-tmux.sh.prog.log: plotcake
+${OUTPUT}examples-tmux.sh.prog.log.1: plotcake
 
 include make.mk
 
