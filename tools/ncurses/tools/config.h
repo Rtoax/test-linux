@@ -4,7 +4,7 @@
 
 #include <ncursesw/curses.h>
 
-#define MY_VERSION "v1.8.34"
+#define MY_VERSION "v1.9.0"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -47,12 +47,6 @@ enum lcolor_enum {
 	C_UNKNOWN = C_MAX,
 };
 extern const char *color_names[C_MAX];
-
-/* Initial plot boundary */
-#define BND_TOP 1
-#define BND_BOTTOM 4
-#define BND_LEFT 7
-#define BND_RIGHT 6
 
 #define T_HLINE '-'
 #define T_VLINE '|'

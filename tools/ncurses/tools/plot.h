@@ -55,6 +55,11 @@ struct plot {
 
 	struct {
 		int top, bottom, left, right;
+/* Initial plot boundary */
+#define BND_TOP(p) (p->vertical_plotting ? 7 : 1)
+#define BND_BOTTOM(p) (p->vertical_plotting ? 6 : 4)
+#define BND_LEFT(p) (p->vertical_plotting ? 3 : 7)
+#define BND_RIGHT(p) (p->vertical_plotting ? 6 : 6)
 	} bnd, bnd_prev_max;
 	struct lgroup *lghead, *lgtail;
 
@@ -62,6 +67,12 @@ struct plot {
 	unsigned long redrawcount;
 
 	enum curve_type curve_type;
+
+	/**
+	 * Generally, the x-axis is horizontal and the y-axis is vertical; when
+	 * plotting in a vertical orientation, the axes are swapped.
+	 */
+	bool vertical_plotting;
 
 	/**
 	 * A stacked line chart shows how multiple series cumulatively add up to
@@ -229,7 +240,7 @@ void plot_redraw(struct plot *p);
 void init_flavor(bool transparent_bg);
 chtype getflavor(enum lcolor_enum color);
 
-void __plot_debug_llabel(const struct lgroup *lg, int height);
+void __plot_debug_llabel(const struct lgroup *lg, int y, int x);
 
 int plot_height(const struct plot *p);
 int plot_width(const struct plot *p);

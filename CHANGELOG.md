@@ -23,6 +23,7 @@ and this project adheres to
 #### Scripts
 - runprog.sh: use seperate exec process substitution for log;
 #### Tools
+- plotcake: support vertical plotting with arg --vertical-plotting;
 - bash: add redirect/process-substitution.sh;
 - bash: add eval subdir;
 - bash: add mode subdir to test `set -m`;

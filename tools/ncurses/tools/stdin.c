@@ -154,6 +154,7 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	struct plot *p = lg->plot;
 	char *buf = strdup(a->line_buff);
 	char *s = buf;
+	int x, y;
 
 	/**
 	 * Each stdin string ends with a newline character, but this affects
@@ -166,11 +167,20 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 		s++;
 	}
 
-	mvprintw(p->bnd.top + 1, p->bnd.left + 1, "lgroup cnt %d, arg nline %d",
-		 lg->count, a->nline);
-	mvprintw(p->bnd.top + 2, p->bnd.left + 1, "stdin: '%s'", buf);
+	if (p->vertical_plotting) {
+		y = p->bnd.left + 1;
+		x = p->bnd.bottom + 1;
+	} else {
+		y = p->bnd.top + 1;
+		x = p->bnd.left + 1;
+	}
 
-	__plot_debug_llabel(lg, p->bnd.top + 4);
+	mvprintw(y, x, "lgroup cnt %d, arg nline %d", lg->count, a->nline);
+	mvprintw(y + 1, x, "stdin: '%s'", buf);
+
+	__plot_debug_llabel(
+		lg, (p->vertical_plotting ? p->bnd.left : p->bnd.top) + 4,
+		(p->vertical_plotting ? p->bnd.bottom : p->bnd.left) + 1);
 
 	free(buf);
 }

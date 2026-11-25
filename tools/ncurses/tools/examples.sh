@@ -148,6 +148,7 @@ if [[ ${SUPPORT_JSON} ]]; then
 fi
 run -f x-index.txt
 run --enable-stacked-line-chart
+run --vertical-plotting
 
 stdin -V --version
 stdin --usage
@@ -160,6 +161,7 @@ stdin --exponential
 stdin --delta
 stdin --stdin-buffer-size 1024
 stdin --enable-stacked-line-chart
+stdin --vertical-plotting
 
 while true; do
 	for i in 2 4 1 4 6 1 9 1 2 3 4 5; do
