@@ -183,12 +183,25 @@ WHOLE_CMD+="${SPAWN[@]}"
 
 # Store stderr and stdout logs separately
 exec_with_log() {
-	exec 101> >(tee --append ${LOG_FILE})
-	exec 102> >(tee --append ${ERR_LOG_FILE})
+	# The foreground group only echoes, and the background only drops.
+	local echo_stdout=/dev/null
+	local echo_stderr=/dev/null
+	if [[ "$(ps -o tpgid= -p $$ | tr -d ' ')" == "$(ps -o pgid= -p $$ | tr -d ' ')" ]]; then
+		if [[ -t 1 ]]; then
+			echo_stdout=/dev/stdout
+		fi
+		if [[ -t 2 ]]; then
+			echo_stderr=/dev/stderr
+		fi
+	fi
+
+	exec 101> >(tee --append ${LOG_FILE} >${echo_stdout})
+	exec 102> >(tee --append ${ERR_LOG_FILE} >${echo_stderr})
 	eval "${WHOLE_CMD}" >&101 2>&102 || {
 		REAL_RET=$?
 		true
 	}
+	# Cleanup
 	exec 101>&- 102>&-
 }
 
