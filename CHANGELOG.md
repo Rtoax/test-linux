@@ -21,8 +21,10 @@ and this project adheres to
 #### Removed
 #### Security
 #### Scripts
+- runprog.sh: use seperate exec process substitution for log;
 #### Tools
-- base: add eval subdir;
+- bash: add redirect/process-substitution.sh;
+- bash: add eval subdir;
 - bash: add mode subdir to test `set -m`;
 - plotcake: default transparent background;
 - plotcake: shortcut 'x' for x axis type;

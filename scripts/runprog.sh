@@ -179,12 +179,15 @@ exec_with_log() {
 	if [[ ${LOG_FILE##*.} == log ]]; then
 		ERR_LOG_FILE=${LOG_FILE%.*}.stderr.log
 	fi
+
 	# Store stderr and stdout logs separately
-	eval "${WHOLE_CMD}" > >(tee --append ${LOG_FILE}) \
-			   2> >(tee --append ${ERR_LOG_FILE} >&2) || {
+	exec 101> >(tee --append ${LOG_FILE})
+	exec 102> >(tee --append ${ERR_LOG_FILE})
+	eval "${WHOLE_CMD}" >&101 2>&102 || {
 		REAL_RET=$?
 		true
 	}
+	exec 101>&- 102>&-
 }
 
 exec_without_log() {

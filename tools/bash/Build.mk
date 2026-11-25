@@ -8,6 +8,7 @@ subdir-y += exec
 subdir-y += math
 subdir-y += mode
 subdir-y += network
+subdir-y += redirect
 subdir-y += shopt
 subdir-y += source
 subdir-y += string

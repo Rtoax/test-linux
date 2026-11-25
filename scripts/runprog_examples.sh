@@ -67,6 +67,12 @@ runprog --maybe-sudo -- du -sh /boot
 		error "test --log with --tty failed"
 	fi
 	rm -rf ls.log
+
+	runprog --log ls.log -- tests/stdout_stderr.sh
+	if [[ "$(cat ls.log)" != "this-is-stdout-log" ]] ||
+	   [[ "$(cat ls.stderr.log)" != "this-is-stderr-log" ]]; then
+		error "test stdout and stderr failed"
+	fi
 }
 
 runprog --tty -- ls
