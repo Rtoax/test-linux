@@ -195,12 +195,39 @@ exec_with_log() {
 		fi
 	fi
 
+	# Enable monitor mode or not
+	local monitor_mode=
+	if [[ "$-" =~ "m" ]]; then
+		monitor_mode=ON
+	fi
+
 	exec 101> >(tee --append ${LOG_FILE} >${echo_stdout})
 	exec 102> >(tee --append ${ERR_LOG_FILE} >${echo_stderr})
 	eval "${WHOLE_CMD}" >&101 2>&102 || {
-		REAL_RET=$?
-		true
+		REAL_RET=$? || true
+		if [[ ${REAL_RET} != 0 ]]; then
+			# 150 = 128 + 22 means that with job control enabled via
+			# set -m, the pipeline run by eval is placed in a
+			# background process group, a member of that group is
+			# stopped (not killed) by SIGTTOU when it writes to the
+			# terminal, and bash's wait reports a stopped job as
+			# 128 + WSTOPSIG, so eval returns 150.
+			if [[ "${monitor_mode}" ]] && [[ ${REAL_RET} == 150 ]]; then
+				warning "skip errcode 150 in monitor mode"
+				REAL_RET=0
+			# 141 = 128 + 13 means a process in the WHOLE_CMD
+			# pipeline (typically the upstream writer, or a tee that
+			# died first) was terminated by SIGPIPE when it wrote to
+			# a pipe whose read end had already been closed by the
+			# downstream process, and with pipefail enabled eval
+			# propagates that termination code verbatim.
+			elif [[ ${REAL_RET} == 141 ]]; then
+				warning "skip errcode 141 if has command/script with pipe"
+				REAL_RET=0
+			fi
+		fi
 	}
+	echo REAL_RET=${REAL_RET}
 	# Cleanup
 	exec 101>&- 102>&-
 }
