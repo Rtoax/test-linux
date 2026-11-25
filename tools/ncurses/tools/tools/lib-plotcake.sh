@@ -26,10 +26,18 @@ readonly SUPPORT_JSON="$(${PLOTCAKE} --help | grep -wo json)"
 
 plotcake_reset()
 {
+	if which reset 2>/dev/null; then
+		reset || :
+	fi
+	if which resize 2>/dev/null; then
+		resize 2>&1 >/dev/null || :
+	fi
+}
+
+__plotcake_reset()
+{
 	local err=$?
-	resize 2>&1 >/dev/null || true
-	# reset 2>&1 >/dev/null || true
-	echo >&2 "Bye!"
+	plotcake_reset
 	exit ${err}
 }
-trap plotcake_reset EXIT
+trap __plotcake_reset EXIT

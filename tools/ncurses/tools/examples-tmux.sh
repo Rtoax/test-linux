@@ -20,7 +20,8 @@ width=150
 heigh=40
 vertical_plotting=
 
-. tools/lib-plotcake.sh
+readonly MYDIR=$(dirname $(realpath $0))
+. ${MYDIR}/tools/lib-plotcake.sh
 
 __usage__() {
 	echo -e "
@@ -250,4 +251,6 @@ check_content "t=6"
 check_content "x=1"
 
 capture_pane
+
+plotcake_reset
 echo "SUCCESS"

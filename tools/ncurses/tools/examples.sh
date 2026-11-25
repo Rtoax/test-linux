@@ -11,8 +11,8 @@
 # -m: (set -o monitor) monitor mode
 set -em
 readonly LOG=${0}.log
-
-. tools/lib-plotcake.sh
+readonly MYDIR=$(dirname $(realpath $0))
+. ${MYDIR}/tools/lib-plotcake.sh
 
 [[ -z ${I} ]] && I=0.001
 [[ -z ${TMOUT} ]] && TMOUT=200ms
@@ -68,6 +68,7 @@ _seq() {
 
 run() {
 	_eval ${PLOTCAKE} ${args[@]} -I 10ms --interval=10ms "${@}"
+	plotcake_reset
 }
 
 # $1: line number
@@ -80,6 +81,7 @@ __stdin() {
 	while _seq ${SEQ_TYPE} ${NUM}; do
 		sleep ${Interval}
 	done | _eval ${PLOTCAKE} ${args[@]} -o stdin "${@}"
+	plotcake_reset
 }
 stdin() {
 	__stdin ${#LINE_TYPES[@]} none "${@}"
@@ -176,6 +178,5 @@ if [[ ${SUPPORT_JSON} ]]; then
 fi
 
 echo "SUPPORT_JSON=${SUPPORT_JSON}"
-reset || :
-resize || :
+plotcake_reset
 echo "Byebye"
