@@ -32,15 +32,6 @@ struct plot {
 
 	bool debug;
 
-	/**
-	 * max indicates the maximum value your terminal has reached during the
-	 * entire program run (you can use the mouse to drag and adjust the
-	 * terminal size).
-	 *
-	 * `heightmax` represents the maximum height of the terminal window, and
-	 * `widthmax` represents the maximum width of the terminal window.
-	 */
-	int heightmax, widthmax;
 	/* Current terminal size */
 	int horizontal, vertical;
 	/**
@@ -124,14 +115,14 @@ struct plot {
 #endif
 
 #define PLOT_INF0_FMT                                                                 \
-	"plot(redraw=%ld, %.3f MiB, win[%d,%d], max[%d,%d], plot[%d,%d], "            \
+	"plot(redraw=%ld, %.3f MiB, win[%d,%d], plot[%d,%d], "                        \
 	"scale %d, shft %ld/%ld, stacked %d" PLOT_DEBUG0_X_FMT PLOT_DEBUG0_DIALOG_FMT \
 	")"
-#define PLOT_INF0_ARG(p)                                                   \
-	p->redrawcount, plot_mem_size(p) * 1. / MiB, plot_height(p),       \
-		plot_width(p), p->heightmax, p->widthmax, p->plotheight,   \
-		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p), \
-		p->enable_stacked_line_chart PLOT_DEBUG0_X_ARG(p)          \
+#define PLOT_INF0_ARG(p)                                                    \
+	p->redrawcount, plot_mem_size(p) * 1. / MiB, plot_height(p),        \
+		plot_width(p), p->plotheight, p->plotwidth, p->plotscaling, \
+		p->plotshift, plot_shift(p),                                \
+		p->enable_stacked_line_chart PLOT_DEBUG0_X_ARG(p)           \
 			PLOT_DEBUG0_DIALOG_ARG(p)
 
 	WINDOW *win; /* equal to stdscr */

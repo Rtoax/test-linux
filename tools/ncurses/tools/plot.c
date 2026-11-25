@@ -117,11 +117,6 @@ void plot_update_size(struct plot *p, bool init)
 	p->plotheight = plot_height(p) - p->bnd.bottom - p->bnd.top;
 	p->plotwidth = plot_width(p) - p->bnd.left - p->bnd.right;
 
-	if (p->heightmax < plot_height(p))
-		p->heightmax = plot_height(p);
-	if (p->widthmax < plot_width(p))
-		p->widthmax = plot_width(p);
-
 	/**
 	 * When refreshing or modifying the drawing type, the boundary size may
 	 * change. We need to reset the maximum value to avoid excessive blank
