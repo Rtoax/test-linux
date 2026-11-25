@@ -82,6 +82,16 @@ chtype getflavor(enum lcolor_enum color)
 	return colors[color];
 }
 
+int plot_height(const struct plot *p)
+{
+	return p->vertical;
+}
+
+int plot_width(const struct plot *p)
+{
+	return p->horizontal;
+}
+
 void plot_update_size(struct plot *p, bool init)
 {
 	if (init) {
@@ -104,13 +114,13 @@ void plot_update_size(struct plot *p, bool init)
 
 	getmaxyx(p->win, p->vertical, p->horizontal);
 
-	p->plotheight = p->vertical - p->bnd.bottom - p->bnd.top;
-	p->plotwidth = p->horizontal - p->bnd.left - p->bnd.right;
+	p->plotheight = plot_height(p) - p->bnd.bottom - p->bnd.top;
+	p->plotwidth = plot_width(p) - p->bnd.left - p->bnd.right;
 
-	if (p->heightmax < p->vertical)
-		p->heightmax = p->vertical;
-	if (p->widthmax < p->horizontal)
-		p->widthmax = p->horizontal;
+	if (p->heightmax < plot_height(p))
+		p->heightmax = plot_height(p);
+	if (p->widthmax < plot_width(p))
+		p->widthmax = plot_width(p);
 
 	/**
 	 * When refreshing or modifying the drawing type, the boundary size may
@@ -143,7 +153,7 @@ void __plot_warning(const struct plot *p, char *fmt, ...)
 	vsnprintf(buff, 256, fmt, va);
 	va_end(va);
 	attron(colors[C_RED] | A_BOLD);
-	mvaddstr(p->vertical / 2, (p->horizontal - strlen(buff)) / 2, buff);
+	mvaddstr(plot_height(p) / 2, (plot_width(p) - strlen(buff)) / 2, buff);
 	attroff(colors[C_RED] | A_BOLD);
 }
 
@@ -304,12 +314,12 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 			switch (p->x_type) {
 			case X_TIMEVAL: {
 				char buf[32];
-				mvprintw(p->vertical - p->bnd.bottom + 1, w,
+				mvprintw(plot_height(p) - p->bnd.bottom + 1, w,
 					 "%s", timeval_str(&v->x_v.tv, buf));
 				break;
 			}
 			case X_INDEX:
-				mvprintw(p->vertical - p->bnd.bottom + 1, w,
+				mvprintw(plot_height(p) - p->bnd.bottom + 1, w,
 					 "%ld", v->x_v.idx);
 				break;
 			default:
@@ -389,13 +399,13 @@ static void __draw_title(const struct plot *p)
 	}
 
 	wattron(p->win, colors[C_BLUE] | A_BOLD);
-	mvaddstr(0, (p->horizontal - strlen(buf)) / 2, buf);
+	mvaddstr(0, (plot_width(p) - strlen(buf)) / 2, buf);
 	wattroff(p->win, colors[C_BLUE] | A_BOLD);
 
 	if (p->debug) {
 		char buf2[64];
 		snprintf(buf2, sizeof(buf2), "<pid:%d>", getpid());
-		mvaddstr(1, (p->horizontal - strlen(buf2)) / 2, buf2);
+		mvaddstr(1, (plot_width(p) - strlen(buf2)) / 2, buf2);
 	}
 }
 
@@ -596,17 +606,18 @@ static void __paint_plot(struct plot *p)
 
 	gethostname(hostname, sizeof(hostname));
 
-	mvaddstr(p->vertical - 2,
-		 p->horizontal - strlen(ts) - strlen(hostname) - 2, ts);
-	mvaddstr(p->vertical - 2, p->horizontal - strlen(hostname) - 1,
+	mvaddstr(plot_height(p) - 2,
+		 plot_width(p) - strlen(ts) - strlen(hostname) - 2, ts);
+	mvaddstr(plot_height(p) - 2, plot_width(p) - strlen(hostname) - 1,
 		 hostname);
 
-	mvaddstr(p->vertical - 1, p->horizontal - strlen(verstring) - 1,
+	mvaddstr(plot_height(p) - 1, plot_width(p) - strlen(verstring) - 1,
 		 verstring);
 
 	if (p->debug) {
-		mvprintw(p->vertical - 2, 0, PLOT_INF0_FMT, PLOT_INF0_ARG(p));
-		mvprintw(p->vertical - 1, 0, KEYBOARD_INF0_FMT,
+		mvprintw(plot_height(p) - 2, 0, PLOT_INF0_FMT,
+			 PLOT_INF0_ARG(p));
+		mvprintw(plot_height(p) - 1, 0, KEYBOARD_INF0_FMT,
 			 KEYBOARD_INF0_ARG(p->kb));
 	}
 

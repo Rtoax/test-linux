@@ -128,8 +128,8 @@ struct plot {
 	"scale %d, shft %ld/%ld, stacked %d" PLOT_DEBUG0_X_FMT PLOT_DEBUG0_DIALOG_FMT \
 	")"
 #define PLOT_INF0_ARG(p)                                                   \
-	p->redrawcount, plot_mem_size(p) * 1. / MiB, p->vertical,          \
-		p->horizontal, p->heightmax, p->widthmax, p->plotheight,   \
+	p->redrawcount, plot_mem_size(p) * 1. / MiB, plot_height(p),       \
+		plot_width(p), p->heightmax, p->widthmax, p->plotheight,   \
 		p->plotwidth, p->plotscaling, p->plotshift, plot_shift(p), \
 		p->enable_stacked_line_chart PLOT_DEBUG0_X_ARG(p)          \
 			PLOT_DEBUG0_DIALOG_ARG(p)
@@ -239,3 +239,6 @@ void init_flavor(bool transparent_bg);
 chtype getflavor(enum lcolor_enum color);
 
 void __plot_debug_llabel(const struct lgroup *lg, int height);
+
+int plot_height(const struct plot *p);
+int plot_width(const struct plot *p);
