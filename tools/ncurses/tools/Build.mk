@@ -9,10 +9,6 @@ subdir-y += tools
 
 target-y += plotcake
 
-prog-y += examples.sh
-prog-${HAVE_EXPECT} += examples.exp
-prog-${HAVE_TMUX} += examples-tmux.sh
-
 $(foreach obj, plotcake keyboard file loadavg lgroup line plot ram stdin \
 	  ltypes utils axis dialog id-handler, \
   $(eval plotcake-objs += ${obj}.o))
@@ -22,6 +18,13 @@ CFLAGS += ${json-c-cflags}
 LDFLAGS += -lm
 LDFLAGS += ${json-c-ldflags}
 LDFLAGS += ${ncurses-ldflags}
+
+prog-y += examples.sh
+prog-${HAVE_EXPECT} += examples.exp
+prog-${HAVE_TMUX} += examples-tmux.sh
+prog-${HAVE_TMUX} += examples-tmux.sh.1
+
+PROG_ARGS_examples-tmux.sh.1 := --vertical-plotting
 
 post-y += build/plotcake
 post-y += id-handler

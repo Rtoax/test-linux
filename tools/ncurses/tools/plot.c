@@ -502,8 +502,9 @@ static void __draw_axes(const struct plot *p)
 		/* [0,0] corner */
 		ops->ulcorner(p, p->win, p->bnd.left, p->bnd.bottom);
 		/* y axis labels */
-		mvaddstr(p->bnd.left - 1,
-			 p->plotheight + p->bnd.bottom - strlen(p->label_y),
+		mvaddstr(p->bnd.left - 2,
+			 p->plotheight + p->bnd.bottom + p->bnd.top -
+				 strlen(p->label_y),
 			 p->label_y);
 		/* x axis labels */
 		mvaddstr(p->plotwidth + p->bnd.left + 1, 1, labelx);

@@ -18,6 +18,7 @@ plotcake=$(mktemp ./tmp-plotcake-XXXXXX.sh)
 session=$(mktemp -u plotcake-XXXXXX)
 width=150
 heigh=40
+vertical_plotting=
 
 . tools/lib-plotcake.sh
 
@@ -30,19 +31,25 @@ ${BOLD}SYNOPSIS${RST}
     plotcake-examples-tmux [opts]
 
 ${BOLD}OPTIONS${RST}
-    -h, --help     show this information
+    --vertical-plotting  test plotcake vertical plotting
+    -h, --help           show this information
 "
 	exit ${1-0}
 }
 
 OPTS=$(getopt --options h \
 		--long help \
+		--long vertical-plotting \
 		--name plotcake-examples-tmux -- "$@")
 
 eval set -- "$OPTS"
 
 while true; do
 	case $1 in
+	--vertical-plotting)
+		shift
+		vertical_plotting=ON
+		;;
 	-h | --help)
 		shift
 		__usage__
@@ -120,7 +127,8 @@ for ((i = 1; i <= 10000; i++))
 do
 	seq --separator=' ' \$i 20 \$((i + 2 * 20))
 	sleep 0.05
-done | ${PLOTCAKE} --title "${title}" \\
+done | ${PLOTCAKE} ${vertical_plotting:+--vertical-plotting} \\
+	--title "${title}" \\
 	--xlabel "${xlabel}" \\
 	--ylabel "${ylabel}" \\
 	--axis-curve-type utf8 \\
@@ -141,7 +149,11 @@ check_content "${ylabel}"
 check_content "${line0}"
 check_content "${line1}"
 check_content "${line2}"
-check_content "\^"
+if [[ ${vertical_plotting} ]]; then
+	check_content "\`"
+else
+	check_content "\^"
+fi
 check_content "\--------->"
 
 # Turn on the verbose mode
@@ -221,7 +233,13 @@ send_keys 't'
 send_keys 't' # Back to origin plot type
 
 send_keys 'x'
-check_content "1[[:space:]]+11" # '+' for multi whitespace
+if [[ ${vertical_plotting} ]]; then
+	check_content "1"
+	check_content "2"
+	check_content "9"
+else
+	check_content "1[[:space:]]+11" # '+' for multi whitespace
+fi
 
 # Turn on the verbose mode
 send_keys 'v'
