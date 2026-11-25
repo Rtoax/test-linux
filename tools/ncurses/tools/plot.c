@@ -270,7 +270,11 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 			continue;
 		}
 
-		if (iv > start + len - p->plotscaling - 1) {
+		/**
+		 * If plot CURVE_TYPE_DELTA, the last value will be skipped,
+		 * then we need '>=' instead of '>'.
+		 */
+		if (iv >= start + len - p->plotscaling - 1) {
 			is_last_v = true;
 		}
 
