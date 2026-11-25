@@ -414,12 +414,14 @@ static void __paint_line(struct plot *p, const struct lgroup *lg,
 		}
 
 		attron(color);
-		if (p->vertical_plotting && is_last_v) {
-			/**
-			 * TODO: Printing should be better here, right now, we
-			 * just print last value, however.
-			 */
-			mvprintw(p->bnd.left - 1, h, "%s", sv);
+		if (p->vertical_plotting) {
+			if (is_last_v) {
+				/**
+				 * TODO: Printing should be better here, right
+				 * now, we just print last value, however.
+				 */
+				mvprintw(p->bnd.left - 1, h, "%s", sv);
+			}
 		} else {
 			mvprintw(h, 0, "%s", sv);
 		}
