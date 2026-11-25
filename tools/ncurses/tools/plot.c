@@ -169,25 +169,6 @@ double get_plot_value(const struct plot *p, const struct value *v)
 	return val;
 }
 
-static int paint_y0_line(const struct plot *p, double min, double max)
-{
-	if (min > 0 || max < 0) {
-		return 0;
-	}
-	double h = get_plot_value_heigh(p, min, max, 0);
-
-	attron(A_DIM);
-	for (int i = 0; i < p->plotwidth - 1; i++) {
-		if (p->vertical_plotting) {
-			mvwprintw(p->win, p->bnd.left + 1 + i, h, "|");
-		} else {
-			mvwprintw(p->win, h, p->bnd.left + 1 + i, "-");
-		}
-	}
-	attroff(A_DIM);
-	return 0;
-}
-
 static void __draw_title(const struct plot *p)
 {
 	char buf[sizeof(p->title) + 128];

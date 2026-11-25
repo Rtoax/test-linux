@@ -108,6 +108,8 @@ static inline void set_line_name(struct line *ln, const char *name)
 	snprintf(ln->name, sizeof(ln->name) - 1, "%s", name);
 }
 
+int paint_y0_line(const struct plot *p, double min, double max);
+
 void __paint_line(struct plot *p, const struct lgroup *lg,
 		  const struct line *ln, int start, int len, int shift,
 		  double max, double min, double *stacked_line,
