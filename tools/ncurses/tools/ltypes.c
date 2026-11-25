@@ -27,6 +27,11 @@ static void unicode_bold_uarrow(const struct plot *p, WINDOW *win, int y, int x)
 	mvwprintw(win, y, x, U25B2);
 }
 
+static void unicode_bold_darrow(const struct plot *p, WINDOW *win, int y, int x)
+{
+	mvwprintw(win, y, x, U25BC);
+}
+
 static void unicode_bold_rarrow(const struct plot *p, WINDOW *win, int y, int x)
 {
 	mvwprintw(win, y, x, U25BA);
@@ -60,6 +65,11 @@ static void unicode_horizon_dashed_line(const struct plot *p, WINDOW *win,
 static void unicode_uarrow(const struct plot *p, WINDOW *win, int y, int x)
 {
 	mvwprintw(win, y, x, U2191);
+}
+
+static void unicode_darrow(const struct plot *p, WINDOW *win, int y, int x)
+{
+	mvwprintw(win, y, x, U2193);
 }
 
 static void unicode_rarrow(const struct plot *p, WINDOW *win, int y, int x)
@@ -233,6 +243,11 @@ static void utf8_uarrow(const struct plot *p, WINDOW *win, int y, int x)
 	mvwprintw(win, y, x, "^");
 }
 
+static void utf8_darrow(const struct plot *p, WINDOW *win, int y, int x)
+{
+	mvwprintw(win, y, x, "`");
+}
+
 static void utf8_rarrow(const struct plot *p, WINDOW *win, int y, int x)
 {
 	mvwprintw(win, y, x, ">");
@@ -251,6 +266,7 @@ static const struct ltype_ops unicode_heart_line_ops = {
 	.urcorner = unicode_heart,
 	.lrcorner = unicode_heart,
 	.uarrow = unicode_heart,
+	.darrow = unicode_heart,
 	.rarrow = unicode_heart,
 };
 
@@ -263,6 +279,7 @@ static const struct ltype_ops unicode_boldbold_line_ops = {
 	.urcorner = unicode_boldbold_corner1,
 	.lrcorner = unicode_boldbold_corner2,
 	.uarrow = unicode_bold_uarrow,
+	.darrow = unicode_bold_darrow,
 	.rarrow = unicode_bold_rarrow,
 };
 
@@ -275,6 +292,7 @@ static const struct ltype_ops unicode_bold_line_ops = {
 	.urcorner = unicode_bold_urcorner,
 	.lrcorner = unicode_bold_lrcorner,
 	.uarrow = unicode_bold_uarrow,
+	.darrow = unicode_bold_darrow,
 	.rarrow = unicode_bold_rarrow,
 };
 
@@ -287,6 +305,7 @@ static const struct ltype_ops unicode_bold_dashed_line_ops = {
 	.urcorner = unicode_bold_urcorner,
 	.lrcorner = unicode_bold_lrcorner,
 	.uarrow = unicode_bold_uarrow,
+	.darrow = unicode_bold_darrow,
 	.rarrow = unicode_bold_rarrow,
 };
 
@@ -299,6 +318,7 @@ static const struct ltype_ops unicode_line_ops = {
 	.urcorner = unicode_urcorner,
 	.lrcorner = unicode_lrcorner,
 	.uarrow = unicode_uarrow,
+	.darrow = unicode_darrow,
 	.rarrow = unicode_rarrow,
 };
 
@@ -311,6 +331,7 @@ static const struct ltype_ops unicode_dashed_line_ops = {
 	.urcorner = unicode_urcorner,
 	.lrcorner = unicode_lrcorner,
 	.uarrow = unicode_uarrow,
+	.darrow = unicode_darrow,
 	.rarrow = unicode_rarrow,
 };
 
@@ -323,6 +344,7 @@ static const struct ltype_ops unicode_area_chart_ops = {
 	.urcorner = nothing,
 	.lrcorner = nothing,
 	.uarrow = nothing,
+	.darrow = nothing,
 	.rarrow = nothing,
 };
 
@@ -335,6 +357,7 @@ static const struct ltype_ops utf8_line_ops = {
 	.urcorner = utf8_cross,
 	.lrcorner = utf8_cross,
 	.uarrow = utf8_uarrow,
+	.darrow = utf8_darrow,
 	.rarrow = utf8_rarrow,
 };
 

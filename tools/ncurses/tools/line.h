@@ -56,6 +56,8 @@ struct ltype_ops {
 	void (*lrcorner)(const struct plot *p, WINDOW *win, int y, int x);
 	/* up arrow */
 	void (*uarrow)(const struct plot *p, WINDOW *win, int y, int x);
+	/* down arrow */
+	void (*darrow)(const struct plot *p, WINDOW *win, int y, int x);
 	/* right arrow */
 	void (*rarrow)(const struct plot *p, WINDOW *win, int y, int x);
 };
