@@ -3,28 +3,71 @@
 #
 # see also test-linux/fs/procfs/stat.sh
 #
-# Usage: [I=<secs>] [interval=<TIME>] ./cpu.sh [cpu indexes]
-# Example:
-# $ I=1 ./cpu.sh 0 1 2 3
-# $ I=1 interval=1min ./cpu.sh 0 1 2 3
-#
-#   test peer:
-#     $ taskset -c 0 bash -c 'while :; do sleep 0.002; done'
 set -e
-
-[[ -z ${I} ]] && I=1
-[[ -z ${interval} ]] && interval=
 
 readonly MYDIR=$(dirname $(realpath $0))
 . ${MYDIR}/lib-plotcake.sh
 
-indexes=( ${@} )
-
 declare -a labels
 declare -A prev_idle prev_total percent_idle
 declare -a detected_cpus
+declare -a indexes
 
 readonly all_cpus=( $(grep -Eo '^cpu[0-9]+' /proc/stat) )
+
+declare interval_sec=1
+
+__usage__() {
+	echo -e "
+${BOLD}NAME${RST}
+    plotcake-cpu - Display cpu
+
+${BOLD}SYNOPSIS${RST}
+    plotcake-cpu [options]
+
+${BOLD}OPTIONS${RST}
+    -i, --interval interval seconds of data generate, 1, 2, 0.5, 0.01
+    -h, --help     show this information
+
+${BOLD}EXAMPLES${RST}
+    $ plotcake-cpu -c 0 -c 1
+
+    test peer:
+    $ taskset -c 0 bash -c 'while :; do sleep 0.002; done'
+"
+	exit ${1-0}
+}
+
+OPTS=$(getopt --options hi:c: \
+		--long help \
+		--long interval: \
+		--long cpu: \
+		--name plotcake-cpu -- "$@")
+
+eval set -- "$OPTS"
+
+while true; do
+	case $1 in
+	-h | --help)
+		shift
+		__usage__
+		;;
+	-i | --interval)
+		shift
+		interval_sec=${1}
+		shift
+		;;
+	-c | --cpu)
+		shift
+		indexes+=( ${1} )
+		shift
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
 
 for i in $(seq 0 1 $((${#all_cpus[@]}-1)) ); do
 	if [[ ${indexes} ]] && [[ ! " ${indexes[@]} " =~ " ${i} " ]]; then
@@ -68,6 +111,6 @@ while true; do
 	if [[ ${percent_idle[@]} ]]; then
 		echo "${percent_idle[@]}"
 	fi
-	sleep ${I}
+	sleep ${interval_sec}
 done | ${PLOTCAKE} --title 'CPU Loads %idle' --ylabel '%idle' \
-	-o cpu ${labels[@]} ${interval:+-I ${interval}}
+	-o cpu ${labels[@]} "${@}"
