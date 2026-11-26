@@ -7,6 +7,15 @@
 #include "config.h"
 #include "axis.h"
 
+enum math_trans_enum {
+	MATH_TRANS_NONE = 0,
+	MATH_TRANS_LOGARITHMIC,
+	MATH_TRANS_LOGARITHMIC10,
+	MATH_TRANS_EXPONENTIAL,
+	MATH_TRANS_DELTA,
+	MATH_TRANS_MAX,
+};
+
 struct __value {
 	double v;
 	double log_v; /* = sign(v) * log(1 + |v|) */
@@ -60,3 +69,5 @@ static inline double signed_log10_trans(double x)
 {
 	return __signed_log_trans(x, log10);
 }
+
+double get_trans_value(const struct value *v, enum math_trans_enum trans);

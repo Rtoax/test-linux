@@ -25,6 +25,7 @@ set(SRC
   scatter.c
   stdin.c
   utils.c
+  value.c
 )
 
 find_package(PkgConfig REQUIRED)

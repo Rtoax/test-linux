@@ -407,7 +407,10 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 			is_last_v = true;
 		}
 
-		double real_v = get_plot_value(p, v);
+		double real_v =
+			get_trans_value(v, p->__line.enable_stacked_line_chart ?
+						   MATH_TRANS_NONE :
+						   p->math_trans);
 
 		/**
 		 * 1. the last value of line may be NaN, see delta_v()

@@ -123,23 +123,6 @@ int get_plot_value_heigh(const struct plot *p, double min, double max, double v)
 	return ret;
 }
 
-double get_plot_value(const struct plot *p, const struct value *v)
-{
-	double val = v->y_v.v;
-
-	if (p->math_trans == MATH_TRANS_LOGARITHMIC)
-		val = v->y_v.log_v;
-	else if (p->math_trans == MATH_TRANS_LOGARITHMIC10)
-		val = v->y_v.log10_v;
-	else if (p->math_trans == MATH_TRANS_EXPONENTIAL)
-		val = v->y_v.exp_v;
-	else if (p->math_trans == MATH_TRANS_DELTA &&
-		 !p->__line.enable_stacked_line_chart)
-		val = delta_v(v);
-
-	return val;
-}
-
 static void __draw_title(const struct plot *p)
 {
 	char buf[sizeof(p->title) + 128];

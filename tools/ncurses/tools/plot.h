@@ -15,18 +15,6 @@
 #include "id-handler.h"
 #include "draw.h"
 
-/**
- * Scaling plotting values, different from @plotscaling.
- */
-enum math_trans_enum {
-	MATH_TRANS_NONE = 0,
-	MATH_TRANS_LOGARITHMIC,
-	MATH_TRANS_LOGARITHMIC10,
-	MATH_TRANS_EXPONENTIAL,
-	MATH_TRANS_DELTA,
-	MATH_TRANS_MAX,
-};
-
 enum plot_type_enum {
 	PLOT_TYPE_LINE,
 	PLOT_TYPE_SCATTER,
@@ -231,4 +219,3 @@ int plot_width(const struct plot *p);
 
 int get_plot_value_heigh(const struct plot *p, double min, double max,
 			 double v);
-double get_plot_value(const struct plot *p, const struct value *v);
