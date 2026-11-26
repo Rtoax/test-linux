@@ -484,7 +484,7 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 				y = plot_height(p) - p->bnd.bottom + 1;
 				x = w;
 			}
-			switch (p->x_type) {
+			switch (p->__line.x_type) {
 			case X_TIMEVAL:
 				timeval_str(&v->x_v.tv, buf);
 				n = strlen(buf);
@@ -517,7 +517,7 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 		} else if (p->math_trans == MATH_TRANS_EXPONENTIAL) {
 			nc = snprintf(sv, sz, __EXP_V(v->y_v.v, real_v));
 		} else if (p->math_trans == MATH_TRANS_DELTA &&
-			   !p->enable_stacked_line_chart) {
+			   !p->__line.enable_stacked_line_chart) {
 			nc = snprintf(sv, sz,
 				      __DELTA_V(v->next->y_v.v, v->y_v.v,
 						real_v));
@@ -525,7 +525,7 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 			nc = snprintf(sv, sz, "%.3f", real_v);
 		}
 
-		if (p->enable_stacked_line_chart && plot_v != real_v) {
+		if (p->__line.enable_stacked_line_chart && plot_v != real_v) {
 			nc += snprintf(sv + strlen(sv), sz - strlen(sv),
 				       "[%.3f]", plot_v);
 		}

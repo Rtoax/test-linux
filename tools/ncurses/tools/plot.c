@@ -24,16 +24,16 @@ static int __paint_llabels_win(struct plot *p, bool init);
 
 int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
 {
-	if (!p->lghead) {
-		p->lghead = lg;
-		p->lgcount = 1;
+	if (!p->__line.lghead) {
+		p->__line.lghead = lg;
+		p->__line.lgcount = 1;
 	} else {
-		p->lgtail->next = lg;
-		p->lgcount++;
+		p->__line.lgtail->next = lg;
+		p->__line.lgcount++;
 	}
-	p->lgtail = lg;
+	p->__line.lgtail = lg;
 	lg->plot = p;
-	lg->id = p->lgcount;
+	lg->id = p->__line.lgcount;
 	if (lg->ops) {
 		lg->ops->arg = lg_ops_arg;
 	}
@@ -164,7 +164,7 @@ double get_plot_value(const struct plot *p, const struct value *v)
 	else if (p->math_trans == MATH_TRANS_EXPONENTIAL)
 		val = v->y_v.exp_v;
 	else if (p->math_trans == MATH_TRANS_DELTA &&
-		 !p->enable_stacked_line_chart)
+		 !p->__line.enable_stacked_line_chart)
 		val = delta_v(v);
 
 	return val;
@@ -183,12 +183,12 @@ static void __draw_title(const struct plot *p)
 	else if (p->math_trans == MATH_TRANS_EXPONENTIAL)
 		snprintf(buf, sizeof(buf), "%s (base-e exponential)", p->title);
 	else if (p->math_trans == MATH_TRANS_DELTA &&
-		 !p->enable_stacked_line_chart)
+		 !p->__line.enable_stacked_line_chart)
 		snprintf(buf, sizeof(buf), "%s (delta)", p->title);
 	else
 		snprintf(buf, sizeof(buf), "%s", p->title);
 
-	if (p->enable_stacked_line_chart) {
+	if (p->__line.enable_stacked_line_chart) {
 		strncat(buf, "[stacked]", sizeof(buf) - strlen(buf) - 1);
 	}
 
@@ -209,7 +209,7 @@ static void __draw_axes(const struct plot *p)
 		draw_ops_type2ops(p->axis_curve_type);
 	const char *labelx = p->label_x[0] != '\0' ?
 				     p->label_x :
-				     x_axis_label_str(p->x_type);
+				     x_axis_label_str(p->__line.x_type);
 
 	if (p->vertical_plotting) {
 		/* x axis */
@@ -329,7 +329,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 
 		double _max, _min;
 		if (p->math_trans == MATH_TRANS_DELTA &&
-		    !p->enable_stacked_line_chart) {
+		    !p->__line.enable_stacked_line_chart) {
 			_max = line_range_delta_max(l, start, p->plotscaling,
 						    draw_len);
 			_min = line_range_delta_min(l, start, p->plotscaling,
@@ -360,7 +360,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 			break;
 		}
 
-		if (p->enable_stacked_line_chart) {
+		if (p->__line.enable_stacked_line_chart) {
 			if (first_line) {
 				max_stacked = _max;
 				min_stacked = _min;
@@ -378,20 +378,20 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 	}
 
 	/* draw zero y line if needed */
-	if (p->enable_stacked_line_chart) {
+	if (p->__line.enable_stacked_line_chart) {
 		paint_y0_line(p, min_stacked, max_stacked);
 	} else {
 		paint_y0_line(p, min, max);
 	}
 
 	double *stacked_line = NULL;
-	if (p->enable_stacked_line_chart) {
+	if (p->__line.enable_stacked_line_chart) {
 		size_t sz = max_nr_values * sizeof(double);
 		stacked_line = (double *)malloc(sz);
 		memset(stacked_line, 0x0, sz);
 	}
 
-	if (p->enable_stacked_line_chart) {
+	if (p->__line.enable_stacked_line_chart) {
 		first_line = true;
 	}
 
@@ -399,14 +399,15 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 	{
 		if (l->count <= 0)
 			continue;
-		__paint_line(p, lg, l, start, draw_len, shift,
-			     p->enable_stacked_line_chart ? max_stacked : max,
-			     p->enable_stacked_line_chart ? min_stacked : min,
-			     stacked_line, first_line);
+		__paint_line(
+			p, lg, l, start, draw_len, shift,
+			p->__line.enable_stacked_line_chart ? max_stacked : max,
+			p->__line.enable_stacked_line_chart ? min_stacked : min,
+			stacked_line, first_line);
 		first_line = false;
 	}
 
-	if (p->enable_stacked_line_chart) {
+	if (p->__line.enable_stacked_line_chart) {
 		free(stacked_line);
 	}
 
@@ -430,7 +431,7 @@ void __plot_debug_llabel(const struct lgroup *lg, int y, int x)
 
 			mvprintw(i + y, x, "%d: %s: %ld %f x(%s) y(%lf~%lf)",
 				 ln->id, ln->name, ln->count, ln->tail->y_v.v,
-				 x_axis_range_str(lg->plot->x_type,
+				 x_axis_range_str(lg->plot->__line.x_type,
 						  &ln->x_range, buf),
 				 ln->min->y_v.v, ln->max->y_v.v);
 		}
@@ -793,7 +794,8 @@ static int key_r_handler(int key, void *arg)
 static int key_s_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->enable_stacked_line_chart = !p->enable_stacked_line_chart;
+	p->__line.enable_stacked_line_chart =
+		!p->__line.enable_stacked_line_chart;
 	return 0;
 }
 
@@ -813,7 +815,7 @@ static int key_t_handler(int key, void *arg)
 static int key_x_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->x_type = (p->x_type + 1) % X_AXIS_TYPE_MAX;
+	p->__line.x_type = (p->__line.x_type + 1) % X_AXIS_TYPE_MAX;
 	return 0;
 }
 
@@ -886,7 +888,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	p->kb = kb;
 	if (x_type < X_TIMEVAL || x_type > X_INDEX)
 		return -EINVAL;
-	p->x_type = x_type;
+	p->__line.x_type = x_type;
 	p->plotshift_timerfd = -1;
 	p->help_timerfd = -1;
 	p->llabels_timerfd = -1;

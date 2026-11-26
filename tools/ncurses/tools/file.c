@@ -62,8 +62,9 @@ static int save_txt(const struct plot *p, const char *filename)
 	fprintf(fp, "# Version: %s\n", MY_VERSION);
 	fprintf(fp, "#\n");
 	fprintf(fp, "#    nlgroup title xlabel ylabel x-type\n");
-	fprintf(fp, "plot %d \"%s\" \"%s\" \"%s\" %s\n", p->lgcount, p->title,
-		p->label_x, p->label_y, x_axis_type_str(p->x_type));
+	fprintf(fp, "plot %d \"%s\" \"%s\" \"%s\" %s\n", p->__line.lgcount,
+		p->title, p->label_x, p->label_y,
+		x_axis_type_str(p->__line.x_type));
 
 	for_each_lgroup(p, lg)
 	{
@@ -159,7 +160,7 @@ static int load_txt(struct plot *p, const char *file)
 				err = x_type;
 				break;
 			}
-			p->x_type = x_type;
+			p->__line.x_type = x_type;
 
 		} else if (!strncmp(linebuf, "lgroup ", 7)) {
 			char *start = linebuf, *end;
@@ -361,10 +362,10 @@ static int save_json(const struct plot *p, const char *filename)
 	json_object_object_add(plot, "ylabel",
 			       json_object_new_string(p->label_y));
 	json_object_object_add(plot, "lgcount",
-			       json_object_new_int(p->lgcount));
+			       json_object_new_int(p->__line.lgcount));
 	json_object_object_add(
 		plot, "x-type",
-		json_object_new_string(x_axis_type_str(p->x_type)));
+		json_object_new_string(x_axis_type_str(p->__line.x_type)));
 
 	json_object *lgroups = json_object_new_object();
 	json_object_object_add(plot, "lgroups", lgroups);
@@ -547,11 +548,11 @@ static int load_json(struct plot *p, const char *file)
 	J_STRING(x_type);
 	J_GET_VALUE(plot, "x-type", x_type);
 	J_GET_STRING(x_type);
-	p->x_type = get_x_axis_type(x_type_s);
-	if (p->x_type < 0) {
+	p->__line.x_type = get_x_axis_type(x_type_s);
+	if (p->__line.x_type < 0) {
 		fprintf(stderr, "ERROR: unknown x axis type '%s' in %s.\n",
 			x_type_s, file);
-		err = p->x_type;
+		err = p->__line.x_type;
 		goto done;
 	}
 

@@ -691,7 +691,7 @@ int main(int argc, char *argv[])
 	init_flavor(!black_background);
 
 	plot.math_trans = math_trans;
-	plot.enable_stacked_line_chart = enable_stacked_line_chart;
+	plot.__line.enable_stacked_line_chart = enable_stacked_line_chart;
 	plot.vertical_plotting = vertical_plotting;
 
 	if (stdinfd == -1) {

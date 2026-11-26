@@ -27,6 +27,43 @@ enum math_trans_enum {
 	MATH_TRANS_MAX,
 };
 
+enum plot_type_enum {
+	PLOT_TYPE_LINE,
+	PLOT_TYPE_SCATTER,
+};
+
+struct line_plotting {
+	struct lgroup *lghead, *lgtail;
+	int lgcount;
+
+	/**
+	 * A stacked line chart shows how multiple series
+	 * cumulatively add up to a total over time, emphasizing
+	 * the overall trend and composition rather than each
+	 * series’ absolute values.
+	 *
+	 *  Origin Line Chart           Stacked Line Chart
+	 * ^                           ^
+	 * |                           |           +-- line2
+	 * |                           |           |
+	 * |                           |  +--------+
+	 * |                           |  |
+	 * |           +-- line2       |  |
+	 * |           |               |  |
+	 * |  +--------+               |--+
+	 * |  |                        |
+	 * |--+----------- line1       |--------------- line1
+	 * |  |                        |
+	 * |--+                        |
+	 * +--------------> 0          +---------------> 0
+	 *
+	 * Not support curve type MATH_TRANS_DELTA.
+	 */
+	bool enable_stacked_line_chart;
+
+	enum x_axis_type x_type;
+};
+
 struct plot {
 	char title[128];
 	char label_x[64];
@@ -63,12 +100,6 @@ struct plot {
 #define BND_LEFT(p) (p->vertical_plotting ? 3 : 7)
 #define BND_RIGHT(p) (p->vertical_plotting ? 6 : 6)
 	} bnd, bnd_prev_max;
-	struct lgroup *lghead, *lgtail;
-
-	int lgcount;
-	unsigned long redrawcount;
-
-	enum math_trans_enum math_trans;
 
 	/**
 	 * Generally, the x-axis is horizontal and the y-axis is vertical; when
@@ -76,29 +107,16 @@ struct plot {
 	 */
 	bool vertical_plotting;
 
-	/**
-	 * A stacked line chart shows how multiple series cumulatively add up to
-	 * a total over time, emphasizing the overall trend and composition
-	 * rather than each series’ absolute values.
-	 *
-	 *     Origin Line Chart              Stacked Line Chart
-	 * ^                              ^
-	 * |                              |              +-- line2
-	 * |                              |              |
-	 * |                              |     +--------+
-	 * |                              |     |
-	 * |              +-- line2       |     |
-	 * |              |               |     |
-	 * |     +--------+               |-----+
-	 * |     |                        |
-	 * |-----+----------- line1       |------------------ line1
-	 * |     |                        |
-	 * |-----+                        |
-	 * +-----------------> 0          +------------------> 0
-	 *
-	 * Not support curve type MATH_TRANS_DELTA.
-	 */
-	bool enable_stacked_line_chart;
+	enum plot_type_enum plot_type;
+
+	union {
+		struct line_plotting __line; /* PLOT_TYPE_LINE */
+		/* TODO: PLOT_TYPE_SCATTER */
+	};
+
+	unsigned long redrawcount;
+
+	enum math_trans_enum math_trans;
 
 	struct keyboard *kb;
 
@@ -110,7 +128,6 @@ struct plot {
 	bool need_redraw;
 
 	enum draw_ops_type_enum axis_curve_type;
-	enum x_axis_type x_type;
 
 #ifdef DEBUG
 #define PLOT_DEBUG0_DIALOG_FMT ", dialog:%d:%d:%d:%d"
@@ -142,7 +159,7 @@ struct plot {
 	p->redrawcount, plot_mem_size(p) * 1. / MiB, plot_height(p),        \
 		plot_width(p), p->plotheight, p->plotwidth, p->plotscaling, \
 		p->plotshift, plot_shift(p),                                \
-		p->enable_stacked_line_chart PLOT_DEBUG0_X_ARG(p)           \
+		p->__line.enable_stacked_line_chart PLOT_DEBUG0_X_ARG(p)    \
 			PLOT_DEBUG0_DIALOG_ARG(p) PLOT_DEBUG0_BND_ARG(p)
 
 	WINDOW *win; /* equal to stdscr */
@@ -162,9 +179,9 @@ struct plot {
 	enum win_border_type win_border_type;
 };
 
-#define for_each_lgroup(plt, iter)                                       \
-	for (struct lgroup *iter = ((struct plot *)(plt))->lghead; iter; \
-	     iter = iter->next)
+#define for_each_lgroup(plt, iter)                                        \
+	for (struct lgroup *iter = ((struct plot *)(plt))->__line.lghead; \
+	     iter; iter = iter->next)
 
 #define plot_scaling_init(p)                          \
 	do {                                          \
