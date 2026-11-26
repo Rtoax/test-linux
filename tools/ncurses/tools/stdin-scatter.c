@@ -77,6 +77,7 @@ static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 		pc_debug("dps[%d] = (%lf,%lf)\n", npair, dps[npair].x,
 			 dps[npair].y);
 
+		dps = realloc(dps, sizeof(struct double_pair) * ++a->nline);
 		npair++;
 	}
 

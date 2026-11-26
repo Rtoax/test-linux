@@ -24,6 +24,10 @@ if [[ "$(grep -ow ^Fix: ${msgfile})" ]]; then
 	fatal "Use 'Fixes:' instead of 'Fix: commit'"
 fi
 
+if [[ "$(grep -ow '^Fixes: commit' ${msgfile})" ]]; then
+	fatal "'Fixes:' should not follow 'commit'"
+fi
+
 # see .git/hooks/commit-msg.sample
 test "" = "$(grep '^Signed-off-by: ' "$1" |
 	 sort | uniq -c | sed -e '/^[ 	]*1[ 	]/d')" || {
