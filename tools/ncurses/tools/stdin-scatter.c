@@ -18,6 +18,12 @@ bool stdin_buf_is_scatter_format(const char *buf)
 	return *s == '(';
 }
 
+static void __stdin_scatter_add_data(struct plot *p, struct stdin_arg *a,
+				     char *buf)
+{
+	pc_debug("Scatter handle %s\n", buf);
+}
+
 void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 {
 	struct plot *p = lg->plot;
@@ -43,8 +49,7 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 			 */
 			*d_end = '\0';
 
-			/* TODO: handle data */
-			pc_debug("Scatter handle %s\n", s);
+			__stdin_scatter_add_data(p, arg, s);
 
 			/**
 			 * "(1,1)\0(1,1)\n(1,1)"
@@ -58,9 +63,7 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 			 *                ^
 			 *                s
 			 */
-
-			/* TODO: handle data */
-			pc_debug("Scatter handle %s\n", s);
+			__stdin_scatter_add_data(p, arg, s);
 			s = NULL;
 		}
 	}
