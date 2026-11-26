@@ -19,6 +19,11 @@ bool stdin_buf_is_scatter_format(const char *buf)
 
 void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 {
+	struct plot *p = lg->plot;
+
 	pc_debug("Scatter parse: %s\n", buf);
-	/* TODO */
+
+	p->plot_type = PLOT_TYPE_SCATTER;
+
+	/* TODO: parse stdin buf */
 }

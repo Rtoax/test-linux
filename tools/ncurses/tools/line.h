@@ -29,6 +29,7 @@ struct line {
 	struct ln_x_range x_range;
 };
 
+/* PLOT_TYPE_LINE */
 struct line_plotting {
 	struct lgroup *lghead, *lgtail;
 	int lgcount;
