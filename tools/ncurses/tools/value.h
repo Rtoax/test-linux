@@ -70,4 +70,5 @@ static inline double signed_log10_trans(double x)
 	return __signed_log_trans(x, log10);
 }
 
+void set___value(struct __value *v, double x);
 double get_trans_value(const struct ln_value *v, enum math_trans_enum trans);

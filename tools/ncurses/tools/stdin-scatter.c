@@ -49,7 +49,7 @@ static int __add_scatter(struct scatter_plotting *sp, int i)
 static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 {
 	char *s = buf, *d_end;
-	int npair = 0;
+	int npair = 0, ipair;
 	struct double_pair *dps;
 
 	if (!buf || !p || !a)
@@ -107,10 +107,14 @@ static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 		}
 	}
 
+	ipair = 0;
 	for_each_scatter(&p->__scatter, s)
 	{
 		pc_debug("scatter %s\n", s->name);
-		/* TODO: create a scatter serial */
+
+		scatter_add_point(s, dps[ipair].x, dps[ipair].y);
+
+		ipair++;
 	}
 
 	free(dps);

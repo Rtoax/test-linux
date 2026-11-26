@@ -3,6 +3,14 @@
 #include <string.h>
 #include "value.h"
 
+void set___value(struct __value *v, double x)
+{
+	v->v = x;
+	v->log_v = signed_log_trans(x);
+	v->log10_v = signed_log10_trans(x);
+	v->exp_v = exp(x);
+}
+
 double get_trans_value(const struct ln_value *v, enum math_trans_enum trans)
 {
 	double val = v->y_v.v;

@@ -12,7 +12,8 @@ struct scatter {
 	char name[64];
 	int id;
 	int color;
-	struct __point *head, *tail, *max, *min;
+	struct __point *head, *tail;
+	struct __value *max_x, *min_x, *max_y, *min_y;
 	long count;
 	struct scatter *next;
 	struct scatter_plotting *sp;
@@ -36,3 +37,5 @@ struct scatter *new_scatter_ops(struct scatter_plotting *sp, const char *name,
 				int color, const struct draw_operations *ops);
 struct scatter *new_scatter(struct scatter_plotting *sp, const char *name,
 			    int color);
+
+void scatter_add_point(struct scatter *s, double x, double y);

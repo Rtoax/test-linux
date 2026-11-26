@@ -68,3 +68,56 @@ struct scatter *new_scatter(struct scatter_plotting *sp, const char *name,
 	return new_scatter_ops(sp, name, color,
 			       draw_ops_type2ops(dequeue_draw_ops()));
 }
+
+static int enqueue_point_to_tail(struct scatter *s, double x, double y)
+{
+	struct __point *new = malloc(sizeof(struct __point));
+
+	memset(new, 0, sizeof(struct __point));
+
+	set___value(&new->x, x);
+	set___value(&new->y, y);
+
+	new->next = NULL;
+
+	if (!s->head) {
+		s->head = new;
+		s->count = 1;
+	} else {
+		s->tail->next = new;
+		s->count++;
+	}
+
+	if (!s->max_x) {
+		s->max_x = &new->x;
+	} else {
+		if (s->max_x->v < x)
+			s->max_x = &new->x;
+	}
+	if (!s->min_x) {
+		s->min_x = &new->x;
+	} else {
+		if (s->min_x->v > x)
+			s->min_x = &new->x;
+	}
+	if (!s->max_y) {
+		s->max_y = &new->y;
+	} else {
+		if (s->max_y->v < y)
+			s->max_y = &new->y;
+	}
+	if (!s->min_y) {
+		s->min_y = &new->y;
+	} else {
+		if (s->min_y->v > y)
+			s->min_y = &new->y;
+	}
+
+	s->tail = new;
+	return 0;
+}
+
+void scatter_add_point(struct scatter *s, double x, double y)
+{
+	enqueue_point_to_tail(s, x, y);
+}

@@ -67,10 +67,7 @@ static int enqueue_value_to_tail(struct line *l, double v, struct ln_x_value *x)
 {
 	struct ln_value *new = malloc(sizeof(struct ln_value));
 
-	new->y_v.v = v;
-	new->y_v.log_v = signed_log_trans(v);
-	new->y_v.log10_v = signed_log10_trans(v);
-	new->y_v.exp_v = exp(v);
+	set___value(&new->y_v, v);
 
 	/* set newest time value */
 	if (x) {
