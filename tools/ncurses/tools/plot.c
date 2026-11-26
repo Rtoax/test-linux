@@ -897,7 +897,7 @@ unsigned long plot_mem_size(const struct plot *p)
 		for_each_line(lg, ln)
 		{
 			bytes += sizeof(struct line);
-			bytes += ln->count * sizeof(struct value);
+			bytes += ln->count * sizeof(struct ln_value);
 		}
 	}
 	return bytes;

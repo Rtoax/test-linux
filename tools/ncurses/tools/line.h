@@ -21,7 +21,7 @@ struct line {
 	/* The line ID is unique only within the lgroup. */
 	int id;
 	int color; /* C_RED, ... */
-	struct value *head, *tail, *max, *min;
+	struct ln_value *head, *tail, *max, *min;
 	long count; /* number of value */
 	struct line *next; /* maybe line in group */
 	struct lgroup *lg; /* belongs to */
@@ -61,8 +61,8 @@ struct line_plotting {
 	enum x_axis_type x_type;
 };
 
-#define for_each_value(l, iter)                                     \
-	for (struct value *iter = ((struct line *)(l))->head; iter; \
+#define for_each_value(l, iter)                                        \
+	for (struct ln_value *iter = ((struct line *)(l))->head; iter; \
 	     iter = iter->next)
 
 #define for_each_lgroup(lplt, iter)                                          \

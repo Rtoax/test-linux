@@ -26,16 +26,16 @@ struct __value {
 #define __EXP_V(v, real_v) "exp(%.3f)=%.3f", v, real_v
 };
 
-struct value {
+struct ln_value {
 	struct __value y_v;
 	struct x_axis_value x_v;
-	struct value *next;
+	struct ln_value *next;
 };
 
 /**
  * if value don't have next value, NaN returned, use isnan() check.
  */
-static inline double delta_v(const struct value *v)
+static inline double delta_v(const struct ln_value *v)
 {
 #define __DELTA_V(next_v, v, real_v) "delta(%.3f-%.3f)=%.3f", next_v, v, real_v
 	if (v->next)
@@ -70,4 +70,4 @@ static inline double signed_log10_trans(double x)
 	return __signed_log_trans(x, log10);
 }
 
-double get_trans_value(const struct value *v, enum math_trans_enum trans);
+double get_trans_value(const struct ln_value *v, enum math_trans_enum trans);

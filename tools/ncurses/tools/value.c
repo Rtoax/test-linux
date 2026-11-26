@@ -3,7 +3,7 @@
 #include <string.h>
 #include "value.h"
 
-double get_trans_value(const struct value *v, enum math_trans_enum trans)
+double get_trans_value(const struct ln_value *v, enum math_trans_enum trans)
 {
 	double val = v->y_v.v;
 

@@ -66,7 +66,7 @@ static int dequeue_value_from_head(struct line *l)
 
 	/* update max */
 	if (l->max && l->max == l->head) {
-		struct value *tmp = l->max = l->head->next;
+		struct ln_value *tmp = l->max = l->head->next;
 		while (tmp) {
 			if (tmp->y_v.v > l->max->y_v.v)
 				l->max = tmp;
@@ -75,7 +75,7 @@ static int dequeue_value_from_head(struct line *l)
 	}
 	/* update min */
 	if (l->min && l->min == l->head) {
-		struct value *tmp = l->min = l->head->next;
+		struct ln_value *tmp = l->min = l->head->next;
 		while (tmp) {
 			if (tmp->y_v.v < l->min->y_v.v)
 				l->min = tmp;
@@ -83,7 +83,7 @@ static int dequeue_value_from_head(struct line *l)
 		}
 	}
 	l->count--;
-	struct value *head = l->head;
+	struct ln_value *head = l->head;
 	l->head = head->next;
 
 	/* refresh x axis start time value */
@@ -102,7 +102,7 @@ static int dequeue_value_from_head(struct line *l)
 static int enqueue_value_to_tail(struct line *l, double v,
 				 struct x_axis_value *x)
 {
-	struct value *new = malloc(sizeof(struct value));
+	struct ln_value *new = malloc(sizeof(struct ln_value));
 
 	new->y_v.v = v;
 	new->y_v.log_v = signed_log_trans(v);
@@ -164,7 +164,7 @@ double line_range_avg(struct line *l, int start, int len)
 {
 	int i = 0, n = 0;
 	double sum = 0;
-	struct value *v = l->head;
+	struct ln_value *v = l->head;
 	if (start < 0)
 		start = 0;
 	while (v) {
@@ -203,7 +203,7 @@ static double __line_range_rslt(struct line *l, int start, int interval,
 		break;
 	}
 
-	struct value *v = l->head;
+	struct ln_value *v = l->head;
 
 	if (start < 0)
 		start = 0;
