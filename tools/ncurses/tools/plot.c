@@ -155,14 +155,14 @@ int get_plot_value_heigh(const struct plot *p, double min, double max, double v)
 
 double get_plot_value(const struct plot *p, const struct value *v)
 {
-	double val = v->v;
+	double val = v->y_v.v;
 
 	if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
-		val = v->log_v;
+		val = v->y_v.log_v;
 	else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
-		val = v->log10_v;
+		val = v->y_v.log10_v;
 	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
-		val = v->exp_v;
+		val = v->y_v.exp_v;
 	else if (p->curve_type == CURVE_TYPE_DELTA &&
 		 !p->enable_stacked_line_chart)
 		val = delta_v(v);
@@ -428,10 +428,10 @@ void __plot_debug_llabel(const struct lgroup *lg, int y, int x)
 			char buf[64];
 
 			mvprintw(i + y, x, "%d: %s: %ld %f x(%s) y(%lf~%lf)",
-				 ln->id, ln->name, ln->count, ln->tail->v,
+				 ln->id, ln->name, ln->count, ln->tail->y_v.v,
 				 x_axis_range_str(lg->plot->x_type,
 						  &ln->x_range, buf),
-				 ln->min->v, ln->max->v);
+				 ln->min->y_v.v, ln->max->y_v.v);
 		}
 		attroff(color);
 		i++;

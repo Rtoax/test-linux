@@ -7,14 +7,16 @@
 #include "config.h"
 #include "axis.h"
 
-struct value {
+struct __value {
 	double v;
 	double log_v; /* = sign(v) * log(1 + |v|) */
 	double log10_v; /* = sign(v) * log10(1 + |v|) */
 	double exp_v; /* = exp(v) */
+};
 
+struct value {
+	struct __value y_v;
 	struct x_axis_value x_v;
-
 	struct value *next;
 };
 
@@ -24,7 +26,7 @@ struct value {
 static inline double delta_v(const struct value *v)
 {
 	if (v->next)
-		return v->next->v - v->v;
+		return v->next->y_v.v - v->y_v.v;
 	else
 		/* see __paint_line() check */
 		return nan("NAN");

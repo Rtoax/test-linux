@@ -99,7 +99,7 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 		if (i < nval) {
 			line_add_value(line, values[i], -1, NULL);
 		} else {
-			line_add_value(line, line->tail->v, -1, NULL);
+			line_add_value(line, line->tail->y_v.v, -1, NULL);
 		}
 		i++;
 	}

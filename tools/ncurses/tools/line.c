@@ -154,13 +154,13 @@ static int dequeue_value_from_head(struct line *l)
 	if (!l || !l->head)
 		return 0;
 
-	int v = l->head->v;
+	int v = l->head->y_v.v;
 
 	/* update max */
 	if (l->max && l->max == l->head) {
 		struct value *tmp = l->max = l->head->next;
 		while (tmp) {
-			if (tmp->v > l->max->v)
+			if (tmp->y_v.v > l->max->y_v.v)
 				l->max = tmp;
 			tmp = tmp->next;
 		}
@@ -169,7 +169,7 @@ static int dequeue_value_from_head(struct line *l)
 	if (l->min && l->min == l->head) {
 		struct value *tmp = l->min = l->head->next;
 		while (tmp) {
-			if (tmp->v < l->min->v)
+			if (tmp->y_v.v < l->min->y_v.v)
 				l->min = tmp;
 			tmp = tmp->next;
 		}
@@ -196,10 +196,10 @@ static int enqueue_value_to_tail(struct line *l, double v,
 {
 	struct value *new = malloc(sizeof(struct value));
 
-	new->v = v;
-	new->log_v = signed_log_trans(v);
-	new->log10_v = signed_log10_trans(v);
-	new->exp_v = exp(v);
+	new->y_v.v = v;
+	new->y_v.log_v = signed_log_trans(v);
+	new->y_v.log10_v = signed_log10_trans(v);
+	new->y_v.exp_v = exp(v);
 
 	/* set newest time value */
 	if (x) {
@@ -238,13 +238,13 @@ static int enqueue_value_to_tail(struct line *l, double v,
 	if (!l->max) {
 		l->max = new;
 	} else {
-		if (l->max->v < v)
+		if (l->max->y_v.v < v)
 			l->max = new;
 	}
 	if (!l->min) {
 		l->min = new;
 	} else {
-		if (l->min->v > v)
+		if (l->min->y_v.v > v)
 			l->min = new;
 	}
 
@@ -262,7 +262,7 @@ double line_range_avg(struct line *l, int start, int len)
 	while (v) {
 		if (i >= start && i < start + len) {
 			n++;
-			sum += v->v;
+			sum += v->y_v.v;
 		}
 		i++;
 		v = v->next;
@@ -305,12 +305,12 @@ static double __line_range_rslt(struct line *l, int start, int interval,
 			double delta = delta_v(v);
 			switch (op) {
 			case RANGE_OP_MAX:
-				if (rslt < v->v)
-					rslt = v->v;
+				if (rslt < v->y_v.v)
+					rslt = v->y_v.v;
 				break;
 			case RANGE_OP_MIN:
-				if (rslt > v->v)
-					rslt = v->v;
+				if (rslt > v->y_v.v)
+					rslt = v->y_v.v;
 				break;
 			case RANGE_OP_DELTA_MAX:
 				if (isnan(delta)) {
@@ -612,17 +612,18 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 		int sz = sizeof(sv);
 
 		if (p->curve_type == CURVE_TYPE_LOGARITHMIC) {
-			nc = snprintf(sv, sz, "s*log(1+|%.3f|)=%.3f", v->v,
+			nc = snprintf(sv, sz, "s*log(1+|%.3f|)=%.3f", v->y_v.v,
 				      real_v);
 		} else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10) {
-			nc = snprintf(sv, sz, "s*log10(1+|%.3f|)=%.3f", v->v,
-				      real_v);
+			nc = snprintf(sv, sz, "s*log10(1+|%.3f|)=%.3f",
+				      v->y_v.v, real_v);
 		} else if (p->curve_type == CURVE_TYPE_EXPONENTIAL) {
-			nc = snprintf(sv, sz, "exp(%.3f)=%.3f", v->v, real_v);
+			nc = snprintf(sv, sz, "exp(%.3f)=%.3f", v->y_v.v,
+				      real_v);
 		} else if (p->curve_type == CURVE_TYPE_DELTA &&
 			   !p->enable_stacked_line_chart) {
 			nc = snprintf(sv, sz, "delta(%.3f-%.3f)=%.3f",
-				      v->next->v, v->v, real_v);
+				      v->next->y_v.v, v->y_v.v, real_v);
 		} else {
 			nc = snprintf(sv, sz, "%.3f", real_v);
 		}
@@ -659,8 +660,10 @@ print_llabel:
 				mvprintw(y, h, "%s", ln->name);
 				if (p->debug) {
 					mvprintw(y + 1, h, "%ld", ln->count);
-					mvprintw(y + 2, h, "%.1f", ln->min->v);
-					mvprintw(y + 3, h, "%.1f", ln->max->v);
+					mvprintw(y + 2, h, "%.1f",
+						 ln->min->y_v.v);
+					mvprintw(y + 3, h, "%.1f",
+						 ln->max->y_v.v);
 				}
 			} else {
 				mvprintw(h, w + 1, "%s", ln->name);
@@ -672,9 +675,9 @@ print_llabel:
 					mvprintw(h + 1, w + 1, "%ld",
 						 ln->count);
 					mvprintw(h + 2, w + 1, "%.1f",
-						 ln->min->v);
+						 ln->min->y_v.v);
 					mvprintw(h + 3, w + 1, "%.1f",
-						 ln->max->v);
+						 ln->max->y_v.v);
 				}
 			}
 		}

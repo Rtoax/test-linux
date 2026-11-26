@@ -84,7 +84,7 @@ static int save_txt(const struct plot *p, const char *filename)
 			for_each_value(ln, v)
 			{
 				fprintf(fp, "value %d %d %lf %ld %ld %ld\n",
-					lg->id, ln->id, v->v, v->x_v.idx,
+					lg->id, ln->id, v->y_v.v, v->x_v.idx,
 					v->x_v.tv.tv_sec, v->x_v.tv.tv_usec);
 			}
 		}
@@ -420,7 +420,7 @@ static int save_json(const struct plot *p, const char *filename)
 
 				json_object_object_add(
 					value, "v",
-					json_object_new_double(v->v));
+					json_object_new_double(v->y_v.v));
 
 				/* timeval stamp */
 				json_object *tv = json_object_new_array();
