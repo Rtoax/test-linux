@@ -15,6 +15,7 @@ set(SRC
   file.c
   id-handler.c
   keyboard.c
+  legend.c
   lgroup.c
   line.c
   loadavg.c

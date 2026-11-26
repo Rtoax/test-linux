@@ -45,6 +45,7 @@
 #include "plotcake.h"
 #include "log.h"
 #include "draw.h"
+#include "legend.h"
 
 enum {
 	ARG_LOGARITHMIC = 200,
