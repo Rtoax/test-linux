@@ -31,6 +31,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <sys/epoll.h>
+#include "color.h"
 #include "file.h"
 #include "loadavg.h"
 #include "keyboard.h"
@@ -110,12 +111,11 @@ static const struct argp_option opts[] = {
 	  "line types will be listed or use --ltypes show all types supported "
 	  "(may be listed multiple times)" },
 	{ "ltypes", ARG_LINE_TYPES, NULL, 1, "Show line types for --ltype" },
-	{ "lcolor", 'C', "COLOR", 0,
+	{ "color", 'C', "COLOR", 0,
 	  "Specify line colors, if an invalid value is entered, the supported "
 	  "line colors will be listed, can match color prefixes, such as 'r' "
 	  "matching 'red' (may be listed multiple times)" },
-	{ "lcolors", ARG_LINE_COLORS, NULL, 1,
-	  "Show line colors for --lcolor" },
+	{ "colors", ARG_LINE_COLORS, NULL, 1, "Show line colors for --color" },
 	{ "ram", 'M', NULL, 1, "Display memory curves instead of loadavg" },
 	{ "interval", 'I', "TIME", 0,
 	  "Specify interval time, the default unit is nanoseconds, but units "
@@ -238,9 +238,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		}
 		break;
 	case 'C':
-		if (!lcolor_hasname(arg))
+		if (!data_color_hasname(arg))
 			err = -EINVAL;
-		err = err ?: enqueue_lcolor(lcolor_name2num(arg));
+		err = err ?: enqueue_data_color(data_color_name2num(arg));
 		break;
 	case 'x':
 		xlabel = arg;
@@ -281,7 +281,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		exit(EXIT_SUCCESS);
 		break;
 	case ARG_LINE_COLORS:
-		lcolor_print_names(stdout);
+		data_color_print_names(stdout);
 		exit(EXIT_SUCCESS);
 		break;
 	case ARG_X_AXIS_INDEX:

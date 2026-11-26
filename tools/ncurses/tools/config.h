@@ -4,7 +4,7 @@
 
 #include <ncursesw/curses.h>
 
-#define MY_VERSION "v1.9.21"
+#define MY_VERSION "v1.10.0"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -34,19 +34,6 @@
 #define ANSI_GRAY "\033[2m"
 
 #define ANSI_RST "\033[m"
-
-enum lcolor_enum {
-	C_GREEN,
-	C_RED,
-	C_CYAN,
-	C_WHITE,
-	C_MAGENTA,
-	C_BLUE,
-	C_YELLOW,
-	C_MAX,
-	C_UNKNOWN = C_MAX,
-};
-extern const char *color_names[C_MAX];
 
 #define T_HLINE '-'
 #define T_VLINE '|'

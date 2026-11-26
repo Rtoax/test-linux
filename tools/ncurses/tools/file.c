@@ -76,7 +76,7 @@ static int save_txt(const struct plot *p, const char *filename)
 				"#    lgidx lnidx lname nvals color type\n");
 			fprintf(fp, "line %d %d \"%s\" %ld %s %s\n", lg->id,
 				ln->id, ln->name, ln->count,
-				color_names[ln->color], ln->ops->name);
+				color_name(ln->color), ln->ops->name);
 
 			fprintf(fp,
 				"#     lgidx lnidx value index timeval{ sec usec }\n");
@@ -223,7 +223,7 @@ static int load_txt(struct plot *p, const char *file)
 			Check(end, ' ');
 			*end = '\0';
 			lcolor = start;
-			if (!lcolor_hasname(lcolor)) {
+			if (!data_color_hasname(lcolor)) {
 				fprintf(stderr, "ERROR: unknown color '%s'.\n",
 					lcolor);
 				err = -EINVAL;
@@ -244,7 +244,7 @@ static int load_txt(struct plot *p, const char *file)
 				break;
 			}
 
-			new_line_ops(lg, lname, lcolor_name2num(lcolor),
+			new_line_ops(lg, lname, data_color_name2num(lcolor),
 				     ltype_name2ops(ltype));
 
 		} else if (!strncmp(linebuf, "value ", 6)) {
@@ -400,7 +400,7 @@ static int save_json(const struct plot *p, const char *filename)
 					       json_object_new_int(ln->id));
 			json_object_object_add(
 				line, "color",
-				json_object_new_string(color_names[ln->color]));
+				json_object_new_string(color_name(ln->color)));
 			json_object_object_add(
 				line, "type",
 				json_object_new_string(ln->ops->name));
@@ -608,7 +608,7 @@ static int load_json(struct plot *p, const char *file)
 			J_STRING(lcolor);
 			J_GET_VALUE(line, "color", lcolor);
 			J_GET_STRING(lcolor);
-			if (!lcolor_hasname(lcolor_s)) {
+			if (!data_color_hasname(lcolor_s)) {
 				fprintf(stderr, "ERROR: unknown color '%s'.\n",
 					lcolor_s);
 				err = -ENOENT;
@@ -627,7 +627,7 @@ static int load_json(struct plot *p, const char *file)
 			}
 
 			/* Create new line */
-			new_line_ops(lg, lname_s, lcolor_name2num(lcolor_s),
+			new_line_ops(lg, lname_s, data_color_name2num(lcolor_s),
 				     ltype_name2ops(ltype_s));
 
 			J_INT(vcount);

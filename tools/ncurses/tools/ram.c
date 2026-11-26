@@ -14,25 +14,27 @@ static int ram_create_lines(struct lgroup *lg, void *arg)
 
 	sysinfo(&si);
 
-	n = new_line(lg, "total", nextlcolor(C_RED)) ? n + 1 : -EEXIST;
+	n = new_line(lg, "total", nextdata_color(C_RED)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
-	n = new_line(lg, "free", nextlcolor(C_GREEN)) ? n + 1 : -EEXIST;
+	n = new_line(lg, "free", nextdata_color(C_GREEN)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
-	n = new_line(lg, "shared", nextlcolor(C_BLUE)) ? n + 1 : -EEXIST;
+	n = new_line(lg, "shared", nextdata_color(C_BLUE)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
-	n = new_line(lg, "buff", nextlcolor(C_CYAN)) ? n + 1 : -EEXIST;
+	n = new_line(lg, "buff", nextdata_color(C_CYAN)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
 	if (si.totalswap > 0) {
-		n = new_line(lg, "totalswap", nextlcolor(C_YELLOW)) ? n + 1 :
-								      -EEXIST;
+		n = new_line(lg, "totalswap", nextdata_color(C_YELLOW)) ?
+			    n + 1 :
+			    -EEXIST;
 		if (n < 0)
 			goto done;
-		n = new_line(lg, "freeswap", nextlcolor(C_MAGENTA)) ? n + 1 :
-								      -EEXIST;
+		n = new_line(lg, "freeswap", nextdata_color(C_MAGENTA)) ?
+			    n + 1 :
+			    -EEXIST;
 		if (n < 0)
 			goto done;
 	}

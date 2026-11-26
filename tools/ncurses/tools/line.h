@@ -80,14 +80,6 @@ int get_nr_ltypes(void);
 int enqueue_llabel(const char *name);
 const char *dequeue_llabel(void);
 
-int enqueue_lcolor(enum lcolor_enum c);
-enum lcolor_enum dequeue_lcolor(void);
-int get_nr_lcolors(void);
-int lcolor_print_names(FILE *fp);
-enum lcolor_enum lcolor_name2num(const char *name);
-bool lcolor_hasname(const char *name);
-enum lcolor_enum nextlcolor(enum lcolor_enum c);
-
 void line_add_value(struct line *l, double v, long limit,
 		    struct x_axis_value *x);
 double line_range_avg(struct line *l, int start, int len);

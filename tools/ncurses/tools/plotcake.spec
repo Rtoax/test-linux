@@ -6,7 +6,7 @@
 Name:		plotcake
 # The version number must be consistent with the conf.h in the top-level
 # directory.
-Version:	v1.9.1
+Version:	v1.10.0
 Release:	0%{?dist}
 Summary:	Plot curves in linux terminal.
 
@@ -28,5 +28,5 @@ BuildRequires:	glibc-devel
 # ========== changelogs ==========
 
 %changelog
-* Thu Nov 19 2026 Rong Tao <rtoax@foxmail.com> - 1.9.1
+* Thu Nov 19 2026 Rong Tao <rtoax@foxmail.com> - v1.10.0
 - Not release yet.

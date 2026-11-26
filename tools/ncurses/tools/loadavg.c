@@ -11,13 +11,13 @@ static int loadavg_create_lines(struct lgroup *lg, void *arg)
 {
 	int n = 0;
 
-	n = new_line(lg, "load1", nextlcolor(C_RED)) ? n + 1 : -EEXIST;
+	n = new_line(lg, "load1", nextdata_color(C_RED)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
-	n = new_line(lg, "load5", nextlcolor(C_GREEN)) ? n + 1 : -EEXIST;
+	n = new_line(lg, "load5", nextdata_color(C_GREEN)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
-	n = new_line(lg, "load15", nextlcolor(C_BLUE)) ? n + 1 : -EEXIST;
+	n = new_line(lg, "load15", nextdata_color(C_BLUE)) ? n + 1 : -EEXIST;
 	if (n < 0)
 		goto done;
 done:

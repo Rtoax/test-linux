@@ -28,7 +28,7 @@ static int __add_line(struct lgroup *lg, int i)
 {
 	char name[64] = { 0 };
 	snprintf(name, 64, "line%d", i);
-	enum lcolor_enum color = nextlcolor(i);
+	enum data_color_enum color = nextdata_color(i);
 
 	if (i < get_nr_ltypes())
 		return new_line(lg, name, color) ? 0 : -EEXIST;

@@ -9,6 +9,7 @@
 #include "config.h"
 #include "keyboard.h"
 #include "line.h"
+#include "color.h"
 #include "utils.h"
 #include "dialog.h"
 #include "id-handler.h"
@@ -243,9 +244,6 @@ void plot_update_size(struct plot *p, bool init);
 int plot_create_lines(struct plot *p);
 void plot_update_data(struct plot *p);
 void plot_redraw(struct plot *p);
-
-void init_flavor(bool transparent_bg);
-chtype getflavor(enum lcolor_enum color);
 
 void __plot_debug_llabel(const struct lgroup *lg, int y, int x);
 

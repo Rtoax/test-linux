@@ -101,7 +101,7 @@ fi
 
 run -? --help
 run --usage
-run --lcolors
+run --colors
 run --ltypes
 run -V --version
 run -M --ram
