@@ -107,7 +107,11 @@ static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 		}
 	}
 
-	/* TODO: create a scatter serial */
+	for_each_scatter(&p->__scatter, s)
+	{
+		pc_debug("scatter %s\n", s->name);
+		/* TODO: create a scatter serial */
+	}
 
 	free(dps);
 }
