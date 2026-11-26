@@ -57,12 +57,12 @@ static int __add_line(struct lgroup *lg, int i)
 	snprintf(name, 64, "line%d", i);
 	enum data_color_enum color = nextdata_color(i);
 
-	if (i < get_nr_ltypes())
+	if (i < get_nr_draw_ops())
 		return new_line(lg, name, color) ? 0 : -EEXIST;
 	else {
-		int idx = (i - get_nr_ltypes()) / C_MAX;
+		int idx = (i - get_nr_draw_ops()) / C_MAX;
 		idx %= LINE_TYPE_MAX;
-		return new_line_ops(lg, name, color, ltype_type2ops(idx)) ?
+		return new_line_ops(lg, name, color, draw_ops_type2ops(idx)) ?
 			       0 :
 			       -EEXIST;
 	}

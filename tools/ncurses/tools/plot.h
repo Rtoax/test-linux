@@ -13,6 +13,7 @@
 #include "utils.h"
 #include "dialog.h"
 #include "id-handler.h"
+#include "draw.h"
 
 /**
  * Scaling plotting values, different from @plotscaling.
@@ -108,7 +109,7 @@ struct plot {
 	 */
 	bool need_redraw;
 
-	enum ltype_enum axis_curve_type;
+	enum draw_ops_type_enum axis_curve_type;
 	enum x_axis_type x_type;
 
 #ifdef DEBUG
@@ -228,7 +229,7 @@ static inline void set_plot_ylabel(struct plot *p, const char *label)
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
-	      enum x_axis_type x_type, enum ltype_enum axis,
+	      enum x_axis_type x_type, enum draw_ops_type_enum axis,
 	      enum win_border_type win_border);
 int plot_destroy(struct plot *p);
 unsigned long plot_mem_size(const struct plot *p);

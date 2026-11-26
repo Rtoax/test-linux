@@ -1,11 +1,16 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (C) 2026 Rong Tao. All rights reserved. */
+#include <errno.h>
 #include <malloc.h>
 #include <ncursesw/curses.h>
 #include <string.h>
 #include "config.h"
 #include "plot.h"
 #include "line.h"
+
+static enum draw_ops_type_enum *ltypes = NULL;
+static int nr_ltypes = 0;
+static int idx_ltypes = -1;
 
 static void nothing(const struct plot *p, WINDOW *win, int y, int x)
 {
@@ -361,7 +366,7 @@ static const struct draw_operations utf8_line_ops = {
 	.rarrow = utf8_rarrow,
 };
 
-static const struct draw_operations *ltype_operations[LINE_TYPE_MAX] = {
+static const struct draw_operations *draw_ops[LINE_TYPE_MAX] = {
 	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_line_ops,
 	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_line_ops,
 	[LINE_TYPE_BOLDBOLD_UNICODE] = &unicode_boldbold_line_ops,
@@ -372,49 +377,73 @@ static const struct draw_operations *ltype_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_HEART_UNICODE] = &unicode_heart_line_ops,
 };
 
-int ltype_print_names(FILE *fp)
+int draw_ops_print_names(FILE *fp)
 {
 	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++) {
-		fprintf(fp, "\t%s\n", ltype_operations[i]->name);
+		fprintf(fp, "\t%s\n", draw_ops[i]->name);
 	}
 	return 0;
 }
 
-bool ltype_hasname(const char *name)
+bool draw_ops_has_name(const char *name)
 {
 	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++)
-		if (!strcmp(ltype_operations[i]->name, name))
+		if (!strcmp(draw_ops[i]->name, name))
 			return true;
 	/**
 	 * print error to stderr, hint to stdout.
 	 */
 	fprintf(stderr, "ERROR: not support line type '%s', please use:\n",
 		name);
-	ltype_print_names(stdout);
+	draw_ops_print_names(stdout);
 	return false;
 }
 
-enum ltype_enum ltype_name2type(const char *name)
+enum draw_ops_type_enum draw_ops_name2type(const char *name)
 {
 	for (int i = LINE_TYPE_DEFAULT; i < LINE_TYPE_MAX; i++)
-		if (!strcmp(ltype_operations[i]->name, name))
+		if (!strcmp(draw_ops[i]->name, name))
 			return i;
 	return LINE_TYPE_DEFAULT;
 }
 
-const struct draw_operations *ltype_type2ops(enum ltype_enum t)
+const struct draw_operations *draw_ops_type2ops(enum draw_ops_type_enum t)
 {
 	if (t < LINE_TYPE_DEFAULT || t >= LINE_TYPE_MAX)
 		t = LINE_TYPE_DEFAULT;
-	return ltype_operations[t];
+	return draw_ops[t];
 }
 
-const struct draw_operations *ltype_name2ops(const char *name)
+const struct draw_operations *draw_ops_name2ops(const char *name)
 {
-	return ltype_type2ops(ltype_name2type(name));
+	return draw_ops_type2ops(draw_ops_name2type(name));
 }
 
-const char *ltype_type2name(enum ltype_enum t)
+const char *draw_ops_type2name(enum draw_ops_type_enum t)
 {
-	return ltype_type2ops(t)->name;
+	return draw_ops_type2ops(t)->name;
+}
+
+int enqueue_draw_ops(enum draw_ops_type_enum t)
+{
+	if (t >= LINE_TYPE_MAX || t < LINE_TYPE_DEFAULT)
+		return -EINVAL;
+
+	nr_ltypes++;
+	ltypes = (enum draw_ops_type_enum *)realloc(
+		ltypes, nr_ltypes * sizeof(enum draw_ops_type_enum));
+	ltypes[nr_ltypes - 1] = t;
+	return 0;
+}
+
+int get_nr_draw_ops(void)
+{
+	return nr_ltypes;
+}
+
+enum draw_ops_type_enum dequeue_draw_ops(void)
+{
+	if (nr_ltypes <= 0 || idx_ltypes >= nr_ltypes)
+		return LINE_TYPE_DEFAULT;
+	return ltypes[++idx_ltypes];
 }

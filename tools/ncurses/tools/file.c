@@ -236,7 +236,7 @@ static int load_txt(struct plot *p, const char *file)
 			Check(end, '\n');
 			*end = '\0';
 			ltype = start;
-			if (!ltype_hasname(ltype)) {
+			if (!draw_ops_has_name(ltype)) {
 				fprintf(stderr,
 					"ERROR: unknown line type '%s'.\n",
 					ltype);
@@ -245,7 +245,7 @@ static int load_txt(struct plot *p, const char *file)
 			}
 
 			new_line_ops(lg, lname, data_color_name2num(lcolor),
-				     ltype_name2ops(ltype));
+				     draw_ops_name2ops(ltype));
 
 		} else if (!strncmp(linebuf, "value ", 6)) {
 			char *start = linebuf, *end;
@@ -618,7 +618,7 @@ static int load_json(struct plot *p, const char *file)
 			J_STRING(ltype);
 			J_GET_VALUE(line, "type", ltype);
 			J_GET_STRING(ltype);
-			if (!ltype_hasname(ltype_s)) {
+			if (!draw_ops_has_name(ltype_s)) {
 				fprintf(stderr,
 					"ERROR: unknown line type '%s'.\n",
 					ltype_s);
@@ -628,7 +628,7 @@ static int load_json(struct plot *p, const char *file)
 
 			/* Create new line */
 			new_line_ops(lg, lname_s, data_color_name2num(lcolor_s),
-				     ltype_name2ops(ltype_s));
+				     draw_ops_name2ops(ltype_s));
 
 			J_INT(vcount);
 			J_GET_VALUE(line, "vcount", vcount);

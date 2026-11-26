@@ -205,7 +205,8 @@ static void __draw_title(const struct plot *p)
 
 static void __draw_axes(const struct plot *p)
 {
-	const struct draw_operations *ops = ltype_type2ops(p->axis_curve_type);
+	const struct draw_operations *ops =
+		draw_ops_type2ops(p->axis_curve_type);
 	const char *labelx = p->label_x[0] != '\0' ?
 				     p->label_x :
 				     x_axis_label_str(p->x_type);
@@ -867,7 +868,7 @@ static int key_right_handler(int key, void *arg)
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
-	      enum x_axis_type x_type, enum ltype_enum axis,
+	      enum x_axis_type x_type, enum draw_ops_type_enum axis,
 	      enum win_border_type win_border)
 {
 	int err = 0;

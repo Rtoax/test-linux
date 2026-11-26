@@ -11,22 +11,10 @@
 #include "value.h"
 #include "lgroup.h"
 #include "axis.h"
+#include "draw.h"
 
 struct plot;
 struct draw_operations;
-
-enum ltype_enum {
-	LINE_TYPE_DEFAULT = 0,
-	LINE_TYPE_BOLD_UNICODE = LINE_TYPE_DEFAULT,
-	LINE_TYPE_BOLD_UNICODE_DASHED,
-	LINE_TYPE_BOLDBOLD_UNICODE,
-	LINE_TYPE_THIN_UNICODE,
-	LINE_TYPE_THIN_UNICODE_DASHED,
-	LINE_TYPE_AREA_CHART_UNICODE,
-	LINE_TYPE_UTF8,
-	LINE_TYPE_HEART_UNICODE,
-	LINE_TYPE_MAX,
-};
 
 struct line {
 	char name[64];
@@ -41,41 +29,9 @@ struct line {
 	struct x_axis_range x_range;
 };
 
-struct draw_operations {
-	const char name[64];
-	void (*horizon)(const struct plot *p, WINDOW *win, int y, int x, int n);
-	void (*vertical)(const struct plot *p, WINDOW *win, int y, int x,
-			 int n);
-	/* upper left corner */
-	void (*ulcorner)(const struct plot *p, WINDOW *win, int y, int x);
-	/* lower left corner */
-	void (*llcorner)(const struct plot *p, WINDOW *win, int y, int x);
-	/* upper right corner */
-	void (*urcorner)(const struct plot *p, WINDOW *win, int y, int x);
-	/* lower right corner */
-	void (*lrcorner)(const struct plot *p, WINDOW *win, int y, int x);
-	/* up arrow */
-	void (*uarrow)(const struct plot *p, WINDOW *win, int y, int x);
-	/* down arrow */
-	void (*darrow)(const struct plot *p, WINDOW *win, int y, int x);
-	/* right arrow */
-	void (*rarrow)(const struct plot *p, WINDOW *win, int y, int x);
-};
-
 #define for_each_value(l, iter)                                     \
 	for (struct value *iter = ((struct line *)(l))->head; iter; \
 	     iter = iter->next)
-
-int ltype_print_names(FILE *fp);
-bool ltype_hasname(const char *name);
-enum ltype_enum ltype_name2type(const char *name);
-const struct draw_operations *ltype_type2ops(enum ltype_enum t);
-const struct draw_operations *ltype_name2ops(const char *name);
-const char *ltype_type2name(enum ltype_enum t);
-
-int enqueue_ltype(enum ltype_enum t);
-enum ltype_enum dequeue_ltype(void);
-int get_nr_ltypes(void);
 
 int enqueue_llabel(const char *name);
 const char *dequeue_llabel(void);

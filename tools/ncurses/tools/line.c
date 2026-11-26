@@ -14,10 +14,6 @@ static char **llabels = NULL;
 static int nr_llabels = 0;
 static int idx_llabels = -1;
 
-static enum ltype_enum *ltypes = NULL;
-static int nr_ltypes = 0;
-static int idx_ltypes = -1;
-
 /**
  * Since this program is single-thread, we could set line name with a global
  * list.
@@ -49,30 +45,6 @@ const char *dequeue_llabel(void)
 	if (nr_llabels <= 0 || idx_llabels >= nr_llabels)
 		return NULL;
 	return llabels[++idx_llabels];
-}
-
-int enqueue_ltype(enum ltype_enum t)
-{
-	if (t >= LINE_TYPE_MAX || t < LINE_TYPE_DEFAULT)
-		return -EINVAL;
-
-	nr_ltypes++;
-	ltypes = (enum ltype_enum *)realloc(
-		ltypes, nr_ltypes * sizeof(enum ltype_enum));
-	ltypes[nr_ltypes - 1] = t;
-	return 0;
-}
-
-int get_nr_ltypes(void)
-{
-	return nr_ltypes;
-}
-
-enum ltype_enum dequeue_ltype(void)
-{
-	if (nr_ltypes <= 0 || idx_ltypes >= nr_ltypes)
-		return LINE_TYPE_DEFAULT;
-	return ltypes[++idx_ltypes];
 }
 
 static int dequeue_value_from_head(struct line *l)
@@ -344,7 +316,8 @@ struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 
 struct line *new_line(struct lgroup *lg, const char *name, int color)
 {
-	return new_line_ops(lg, name, color, ltype_type2ops(dequeue_ltype()));
+	return new_line_ops(lg, name, color,
+			    draw_ops_type2ops(dequeue_draw_ops()));
 }
 
 int paint_y0_line(const struct plot *p, double min, double max)

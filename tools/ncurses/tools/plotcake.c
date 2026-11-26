@@ -44,6 +44,7 @@
 #include "id-handler.h"
 #include "plotcake.h"
 #include "log.h"
+#include "draw.h"
 
 enum {
 	ARG_LOGARITHMIC = 200,
@@ -189,7 +190,7 @@ static bool enable_stacked_line_chart = false;
 static bool vertical_plotting = false;
 static bool black_background = false;
 static enum x_axis_type x_type = X_TIMEVAL;
-static enum ltype_enum axis_curve_type = LINE_TYPE_THIN_UNICODE;
+static enum draw_ops_type_enum axis_curve_type = LINE_TYPE_THIN_UNICODE;
 static enum win_border_type win_border_type = WIN_BORDER_TYPE_DEFAULT;
 
 static struct plot plot = { 0 };
@@ -219,14 +220,14 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		err = err ?: enqueue_llabel(arg);
 		break;
 	case 'L':
-		if (!ltype_hasname(arg))
+		if (!draw_ops_has_name(arg))
 			err = -EINVAL;
-		err = err ?: enqueue_ltype(ltype_name2type(arg));
+		err = err ?: enqueue_draw_ops(draw_ops_name2type(arg));
 		break;
 	case ARG_AXIS_CURVE_TYPE:
-		if (!ltype_hasname(arg))
+		if (!draw_ops_has_name(arg))
 			err = -EINVAL;
-		axis_curve_type = ltype_name2type(arg);
+		axis_curve_type = draw_ops_name2type(arg);
 		break;
 	case ARG_WIN_BORDER_TYPE:
 		if (!strcmp(arg, "utf8")) {
@@ -278,7 +279,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		black_background = true;
 		break;
 	case ARG_LINE_TYPES:
-		ltype_print_names(stdout);
+		draw_ops_print_names(stdout);
 		exit(EXIT_SUCCESS);
 		break;
 	case ARG_LINE_COLORS:

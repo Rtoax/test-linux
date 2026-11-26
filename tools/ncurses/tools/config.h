@@ -4,7 +4,7 @@
 
 #include <ncursesw/curses.h>
 
-#define MY_VERSION "v1.10.4"
+#define MY_VERSION "v1.10.5"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
