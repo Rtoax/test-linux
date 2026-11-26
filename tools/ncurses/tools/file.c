@@ -238,7 +238,7 @@ static int load_txt(struct plot *p, const char *file)
 			ltype = start;
 			if (!draw_ops_has_name(ltype)) {
 				fprintf(stderr,
-					"ERROR: unknown line type '%s'.\n",
+					"ERROR: unknown draw type '%s'.\n",
 					ltype);
 				err = -EINVAL;
 				break;

@@ -38,6 +38,7 @@ error() {
 }
 
 _eval() {
+	echo -e "[${USER}]\033[1;33m$ ${@}\033[m" | tee --append ${LOG}
 	eval "${@}"
 	echo -e "[${USER}]\033[1;32m$ ${@}\033[m" | tee --append ${LOG}
 }
@@ -102,7 +103,7 @@ fi
 run -? --help
 run --usage
 run --colors
-run --ltypes
+run --draws
 run -V --version
 run -M --ram
 run --title TITLE --xlabel XLABEL --ylabel YLABEL -C red -C red

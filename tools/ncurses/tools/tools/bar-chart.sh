@@ -14,7 +14,7 @@ num=${#data[@]}
 area_args=()
 for ((i = 0; i < num; i++))
 do
-	area_args+=( -L unicode-area-chart -l "Line ${i} (data ${data[$i]})" )
+	area_args+=( -D unicode-area-chart -l "Line ${i} (data ${data[$i]})" )
 done
 
 for ((i = 0; i < num * 10; i++))

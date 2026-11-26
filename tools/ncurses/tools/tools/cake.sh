@@ -24,5 +24,5 @@ do
 		kill -INT 0
 	fi
 done | ${PLOTCAKE} --title 'Happy Birthday' \
-	-L unicode-boldbold -L unicode-boldbold \
+	-D unicode-boldbold -D unicode-boldbold \
 	-C w -C w -o cake "${@}"

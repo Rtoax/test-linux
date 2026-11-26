@@ -8,9 +8,9 @@
 #include "plot.h"
 #include "line.h"
 
-static enum draw_ops_type_enum *ltypes = NULL;
-static int nr_ltypes = 0;
-static int idx_ltypes = -1;
+static enum draw_ops_type_enum *draws = NULL;
+static int nr_draws = 0;
+static int idx_draw = -1;
 
 static void nothing(const struct plot *p, WINDOW *win, int y, int x)
 {
@@ -429,21 +429,21 @@ int enqueue_draw_ops(enum draw_ops_type_enum t)
 	if (t >= LINE_TYPE_MAX || t < LINE_TYPE_DEFAULT)
 		return -EINVAL;
 
-	nr_ltypes++;
-	ltypes = (enum draw_ops_type_enum *)realloc(
-		ltypes, nr_ltypes * sizeof(enum draw_ops_type_enum));
-	ltypes[nr_ltypes - 1] = t;
+	nr_draws++;
+	draws = (enum draw_ops_type_enum *)realloc(
+		draws, nr_draws * sizeof(enum draw_ops_type_enum));
+	draws[nr_draws - 1] = t;
 	return 0;
 }
 
 int get_nr_draw_ops(void)
 {
-	return nr_ltypes;
+	return nr_draws;
 }
 
 enum draw_ops_type_enum dequeue_draw_ops(void)
 {
-	if (nr_ltypes <= 0 || idx_ltypes >= nr_ltypes)
+	if (nr_draws <= 0 || idx_draw >= nr_draws)
 		return LINE_TYPE_DEFAULT;
-	return ltypes[++idx_ltypes];
+	return draws[++idx_draw];
 }

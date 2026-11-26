@@ -173,9 +173,9 @@ done | ${PLOTCAKE} ${vertical_plotting:+--vertical-plotting} \\
 	--ylabel "${ylabel}" \\
 	--axis-curve-type utf8 \\
 	--win-border utf8 \\
-	-l "${line0}" -L utf8 \\
-	-l "${line1}" -L utf8 \\
-	-l "${line2}" -L utf8
+	-l "${line0}" -D utf8 \\
+	-l "${line1}" -D utf8 \\
+	-l "${line2}" -D utf8
 EOF
 chmod +x ${plotcake}
 

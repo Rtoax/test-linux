@@ -51,8 +51,8 @@ enum {
 	ARG_LOGARITHMIC10,
 	ARG_EXPONENTIAL,
 	ARG_DELTA,
-	ARG_LINE_TYPES,
-	ARG_LINE_COLORS,
+	ARG_DRAW_OPS_PRINT,
+	ARG_COLORS,
 	ARG_X_AXIS_INDEX,
 	ARG_AXIS_CURVE_TYPE,
 	ARG_WIN_BORDER_TYPE,
@@ -108,16 +108,16 @@ static const struct argp_option opts[] = {
 	{ "ylabel", 'y', "LABEL", 0, "Specify y axis label" },
 	{ "llabel", 'l', "NAME", 0,
 	  "Specify line label (may be listed multiple times)" },
-	{ "ltype", 'L', "TYPE", 0,
-	  "Specify line types, if an invalid value is entered, the supported "
-	  "line types will be listed or use --ltypes show all types supported "
+	{ "draw", 'D', "TYPE", 0,
+	  "Specify draw types, if an invalid value is entered, the supported "
+	  "draw types will be listed or use --draws show all types supported "
 	  "(may be listed multiple times)" },
-	{ "ltypes", ARG_LINE_TYPES, NULL, 1, "Show line types for --ltype" },
+	{ "draws", ARG_DRAW_OPS_PRINT, NULL, 1, "Show draw types for --draw" },
 	{ "color", 'C', "COLOR", 0,
 	  "Specify line colors, if an invalid value is entered, the supported "
 	  "line colors will be listed, can match color prefixes, such as 'r' "
 	  "matching 'red' (may be listed multiple times)" },
-	{ "colors", ARG_LINE_COLORS, NULL, 1, "Show line colors for --color" },
+	{ "colors", ARG_COLORS, NULL, 1, "Show line colors for --color" },
 	{ "ram", 'M', NULL, 1, "Display memory curves instead of loadavg" },
 	{ "interval", 'I', "TIME", 0,
 	  "Specify interval time, the default unit is nanoseconds, but units "
@@ -150,8 +150,8 @@ static const struct argp_option opts[] = {
 	  "Use index as x axis value instead of timeval (shortcut: " KEY_HELP_x
 	  ")." },
 	{ "axis-curve-type", ARG_AXIS_CURVE_TYPE, "TYPE", 0,
-	  "Plotting line types for coordinate axes, the supported types will "
-	  "be listed or use --ltypes show all types supported " },
+	  "Plotting draw types for coordinate axes, the supported types will "
+	  "be listed or use --draws show all types supported " },
 	{ "enable-stacked-line-chart", ARG_ENABLE_STACKED_LINE_CHART, NULL, 1,
 	  "Create a stacked line chart; this type of chart layers multiple "
 	  "data series on top of one another, illustrating both the \"overall "
@@ -219,7 +219,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	case 'l':
 		err = err ?: enqueue_llabel(arg);
 		break;
-	case 'L':
+	case 'D':
 		if (!draw_ops_has_name(arg))
 			err = -EINVAL;
 		err = err ?: enqueue_draw_ops(draw_ops_name2type(arg));
@@ -278,11 +278,11 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 	case ARG_BLACK_BACKGROUND:
 		black_background = true;
 		break;
-	case ARG_LINE_TYPES:
+	case ARG_DRAW_OPS_PRINT:
 		draw_ops_print_names(stdout);
 		exit(EXIT_SUCCESS);
 		break;
-	case ARG_LINE_COLORS:
+	case ARG_COLORS:
 		data_color_print_names(stdout);
 		exit(EXIT_SUCCESS);
 		break;

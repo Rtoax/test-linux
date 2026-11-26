@@ -54,5 +54,5 @@ while true; do
 	sleep ${interval_sec}
 done | ${PLOTCAKE} --title 'Loadavg' --xlabel 'Time' --ylabel 'Load' \
 		-l 'Load1' -l 'Load5' -l 'Load15' \
-		-L unicode-boldbold -L unicode-bold -L unicode \
+		-D unicode-boldbold -D unicode-bold -D unicode \
 		-C red -C blue -C white -o loadavg ${@}
