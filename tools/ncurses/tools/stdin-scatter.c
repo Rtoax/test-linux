@@ -39,13 +39,15 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 		reset_legend_queue();
 
 		/* scatter plot no need line struct anymore */
-		for_each_lgroup(&p->__line, lg)
+		for_each_lgroup(&p->__line, g)
 		{
-			for_each_line(lg, ln)
+			for_each_line(g, ln)
 			{
 				struct line *l = ln;
 				ln = ln->next;
 				free_line(l);
+				if (!ln)
+					break;
 			}
 			/* No need free lgroup right now. */
 		}
