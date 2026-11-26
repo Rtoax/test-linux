@@ -189,7 +189,7 @@ static enum math_trans_enum math_trans = MATH_TRANS_NONE;
 static bool enable_stacked_line_chart = false;
 static bool vertical_plotting = false;
 static bool black_background = false;
-static enum x_axis_type x_type = X_TIMEVAL;
+static enum ln_x_type x_type = X_TIMEVAL;
 static enum draw_ops_type_enum axis_curve_type = LINE_TYPE_THIN_UNICODE;
 static enum win_border_type win_border_type = WIN_BORDER_TYPE_DEFAULT;
 

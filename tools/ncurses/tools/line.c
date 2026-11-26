@@ -99,8 +99,7 @@ static int dequeue_value_from_head(struct line *l)
 	return v;
 }
 
-static int enqueue_value_to_tail(struct line *l, double v,
-				 struct x_axis_value *x)
+static int enqueue_value_to_tail(struct line *l, double v, struct ln_x_value *x)
 {
 	struct ln_value *new = malloc(sizeof(struct ln_value));
 
@@ -275,8 +274,7 @@ double line_range_delta_min(struct line *l, int start, int interval, int len)
 /**
  * @limit: max length of line (number of values), if < 0, means no limit.
  */
-void line_add_value(struct line *l, double v, long limit,
-		    struct x_axis_value *x)
+void line_add_value(struct line *l, double v, long limit, struct ln_x_value *x)
 {
 	enqueue_value_to_tail(l, v, x);
 

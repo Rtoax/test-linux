@@ -92,7 +92,7 @@ struct plot {
 		id_handle_count(p->start_time_to_dialog), p->help_timerfd, \
 		p->llabels_timerfd
 #define PLOT_DEBUG0_X_FMT ", %s:%d"
-#define PLOT_DEBUG0_X_ARG(p) , x_axis_type_str(p->x_type), p->x_type
+#define PLOT_DEBUG0_X_ARG(p) , ln_x_type_str(p->x_type), p->x_type
 #define PLOT_DEBUG0_BND_FMT ", [(%d,%d,%d,%d)(%d,%d,%d,%d)]"
 #define PLOT_DEBUG0_BND_ARG(p)                                  \
 	, p->bnd.top, p->bnd.bottom, p->bnd.left, p->bnd.right, \
@@ -198,7 +198,7 @@ static inline void set_plot_ylabel(struct plot *p, const char *label)
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
-	      enum x_axis_type x_type, enum draw_ops_type_enum axis,
+	      enum ln_x_type x_type, enum draw_ops_type_enum axis,
 	      enum win_border_type win_border);
 int plot_destroy(struct plot *p);
 unsigned long plot_mem_size(const struct plot *p);

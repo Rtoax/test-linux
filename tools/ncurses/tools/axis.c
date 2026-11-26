@@ -9,27 +9,27 @@
 #include <string.h>
 #include "axis.h"
 
-const static char *__x_axis_type_str[] = { "x-timeval", "x-index" };
-const static char *__x_axis_label_str[] = { "Time", "Idx" };
+const static char *__ln_x_type_str[] = { "x-timeval", "x-index" };
+const static char *__ln_x_label_str[] = { "Time", "Idx" };
 
-const char *x_axis_type_str(enum x_axis_type type)
+const char *ln_x_type_str(enum ln_x_type type)
 {
 	if (type < X_TIMEVAL || type > X_INDEX)
 		return "unknown";
-	return __x_axis_type_str[type];
+	return __ln_x_type_str[type];
 }
 
-const char *x_axis_label_str(enum x_axis_type type)
+const char *ln_x_label_str(enum ln_x_type type)
 {
 	if (type < X_TIMEVAL || type > X_INDEX)
 		return "??";
-	return __x_axis_label_str[type];
+	return __ln_x_label_str[type];
 }
 
 /**
- * @return: enum x_axis_type
+ * @return: enum ln_x_type
  */
-int get_x_axis_type(const char *type)
+int get_ln_x_type(const char *type)
 {
 	int ret;
 
@@ -44,8 +44,7 @@ int get_x_axis_type(const char *type)
 	return ret;
 }
 
-const char *x_axis_range_str(enum x_axis_type t, struct x_axis_range *r,
-			     char buf[64])
+const char *ln_x_range_str(enum ln_x_type t, struct ln_x_range *r, char buf[64])
 {
 	switch (t) {
 	case X_TIMEVAL:

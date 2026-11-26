@@ -26,7 +26,7 @@ struct line {
 	struct line *next; /* maybe line in group */
 	struct lgroup *lg; /* belongs to */
 	const struct draw_operations *ops;
-	struct x_axis_range x_range;
+	struct ln_x_range x_range;
 };
 
 struct line_plotting {
@@ -58,7 +58,7 @@ struct line_plotting {
 	 */
 	bool enable_stacked_line_chart;
 
-	enum x_axis_type x_type;
+	enum ln_x_type x_type;
 };
 
 #define for_each_value(l, iter)                                        \
@@ -74,8 +74,7 @@ struct lgroup *plot_lgroup(const struct line_plotting *p, int idx);
 int enqueue_llabel(const char *name);
 const char *dequeue_llabel(void);
 
-void line_add_value(struct line *l, double v, long limit,
-		    struct x_axis_value *x);
+void line_add_value(struct line *l, double v, long limit, struct ln_x_value *x);
 double line_range_avg(struct line *l, int start, int len);
 double line_range_max(struct line *l, int start, int interval, int len);
 double line_range_min(struct line *l, int start, int interval, int len);

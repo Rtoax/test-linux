@@ -175,7 +175,7 @@ static void __draw_axes(const struct plot *p)
 		draw_ops_type2ops(p->axis_curve_type);
 	const char *labelx = p->label_x[0] != '\0' ?
 				     p->label_x :
-				     x_axis_label_str(p->__line.x_type);
+				     ln_x_label_str(p->__line.x_type);
 
 	if (p->vertical_plotting) {
 		/* x axis */
@@ -396,8 +396,8 @@ void __plot_debug_llabel(const struct lgroup *lg, int y, int x)
 
 			mvprintw(i + y, x, "%d: %s: %ld %f x(%s) y(%lf~%lf)",
 				 ln->id, ln->name, ln->count, ln->tail->y_v.v,
-				 x_axis_range_str(lg->plot->__line.x_type,
-						  &ln->x_range, buf),
+				 ln_x_range_str(lg->plot->__line.x_type,
+						&ln->x_range, buf),
 				 ln->min->y_v.v, ln->max->y_v.v);
 		}
 		attroff(color);
@@ -834,7 +834,7 @@ static int key_right_handler(int key, void *arg)
 }
 
 int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
-	      enum x_axis_type x_type, enum draw_ops_type_enum axis,
+	      enum ln_x_type x_type, enum draw_ops_type_enum axis,
 	      enum win_border_type win_border)
 {
 	int err = 0;

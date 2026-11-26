@@ -64,7 +64,7 @@ static int save_txt(const struct plot *p, const char *filename)
 	fprintf(fp, "#    nlgroup title xlabel ylabel x-type\n");
 	fprintf(fp, "plot %d \"%s\" \"%s\" \"%s\" %s\n", p->__line.lgcount,
 		p->title, p->label_x, p->label_y,
-		x_axis_type_str(p->__line.x_type));
+		ln_x_type_str(p->__line.x_type));
 
 	for_each_lgroup(&p->__line, lg)
 	{
@@ -115,7 +115,7 @@ static int load_txt(struct plot *p, const char *file)
 
 		if (!strncmp(linebuf, "plot ", 5)) {
 			char *start = linebuf, *end;
-			enum x_axis_type x_type;
+			enum ln_x_type x_type;
 
 #define Check(s, c)                                                      \
 	if (s == NULL) {                                                 \
@@ -147,12 +147,12 @@ static int load_txt(struct plot *p, const char *file)
 			*end = '\0';
 			set_plot_ylabel(p, start);
 
-			/* x axis type, see x_axis_type_str() */
+			/* x axis type, see ln_x_type_str() */
 			start = end + 1;
 			start = strchr(start, ' ') + 1;
 			end = strchr(start, '\n');
 			*end = '\0';
-			x_type = get_x_axis_type(start);
+			x_type = get_ln_x_type(start);
 			if (x_type < 0) {
 				fprintf(stderr,
 					"ERROR: unknown x axis type '%s' in %s.\n",
@@ -254,7 +254,7 @@ static int load_txt(struct plot *p, const char *file)
 			struct line *line = NULL;
 			int idx;
 			double v;
-			struct x_axis_value xv;
+			struct ln_x_value xv;
 
 			/* lgroup index */
 			start = strchr(start, ' ') + 1;
@@ -365,7 +365,7 @@ static int save_json(const struct plot *p, const char *filename)
 			       json_object_new_int(p->__line.lgcount));
 	json_object_object_add(
 		plot, "x-type",
-		json_object_new_string(x_axis_type_str(p->__line.x_type)));
+		json_object_new_string(ln_x_type_str(p->__line.x_type)));
 
 	json_object *lgroups = json_object_new_object();
 	json_object_object_add(plot, "lgroups", lgroups);
@@ -548,7 +548,7 @@ static int load_json(struct plot *p, const char *file)
 	J_STRING(x_type);
 	J_GET_VALUE(plot, "x-type", x_type);
 	J_GET_STRING(x_type);
-	p->__line.x_type = get_x_axis_type(x_type_s);
+	p->__line.x_type = get_ln_x_type(x_type_s);
 	if (p->__line.x_type < 0) {
 		fprintf(stderr, "ERROR: unknown x axis type '%s' in %s.\n",
 			x_type_s, file);
@@ -639,7 +639,7 @@ static int load_json(struct plot *p, const char *file)
 
 			json_object_object_foreach(values, vid_s, value)
 			{
-				struct x_axis_value xv;
+				struct ln_x_value xv;
 				struct line *line;
 
 				if (p->debug)

@@ -28,7 +28,7 @@ struct __value {
 
 struct ln_value {
 	struct __value y_v;
-	struct x_axis_value x_v;
+	struct ln_x_value x_v;
 	struct ln_value *next;
 };
 

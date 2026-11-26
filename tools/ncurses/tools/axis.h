@@ -6,26 +6,26 @@
 #include <time.h>
 #include "config.h"
 
-enum x_axis_type {
+enum ln_x_type {
 	X_TIMEVAL,
 	X_INDEX,
 	X_AXIS_TYPE_MAX,
 };
 
 /* x axis value type */
-struct x_axis_value {
+struct ln_x_value {
 	struct timeval tv; /* X_TIMEVAL */
 	unsigned long idx; /* X_INDEX */
 	/* add more x axis value type */
 };
 
-struct x_axis_range {
-	struct x_axis_value start, end;
+struct ln_x_range {
+	struct ln_x_value start, end;
 };
 
-const char *x_axis_type_str(enum x_axis_type type);
-const char *x_axis_label_str(enum x_axis_type type);
-int get_x_axis_type(const char *type);
+int get_ln_x_type(const char *type);
 
-const char *x_axis_range_str(enum x_axis_type t, struct x_axis_range *r,
-			     char buf[64]);
+const char *ln_x_type_str(enum ln_x_type type);
+const char *ln_x_label_str(enum ln_x_type type);
+const char *ln_x_range_str(enum ln_x_type t, struct ln_x_range *r,
+			   char buf[64]);
