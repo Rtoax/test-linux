@@ -4,7 +4,7 @@
 
 #include <ncursesw/curses.h>
 
-#define MY_VERSION "v1.12.0"
+#define MY_VERSION "v1.12.1"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -23,7 +23,7 @@
 
 #define EXPIRED_USECS_SHIFT 60000000UL /* 60s, key left, right */
 #define EXPIRED_USECS_HELP 1000000UL /* 1s, key h */
-#define EXPIRED_USECS_LLABEL 1000000UL /* 1s, key l */
+#define EXPIRED_USECS_LEGEND 1000000UL /* 1s, key l */
 
 #define ANSI_RED "\033[1;31m"
 #define ANSI_GREEN "\033[1;32m"

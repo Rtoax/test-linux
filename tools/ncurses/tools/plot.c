@@ -693,7 +693,7 @@ static int key_l_handler(int key, void *arg)
 		}
 		p->legends_timerfd = -1;
 	}
-	p->legends_timerfd = new_timerfd(EXPIRED_USECS_LLABEL * 1000);
+	p->legends_timerfd = new_timerfd(EXPIRED_USECS_LEGEND * 1000);
 	plotcake_poll_add_fd(p->legends_timerfd);
 	register_id(NULL, p->legends_timerfd,
 		    win_dialog_legends_timer_timeout_handler, p);
