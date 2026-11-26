@@ -17,6 +17,8 @@ enum draw_ops_type_enum {
 	LINE_TYPE_MAX,
 };
 
+struct plot;
+
 struct draw_operations {
 	const char name[64];
 	void (*horizon)(const struct plot *p, WINDOW *win, int y, int x, int n);

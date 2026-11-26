@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "scatter.h"
+#include "legend.h"
+#include "draw.h"
 
 struct scatter *sp_get_scatter_from_name(const struct scatter_plotting *sp,
 					 const char *name)
@@ -21,9 +23,9 @@ struct scatter *sp_get_scatter_from_name(const struct scatter_plotting *sp,
 static struct scatter *__create_scatter(const char *name, int color)
 {
 	struct scatter *new = malloc(sizeof(struct scatter));
-	/* TODO: set name from dequeue_legend() */
+	const char *arg_name = dequeue_legend();
 	memset(new, 0, sizeof(struct scatter));
-	snprintf(new->name, sizeof(new->name) - 1, "%s", name);
+	snprintf(new->name, sizeof(new->name) - 1, "%s", arg_name ?: name);
 	new->color = color;
 	return new;
 }
@@ -58,4 +60,11 @@ struct scatter *new_scatter_ops(struct scatter_plotting *sp, const char *name,
 	sp_add_scatter(sp, new);
 
 	return new;
+}
+
+struct scatter *new_scatter(struct scatter_plotting *sp, const char *name,
+			    int color)
+{
+	return new_scatter_ops(sp, name, color,
+			       draw_ops_type2ops(dequeue_draw_ops()));
 }

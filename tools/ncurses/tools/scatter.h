@@ -28,3 +28,11 @@ struct scatter_plotting {
 #define for_each_scatter(sp, iter)                                             \
 	for (struct scatter *iter = ((struct scatter_plotting *)(sp))->schead; \
 	     iter; iter = iter->next)
+
+struct scatter *sp_get_scatter_from_name(const struct scatter_plotting *sp,
+					 const char *name);
+int sp_add_scatter(struct scatter_plotting *sp, struct scatter *s);
+struct scatter *new_scatter_ops(struct scatter_plotting *sp, const char *name,
+				int color, const struct draw_operations *ops);
+struct scatter *new_scatter(struct scatter_plotting *sp, const char *name,
+			    int color);

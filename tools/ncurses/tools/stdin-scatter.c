@@ -12,6 +12,7 @@
 #include "stdin.h"
 #include "log.h"
 #include "legend.h"
+#include "draw.h"
 
 struct double_pair {
 	double x, y;
@@ -22,6 +23,24 @@ bool stdin_buf_is_scatter_format(const char *buf)
 	const char *s = stdin_buf_skip_whitespace(buf);
 	/* FIXME: more accurate match */
 	return *s == '(';
+}
+
+/*static*/ int __add_scatter(struct scatter_plotting *sp, int i)
+{
+	char name[64] = { 0 };
+	snprintf(name, 64, "scatter%d", i);
+	enum data_color_enum color = nextdata_color(i);
+
+	if (i < get_nr_draw_ops()) {
+		return new_scatter(sp, name, color) ? 0 : -EEXIST;
+	} else {
+		int idx = (i - get_nr_draw_ops()) / C_MAX;
+		idx %= LINE_TYPE_MAX;
+		return new_scatter_ops(sp, name, color,
+				       draw_ops_type2ops(idx)) ?
+			       0 :
+			       -EEXIST;
+	}
 }
 
 /**

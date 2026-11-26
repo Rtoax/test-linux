@@ -44,9 +44,9 @@ static int __add_line(struct lgroup *lg, int i)
 	snprintf(name, 64, "line%d", i);
 	enum data_color_enum color = nextdata_color(i);
 
-	if (i < get_nr_draw_ops())
+	if (i < get_nr_draw_ops()) {
 		return new_line(lg, name, color) ? 0 : -EEXIST;
-	else {
+	} else {
 		int idx = (i - get_nr_draw_ops()) / C_MAX;
 		idx %= LINE_TYPE_MAX;
 		return new_line_ops(lg, name, color, draw_ops_type2ops(idx)) ?
