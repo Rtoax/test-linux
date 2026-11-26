@@ -13,11 +13,11 @@ if [[ ! -e ${PLOTCAKE} ]]; then
 	exit 1
 fi
 
-readonly LINE_TYPES=( $(${PLOTCAKE} --draws 2>/dev/null || true) )
-readonly LINE_TYPES_ARGS=( $(for t in ${LINE_TYPES[@]}; do echo "-D ${t}"; done) )
-readonly LINE_TYPES_CONST=( unicode-bold unicode-bold-dashed unicode-boldbold
-			    unicode unicode-dashed unicode-area-chart utf8
-			    unicode-heart )
+readonly DRAW_OPS_TYPES=( $(${PLOTCAKE} --draws 2>/dev/null || true) )
+readonly DRAW_OPS_TYPES_ARGS=( $(for t in ${DRAW_OPS_TYPES[@]}; do echo "-D ${t}"; done) )
+readonly DRAW_OPS_TYPES_CONST=( unicode-bold unicode-bold-dashed
+				unicode-boldbold unicode unicode-dashed
+				unicode-area-chart utf8 unicode-heart )
 
 readonly LINE_COLORS=( $(${PLOTCAKE} --colors 2>/dev/null || true) )
 readonly LINE_COLORS_ARGS=( $(for t in ${LINE_COLORS[@]}; do echo "-C ${t}"; done) )

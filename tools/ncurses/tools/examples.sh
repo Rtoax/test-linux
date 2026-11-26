@@ -131,14 +131,14 @@ __stdin() {
 	plotcake_reset
 }
 stdin() {
-	__stdin ${#LINE_TYPES[@]} none "${@}"
+	__stdin ${#DRAW_OPS_TYPES[@]} none "${@}"
 	__stdin ${#LINE_COLORS[@]} none "${@}"
 }
 
 # __main__
 rm -f ${LOG}
 
-if [[ " ${LINE_TYPES[@]} " != " ${LINE_TYPES_CONST[@]} " ]]; then
+if [[ " ${DRAW_OPS_TYPES[@]} " != " ${DRAW_OPS_TYPES_CONST[@]} " ]]; then
 	error "line types not match!"
 fi
 
@@ -171,8 +171,8 @@ if [[ ${SUPPORT_JSON} ]]; then
 	fi
 fi
 
-run ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
-for axis in ${LINE_TYPES[@]}
+run ${DRAW_OPS_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
+for axis in ${DRAW_OPS_TYPES[@]}
 do
 	run --axis-curve-type=${axis}
 done
@@ -204,7 +204,7 @@ stdin -V --version
 stdin --usage
 stdin -? --help
 stdin --title 'test title' --xlabel XLABEL --ylabel YLABEL -C red -C red
-stdin ${LINE_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
+stdin ${DRAW_OPS_TYPES_ARGS[@]} ${LINE_COLORS_ARGS[@]}
 stdin --logarithmic
 stdin --logarithmic10
 stdin --exponential
