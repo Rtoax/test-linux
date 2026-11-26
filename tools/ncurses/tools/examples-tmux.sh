@@ -20,7 +20,7 @@ width=150
 heigh=40
 vertical_plotting=
 stdin_data_format=
-readonly STDIN_DATA_FMTS=( separator-newline )
+readonly STDIN_DATA_FMTS=( separator-newline separator-semicolon )
 skip_cleanup=
 
 readonly MYDIR=$(dirname $(realpath $0))
@@ -82,10 +82,14 @@ while true; do
 	esac
 done
 
+kill_session() {
+	tmux kill-session -t ${session}
+}
+
 cleanup()
 {
 	local err=$?
-	tmux kill-session -t ${session}
+	kill_session
 	if [[ ${err} -ne 0 ]]; then
 		echo >&2 "ERROR: test failed."
 		echo >&2 "--------------------------------------"
@@ -150,17 +154,27 @@ cat >${plotcake}<<EOF
 set -e
 interval=1
 case "${stdin_data_format}" in
-separator-newline)
-	interval=2
+separator-newline | separator-semicolon)
+	interval=3
 	;;
 esac
 for ((i = 1; i <= 10000; i+=interval))
 do
 	case "${stdin_data_format}" in
-	separator-newline)
+	separator-newline | separator-semicolon)
 		data1=( \$(seq --separator=' ' \$i 20 \$((i + 2 * 20))) )
-		data2=( \$(seq --separator=' ' \$i 20 \$((i + 2 * 20))) )
-		echo -en "\${data1[@]}\\n\${data2[@]}\\n"
+		j=\$((i + 1))
+		data2=( \$(seq --separator=' ' \$j 20 \$((j + 2 * 20))) )
+		j=\$((j + 1))
+		data3=( \$(seq --separator=' ' \$j 20 \$((j + 2 * 20))) )
+		case "${stdin_data_format}" in
+		separator-newline)
+			echo -e "\${data1[@]}\\n\${data2[@]}\\n\${data3[@]}\\n"
+			;;
+		separator-semicolon)
+			echo -e "\${data1[@]};\${data2[@]};\${data3[@]};"
+			;;
+		esac
 		;;
 	*)
 		seq --separator=' ' \$i 20 \$((i + 2 * 20))
@@ -292,5 +306,6 @@ check_content "x=1"
 
 capture_pane
 
+kill_session
 plotcake_reset
 echo "SUCCESS"
