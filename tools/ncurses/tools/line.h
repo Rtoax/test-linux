@@ -82,6 +82,7 @@ double line_range_delta_min(struct line *l, int start, int interval, int len);
 struct line *new_line(struct lgroup *lg, const char *name, int color);
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
 			  const struct draw_operations *ops);
+void free_line(struct line *ln);
 
 static inline void set_line_name(struct line *ln, const char *name)
 {

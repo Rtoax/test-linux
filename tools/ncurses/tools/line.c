@@ -266,6 +266,11 @@ static struct line *__create_line(const char *name, int color)
 	return new;
 }
 
+void free_line(struct line *ln)
+{
+	free(ln);
+}
+
 /**
  * If the line is already exist in line group, return NULL.
  */
