@@ -390,7 +390,7 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 		}
 
 		/**
-		 * If plot CURVE_TYPE_DELTA, the last value will be skipped,
+		 * If plot MATH_TRANS_DELTA, the last value will be skipped,
 		 * then we need '>=' instead of '>'.
 		 */
 		if (iv >= start + len - p->plotscaling - 1) {
@@ -510,13 +510,13 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 		int nc;
 		int sz = sizeof(sv);
 
-		if (p->curve_type == CURVE_TYPE_LOGARITHMIC) {
+		if (p->math_trans == MATH_TRANS_LOGARITHMIC) {
 			nc = snprintf(sv, sz, __LOG_V(v->y_v.v, real_v));
-		} else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10) {
+		} else if (p->math_trans == MATH_TRANS_LOGARITHMIC10) {
 			nc = snprintf(sv, sz, __LOG10_V(v->y_v.v, real_v));
-		} else if (p->curve_type == CURVE_TYPE_EXPONENTIAL) {
+		} else if (p->math_trans == MATH_TRANS_EXPONENTIAL) {
 			nc = snprintf(sv, sz, __EXP_V(v->y_v.v, real_v));
-		} else if (p->curve_type == CURVE_TYPE_DELTA &&
+		} else if (p->math_trans == MATH_TRANS_DELTA &&
 			   !p->enable_stacked_line_chart) {
 			nc = snprintf(sv, sz,
 				      __DELTA_V(v->next->y_v.v, v->y_v.v,

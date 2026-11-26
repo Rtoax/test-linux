@@ -185,7 +185,7 @@ static char *file = NULL;
 static char *title = NULL;
 static char *xlabel = NULL;
 static char *ylabel = NULL;
-static enum curve_type curve_type = CURVE_TYPE_NONE;
+static enum math_trans_enum math_trans = MATH_TRANS_NONE;
 static bool enable_stacked_line_chart = false;
 static bool vertical_plotting = false;
 static bool black_background = false;
@@ -258,16 +258,16 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		}
 		break;
 	case ARG_LOGARITHMIC:
-		curve_type = CURVE_TYPE_LOGARITHMIC;
+		math_trans = MATH_TRANS_LOGARITHMIC;
 		break;
 	case ARG_LOGARITHMIC10:
-		curve_type = CURVE_TYPE_LOGARITHMIC10;
+		math_trans = MATH_TRANS_LOGARITHMIC10;
 		break;
 	case ARG_EXPONENTIAL:
-		curve_type = CURVE_TYPE_EXPONENTIAL;
+		math_trans = MATH_TRANS_EXPONENTIAL;
 		break;
 	case ARG_DELTA:
-		curve_type = CURVE_TYPE_DELTA;
+		math_trans = MATH_TRANS_DELTA;
 		break;
 	case ARG_ENABLE_STACKED_LINE_CHART:
 		enable_stacked_line_chart = true;
@@ -690,7 +690,7 @@ int main(int argc, char *argv[])
 
 	init_flavor(!black_background);
 
-	plot.curve_type = curve_type;
+	plot.math_trans = math_trans;
 	plot.enable_stacked_line_chart = enable_stacked_line_chart;
 	plot.vertical_plotting = vertical_plotting;
 

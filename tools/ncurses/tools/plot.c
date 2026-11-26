@@ -157,13 +157,13 @@ double get_plot_value(const struct plot *p, const struct value *v)
 {
 	double val = v->y_v.v;
 
-	if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
+	if (p->math_trans == MATH_TRANS_LOGARITHMIC)
 		val = v->y_v.log_v;
-	else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
+	else if (p->math_trans == MATH_TRANS_LOGARITHMIC10)
 		val = v->y_v.log10_v;
-	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
+	else if (p->math_trans == MATH_TRANS_EXPONENTIAL)
 		val = v->y_v.exp_v;
-	else if (p->curve_type == CURVE_TYPE_DELTA &&
+	else if (p->math_trans == MATH_TRANS_DELTA &&
 		 !p->enable_stacked_line_chart)
 		val = delta_v(v);
 
@@ -175,14 +175,14 @@ static void __draw_title(const struct plot *p)
 	char buf[sizeof(p->title) + 128];
 	int col = p->vertical_plotting ? plot_height(p) : plot_width(p);
 
-	if (p->curve_type == CURVE_TYPE_LOGARITHMIC)
+	if (p->math_trans == MATH_TRANS_LOGARITHMIC)
 		snprintf(buf, sizeof(buf), "%s (signed logarithmic)", p->title);
-	else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10)
+	else if (p->math_trans == MATH_TRANS_LOGARITHMIC10)
 		snprintf(buf, sizeof(buf), "%s (base-10 signed logarithmic)",
 			 p->title);
-	else if (p->curve_type == CURVE_TYPE_EXPONENTIAL)
+	else if (p->math_trans == MATH_TRANS_EXPONENTIAL)
 		snprintf(buf, sizeof(buf), "%s (base-e exponential)", p->title);
-	else if (p->curve_type == CURVE_TYPE_DELTA &&
+	else if (p->math_trans == MATH_TRANS_DELTA &&
 		 !p->enable_stacked_line_chart)
 		snprintf(buf, sizeof(buf), "%s (delta)", p->title);
 	else
@@ -328,7 +328,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 		start = l->count - draw_len - shift;
 
 		double _max, _min;
-		if (p->curve_type == CURVE_TYPE_DELTA &&
+		if (p->math_trans == MATH_TRANS_DELTA &&
 		    !p->enable_stacked_line_chart) {
 			_max = line_range_delta_max(l, start, p->plotscaling,
 						    draw_len);
@@ -341,21 +341,21 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 					      draw_len);
 		}
 
-		switch (p->curve_type) {
-		case CURVE_TYPE_LOGARITHMIC:
+		switch (p->math_trans) {
+		case MATH_TRANS_LOGARITHMIC:
 			_max = signed_log_trans(_max);
 			_min = signed_log_trans(_min);
 			break;
-		case CURVE_TYPE_LOGARITHMIC10:
+		case MATH_TRANS_LOGARITHMIC10:
 			_max = signed_log10_trans(_max);
 			_min = signed_log10_trans(_min);
 			break;
-		case CURVE_TYPE_EXPONENTIAL:
+		case MATH_TRANS_EXPONENTIAL:
 			_max = exp(_max);
 			_min = exp(_min);
 			break;
-		case CURVE_TYPE_DELTA:
-		case CURVE_TYPE_NONE:
+		case MATH_TRANS_DELTA:
+		case MATH_TRANS_NONE:
 		default:
 			break;
 		}
@@ -803,7 +803,7 @@ static int key_s_handler(int key, void *arg)
 static int key_t_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->curve_type = (p->curve_type + 1) % CURVE_TYPE_MAX;
+	p->math_trans = (p->math_trans + 1) % MATH_TRANS_MAX;
 	return 0;
 }
 

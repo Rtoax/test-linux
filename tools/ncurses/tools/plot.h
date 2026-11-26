@@ -18,13 +18,13 @@
 /**
  * Scaling plotting values, different from @plotscaling.
  */
-enum curve_type {
-	CURVE_TYPE_NONE = 0,
-	CURVE_TYPE_LOGARITHMIC,
-	CURVE_TYPE_LOGARITHMIC10,
-	CURVE_TYPE_EXPONENTIAL,
-	CURVE_TYPE_DELTA,
-	CURVE_TYPE_MAX,
+enum math_trans_enum {
+	MATH_TRANS_NONE = 0,
+	MATH_TRANS_LOGARITHMIC,
+	MATH_TRANS_LOGARITHMIC10,
+	MATH_TRANS_EXPONENTIAL,
+	MATH_TRANS_DELTA,
+	MATH_TRANS_MAX,
 };
 
 struct plot {
@@ -68,7 +68,7 @@ struct plot {
 	int lgcount;
 	unsigned long redrawcount;
 
-	enum curve_type curve_type;
+	enum math_trans_enum math_trans;
 
 	/**
 	 * Generally, the x-axis is horizontal and the y-axis is vertical; when
@@ -96,7 +96,7 @@ struct plot {
 	 * |-----+                        |
 	 * +-----------------> 0          +------------------> 0
 	 *
-	 * Not support curve type CURVE_TYPE_DELTA.
+	 * Not support curve type MATH_TRANS_DELTA.
 	 */
 	bool enable_stacked_line_chart;
 
