@@ -175,6 +175,89 @@ $ tmux detach-client -s plotcake # Anther terminal
 .EE
 .\" SRC END
 
+.SH STDIN DATA FORMAT
+
+.TS
+allbox;
+lbx lb lb lb
+l l l l.
+Type	Format	Parsing	Example
+T{
+.na
+.nh
+.BR "3 Lines"
+T}	T{
+.na
+.nh
+.BR "1 2 3 \en 1 2 3 \en 1 2 3"
+T}	T{
+.na
+.nh
+.BR "1 2 3"
+.br
+.na
+.nh
+.BR "1 2 3"
+.br
+.na
+.nh
+.BR "1 2 3"
+T}	T{
+.na
+.nh
+.BR "echo -e '1 2 3 \en 1 2 3 \en 1 2 3' | plotcake"
+T}
+T{
+.na
+.nh
+.BR "3 Lines"
+T}	T{
+.na
+.nh
+.BR "1 2 3 ; 1 2 3 \en 1 2 3"
+T}	T{
+.na
+.nh
+.BR "1 2 3"
+.br
+.na
+.nh
+.BR "1 2 3"
+.br
+.na
+.nh
+.BR "1 2 3"
+T}	T{
+.na
+.nh
+.BR "echo -e '1 2 3 ; 1 2 3 \en 1 2 3' | plotcake"
+T}
+T{
+.na
+.nh
+.BR "3 Lines"
+T}	T{
+.na
+.nh
+.BR "1 2 3 ; 1 2 3 ; 1 2 3"
+T}	T{
+.na
+.nh
+.BR "1 2 3"
+.br
+.na
+.nh
+.BR "1 2 3"
+.br
+.na
+.nh
+.BR "1 2 3"
+T}	T{
+.na
+.nh
+.BR "echo -e '1 2 3 ; 1 2 3 ; 1 2 3' | plotcake"
+T}
+.TE
 
 .SH OS
 Linux

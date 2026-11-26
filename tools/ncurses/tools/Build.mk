@@ -11,7 +11,7 @@ target-y += plotcake
 target-y += id-handler-exec
 
 $(foreach obj, plotcake keyboard file loadavg lgroup line plot ram stdin \
-	  ltypes utils axis dialog id-handler scatter color, \
+	  ltypes utils axis dialog id-handler scatter color log, \
   $(eval plotcake-objs += ${obj}.o))
 
 id-handler-exec-objs := id-handler.1.o
@@ -28,8 +28,10 @@ prog-y += examples.sh
 prog-${HAVE_EXPECT} += examples.exp
 prog-${HAVE_TMUX} += examples-tmux.sh
 prog-${HAVE_TMUX} += examples-tmux.sh.1
+prog-${HAVE_TMUX} += examples-tmux.sh.2
 
 PROG_ARGS_examples-tmux.sh.1 := --vertical-plotting
+PROG_ARGS_examples-tmux.sh.2 := --stdin-data-format separator-newline
 
 post-y += build/plotcake
 post-y += id-handler-glibc

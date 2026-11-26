@@ -19,6 +19,9 @@ session=$(mktemp -u plotcake-XXXXXX)
 width=150
 heigh=40
 vertical_plotting=
+stdin_data_format=
+readonly STDIN_DATA_FMTS=( separator-newline )
+skip_cleanup=
 
 readonly MYDIR=$(dirname $(realpath $0))
 . ${MYDIR}/tools/lib-plotcake.sh
@@ -32,8 +35,10 @@ ${BOLD}SYNOPSIS${RST}
     plotcake-examples-tmux [opts]
 
 ${BOLD}OPTIONS${RST}
-    --vertical-plotting  test plotcake vertical plotting
-    -h, --help           show this information
+    --vertical-plotting           test plotcake vertical plotting
+    --stdin-data-format [FORMAT]  test stdint data format: '${STDIN_DATA_FMTS[@]}'
+    --skip-cleanup                skip cleanup
+    -h, --help                    show this information
 "
 	exit ${1-0}
 }
@@ -41,6 +46,8 @@ ${BOLD}OPTIONS${RST}
 OPTS=$(getopt --options h \
 		--long help \
 		--long vertical-plotting \
+		--long stdin-data-format: \
+		--long skip-cleanup \
 		--name plotcake-examples-tmux -- "$@")
 
 eval set -- "$OPTS"
@@ -50,6 +57,19 @@ while true; do
 	--vertical-plotting)
 		shift
 		vertical_plotting=ON
+		;;
+	--stdin-data-format)
+		shift
+		if ! [[ " ${STDIN_DATA_FMTS[@]} " =~ " ${1} " ]]; then
+			echo >&2 "ERROR: bad --stdin-data-format '${1}'"
+			exit 1
+		fi
+		stdin_data_format=${1}
+		shift
+		;;
+	--skip-cleanup)
+		shift
+		skip_cleanup=ON
 		;;
 	-h | --help)
 		shift
@@ -72,7 +92,9 @@ cleanup()
 		cat >&2 ${plotcake}
 		exit ${err}
 	else
-		rm ${plotcake}
+		if [[ -z ${skip_cleanup} ]]; then
+			rm ${plotcake}
+		fi
 	fi
 }
 trap cleanup EXIT
@@ -126,9 +148,24 @@ check_llabels_dialog() {
 cat >${plotcake}<<EOF
 #!/bin/bash
 set -e
-for ((i = 1; i <= 10000; i++))
+interval=1
+case "${stdin_data_format}" in
+separator-newline)
+	interval=2
+	;;
+esac
+for ((i = 1; i <= 10000; i+=interval))
 do
-	seq --separator=' ' \$i 20 \$((i + 2 * 20))
+	case "${stdin_data_format}" in
+	separator-newline)
+		data1=( \$(seq --separator=' ' \$i 20 \$((i + 2 * 20))) )
+		data2=( \$(seq --separator=' ' \$i 20 \$((i + 2 * 20))) )
+		echo -en "\${data1[@]}\\n\${data2[@]}\\n"
+		;;
+	*)
+		seq --separator=' ' \$i 20 \$((i + 2 * 20))
+		;;
+	esac
 	sleep 0.05
 done | ${PLOTCAKE} ${vertical_plotting:+--vertical-plotting} \\
 	--title "${title}" \\
@@ -162,6 +199,7 @@ check_content "\--------->"
 # Turn on the verbose mode
 send_keys 'v'
 
+check_content "lgroup cnt 3, arg nline 3"
 check_content "plot\(redraw=[0-9]+"
 check_content "key\(left=[0-9]+"
 check_content "enter=0"

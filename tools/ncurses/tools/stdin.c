@@ -9,9 +9,12 @@
 #include <sys/sysinfo.h>
 #include "plot.h"
 #include "stdin.h"
+#include "log.h"
 
 static char *skip_whitespace(char *buf)
 {
+	if (!buf)
+		return NULL;
 	/**
 	 * Sometimes `isspace` from `glibc` does not return true for spaces or
 	 * tab characters (for example, centos 8 glibc 2.28); therefore, I have
@@ -22,6 +25,30 @@ static char *skip_whitespace(char *buf)
 	while (*buf != '\0' && (isspace(*buf) || *buf == ' ' || *buf == '\t'))
 		buf++;
 	return buf;
+}
+
+/**
+ * The buffer be splited by '\n' or ';', such as:
+ * 1. "1 2 3\n 1 2 3\n 1 2 3"
+ * 2. "1 2 3;  1 2 3\n 1 2 3"
+ * 3. "1 2 3;  1 2 3;  1 2 3"
+ */
+static char *find_separator(char *start)
+{
+	char *newline, *semicolon;
+
+	start = skip_whitespace(start);
+	newline = strchr(start, '\n');
+	semicolon = strchr(start, ';');
+
+	if (!newline) {
+		return semicolon;
+	}
+	if (!semicolon) {
+		return newline;
+	}
+
+	return (newline - semicolon > 0) ? semicolon : newline;
 }
 
 static int __add_line(struct lgroup *lg, int i)
@@ -61,8 +88,25 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 	int i, nval;
 	double *values = malloc(sizeof(double) * a->nline);
 
-	if (*buf == '\0')
+	/**
+	 * It is possible for a buffer to be passed in that contains no data but
+	 * does include a delimiter; we need to skip it entirely.
+	 *
+	 * For examples:
+	 * 1. "    \n    "
+	 * 2. "  ;     "
+	 */
+	buf = skip_whitespace(buf);
+	if (buf && (*buf == '\n' || *buf == ';')) {
+		buf++;
+	}
+	buf = skip_whitespace(buf);
+
+	if (!buf || *buf == '\0') {
 		return;
+	}
+
+	pc_debug("Parse stdin: '%s'\n", buf);
 
 	for (i = 0; i < a->nline && *buf != '\0'; i++) {
 		buf = skip_whitespace(buf);
@@ -117,24 +161,26 @@ static void __stdin_update_data(struct lgroup *lg, struct stdin_arg *a)
 
 	while (s && *s != '\0') {
 		/**
-		 * The buffer be splited by '\n', such as:
-		 * "1 2 3\n 1 2 3\n 1 2 3"
+		 * The buffer be splited by '\n' or ';', such as:
+		 * 1. "1 2 3\n 1 2 3\n 1 2 3"
+		 * 2. "1 2 3;  1 2 3\n 1 2 3"
+		 * 3. "1 2 3;  1 2 3;  1 2 3"
 		 */
-		char *ln_end = strchr(s, '\n');
-		if (ln_end) {
+		char *d_end = find_separator(s);
+		if (d_end) {
 			/**
 			 * "1 2 3\0 1 2 3\n 1 2 3"
 			 *  ^
 			 *  s
 			 */
-			*ln_end = '\0';
+			*d_end = '\0';
 			__stdin_add_data(lg, a, s);
 			/**
 			 * "1 2 3\0 1 2 3\n 1 2 3"
 			 *          ^
-			 *          s = ln_end + 1
+			 *          s = d_end + 1
 			 */
-			s = ln_end + 1;
+			s = d_end + 1;
 		} else {
 			/**
 			 * "1 2 3\0 1 2 3\0 1 2 3"
@@ -164,11 +210,11 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	/**
 	 * Each stdin string ends with a newline character, but this affects
 	 * the output of other content when printing debug information.
-	 * Therefore, the newline character is replaced with a ';'.
+	 * Therefore, the newline character is replaced with a '\'.
 	 */
 	while (s && *s) {
 		if (*s == '\n')
-			*s = ';';
+			*s = '#';
 		s++;
 	}
 

@@ -17,6 +17,7 @@ set(SRC
   lgroup.c
   line.c
   loadavg.c
+  log.c
   ltypes.c
   plot.c
   plotcake.c

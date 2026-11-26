@@ -43,6 +43,7 @@
 #include "utils.h"
 #include "id-handler.h"
 #include "plotcake.h"
+#include "log.h"
 
 enum {
 	ARG_LOGARITHMIC = 200,
@@ -585,6 +586,7 @@ int main(int argc, char *argv[])
 
 	epollfd = epoll_create(1);
 
+	init_syslog();
 	keyboard_init(&keyboard);
 	err = plot_init(&plot, &keyboard, file, verbose, x_type,
 			axis_curve_type, win_border_type);
@@ -757,6 +759,10 @@ end:
 		close(keyfd);
 	close(sig_rd_fd);
 	close(sig_wr_fd);
+	close(epollfd);
+
+	close_syslog();
+
 	endwin();
 
 	if (file)

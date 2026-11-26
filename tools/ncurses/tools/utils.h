@@ -9,6 +9,8 @@
 #define GiB (1024 * MiB)
 #define TiB (1024 * GiB)
 
+#define __printf(x, y) __attribute__((format(printf, x, y)))
+
 unsigned long usecs(void);
 unsigned long nsecs(void);
 
