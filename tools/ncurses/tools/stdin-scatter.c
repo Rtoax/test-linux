@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "color.h"
 #include "plot.h"
 #include "stdin.h"
 #include "log.h"
@@ -98,6 +99,8 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 		is_scatter_plot = true;
 		p->plot_type = PLOT_TYPE_SCATTER;
 		reset_legend_queue();
+		reset_draw_ops_queue();
+		reset_data_color_queue();
 
 		/* scatter plot no need line struct anymore */
 		for_each_lgroup(&p->__line, g)

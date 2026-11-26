@@ -48,3 +48,5 @@ const char *draw_ops_type2name(enum draw_ops_type_enum t);
 int enqueue_draw_ops(enum draw_ops_type_enum t);
 enum draw_ops_type_enum dequeue_draw_ops(void);
 int get_nr_draw_ops(void);
+
+void reset_draw_ops_queue(void);

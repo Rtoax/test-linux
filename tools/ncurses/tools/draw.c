@@ -447,3 +447,8 @@ enum draw_ops_type_enum dequeue_draw_ops(void)
 		return LINE_TYPE_DEFAULT;
 	return draws[++idx_draw];
 }
+
+void reset_draw_ops_queue(void)
+{
+	idx_draw = -1;
+}

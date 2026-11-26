@@ -23,6 +23,7 @@ chtype getflavor(enum data_color_enum color);
 const char *color_name(enum data_color_enum e);
 int enqueue_data_color(enum data_color_enum c);
 enum data_color_enum dequeue_data_color(void);
+void reset_data_color_queue(void);
 int get_nr_data_colors(void);
 int data_color_print_names(FILE *fp);
 enum data_color_enum data_color_name2num(const char *name);

@@ -76,6 +76,11 @@ enum data_color_enum dequeue_data_color(void)
 	return data_colors[++idx_data_colors];
 }
 
+void reset_data_color_queue(void)
+{
+	idx_data_colors = -1;
+}
+
 enum data_color_enum nextdata_color(enum data_color_enum c)
 {
 	enum data_color_enum color = dequeue_data_color();
