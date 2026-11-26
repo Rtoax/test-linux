@@ -205,7 +205,7 @@ static void __draw_title(const struct plot *p)
 
 static void __draw_axes(const struct plot *p)
 {
-	const struct ltype_ops *ops = ltype_type2ops(p->axis_curve_type);
+	const struct draw_operations *ops = ltype_type2ops(p->axis_curve_type);
 	const char *labelx = p->label_x[0] != '\0' ?
 				     p->label_x :
 				     x_axis_label_str(p->x_type);

@@ -11,7 +11,7 @@ target-y += plotcake
 target-y += id-handler-exec
 
 $(foreach obj, plotcake keyboard file loadavg lgroup line plot ram stdin \
-	  ltypes utils axis dialog id-handler scatter color log, \
+	  draw utils axis dialog id-handler scatter color log, \
   $(eval plotcake-objs += ${obj}.o))
 
 id-handler-exec-objs := id-handler.1.o

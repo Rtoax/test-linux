@@ -11,6 +11,7 @@ set(SRC
   axis.c
   color.c
   dialog.c
+  draw.c
   file.c
   id-handler.c
   keyboard.c
@@ -18,7 +19,6 @@ set(SRC
   line.c
   loadavg.c
   log.c
-  ltypes.c
   plot.c
   plotcake.c
   ram.c

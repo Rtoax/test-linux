@@ -326,7 +326,7 @@ static struct line *__create_line(const char *name, int color)
  * If the line is already exist in line group, return NULL.
  */
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
-			  const struct ltype_ops *ops)
+			  const struct draw_operations *ops)
 {
 	struct line *old, *new;
 

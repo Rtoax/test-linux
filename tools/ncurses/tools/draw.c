@@ -257,7 +257,7 @@ static void utf8_rarrow(const struct plot *p, WINDOW *win, int y, int x)
  * Line operations
  */
 
-static const struct ltype_ops unicode_heart_line_ops = {
+static const struct draw_operations unicode_heart_line_ops = {
 	.name = "unicode-heart",
 	.horizon = unicode_heart_horizon,
 	.vertical = unicode_heart_vertical,
@@ -270,7 +270,7 @@ static const struct ltype_ops unicode_heart_line_ops = {
 	.rarrow = unicode_heart,
 };
 
-static const struct ltype_ops unicode_boldbold_line_ops = {
+static const struct draw_operations unicode_boldbold_line_ops = {
 	.name = "unicode-boldbold",
 	.horizon = unicode_boldbold_horizon,
 	.vertical = unicode_boldbold_vertical,
@@ -283,7 +283,7 @@ static const struct ltype_ops unicode_boldbold_line_ops = {
 	.rarrow = unicode_bold_rarrow,
 };
 
-static const struct ltype_ops unicode_bold_line_ops = {
+static const struct draw_operations unicode_bold_line_ops = {
 	.name = "unicode-bold",
 	.horizon = unicode_bold_horizon,
 	.vertical = unicode_bold_vertical,
@@ -296,7 +296,7 @@ static const struct ltype_ops unicode_bold_line_ops = {
 	.rarrow = unicode_bold_rarrow,
 };
 
-static const struct ltype_ops unicode_bold_dashed_line_ops = {
+static const struct draw_operations unicode_bold_dashed_line_ops = {
 	.name = "unicode-bold-dashed",
 	.horizon = unicode_bold_horizon_dashed_line,
 	.vertical = unicode_bold_vertical_dashed_line,
@@ -309,7 +309,7 @@ static const struct ltype_ops unicode_bold_dashed_line_ops = {
 	.rarrow = unicode_bold_rarrow,
 };
 
-static const struct ltype_ops unicode_line_ops = {
+static const struct draw_operations unicode_line_ops = {
 	.name = "unicode",
 	.horizon = unicode_horizon,
 	.vertical = unicode_vertical,
@@ -322,7 +322,7 @@ static const struct ltype_ops unicode_line_ops = {
 	.rarrow = unicode_rarrow,
 };
 
-static const struct ltype_ops unicode_dashed_line_ops = {
+static const struct draw_operations unicode_dashed_line_ops = {
 	.name = "unicode-dashed",
 	.horizon = unicode_horizon_dashed_line,
 	.vertical = unicode_vertical_dashed_line,
@@ -335,7 +335,7 @@ static const struct ltype_ops unicode_dashed_line_ops = {
 	.rarrow = unicode_rarrow,
 };
 
-static const struct ltype_ops unicode_area_chart_ops = {
+static const struct draw_operations unicode_area_chart_ops = {
 	.name = "unicode-area-chart",
 	.horizon = unicode_area_chart_horizon,
 	.vertical = nothing_v,
@@ -348,7 +348,7 @@ static const struct ltype_ops unicode_area_chart_ops = {
 	.rarrow = nothing,
 };
 
-static const struct ltype_ops utf8_line_ops = {
+static const struct draw_operations utf8_line_ops = {
 	.name = "utf8",
 	.horizon = utf8_horizon,
 	.vertical = utf8_vertical,
@@ -361,7 +361,7 @@ static const struct ltype_ops utf8_line_ops = {
 	.rarrow = utf8_rarrow,
 };
 
-static const struct ltype_ops *ltype_operations[LINE_TYPE_MAX] = {
+static const struct draw_operations *ltype_operations[LINE_TYPE_MAX] = {
 	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_line_ops,
 	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_line_ops,
 	[LINE_TYPE_BOLDBOLD_UNICODE] = &unicode_boldbold_line_ops,
@@ -402,14 +402,14 @@ enum ltype_enum ltype_name2type(const char *name)
 	return LINE_TYPE_DEFAULT;
 }
 
-const struct ltype_ops *ltype_type2ops(enum ltype_enum t)
+const struct draw_operations *ltype_type2ops(enum ltype_enum t)
 {
 	if (t < LINE_TYPE_DEFAULT || t >= LINE_TYPE_MAX)
 		t = LINE_TYPE_DEFAULT;
 	return ltype_operations[t];
 }
 
-const struct ltype_ops *ltype_name2ops(const char *name)
+const struct draw_operations *ltype_name2ops(const char *name)
 {
 	return ltype_type2ops(ltype_name2type(name));
 }

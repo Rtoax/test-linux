@@ -13,7 +13,7 @@
 #include "axis.h"
 
 struct plot;
-struct ltype_ops;
+struct draw_operations;
 
 enum ltype_enum {
 	LINE_TYPE_DEFAULT = 0,
@@ -37,11 +37,11 @@ struct line {
 	long count; /* number of value */
 	struct line *next; /* maybe line in group */
 	struct lgroup *lg; /* belongs to */
-	const struct ltype_ops *ops;
+	const struct draw_operations *ops;
 	struct x_axis_range x_range;
 };
 
-struct ltype_ops {
+struct draw_operations {
 	const char name[64];
 	void (*horizon)(const struct plot *p, WINDOW *win, int y, int x, int n);
 	void (*vertical)(const struct plot *p, WINDOW *win, int y, int x,
@@ -69,8 +69,8 @@ struct ltype_ops {
 int ltype_print_names(FILE *fp);
 bool ltype_hasname(const char *name);
 enum ltype_enum ltype_name2type(const char *name);
-const struct ltype_ops *ltype_type2ops(enum ltype_enum t);
-const struct ltype_ops *ltype_name2ops(const char *name);
+const struct draw_operations *ltype_type2ops(enum ltype_enum t);
+const struct draw_operations *ltype_name2ops(const char *name);
 const char *ltype_type2name(enum ltype_enum t);
 
 int enqueue_ltype(enum ltype_enum t);
@@ -90,7 +90,7 @@ double line_range_delta_min(struct line *l, int start, int interval, int len);
 
 struct line *new_line(struct lgroup *lg, const char *name, int color);
 struct line *new_line_ops(struct lgroup *lg, const char *name, int color,
-			  const struct ltype_ops *ops);
+			  const struct draw_operations *ops);
 
 static inline void set_line_name(struct line *ln, const char *name)
 {
