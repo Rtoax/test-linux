@@ -132,8 +132,7 @@ bool enabled_stacked_line_chart(const struct plot *p)
 
 void set_stacked_line_chart(struct plot *p, bool t)
 {
-	if (p->plot_type == PLOT_TYPE_LINE)
-		p->__line.enable_stacked_line_chart = t;
+	p->__line.enable_stacked_line_chart = t;
 }
 
 static void __draw_title(const struct plot *p)

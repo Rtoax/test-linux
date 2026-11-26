@@ -64,6 +64,11 @@ struct plot {
 	 */
 	bool vertical_plotting;
 
+	/**
+	 * Although line and scatter plots are distinct types, the program does
+	 * not know which one will be used during its initial setup phase;
+	 * therefore, a 'struct' is used here instead of a 'union'.
+	 */
 	struct {
 		enum plot_type_enum plot_type;
 		struct line_plotting __line; /* PLOT_TYPE_LINE */
