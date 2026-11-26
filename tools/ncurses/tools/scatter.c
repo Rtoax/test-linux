@@ -21,7 +21,7 @@ struct scatter *sp_get_scatter_from_name(const struct scatter_plotting *sp,
 static struct scatter *__create_scatter(const char *name, int color)
 {
 	struct scatter *new = malloc(sizeof(struct scatter));
-	/* TODO: set name from dequeue_llabel() */
+	/* TODO: set name from dequeue_legend() */
 	memset(new, 0, sizeof(struct scatter));
 	snprintf(new->name, sizeof(new->name) - 1, "%s", name);
 	new->color = color;

@@ -140,7 +140,7 @@ check_help_dialog() {
 	check_content "'x': switch x axis type"
 }
 
-check_llabels_dialog() {
+check_legends_dialog() {
 	check_content "\[ LINES \]"
 	check_content "\+-\[ LINES \]---\+"
 	check_content "\+-------------\+"
@@ -258,13 +258,13 @@ send_keys 'h'
 check_help_dialog
 
 send_keys 'l'
-check_llabels_dialog
+check_legends_dialog
 
 send_keys 'h'
 check_help_dialog
 
 send_keys 'l'
-check_llabels_dialog
+check_legends_dialog
 
 send_keys Enter
 

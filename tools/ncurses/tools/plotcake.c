@@ -106,7 +106,7 @@ static const struct argp_option opts[] = {
 	{ "title", 'T', "TITLE", 0, "Specify title" },
 	{ "xlabel", 'x', "LABEL", 0, "Specify x axis label" },
 	{ "ylabel", 'y', "LABEL", 0, "Specify y axis label" },
-	{ "llabel", 'l', "NAME", 0,
+	{ "legend", 'l', "NAME", 0,
 	  "Specify line label (may be listed multiple times)" },
 	{ "draw", 'D', "TYPE", 0,
 	  "Specify draw types, if an invalid value is entered, the supported "
@@ -217,7 +217,7 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		title = arg;
 		break;
 	case 'l':
-		err = err ?: enqueue_llabel(arg);
+		err = err ?: enqueue_legend(arg);
 		break;
 	case 'D':
 		if (!draw_ops_has_name(arg))

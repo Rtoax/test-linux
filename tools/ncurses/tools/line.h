@@ -72,8 +72,8 @@ struct line_plotting {
 
 struct lgroup *plot_lgroup(const struct line_plotting *p, int idx);
 
-int enqueue_llabel(const char *name);
-const char *dequeue_llabel(void);
+int enqueue_legend(const char *name);
+const char *dequeue_legend(void);
 
 void line_add_value(struct line *l, double v, long limit, struct ln_x_value *x);
 double line_range_avg(struct line *l, int start, int len);

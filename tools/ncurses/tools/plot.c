@@ -20,7 +20,7 @@
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
 static int __paint_help_win(struct plot *p, bool init);
-static int __paint_llabels_win(struct plot *p, bool init);
+static int __paint_legends_win(struct plot *p, bool init);
 
 int plot_height(const struct plot *p)
 {
@@ -421,7 +421,7 @@ static void __plot_redraw(struct plot *p)
 
 	erase();
 	erase_dialog(&p->help);
-	erase_dialog(&p->llabels);
+	erase_dialog(&p->legends);
 
 	/**
 	 * Handle the keyboard first, because 'reset' need before paint.
@@ -435,7 +435,7 @@ static void __plot_redraw(struct plot *p)
 	 * Paint the pop dialog window after curves.
 	 */
 	__paint_help_win(p, false);
-	__paint_llabels_win(p, false);
+	__paint_legends_win(p, false);
 }
 
 static void __redraw_id_fn(const struct id_handler *id, void *arg)
@@ -533,11 +533,11 @@ static int __paint_help_win(struct plot *p, bool init)
  * @return: return 0, 1, 2 if success, 0: without drawing, 1: create window,
  *          2: not create window.
  */
-static int __paint_llabels_win(struct plot *p, bool init)
+static int __paint_legends_win(struct plot *p, bool init)
 {
 	int ret = 0, i, nline = 0, h, w;
 	int max_name_len = 0;
-	WINDOW *win = p->llabels.win;
+	WINDOW *win = p->legends.win;
 	const int n = 6;
 
 	/**
@@ -570,7 +570,7 @@ static int __paint_llabels_win(struct plot *p, bool init)
 		ret = 2;
 	} else if (init && !win) {
 		win = newwin(nline + 2, max_name_len + n + 3, h, w);
-		new_dialog(&p->llabels, win);
+		new_dialog(&p->legends, win);
 		ret = 1;
 	}
 
@@ -647,11 +647,11 @@ static int win_dialog_help_timer_timeout_handler(long fd, void *arg)
 						&p->help);
 }
 
-static int win_dialog_llabels_timer_timeout_handler(long fd, void *arg)
+static int win_dialog_legends_timer_timeout_handler(long fd, void *arg)
 {
 	struct plot *p = arg;
-	return win_dialog_timer_timeout_handler(fd, &p->llabels_timerfd, p,
-						&p->llabels);
+	return win_dialog_timer_timeout_handler(fd, &p->legends_timerfd, p,
+						&p->legends);
 }
 
 /**
@@ -684,21 +684,21 @@ static int key_h_handler(int key, void *arg)
 static int key_l_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	__paint_llabels_win(p, true);
-	if (p->llabels_timerfd != -1) {
-		plotcake_poll_del_fd(p->llabels_timerfd);
-		if (find_id_handler(NULL, p->llabels_timerfd)) {
-			unregister_id(NULL, p->llabels_timerfd);
-			close(p->llabels_timerfd);
+	__paint_legends_win(p, true);
+	if (p->legends_timerfd != -1) {
+		plotcake_poll_del_fd(p->legends_timerfd);
+		if (find_id_handler(NULL, p->legends_timerfd)) {
+			unregister_id(NULL, p->legends_timerfd);
+			close(p->legends_timerfd);
 		}
-		p->llabels_timerfd = -1;
+		p->legends_timerfd = -1;
 	}
-	p->llabels_timerfd = new_timerfd(EXPIRED_USECS_LLABEL * 1000);
-	plotcake_poll_add_fd(p->llabels_timerfd);
-	register_id(NULL, p->llabels_timerfd,
-		    win_dialog_llabels_timer_timeout_handler, p);
-	dialog_del_from_window(p, &p->llabels);
-	dialog_add_to_window(p, &p->llabels);
+	p->legends_timerfd = new_timerfd(EXPIRED_USECS_LLABEL * 1000);
+	plotcake_poll_add_fd(p->legends_timerfd);
+	register_id(NULL, p->legends_timerfd,
+		    win_dialog_legends_timer_timeout_handler, p);
+	dialog_del_from_window(p, &p->legends);
+	dialog_add_to_window(p, &p->legends);
 	return 0;
 }
 
@@ -817,7 +817,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	p->__line.x_type = x_type;
 	p->plotshift_timerfd = -1;
 	p->help_timerfd = -1;
-	p->llabels_timerfd = -1;
+	p->legends_timerfd = -1;
 
 	err = err ?: register_key_handler(kb, 'r', p, key_r_handler);
 	err = err ?: register_key_handler(kb, 's', p, key_s_handler);

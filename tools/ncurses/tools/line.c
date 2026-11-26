@@ -10,9 +10,9 @@
 #include "line.h"
 #include "plot.h"
 
-static char **llabels = NULL;
-static int nr_llabels = 0;
-static int idx_llabels = -1;
+static char **legends = NULL;
+static int nr_legends = 0;
+static int idx_legends = -1;
 
 struct lgroup *plot_lgroup(const struct line_plotting *p, int idx)
 {
@@ -28,13 +28,13 @@ struct lgroup *plot_lgroup(const struct line_plotting *p, int idx)
  * Since this program is single-thread, we could set line name with a global
  * list.
  */
-int enqueue_llabel(const char *name)
+int enqueue_legend(const char *name)
 {
 	if (!name)
 		return -EINVAL;
 
-	for (int i = 0; i < nr_llabels; i++) {
-		if (!strcmp(name, llabels[i])) {
+	for (int i = 0; i < nr_legends; i++) {
+		if (!strcmp(name, legends[i])) {
 			fprintf(stderr,
 				"ERROR: line label '%s' already exist.\n",
 				name);
@@ -42,19 +42,19 @@ int enqueue_llabel(const char *name)
 		}
 	}
 
-	nr_llabels++;
-	llabels = (char **)realloc(llabels, nr_llabels * sizeof(char *));
+	nr_legends++;
+	legends = (char **)realloc(legends, nr_legends * sizeof(char *));
 
 	/* FIXME: memleak here */
-	llabels[nr_llabels - 1] = strdup(name);
+	legends[nr_legends - 1] = strdup(name);
 	return 0;
 }
 
-const char *dequeue_llabel(void)
+const char *dequeue_legend(void)
 {
-	if (nr_llabels <= 0 || idx_llabels >= nr_llabels)
+	if (nr_legends <= 0 || idx_legends >= nr_legends)
 		return NULL;
-	return llabels[++idx_llabels];
+	return legends[++idx_legends];
 }
 
 static int dequeue_value_from_head(struct line *l)
@@ -292,7 +292,7 @@ void line_add_value(struct line *l, double v, long limit, struct ln_x_value *x)
 static struct line *__create_line(const char *name, int color)
 {
 	struct line *new = malloc(sizeof(struct line));
-	const char *arg_name = dequeue_llabel();
+	const char *arg_name = dequeue_legend();
 
 	memset(new, 0, sizeof(struct line));
 

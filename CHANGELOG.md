@@ -23,6 +23,7 @@ and this project adheres to
 #### Scripts
 - runprog.sh: use seperate exec process substitution for log;
 #### Tools
+- plotcake: rename --llabel to --legend;
 - plotcake: stdin input support semicolon(';');
 - plotcake: add log.c;
 - plotcake: rename args --lcolor to --color, --lcolors to --colors;
