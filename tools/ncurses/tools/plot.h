@@ -64,9 +64,8 @@ struct plot {
 	 */
 	bool vertical_plotting;
 
-	enum plot_type_enum plot_type;
-
-	union {
+	struct {
+		enum plot_type_enum plot_type;
 		struct line_plotting __line; /* PLOT_TYPE_LINE */
 		struct scatter_plotting __scatter; /* PLOT_TYPE_SCATTER */
 	};
@@ -211,7 +210,6 @@ void __plot_warning(const struct plot *p, char *fmt, ...);
 
 void plot_update_size(struct plot *p, bool init);
 
-int plot_create_lines(struct plot *p);
 void plot_update_data(struct plot *p);
 void plot_redraw(struct plot *p);
 

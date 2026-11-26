@@ -101,3 +101,4 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 		  bool first_line);
 
 void __paint_debug_ln_label(const struct lgroup *lg, int y, int x);
+int plot_create_lines(struct line_plotting *p);

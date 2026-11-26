@@ -617,3 +617,23 @@ void __paint_debug_ln_label(const struct lgroup *lg, int y, int x)
 		i++;
 	}
 }
+
+/**
+ * return the number of lines be created.
+ */
+int plot_create_lines(struct line_plotting *p)
+{
+	int err = 0, n = 0;
+	for_each_lgroup(p, lg)
+	{
+		if (!lg->ops || !lg->ops->create_lines)
+			continue;
+		err = lg->ops->create_lines(lg, lg->ops->arg);
+		if (n < 0) {
+			err = n;
+			break;
+		} else if (n > 0)
+			n += err;
+	}
+	return err;
+}

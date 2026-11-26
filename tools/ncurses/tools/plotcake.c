@@ -719,7 +719,7 @@ int main(int argc, char *argv[])
 
 	/* Read from 'file' instead of line group */
 	if (!file) {
-		plot_create_lines(&plot);
+		plot_create_lines(&plot.__line);
 		plot_update_data(&plot);
 	}
 	plot_update_size(&plot, true);
