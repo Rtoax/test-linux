@@ -109,14 +109,14 @@ struct plot {
 
 #define PLOT_INF0_FMT                                          \
 	"plot(redraw=%ld, %.3f MiB, win[%d,%d], plot[%d,%d], " \
-	"scale %d, shft %ld/%ld, stacked %d" PLOT_DEBUG0_X_FMT \
+	"scale %d, shft %ld/%ld" PLOT_DEBUG0_X_FMT             \
 		PLOT_DEBUG0_DIALOG_FMT PLOT_DEBUG0_BND_FMT ")"
-#define PLOT_INF0_ARG(p)                                                    \
-	p->redrawcount, plot_mem_size(p) * 1. / MiB, plot_height(p),        \
-		plot_width(p), p->plotheight, p->plotwidth, p->plotscaling, \
-		p->plotshift, plot_shift(p),                                \
-		p->__line.enable_stacked_line_chart PLOT_DEBUG0_X_ARG(p)    \
-			PLOT_DEBUG0_DIALOG_ARG(p) PLOT_DEBUG0_BND_ARG(p)
+#define PLOT_INF0_ARG(p)                                                     \
+	p->redrawcount, plot_mem_size(p) * 1. / MiB, plot_height(p),         \
+		plot_width(p), p->plotheight, p->plotwidth, p->plotscaling,  \
+		p->plotshift,                                                \
+		plot_shift(p) PLOT_DEBUG0_X_ARG(p) PLOT_DEBUG0_DIALOG_ARG(p) \
+			PLOT_DEBUG0_BND_ARG(p)
 
 	WINDOW *win; /* equal to stdscr */
 
