@@ -4,3 +4,4 @@
 
 int enqueue_legend(const char *name);
 const char *dequeue_legend(void);
+void reset_legend_queue(void);

@@ -46,3 +46,8 @@ const char *dequeue_legend(void)
 		return NULL;
 	return legends[++idx_legends];
 }
+
+void reset_legend_queue(void)
+{
+	idx_legends = -1;
+}

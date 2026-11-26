@@ -10,6 +10,7 @@
 #include "plot.h"
 #include "stdin.h"
 #include "log.h"
+#include "legend.h"
 
 bool stdin_buf_is_scatter_format(const char *buf)
 {
@@ -28,10 +29,15 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 {
 	struct plot *p = lg->plot;
 	char *s = stdin_buf_skip_whitespace(buf);
+	static bool is_scatter_plot = false;
 
 	pc_debug("Scatter parsing: %s\n", buf);
 
-	p->plot_type = PLOT_TYPE_SCATTER;
+	if (!is_scatter_plot) {
+		is_scatter_plot = true;
+		p->plot_type = PLOT_TYPE_SCATTER;
+		reset_legend_queue();
+	}
 
 	while (s && *s != '\0') {
 		/**
