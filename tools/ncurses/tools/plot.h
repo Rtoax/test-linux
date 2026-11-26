@@ -215,7 +215,7 @@ void __plot_warning(const struct plot *p, char *fmt, ...);
 
 void plot_update_size(struct plot *p, bool init);
 
-void plot_update_data(struct plot *p);
+void plot_update_lines(struct plot *p);
 void plot_redraw(struct plot *p);
 
 int plot_height(const struct plot *p);

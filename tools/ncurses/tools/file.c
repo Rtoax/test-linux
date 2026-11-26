@@ -789,20 +789,20 @@ static int file_create_lines(struct lgroup *lg, void *arg)
 	return 0;
 }
 
-static void file_update_data(struct lgroup *lg, void *arg)
+static void file_update_lines(struct lgroup *lg, void *arg)
 {
 	// TODO
 }
 
-static void file_plot_debug(const struct lgroup *lg, void *arg)
+static void file_debug_lines(const struct lgroup *lg, void *arg)
 {
 	// TODO
 }
 
 static struct lgroup_operations file_ops = {
 	.create_lines = file_create_lines,
-	.update_data = file_update_data,
-	.plot_debug = file_plot_debug,
+	.update_lines = file_update_lines,
+	.debug_lines = file_debug_lines,
 };
 
 struct lgroup lg_file = {

@@ -42,7 +42,7 @@ done:
 	return n;
 }
 
-static void ram_update_data(struct lgroup *lg, void *arg)
+static void ram_update_lines(struct lgroup *lg, void *arg)
 {
 	struct sysinfo si;
 	int i = 0;
@@ -65,7 +65,7 @@ static void ram_update_data(struct lgroup *lg, void *arg)
 	}
 }
 
-static void ram_plot_debug(const struct lgroup *lg, void *arg)
+static void ram_debug_lines(const struct lgroup *lg, void *arg)
 {
 	struct plot *p = lg->plot;
 	__paint_debug_ln_label(
@@ -75,8 +75,8 @@ static void ram_plot_debug(const struct lgroup *lg, void *arg)
 
 static struct lgroup_operations ram_ops = {
 	.create_lines = ram_create_lines,
-	.update_data = ram_update_data,
-	.plot_debug = ram_plot_debug,
+	.update_lines = ram_update_lines,
+	.debug_lines = ram_debug_lines,
 };
 
 struct lgroup lg_ram = {

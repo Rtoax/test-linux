@@ -382,8 +382,8 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 		free(stacked_line);
 	}
 
-	if (p->debug && lg->ops && lg->ops->plot_debug)
-		lg->ops->plot_debug(lg, lg->ops->arg);
+	if (p->debug && lg->ops && lg->ops->debug_lines)
+		lg->ops->debug_lines(lg, lg->ops->arg);
 }
 
 /**
@@ -404,13 +404,13 @@ static void __paint_plot(struct plot *p)
 	move(0, 0);
 }
 
-void plot_update_data(struct plot *p)
+void plot_update_lines(struct plot *p)
 {
 	for_each_lgroup(&p->__line, lg)
 	{
-		if (!lg->ops || !lg->ops->update_data)
+		if (!lg->ops || !lg->ops->update_lines)
 			continue;
-		lg->ops->update_data(lg, lg->ops->arg);
+		lg->ops->update_lines(lg, lg->ops->arg);
 	}
 }
 

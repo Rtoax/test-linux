@@ -349,7 +349,7 @@ static int update_data_and_check_interval(struct plot *p)
 		last_plot_usecs = usecs() - interval_nsecs;
 
 	if ((usecs() - last_plot_usecs) * 1000UL >= interval_nsecs) {
-		plot_update_data(&plot);
+		plot_update_lines(&plot);
 		last_plot_usecs = usecs();
 		return 0;
 	}
@@ -720,7 +720,7 @@ int main(int argc, char *argv[])
 	/* Read from 'file' instead of line group */
 	if (!file) {
 		plot_create_lines(&plot.__line);
-		plot_update_data(&plot);
+		plot_update_lines(&plot);
 	}
 	plot_update_size(&plot, true);
 	plot_redraw(&plot);

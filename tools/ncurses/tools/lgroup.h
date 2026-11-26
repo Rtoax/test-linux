@@ -22,8 +22,8 @@ struct lgroup_operations {
 	 * Return the number of lines, -errno if failed.
 	 */
 	int (*create_lines)(struct lgroup *self, void *arg);
-	void (*update_data)(struct lgroup *self, void *arg);
-	void (*plot_debug)(const struct lgroup *self, void *arg);
+	void (*update_lines)(struct lgroup *self, void *arg);
+	void (*debug_lines)(const struct lgroup *self, void *arg);
 };
 
 #define for_each_line(lg, iter)                                       \

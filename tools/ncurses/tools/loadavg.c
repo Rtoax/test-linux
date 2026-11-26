@@ -24,7 +24,7 @@ done:
 	return n;
 }
 
-static void loadavg_update_data(struct lgroup *lg, void *arg)
+static void loadavg_update_lines(struct lgroup *lg, void *arg)
 {
 	double avg[3];
 	int i = 0;
@@ -39,7 +39,7 @@ static void loadavg_update_data(struct lgroup *lg, void *arg)
 	}
 }
 
-static void loadavg_plot_debug(const struct lgroup *lg, void *arg)
+static void loadavg_debug_lines(const struct lgroup *lg, void *arg)
 {
 	struct plot *p = lg->plot;
 	__paint_debug_ln_label(
@@ -49,8 +49,8 @@ static void loadavg_plot_debug(const struct lgroup *lg, void *arg)
 
 static struct lgroup_operations loadavg_ops = {
 	.create_lines = loadavg_create_lines,
-	.update_data = loadavg_update_data,
-	.plot_debug = loadavg_plot_debug,
+	.update_lines = loadavg_update_lines,
+	.debug_lines = loadavg_debug_lines,
 };
 
 struct lgroup lg_loadavg = {

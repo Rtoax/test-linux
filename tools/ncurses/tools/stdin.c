@@ -138,7 +138,7 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 	free(values);
 }
 
-static void __stdin_update_data(struct lgroup *lg, struct stdin_arg *a)
+static void __stdin_update_lines(struct lgroup *lg, struct stdin_arg *a)
 {
 	char *buf = strdup(a->line_buff);
 
@@ -182,12 +182,12 @@ static void __stdin_update_data(struct lgroup *lg, struct stdin_arg *a)
 	free(buf);
 }
 
-static void stdin_update_data(struct lgroup *lg, void *arg)
+static void stdin_update_lines(struct lgroup *lg, void *arg)
 {
-	__stdin_update_data(lg, arg);
+	__stdin_update_lines(lg, arg);
 }
 
-static void stdin_plot_debug(const struct lgroup *lg, void *arg)
+static void stdin_debug_lines(const struct lgroup *lg, void *arg)
 {
 	struct stdin_arg *a = arg;
 	struct plot *p = lg->plot;
@@ -226,8 +226,8 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 
 static struct lgroup_operations stdin_ops = {
 	.create_lines = stdin_create_lines,
-	.update_data = stdin_update_data,
-	.plot_debug = stdin_plot_debug,
+	.update_lines = stdin_update_lines,
+	.debug_lines = stdin_debug_lines,
 };
 
 struct lgroup lg_stdin = {
