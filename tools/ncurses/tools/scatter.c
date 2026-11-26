@@ -9,6 +9,7 @@
 #include "scatter.h"
 #include "legend.h"
 #include "draw.h"
+#include "log.h"
 
 struct scatter *sp_get_scatter_from_name(const struct scatter_plotting *sp,
 					 const char *name)
@@ -141,5 +142,6 @@ int dequeue_point_from_head(struct scatter *s)
 
 void scatter_add_point(struct scatter *s, double x, double y)
 {
+	pc_debug("scatter '%s' add (%lf,%lf)\n", s->name, x, y);
 	enqueue_point_to_tail(s, x, y);
 }

@@ -48,16 +48,19 @@ static int __add_scatter(struct scatter_plotting *sp, int i)
  */
 static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 {
-	char *s = buf, *d_end;
+	char *s, *d_end;
 	int npair = 0, ipair;
 	struct double_pair *dps;
+
+	buf = stdin_buf_skip_ws_sep_ws(buf);
+	s = buf;
 
 	if (!buf || !p || !a)
 		return;
 
 	dps = malloc(sizeof(struct double_pair) * 1);
 
-	pc_debug("Scatter handle %s\n", buf);
+	pc_debug("Scatter handle '%s', '%s'\n", buf, s);
 
 	/**
 	 * Parse an "(x,y)" for each loop
@@ -110,6 +113,10 @@ static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 	ipair = 0;
 	for_each_scatter(&p->__scatter, s)
 	{
+		if (ipair >= npair) {
+			break;
+		}
+
 		pc_debug("scatter %s\n", s->name);
 
 		scatter_add_point(s, dps[ipair].x, dps[ipair].y);

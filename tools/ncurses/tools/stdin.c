@@ -36,6 +36,25 @@ char *stdin_buf_skip_whitespace(const char *buf)
 	return (char *)buf;
 }
 
+char *stdin_buf_skip_ws_sep_ws(const char *buf)
+{
+	/**
+	 * It is possible for a buffer to be passed in that contains no data but
+	 * does include a delimiter; we need to skip it entirely.
+	 *
+	 * For examples:
+	 * 1. "    \n    "
+	 * 2. "  ;     "
+	 */
+	buf = stdin_buf_skip_whitespace(buf);
+	if (buf && (*buf == '\n' || *buf == ';')) {
+		buf++;
+	}
+	buf = stdin_buf_skip_whitespace(buf);
+
+	return (char *)buf;
+}
+
 /**
  * The buffer be splited by '\n' or ';', such as:
  * 1. "1 2 3\n 1 2 3\n 1 2 3"
@@ -85,19 +104,7 @@ static void __add_dataset(struct lgroup *lg, struct stdin_arg *a, char *buf)
 	int i, nval;
 	double *values = malloc(sizeof(double) * a->nline);
 
-	/**
-	 * It is possible for a buffer to be passed in that contains no data but
-	 * does include a delimiter; we need to skip it entirely.
-	 *
-	 * For examples:
-	 * 1. "    \n    "
-	 * 2. "  ;     "
-	 */
-	buf = stdin_buf_skip_whitespace(buf);
-	if (buf && (*buf == '\n' || *buf == ';')) {
-		buf++;
-	}
-	buf = stdin_buf_skip_whitespace(buf);
+	buf = stdin_buf_skip_ws_sep_ws(buf);
 
 	if (!buf || *buf == '\0') {
 		return;
