@@ -3,11 +3,12 @@
 
 int main(void)
 {
-	char str[] = {"n"}, s[256] = {"No.s rongtao "};
+	char str[] = { "rn" };
+	char s[256] = { "No.s rongtao " };
 
 	char *ret = strpbrk(s, str);
 
-	printf("%s\n%s\n%s\n",ret, str,s);
+	printf("strpbrk('%s', '%s') = '%s'\n", s, str, ret);
 
 	return 0;
 }

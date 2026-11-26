@@ -227,7 +227,6 @@ exec_with_log() {
 			fi
 		fi
 	}
-	echo REAL_RET=${REAL_RET}
 	# Cleanup
 	exec 101>&- 102>&-
 }

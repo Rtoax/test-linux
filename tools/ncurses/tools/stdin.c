@@ -35,20 +35,8 @@ static char *skip_whitespace(char *buf)
  */
 static char *find_separator(char *start)
 {
-	char *newline, *semicolon;
-
 	start = skip_whitespace(start);
-	newline = strchr(start, '\n');
-	semicolon = strchr(start, ';');
-
-	if (!newline) {
-		return semicolon;
-	}
-	if (!semicolon) {
-		return newline;
-	}
-
-	return (newline - semicolon > 0) ? semicolon : newline;
+	return strpbrk(start, "\n;");
 }
 
 static int __add_line(struct lgroup *lg, int i)
