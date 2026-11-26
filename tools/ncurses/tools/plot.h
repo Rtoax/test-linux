@@ -219,3 +219,6 @@ int plot_width(const struct plot *p);
 
 int get_plot_value_heigh(const struct plot *p, double min, double max,
 			 double v);
+
+bool enabled_stacked_line_chart(const struct plot *p);
+void set_stacked_line_chart(struct plot *p, bool t);

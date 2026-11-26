@@ -123,6 +123,19 @@ int get_plot_value_heigh(const struct plot *p, double min, double max, double v)
 	return ret;
 }
 
+bool enabled_stacked_line_chart(const struct plot *p)
+{
+	if (p->plot_type == PLOT_TYPE_LINE)
+		return p->__line.enable_stacked_line_chart;
+	return false;
+}
+
+void set_stacked_line_chart(struct plot *p, bool t)
+{
+	if (p->plot_type == PLOT_TYPE_LINE)
+		p->__line.enable_stacked_line_chart = t;
+}
+
 static void __draw_title(const struct plot *p)
 {
 	char buf[sizeof(p->title) + 128];
@@ -136,12 +149,12 @@ static void __draw_title(const struct plot *p)
 	else if (p->math_trans == MATH_TRANS_EXPONENTIAL)
 		snprintf(buf, sizeof(buf), "%s (base-e exponential)", p->title);
 	else if (p->math_trans == MATH_TRANS_DELTA &&
-		 !p->__line.enable_stacked_line_chart)
+		 !enabled_stacked_line_chart(p))
 		snprintf(buf, sizeof(buf), "%s (delta)", p->title);
 	else
 		snprintf(buf, sizeof(buf), "%s", p->title);
 
-	if (p->__line.enable_stacked_line_chart) {
+	if (enabled_stacked_line_chart(p)) {
 		strncat(buf, "[stacked]", sizeof(buf) - strlen(buf) - 1);
 	}
 
@@ -282,7 +295,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 
 		double _max, _min;
 		if (p->math_trans == MATH_TRANS_DELTA &&
-		    !p->__line.enable_stacked_line_chart) {
+		    !enabled_stacked_line_chart(p)) {
 			_max = line_range_delta_max(l, start, p->plotscaling,
 						    draw_len);
 			_min = line_range_delta_min(l, start, p->plotscaling,
@@ -313,7 +326,7 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 			break;
 		}
 
-		if (p->__line.enable_stacked_line_chart) {
+		if (enabled_stacked_line_chart(p)) {
 			if (first_line) {
 				max_stacked = _max;
 				min_stacked = _min;
@@ -331,20 +344,20 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 	}
 
 	/* draw zero y line if needed */
-	if (p->__line.enable_stacked_line_chart) {
+	if (enabled_stacked_line_chart(p)) {
 		paint_y0_line(p, min_stacked, max_stacked);
 	} else {
 		paint_y0_line(p, min, max);
 	}
 
 	double *stacked_line = NULL;
-	if (p->__line.enable_stacked_line_chart) {
+	if (enabled_stacked_line_chart(p)) {
 		size_t sz = max_nr_values * sizeof(double);
 		stacked_line = (double *)malloc(sz);
 		memset(stacked_line, 0x0, sz);
 	}
 
-	if (p->__line.enable_stacked_line_chart) {
+	if (enabled_stacked_line_chart(p)) {
 		first_line = true;
 	}
 
@@ -352,15 +365,14 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 	{
 		if (l->count <= 0)
 			continue;
-		__paint_line(
-			p, lg, l, start, draw_len, shift,
-			p->__line.enable_stacked_line_chart ? max_stacked : max,
-			p->__line.enable_stacked_line_chart ? min_stacked : min,
-			stacked_line, first_line);
+		__paint_line(p, lg, l, start, draw_len, shift,
+			     enabled_stacked_line_chart(p) ? max_stacked : max,
+			     enabled_stacked_line_chart(p) ? min_stacked : min,
+			     stacked_line, first_line);
 		first_line = false;
 	}
 
-	if (p->__line.enable_stacked_line_chart) {
+	if (enabled_stacked_line_chart(p)) {
 		free(stacked_line);
 	}
 
@@ -747,8 +759,7 @@ static int key_r_handler(int key, void *arg)
 static int key_s_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->__line.enable_stacked_line_chart =
-		!p->__line.enable_stacked_line_chart;
+	set_stacked_line_chart(p, !enabled_stacked_line_chart(p));
 	return 0;
 }
 
@@ -835,6 +846,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 
 	plot_scaling_init(p);
 
+	p->plot_type = PLOT_TYPE_LINE;
 	p->debug = debug;
 	p->axis_curve_type = axis;
 	p->win_border_type = win_border;
