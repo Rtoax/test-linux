@@ -56,6 +56,7 @@ enum {
 	ARG_STDIN_BUFFER_BYTES,
 	ARG_ENABLE_STACKED_LINE_CHART,
 	ARG_VERTICAL_PLOTTING,
+	ARG_BLACK_BACKGROUND,
 };
 
 const char argp_prog_doc[] = ANSI_BOLD
@@ -157,6 +158,8 @@ static const struct argp_option opts[] = {
 	{ "vertical-plotting", ARG_VERTICAL_PLOTTING, NULL, 1,
 	  "Generally, the x-axis is horizontal and the y-axis is vertical; "
 	  "when plotting in a vertical orientation, the axes are swapped." },
+	{ "black-background", ARG_BLACK_BACKGROUND, NULL, 1,
+	  "The drawing uses a black background instead of a transparent one." },
 	{ "win-border", ARG_WIN_BORDER_TYPE, "[utf8]", 0,
 	  "Sets the border type for the pop-up window; currently, only 'utf8'"
 	  " and 'auto' are supported." },
@@ -183,6 +186,7 @@ static char *ylabel = NULL;
 static enum curve_type curve_type = CURVE_TYPE_NONE;
 static bool enable_stacked_line_chart = false;
 static bool vertical_plotting = false;
+static bool black_background = false;
 static enum x_axis_type x_type = X_TIMEVAL;
 static enum ltype_enum axis_curve_type = LINE_TYPE_THIN_UNICODE;
 static enum win_border_type win_border_type = WIN_BORDER_TYPE_DEFAULT;
@@ -268,6 +272,9 @@ static error_t parse_arg(int opt, char *arg, struct argp_state *state)
 		break;
 	case ARG_VERTICAL_PLOTTING:
 		vertical_plotting = true;
+		break;
+	case ARG_BLACK_BACKGROUND:
+		black_background = true;
 		break;
 	case ARG_LINE_TYPES:
 		ltype_print_names(stdout);
@@ -678,7 +685,7 @@ int main(int argc, char *argv[])
 	keypad(plot.win, TRUE);
 	nodelay(plot.win, TRUE);
 
-	init_flavor(true);
+	init_flavor(!black_background);
 
 	plot.curve_type = curve_type;
 	plot.enable_stacked_line_chart = enable_stacked_line_chart;

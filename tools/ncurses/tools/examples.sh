@@ -151,6 +151,7 @@ fi
 run -f x-index.txt
 run --enable-stacked-line-chart
 run --vertical-plotting
+run --black-background
 
 stdin -V --version
 stdin --usage
@@ -164,6 +165,7 @@ stdin --delta
 stdin --stdin-buffer-size 1024
 stdin --enable-stacked-line-chart
 stdin --vertical-plotting
+stdin --black-background
 
 while true; do
 	for i in 2 4 1 4 6 1 9 1 2 3 4 5; do
