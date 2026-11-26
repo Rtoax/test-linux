@@ -32,6 +32,7 @@ extern struct lgroup lg_stdin;
 extern struct lgroup lg_stdin_no_ops;
 
 char *stdin_buf_skip_whitespace(const char *buf);
+char *stdin_buf_find_separator(char *start);
 
 /* Scatter chart */
 bool stdin_buf_is_scatter_format(const char *s);

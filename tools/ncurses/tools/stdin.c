@@ -32,7 +32,7 @@ char *stdin_buf_skip_whitespace(const char *buf)
  * 2. "1 2 3;  1 2 3\n 1 2 3"
  * 3. "1 2 3;  1 2 3;  1 2 3"
  */
-static char *find_separator(char *start)
+char *stdin_buf_find_separator(char *start)
 {
 	start = stdin_buf_skip_whitespace(start);
 	return strpbrk(start, "\n;");
@@ -165,7 +165,7 @@ static void __stdin_update_lines(struct lgroup *lg, struct stdin_arg *a)
 		 * 2. "1 2 3;  1 2 3\n 1 2 3"
 		 * 3. "1 2 3;  1 2 3;  1 2 3"
 		 */
-		char *d_end = find_separator(s);
+		char *d_end = stdin_buf_find_separator(s);
 		if (d_end) {
 			/**
 			 * "1 2 3\0 1 2 3\n 1 2 3"
