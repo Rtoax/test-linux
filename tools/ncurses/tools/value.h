@@ -10,8 +10,11 @@
 struct __value {
 	double v;
 	double log_v; /* = sign(v) * log(1 + |v|) */
+#define __LOG_V(v, real_v) "s*log(1+|%.3f|)=%.3f", v, real_v
 	double log10_v; /* = sign(v) * log10(1 + |v|) */
+#define __LOG10_V(v, real_v) "s*log10(1+|%.3f|)=%.3f", v, real_v
 	double exp_v; /* = exp(v) */
+#define __EXP_V(v, real_v) "exp(%.3f)=%.3f", v, real_v
 };
 
 struct value {
@@ -25,6 +28,7 @@ struct value {
  */
 static inline double delta_v(const struct value *v)
 {
+#define __DELTA_V(next_v, v, real_v) "delta(%.3f-%.3f)=%.3f", next_v, v, real_v
 	if (v->next)
 		return v->next->y_v.v - v->y_v.v;
 	else
@@ -41,14 +45,18 @@ static inline double delta_v(const struct value *v)
  *
  *     y = sign(x) * log(1 + |x|)
  */
-static inline double signed_log_trans(double x)
+static inline double __signed_log_trans(double x, double (*fn)(double x))
 {
 	int sign = signbit(x) ? -1 : 1;
-	return sign * log(1 + fabs(x));
+	return sign * fn(1 + fabs(x));
+}
+
+static inline double signed_log_trans(double x)
+{
+	return __signed_log_trans(x, log);
 }
 
 static inline double signed_log10_trans(double x)
 {
-	int sign = signbit(x) ? -1 : 1;
-	return sign * log10(1 + fabs(x));
+	return __signed_log_trans(x, log10);
 }

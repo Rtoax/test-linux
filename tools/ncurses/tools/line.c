@@ -612,18 +612,16 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 		int sz = sizeof(sv);
 
 		if (p->curve_type == CURVE_TYPE_LOGARITHMIC) {
-			nc = snprintf(sv, sz, "s*log(1+|%.3f|)=%.3f", v->y_v.v,
-				      real_v);
+			nc = snprintf(sv, sz, __LOG_V(v->y_v.v, real_v));
 		} else if (p->curve_type == CURVE_TYPE_LOGARITHMIC10) {
-			nc = snprintf(sv, sz, "s*log10(1+|%.3f|)=%.3f",
-				      v->y_v.v, real_v);
+			nc = snprintf(sv, sz, __LOG10_V(v->y_v.v, real_v));
 		} else if (p->curve_type == CURVE_TYPE_EXPONENTIAL) {
-			nc = snprintf(sv, sz, "exp(%.3f)=%.3f", v->y_v.v,
-				      real_v);
+			nc = snprintf(sv, sz, __EXP_V(v->y_v.v, real_v));
 		} else if (p->curve_type == CURVE_TYPE_DELTA &&
 			   !p->enable_stacked_line_chart) {
-			nc = snprintf(sv, sz, "delta(%.3f-%.3f)=%.3f",
-				      v->next->y_v.v, v->y_v.v, real_v);
+			nc = snprintf(sv, sz,
+				      __DELTA_V(v->next->y_v.v, v->y_v.v,
+						real_v));
 		} else {
 			nc = snprintf(sv, sz, "%.3f", real_v);
 		}
