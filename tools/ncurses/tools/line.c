@@ -592,3 +592,28 @@ print_llabel:
 		attroff(color);
 	}
 }
+
+void __paint_debug_ln_label(const struct lgroup *lg, int y, int x)
+{
+	int i = 0;
+
+	for_each_line(lg, ln)
+	{
+		chtype color = getflavor(ln->color);
+		attron(color);
+		if (ln->count <= 0) {
+			mvprintw(i + y, x, "%d: %s: %ld", ln->id, ln->name,
+				 ln->count);
+		} else {
+			char buf[64];
+
+			mvprintw(i + y, x, "%d: %s: %ld %f x(%s) y(%lf~%lf)",
+				 ln->id, ln->name, ln->count, ln->tail->y_v.v,
+				 ln_x_range_str(lg->plot->__line.x_type,
+						&ln->x_range, buf),
+				 ln->min->y_v.v, ln->max->y_v.v);
+		}
+		attroff(color);
+		i++;
+	}
+}

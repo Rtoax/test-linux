@@ -215,8 +215,6 @@ int plot_create_lines(struct plot *p);
 void plot_update_data(struct plot *p);
 void plot_redraw(struct plot *p);
 
-void __plot_debug_llabel(const struct lgroup *lg, int y, int x);
-
 int plot_height(const struct plot *p);
 int plot_width(const struct plot *p);
 

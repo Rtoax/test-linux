@@ -217,7 +217,7 @@ static void stdin_plot_debug(const struct lgroup *lg, void *arg)
 	mvprintw(y, x, "lgroup cnt %d, arg nline %d", lg->count, a->nline);
 	mvprintw(y + 1, x, "stdin: '%s'", buf);
 
-	__plot_debug_llabel(
+	__paint_debug_ln_label(
 		lg, (p->vertical_plotting ? p->bnd.left : p->bnd.top) + 4,
 		(p->vertical_plotting ? p->bnd.bottom : p->bnd.left) + 1);
 

@@ -42,7 +42,7 @@ static void loadavg_update_data(struct lgroup *lg, void *arg)
 static void loadavg_plot_debug(const struct lgroup *lg, void *arg)
 {
 	struct plot *p = lg->plot;
-	__plot_debug_llabel(
+	__paint_debug_ln_label(
 		lg, (p->vertical_plotting ? p->bnd.left : p->bnd.top) + 1,
 		(p->vertical_plotting ? p->bnd.bottom : p->bnd.left) + 1);
 }
