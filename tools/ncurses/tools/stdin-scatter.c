@@ -25,7 +25,7 @@ bool stdin_buf_is_scatter_format(const char *buf)
 	return *s == '(';
 }
 
-/*static*/ int __add_scatter(struct scatter_plotting *sp, int i)
+static int __add_scatter(struct scatter_plotting *sp, int i)
 {
 	char name[64] = { 0 };
 	snprintf(name, 64, "scatter%d", i);
@@ -44,7 +44,7 @@ bool stdin_buf_is_scatter_format(const char *buf)
 }
 
 /**
- * @buf: format: "  ( x , y ) ( x, y)  "
+ * @buf: format: "  ( x , y ) ( x, y)  ", not contains separator
  */
 static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 {
@@ -55,7 +55,7 @@ static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 	if (!buf || !p || !a)
 		return;
 
-	dps = malloc(sizeof(struct double_pair) * a->nline);
+	dps = malloc(sizeof(struct double_pair) * 1);
 
 	pc_debug("Scatter handle %s\n", buf);
 
@@ -97,8 +97,14 @@ static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 		pc_debug("dps[%d] = (%lf,%lf)\n", npair, dps[npair].x,
 			 dps[npair].y);
 
-		dps = realloc(dps, sizeof(struct double_pair) * ++a->nline);
 		npair++;
+		dps = realloc(dps, sizeof(struct double_pair) * (npair + 1));
+	}
+
+	if (a->nline < npair) {
+		for (int i = a->nline; i < npair; i++, a->nline++) {
+			__add_scatter(&p->__scatter, i);
+		}
 	}
 
 	/* TODO: create a scatter serial */
@@ -135,7 +141,7 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 			/* No need free lgroup right now. */
 		}
 
-		arg->nline = 1;
+		arg->nline = 0;
 	}
 
 	while (s && *s != '\0') {
