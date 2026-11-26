@@ -24,6 +24,7 @@ set(SRC
   ram.c
   scatter.c
   stdin.c
+  stdin-scatter.c
   utils.c
   value.c
 )
