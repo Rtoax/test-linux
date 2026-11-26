@@ -12,6 +12,10 @@
 #include "log.h"
 #include "legend.h"
 
+struct double_pair {
+	double x, y;
+};
+
 bool stdin_buf_is_scatter_format(const char *buf)
 {
 	const char *s = stdin_buf_skip_whitespace(buf);
@@ -19,10 +23,66 @@ bool stdin_buf_is_scatter_format(const char *buf)
 	return *s == '(';
 }
 
-static void __stdin_scatter_add_data(struct plot *p, struct stdin_arg *a,
-				     char *buf)
+/**
+ * @buf: format: "  ( x , y ) ( x, y)  "
+ */
+static void __add_dataset(struct plot *p, struct stdin_arg *a, char *buf)
 {
+	char *s = buf, *d_end;
+	int npair = 0;
+	struct double_pair *dps;
+
+	if (!buf || !p || !a)
+		return;
+
+	dps = malloc(sizeof(struct double_pair) * a->nline);
+
 	pc_debug("Scatter handle %s\n", buf);
+
+	/**
+	 * Parse an "(x,y)" for each loop
+	 */
+	while (s && *s != '\0') {
+		s = stdin_buf_skip_whitespace(s);
+		if (!s || *s != '(')
+			continue;
+
+		s++; /* skip '(' */
+
+		s = stdin_buf_skip_whitespace(s);
+
+		d_end = strchr(s, ',');
+		if (!d_end)
+			continue;
+		*d_end = '\0';
+
+		dps[npair].x = strtod(s, &s);
+
+		s = d_end + 1; /* skip ',' */
+
+		s = stdin_buf_skip_whitespace(s);
+
+		d_end = strchr(s, ')');
+		if (!d_end)
+			continue;
+
+		*d_end = '\0';
+
+		dps[npair].y = strtod(s, &s);
+
+		s = d_end + 1; /* skip ')' */
+
+		s = stdin_buf_skip_whitespace(s);
+
+		pc_debug("dps[%d] = (%lf,%lf)\n", npair, dps[npair].x,
+			 dps[npair].y);
+
+		npair++;
+	}
+
+	/* TODO: create a scatter serial */
+
+	free(dps);
 }
 
 void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
@@ -51,6 +111,8 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 			}
 			/* No need free lgroup right now. */
 		}
+
+		arg->nline = 1;
 	}
 
 	while (s && *s != '\0') {
@@ -69,7 +131,7 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 			 */
 			*d_end = '\0';
 
-			__stdin_scatter_add_data(p, arg, s);
+			__add_dataset(p, arg, s);
 
 			/**
 			 * "(1,1)\0(1,1)\n(1,1)"
@@ -83,7 +145,7 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 			 *                ^
 			 *                s
 			 */
-			__stdin_scatter_add_data(p, arg, s);
+			__add_dataset(p, arg, s);
 			s = NULL;
 		}
 	}

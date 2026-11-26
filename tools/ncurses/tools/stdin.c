@@ -70,7 +70,7 @@ static int stdin_create_lines(struct lgroup *lg, void *arg)
 	return n;
 }
 
-static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
+static void __add_dataset(struct lgroup *lg, struct stdin_arg *a, char *buf)
 {
 	int i, nval;
 	double *values = malloc(sizeof(double) * a->nline);
@@ -173,7 +173,7 @@ static void __stdin_update_lines(struct lgroup *lg, struct stdin_arg *a)
 			 *  s
 			 */
 			*d_end = '\0';
-			__stdin_add_data(lg, a, s);
+			__add_dataset(lg, a, s);
 			/**
 			 * "1 2 3\0 1 2 3\n 1 2 3"
 			 *          ^
@@ -186,7 +186,7 @@ static void __stdin_update_lines(struct lgroup *lg, struct stdin_arg *a)
 			 *                  ^
 			 *                  s
 			 */
-			__stdin_add_data(lg, a, s);
+			__add_dataset(lg, a, s);
 			s = NULL;
 		}
 	}
