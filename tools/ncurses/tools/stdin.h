@@ -37,3 +37,5 @@ char *stdin_buf_find_separator(char *start);
 /* Scatter chart */
 bool stdin_buf_is_scatter_format(const char *s);
 void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf);
+void stdin_debug_scatter(const struct lgroup *lg, struct stdin_arg *arg,
+			 char *buf);

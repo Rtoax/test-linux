@@ -126,7 +126,7 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 	char *s = stdin_buf_skip_whitespace(buf);
 	static bool is_scatter_plot = false;
 
-	pc_debug("Scatter parsing: %s\n", buf);
+	pc_debug("Scatter parsing: '%s'\n", buf);
 
 	if (!is_scatter_plot) {
 		is_scatter_plot = true;
@@ -185,5 +185,32 @@ void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf)
 			__add_dataset(p, arg, s);
 			s = NULL;
 		}
+	}
+}
+
+void stdin_debug_scatter(const struct lgroup *lg, struct stdin_arg *arg,
+			 char *buf)
+{
+	int i = 0;
+	struct plot *p = lg->plot;
+
+	int y = (p->vertical_plotting ? p->bnd.left : p->bnd.top) + 4;
+	int x = (p->vertical_plotting ? p->bnd.bottom : p->bnd.left) + 1;
+
+	for_each_scatter(&p->__scatter, s)
+	{
+		chtype color = getflavor(s->color);
+		attron(color);
+
+		if (s->count <= 0) {
+			mvprintw(i + y, x, "%d: %s", s->id, s->name);
+		} else {
+			mvprintw(i + y, x, "%d: %s: %ld x(%lf~%lf) y(%lf~%lf)",
+				 s->id, s->name, s->count, s->min_x->v,
+				 s->max_x->v, s->min_y->v, s->max_y->v);
+		}
+
+		attroff(color);
+		i++;
 	}
 }

@@ -10,6 +10,16 @@
 #include "stdin.h"
 #include "log.h"
 
+bool is_scatter_plot(const char *buf)
+{
+	static bool scatter = false;
+	bool b = stdin_buf_is_scatter_format(buf);
+	if (b)
+		scatter = true;
+
+	return scatter || b;
+}
+
 char *stdin_buf_skip_whitespace(const char *buf)
 {
 	if (!buf)
@@ -151,7 +161,7 @@ static void __stdin_update_lines(struct lgroup *lg, struct stdin_arg *a)
 	 * scatter plot; FIXME: this may well be the best approach short of a
 	 * full code refactor.
 	 */
-	if (stdin_buf_is_scatter_format(buf)) {
+	if (is_scatter_plot(buf)) {
 		stdin_update_scatter(lg, a, buf);
 		goto done;
 	}
@@ -230,10 +240,18 @@ static void stdin_debug_lines(const struct lgroup *lg, void *arg)
 	mvprintw(y, x, "lgroup cnt %d, arg nline %d", lg->count, a->nline);
 	mvprintw(y + 1, x, "stdin: '%s'", buf);
 
-	__paint_debug_ln_label(
-		lg, (p->vertical_plotting ? p->bnd.left : p->bnd.top) + 4,
-		(p->vertical_plotting ? p->bnd.bottom : p->bnd.left) + 1);
+	if (is_scatter_plot(buf)) {
+		stdin_debug_scatter(lg, a, buf);
+		goto done;
+	} else {
+		__paint_debug_ln_label(
+			lg,
+			(p->vertical_plotting ? p->bnd.left : p->bnd.top) + 4,
+			(p->vertical_plotting ? p->bnd.bottom : p->bnd.left) +
+				1);
+	}
 
+done:
 	free(buf);
 }
 
