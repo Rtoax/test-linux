@@ -6,3 +6,7 @@
 struct __point {
 	struct __value x, y;
 };
+
+struct scatter_plotting {
+	/* TODO: PLOT_TYPE_SCATTER */
+};

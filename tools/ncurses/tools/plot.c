@@ -169,13 +169,20 @@ static void __draw_title(const struct plot *p)
 	}
 }
 
+const char *get_plot_xlabel(const struct plot *p)
+{
+	return p->label_x[0] != '\0' ?
+		       p->label_x :
+		       (p->plot_type == PLOT_TYPE_LINE ?
+				ln_x_label_str(p->__line.x_type) :
+				"x" /* TODO: for scatter */);
+}
+
 static void __draw_axes(const struct plot *p)
 {
 	const struct draw_operations *ops =
 		draw_ops_type2ops(p->axis_curve_type);
-	const char *labelx = p->label_x[0] != '\0' ?
-				     p->label_x :
-				     ln_x_label_str(p->__line.x_type);
+	const char *labelx = get_plot_xlabel(p);
 
 	if (p->vertical_plotting) {
 		/* x axis */

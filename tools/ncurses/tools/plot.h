@@ -14,6 +14,7 @@
 #include "dialog.h"
 #include "id-handler.h"
 #include "draw.h"
+#include "scatter.h"
 
 enum plot_type_enum {
 	PLOT_TYPE_LINE,
@@ -67,7 +68,7 @@ struct plot {
 
 	union {
 		struct line_plotting __line; /* PLOT_TYPE_LINE */
-		/* TODO: PLOT_TYPE_SCATTER */
+		struct scatter_plotting __scatter; /* PLOT_TYPE_SCATTER */
 	};
 
 	unsigned long redrawcount;
@@ -180,6 +181,8 @@ static inline void set_plot_title(struct plot *p, const char *title)
 		return;
 	snprintf(p->title, sizeof(p->title) - 1, "%s", title);
 }
+
+const char *get_plot_xlabel(const struct plot *p);
 
 static inline void set_plot_xlabel(struct plot *p, const char *label)
 {
