@@ -29,9 +29,47 @@ struct line {
 	struct x_axis_range x_range;
 };
 
+struct line_plotting {
+	struct lgroup *lghead, *lgtail;
+	int lgcount;
+
+	/**
+	 * A stacked line chart shows how multiple series
+	 * cumulatively add up to a total over time, emphasizing
+	 * the overall trend and composition rather than each
+	 * series’ absolute values.
+	 *
+	 *  Origin Line Chart           Stacked Line Chart
+	 * ^                           ^
+	 * |                           |           +-- line2
+	 * |                           |           |
+	 * |                           |  +--------+
+	 * |                           |  |
+	 * |           +-- line2       |  |
+	 * |           |               |  |
+	 * |  +--------+               |--+
+	 * |  |                        |
+	 * |--+----------- line1       |--------------- line1
+	 * |  |                        |
+	 * |--+                        |
+	 * +--------------> 0          +---------------> 0
+	 *
+	 * Not support curve type MATH_TRANS_DELTA.
+	 */
+	bool enable_stacked_line_chart;
+
+	enum x_axis_type x_type;
+};
+
 #define for_each_value(l, iter)                                     \
 	for (struct value *iter = ((struct line *)(l))->head; iter; \
 	     iter = iter->next)
+
+#define for_each_lgroup(lplt, iter)                                          \
+	for (struct lgroup *iter = ((struct line_plotting *)(lplt))->lghead; \
+	     iter; iter = iter->next)
+
+struct lgroup *plot_lgroup(const struct line_plotting *p, int idx);
 
 int enqueue_llabel(const char *name);
 const char *dequeue_llabel(void);

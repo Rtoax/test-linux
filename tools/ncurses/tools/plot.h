@@ -32,38 +32,6 @@ enum plot_type_enum {
 	PLOT_TYPE_SCATTER,
 };
 
-struct line_plotting {
-	struct lgroup *lghead, *lgtail;
-	int lgcount;
-
-	/**
-	 * A stacked line chart shows how multiple series
-	 * cumulatively add up to a total over time, emphasizing
-	 * the overall trend and composition rather than each
-	 * series’ absolute values.
-	 *
-	 *  Origin Line Chart           Stacked Line Chart
-	 * ^                           ^
-	 * |                           |           +-- line2
-	 * |                           |           |
-	 * |                           |  +--------+
-	 * |                           |  |
-	 * |           +-- line2       |  |
-	 * |           |               |  |
-	 * |  +--------+               |--+
-	 * |  |                        |
-	 * |--+----------- line1       |--------------- line1
-	 * |  |                        |
-	 * |--+                        |
-	 * +--------------> 0          +---------------> 0
-	 *
-	 * Not support curve type MATH_TRANS_DELTA.
-	 */
-	bool enable_stacked_line_chart;
-
-	enum x_axis_type x_type;
-};
-
 struct plot {
 	char title[128];
 	char label_x[64];
@@ -179,10 +147,6 @@ struct plot {
 	enum win_border_type win_border_type;
 };
 
-#define for_each_lgroup(plt, iter)                                        \
-	for (struct lgroup *iter = ((struct plot *)(plt))->__line.lghead; \
-	     iter; iter = iter->next)
-
 #define plot_scaling_init(p)                          \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \
@@ -253,9 +217,6 @@ unsigned long plot_mem_size(const struct plot *p);
 
 #define plot_warning(p, fmt...) __plot_warning(p, fmt)
 void __plot_warning(const struct plot *p, char *fmt, ...);
-
-int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg);
-struct lgroup *plot_lgroup(const struct plot *p, int idx);
 
 void plot_update_size(struct plot *p, bool init);
 

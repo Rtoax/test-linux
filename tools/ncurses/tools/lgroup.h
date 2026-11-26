@@ -30,6 +30,8 @@ struct lgroup_operations {
 	for (struct line *iter = ((struct lgroup *)(lg))->head; iter; \
 	     iter = iter->next)
 
+int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg);
+
 int lgroup_add_line(struct lgroup *lg, struct line *l);
 struct line *lgroup_get_line_from_id(const struct lgroup *lg, int id);
 struct line *lgroup_get_line_from_name(const struct lgroup *lg,

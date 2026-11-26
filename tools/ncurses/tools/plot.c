@@ -22,36 +22,6 @@ static const char *verstring = GIT_REPO " " MY_VERSION;
 static int __paint_help_win(struct plot *p, bool init);
 static int __paint_llabels_win(struct plot *p, bool init);
 
-int plot_add_lgroup(struct plot *p, struct lgroup *lg, void *lg_ops_arg)
-{
-	if (!p->__line.lghead) {
-		p->__line.lghead = lg;
-		p->__line.lgcount = 1;
-	} else {
-		p->__line.lgtail->next = lg;
-		p->__line.lgcount++;
-	}
-	p->__line.lgtail = lg;
-	lg->plot = p;
-	lg->id = p->__line.lgcount;
-	if (lg->ops) {
-		lg->ops->arg = lg_ops_arg;
-	}
-
-	assert(!(!lg->ops && lg_ops_arg) && "not allow none-ops with ops arg");
-	return 0;
-}
-
-struct lgroup *plot_lgroup(const struct plot *p, int idx)
-{
-	for_each_lgroup(p, lg)
-	{
-		if (lg->id == idx)
-			return lg;
-	}
-	return NULL;
-}
-
 int plot_height(const struct plot *p)
 {
 	return p->vertical_plotting ? p->horizontal : p->vertical;
@@ -448,7 +418,7 @@ static void __paint_plot(struct plot *p)
 	__draw_title(p);
 	__draw_axes(p);
 
-	for_each_lgroup(p, lg)
+	for_each_lgroup(&p->__line, lg)
 	{
 		paint_lgroup(p, lg);
 	}
@@ -464,7 +434,7 @@ static void __paint_plot(struct plot *p)
 int plot_create_lines(struct plot *p)
 {
 	int err = 0, n = 0;
-	for_each_lgroup(p, lg)
+	for_each_lgroup(&p->__line, lg)
 	{
 		if (!lg->ops || !lg->ops->create_lines)
 			continue;
@@ -480,7 +450,7 @@ int plot_create_lines(struct plot *p)
 
 void plot_update_data(struct plot *p)
 {
-	for_each_lgroup(p, lg)
+	for_each_lgroup(&p->__line, lg)
 	{
 		if (!lg->ops || !lg->ops->update_data)
 			continue;
@@ -621,7 +591,7 @@ static int __paint_llabels_win(struct plot *p, bool init)
 	if (!init && !win)
 		return 0;
 
-	for_each_lgroup(p, lg)
+	for_each_lgroup(&p->__line, lg)
 	{
 		nline += lg->count;
 		for_each_line(lg, ln)
@@ -649,7 +619,7 @@ static int __paint_llabels_win(struct plot *p, bool init)
 	}
 
 	i = 0;
-	for_each_lgroup(p, lg)
+	for_each_lgroup(&p->__line, lg)
 	{
 		for_each_line(lg, ln)
 		{
@@ -926,7 +896,7 @@ int plot_destroy(struct plot *p)
 unsigned long plot_mem_size(const struct plot *p)
 {
 	unsigned long bytes = sizeof(struct plot);
-	for_each_lgroup(p, lg)
+	for_each_lgroup(&p->__line, lg)
 	{
 		bytes += sizeof(struct lgroup);
 		for_each_line(lg, ln)

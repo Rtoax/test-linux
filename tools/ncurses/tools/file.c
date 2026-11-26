@@ -66,7 +66,7 @@ static int save_txt(const struct plot *p, const char *filename)
 		p->title, p->label_x, p->label_y,
 		x_axis_type_str(p->__line.x_type));
 
-	for_each_lgroup(p, lg)
+	for_each_lgroup(&p->__line, lg)
 	{
 		fprintf(fp, "#      name idx nline\n");
 		fprintf(fp, "lgroup %s %d %d\n", lg->name, lg->id, lg->count);
@@ -188,7 +188,7 @@ static int load_txt(struct plot *p, const char *file)
 			*end = '\0';
 
 			idx = atoi(start);
-			lg = plot_lgroup(p, idx);
+			lg = plot_lgroup(&p->__line, idx);
 			if (!lg) {
 				fprintf(stderr, "ERROR: not found lgroup %d.\n",
 					idx);
@@ -264,7 +264,7 @@ static int load_txt(struct plot *p, const char *file)
 			*end = '\0';
 
 			idx = atoi(start);
-			lg = plot_lgroup(p, idx);
+			lg = plot_lgroup(&p->__line, idx);
 			if (!lg) {
 				fprintf(stderr, "ERROR: not found lgroup %d.\n",
 					idx);
@@ -370,7 +370,7 @@ static int save_json(const struct plot *p, const char *filename)
 	json_object *lgroups = json_object_new_object();
 	json_object_object_add(plot, "lgroups", lgroups);
 
-	for_each_lgroup(p, lg)
+	for_each_lgroup(&p->__line, lg)
 	{
 		json_object *lines = json_object_new_object();
 
@@ -590,7 +590,7 @@ static int load_json(struct plot *p, const char *file)
 			if (p->debug)
 				printf("line id %s\n", lid_s);
 
-			struct lgroup *lg = plot_lgroup(p, lgid_i);
+			struct lgroup *lg = plot_lgroup(&p->__line, lgid_i);
 			if (!lg) {
 				fprintf(stderr, "ERROR: not found lgroup %d.\n",
 					lgid_i);

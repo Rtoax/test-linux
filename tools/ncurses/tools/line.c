@@ -14,6 +14,16 @@ static char **llabels = NULL;
 static int nr_llabels = 0;
 static int idx_llabels = -1;
 
+struct lgroup *plot_lgroup(const struct line_plotting *p, int idx)
+{
+	for_each_lgroup(p, lg)
+	{
+		if (lg->id == idx)
+			return lg;
+	}
+	return NULL;
+}
+
 /**
  * Since this program is single-thread, we could set line name with a global
  * list.
