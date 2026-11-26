@@ -24,9 +24,7 @@ struct lgroup *plot_lgroup(const struct line_plotting *p, int idx)
 static int dequeue_value_from_head(struct line *l)
 {
 	if (!l || !l->head)
-		return 0;
-
-	int v = l->head->y_v.v;
+		return -EINVAL;
 
 	/* update max */
 	if (l->max && l->max == l->head) {
@@ -60,7 +58,7 @@ static int dequeue_value_from_head(struct line *l)
 	}
 
 	free(head);
-	return v;
+	return 0;
 }
 
 static int enqueue_value_to_tail(struct line *l, double v, struct ln_x_value *x)

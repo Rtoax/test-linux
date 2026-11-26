@@ -3,6 +3,7 @@
 /**
  * Scatter Plot
  */
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include "scatter.h"
@@ -116,6 +117,27 @@ static int enqueue_point_to_tail(struct scatter *s, double x, double y)
 	s->tail = new;
 	return 0;
 }
+
+#if 0
+int dequeue_point_from_head(struct scatter *s)
+{
+	if (!s || !s->head)
+		return -EINVAL;
+
+	/* update max x */
+	if (s->max_x && s->max_x == &s->head->x) {
+		struct __point *tmp = s->head->next;
+		s->max_x = tmp ? &tmp->x : NULL;
+		while (tmp) {
+			if (s->max_x->v < tmp->x.v)
+				s->max_x = &tmp->x;
+			tmp = tmp->next;
+		}
+	}
+
+	return 0;
+}
+#endif
 
 void scatter_add_point(struct scatter *s, double x, double y)
 {
