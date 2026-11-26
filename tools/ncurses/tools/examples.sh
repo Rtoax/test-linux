@@ -5,7 +5,7 @@
 #
 # Depends: jq
 #
-# Usage: I=<0.1> TMOUT=<1s> ./examples.sh
+# Usage: ./examples.sh
 #
 
 # -m: (set -o monitor) monitor mode
@@ -14,14 +14,60 @@ readonly LOG=${0}.log
 readonly MYDIR=$(dirname $(realpath $0))
 . ${MYDIR}/tools/lib-plotcake.sh
 
-[[ -z ${I} ]] && I=0.001
-[[ -z ${TMOUT} ]] && TMOUT=200ms
+declare -a args
+declare Interval=0.001
+declare TMOUT=200ms
 
-Interval=${I}
+__usage__() {
+	echo -e "
+${BOLD}NAME${RST}
+    plotcake-examples - Test plotcake
 
+${BOLD}SYNOPSIS${RST}
+    plotcake-examples [opts]
+
+${BOLD}OPTIONS${RST}
+    -i, --interval                specify interval of data generate, default: ${Interval}
+    -h, --help                    show this information
+"
+	exit ${1-0}
+}
+
+OPTS=$(getopt --options hi:t: \
+		--long help \
+		--long interval: \
+		--long tmout: \
+		--name plotcake-examples -- "$@")
+
+eval set -- "$OPTS"
+
+while true; do
+	case $1 in
+	-i | --interval)
+		shift
+		Interval=${1}
+		shift
+		;;
+	-t | --tmout)
+		shift
+		TMOUT=${1}
+		shift
+		;;
+	-h | --help)
+		shift
+		__usage__
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+# Pass to plotcake
+args+=( ${@} )
 args=( -t ${TMOUT} --tmout ${TMOUT} )
 args+=( -v --verbose )
-args+=( ${@} )
 
 # plotcake will send SIGINT to every processes in it's group, thus, we just
 # catch SIGINT wo avoid this script execute failed, just for test in Build.mk's
