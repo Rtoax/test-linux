@@ -97,7 +97,7 @@ struct plot {
 		id_handle_count(p->start_time_to_dialog), p->help_timerfd, \
 		p->llabels_timerfd
 #define PLOT_DEBUG0_X_FMT ", %s:%d"
-#define PLOT_DEBUG0_X_ARG(p) , ln_x_type_str(p->x_type), p->x_type
+#define PLOT_DEBUG0_X_ARG(p) , ln_x_type_str(p->__line.x_type), p->__line.x_type
 #define PLOT_DEBUG0_BND_FMT ", [(%d,%d,%d,%d)(%d,%d,%d,%d)]"
 #define PLOT_DEBUG0_BND_ARG(p)                                  \
 	, p->bnd.top, p->bnd.bottom, p->bnd.left, p->bnd.right, \

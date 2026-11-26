@@ -10,7 +10,7 @@
 #include "stdin.h"
 #include "log.h"
 
-static char *skip_whitespace(char *buf)
+char *stdin_buf_skip_whitespace(const char *buf)
 {
 	if (!buf)
 		return NULL;
@@ -23,7 +23,7 @@ static char *skip_whitespace(char *buf)
 	 */
 	while (*buf != '\0' && (isspace(*buf) || *buf == ' ' || *buf == '\t'))
 		buf++;
-	return buf;
+	return (char *)buf;
 }
 
 /**
@@ -34,7 +34,7 @@ static char *skip_whitespace(char *buf)
  */
 static char *find_separator(char *start)
 {
-	start = skip_whitespace(start);
+	start = stdin_buf_skip_whitespace(start);
 	return strpbrk(start, "\n;");
 }
 
@@ -83,11 +83,11 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 	 * 1. "    \n    "
 	 * 2. "  ;     "
 	 */
-	buf = skip_whitespace(buf);
+	buf = stdin_buf_skip_whitespace(buf);
 	if (buf && (*buf == '\n' || *buf == ';')) {
 		buf++;
 	}
-	buf = skip_whitespace(buf);
+	buf = stdin_buf_skip_whitespace(buf);
 
 	if (!buf || *buf == '\0') {
 		return;
@@ -96,14 +96,14 @@ static void __stdin_add_data(struct lgroup *lg, struct stdin_arg *a, char *buf)
 	pc_debug("Parse stdin: '%s'\n", buf);
 
 	for (i = 0; i < a->nline && *buf != '\0'; i++) {
-		buf = skip_whitespace(buf);
+		buf = stdin_buf_skip_whitespace(buf);
 		values[i] = strtod(buf, &buf);
-		buf = skip_whitespace(buf);
+		buf = stdin_buf_skip_whitespace(buf);
 	}
 
 	/* found more values, we should append new line */
 	while (*buf != '\0') {
-		buf = skip_whitespace(buf);
+		buf = stdin_buf_skip_whitespace(buf);
 		/**
 		 * Must be a number, of course, be a negative number, or start
 		 * with '.'
@@ -144,6 +144,18 @@ static void __stdin_update_lines(struct lgroup *lg, struct stdin_arg *a)
 	if (!buf)
 		return;
 
+	/**
+	 * Due to the original design of the `plotcake` codebase, it has become
+	 * necessary to include a check within the data-update function intended
+	 * for line charts to determine whether a given series is actually a
+	 * scatter plot; FIXME: this may well be the best approach short of a
+	 * full code refactor.
+	 */
+	if (stdin_buf_is_scatter_format(buf)) {
+		stdin_update_scatter(lg, a, buf);
+		goto done;
+	}
+
 	char *s = buf;
 
 	while (s && *s != '\0') {
@@ -178,6 +190,8 @@ static void __stdin_update_lines(struct lgroup *lg, struct stdin_arg *a)
 			s = NULL;
 		}
 	}
+
+done:
 	free(buf);
 }
 
