@@ -307,6 +307,12 @@ int paint_y0_line(const struct plot *p, double min, double max)
 			mvwprintw(p->win, h, p->bnd.left + 1 + i, "-");
 		}
 	}
+	/* axis value of 0 */
+	if (p->vertical_plotting) {
+		mvwprintw(p->win, p->bnd.left - 1, h, "0");
+	} else {
+		mvwprintw(p->win, h, p->bnd.left - 1, "0");
+	}
 	attroff(A_DIM);
 	return 0;
 }

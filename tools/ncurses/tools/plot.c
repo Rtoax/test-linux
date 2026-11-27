@@ -433,6 +433,8 @@ static void paint_scatter(struct plot *p, const struct scatter *s,
 	double max_x = arg->max.x;
 	double max_y = arg->max.y;
 
+	paint_y0_line(p, min_y, max_y);
+
 	wattron(p->win, getflavor(s->color) | A_BOLD);
 	for_each_point(s, point)
 	{
