@@ -42,6 +42,11 @@ static void unicode_bold_rarrow(const struct plot *p, WINDOW *win, int y, int x)
 	mvwprintw(win, y, x, U25BA);
 }
 
+static void unicode_bold_point(const struct plot *p, WINDOW *win, int y, int x)
+{
+	mvwprintw(win, y, x, U25A0);
+}
+
 static void unicode_horizon(const struct plot *p, WINDOW *win, int y, int x,
 			    int n)
 {
@@ -80,6 +85,11 @@ static void unicode_darrow(const struct plot *p, WINDOW *win, int y, int x)
 static void unicode_rarrow(const struct plot *p, WINDOW *win, int y, int x)
 {
 	mvwprintw(win, y, x, U2192);
+}
+
+static void unicode_point(const struct plot *p, WINDOW *win, int y, int x)
+{
+	mvwprintw(win, y, x, U25AA);
 }
 
 static void unicode_bold_vertical(const struct plot *p, WINDOW *win, int y,
@@ -258,6 +268,11 @@ static void utf8_rarrow(const struct plot *p, WINDOW *win, int y, int x)
 	mvwprintw(win, y, x, ">");
 }
 
+static void utf8_point(const struct plot *p, WINDOW *win, int y, int x)
+{
+	mvwprintw(win, y, x, ".");
+}
+
 /**
  * Line operations
  */
@@ -273,6 +288,7 @@ static const struct draw_operations unicode_heart_line_ops = {
 	.uarrow = unicode_heart,
 	.darrow = unicode_heart,
 	.rarrow = unicode_heart,
+	.point = unicode_heart,
 };
 
 static const struct draw_operations unicode_boldbold_line_ops = {
@@ -286,6 +302,7 @@ static const struct draw_operations unicode_boldbold_line_ops = {
 	.uarrow = unicode_bold_uarrow,
 	.darrow = unicode_bold_darrow,
 	.rarrow = unicode_bold_rarrow,
+	.point = unicode_bold_point,
 };
 
 static const struct draw_operations unicode_bold_line_ops = {
@@ -299,6 +316,7 @@ static const struct draw_operations unicode_bold_line_ops = {
 	.uarrow = unicode_bold_uarrow,
 	.darrow = unicode_bold_darrow,
 	.rarrow = unicode_bold_rarrow,
+	.point = unicode_bold_point,
 };
 
 static const struct draw_operations unicode_bold_dashed_line_ops = {
@@ -312,6 +330,7 @@ static const struct draw_operations unicode_bold_dashed_line_ops = {
 	.uarrow = unicode_bold_uarrow,
 	.darrow = unicode_bold_darrow,
 	.rarrow = unicode_bold_rarrow,
+	.point = unicode_bold_point,
 };
 
 static const struct draw_operations unicode_line_ops = {
@@ -325,6 +344,7 @@ static const struct draw_operations unicode_line_ops = {
 	.uarrow = unicode_uarrow,
 	.darrow = unicode_darrow,
 	.rarrow = unicode_rarrow,
+	.point = unicode_point,
 };
 
 static const struct draw_operations unicode_dashed_line_ops = {
@@ -338,6 +358,7 @@ static const struct draw_operations unicode_dashed_line_ops = {
 	.uarrow = unicode_uarrow,
 	.darrow = unicode_darrow,
 	.rarrow = unicode_rarrow,
+	.point = unicode_point,
 };
 
 static const struct draw_operations unicode_area_chart_ops = {
@@ -351,6 +372,7 @@ static const struct draw_operations unicode_area_chart_ops = {
 	.uarrow = nothing,
 	.darrow = nothing,
 	.rarrow = nothing,
+	.point = unicode_point,
 };
 
 static const struct draw_operations utf8_line_ops = {
@@ -364,6 +386,7 @@ static const struct draw_operations utf8_line_ops = {
 	.uarrow = utf8_uarrow,
 	.darrow = utf8_darrow,
 	.rarrow = utf8_rarrow,
+	.point = utf8_point,
 };
 
 static const struct draw_operations *draw_ops[LINE_TYPE_MAX] = {

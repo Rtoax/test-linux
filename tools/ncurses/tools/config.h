@@ -4,7 +4,7 @@
 
 #include <ncursesw/curses.h>
 
-#define MY_VERSION "v1.12.21"
+#define MY_VERSION "v1.12.22"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -42,7 +42,7 @@
 #define T_RARR '>'
 #define T_UARR '^'
 #define T_DARR '`'
-#define T_DARR '`'
+#define T_POINT '.'
 
 #define U2500 "─"
 #define U2502 "│"
@@ -53,6 +53,7 @@
 #define U2191 "↑"
 #define U2193 "↓"
 #define U2192 "→"
+#define U25AA "▪"
 
 #define W_U2502 L"│"
 
@@ -66,6 +67,7 @@
 #define U25BC "▼"
 #define U25BA "►"
 #define U25C4 "◄"
+#define U25A0 "■"
 
 #define W_U2501 L"━"
 #define W_U2503 L"┃"
@@ -77,6 +79,7 @@
 #define W_U25BC L"▼"
 #define W_U25BA L"►"
 #define W_U25C4 L"◄"
+#define W_U25A0 L"■"
 
 #define U2580 "▀"
 #define U2584 "▄"

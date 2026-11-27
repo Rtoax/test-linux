@@ -38,6 +38,8 @@ struct draw_operations {
 	void (*darrow)(const struct plot *p, WINDOW *win, int y, int x);
 	/* right arrow */
 	void (*rarrow)(const struct plot *p, WINDOW *win, int y, int x);
+	/* dot point */
+	void (*point)(const struct plot *p, WINDOW *win, int y, int x);
 };
 
 int draw_ops_print_names(FILE *fp);

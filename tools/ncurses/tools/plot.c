@@ -441,10 +441,7 @@ static void paint_scatter(struct plot *p, const struct scatter *s,
 		int h = get_plot_value_heigh(p, min_y, max_y, y);
 		int w = get_plot_value_width(p, min_x, max_x, x);
 
-		/**
-		 * TODO: use operations dot() function
-		 */
-		mvwprintw(p->win, h, w, U25B2);
+		s->ops->point(p, p->win, h, w);
 	}
 	wattroff(p->win, getflavor(s->color) | A_BOLD);
 
@@ -455,7 +452,7 @@ static void paint_scatter(struct plot *p, const struct scatter *s,
 	 * Therefore, we can assemble an `lgroup` structure and an `stdin_arg`
 	 * structure to invoke `stdin_debug_lines()`, thereby reusing the code.
 	 */
-	{
+	if (p->debug) {
 		struct lgroup *lg = p->__line.lghead;
 		struct stdin_arg *ln_arg = lg->ops->arg;
 
