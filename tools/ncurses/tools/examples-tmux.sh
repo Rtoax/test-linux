@@ -10,9 +10,9 @@ set -e
 title="This is Title"
 xlabel="Axis X"
 ylabel="Axis Y"
-line0="Line 0"
-line1="Line 1"
-line2="Line 2"
+legend0="Legend 0"
+legend1="Legend 1"
+legend2="Legend 2"
 
 plotcake=$(mktemp ./tmp-plotcake-XXXXXX.sh)
 session=$(mktemp -u plotcake-XXXXXX)
@@ -21,8 +21,10 @@ heigh=40
 vertical_plotting=
 stdin_data_format=
 readonly STDIN_DATA_FMTS=(
+	# default is line-no-separator
 	line-separator-newline
 	line-separator-semicolon
+	scatter-no-separator
 )
 skip_cleanup=
 
@@ -85,6 +87,23 @@ while true; do
 	esac
 done
 
+is_scatter() {
+	if [[ ${stdin_data_format} =~ scatter ]]; then
+		echo YES
+		return 0
+	fi
+	return 1
+}
+
+is_line() {
+	if [[ -z ${stdin_data_format} ]] ||
+	   [[ ${stdin_data_format} =~ line- ]]; then
+		echo YES
+		return 0
+	fi
+	return 1
+}
+
 kill_session() {
 	tmux kill-session -t ${session} || true
 }
@@ -144,12 +163,21 @@ check_help_dialog() {
 }
 
 check_legends_dialog() {
-	check_content "\[ LINES \]"
-	check_content "\+-\[ LINES \]------\+"
-	check_content "\|------ ${line0}   \|"
-	check_content "\|------ ${line1}   \|"
-	check_content "\|------ ${line2}   \|"
-	check_content "\+----------------\+"
+	if [[ $(is_line) ]]; then
+		check_content "\[ LINES \]"
+		check_content "\+-\[ LINES \]------\+"
+		check_content "\|------ ${legend0} \|"
+		check_content "\|------ ${legend1} \|"
+		check_content "\|------ ${legend2} \|"
+		check_content "\+----------------\+"
+	elif [[ $(is_scatter) ]]; then
+		check_content "\[ SCATTER \]"
+		check_content "\+-\[ SCATTER \]---\+"
+		check_content "\|. ${legend0}     \|"
+		check_content "\|. ${legend1}     \|"
+		check_content "\|. ${legend2}     \|"
+		check_content "\+---------------\+"
+	fi
 }
 
 cat >${plotcake}<<EOF
@@ -157,7 +185,7 @@ cat >${plotcake}<<EOF
 set -e
 interval=1
 case "${stdin_data_format}" in
-line-separator-newline | line-separator-semicolon)
+line-separator-newline | line-separator-semicolon | scatter-no-separator)
 	interval=3
 	;;
 esac
@@ -179,6 +207,12 @@ do
 			;;
 		esac
 		;;
+	scatter-no-separator)
+		j=\$((i + 1))
+		k=\$((i + 2))
+		echo "(\${i},\${i}) (\${j}, \${j}) (\${k}, \${k})"
+		;;
+	# line-no-separator
 	*)
 		seq --separator=' ' \$i 20 \$((i + 2 * 20))
 		;;
@@ -190,9 +224,9 @@ done | ${PLOTCAKE} ${vertical_plotting:+--vertical-plotting} \\
 	--ylabel "${ylabel}" \\
 	--axis-curve-type utf8 \\
 	--win-border utf8 \\
-	-l "${line0}" -D utf8 \\
-	-l "${line1}" -D utf8 \\
-	-l "${line2}" -D utf8
+	-l "${legend0}" -D utf8 \\
+	-l "${legend1}" -D utf8 \\
+	-l "${legend2}" -D utf8
 EOF
 chmod +x ${plotcake}
 
@@ -203,9 +237,17 @@ sleep 0.5
 
 check_content "${title}"
 check_content "${ylabel}"
-check_content "${line0}"
-check_content "${line1}"
-check_content "${line2}"
+if [[ $(is_line) ]]; then
+	check_content "${legend0}"
+	check_content "${legend1}"
+	check_content "${legend2}"
+elif [[ $(is_scatter) ]]; then
+	check_content "\(16.000,16.000\)"
+else
+	capture_pane
+	echo >&2 "ERROR: '${stdin_data_format}' is neither line nor scatter"
+	exit 1
+fi
 if [[ ${vertical_plotting} ]]; then
 	check_content "\`"
 else
@@ -216,7 +258,12 @@ check_content "\--------->"
 # Turn on the verbose mode
 send_keys 'v'
 
-check_content "lgroup cnt 3, arg nline 3"
+if [[ $(is_line) ]]; then
+	check_content "lgroup cnt 3, arg nline 3"
+elif [[ $(is_scatter) ]]; then
+	check_content "scatter cnt 3"
+fi
+
 check_content "plot\(redraw=[0-9]+"
 check_content "key\(left=[0-9]+"
 check_content "enter=0"
@@ -224,12 +271,16 @@ check_content "left=0"
 check_content "right=0"
 check_content "up=0"
 check_content "down=0"
-check_content "scale 1"
-check_content "shft 0/0"
+if [[ $(is_line) ]]; then
+	check_content "scale 1"
+	check_content "shft 0/0"
+elif [[ $(is_scatter) ]]; then
+	echo -n # TODO
+fi
 check_content "$(hostname)"
-check_content "1: ${line0}"
-check_content "2: ${line1}"
-check_content "3: ${line2}"
+check_content "1: ${legend0}"
+check_content "2: ${legend1}"
+check_content "3: ${legend2}"
 check_content "<pid:[0-9]+>"
 
 send_keys Enter
@@ -239,12 +290,20 @@ send_keys Up
 send_keys Up
 send_keys Up
 check_content "left=0,right=0,up=3,down=0"
-check_content "scale 4"
+if [[ $(is_line) ]]; then
+	check_content "scale 4"
+elif [[ $(is_scatter) ]]; then
+	echo -n # TODO
+fi
 send_keys Down
 send_keys Down
 send_keys Down
 check_content "left=0,right=0,up=3,down=3"
-check_content "scale 1"
+if [[ $(is_line) ]]; then
+	check_content "scale 1"
+elif [[ $(is_scatter) ]]; then
+	echo -n # TODO
+fi
 send_keys Left
 send_keys Left
 send_keys Left
@@ -277,16 +336,32 @@ send_keys 's'
 
 send_keys 't'
 check_content "${title} \(signed logarithmic\)"
-check_content "s\*log\(1\+"
+if [[ $(is_line) ]]; then
+	check_content "s\*log\(1\+"
+elif [[ $(is_scatter) ]]; then
+	echo -n # TODO
+fi
 send_keys 't'
 check_content "${title} \(base-10 signed logarithmic\)"
-check_content "s\*log10\(1\+"
+if [[ $(is_line) ]]; then
+	check_content "s\*log10\(1\+"
+elif [[ $(is_scatter) ]]; then
+	echo -n # TODO
+fi
 send_keys 't'
 check_content "${title} \(base-e exponential\)"
-check_content "exp\("
+if [[ $(is_line) ]]; then
+	check_content "exp\("
+elif [[ $(is_scatter) ]]; then
+	echo -n # TODO
+fi
 send_keys 't'
 check_content "${title} \(delta\)"
-check_content "delta\("
+if [[ $(is_line) ]]; then
+	check_content "delta\("
+elif [[ $(is_scatter) ]]; then
+	echo -n # TODO
+fi
 send_keys 't'
 send_keys 't' # Back to origin plot type
 
@@ -296,7 +371,11 @@ if [[ ${vertical_plotting} ]]; then
 	check_content "2"
 	check_content "9"
 else
-	check_content "1[[:space:]]+11" # '+' for multi whitespace
+	if [[ $(is_line) ]]; then
+		check_content "1[[:space:]]+11" # '+' for multi whitespace
+	elif [[ $(is_scatter) ]]; then
+		echo -n # TODO
+	fi
 fi
 
 # Turn on the verbose mode

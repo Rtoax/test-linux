@@ -31,10 +31,12 @@ prog-${HAVE_TMUX} += examples-tmux.sh
 prog-${HAVE_TMUX} += examples-tmux.sh.1
 prog-${HAVE_TMUX} += examples-tmux.sh.2
 prog-${HAVE_TMUX} += examples-tmux.sh.3
+prog-${HAVE_TMUX} += examples-tmux.sh.4
 
 PROG_ARGS_examples-tmux.sh.1 := --vertical-plotting
 PROG_ARGS_examples-tmux.sh.2 := --stdin-data-format line-separator-newline
 PROG_ARGS_examples-tmux.sh.3 := --stdin-data-format line-separator-semicolon
+PROG_ARGS_examples-tmux.sh.4 := --stdin-data-format scatter-no-separator
 
 post-y += build/plotcake
 post-y += id-handler-glibc

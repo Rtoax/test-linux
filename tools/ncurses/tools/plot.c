@@ -288,8 +288,16 @@ static void __draw_footer(const struct plot *p)
 	mvaddstr(h - 1, w - strlen(verstring) - 1, verstring);
 
 	if (p->debug) {
-		mvprintw(h - 2, 0, PLOT_INF0_FMT " " __LINE_INF0_FMT,
-			 PLOT_INF0_ARG(p), __LINE_INF0_ARG(p));
+		char footer[512];
+		snprintf(footer, 512, PLOT_INF0_FMT, PLOT_INF0_ARG(p));
+		if (p->plot_type == PLOT_TYPE_LINE) {
+			int skip = strlen(footer);
+			snprintf(footer + skip, 512 - skip, " " __LINE_INF0_FMT,
+				 __LINE_INF0_ARG(p));
+		} else {
+			/* TODO: scatter debug info */
+		}
+		mvprintw(h - 2, 0, footer);
 		mvprintw(h - 1, 0, KEYBOARD_INF0_FMT, KEYBOARD_INF0_ARG(p->kb));
 	}
 }
@@ -751,10 +759,7 @@ static int __paint_legends_win(struct plot *p, bool init)
 		for_each_scatter(&p->__scatter, s)
 		{
 			wattron(win, getflavor(s->color) | A_BOLD);
-			/**
-			 * TODO: replace horizon() with dot()
-			 */
-			s->ops->horizon(p, win, i + 1, 1, n);
+			s->ops->point(p, win, i + 1, 1);
 			mvwprintw(win, i + 1, n + 1, " %s", s->name);
 			wattroff(win, getflavor(s->color) | A_BOLD);
 			i++;
