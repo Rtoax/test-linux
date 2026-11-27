@@ -86,7 +86,7 @@ while true; do
 done
 
 kill_session() {
-	tmux kill-session -t ${session}
+	tmux kill-session -t ${session} || true
 }
 
 cleanup()
