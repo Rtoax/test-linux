@@ -782,7 +782,9 @@ static int key_t_handler(int key, void *arg)
 static int key_x_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	p->__line.x_type = (p->__line.x_type + 1) % X_AXIS_TYPE_MAX;
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		p->__line.x_type = (p->__line.x_type + 1) % X_AXIS_TYPE_MAX;
+	}
 	return 0;
 }
 
@@ -894,13 +896,24 @@ int plot_destroy(struct plot *p)
 unsigned long plot_mem_size(const struct plot *p)
 {
 	unsigned long bytes = sizeof(struct plot);
-	for_each_lgroup(&p->__line, lg)
-	{
-		bytes += sizeof(struct lgroup);
-		for_each_line(lg, ln)
+
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		bytes += sizeof(struct line_plotting);
+		for_each_lgroup(&p->__line, lg)
 		{
-			bytes += sizeof(struct line);
-			bytes += ln->count * sizeof(struct ln_value);
+			bytes += sizeof(struct lgroup);
+			for_each_line(lg, ln)
+			{
+				bytes += sizeof(struct line);
+				bytes += ln->count * sizeof(struct ln_value);
+			}
+		}
+	} else if (p->plot_type == PLOT_TYPE_SCATTER) {
+		bytes += sizeof(struct scatter_plotting);
+		for_each_scatter(&p->__scatter, s)
+		{
+			bytes += sizeof(struct scatter);
+			bytes += sizeof(struct __point) * s->count;
 		}
 	}
 	return bytes;
