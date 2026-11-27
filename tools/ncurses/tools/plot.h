@@ -215,6 +215,8 @@ void plot_redraw(struct plot *p);
 int plot_height(const struct plot *p);
 int plot_width(const struct plot *p);
 
+int get_plot_value_width(const struct plot *p, double min, double max,
+			 double v);
 int get_plot_value_heigh(const struct plot *p, double min, double max,
 			 double v);
 

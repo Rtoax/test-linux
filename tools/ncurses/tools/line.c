@@ -317,6 +317,39 @@ int paint_y0_line(const struct plot *p, double min, double max)
 	return 0;
 }
 
+int paint_x0_line(const struct plot *p, double min, double max)
+{
+	/**
+	 * line type no need to print x0 line.
+	 */
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		return 0;
+	}
+
+	if (min > 0 || max < 0) {
+		return 0;
+	}
+
+	double w = get_plot_value_width(p, min, max, 0);
+
+	attron(A_DIM);
+	for (int i = 0; i < p->plotheight - 1; i++) {
+		if (p->vertical_plotting) {
+			mvwprintw(p->win, w, p->bnd.top + i, "-");
+		} else {
+			mvwprintw(p->win, p->bnd.top + 1 + i, w, "|");
+		}
+	}
+	/* axis value of 0 */
+	if (p->vertical_plotting) {
+		mvwprintw(p->win, w, p->bnd.bottom - 1, "0");
+	} else {
+		mvwprintw(p->win, p->plotheight + p->bnd.top + 1, w, "0");
+	}
+	attroff(A_DIM);
+	return 0;
+}
+
 /**
  * @start: start point of line.
  * @len: number of value to plot.
