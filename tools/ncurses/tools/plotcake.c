@@ -556,6 +556,10 @@ static int sig_rd_handler(long fd, void *arg)
 	return 0;
 }
 
+/**
+ * FIXME: why 'echo 1 2 3 | plotcake' will call this stdinfd_handler() serial
+ * times? I need to known and fix.
+ */
 static int stdinfd_handler(long fd, void *arg)
 {
 	struct loop_arg *a = arg;
@@ -566,9 +570,9 @@ static int stdinfd_handler(long fd, void *arg)
 	memset(stdin_buffer, 0, stdin_buffer_size);
 	ssize_t cnt = read(fd, stdin_buffer, stdin_buffer_size);
 	if (cnt > 0) {
+		update_data_and_check_interval(plot);
 		a->redraw = true;
 	}
-	update_data_and_check_interval(plot);
 	return 0;
 }
 
