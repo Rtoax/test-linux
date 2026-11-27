@@ -60,6 +60,32 @@ struct line_plotting {
 	bool enable_stacked_line_chart;
 
 	enum ln_x_type x_type;
+
+	/**
+	 * The scaling factor for the drawing. The default value is 1, which
+	 * means no scaling. It only supports zoomed-out display, similar to
+	 * viewing "Global Routes" in map software.
+	 */
+	int ln_x_scale;
+	/**
+	 * As the amount of data increases, we may need to view historical data.
+	 * @x_shift_left records the number of points moved to the left, and
+	 * this number of points will be scaled by @ln_x_scale.
+	 */
+	unsigned long x_shift_left;
+	int x_shift_left_timerfd;
+
+#ifdef DEBUG
+#define __LINE_DBG0_X_FMT ", %s:%d"
+#define __LINE_DBG0_X_ARG(p) , ln_x_type_str(p->__line.x_type), p->__line.x_type
+#else
+#define __LINE_DBG0_X_FMT
+#define __LINE_DBG0_X_ARG(p)
+#endif
+#define __LINE_INF0_FMT "line(scale %d, shft %ld/%ld" __LINE_DBG0_X_FMT ")"
+#define __LINE_INF0_ARG(p)                            \
+	p->__line.ln_x_scale, p->__line.x_shift_left, \
+		plot_ln_shift(p) __LINE_DBG0_X_ARG(p)
 };
 
 #define for_each_value(l, iter)                                        \

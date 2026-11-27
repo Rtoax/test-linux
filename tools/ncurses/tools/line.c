@@ -327,7 +327,8 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 	chtype color = getflavor(ln->color);
 
 	const long ln_shift_count = ln->count - shift;
-	const int nvs = (ln_shift_count + p->plotscaling - 1) / p->plotscaling;
+	const int nvs = (ln_shift_count + p->__line.ln_x_scale - 1) /
+			p->__line.ln_x_scale;
 
 	iv = -1;
 	for_each_value(ln, v)
@@ -340,11 +341,11 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 		 *
 		 * line: |------------------------| line count
 		 *
-		 *                      <--shift--> plotshift * plotscaling
+		 *                      <--shift--> x_shift_left * ln_x_scale
 		 *
 		 *       |--------------|           @ln_shift_count
 		 *
-		 * plot:        |=======|           plotwidth * plotscaling
+		 * plot:        |=======|           plotwidth * ln_x_scale
 		 *
 		 *              ^ start
 		 *                      ^ start + len
@@ -357,7 +358,7 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 			continue;
 		}
 
-		if (iv % p->plotscaling != 0) {
+		if (iv % p->__line.ln_x_scale != 0) {
 			continue;
 		}
 
@@ -365,7 +366,7 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 		 * If plot MATH_TRANS_DELTA, the last value will be skipped,
 		 * then we need '>=' instead of '>'.
 		 */
-		if (iv >= start + len - p->plotscaling - 1) {
+		if (iv >= start + len - p->__line.ln_x_scale - 1) {
 			is_last_v = true;
 		}
 
@@ -396,7 +397,8 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 		} else {
 			plot_v = real_v;
 		}
-		int ivs = (iv + p->plotscaling - 1) / p->plotscaling;
+		int ivs =
+			(iv + p->__line.ln_x_scale - 1) / p->__line.ln_x_scale;
 
 		int h = get_plot_value_heigh(p, min, max, plot_v);
 		int w = p->plotwidth + p->bnd.left - (nvs - ivs);
@@ -526,7 +528,7 @@ void __paint_line(struct plot *p, const struct lgroup *lg,
 
 print_llabel:
 		attron(color);
-		if (iv + 1 + p->plotscaling > ln_shift_count) {
+		if (iv + 1 + p->__line.ln_x_scale > ln_shift_count) {
 			if (p->vertical_plotting) {
 				int y = p->plotwidth + p->bnd.left;
 				mvprintw(y, h, "%s", ln->name);

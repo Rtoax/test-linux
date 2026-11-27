@@ -793,6 +793,12 @@ end:
 	if (verbose) {
 		struct plot *_p = &plot;
 		fprintf(stderr, PLOT_INF0_FMT "\n", PLOT_INF0_ARG(_p));
+		if (_p->plot_type == PLOT_TYPE_LINE) {
+			fprintf(stderr, __LINE_INF0_FMT "\n",
+				__LINE_INF0_ARG(_p));
+		} else {
+			/* TODO: add scatter */
+		}
 		fprintf(stderr, KEYBOARD_INF0_FMT "\n",
 			KEYBOARD_INF0_ARG(_p->kb));
 	}

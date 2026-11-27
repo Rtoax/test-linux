@@ -288,7 +288,8 @@ static void __draw_footer(const struct plot *p)
 	mvaddstr(h - 1, w - strlen(verstring) - 1, verstring);
 
 	if (p->debug) {
-		mvprintw(h - 2, 0, PLOT_INF0_FMT, PLOT_INF0_ARG(p));
+		mvprintw(h - 2, 0, PLOT_INF0_FMT " " __LINE_INF0_FMT,
+			 PLOT_INF0_ARG(p), __LINE_INF0_ARG(p));
 		mvprintw(h - 1, 0, KEYBOARD_INF0_FMT, KEYBOARD_INF0_ARG(p->kb));
 	}
 }
@@ -297,8 +298,8 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 {
 	double max, min, max_stacked, min_stacked;
 	int start = -1;
-	int draw_len = p->plotwidth * p->plotscaling;
-	unsigned long shift = plot_shift(p);
+	int draw_len = p->plotwidth * p->__line.ln_x_scale;
+	unsigned long shift = plot_ln_shift(p);
 	bool first_line = true;
 	unsigned long max_nr_values = 0;
 
@@ -322,10 +323,10 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 		 * If the amount of data is insufficient to fill a screen, then
 		 * @shift is meaningless, so clear it.
 		 */
-		const int _nvs =
-			(l->count + p->plotscaling - 1) / p->plotscaling;
+		const int _nvs = (l->count + p->__line.ln_x_scale - 1) /
+				 p->__line.ln_x_scale;
 		if (p->plotwidth > _nvs) {
-			p->plotshift = shift = 0;
+			p->__line.x_shift_left = shift = 0;
 		}
 
 		start = l->count - draw_len - shift;
@@ -333,14 +334,14 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 		double _max, _min;
 		if (p->math_trans == MATH_TRANS_DELTA &&
 		    !enabled_stacked_line_chart(p)) {
-			_max = line_range_delta_max(l, start, p->plotscaling,
-						    draw_len);
-			_min = line_range_delta_min(l, start, p->plotscaling,
-						    draw_len);
+			_max = line_range_delta_max(
+				l, start, p->__line.ln_x_scale, draw_len);
+			_min = line_range_delta_min(
+				l, start, p->__line.ln_x_scale, draw_len);
 		} else {
-			_max = line_range_max(l, start, p->plotscaling,
+			_max = line_range_max(l, start, p->__line.ln_x_scale,
 					      draw_len);
-			_min = line_range_min(l, start, p->plotscaling,
+			_min = line_range_min(l, start, p->__line.ln_x_scale,
 					      draw_len);
 		}
 
@@ -870,8 +871,10 @@ static int key_r_handler(int key, void *arg)
 {
 	struct plot *p = arg;
 
-	plot_scaling_init(p);
-	p->plotshift = 0;
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		plot_ln_scale_init(p);
+		p->__line.x_shift_left = 0;
+	}
 	return 0;
 }
 
@@ -909,21 +912,21 @@ static int key_x_handler(int key, void *arg)
 
 static int key_up_handler(int key, void *arg)
 {
-	plot_scaling_up(arg);
+	plot_ln_scale_up(arg);
 	return 0;
 }
 
 static int key_down_handler(int key, void *arg)
 {
-	plot_scaling_down(arg);
+	plot_ln_scale_down(arg);
 	return 0;
 }
 
-static int plot_shift_timer_timeout_handler(long fd, void *arg)
+static int plot_ln_shift_timer_timeout_handler(long fd, void *arg)
 {
 	struct plot *p = arg;
-	p->plotshift = 0;
-	p->plotshift_timerfd = -1;
+	p->__line.x_shift_left = 0;
+	p->__line.x_shift_left_timerfd = -1;
 	plotcake_poll_del_fd(fd);
 	unregister_id(NULL, fd);
 	close(fd); /* new_timerfd() */
@@ -932,11 +935,12 @@ static int plot_shift_timer_timeout_handler(long fd, void *arg)
 
 static int create_shift_timerfd(struct plot *p)
 {
-	if (p->plotshift_timerfd == -1) {
-		p->plotshift_timerfd = new_timerfd(EXPIRED_USECS_SHIFT * 1000);
-		plotcake_poll_add_fd(p->plotshift_timerfd);
-		register_id(NULL, p->plotshift_timerfd,
-			    plot_shift_timer_timeout_handler, p);
+	if (p->__line.x_shift_left_timerfd == -1) {
+		p->__line.x_shift_left_timerfd =
+			new_timerfd(EXPIRED_USECS_SHIFT * 1000);
+		plotcake_poll_add_fd(p->__line.x_shift_left_timerfd);
+		register_id(NULL, p->__line.x_shift_left_timerfd,
+			    plot_ln_shift_timer_timeout_handler, p);
 	}
 	return 0;
 }
@@ -944,7 +948,7 @@ static int create_shift_timerfd(struct plot *p)
 static int key_left_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	plot_shift_left(p);
+	plot_ln_shift_left(p);
 	create_shift_timerfd(p);
 	return 0;
 }
@@ -952,7 +956,7 @@ static int key_left_handler(int key, void *arg)
 static int key_right_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	plot_shift_right(p);
+	plot_ln_shift_right(p);
 	create_shift_timerfd(p);
 	return 0;
 }
@@ -968,7 +972,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 
 	memset(p, 0, sizeof(struct plot));
 
-	plot_scaling_init(p);
+	plot_ln_scale_init(p);
 
 	p->plot_type = PLOT_TYPE_LINE;
 	p->debug = debug;
@@ -978,7 +982,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	if (x_type < X_TIMEVAL || x_type > X_INDEX)
 		return -EINVAL;
 	p->__line.x_type = x_type;
-	p->plotshift_timerfd = -1;
+	p->__line.x_shift_left_timerfd = -1;
 	p->help_timerfd = -1;
 	p->legends_timerfd = -1;
 

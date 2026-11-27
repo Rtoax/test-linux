@@ -35,19 +35,6 @@ struct plot {
 	 * labels.
 	 */
 	int plotheight, plotwidth;
-	/**
-	 * The scaling factor for the drawing. The default value is 1, which
-	 * means no scaling. It only supports zoomed-out display, similar to
-	 * viewing "Global Routes" in map software.
-	 */
-	int plotscaling;
-	/**
-	 * As the amount of data increases, we may need to view historical data.
-	 * @plotshift records the number of points moved to the left, and this
-	 * number of points will be scaled by @plotscaling.
-	 */
-	unsigned long plotshift;
-	int plotshift_timerfd;
 
 	struct {
 		int top, bottom, left, right;
@@ -109,8 +96,6 @@ struct plot {
 	, id_handle_count(p->dialog_to_start_time),                        \
 		id_handle_count(p->start_time_to_dialog), p->help_timerfd, \
 		p->legends_timerfd
-#define PLOT_DEBUG0_X_FMT ", %s:%d"
-#define PLOT_DEBUG0_X_ARG(p) , ln_x_type_str(p->__line.x_type), p->__line.x_type
 #define PLOT_DEBUG0_BND_FMT ", [(%d,%d,%d,%d)(%d,%d,%d,%d)]"
 #define PLOT_DEBUG0_BND_ARG(p)                                  \
 	, p->bnd.top, p->bnd.bottom, p->bnd.left, p->bnd.right, \
@@ -119,22 +104,17 @@ struct plot {
 #else
 #define PLOT_DEBUG0_DIALOG_FMT
 #define PLOT_DEBUG0_DIALOG_ARG(p)
-#define PLOT_DEBUG0_X_FMT
-#define PLOT_DEBUG0_X_ARG(p)
 #define PLOT_DEBUG0_BND_FMT
 #define PLOT_DEBUG0_BND_ARG(p)
 #endif
 
-#define PLOT_INF0_FMT                                          \
-	"plot(redraw=%ld, %.3f MiB, win[%d,%d], plot[%d,%d], " \
-	"scale %d, shft %ld/%ld" PLOT_DEBUG0_X_FMT             \
-		PLOT_DEBUG0_DIALOG_FMT PLOT_DEBUG0_BND_FMT ")"
-#define PLOT_INF0_ARG(p)                                                     \
-	p->redrawcount, plot_mem_size(p) * 1. / MiB, plot_height(p),         \
-		plot_width(p), p->plotheight, p->plotwidth, p->plotscaling,  \
-		p->plotshift,                                                \
-		plot_shift(p) PLOT_DEBUG0_X_ARG(p) PLOT_DEBUG0_DIALOG_ARG(p) \
-			PLOT_DEBUG0_BND_ARG(p)
+#define PLOT_INF0_FMT                                                                                   \
+	"plot(redraw=%ld, %.3f MiB, win[%d,%d], plot[%d,%d]" PLOT_DEBUG0_DIALOG_FMT PLOT_DEBUG0_BND_FMT \
+	")"
+#define PLOT_INF0_ARG(p)                                             \
+	p->redrawcount, plot_mem_size(p) * 1. / MiB, plot_height(p), \
+		plot_width(p), p->plotheight,                        \
+		p->plotwidth PLOT_DEBUG0_DIALOG_ARG(p) PLOT_DEBUG0_BND_ARG(p)
 
 	WINDOW *win; /* equal to stdscr */
 
@@ -153,42 +133,42 @@ struct plot {
 	enum win_border_type win_border_type;
 };
 
-#define plot_scaling_init(p)                          \
+#define plot_ln_scale_init(p)                         \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \
-		___p->plotscaling = 1;                \
+		___p->__line.ln_x_scale = 1;          \
 	} while (0)
 
-#define plot_scaling_up(p)                            \
+#define plot_ln_scale_up(p)                           \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \
-		___p->plotscaling++;                  \
+		___p->__line.ln_x_scale++;            \
 	} while (0)
-#define plot_scaling_down(p)                          \
+#define plot_ln_scale_down(p)                         \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \
-		if (___p->plotscaling > 1) {          \
-			___p->plotscaling--;          \
+		if (___p->__line.ln_x_scale > 1) {    \
+			___p->__line.ln_x_scale--;    \
 		}                                     \
 	} while (0)
 
-#define plot_shift_left(p)                            \
+#define plot_ln_shift_left(p)                         \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \
-		___p->plotshift++;                    \
+		___p->__line.x_shift_left++;          \
 	} while (0)
 
-#define plot_shift_right(p)                           \
+#define plot_ln_shift_right(p)                        \
 	do {                                          \
 		struct plot *___p = (struct plot *)p; \
-		if (___p->plotshift >= 1)             \
-			___p->plotshift--;            \
+		if (___p->__line.x_shift_left >= 1)   \
+			___p->__line.x_shift_left--;  \
 	} while (0)
 
-#define plot_shift(p)                                 \
-	({                                            \
-		struct plot *___p = (struct plot *)p; \
-		___p->plotshift * ___p->plotscaling;  \
+#define plot_ln_shift(p)                                             \
+	({                                                           \
+		struct plot *___p = (struct plot *)p;                \
+		___p->__line.x_shift_left * ___p->__line.ln_x_scale; \
 	})
 
 static inline void set_plot_title(struct plot *p, const char *title)
