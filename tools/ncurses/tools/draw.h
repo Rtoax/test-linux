@@ -2,6 +2,8 @@
 /* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #pragma once
 #include <stdio.h>
+#include <ncurses.h>
+#include <ncursesw/curses.h>
 #include "config.h"
 
 enum draw_ops_type_enum {

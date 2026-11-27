@@ -2,11 +2,57 @@
 /* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #include <errno.h>
 #include <malloc.h>
-#include <ncursesw/curses.h>
 #include <string.h>
 #include "config.h"
 #include "plot.h"
 #include "line.h"
+
+#define WCH(W)                                           \
+	({                                               \
+		cchar_t ___wch;                          \
+		setcchar(&___wch, W, A_NORMAL, 0, NULL); \
+		___wch;                                  \
+	})
+
+#define WCH_U2502 WCH(W_U2502)
+#define WCH_U2503 WCH(W_U2503)
+#define WCH_U2588 WCH(W_U2588)
+#define WCH_U2665 WCH(W_U2665)
+
+#define DRAW_TMPL_UNICODE(Name, unicode, wunicode)                             \
+	static void unicode_##Name(const struct plot *p, WINDOW *win, int y,   \
+				   int x)                                      \
+	{                                                                      \
+		mvwprintw(win, y, x, unicode);                                 \
+	}                                                                      \
+                                                                               \
+	static void unicode_##Name##_vertical(                                 \
+		const struct plot *p, WINDOW *win, int y, int x, int n)        \
+	{                                                                      \
+		cchar_t wch_vline = wunicode;                                  \
+		mvwvline_set(win, y, x, &wch_vline, n);                        \
+	}                                                                      \
+                                                                               \
+	static void unicode_##Name##_horizon(const struct plot *p,             \
+					     WINDOW *win, int y, int x, int n) \
+	{                                                                      \
+		for (int i = 0; i < n; i++)                                    \
+			mvwprintw(win, y, x + i, unicode);                     \
+	}                                                                      \
+                                                                               \
+	static const struct draw_operations unicode_##Name##_draw_ops = {      \
+		.name = "unicode-" #Name,                                      \
+		.horizon = unicode_##Name##_horizon,                           \
+		.vertical = unicode_##Name##_vertical,                         \
+		.ulcorner = unicode_##Name,                                    \
+		.llcorner = unicode_##Name,                                    \
+		.urcorner = unicode_##Name,                                    \
+		.lrcorner = unicode_##Name,                                    \
+		.uarrow = unicode_##Name,                                      \
+		.darrow = unicode_##Name,                                      \
+		.rarrow = unicode_##Name,                                      \
+		.point = unicode_##Name,                                       \
+	}
 
 static enum draw_ops_type_enum *draws = NULL;
 static int nr_draws = 0;
@@ -214,25 +260,6 @@ static void unicode_area_chart_horizon(const struct plot *p, WINDOW *win, int y,
 		mvwvline_set(win, y, x + ix, &wch_vline, ny);
 }
 
-static void unicode_heart(const struct plot *p, WINDOW *win, int y, int x)
-{
-	mvwprintw(win, y, x, U2665);
-}
-
-static void unicode_heart_vertical(const struct plot *p, WINDOW *win, int y,
-				   int x, int n)
-{
-	cchar_t wch_vline = WCH_U2665;
-	mvwvline_set(win, y, x, &wch_vline, n);
-}
-
-static void unicode_heart_horizon(const struct plot *p, WINDOW *win, int y,
-				  int x, int n)
-{
-	for (int i = 0; i < n; i++)
-		mvwprintw(win, y, x + i, U2665);
-}
-
 /**
  * UTF-8
  */
@@ -277,21 +304,7 @@ static void utf8_point(const struct plot *p, WINDOW *win, int y, int x)
  * Line operations
  */
 
-static const struct draw_operations unicode_heart_line_ops = {
-	.name = "unicode-heart",
-	.horizon = unicode_heart_horizon,
-	.vertical = unicode_heart_vertical,
-	.ulcorner = unicode_heart,
-	.llcorner = unicode_heart,
-	.urcorner = unicode_heart,
-	.lrcorner = unicode_heart,
-	.uarrow = unicode_heart,
-	.darrow = unicode_heart,
-	.rarrow = unicode_heart,
-	.point = unicode_heart,
-};
-
-static const struct draw_operations unicode_boldbold_line_ops = {
+static const struct draw_operations unicode_boldbold_draw_ops = {
 	.name = "unicode-boldbold",
 	.horizon = unicode_boldbold_horizon,
 	.vertical = unicode_boldbold_vertical,
@@ -305,7 +318,7 @@ static const struct draw_operations unicode_boldbold_line_ops = {
 	.point = unicode_bold_point,
 };
 
-static const struct draw_operations unicode_bold_line_ops = {
+static const struct draw_operations unicode_bold_draw_ops = {
 	.name = "unicode-bold",
 	.horizon = unicode_bold_horizon,
 	.vertical = unicode_bold_vertical,
@@ -319,7 +332,7 @@ static const struct draw_operations unicode_bold_line_ops = {
 	.point = unicode_bold_point,
 };
 
-static const struct draw_operations unicode_bold_dashed_line_ops = {
+static const struct draw_operations unicode_bold_dashed_draw_ops = {
 	.name = "unicode-bold-dashed",
 	.horizon = unicode_bold_horizon_dashed_line,
 	.vertical = unicode_bold_vertical_dashed_line,
@@ -333,7 +346,7 @@ static const struct draw_operations unicode_bold_dashed_line_ops = {
 	.point = unicode_bold_point,
 };
 
-static const struct draw_operations unicode_line_ops = {
+static const struct draw_operations unicode_draw_ops = {
 	.name = "unicode",
 	.horizon = unicode_horizon,
 	.vertical = unicode_vertical,
@@ -347,7 +360,7 @@ static const struct draw_operations unicode_line_ops = {
 	.point = unicode_point,
 };
 
-static const struct draw_operations unicode_dashed_line_ops = {
+static const struct draw_operations unicode_dashed_draw_ops = {
 	.name = "unicode-dashed",
 	.horizon = unicode_horizon_dashed_line,
 	.vertical = unicode_vertical_dashed_line,
@@ -375,7 +388,7 @@ static const struct draw_operations unicode_area_chart_ops = {
 	.point = unicode_point,
 };
 
-static const struct draw_operations utf8_line_ops = {
+static const struct draw_operations utf8_draw_ops = {
 	.name = "utf8",
 	.horizon = utf8_horizon,
 	.vertical = utf8_vertical,
@@ -389,15 +402,17 @@ static const struct draw_operations utf8_line_ops = {
 	.point = utf8_point,
 };
 
+DRAW_TMPL_UNICODE(heart, U2665, WCH_U2665);
+
 static const struct draw_operations *draw_ops[LINE_TYPE_MAX] = {
-	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_line_ops,
-	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_line_ops,
-	[LINE_TYPE_BOLDBOLD_UNICODE] = &unicode_boldbold_line_ops,
-	[LINE_TYPE_THIN_UNICODE] = &unicode_line_ops,
-	[LINE_TYPE_THIN_UNICODE_DASHED] = &unicode_dashed_line_ops,
+	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_draw_ops,
+	[LINE_TYPE_BOLD_UNICODE_DASHED] = &unicode_bold_dashed_draw_ops,
+	[LINE_TYPE_BOLDBOLD_UNICODE] = &unicode_boldbold_draw_ops,
+	[LINE_TYPE_THIN_UNICODE] = &unicode_draw_ops,
+	[LINE_TYPE_THIN_UNICODE_DASHED] = &unicode_dashed_draw_ops,
 	[LINE_TYPE_AREA_CHART_UNICODE] = &unicode_area_chart_ops,
-	[LINE_TYPE_UTF8] = &utf8_line_ops,
-	[LINE_TYPE_HEART_UNICODE] = &unicode_heart_line_ops,
+	[LINE_TYPE_UTF8] = &utf8_draw_ops,
+	[LINE_TYPE_HEART_UNICODE] = &unicode_heart_draw_ops,
 };
 
 int draw_ops_print_names(FILE *fp)

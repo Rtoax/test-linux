@@ -2,9 +2,7 @@
 /* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #pragma once
 
-#include <ncursesw/curses.h>
-
-#define MY_VERSION "v1.12.25"
+#define MY_VERSION "v1.12.26"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -91,15 +89,3 @@
 
 #define U2665 "♥"
 #define W_U2665 L"♥"
-
-#define WCH(W)                                           \
-	({                                               \
-		cchar_t ___wch;                          \
-		setcchar(&___wch, W, A_NORMAL, 0, NULL); \
-		___wch;                                  \
-	})
-
-#define WCH_U2502 WCH(W_U2502)
-#define WCH_U2503 WCH(W_U2503)
-#define WCH_U2588 WCH(W_U2588)
-#define WCH_U2665 WCH(W_U2665)

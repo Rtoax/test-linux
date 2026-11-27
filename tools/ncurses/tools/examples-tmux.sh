@@ -308,4 +308,4 @@ capture_pane
 
 kill_session
 plotcake_reset
-echo "SUCCESS"
+echo -e "\033[1;32mSUCCESS\033[m"
