@@ -30,9 +30,11 @@ prog-${HAVE_EXPECT} += examples.exp
 prog-${HAVE_TMUX} += examples-tmux.sh
 prog-${HAVE_TMUX} += examples-tmux.sh.1
 prog-${HAVE_TMUX} += examples-tmux.sh.2
+prog-${HAVE_TMUX} += examples-tmux.sh.3
 
 PROG_ARGS_examples-tmux.sh.1 := --vertical-plotting
-PROG_ARGS_examples-tmux.sh.2 := --stdin-data-format separator-newline
+PROG_ARGS_examples-tmux.sh.2 := --stdin-data-format line-separator-newline
+PROG_ARGS_examples-tmux.sh.3 := --stdin-data-format line-separator-semicolon
 
 post-y += build/plotcake
 post-y += id-handler-glibc
