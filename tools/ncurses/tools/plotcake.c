@@ -556,10 +556,6 @@ static int sig_rd_handler(long fd, void *arg)
 	return 0;
 }
 
-/**
- * FIXME: why 'echo 1 2 3 | plotcake' will call this stdinfd_handler() serial
- * times? I need to known and fix.
- */
 static int stdinfd_handler(long fd, void *arg)
 {
 	struct loop_arg *a = arg;
@@ -572,6 +568,26 @@ static int stdinfd_handler(long fd, void *arg)
 	if (cnt > 0) {
 		update_data_and_check_interval(plot);
 		a->redraw = true;
+	} else if (cnt == 0) { /* EOF */
+		/**
+		 * When running `echo 1 | ./plotcake`, the write end of the pipe
+		 * is closed, causing `stdin` (file descriptor 0) to reach an
+		 * EOF state. In Linux, `epoll` will continuously report
+		 * `EPOLLHUP` (often accompanied by `EPOLLIN`) for the pipe.
+		 * Since `EPOLLHUP` is level-triggered and does not require
+		 * explicit registration, `epoll_wait` will return immediately
+		 * as long as the file descriptor remains in the `epoll` set.
+		 * Consequently, `read` returns 0, the loop continues, and the
+		 * CPU usage spikes to 100%.
+		 *
+		 * Fix: The key is that whenever `read` returns 0 (EOF) or an
+		 * unrecoverable error, we must remove the file descriptor from
+		 * the `epoll` set using `EPOLL_CTL_DEL` and stop monitoring it.
+		 */
+		plotcake_poll_del_fd(fd);
+	} else {
+		pc_warning("read=%ld from stdin %d failed, '%s'\n", cnt,
+			   (int)fd, strerror(errno));
 	}
 	return 0;
 }
