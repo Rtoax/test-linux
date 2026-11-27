@@ -2,6 +2,8 @@ include arch.mk
 include os.mk
 include musl-libc.mk
 
+SFX_MAX_N := 13
+
 target-y += arch
 target-y += os
 target-${USE_MUSL_LIBC} += musl-libc

@@ -3,6 +3,7 @@
 #
 # Input definitions:
 # - __IN_KMOD__ defined in scripts/make_tl.sh
+# - SFX_MAX_N=[10]: max number of program/object '.x' suffix, such as .1 .2 .3
 #
 ifndef _MAIN_MK
 _MAIN_MK = 1
@@ -51,8 +52,9 @@ build-targets += $(target-lscc-libso-y)
 build-targets += $(target-go-y)
 build-targets += $(target-java-y)
 
+SFX_MAX_N ?= 10
 # 1 2 3 ...
-SRC_SFX_LIST ?= $(shell seq 1 1 10)
+SRC_SFX_LIST := $(shell seq 1 1 ${SFX_MAX_N})
 # %.1 %.2 %.3 ...
 MK_TGT_SFX_LIST := $(patsubst %,\%.%,${SRC_SFX_LIST})
 
@@ -107,6 +109,7 @@ $(if ${DRY_RUN}, $(eval build-targets := $(subdir-y-build)))
 ifdef DEBUG
   $(info TEMPLATE_VERSION = ${TEMPLATE_VERSION})
   $(info build-targets = ${build-targets})
+  $(info SFX_MAX_N = ${SFX_MAX_N})
   $(info SRC_SFX_LIST = ${SRC_SFX_LIST})
 endif
 
