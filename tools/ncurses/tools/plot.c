@@ -432,24 +432,37 @@ static void paint_scatter(struct plot *p, const struct scatter *s,
 	double min_y = arg->min.y;
 	double max_x = arg->max.x;
 	double max_y = arg->max.y;
+	int n = 0;
 
 	paint_x0_line(p, min_x, max_x);
 	paint_y0_line(p, min_y, max_y);
 
-	wattron(p->win, getflavor(s->color) | A_BOLD);
 	for_each_point(s, point)
 	{
 		double x = point->x.v;
 		double y = point->y.v;
-		int h, w;
+		int h, w, win_h, win_w;
 
 		h = get_plot_value_heigh(p, min_y, max_y, y);
 		w = get_plot_value_width(p, min_x, max_x, x);
 
-		s->ops->point(p, p->win, p->vertical_plotting ? w : h,
-			      p->vertical_plotting ? h : w);
+		win_h = p->vertical_plotting ? w : h;
+		win_w = p->vertical_plotting ? h : w;
+
+		wattron(p->win, getflavor(s->color) | A_BOLD);
+		s->ops->point(p, p->win, win_h, win_w);
+		wattroff(p->win, getflavor(s->color) | A_BOLD);
+
+		if (n == 0 || n == s->count / 2 || n == s->count - 1 ||
+		    (p->debug && n % 50 == 0)) {
+			wattron(p->win, A_DIM);
+			mvwprintw(p->win, win_h + 1, win_w + 1, "(%.3f,%.3f)",
+				  x, y);
+			wattroff(p->win, A_DIM);
+		}
+
+		n++;
 	}
-	wattroff(p->win, getflavor(s->color) | A_BOLD);
 
 	/**
 	 * There will always be an active `lgroup`, as it points to a static
