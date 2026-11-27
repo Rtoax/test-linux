@@ -125,6 +125,34 @@ int get_plot_value_heigh(const struct plot *p, double min, double max, double v)
 	return ret;
 }
 
+int get_plot_value_width(const struct plot *p, double min, double max, double v)
+{
+	double span = .0f, diff = .0f;
+	int ret;
+
+	if (max == min || max == 0.0 || max < min) {
+		diff = 0;
+		span = 1;
+	} else {
+		diff = v - min;
+		span = max - min;
+	}
+
+	int val = diff * (p->plotwidth - 2) / span;
+
+	if (p->vertical_plotting) {
+		ret = p->bnd.left + 1 + val;
+	} else {
+		if (p->plot_type == PLOT_TYPE_LINE) {
+			ret = p->plotwidth + p->bnd.right - 1 - val;
+		} else if (p->plot_type == PLOT_TYPE_SCATTER) {
+			ret = p->bnd.left + 1 + val;
+		}
+	}
+
+	return ret;
+}
+
 bool enabled_stacked_line_chart(const struct plot *p)
 {
 	if (p->plot_type == PLOT_TYPE_LINE) {
@@ -390,11 +418,35 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 	}
 }
 
-static void paint_scatter(struct plot *p, const struct scatter *s)
+struct scatter_arg {
+	struct {
+		double x, y;
+	} min, max;
+};
+
+static void paint_scatter(struct plot *p, const struct scatter *s,
+			  struct scatter_arg *arg)
 {
-	/**
-	 * TODO: draw scatters
-	 */
+	double min_x = arg->min.x;
+	double min_y = arg->min.y;
+	double max_x = arg->max.x;
+	double max_y = arg->max.y;
+
+	wattron(p->win, getflavor(s->color) | A_BOLD);
+	for_each_point(s, point)
+	{
+		double x = point->x.v;
+		double y = point->y.v;
+
+		int h = get_plot_value_heigh(p, min_y, max_y, y);
+		int w = get_plot_value_width(p, min_x, max_x, x);
+
+		/**
+		 * TODO: use operations dot() function
+		 */
+		mvwprintw(p->win, h, w, U25B2);
+	}
+	wattroff(p->win, getflavor(s->color) | A_BOLD);
 
 	/**
 	 * There will always be an active `lgroup`, as it points to a static
@@ -429,9 +481,38 @@ static void __paint_plot(struct plot *p)
 			paint_lgroup(p, lg);
 		}
 	} else if (p->plot_type == PLOT_TYPE_SCATTER) {
+		struct scatter_arg arg;
+		arg.min.x = DBL_MAX;
+		arg.min.y = DBL_MAX;
+		arg.max.x = -DBL_MAX;
+		arg.max.y = -DBL_MAX;
+
 		for_each_scatter(&p->__scatter, s)
 		{
-			paint_scatter(p, s);
+			if (s->count <= 0) {
+				continue;
+			}
+
+			if (arg.min.x > s->min_x->v) {
+				arg.min.x = s->min_x->v;
+			}
+			if (arg.min.y > s->min_y->v) {
+				arg.min.y = s->min_y->v;
+			}
+			if (arg.max.x < s->max_x->v) {
+				arg.max.x = s->max_x->v;
+			}
+			if (arg.max.y < s->max_y->v) {
+				arg.max.y = s->max_y->v;
+			}
+		}
+
+		pc_debug("scatter axis range x(%lf~%lf), y(%lf~%lf)\n",
+			 arg.min.x, arg.max.x, arg.min.y, arg.max.y);
+
+		for_each_scatter(&p->__scatter, s)
+		{
+			paint_scatter(p, s, &arg);
 		}
 	}
 
