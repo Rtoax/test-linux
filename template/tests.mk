@@ -181,12 +181,17 @@ include tmux.mk
 include trace-cmd.mk
 include uefi.mk
 include unicode/arrow.mk
+include unicode/circle.mk
+include unicode/diamond.mk
 include unicode/face-emojis.mk
 include unicode/mahjong.mk
 include unicode/mark.mk
 include unicode.mk
 include unicode/runes.mk
+include unicode/square.mk
+include unicode/star.mk
 include unicode/table.mk
+include unicode/triangle.mk
 include user.mk
 include util-linux.mk
 include vdso.mk

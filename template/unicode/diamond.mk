@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: GPL-3.0
+# Copyright (C) 2026 Rong Tao. All rights reserved.
+ifndef _UNICODE_DIAMOND_MK
+_UNICODE_DIAMOND_MK = 1
+
+U25C6 := ◆  # BLACK DIAMOND
+U25C7 := ◇  # WHITE DIAMOND
+U25C8 := ◈  # WHITE DIAMOND CONTAINING BLACK SMALL DIAMOND
+U25C9 := ◉  # FISHEYE
+U25CA := ◊  # LOZENGE
+U2756 := ❖  # BLACK DIAMOND MINUS WHITE X
+
+endif
