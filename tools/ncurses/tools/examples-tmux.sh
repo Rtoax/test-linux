@@ -242,7 +242,12 @@ if [[ $(is_line) ]]; then
 	check_content "${legend1}"
 	check_content "${legend2}"
 elif [[ $(is_scatter) ]]; then
-	check_content "\(16.000,16.000\)"
+	if [[ ${vertical_plotting} ]]; then
+		# The printed numbers are obscured.
+		check_content "\(16\..00,16\.000\)"
+	else
+		check_content "\(16\.000,16\.000\)"
+	fi
 else
 	capture_pane
 	echo >&2 "ERROR: '${stdin_data_format}' is neither line nor scatter"
@@ -388,10 +393,10 @@ check_content "x=1"
 
 capture_pane
 
-echo "vertical_plotting=${vertical_plotting}"
-echo "stdin_data_format=${stdin_data_format}"
-echo "skip_cleanup=${skip_cleanup}"
-
 kill_session
 plotcake_reset
-echo -e "\033[1;32mSUCCESS\033[m"
+
+echo "==========vertical_plotting=${vertical_plotting}"
+echo "==========stdin_data_format=${stdin_data_format}"
+echo "==========skip_cleanup=${skip_cleanup}"
+echo -e "==========\033[1;32mSUCCESS\033[m"

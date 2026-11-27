@@ -24,6 +24,8 @@ LDFLAGS += -lm
 LDFLAGS += ${json-c-ldflags}
 LDFLAGS += ${ncurses-ldflags}
 
+SFX_MAX_N := 20
+
 prog-y += id-handler-exec
 prog-y += examples.sh
 prog-${HAVE_EXPECT} += examples.exp
@@ -31,12 +33,20 @@ prog-${HAVE_TMUX} += examples-tmux.sh
 prog-${HAVE_TMUX} += examples-tmux.sh.1
 prog-${HAVE_TMUX} += examples-tmux.sh.2
 prog-${HAVE_TMUX} += examples-tmux.sh.3
-prog-${HAVE_TMUX} += examples-tmux.sh.4
 
-PROG_ARGS_examples-tmux.sh.1 := --vertical-plotting
-PROG_ARGS_examples-tmux.sh.2 := --stdin-data-format line-separator-newline
-PROG_ARGS_examples-tmux.sh.3 := --stdin-data-format line-separator-semicolon
-PROG_ARGS_examples-tmux.sh.4 := --stdin-data-format scatter-no-separator
+prog-${HAVE_TMUX} += examples-tmux.sh.11
+prog-${HAVE_TMUX} += examples-tmux.sh.12
+prog-${HAVE_TMUX} += examples-tmux.sh.13
+prog-${HAVE_TMUX} += examples-tmux.sh.14
+
+PROG_ARGS_examples-tmux.sh.1 := --stdin-data-format line-separator-newline
+PROG_ARGS_examples-tmux.sh.2 := --stdin-data-format line-separator-semicolon
+PROG_ARGS_examples-tmux.sh.3 := --stdin-data-format scatter-no-separator
+
+PROG_ARGS_examples-tmux.sh.11 := --vertical-plotting
+PROG_ARGS_examples-tmux.sh.12 := --vertical-plotting ${PROG_ARGS_examples-tmux.sh.1}
+PROG_ARGS_examples-tmux.sh.13 := --vertical-plotting ${PROG_ARGS_examples-tmux.sh.2}
+PROG_ARGS_examples-tmux.sh.14 := --vertical-plotting ${PROG_ARGS_examples-tmux.sh.3}
 
 post-y += build/plotcake
 post-y += id-handler-glibc
