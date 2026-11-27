@@ -7,19 +7,17 @@
 #include "plot.h"
 #include "line.h"
 
-#define WCH(W)                                           \
-	({                                               \
-		cchar_t ___wch;                          \
-		setcchar(&___wch, W, A_NORMAL, 0, NULL); \
-		___wch;                                  \
+#define WCH_WIDE_(s) L##s
+#define WCH_WIDE(s) WCH_WIDE_(s)
+
+#define WCH(U)                                                     \
+	({                                                         \
+		cchar_t ___wch;                                    \
+		setcchar(&___wch, WCH_WIDE(U), A_NORMAL, 0, NULL); \
+		___wch;                                            \
 	})
 
-#define WCH_U2502 WCH(W_U2502)
-#define WCH_U2503 WCH(W_U2503)
-#define WCH_U2588 WCH(W_U2588)
-#define WCH_U2665 WCH(W_U2665)
-
-#define DRAW_TMPL_UNICODE(Name, unicode, wunicode)                             \
+#define DRAW_TMPL_UNICODE(Name, unicode)                                       \
 	static void unicode_##Name(const struct plot *p, WINDOW *win, int y,   \
 				   int x)                                      \
 	{                                                                      \
@@ -29,7 +27,7 @@
 	static void unicode_##Name##_vertical(                                 \
 		const struct plot *p, WINDOW *win, int y, int x, int n)        \
 	{                                                                      \
-		cchar_t wch_vline = wunicode;                                  \
+		cchar_t wch_vline = WCH(unicode);                              \
 		mvwvline_set(win, y, x, &wch_vline, n);                        \
 	}                                                                      \
                                                                                \
@@ -141,21 +139,21 @@ static void unicode_point(const struct plot *p, WINDOW *win, int y, int x)
 static void unicode_bold_vertical(const struct plot *p, WINDOW *win, int y,
 				  int x, int n)
 {
-	cchar_t wch_vline = WCH_U2503;
+	cchar_t wch_vline = WCH(U2503);
 	mvwvline_set(win, y, x, &wch_vline, n);
 }
 
 static void unicode_vertical(const struct plot *p, WINDOW *win, int y, int x,
 			     int n)
 {
-	cchar_t wch_vline = WCH_U2502;
+	cchar_t wch_vline = WCH(U2502);
 	mvwvline_set(win, y, x, &wch_vline, n);
 }
 
 static void unicode_bold_vertical_dashed_line(const struct plot *p, WINDOW *win,
 					      int y, int x, int n)
 {
-	cchar_t wch_vline = WCH_U2503;
+	cchar_t wch_vline = WCH(U2503);
 	for (int i = 0; i < n; i += 2)
 		mvwvline_set(win, y + i, x, &wch_vline, 1);
 }
@@ -163,7 +161,7 @@ static void unicode_bold_vertical_dashed_line(const struct plot *p, WINDOW *win,
 static void unicode_vertical_dashed_line(const struct plot *p, WINDOW *win,
 					 int y, int x, int n)
 {
-	cchar_t wch_vline = WCH_U2502;
+	cchar_t wch_vline = WCH(U2502);
 	for (int i = 0; i < n; i += 2)
 		mvwvline_set(win, y + i, x, &wch_vline, 1);
 }
@@ -222,7 +220,7 @@ static void unicode_boldbold_horizon(const struct plot *p, WINDOW *win, int y,
 static void unicode_boldbold_vertical(const struct plot *p, WINDOW *win, int y,
 				      int x, int n)
 {
-	cchar_t wch_vline = WCH_U2588;
+	cchar_t wch_vline = WCH(U2588);
 	mvwvline_set(win, y, x, &wch_vline, n);
 }
 
@@ -235,14 +233,14 @@ static void unicode_boldbold_corner1(const struct plot *p, WINDOW *win, int y,
 static void unicode_boldbold_corner2(const struct plot *p, WINDOW *win, int y,
 				     int x)
 {
-	cchar_t wch_vline = WCH_U2588;
+	cchar_t wch_vline = WCH(U2588);
 	mvwvline_set(win, y, x, &wch_vline, 1);
 }
 
 static void unicode_area_chart_horizon(const struct plot *p, WINDOW *win, int y,
 				       int x, int n)
 {
-	cchar_t wch_vline = WCH_U2588;
+	cchar_t wch_vline = WCH(U2588);
 	int _nx, ny;
 
 	/**
@@ -402,7 +400,7 @@ static const struct draw_operations utf8_draw_ops = {
 	.point = utf8_point,
 };
 
-DRAW_TMPL_UNICODE(heart, U2665, WCH_U2665);
+DRAW_TMPL_UNICODE(heart, U2665);
 
 static const struct draw_operations *draw_ops[LINE_TYPE_MAX] = {
 	[LINE_TYPE_BOLD_UNICODE] = &unicode_bold_draw_ops,

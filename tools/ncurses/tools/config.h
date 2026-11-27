@@ -2,7 +2,7 @@
 /* Copyright (C) 2026 Rong Tao. All rights reserved. */
 #pragma once
 
-#define MY_VERSION "v1.12.26"
+#define MY_VERSION "v1.12.27"
 #define GIT_REPO "github.com/rtoax/plotcake"
 
 #define KEY_HELP_h "'h': show the help info"
@@ -53,8 +53,6 @@
 #define U2192 "→"
 #define U25AA "▪"
 
-#define W_U2502 L"│"
-
 #define U2501 "━"
 #define U2503 "┃"
 #define U250F "┏"
@@ -67,25 +65,8 @@
 #define U25C4 "◄"
 #define U25A0 "■"
 
-#define W_U2501 L"━"
-#define W_U2503 L"┃"
-#define W_U250F L"┏"
-#define W_U2513 L"┓"
-#define W_U2517 L"┗"
-#define W_U251B L"┛"
-#define W_U25B2 L"▲"
-#define W_U25BC L"▼"
-#define W_U25BA L"►"
-#define W_U25C4 L"◄"
-#define W_U25A0 L"■"
-
 #define U2580 "▀"
 #define U2584 "▄"
 #define U2588 "█"
 
-#define W_U2580 L"▀"
-#define W_U2584 L"▄"
-#define W_U2588 L"█"
-
 #define U2665 "♥"
-#define W_U2665 L"♥"
