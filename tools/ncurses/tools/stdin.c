@@ -217,7 +217,7 @@ static void stdin_update_lines(struct lgroup *lg, void *arg)
 	__stdin_update_lines(lg, arg);
 }
 
-static void stdin_debug_lines(const struct lgroup *lg, void *arg)
+void stdin_debug_lines(const struct lgroup *lg, void *arg)
 {
 	struct stdin_arg *a = arg;
 	struct plot *p = lg->plot;
@@ -244,7 +244,12 @@ static void stdin_debug_lines(const struct lgroup *lg, void *arg)
 		x = p->bnd.left + 1;
 	}
 
-	mvprintw(y, x, "lgroup cnt %d, arg nline %d", lg->count, a->nline);
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		mvprintw(y, x, "lgroup cnt %d, arg nline %d", lg->count,
+			 a->nline);
+	} else if (p->plot_type == PLOT_TYPE_SCATTER) {
+		mvprintw(y, x, "scatter cnt %d", p->__scatter.sccount);
+	}
 	mvprintw(y + 1, x, "stdin: '%s'", buf);
 
 	if (is_scatter_plot(buf)) {

@@ -40,3 +40,5 @@ bool stdin_buf_is_scatter_format(const char *s);
 void stdin_update_scatter(struct lgroup *lg, struct stdin_arg *arg, char *buf);
 void stdin_debug_scatter(const struct lgroup *lg, struct stdin_arg *arg,
 			 char *buf);
+
+void stdin_debug_lines(const struct lgroup *lg, void *arg);

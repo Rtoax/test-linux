@@ -17,6 +17,7 @@
 #include "plotcake.h"
 #include "color.h"
 #include "log.h"
+#include "stdin.h"
 
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
@@ -126,8 +127,9 @@ int get_plot_value_heigh(const struct plot *p, double min, double max, double v)
 
 bool enabled_stacked_line_chart(const struct plot *p)
 {
-	if (p->plot_type == PLOT_TYPE_LINE)
+	if (p->plot_type == PLOT_TYPE_LINE) {
 		return p->__line.enable_stacked_line_chart;
+	}
 	return false;
 }
 
@@ -383,8 +385,34 @@ static void paint_lgroup(struct plot *p, const struct lgroup *lg)
 		free(stacked_line);
 	}
 
-	if (p->debug && lg->ops && lg->ops->debug_lines)
+	if (p->debug && lg->ops && lg->ops->debug_lines) {
 		lg->ops->debug_lines(lg, lg->ops->arg);
+	}
+}
+
+static void paint_scatter(struct plot *p, const struct scatter *s)
+{
+	/**
+	 * TODO: draw scatters
+	 */
+
+	/**
+	 * There will always be an active `lgroup`, as it points to a static
+	 * `lgroup` structure—for example, `lg_stdin`.
+	 *
+	 * Therefore, we can assemble an `lgroup` structure and an `stdin_arg`
+	 * structure to invoke `stdin_debug_lines()`, thereby reusing the code.
+	 */
+	{
+		struct lgroup *lg = p->__line.lghead;
+		struct stdin_arg *ln_arg = lg->ops->arg;
+
+		struct stdin_arg arg = {
+			.nline = p->__scatter.sccount,
+			.line_buff = ln_arg->line_buff,
+		};
+		stdin_debug_lines(lg, &arg);
+	}
 }
 
 /**
@@ -395,9 +423,16 @@ static void __paint_plot(struct plot *p)
 	__draw_title(p);
 	__draw_axes(p);
 
-	for_each_lgroup(&p->__line, lg)
-	{
-		paint_lgroup(p, lg);
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		for_each_lgroup(&p->__line, lg)
+		{
+			paint_lgroup(p, lg);
+		}
+	} else if (p->plot_type == PLOT_TYPE_SCATTER) {
+		for_each_scatter(&p->__scatter, s)
+		{
+			paint_scatter(p, s);
+		}
 	}
 
 	__draw_footer(p);
@@ -407,6 +442,10 @@ static void __paint_plot(struct plot *p)
 
 void plot_update_lines(struct plot *p)
 {
+	/**
+	 * We will handle the scatter operation within the `lgroup` loop, so
+	 * there is no need to replace this loop with `for_each_scatter`.
+	 */
 	for_each_lgroup(&p->__line, lg)
 	{
 		if (!lg->ops || !lg->ops->update_lines)
