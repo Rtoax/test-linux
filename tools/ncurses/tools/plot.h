@@ -61,6 +61,19 @@ struct plot {
 	/**
 	 * Generally, the x-axis is horizontal and the y-axis is vertical; when
 	 * plotting in a vertical orientation, the axes are swapped.
+	 *
+	 * vertical_plotting=false      vertical_plotting=true
+	 *
+	 * y
+	 * ^                            +--------------->y
+	 * |                            |          a
+	 * |                            |
+	 * | a                          |
+	 * |                            | b
+	 * |                            |
+	 * |         b                  |
+	 * +----------------->x         |
+	 *                              x
 	 */
 	bool vertical_plotting;
 

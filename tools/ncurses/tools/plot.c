@@ -437,11 +437,13 @@ static void paint_scatter(struct plot *p, const struct scatter *s,
 	{
 		double x = point->x.v;
 		double y = point->y.v;
+		int h, w;
 
-		int h = get_plot_value_heigh(p, min_y, max_y, y);
-		int w = get_plot_value_width(p, min_x, max_x, x);
+		h = get_plot_value_heigh(p, min_y, max_y, y);
+		w = get_plot_value_width(p, min_x, max_x, x);
 
-		s->ops->point(p, p->win, h, w);
+		s->ops->point(p, p->win, p->vertical_plotting ? w : h,
+			      p->vertical_plotting ? h : w);
 	}
 	wattroff(p->win, getflavor(s->color) | A_BOLD);
 
