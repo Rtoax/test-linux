@@ -815,6 +815,11 @@ static int win_dialog_timer_timeout_handler(long fd, int *reset_fd,
 	dialog_del_from_window(p, d);
 
 	del_dialog(d);
+
+	/**
+	 * delete dialog, thus, need redraw.
+	 */
+	plot_redraw(p);
 	return 0;
 }
 
