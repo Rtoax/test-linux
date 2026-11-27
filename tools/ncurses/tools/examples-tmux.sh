@@ -142,11 +142,11 @@ check_help_dialog() {
 
 check_legends_dialog() {
 	check_content "\[ LINES \]"
-	check_content "\+-\[ LINES \]---\+"
-	check_content "\+-------------\+"
-	check_content "\|------ ${line0}\|"
-	check_content "\|------ ${line1}\|"
-	check_content "\|------ ${line2}\|"
+	check_content "\+-\[ LINES \]------\+"
+	check_content "\|------ ${line0}   \|"
+	check_content "\|------ ${line1}   \|"
+	check_content "\|------ ${line2}   \|"
+	check_content "\+----------------\+"
 }
 
 cat >${plotcake}<<EOF

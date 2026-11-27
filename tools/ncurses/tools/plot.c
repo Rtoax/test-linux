@@ -16,6 +16,7 @@
 #include "dialog.h"
 #include "plotcake.h"
 #include "color.h"
+#include "log.h"
 
 static const char *verstring = GIT_REPO " " MY_VERSION;
 
@@ -538,7 +539,7 @@ static int __paint_legends_win(struct plot *p, bool init)
 	int ret = 0, i, nline = 0, h, w;
 	int max_name_len = 0;
 	WINDOW *win = p->legends.win;
-	const int n = 6;
+	int n = 6;
 
 	/**
 	 * If no initialization flag is specified and the window is null, the
@@ -547,15 +548,37 @@ static int __paint_legends_win(struct plot *p, bool init)
 	if (!init && !win)
 		return 0;
 
-	for_each_lgroup(&p->__line, lg)
-	{
-		nline += lg->count;
-		for_each_line(lg, ln)
+#define TITLE_LINES "[ LINES ]"
+#define TITLE_SCATTER "[ SCATTER ]"
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		for_each_lgroup(&p->__line, lg)
 		{
-			int len = strlen(ln->name);
+			nline += lg->count;
+			for_each_line(lg, ln)
+			{
+				int len = strlen(ln->name);
+				if (len > max_name_len)
+					max_name_len = len;
+			}
+		}
+		n = 6;
+		if (max_name_len < sizeof(TITLE_LINES) + 2) {
+			max_name_len = sizeof(TITLE_LINES) + 2;
+		}
+	} else if (p->plot_type == PLOT_TYPE_SCATTER) {
+		nline = p->__scatter.sccount;
+		for_each_scatter(&p->__scatter, s)
+		{
+			int len = strlen(s->name);
 			if (len > max_name_len)
 				max_name_len = len;
 		}
+		n = 1;
+		if (max_name_len < sizeof(TITLE_SCATTER) + 4) {
+			max_name_len = sizeof(TITLE_SCATTER) + 4;
+		}
+	} else {
+		pc_warning("Unknown plot type %d\n", p->plot_type);
 	}
 
 	if (p->vertical_plotting) {
@@ -569,20 +592,35 @@ static int __paint_legends_win(struct plot *p, bool init)
 	if (init && win) {
 		ret = 2;
 	} else if (init && !win) {
-		win = newwin(nline + 2, max_name_len + n + 3, h, w);
+		win = newwin(nline + 2, max_name_len + n, h, w);
 		new_dialog(&p->legends, win);
 		ret = 1;
 	}
 
-	i = 0;
-	for_each_lgroup(&p->__line, lg)
-	{
-		for_each_line(lg, ln)
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		i = 0;
+		for_each_lgroup(&p->__line, lg)
 		{
-			wattron(win, getflavor(ln->color) | A_BOLD);
-			ln->ops->horizon(p, win, i + 1, 1, n);
-			mvwprintw(win, i + 1, n + 1, " %s", ln->name);
-			wattroff(win, getflavor(ln->color) | A_BOLD);
+			for_each_line(lg, ln)
+			{
+				wattron(win, getflavor(ln->color) | A_BOLD);
+				ln->ops->horizon(p, win, i + 1, 1, n);
+				mvwprintw(win, i + 1, n + 1, " %s", ln->name);
+				wattroff(win, getflavor(ln->color) | A_BOLD);
+				i++;
+			}
+		}
+	} else if (p->plot_type == PLOT_TYPE_SCATTER) {
+		i = 0;
+		for_each_scatter(&p->__scatter, s)
+		{
+			wattron(win, getflavor(s->color) | A_BOLD);
+			/**
+			 * TODO: replace horizon() with dot()
+			 */
+			s->ops->horizon(p, win, i + 1, 1, n);
+			mvwprintw(win, i + 1, n + 1, " %s", s->name);
+			wattroff(win, getflavor(s->color) | A_BOLD);
 			i++;
 		}
 	}
@@ -595,7 +633,11 @@ static int __paint_legends_win(struct plot *p, bool init)
 	 */
 	wattron(win, A_BOLD);
 	set_win_border(win, p->win_border_type);
-	mvwprintw(win, 0, 2, "[ LINES ]");
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		mvwprintw(win, 0, 2, TITLE_LINES);
+	} else if (p->plot_type == PLOT_TYPE_SCATTER) {
+		mvwprintw(win, 0, 2, TITLE_SCATTER);
+	}
 	wattroff(win, A_BOLD);
 
 	return ret;
