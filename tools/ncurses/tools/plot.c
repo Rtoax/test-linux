@@ -912,21 +912,30 @@ static int key_x_handler(int key, void *arg)
 
 static int key_up_handler(int key, void *arg)
 {
-	plot_ln_scale_up(arg);
+	struct plot *p = arg;
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		plot_ln_scale_up(arg);
+	}
 	return 0;
 }
 
 static int key_down_handler(int key, void *arg)
 {
-	plot_ln_scale_down(arg);
+	struct plot *p = arg;
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		plot_ln_scale_down(arg);
+	}
 	return 0;
 }
 
-static int plot_ln_shift_timer_timeout_handler(long fd, void *arg)
+static int plot_shift_timer_timeout_handler(long fd, void *arg)
 {
 	struct plot *p = arg;
-	p->__line.x_shift_left = 0;
-	p->__line.x_shift_left_timerfd = -1;
+
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		p->__line.x_shift_left = 0;
+	}
+	p->shift_timerfd = -1;
 	plotcake_poll_del_fd(fd);
 	unregister_id(NULL, fd);
 	close(fd); /* new_timerfd() */
@@ -935,12 +944,11 @@ static int plot_ln_shift_timer_timeout_handler(long fd, void *arg)
 
 static int create_shift_timerfd(struct plot *p)
 {
-	if (p->__line.x_shift_left_timerfd == -1) {
-		p->__line.x_shift_left_timerfd =
-			new_timerfd(EXPIRED_USECS_SHIFT * 1000);
-		plotcake_poll_add_fd(p->__line.x_shift_left_timerfd);
-		register_id(NULL, p->__line.x_shift_left_timerfd,
-			    plot_ln_shift_timer_timeout_handler, p);
+	if (p->shift_timerfd == -1) {
+		p->shift_timerfd = new_timerfd(EXPIRED_USECS_SHIFT * 1000);
+		plotcake_poll_add_fd(p->shift_timerfd);
+		register_id(NULL, p->shift_timerfd,
+			    plot_shift_timer_timeout_handler, p);
 	}
 	return 0;
 }
@@ -948,7 +956,9 @@ static int create_shift_timerfd(struct plot *p)
 static int key_left_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	plot_ln_shift_left(p);
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		plot_ln_shift_left(p);
+	}
 	create_shift_timerfd(p);
 	return 0;
 }
@@ -956,7 +966,9 @@ static int key_left_handler(int key, void *arg)
 static int key_right_handler(int key, void *arg)
 {
 	struct plot *p = arg;
-	plot_ln_shift_right(p);
+	if (p->plot_type == PLOT_TYPE_LINE) {
+		plot_ln_shift_right(p);
+	}
 	create_shift_timerfd(p);
 	return 0;
 }
@@ -982,7 +994,7 @@ int plot_init(struct plot *p, struct keyboard *kb, const char *file, bool debug,
 	if (x_type < X_TIMEVAL || x_type > X_INDEX)
 		return -EINVAL;
 	p->__line.x_type = x_type;
-	p->__line.x_shift_left_timerfd = -1;
+	p->shift_timerfd = -1;
 	p->help_timerfd = -1;
 	p->legends_timerfd = -1;
 

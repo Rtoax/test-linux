@@ -73,7 +73,6 @@ struct line_plotting {
 	 * this number of points will be scaled by @ln_x_scale.
 	 */
 	unsigned long x_shift_left;
-	int x_shift_left_timerfd;
 
 #ifdef DEBUG
 #define __LINE_DBG0_X_FMT ", %s:%d"

@@ -120,6 +120,7 @@ struct plot {
 
 	struct dialog help, legends;
 	int help_timerfd, legends_timerfd;
+	int shift_timerfd;
 
 	/**
 	 * We can use the dialog object to retrieve the timestamp of its last
