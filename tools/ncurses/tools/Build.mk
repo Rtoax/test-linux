@@ -27,7 +27,12 @@ LDFLAGS += ${ncurses-ldflags}
 prog-y += id-handler-exec
 prog-y += examples.sh
 prog-${HAVE_EXPECT} += examples.exp
-prog-${HAVE_TMUX} += examples-tmux_tests.sh
+prog-${HAVE_TMUX} += examples-tmux.sh
+prog-${HAVE_TMUX} += examples-tmux.sh.1
+prog-${HAVE_TMUX} += examples-tmux.sh.2
+
+PROG_ARGS_examples-tmux.sh.1 := --vertical-plotting
+PROG_ARGS_examples-tmux.sh.2 := --stdin-data-format separator-newline
 
 post-y += build/plotcake
 post-y += id-handler-glibc

@@ -20,10 +20,7 @@ width=150
 heigh=40
 vertical_plotting=
 stdin_data_format=
-readonly STDIN_DATA_FMTS=(
-	line-separator-newline
-	line-separator-semicolon
-)
+readonly STDIN_DATA_FMTS=( separator-newline separator-semicolon )
 skip_cleanup=
 
 readonly MYDIR=$(dirname $(realpath $0))
@@ -86,7 +83,7 @@ while true; do
 done
 
 kill_session() {
-	tmux kill-session -t ${session} || true
+	tmux kill-session -t ${session}
 }
 
 cleanup()
@@ -157,24 +154,24 @@ cat >${plotcake}<<EOF
 set -e
 interval=1
 case "${stdin_data_format}" in
-line-separator-newline | line-separator-semicolon)
+separator-newline | separator-semicolon)
 	interval=3
 	;;
 esac
 for ((i = 1; i <= 10000; i+=interval))
 do
 	case "${stdin_data_format}" in
-	line-separator-newline | line-separator-semicolon)
+	separator-newline | separator-semicolon)
 		data1=( \$(seq --separator=' ' \$i 20 \$((i + 2 * 20))) )
 		j=\$((i + 1))
 		data2=( \$(seq --separator=' ' \$j 20 \$((j + 2 * 20))) )
 		j=\$((j + 1))
 		data3=( \$(seq --separator=' ' \$j 20 \$((j + 2 * 20))) )
 		case "${stdin_data_format}" in
-		line-separator-newline)
+		separator-newline)
 			echo -e "\${data1[@]}\\n\${data2[@]}\\n\${data3[@]}\\n"
 			;;
-		line-separator-semicolon)
+		separator-semicolon)
 			echo -e "\${data1[@]};\${data2[@]};\${data3[@]};"
 			;;
 		esac
